@@ -63,7 +63,9 @@ We often think of an instrumental variable ($Z$) as a random shock that generate
 
 Consider the causal graph below (a directed acyclic graph, or DAG). Here $U_2$ confounds the relationship between $X$ and $Y$. That's the usual thing and the reason for why you need something like an instrument in the first place. But now a binary $U_1$ also confounds the relationship between $Z$ and $X$ (see for instance Fig 2d @swanson2018partial). To emphasize, in this set up, the instrumental variable and the **instrumented** variable share a common cause in $U_1$.
 
-```{r, fig.cap="Figure: DAG for a non-randomized instrument. Z is an instrument for the effect of X on Y",  out.height = '30%', out.width = '50%', fig.align = "center", echo = FALSE}
+```{r}
+#| fig-cap: "Figure: DAG for a non-randomized instrument. Z is an instrument for the effect of X on Y"
+#| echo: false
 hj_dag(x = 1:5, 
        y = c(0,1,0,1,0), 
        arcs = cbind(c(1,2,2,3,4,4), c(3, 1, 3, 5, 3, 5)),
