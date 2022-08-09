@@ -7,8 +7,6 @@ name: Build Site
 jobs:
   ecodown:
     runs-on: ubuntu-latest
-    before-install:
-      - sudo apt-get install libgit2-devel
     env:
       GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
     steps:
@@ -25,14 +23,9 @@ jobs:
       - name: Install Quarto
         uses: quarto-dev/quarto-actions/setup@v2
 
-      - name: Install devtools
-        run: install.packages("devtools")
-        shell: Rscript {0}
+      - name: Setup R dependencies
+        uses: r-lib/actions/setup-r-dependencies@v2
         
-      - name: Install dependencies
-        run: devtools::install_deps()
-        shell: Rscript {0}
-
       - name: Build site
         run: ecodown::ecodown_build(verbosity = "verbose")
         shell: Rscript {0}
