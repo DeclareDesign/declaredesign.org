@@ -23,8 +23,9 @@ jobs:
       - name: Install Quarto
         uses: quarto-dev/quarto-actions/setup@v2
 
-      - name: Setup R dependencies
-        uses: r-lib/actions/setup-r-dependencies@v2
+      - uses: r-lib/actions/setup-r-dependencies@v2
+        with:
+          cache-version: rchk-1
         
       - name: Build site
         run: ecodown::ecodown_build(verbosity = "verbose")
