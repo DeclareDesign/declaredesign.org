@@ -7,6 +7,8 @@ name: Build Site
 jobs:
   ecodown:
     runs-on: ubuntu-latest
+    before-install:
+      - sudo apt-get install libgit2-devel
     env:
       GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
     steps:
