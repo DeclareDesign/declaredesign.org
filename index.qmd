@@ -1,13 +1,16 @@
 ---
-title: "DeclareDesign"
-page-layout: full
+pagetitle: "DeclareDesign"
+page-layout: custom
+section-divs: false
+toc: false
+css: index.css
+execute:
+  message: false
+  error: false
+  warning: false
 ---
 
 ::: {.hero-banner}
-
-<!-- ::: {.hero-image .hero-image-left} -->
-<!-- ![](images/hero_left.png){fig-alt="Stack of three printed articles with text, code, and graphics."} -->
-<!-- ::: -->
 
 ::: {.content-block}
 
@@ -15,17 +18,11 @@ page-layout: full
 
 ### DeclareDesign is a set of tools to plan, implement, analyze, and communicate about empirical research
 
-- some bullet points
-
 ::: {.hero-buttons}
 [Get Started](getting-started.html){.btn-action-primary .btn-action .btn .btn-success .btn-lg role="button"}
 [Read the Book](https://book.declaredesign.org){#btn-guide .btn-action .btn .btn-info .btn-lg role="button"}
 ::: 
 
-:::
-
-::: {.hero-image .hero-image-right}
-![](images/hero_right.png){fig-alt="Stack of three printed articles with text, code, and graphics."}
 :::
 
 :::
@@ -35,8 +32,9 @@ page-layout: full
 ::: {.content-block}
 
 ::: {.hello-quarto-banner}
-# DeclareDesign
-<ul class="nav nav-pills" id="hello-quarto-tab" role="tablist">
+
+<p style="font-size:25px;padding-top:5px"><b>DeclareDesign in three steps</b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</p>
+<ul class="nav nav-pills" id="hello-quarto-tab" role="tablist"> 
   <li class="nav-item" role="presentation">
     <button class="nav-link active" id="python-tab" data-bs-toggle="tab" data-bs-target="#python" type="button" role="tab" aria-controls="python" aria-selected="true">Declare</button>
   </li>
@@ -47,6 +45,7 @@ page-layout: full
     <button class="nav-link" id="julia-tab" data-bs-toggle="tab" data-bs-target="#julia" type="button" role="tab" aria-controls="julia" aria-selected="false">Redesign</button>
   </li>
 </ul>
+</p>
 :::
 
 <div class="tab-content" id="hello-quarto-tabcontent">
@@ -57,8 +56,14 @@ Declaring a design means writing down each component of a research design --- th
 
 ::: {.grid}
 ::: {.g-col-lg-6 .g-col-12}
-````markdown
-two_arm_trial_design <-
+```{r, echo = FALSE, message = FALSE}
+library(tidyverse)
+library(knitr)
+```
+```{r}
+library(DeclareDesign)
+
+two_arm_trial <-
   declare_model(N = 100,
                 U = rnorm(N),
                 potential_outcomes(Y ~ 0.2 * Z + U)) +
@@ -66,12 +71,24 @@ two_arm_trial_design <-
   declare_assignment(Z = complete_ra(N, prob = 0.5)) +
   declare_measurement(Y = reveal_outcomes(Y ~ Z)) +
   declare_estimator(Y ~ Z, inquiry = "ATE")
-````
+```
 :::
 
-<!-- ::: {.hello-output .g-col-lg-6 .g-col-12} -->
-<!-- ![](images/hello-jupyter.png){fig-alt="Example output where header reads: matplotlib demo, the body reads: For a demonstration of a line plot on a polar axis, see Figure 1. Below the body text is a toggleable field to reveal the code, and the Figure 1 image with a caption that reads: Figure 1: A line plot on a polar axis."} -->
-<!-- ::: -->
+::: {.g-col-lg-6 .g-col-12}
+```{r, eval = FALSE}
+draw_data(two_arm_trial)
+```
+```{r, echo = FALSE}
+draw_data(two_arm_trial) |> head(3) |> kable(digits = 2)
+```
+
+```{r, eval = FALSE}
+run_design(two_arm_trial)
+```
+```{r, echo = FALSE}
+run_design(two_arm_trial) |> select(estimate, std.error, p.value, inquiry, estimand) |> kable(digits = 2)
+```
+:::
 
 :::
 
@@ -83,14 +100,32 @@ Diagnosing a design means simulating the design many times to learn about its pr
 
 ::: {.grid}
 ::: {.g-col-lg-6 .g-col-12}
-````markdown
-diagnose_design
-````
+```{r, eval = FALSE}
+diagnose_design(two_arm_trial)
+```
+```{r, echo = FALSE}
+dx <- diagnose_design(two_arm_trial, sims = 1000)
+dx |> get_diagnosands() |> select(bias, sd_estimate, rmse, power, coverage) |> rename_with(~str_replace(str_to_sentence(.), "_", " "), .cols = everything()) |> rename(`SD(estimate)` = `Sd estimate`, `RMSE` = `Rmse`) |> kable(digits = 2)
+```
 :::
 
-<!-- ::: {.hello-output .g-col-lg-6 .g-col-12} -->
-<!-- ![](images/hello-knitr.png){fig-alt="Example output with title (ggplot2 demo), author (Norah Jones), and date (5/22/2021). Below is a header reading Air Quality followed by body text (Figure 1 further explores the impact of temperature on ozone level.) with a toggleable code field, and figure with caption Figure 1 Temperature and ozone level."} -->
-<!-- ::: -->
+::: {.g-col-lg-6 .g-col-12}
+```{r dev.args = list(bg = 'transparent')}
+#| fig.width: 5
+#| fig.height: 3
+#| echo: false
+sims <- dx |> get_simulations() 
+diagnosands <- dx |> get_diagnosands()
+ggplot(sims, aes(estimate)) + 
+  geom_histogram(color = NA, fill = "#72B4F3") + 
+  geom_vline(data = diagnosands, aes(xintercept = mean_estimate), color = gray(0.1), lty = "dashed") + 
+  geom_vline(data = diagnosands, aes(xintercept = mean_estimand), color = "#C6227F", lwd = 1.25) + 
+  annotate("text", x = diagnosands$mean_estimand + 0.025, y = 100, hjust = 0, label = "Estimand", color = "#C6227F") +   
+  annotate("text", x = diagnosands$mean_estimate - 0.025, y = 100, hjust = 1, label = "Average estimate", color = gray(0.1)) + 
+  labs(x = "Simulation sampling distribution of estimator", y = "Density") + 
+  theme_minimal()
+```
+:::
 
 :::
 
@@ -126,6 +161,8 @@ redesign()
 :::
 :::
 
+
+<!-- grid of content -->
 
 ::: {.content-block}
 ::: {.features}
