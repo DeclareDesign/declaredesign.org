@@ -57,6 +57,10 @@ jobs:
       - name: Build site
         run: ecodown::ecodown_build(verbosity = "verbose")
         shell: Rscript {0}
+        
+      - name: Dir
+        run: |
+          dir
 
       - name: Deploy 🚀
         # only deploy when push to main
