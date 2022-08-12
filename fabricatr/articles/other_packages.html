@@ -1,0 +1,427 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.0.38">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+<meta name="author" content="Aaron Rudkin">
+<title>DeclareDesign - Using other data generating packages with fabricatr</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+span.underline{text-decoration: underline;}
+div.column{display: inline-block; vertical-align: top; width: 50%;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+<script src="../../site_libs/quarto-nav/quarto-nav.js"></script><script src="../../site_libs/quarto-nav/headroom.min.js"></script><script src="../../site_libs/clipboard/clipboard.min.js"></script><script src="../../site_libs/quarto-search/autocomplete.umd.js"></script><script src="../../site_libs/quarto-search/fuse.min.js"></script><script src="../../site_libs/quarto-search/quarto-search.js"></script><meta name="quarto:offset" content="../../">
+<script src="../../site_libs/quarto-html/quarto.js"></script><script src="../../site_libs/quarto-html/popper.min.js"></script><script src="../../site_libs/quarto-html/tippy.umd.min.js"></script><script src="../../site_libs/quarto-html/anchor.min.js"></script><link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../../site_libs/bootstrap/bootstrap.min.js"></script><link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 20,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit"
+  }
+}</script><link rel="stylesheet" href="../../styles.css">
+</head>
+<body class="nav-fixed fullcontent">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top"><nav class="navbar navbar-expand-lg navbar-dark "><div class="navbar-container container-fluid">
+      <a class="navbar-brand" href="../../index.html">
+    <img src="../../static/dd-logo-sm.svg" alt=""><span class="navbar-title"><strong>Declare</strong>Design</span>
+  </a>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll ms-auto">
+<li class="nav-item">
+    <a class="nav-link" href="../../getting-started.html">Getting started</a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="https://book.declaredesign.org">Book</a>
+  </li>  
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-software" role="button" data-bs-toggle="dropdown" aria-expanded="false">Software</a>
+    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="nav-menu-software">
+<li>
+    <a class="dropdown-item" href="../../declaredesign/">
+ <span class="dropdown-text">DeclareDesign</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../../fabricatr/">
+ <span class="dropdown-text">fabricatr</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../../randomizr/">
+ <span class="dropdown-text">randomizr</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../../estimatr/">
+ <span class="dropdown-text">estimatr</span></a>
+  </li>  
+    </ul>
+</li>
+  <li class="nav-item">
+    <a class="nav-link" href="../../blog.html">Blog</a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../../about.html">About</a>
+  </li>  
+</ul>
+<div id="quarto-search" class="" title="Search"></div>
+          </div> <!-- /navcollapse -->
+      </div> <!-- /container-fluid -->
+    </nav></header><!-- content --><div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+<!-- margin-sidebar -->
+    
+<!-- main -->
+<main class="content" id="quarto-document-content"><header id="title-block-header" class="quarto-title-block default"><div class="quarto-title">
+<h1 class="title">Using other data generating packages with fabricatr</h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    <div>
+    <div class="quarto-title-meta-heading">Author</div>
+    <div class="quarto-title-meta-contents">
+             <p>Aaron Rudkin </p>
+          </div>
+  </div>
+    
+    
+  </div>
+  
+
+</header><div class="cell">
+
+</div>
+<p>In general, <strong>fabricatr</strong> is going to be compatible with any existing packages you use to generate synthetic data in one of two ways: either using those packages to create variables within a <code>fabricate</code> call, or using those packages to make complete data frames which are then imported into a <code>fabricate</code>. Below we provide examples for some of the most popular packages that serve this purpose.</p>
+<section id="wakefield-simulating-common-demographic-features" class="level2"><h2 class="anchored" data-anchor-id="wakefield-simulating-common-demographic-features">
+<strong>wakefield</strong>: simulating common demographic features</h2>
+<p><strong>wakefield</strong> (by <a href="https://github.com/trinker">Tyler Rinker</a>) is a popular <code>R</code> package for creating synthetic data. <strong>wakefield</strong>’s strength is that it can quickly generate common variables, especially for human demographic features. <strong>wakefield</strong> can easily be integrated into a <strong>fabricatr</strong> workflow in one of two ways: using <strong>wakefield</strong> to create individual variables within a <code>fabricate</code> call, or using <strong>wakefield</strong> to make a data frame and importing that data frame into a <code>fabricate</code> call.</p>
+<p>In this example, we create a data-set of participants in a survey experiment, using <strong>wakefield</strong> to generate the demographic variables</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb1"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/trinker/wakefield">wakefield</a></span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">survey_experiment_df</span> <span class="op">&lt;-</span> <span class="fu"><a href="//reference/fabricate.html">fabricate</a></span><span class="op">(</span></span>
+<span>  N <span class="op">=</span> <span class="fl">50</span>,</span>
+<span>  treatment <span class="op">=</span> <span class="fu"><a href="//reference/draw_discrete.html">draw_binary</a></span><span class="op">(</span>prob <span class="op">=</span> <span class="fl">0.5</span>, N <span class="op">=</span> <span class="va">N</span><span class="op">)</span>,</span>
+<span>  age <span class="op">=</span> <span class="fu">age</span><span class="op">(</span>n <span class="op">=</span> <span class="va">N</span><span class="op">)</span>,</span>
+<span>  race <span class="op">=</span> <span class="fu">race</span><span class="op">(</span>n <span class="op">=</span> <span class="va">N</span><span class="op">)</span>,</span>
+<span>  sex <span class="op">=</span> <span class="fu">sex</span><span class="op">(</span>n <span class="op">=</span> <span class="va">N</span><span class="op">)</span>,</span>
+<span><span class="op">)</span></span></code></pre></div>
+</div>
+<p>Researchers interested in learning about <strong>wakefield</strong>’s available functionality, parameterizations, and default probability can <a href="https://github.com/trinker/wakefield">read <strong>wakefield</strong>’s user guide on GitHub</a>.</p>
+<p>In addition to creating variables within a <code>fabricate</code> call, users can import completed <strong>wakefield</strong> data frames into a <code>fabricate</code> call:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb2"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">survey_experiment_df</span> <span class="op">&lt;-</span> <span class="fu">r_data_frame</span><span class="op">(</span></span>
+<span>  n <span class="op">=</span> <span class="fl">50</span>,</span>
+<span>  <span class="va">age</span>,</span>
+<span>  <span class="va">race</span>,</span>
+<span>  <span class="va">sex</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">fabricatr_df</span> <span class="op">&lt;-</span> <span class="fu"><a href="//reference/fabricate.html">fabricate</a></span><span class="op">(</span></span>
+<span>  data <span class="op">=</span> <span class="va">survey_experiment_df</span>,</span>
+<span>  treatment <span class="op">=</span> <span class="fu"><a href="//reference/draw_discrete.html">draw_binary</a></span><span class="op">(</span>prob <span class="op">=</span> <span class="fl">0.5</span>, N <span class="op">=</span> <span class="va">N</span><span class="op">)</span></span>
+<span><span class="op">)</span></span></code></pre></div>
+</div>
+</section><section id="randomnames-plausible-names-for-human-subjects" class="level2"><h2 class="anchored" data-anchor-id="randomnames-plausible-names-for-human-subjects">
+<strong>randomNames</strong>: Plausible names for human subjects</h2>
+<p><strong>randomNames</strong> (by <a href="https://github.com/dbetebenner">Damian Betebenner</a>) is a package that does one thing well: generate random names for human subjects (including with specified genders and ethnicities). The primary use case would be to use this as part of generating a variable within a <code>fabricate</code> call. In the below example, we use <code>fabricate</code> to generate some other demographic data, and then <code>randomNames</code> to generate matching names.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb3"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://CenterForAssessment.github.io/randomNames">randomNames</a></span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">experiment_data</span> <span class="op">&lt;-</span> <span class="fu"><a href="//reference/fabricate.html">fabricate</a></span><span class="op">(</span></span>
+<span>  N <span class="op">=</span> <span class="fl">50</span>,</span>
+<span>  treatment <span class="op">=</span> <span class="fu"><a href="//reference/draw_discrete.html">draw_binary</a></span><span class="op">(</span>prob <span class="op">=</span> <span class="fl">0.5</span>, N <span class="op">=</span> <span class="va">N</span><span class="op">)</span>,</span>
+<span>  is_female <span class="op">=</span> <span class="fu"><a href="//reference/draw_discrete.html">draw_binary</a></span><span class="op">(</span>prob <span class="op">=</span> <span class="fl">0.5</span>, N <span class="op">=</span> <span class="va">N</span><span class="op">)</span>,</span>
+<span>  patient_name <span class="op">=</span> <span class="fu">randomNames</span><span class="op">(</span><span class="va">N</span>, gender<span class="op">=</span><span class="va">is_female</span><span class="op">)</span></span>
+<span><span class="op">)</span></span></code></pre></div>
+</div>
+<p>Note that we make use of the existing <code>is_female</code> variable from the <code>fabricate</code> call to ensure <code>randomNames</code> generates gender-typical names.</p>
+</section><section id="modeling-causality-with-dags-and-simcausal" class="level2"><h2 class="anchored" data-anchor-id="modeling-causality-with-dags-and-simcausal">Modeling causality with DAGs and <strong>simcausal</strong>
+</h2>
+<p>Users who are familiar with the DAGS (directed acyclic graphs) model of causal inference may have interest in using the <strong>simcausal</strong> package, which allows users to specify a DAGS model and then sample from it. Integrating this package with <strong>fabricatr</strong> is likely to involve using <strong>simcausal</strong> first to specify a model, simulating data from the model, and then importing data into a <code>fabricate</code> call for further user with <strong>fabricatr</strong>.</p>
+<p>Consider this example, common in the literature on educational attainment and school outcomes, where students come from families that have a <code>wealth</code> parameter, assignment to schools is based partially on <code>wealth</code>, and test outcomes (<code>testoutcome</code>) is based on both school quality and wealth.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb4"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="st">"simcausal"</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Define DAG</span></span>
+<span><span class="va">D</span> <span class="op">&lt;-</span> <span class="fu">DAG.empty</span><span class="op">(</span><span class="op">)</span> <span class="op">+</span> </span>
+<span>  <span class="fu">node</span><span class="op">(</span><span class="st">"wealth"</span>, distr <span class="op">=</span> <span class="st">"rnorm"</span>,</span>
+<span>       mean <span class="op">=</span> <span class="fl">30000</span>,</span>
+<span>       sd <span class="op">=</span> <span class="fl">10000</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu">node</span><span class="op">(</span><span class="st">"schoolquality"</span>, distr <span class="op">=</span> <span class="st">"runif"</span>,</span>
+<span>       min <span class="op">=</span> <span class="fl">0</span> <span class="op">+</span> <span class="op">(</span><span class="fl">5</span> <span class="op">*</span> <span class="op">(</span><span class="va">wealth</span> <span class="op">&gt;</span> <span class="fl">50000</span><span class="op">)</span><span class="op">)</span>,</span>
+<span>       max <span class="op">=</span> <span class="fl">10</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu">node</span><span class="op">(</span><span class="st">"testoutcome"</span>, distr <span class="op">=</span> <span class="st">"runif"</span>,</span>
+<span>       min <span class="op">=</span> <span class="fl">0</span> <span class="op">+</span> <span class="fl">0.0001</span> <span class="op">*</span> <span class="va">wealth</span> <span class="op">+</span> <span class="fl">0.25</span> <span class="op">*</span> <span class="va">schoolquality</span>,</span>
+<span>       max <span class="op">=</span> <span class="fl">10</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Freeze DAG object</span></span>
+<span><span class="va">set_dag</span> <span class="op">&lt;-</span> <span class="fu">set.DAG</span><span class="op">(</span><span class="va">D</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Draw data from DAG</span></span>
+<span><span class="va">df</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/Zelig/man/sim.html">sim</a></span><span class="op">(</span><span class="va">set_dag</span>, n <span class="op">=</span> <span class="fl">100</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Pass into fabricate call and make new variables as necessary</span></span>
+<span><span class="fu"><a href="//reference/fabricate.html">fabricate</a></span><span class="op">(</span><span class="va">df</span>,</span>
+<span>          passed_test <span class="op">=</span> <span class="va">testoutcome</span> <span class="op">&gt;</span> <span class="fl">6</span>,</span>
+<span>          eligible_for_snap <span class="op">=</span> <span class="va">wealth</span> <span class="op">&lt;</span> <span class="fl">25000</span><span class="op">)</span></span></code></pre></div>
+</div>
+</section><section id="survival-and-duration-models-with-simsurv" class="level2"><h2 class="anchored" data-anchor-id="survival-and-duration-models-with-simsurv">Survival and duration models with <strong>simsurv</strong>
+</h2>
+<p><strong>simsurv</strong> is a package dedicated to generating panel survival data. The most likely way you might integrate <strong>simsurv</strong> with <strong>fabricatr</strong> would be to use <strong>fabricatr</strong> to generating covariates which can then be imported into <strong>simsurv</strong> to model in a hazard or duration context.</p>
+<p>Here, our example will be a clinical trial of a cancer drug. Participants have the expected biographical data: age, gender, whether the patient smokes, the disease stage, assignment to treatment, and a KPS score (commonly used to evaluate overall patient health).</p>
+<p>Survival data creates a ragged longitudinal survey; some patients will die during the course of the trial, removing them as observations. Others will continue alive until the end of the trial. We specify a “hazard function”, which tells <strong>simsurv</strong> how the course of patient survival will change over time. Covariates with positive <code>betas</code> increase risk of death, while covariates with negative <code>betas</code> decrease risk of death. We will track patients for 5 years after treatment.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb5"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va">simsurv</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Simulate patient data in a clinical trial</span></span>
+<span><span class="va">participant_data</span> <span class="op">&lt;-</span> <span class="fu"><a href="//reference/fabricate.html">fabricate</a></span><span class="op">(</span></span>
+<span>  N <span class="op">=</span> <span class="fl">100</span>,</span>
+<span>  age <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/Uniform.html">runif</a></span><span class="op">(</span><span class="va">N</span>, min <span class="op">=</span> <span class="fl">18</span>, max <span class="op">=</span> <span class="fl">85</span><span class="op">)</span>,</span>
+<span>  is_female <span class="op">=</span> <span class="fu"><a href="//reference/draw_discrete.html">draw_binary</a></span><span class="op">(</span>prob <span class="op">=</span> <span class="fl">0.5</span>, N <span class="op">=</span> <span class="va">N</span><span class="op">)</span>,</span>
+<span>  is_smoker <span class="op">=</span> <span class="fu"><a href="//reference/draw_discrete.html">draw_binary</a></span><span class="op">(</span>prob <span class="op">=</span> <span class="fl">0.2</span> <span class="op">+</span> <span class="fl">0.2</span> <span class="op">*</span> <span class="op">(</span><span class="va">age</span> <span class="op">&gt;</span> <span class="fl">50</span><span class="op">)</span>, N <span class="op">=</span> <span class="va">N</span><span class="op">)</span>,</span>
+<span>  disease_stage <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/Round.html">round</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/Uniform.html">runif</a></span><span class="op">(</span><span class="va">N</span>, min <span class="op">=</span> <span class="fl">1</span> <span class="op">+</span> <span class="fl">0.5</span> <span class="op">*</span> <span class="op">(</span><span class="va">age</span> <span class="op">&gt;</span> <span class="fl">65</span><span class="op">)</span>, max <span class="op">=</span> <span class="fl">4</span><span class="op">)</span><span class="op">)</span>,</span>
+<span>  treatment <span class="op">=</span> <span class="fu"><a href="//reference/draw_discrete.html">draw_binary</a></span><span class="op">(</span>prob <span class="op">=</span> <span class="fl">0.5</span>, N <span class="op">=</span> <span class="va">N</span><span class="op">)</span>,</span>
+<span>  kps <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/Uniform.html">runif</a></span><span class="op">(</span><span class="va">N</span>, min <span class="op">=</span> <span class="fl">40</span>, max <span class="op">=</span> <span class="fl">100</span><span class="op">)</span></span>
+<span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Simulate data in the survival context</span></span>
+<span><span class="va">survival_data</span> <span class="op">&lt;-</span> <span class="fu">simsurv</span><span class="op">(</span></span>
+<span>  lambdas <span class="op">=</span> <span class="fl">0.1</span>, gammas <span class="op">=</span> <span class="fl">0.5</span>,</span>
+<span>  x <span class="op">=</span> <span class="va">participant_data</span>, </span>
+<span>  betas <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span>is_female <span class="op">=</span> <span class="op">-</span><span class="fl">0.2</span>, is_smoker <span class="op">=</span> <span class="fl">1.2</span>,</span>
+<span>            treatment <span class="op">=</span> <span class="op">-</span><span class="fl">0.4</span>, kps <span class="op">=</span> <span class="op">-</span><span class="fl">0.005</span>,</span>
+<span>            disease_stage <span class="op">=</span> <span class="fl">0.2</span><span class="op">)</span>,</span>
+<span>  maxt <span class="op">=</span> <span class="fl">5</span><span class="op">)</span></span></code></pre></div>
+</div>
+<p>The generated data from the <code>survival_data</code> object can then be re-imported into the <code>participant_data</code> using any data merging tools, including through a <code>fabricate</code> call, and then used for subsequent analyses (e.g. using the <strong>survival</strong> package).</p>
+</section><section id="time-series-using-forecast" class="level2"><h2 class="anchored" data-anchor-id="time-series-using-forecast">Time series using <strong>forecast</strong>
+</h2>
+<p><strong>forecast</strong>, by <a href="https://github.com/robjhyndman/forecast">Rob Hyndman</a>, is a package commonly used to analyze time series data which also has functionality capable of generating simulated time series data. <strong>forecast</strong> can use the <code>Arima</code> and <code>simulate</code> functions to create pre-specified ARIMA models, including seasonal time trends.</p>
+<p>Below, we provide an example of using <strong>forecast</strong> to generate an ARIMA time series, reshape the data, and import it into <strong>fabricatr</strong> to create new variables of interest.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(forecast)</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>arima_model <span class="ot">&lt;-</span> <span class="fu">simulate</span>(</span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">Arima</span>(<span class="fu">ts</span>(<span class="fu">rnorm</span>(<span class="dv">100</span>), <span class="at">frequency =</span> <span class="dv">4</span>),</span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>        <span class="at">order =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">0</span>, <span class="dv">1</span>))</span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a><span class="fu">fabricate</span>(<span class="fu">data.frame</span>(arima_model), </span>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a>          <span class="at">year =</span> <span class="fu">rep</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">25</span>, <span class="at">each=</span><span class="dv">4</span>),</span>
+<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a>          <span class="at">quarter =</span> <span class="fu">rep</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">4</span>, <span class="dv">25</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Here, <code>ts</code> converts a series of data into a time series, with frequency specifying the number of observations per unit of time (in this case, for example, quarters in a year). <code>Arima</code> ingests this data and fits an ARIMA model with the specified parameters. <code>simulate</code> draws new data from the fit time series, producing a vector of interest. We then import the data into a <code>fabricate</code> call (converting it to a data frame) and add new columns of interest.</p>
+</section><section id="other-data-simulation-tools" class="level2"><h2 class="anchored" data-anchor-id="other-data-simulation-tools">Other data simulation tools</h2>
+<p>The <code>R</code> ecosystem has many other data simulation tools, and all can be used to complement or supplement <strong>fabricatr</strong> in your workflow. Some of the packages that we have noticed but not covered here include:</p>
+<ul>
+<li>
+<a href="https://cran.r-project.org/package=gems">gems</a> by Luisa Salazar Vizcaya</li>
+<li>
+<a href="https://cran.r-project.org/package=simFrame">simFrame</a> by Andreas Alfons</li>
+<li>
+<a href="https://cran.r-project.org/package=simPop">simPop</a> by Matthias Templ</li>
+<li>
+<a href="https://cran.r-project.org/package=simstudy">simstudy</a> by Keith Goldfeld</li>
+<li>
+<a href="https://cran.r-project.org/package=synthpop">synthPop</a> by Beata Nowok</li>
+<li>
+<a href="https://cran.r-project.org/web/packages/SimCorrMix/index.html">SimCorrMix</a> by Allison Cynthia Fialkowski</li>
+</ul>
+<p>If you’d like to see a tutorial on using these packages or any others with <strong>fabricatr</strong>, please <a href="http://discuss.declaredesign.org/">Contact Us</a> so we can help you</p>
+
+
+</section></main><!-- /main --><script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    target: function(trigger) {
+      return trigger.previousElementSibling;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    setTimeout(function() {
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn) {
+    const config = {
+      allowHTML: true,
+      content: contentFn,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start'
+    };
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      let href = ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const cites = ref.parentNode.getAttribute('data-cites').split(' ');
+    tippyHover(ref, function() {
+      var popup = window.document.createElement('div');
+      cites.forEach(function(cite) {
+        var citeDiv = window.document.createElement('div');
+        citeDiv.classList.add('hanging-indent');
+        citeDiv.classList.add('csl-entry');
+        var biblioDiv = window.document.getElementById('ref-' + cite);
+        if (biblioDiv) {
+          citeDiv.innerHTML = biblioDiv.innerHTML;
+        }
+        popup.appendChild(citeDiv);
+      });
+      return popup.innerHTML;
+    });
+  }
+});
+</script>
+</div> <!-- /content -->
+
+
+
+</body>
+</html>

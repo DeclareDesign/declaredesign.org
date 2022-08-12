@@ -1,0 +1,510 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.0.38">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+<meta name="author" content="DeclareDesign Team">
+<meta name="dcterms.date" content="2018-11-27">
+<title>DeclareDesign - Randomization does not justify t-tests. How worried should I be?</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+span.underline{text-decoration: underline;}
+div.column{display: inline-block; vertical-align: top; width: 50%;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+}
+.hanging div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}
+</style>
+<script src="../site_libs/quarto-nav/quarto-nav.js"></script><script src="../site_libs/quarto-nav/headroom.min.js"></script><script src="../site_libs/clipboard/clipboard.min.js"></script><script src="../site_libs/quarto-search/autocomplete.umd.js"></script><script src="../site_libs/quarto-search/fuse.min.js"></script><script src="../site_libs/quarto-search/quarto-search.js"></script><meta name="quarto:offset" content="../">
+<script src="../site_libs/quarto-html/quarto.js"></script><script src="../site_libs/quarto-html/popper.min.js"></script><script src="../site_libs/quarto-html/tippy.umd.min.js"></script><script src="../site_libs/quarto-html/anchor.min.js"></script><link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../site_libs/bootstrap/bootstrap.min.js"></script><link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 20,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit"
+  }
+}</script><script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script><link rel="stylesheet" href="../styles.css">
+</head>
+<body class="nav-fixed fullcontent">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top"><nav class="navbar navbar-expand-lg navbar-dark "><div class="navbar-container container-fluid">
+      <a class="navbar-brand" href="../index.html">
+    <img src="../static/dd-logo-sm.svg" alt=""><span class="navbar-title"><strong>Declare</strong>Design</span>
+  </a>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll ms-auto">
+<li class="nav-item">
+    <a class="nav-link" href="../getting-started.html">Getting started</a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="https://book.declaredesign.org">Book</a>
+  </li>  
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-software" role="button" data-bs-toggle="dropdown" aria-expanded="false">Software</a>
+    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="nav-menu-software">
+<li>
+    <a class="dropdown-item" href="../declaredesign/">
+ <span class="dropdown-text">DeclareDesign</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../fabricatr/">
+ <span class="dropdown-text">fabricatr</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../randomizr/">
+ <span class="dropdown-text">randomizr</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../estimatr/">
+ <span class="dropdown-text">estimatr</span></a>
+  </li>  
+    </ul>
+</li>
+  <li class="nav-item">
+    <a class="nav-link" href="../blog.html">Blog</a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../about.html">About</a>
+  </li>  
+</ul>
+<div id="quarto-search" class="" title="Search"></div>
+          </div> <!-- /navcollapse -->
+      </div> <!-- /container-fluid -->
+    </nav></header><!-- content --><header id="title-block-header" class="quarto-title-block default page-columns page-full"><div class="quarto-title-banner page-columns page-full">
+    <div class="quarto-title column-body">
+      <h1 class="title">Randomization does not justify t-tests. How worried should I be?</h1>
+                      </div>
+  </div>
+    
+  
+  <div class="quarto-title-meta">
+
+      <div>
+      <div class="quarto-title-meta-heading">Author</div>
+      <div class="quarto-title-meta-contents">
+               <p>DeclareDesign Team </p>
+            </div>
+    </div>
+      
+      <div>
+      <div class="quarto-title-meta-heading">Published</div>
+      <div class="quarto-title-meta-contents">
+        <p class="date">November 27, 2018</p>
+      </div>
+    </div>
+      
+    </div>
+    
+  
+  </header><div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+<!-- margin-sidebar -->
+    
+<!-- main -->
+<main class="content quarto-banner-title-block" id="quarto-document-content"><p><span class="citation" data-cites="deaton2017understanding">Deaton and Cartwright (<a href="#ref-deaton2017understanding" role="doc-biblioref">2017</a>)</span> provide multiple arguments against claims that randomized trials should be thought of as a kind of gold standard of scientific evidence. One striking argument they make is that randomization does not justify the statistical tests that researchers typically use. They are right in that. Even if researchers can claim that their estimates of uncertainty are justified by randomization, their habitual use of those estimates to conduct <em>t</em>-tests are not. To get a handle on how severe the problem is we replicate the results in <span class="citation" data-cites="deaton2017understanding">Deaton and Cartwright (<a href="#ref-deaton2017understanding" role="doc-biblioref">2017</a>)</span> and then use a wider set of diagnosands to probe more deeply. Our investigation suggests that what at first seems like a big problem might not in fact be so great if your hypotheses are what they often are for experimentalists—sharp and sample-focused.</p>
+<p>More specifically, <span class="citation" data-cites="deaton2017understanding">Deaton and Cartwright (<a href="#ref-deaton2017understanding" role="doc-biblioref">2017</a>)</span> argue that that “spurious significance […] arises when the distribution of treatment effects contains outliers or, more generally, is not symmetric.” They back up the claim with simulation results from a case with heterogeneous asymmetrically distributed treatment effects that center on 0. In fact however, both the sharp null of no effect and the null of no average effect in a given sample are false in this example and so the worry about over-rejecting does not apply to these hypotheses.</p>
+<p>A bit more generally, <em>under the sharp null of no effect</em> the distribution of treatment effects in simple trials (with 50% assignment probabilities) will be perfectly symmetrical even if the distribution of potential outcomes is arbitrarily skewed and so the concern <span class="citation" data-cites="deaton2017understanding">Deaton and Cartwright (<a href="#ref-deaton2017understanding" role="doc-biblioref">2017</a>)</span> point to doesn’t arise in the first place.</p>
+<p>The most important take away though might be that it’s hard to think through when the use of <em>t</em>-tests is or is not appropriate. But design diagnosis can tip you off to whether this likely a problem in your case.</p>
+<section id="the-deaton-and-cartwright-example" class="level1"><h1>The Deaton and Cartwright Example</h1>
+<p>The design described by Deaton and Cartwright can be declared quite compactly:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb1"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">N</span> <span class="op">=</span> <span class="fl">50</span></span>
+<span></span>
+<span><span class="va">dc_design</span> <span class="op">&lt;-</span></span>
+<span>  <span class="fu"><a href="https://declaredesign.org/r/declaredesign/reference/declare_model.html">declare_model</a></span><span class="op">(</span>N <span class="op">=</span> <span class="va">N</span>, u <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/Lognormal.html">rlnorm</a></span><span class="op">(</span><span class="va">N</span><span class="op">)</span> <span class="op">-</span> <span class="fu"><a href="https://rdrr.io/r/base/Log.html">exp</a></span><span class="op">(</span><span class="fl">.5</span><span class="op">)</span>, Y_Z_0 <span class="op">=</span> <span class="fl">0</span>, Y_Z_1 <span class="op">=</span> <span class="va">u</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://declaredesign.org/r/declaredesign/reference/declare_inquiry.html">declare_inquiry</a></span><span class="op">(</span>SPATE <span class="op">=</span> <span class="fl">0</span>, SATE <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/mean.html">mean</a></span><span class="op">(</span><span class="va">Y_Z_1</span> <span class="op">-</span> <span class="va">Y_Z_0</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://declaredesign.org/r/declaredesign/reference/declare_assignment.html">declare_assignment</a></span><span class="op">(</span>Z <span class="op">=</span> <span class="fu"><a href="//reference/complete_ra.html">complete_ra</a></span><span class="op">(</span><span class="va">N</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://declaredesign.org/r/declaredesign/reference/declare_measurement.html">declare_measurement</a></span><span class="op">(</span>Y <span class="op">=</span> <span class="fu"><a href="//reference/reveal_outcomes.html">reveal_outcomes</a></span><span class="op">(</span><span class="va">Y</span> <span class="op">~</span> <span class="va">Z</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://declaredesign.org/r/declaredesign/reference/declare_estimator.html">declare_estimator</a></span><span class="op">(</span><span class="va">Y</span> <span class="op">~</span> <span class="va">Z</span>, inquiry <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"SPATE"</span>, <span class="st">"SATE"</span><span class="op">)</span><span class="op">)</span> </span></code></pre></div>
+</div>
+<p>The key thing in this design is that the treatment effects have a very skewed distribution (distribution log normal, though recentered on 0).</p>
+<p>Let’s look at the power of this design over a range of N’s. Power is a key diagnosand here because Deaton and Cartwright’s position is that, since the true average treatment effect is 0, the power should be 0.05—that is, you should only reject a true null 5% of the time if you are using a 5% significance cutoff.</p>
+<p>Here we run a diagnosis over a range of designs:</p>
+<div class="cell">
+
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb2"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">diagnosis</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://declaredesign.org/r/declaredesign/reference/diagnose_design.html">diagnose_design</a></span><span class="op">(</span><span class="fu"><a href="https://declaredesign.org/r/declaredesign/reference/redesign.html">redesign</a></span><span class="op">(</span><span class="va">dc_design</span>, N <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">50</span>, <span class="fl">100</span>, <span class="fl">200</span>, <span class="fl">400</span>, <span class="fl">600</span>, <span class="fl">800</span>, <span class="fl">1000</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+</div>
+<p>and plot the results:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb3"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://declaredesign.org/r/declaredesign/reference/diagnosis_helpers.html">get_diagnosands</a></span><span class="op">(</span><span class="va">diagnosis</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span><span class="op">(</span>N <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/numeric.html">as.numeric</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/paste.html">paste</a></span><span class="op">(</span><span class="va">N</span><span class="op">)</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span><span class="va">N</span>, <span class="va">power</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_path.html">geom_line</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/facet_wrap.html">facet_wrap</a></span><span class="op">(</span><span class="op">~</span><span class="va">inquiry</span><span class="op">)</span></span></code></pre></div>
+<div class="cell-output-display">
+<p><img src="randomization-does-not-justify-t-tests_files/figure-html/unnamed-chunk-4-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<!-- wilcox_test <- function(data) -->
+<!--   data.frame(tidy(difference_in_means(Y~Z, data = data)), -->
+<!--             p.wilcox = wilcox.test(Y~Z, data = data)$p.value) -->
+<!-- my_estimator_custom <- declare_estimator(handler = label_estimator(wilcox_test)) -->
+<p>As advertised, power appears too high with the small <span class="math inline">\(N\)</span> cases. It declines towards 0.05 as <span class="math inline">\(N\)</span> increases, though it is still somewhat greater than 0.05 even for reasonably sized studies. The same pattern holds whether we are targeting the superpopulation average treatment effect (SPATE) or the sample average treatment effect (SATE), because the estimator is identical in both cases.</p>
+</section><section id="a-closer-look" class="level1"><h1>A closer look</h1>
+<p>If you plot the estimates and the estimands from the simulations you will notice an interesting feature of the Deaton and Cartwright case. Although the true SPATE is always zero, the SATE for any particular finite sample is <em>not</em> zero. Here are scatterplots of the joint distribution of estimands and estimates for two sample sizes. The true value of the SPATE is always zero, but the true value of the SATE is never <em>exactly</em> zero. You can see that the distribution of estimates is highly skewed (most easily seen for the SPATE facet when N = 50).</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb4"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://declaredesign.org/r/declaredesign/reference/diagnosis_helpers.html">get_simulations</a></span><span class="op">(</span><span class="va">diagnosis</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span><span class="va">estimand</span>, <span class="va">estimate</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_point.html">geom_point</a></span><span class="op">(</span>alpha <span class="op">=</span> <span class="fl">0.05</span>, size <span class="op">=</span> <span class="fl">0.5</span>, stroke <span class="op">=</span> <span class="fl">0</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/facet_grid.html">facet_grid</a></span><span class="op">(</span><span class="va">N</span><span class="op">~</span><span class="va">inquiry</span><span class="op">)</span></span></code></pre></div>
+</div>
+<div class="cell">
+<div class="cell-output-display">
+<p><img src="randomization-does-not-justify-t-tests_files/figure-html/unnamed-chunk-6-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>The fact that the true value of the SATE is never zero has implications for the interpretation of power, but also for a range of other diagnosands. In addition to power, coverage, the true standard error, the average estimated standard error, and the type-S rate (probability that a significant result is of the wrong sign), we’ll calculate the variance of the estimate, the average estimated variance, and the variance of the estimands themselves.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb5"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">diagnosands</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://declaredesign.org/r/declaredesign/reference/declare_diagnosands.html">declare_diagnosands</a></span><span class="op">(</span>select <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"power"</span>, <span class="st">"coverage"</span>, <span class="st">"sd_estimate"</span>, <span class="st">"mean_se"</span>, <span class="st">"type_s_rate"</span><span class="op">)</span>,</span>
+<span>                                   var_estimate <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/cor.html">var</a></span><span class="op">(</span><span class="va">estimate</span><span class="op">)</span>, </span>
+<span>                                   est_var_est <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/mean.html">mean</a></span><span class="op">(</span><span class="va">std.error</span><span class="op">^</span><span class="fl">2</span><span class="op">)</span>,</span>
+<span>                                   var_estimand <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/cor.html">var</a></span><span class="op">(</span><span class="va">estimand</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+</div>
+<p>Now calculate the diagnosands for the small design:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb6"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">diagnosis</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://declaredesign.org/r/declaredesign/reference/diagnose_design.html">diagnose_design</a></span><span class="op">(</span><span class="va">dc_design</span>, diagnosands <span class="op">=</span> <span class="va">diagnosands</span><span class="op">)</span></span></code></pre></div>
+</div>
+<div class="cell">
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning in sprintf(paste0("%.", digits, "f"), as.numeric(x)): NAs introduced by
+coercion</code></pre>
+</div>
+<div class="cell-output-display">
+<table class="table table-sm table-striped">
+<thead><tr class="header">
+<th style="text-align: left;">Inquiry</th>
+<th style="text-align: left;">Select</th>
+<th style="text-align: left;">Var Estimate</th>
+<th style="text-align: left;">Est Var Est</th>
+<th style="text-align: left;">Var Estimand</th>
+</tr></thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">SATE</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: left;">0.19</td>
+<td style="text-align: left;">0.19</td>
+<td style="text-align: left;">0.10</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"></td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: left;">(0.00)</td>
+<td style="text-align: left;">(0.00)</td>
+<td style="text-align: left;">(0.00)</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">SPATE</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: left;">0.19</td>
+<td style="text-align: left;">0.19</td>
+<td style="text-align: left;">0.00</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"></td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: left;">(0.00)</td>
+<td style="text-align: left;">(0.00)</td>
+<td style="text-align: left;">(0.00)</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<p>A few things are worth noting here.</p>
+<ul>
+<li><p>First, estimates of <em>variance</em> do pretty well. In this case there is no covariance between potential outcomes and so the <a href="https://declaredesign.org/blog/neyman-sate-pate.html">Neyman approach</a> does fine. The Neyman approach doesn’t make any assumptions about the shape of distributions and so the skew makes no difference here.</p></li>
+<li><p>Second, the standard error estimates – the square root of the variance estimates – are too low. This is because the square root function is a nonlinear transformation. Unbiasedness of the variance does not imply unbiasedness of the standard deviation.</p></li>
+<li><p>Third, coverage is off. Confidence intervals depend on the use of the <span class="math inline">\(t\)</span>-distribution, which is in question here. Note though that the problem is particularly acute for SPATE; coverage for the SATE seems very good.</p></li>
+<li><p>Fourth, the <em>type S</em> error rate is really worth looking at. The type S rate reports the probability that a significant result is of the wrong sign. For the superpopulation estimand—the SPATE—which we assume to be 0, the sign is <em>always</em> wrong. But for the SATE—the sample average treatment effect—the sign is rarely wrong. In fact the probability of getting a wrongly signed significant estimate is <em>power x type_s_rate = very very small</em>.</p></li>
+</ul>
+<p>This forces a rethinking of the results. Looking at this evidence it seems like the real worry, perhaps, is that we <em>fail</em> to reject the null so often, given that is, in practice, never true. Conversely, from the SATE perspectives, most of these seemingly wrong results that worry Deaton and Cartwright are really correct results.</p>
+<p>Should a researcher coming at this from a design-based perspective worry? Researchers using design-based inference might not approach the hypothesis test using a <em>t</em>-test but might instead use randomization inference. Unlike the <em>t</em>-test, the <a href="https://egap.org/methods-guides/10-things-randomization-inference">randomization inference</a> approach <em>is</em> justified by the randomization. In doing so though, they would likely test what’s called the <em>sharp null</em>—the hypothesis that the effect is zero not just on average <em>but for all units</em>. Interestingly in this example, the sharp null is false not just for all finite samples, but also for the superpopulation. Looking at all this from the randomization inference perspective, one might again worry not that there is too much rejection of the null but that there is insufficient rejection of the null.<a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a></p>
+<p>Thus, a fuller diagnosis suggests that while power may be too high for a weak null in the superpopulation, it is regrettably <em>low</em> for the kind of sample-based hypotheses or sharp nulls that experimentalists often focus on.</p>
+</section><section id="codas" class="level1"><h1>Codas</h1>
+<p>We get a little further into the weeds here.</p>
+<section id="there-is-no-skew-when-sharp-nulls-are-true" class="level2"><h2 class="anchored" data-anchor-id="there-is-no-skew-when-sharp-nulls-are-true">There is no skew when <em>sharp</em> nulls are true</h2>
+<p>For the record, we can do the same analysis when the sharp null is in fact true. This just requires replacing the potential outcomes step (step 2) in the design.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb8"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">dc_sharp</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://declaredesign.org/r/declaredesign/reference/modify_design.html">replace_step</a></span><span class="op">(</span><span class="va">dc_design</span>, <span class="fl">1</span>, </span>
+<span>                         <span class="fu"><a href="https://declaredesign.org/r/declaredesign/reference/declare_model.html">declare_model</a></span><span class="op">(</span>N <span class="op">=</span> <span class="va">N</span>, u <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/Lognormal.html">rlnorm</a></span><span class="op">(</span><span class="va">N</span><span class="op">)</span> <span class="op">-</span> <span class="fu"><a href="https://rdrr.io/r/base/Log.html">exp</a></span><span class="op">(</span><span class="fl">.5</span><span class="op">)</span>, Y_Z_0 <span class="op">=</span> <span class="va">u</span>, Y_Z_1 <span class="op">=</span> <span class="va">u</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://declaredesign.org/r/declaredesign/reference/diagnose_design.html">diagnose_design</a></span><span class="op">(</span><span class="va">dc_sharp</span><span class="op">)</span></span></code></pre></div>
+</div>
+<div class="cell">
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning in sprintf(paste0("%.", digits, "f"), as.numeric(x)): NAs introduced by
+coercion</code></pre>
+</div>
+<div class="cell-output-display">
+<table class="table table-sm table-striped">
+<thead><tr class="header">
+<th style="text-align: left;">Inquiry</th>
+<th style="text-align: left;">Select</th>
+<th style="text-align: left;">Var Estimate</th>
+<th style="text-align: left;">Est Var Est</th>
+<th style="text-align: left;">Var Estimand</th>
+</tr></thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">SATE</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: left;">0.37</td>
+<td style="text-align: left;">0.37</td>
+<td style="text-align: left;">0.00</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"></td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: left;">(0.01)</td>
+<td style="text-align: left;">(0.00)</td>
+<td style="text-align: left;">(0.00)</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">SPATE</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: left;">0.37</td>
+<td style="text-align: left;">0.37</td>
+<td style="text-align: left;">0.00</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"></td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: left;">(0.01)</td>
+<td style="text-align: left;">(0.00)</td>
+<td style="text-align: left;">(0.00)</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<p>We find that we do not see the same issue arise when in fact the sharp null is true (in the superpopulation, and thus in every sample). With a true sharp null (and .5 assignment probabilities), even if the potential outcomes are very skewed, the distribution of estimated effects will be symmetrical for the simple reason that, for any estimated treatment effect <span class="math inline">\(\hat{\tau}\)</span> arising from assignment <span class="math inline">\(Z\)</span>, assignment <span class="math inline">\((1-Z)\)</span> yields <span class="math inline">\((-\hat{\tau})\)</span>. This clarifies that the skew-based concern about over-rejecting a null that Deaton and Cartwright raise actually depends on the sharp null being false in the first place. (Though, to be clear, the assumption of 50% assignment matters here — skew in estimated effects is certainly possible under the sharp null with other assignment probabilities.)</p>
+</section><section id="but-there-can-still-be-dragons-so-then-what-to-do" class="level2"><h2 class="anchored" data-anchor-id="but-there-can-still-be-dragons-so-then-what-to-do">But there can still be dragons, so then what to do?</h2>
+<p>Although we might not have to worry about skew when sharp nulls are true, <span class="math inline">\(t\)</span>-stats might still lead you astray when tails are fat.</p>
+<p>As a simple example, imagine a world in which <span class="math inline">\(Y = 0\)</span> for 50 units and <span class="math inline">\(Y = 1\)</span> for 50 units, independent of <span class="math inline">\(Z\)</span>. Say <span class="math inline">\(Z\)</span> is randomly assigned to just four units. Whenever <span class="math inline">\(Z\)</span> is assigned to four units with the same value on <span class="math inline">\(Y\)</span>, a <em>t</em>-test will suggest a significant difference (<span class="math inline">\(p = 0.04\)</span>). You can interpret that as a claim that such a data pattern should only be observed 4% of the time if the null is true. But you can figure out pretty quickly that you will see data patterns like this about one eighth of the time.<a href="#fn2" class="footnote-ref" id="fnref2" role="doc-noteref"><sup>2</sup></a> So the probability of observing such data under the null is actually much higher than the 4% you might infer from the <span class="math inline">\(t\)</span>-test.</p>
+<p>So in general there can be dangers using t-tests even with experimental data. A solution in this instance, if we are interested in a sharp null of no effect, is to do randomization inference. This would produce exactly the right <em>p</em>-value. But that will help only if you are alerted to the problem. To alert yourself to the problem, you could routinely diagnose a design with zero effects (a “null design”) and so <em>set yourself up to get a tip off when your power is too high</em>.</p>
+</section></section><section id="references" class="level1"></section><div id="quarto-appendix" class="default">
+<section class="quarto-appendix-contents" role="doc-bibliography"><h2 class="anchored quarto-appendix-heading">References</h2>
+<div id="refs" class="references csl-bib-body hanging-indent" role="doc-bibliography">
+<div id="ref-deaton2017understanding" class="csl-entry" role="doc-biblioentry">
+Deaton, Angus, and Nancy Cartwright. 2017. <span>“Understanding and Misunderstanding Randomized Controlled Trials.”</span> <em>Social Science &amp; Medicine</em>.
+</div>
+</div></section><section class="footnotes footnotes-end-of-document" role="doc-endnotes"><h2 class="anchored quarto-appendix-heading">Footnotes</h2>
+
+<ol>
+<li id="fn1" role="doc-endnote"><p>Take a look at the <code>ri2</code> package for more on <a href="http://alexandercoppock.com/ri2/index.html">conducting randomization inference in R</a>.<a href="#fnref1" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn2" role="doc-endnote"><p>There is a roughly 50% chance the second unit will have the same <span class="math inline">\(Y\)</span> value as the first unit, roughly 50% chance that the third will be the same as the second, and roughly 50% chance the fourth the same as the third. More exactly: (49/99)x(48/98)x(47/97) = 0.117.<a href="#fnref2" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+</ol></section>
+</div></main><!-- /main --><script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    target: function(trigger) {
+      return trigger.previousElementSibling;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    setTimeout(function() {
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn) {
+    const config = {
+      allowHTML: true,
+      content: contentFn,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start'
+    };
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      let href = ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const cites = ref.parentNode.getAttribute('data-cites').split(' ');
+    tippyHover(ref, function() {
+      var popup = window.document.createElement('div');
+      cites.forEach(function(cite) {
+        var citeDiv = window.document.createElement('div');
+        citeDiv.classList.add('hanging-indent');
+        citeDiv.classList.add('csl-entry');
+        var biblioDiv = window.document.getElementById('ref-' + cite);
+        if (biblioDiv) {
+          citeDiv.innerHTML = biblioDiv.innerHTML;
+        }
+        popup.appendChild(citeDiv);
+      });
+      return popup.innerHTML;
+    });
+  }
+});
+</script>
+</div> <!-- /content -->
+
+
+
+</body>
+</html>

@@ -1,0 +1,508 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.0.38">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+<meta name="author" content="DeclareDesign Team">
+<meta name="dcterms.date" content="2018-10-02">
+<title>DeclareDesign - Improve power using your answer strategy, not just your data strategy</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+span.underline{text-decoration: underline;}
+div.column{display: inline-block; vertical-align: top; width: 50%;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+}
+.hanging div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}
+</style>
+<script src="../site_libs/quarto-nav/quarto-nav.js"></script><script src="../site_libs/quarto-nav/headroom.min.js"></script><script src="../site_libs/clipboard/clipboard.min.js"></script><script src="../site_libs/quarto-search/autocomplete.umd.js"></script><script src="../site_libs/quarto-search/fuse.min.js"></script><script src="../site_libs/quarto-search/quarto-search.js"></script><meta name="quarto:offset" content="../">
+<script src="../site_libs/quarto-html/quarto.js"></script><script src="../site_libs/quarto-html/popper.min.js"></script><script src="../site_libs/quarto-html/tippy.umd.min.js"></script><script src="../site_libs/quarto-html/anchor.min.js"></script><link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../site_libs/bootstrap/bootstrap.min.js"></script><link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 20,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit"
+  }
+}</script><script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script><link rel="stylesheet" href="../styles.css">
+</head>
+<body class="nav-fixed fullcontent">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top"><nav class="navbar navbar-expand-lg navbar-dark "><div class="navbar-container container-fluid">
+      <a class="navbar-brand" href="../index.html">
+    <img src="../static/dd-logo-sm.svg" alt=""><span class="navbar-title"><strong>Declare</strong>Design</span>
+  </a>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll ms-auto">
+<li class="nav-item">
+    <a class="nav-link" href="../getting-started.html">Getting started</a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="https://book.declaredesign.org">Book</a>
+  </li>  
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-software" role="button" data-bs-toggle="dropdown" aria-expanded="false">Software</a>
+    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="nav-menu-software">
+<li>
+    <a class="dropdown-item" href="../declaredesign/">
+ <span class="dropdown-text">DeclareDesign</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../fabricatr/">
+ <span class="dropdown-text">fabricatr</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../randomizr/">
+ <span class="dropdown-text">randomizr</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../estimatr/">
+ <span class="dropdown-text">estimatr</span></a>
+  </li>  
+    </ul>
+</li>
+  <li class="nav-item">
+    <a class="nav-link" href="../blog.html">Blog</a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../about.html">About</a>
+  </li>  
+</ul>
+<div id="quarto-search" class="" title="Search"></div>
+          </div> <!-- /navcollapse -->
+      </div> <!-- /container-fluid -->
+    </nav></header><!-- content --><header id="title-block-header" class="quarto-title-block default page-columns page-full"><div class="quarto-title-banner page-columns page-full">
+    <div class="quarto-title column-body">
+      <h1 class="title">Improve power using your answer strategy, not just your data strategy</h1>
+                      </div>
+  </div>
+    
+  
+  <div class="quarto-title-meta">
+
+      <div>
+      <div class="quarto-title-meta-heading">Author</div>
+      <div class="quarto-title-meta-contents">
+               <p>DeclareDesign Team </p>
+            </div>
+    </div>
+      
+      <div>
+      <div class="quarto-title-meta-heading">Published</div>
+      <div class="quarto-title-meta-contents">
+        <p class="date">October 2, 2018</p>
+      </div>
+    </div>
+      
+    </div>
+    
+  
+  </header><div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+<!-- margin-sidebar -->
+    
+<!-- main -->
+<main class="content quarto-banner-title-block" id="quarto-document-content"><div class="cell">
+
+</div>
+<p>Most power calculators take a small number of inputs: sample size, effect size, and variance. Some also allow for number of blocks or cluster size as well as the overall sample size. All of these inputs relate to your data strategy. Unless you can control the effect size and the noise, you are left with sample size and data structure (blocks and clusters) as the only levers to play with to try to improve your power.</p>
+<p>In fact, though, power depends on your answer strategy and not just your data strategy and so you might do better putting resources into improving what you do with your data rather than the amount of data you have.</p>
+<section id="power-from-the-answer-strategy" class="level1"><h1>Power from the answer strategy</h1>
+<p>Random assignment generally means that you do not have to include control variables in an analysis in order to achieve unbiasedness. But including controls can improve precision and increase power. If you are trying to improve your power but adding observations is expensive, perhaps you should first explore whether you can improve power by adjusting the estimation approach.</p>
+<p>Here is an illustration of a two-arm trial with 40 units in which 20 units are assigned to treatment, blocking on a binary pre-treatment covariate <span class="math inline">\(W\)</span>. We’ll let the treatment effects vary according to <span class="math inline">\(W\)</span>, but the true average treatment effect (our estimand in this case) is equal to 1.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb1"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">N</span> <span class="op">=</span> <span class="fl">40</span></span>
+<span></span>
+<span><span class="co"># Model</span></span>
+<span><span class="va">model</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://declaredesign.org/r/declaredesign/reference/declare_model.html">declare_model</a></span><span class="op">(</span><span class="va">N</span>, W <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/rep.html">rep</a></span><span class="op">(</span><span class="fl">0</span><span class="op">:</span><span class="fl">1</span>, <span class="va">N</span> <span class="op">/</span> <span class="fl">2</span><span class="op">)</span>, u <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/Normal.html">rnorm</a></span><span class="op">(</span><span class="va">N</span><span class="op">)</span>, <span class="fu"><a href="//reference/potential_outcomes.html">potential_outcomes</a></span><span class="op">(</span><span class="va">Y</span> <span class="op">~</span> <span class="fl">2</span> <span class="op">*</span> <span class="va">Z</span> <span class="op">*</span> <span class="va">W</span> <span class="op">+</span> <span class="va">u</span><span class="op">)</span><span class="op">)</span>  </span>
+<span></span>
+<span><span class="co"># Inquiry</span></span>
+<span><span class="va">inquiry</span>     <span class="op">&lt;-</span> <span class="fu"><a href="https://declaredesign.org/r/declaredesign/reference/declare_inquiry.html">declare_inquiry</a></span><span class="op">(</span>ate <span class="op">=</span> <span class="fl">1</span><span class="op">)</span>  </span>
+<span></span>
+<span><span class="co"># Data strategy</span></span>
+<span><span class="va">assignment</span>   <span class="op">&lt;-</span> <span class="fu"><a href="https://declaredesign.org/r/declaredesign/reference/declare_assignment.html">declare_assignment</a></span><span class="op">(</span>Z <span class="op">=</span> <span class="fu"><a href="//reference/block_ra.html">block_ra</a></span><span class="op">(</span>blocks <span class="op">=</span> <span class="va">W</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="va">measurement</span>  <span class="op">&lt;-</span> <span class="fu"><a href="https://declaredesign.org/r/declaredesign/reference/declare_measurement.html">declare_measurement</a></span><span class="op">(</span>Y <span class="op">=</span> <span class="fu"><a href="//reference/reveal_outcomes.html">reveal_outcomes</a></span><span class="op">(</span><span class="va">Y</span> <span class="op">~</span> <span class="va">Z</span><span class="op">)</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Answer strategy</span></span>
+<span><span class="va">estimator</span>  <span class="op">&lt;-</span> <span class="fu"><a href="https://declaredesign.org/r/declaredesign/reference/declare_estimator.html">declare_estimator</a></span><span class="op">(</span><span class="va">Y</span> <span class="op">~</span> <span class="va">Z</span>, estimand <span class="op">=</span> <span class="st">"ate"</span>, label <span class="op">=</span> <span class="st">"Simple D-I-M"</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Declare the design</span></span>
+<span><span class="va">design</span> <span class="op">&lt;-</span> <span class="va">model</span> <span class="op">+</span> <span class="va">inquiry</span> <span class="op">+</span> <span class="va">assignment</span> <span class="op">+</span> <span class="va">measurement</span> <span class="op">+</span> <span class="va">estimator</span></span></code></pre></div>
+</div>
+<p>Under this data generating process, the treatment interacts quite strongly with <span class="math inline">\(W\)</span>. The average effect of treatment is 1, but the <strong>conditional</strong> average treatment effects are 0 and 2 for the two levels of <span class="math inline">\(W\)</span>. The difference-in-means analysis strategy for this design is equivalent to an OLS regression of the outcome on the treatment with no control variables included. Because of random assignment, this procedure is of course unbiased, but it leaves money on the table in the sense that we could achieve higher statistical power if we included information about <span class="math inline">\(W\)</span> in some way. Here is the power of the difference-in-means answer strategy:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb2"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://declaredesign.org/r/declaredesign/reference/diagnose_design.html">diagnose_design</a></span><span class="op">(</span><span class="va">design</span><span class="op">)</span></span></code></pre></div>
+</div>
+<div class="cell">
+
+</div>
+<div class="cell">
+<div class="cell-output-display">
+<table class="table table-sm table-striped">
+<colgroup>
+<col style="width: 8%">
+<col style="width: 5%">
+<col style="width: 6%">
+<col style="width: 9%">
+<col style="width: 14%">
+<col style="width: 12%">
+<col style="width: 8%">
+<col style="width: 12%">
+<col style="width: 14%">
+<col style="width: 7%">
+</colgroup>
+<thead><tr class="header">
+<th style="text-align: left;">Inquiry</th>
+<th style="text-align: left;">RMSE</th>
+<th style="text-align: left;">Power</th>
+<th style="text-align: left;">Coverage</th>
+<th style="text-align: left;">Mean Estimate</th>
+<th style="text-align: left;">SD Estimate</th>
+<th style="text-align: left;">Mean Se</th>
+<th style="text-align: left;">Type S Rate</th>
+<th style="text-align: left;">Mean Estimand</th>
+<th style="text-align: right;">N Sims</th>
+</tr></thead>
+<tbody><tr class="odd">
+<td style="text-align: left;">ate</td>
+<td style="text-align: left;">0.32</td>
+<td style="text-align: left;">0.75</td>
+<td style="text-align: left;">0.98</td>
+<td style="text-align: left;">1.00</td>
+<td style="text-align: left;">0.32</td>
+<td style="text-align: left;">0.39</td>
+<td style="text-align: left;">0.00</td>
+<td style="text-align: left;">1.00</td>
+<td style="text-align: right;">10000</td>
+</tr></tbody>
+</table>
+</div>
+</div>
+<p>So power is good though short of conventional standards. Based on this diagnosis the probability of getting a statistically significant result is only 0.75 even though the true effect is reasonably large.</p>
+<p>Let’s consider two additional estimation strategies. The first controls for the pre-treatment covariate <span class="math inline">\(W\)</span> in an OLS regression of the outcome on treatment plus the covariate. This strategy is the standard approach to the inclusion of covariates in experimental analysis. An alternative is the “Lin estimator,” so named by us because of the lovely description of this approach given in <span class="citation" data-cites="lin2013agnostic">Lin (<a href="#ref-lin2013agnostic" role="doc-biblioref">2013</a>)</span>. This estimator interacts treatment with the de-meaned covariates. The <code><a href="https://declaredesign.org/r/estimatr/reference/lm_lin.html">lm_lin()</a></code> function in the <code>estimatr</code> package implements the Lin estimator for easy use.</p>
+<p>Here is the expanded design and the diagnosis:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb3"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">new_design</span> <span class="op">&lt;-</span> <span class="va">design</span> <span class="op">+</span></span>
+<span>              <span class="fu"><a href="https://declaredesign.org/r/declaredesign/reference/declare_estimator.html">declare_estimator</a></span><span class="op">(</span><span class="va">Y</span> <span class="op">~</span> <span class="va">Z</span> <span class="op">+</span> <span class="va">W</span>,  model <span class="op">=</span> <span class="va">lm_robust</span>,</span>
+<span>                                inquiry <span class="op">=</span> <span class="st">"ate"</span>, label <span class="op">=</span> <span class="st">"OLS: Control for W"</span><span class="op">)</span> <span class="op">+</span></span>
+<span>              <span class="fu"><a href="https://declaredesign.org/r/declaredesign/reference/declare_estimator.html">declare_estimator</a></span><span class="op">(</span><span class="va">Y</span> <span class="op">~</span> <span class="va">Z</span>, covariates <span class="op">=</span> <span class="op">~</span> <span class="va">W</span>, model <span class="op">=</span> <span class="va">lm_lin</span>,</span>
+<span>                                inquiry <span class="op">=</span> <span class="st">"ate"</span>, label <span class="op">=</span> <span class="st">"Lin: Control + Interaction"</span><span class="op">)</span></span></code></pre></div>
+</div>
+<div class="cell">
+
+</div>
+<div class="cell">
+<div class="cell-output-display">
+<table class="table table-sm table-striped">
+<colgroup>
+<col style="width: 22%">
+<col style="width: 4%">
+<col style="width: 4%">
+<col style="width: 5%">
+<col style="width: 7%">
+<col style="width: 11%">
+<col style="width: 10%">
+<col style="width: 6%">
+<col style="width: 10%">
+<col style="width: 11%">
+<col style="width: 5%">
+</colgroup>
+<thead><tr class="header">
+<th style="text-align: left;">Estimator</th>
+<th style="text-align: left;">Bias</th>
+<th style="text-align: left;">RMSE</th>
+<th style="text-align: left;">Power</th>
+<th style="text-align: left;">Coverage</th>
+<th style="text-align: left;">Mean Estimate</th>
+<th style="text-align: left;">SD Estimate</th>
+<th style="text-align: left;">Mean Se</th>
+<th style="text-align: left;">Type S Rate</th>
+<th style="text-align: left;">Mean Estimand</th>
+<th style="text-align: right;">N Sims</th>
+</tr></thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Lin: Control + Interaction</td>
+<td style="text-align: left;">0.00</td>
+<td style="text-align: left;">0.32</td>
+<td style="text-align: left;">0.87</td>
+<td style="text-align: left;">0.95</td>
+<td style="text-align: left;">1.00</td>
+<td style="text-align: left;">0.32</td>
+<td style="text-align: left;">0.31</td>
+<td style="text-align: left;">0.00</td>
+<td style="text-align: left;">1.00</td>
+<td style="text-align: right;">10000</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">OLS: Control for W</td>
+<td style="text-align: left;">0.00</td>
+<td style="text-align: left;">0.32</td>
+<td style="text-align: left;">0.81</td>
+<td style="text-align: left;">0.97</td>
+<td style="text-align: left;">1.00</td>
+<td style="text-align: left;">0.32</td>
+<td style="text-align: left;">0.35</td>
+<td style="text-align: left;">0.00</td>
+<td style="text-align: left;">1.00</td>
+<td style="text-align: right;">10000</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Simple D-I-M</td>
+<td style="text-align: left;">0.00</td>
+<td style="text-align: left;">0.32</td>
+<td style="text-align: left;">0.74</td>
+<td style="text-align: left;">0.99</td>
+<td style="text-align: left;">1.00</td>
+<td style="text-align: left;">0.32</td>
+<td style="text-align: left;">0.39</td>
+<td style="text-align: left;">0.00</td>
+<td style="text-align: left;">1.00</td>
+<td style="text-align: right;">10000</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<p>We see here a clear ranking of the three estimation strategies in terms of power. You will notice that the coverage also varies across designs: the simple difference in means approach is actually overly conservative in part because it does not take account of the blocked randomization. The OLS model that in some sense “controls for blocks” does better, but is still above the nominal coverage of 95%. In this case, the coverage of the Lin model is excellent.</p>
+</section><section id="tradeoffs" class="level1"><h1>Tradeoffs</h1>
+<p>To figure out how these gains in power from switching up estimation strategies compare with gains from increasing <span class="math inline">\(N\)</span> we declare a sequence of designs, differing only in values for <span class="math inline">\(N\)</span>. We do that in two steps:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb4"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">designs</span>   <span class="op">&lt;-</span> <span class="fu"><a href="https://declaredesign.org/r/declaredesign/reference/redesign.html">redesign</a></span><span class="op">(</span><span class="va">new_design</span>, N <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/seq.html">seq</a></span><span class="op">(</span><span class="fl">30</span>, <span class="fl">80</span>, <span class="fl">10</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="va">diagnoses</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://declaredesign.org/r/declaredesign/reference/diagnose_design.html">diagnose_design</a></span><span class="op">(</span><span class="va">designs</span><span class="op">)</span></span></code></pre></div>
+</div>
+<div class="cell">
+
+</div>
+<div class="cell">
+
+</div>
+<p>The diagnoses object now contains full diagnoses for a whole sequence of designs that assume different <span class="math inline">\(N\)</span>s and that each contain multiple estimation strategies. Here is a graph of the output showing trade-offs between design size and estimation strategy.</p>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode cell-code" id="cb5"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">diagnoses</span><span class="op">$</span><span class="va">diagnosands_df</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span><span class="va">N</span>, <span class="va">power</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_path.html">geom_line</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span>color <span class="op">=</span> <span class="va">estimator</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure"><p><img src="improve-power-using-your-answer-strategy-not-just-your-data-strategy_files/figure-html/unnamed-chunk-12-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>We see here that if you had 45 units and wanted to use simple differences in means your power would be around 80%. You could up your power to just over 90% by increasing the size of the experiment to about 60 units. Or, conditional on speculations about the heterogeneous effects of treatment, you could do the same thing by staying at 45 but switching over to the Lin estimator.</p>
+</section><section id="a-puzzle" class="level1"><h1>A puzzle</h1>
+<p>Sometimes researchers coarsen control variables, for example turning a 10 point democracy scale into a binary variable, because they believe the finer scale is noisier. Can you declare a design to assess whether dichotomizing an outcome variable increases or decreases power?</p>
+</section><section id="references" class="level1"></section><div id="quarto-appendix" class="default"><section class="quarto-appendix-contents" role="doc-bibliography"><h2 class="anchored quarto-appendix-heading">References</h2>
+<div id="refs" class="references csl-bib-body hanging-indent" role="doc-bibliography">
+<div id="ref-lin2013agnostic" class="csl-entry" role="doc-biblioentry">
+Lin, Winston. 2013. <span>“Agnostic Notes on Regression Adjustments to Experimental Data: Reexamining Freedman’s Critique.”</span> <em>The Annals of Applied Statistics</em> 7 (1): 295–318.
+</div>
+</div></section></div></main><!-- /main --><script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    target: function(trigger) {
+      return trigger.previousElementSibling;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    setTimeout(function() {
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn) {
+    const config = {
+      allowHTML: true,
+      content: contentFn,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start'
+    };
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      let href = ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const cites = ref.parentNode.getAttribute('data-cites').split(' ');
+    tippyHover(ref, function() {
+      var popup = window.document.createElement('div');
+      cites.forEach(function(cite) {
+        var citeDiv = window.document.createElement('div');
+        citeDiv.classList.add('hanging-indent');
+        citeDiv.classList.add('csl-entry');
+        var biblioDiv = window.document.getElementById('ref-' + cite);
+        if (biblioDiv) {
+          citeDiv.innerHTML = biblioDiv.innerHTML;
+        }
+        popup.appendChild(citeDiv);
+      });
+      return popup.innerHTML;
+    });
+  }
+});
+</script>
+</div> <!-- /content -->
+
+
+
+</body>
+</html>

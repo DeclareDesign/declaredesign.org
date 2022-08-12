@@ -1,0 +1,452 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.0.38">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+<meta name="author" content="DeclareDesign Team">
+<meta name="dcterms.date" content="2018-11-20">
+<title>DeclareDesign - Instead of avoiding spillovers, you can model them</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+span.underline{text-decoration: underline;}
+div.column{display: inline-block; vertical-align: top; width: 50%;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+}
+.hanging div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}
+</style>
+<script src="../site_libs/quarto-nav/quarto-nav.js"></script><script src="../site_libs/quarto-nav/headroom.min.js"></script><script src="../site_libs/clipboard/clipboard.min.js"></script><script src="../site_libs/quarto-search/autocomplete.umd.js"></script><script src="../site_libs/quarto-search/fuse.min.js"></script><script src="../site_libs/quarto-search/quarto-search.js"></script><meta name="quarto:offset" content="../">
+<script src="../site_libs/quarto-html/quarto.js"></script><script src="../site_libs/quarto-html/popper.min.js"></script><script src="../site_libs/quarto-html/tippy.umd.min.js"></script><script src="../site_libs/quarto-html/anchor.min.js"></script><link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../site_libs/bootstrap/bootstrap.min.js"></script><link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 20,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit"
+  }
+}</script><script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script><link rel="stylesheet" href="../styles.css">
+</head>
+<body class="nav-fixed fullcontent">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top"><nav class="navbar navbar-expand-lg navbar-dark "><div class="navbar-container container-fluid">
+      <a class="navbar-brand" href="../index.html">
+    <img src="../static/dd-logo-sm.svg" alt=""><span class="navbar-title"><strong>Declare</strong>Design</span>
+  </a>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll ms-auto">
+<li class="nav-item">
+    <a class="nav-link" href="../getting-started.html">Getting started</a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="https://book.declaredesign.org">Book</a>
+  </li>  
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-software" role="button" data-bs-toggle="dropdown" aria-expanded="false">Software</a>
+    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="nav-menu-software">
+<li>
+    <a class="dropdown-item" href="../declaredesign/">
+ <span class="dropdown-text">DeclareDesign</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../fabricatr/">
+ <span class="dropdown-text">fabricatr</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../randomizr/">
+ <span class="dropdown-text">randomizr</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../estimatr/">
+ <span class="dropdown-text">estimatr</span></a>
+  </li>  
+    </ul>
+</li>
+  <li class="nav-item">
+    <a class="nav-link" href="../blog.html">Blog</a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../about.html">About</a>
+  </li>  
+</ul>
+<div id="quarto-search" class="" title="Search"></div>
+          </div> <!-- /navcollapse -->
+      </div> <!-- /container-fluid -->
+    </nav></header><!-- content --><header id="title-block-header" class="quarto-title-block default page-columns page-full"><div class="quarto-title-banner page-columns page-full">
+    <div class="quarto-title column-body">
+      <h1 class="title">Instead of avoiding spillovers, you can model them</h1>
+                      </div>
+  </div>
+    
+  
+  <div class="quarto-title-meta">
+
+      <div>
+      <div class="quarto-title-meta-heading">Author</div>
+      <div class="quarto-title-meta-contents">
+               <p>DeclareDesign Team </p>
+            </div>
+    </div>
+      
+      <div>
+      <div class="quarto-title-meta-heading">Published</div>
+      <div class="quarto-title-meta-contents">
+        <p class="date">November 20, 2018</p>
+      </div>
+    </div>
+      
+    </div>
+    
+  
+  </header><div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+<!-- margin-sidebar -->
+    
+<!-- main -->
+<main class="content quarto-banner-title-block" id="quarto-document-content"><p>Spillovers are often seen as a nuisance that lead researchers into error when estimating effects of interest. In a <a href="https://declaredesign.org/blog/2018-09-18-spillovers.html">previous post,</a> we discussed sampling strategies to reduce these risks. A more substantively satisfying approach is to try to study spillovers directly. If we do it right we can remove errors in our estimation of primary quantities of interest and learn about how spillovers work at the same time.</p>
+<p>This is important because spillovers are <em>part</em> of the overall effects of an intervention. If vaccination of one subject improves health outcomes for another, then this gain needs to be understood to assess the total benefits of vaccination. This is hard because we are not used to thinking of spillover effects as estimands, or to writing them in terms of potential outcomes, and so we generally do not think in terms of bias or power for spillover effects. But we can.</p>
+<section id="a-spillover-design-and-the-idea-of-an-indirect-treatment" class="level1"><h1>A spillover design and the idea of an indirect treatment</h1>
+<p>We declare a design based on the <code>spillover_designer</code> in the <code>DesignLibrary</code> package.<a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a></p>
+<p>In this design there are 80 groups, each of size 3. Treatment is randomly assigned—ignoring groups. Outcomes do depend on group membership, however. In particular, any individual’s outcome depends on the number of individuals in the group treated. A function (<code>dgp</code>) specifies how group assignments map into individual payoffs.<a href="#fn2" class="footnote-ref" id="fnref2" role="doc-noteref"><sup>2</sup></a></p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb1"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">dgp</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">i</span>, <span class="va">Z</span>, <span class="va">G</span><span class="op">)</span> <span class="va">Z</span><span class="op">[</span><span class="va">i</span><span class="op">]</span><span class="op">/</span><span class="fl">3</span> <span class="op">+</span> <span class="fu"><a href="https://rdrr.io/r/base/sum.html">sum</a></span><span class="op">(</span><span class="va">Z</span><span class="op">[</span><span class="va">G</span> <span class="op">==</span> <span class="va">G</span><span class="op">[</span><span class="va">i</span><span class="op">]</span><span class="op">]</span><span class="op">)</span><span class="op">^</span><span class="fl">2</span><span class="op">/</span><span class="fl">5</span> <span class="op">+</span> <span class="fu"><a href="https://rdrr.io/r/stats/Normal.html">rnorm</a></span><span class="op">(</span><span class="fl">1</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">spillover_design</span> <span class="op">&lt;-</span> </span>
+<span></span>
+<span>  <span class="fu"><a href="https://declaredesign.org/r/declaredesign/reference/declare_model.html">declare_model</a></span><span class="op">(</span>G <span class="op">=</span> <span class="fu"><a href="//reference/fabricate.html">add_level</a></span><span class="op">(</span>N <span class="op">=</span> <span class="fl">80</span><span class="op">)</span>, </span>
+<span>                     j <span class="op">=</span> <span class="fu"><a href="//reference/fabricate.html">add_level</a></span><span class="op">(</span>N <span class="op">=</span> <span class="fl">3</span>, zeros <span class="op">=</span> <span class="fl">0</span>, ones <span class="op">=</span> <span class="fl">1</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  </span>
+<span>  <span class="fu"><a href="https://declaredesign.org/r/declaredesign/reference/declare_inquiry.html">declare_inquiry</a></span><span class="op">(</span>direct <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/mean.html">mean</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/lapply.html">sapply</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">240</span>,  <span class="co"># just i treated v no one treated </span></span>
+<span>    <span class="kw">function</span><span class="op">(</span><span class="va">i</span><span class="op">)</span> <span class="op">{</span> <span class="va">Z_i</span> <span class="op">&lt;-</span> <span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">240</span><span class="op">)</span> <span class="op">==</span> <span class="va">i</span></span>
+<span>                  <span class="fu">dgp</span><span class="op">(</span><span class="va">i</span>, <span class="va">Z_i</span>, <span class="va">G</span><span class="op">)</span> <span class="op">-</span> <span class="fu">dgp</span><span class="op">(</span><span class="va">i</span>, <span class="va">zeros</span>, <span class="va">G</span><span class="op">)</span><span class="op">}</span><span class="op">)</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  </span>
+<span>  <span class="fu"><a href="https://declaredesign.org/r/declaredesign/reference/declare_inquiry.html">declare_inquiry</a></span><span class="op">(</span>indirect <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/mean.html">mean</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/lapply.html">sapply</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">240</span>, </span>
+<span>    <span class="kw">function</span><span class="op">(</span><span class="va">i</span><span class="op">)</span> <span class="op">{</span> <span class="va">Z_i</span> <span class="op">&lt;-</span> <span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">240</span><span class="op">)</span> <span class="op">==</span> <span class="va">i</span>           <span class="co"># all but i treated v no one treated   </span></span>
+<span>                  <span class="fu">dgp</span><span class="op">(</span><span class="va">i</span>, <span class="va">ones</span> <span class="op">-</span> <span class="va">Z_i</span>, <span class="va">G</span><span class="op">)</span> <span class="op">-</span> <span class="fu">dgp</span><span class="op">(</span><span class="va">i</span>, <span class="va">zeros</span>, <span class="va">G</span><span class="op">)</span><span class="op">}</span><span class="op">)</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  </span>
+<span>  <span class="fu"><a href="https://declaredesign.org/r/declaredesign/reference/declare_assignment.html">declare_assignment</a></span><span class="op">(</span>Z <span class="op">=</span> <span class="fu"><a href="//reference/complete_ra.html">complete_ra</a></span><span class="op">(</span><span class="va">N</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span> </span>
+<span>  </span>
+<span>  <span class="fu"><a href="https://declaredesign.org/r/declaredesign/reference/declare_measurement.html">declare_measurement</a></span><span class="op">(</span></span>
+<span>    neighbors_treated <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/lapply.html">sapply</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="va">N</span>, <span class="kw">function</span><span class="op">(</span><span class="va">i</span><span class="op">)</span> <span class="fu"><a href="https://rdrr.io/r/base/sum.html">sum</a></span><span class="op">(</span><span class="va">Z</span><span class="op">[</span><span class="op">-</span><span class="va">i</span><span class="op">]</span><span class="op">[</span><span class="va">G</span><span class="op">[</span><span class="op">-</span><span class="va">i</span><span class="op">]</span> <span class="op">==</span> <span class="va">G</span><span class="op">[</span><span class="va">i</span><span class="op">]</span><span class="op">]</span><span class="op">)</span><span class="op">)</span>,</span>
+<span>    one_neighbor  <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/numeric.html">as.numeric</a></span><span class="op">(</span><span class="va">neighbors_treated</span> <span class="op">==</span> <span class="fl">1</span><span class="op">)</span>,</span>
+<span>    two_neighbors <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/numeric.html">as.numeric</a></span><span class="op">(</span><span class="va">neighbors_treated</span> <span class="op">==</span> <span class="fl">2</span><span class="op">)</span>,</span>
+<span>    Y <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/lapply.html">sapply</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="va">N</span>, <span class="kw">function</span><span class="op">(</span><span class="va">i</span><span class="op">)</span> <span class="fu">dgp</span><span class="op">(</span><span class="va">i</span>, <span class="va">Z</span>, <span class="va">G</span><span class="op">)</span><span class="op">)</span></span>
+<span>  <span class="op">)</span> <span class="op">+</span></span>
+<span>  </span>
+<span>  <span class="fu"><a href="https://declaredesign.org/r/declaredesign/reference/declare_estimator.html">declare_estimator</a></span><span class="op">(</span><span class="va">Y</span> <span class="op">~</span> <span class="va">Z</span>, </span>
+<span>                    inquiry <span class="op">=</span> <span class="st">"direct"</span>, </span>
+<span>                    model <span class="op">=</span> <span class="va">lm_robust</span>, </span>
+<span>                    label <span class="op">=</span> <span class="st">"naive"</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  </span>
+<span>  <span class="fu"><a href="https://declaredesign.org/r/declaredesign/reference/declare_estimator.html">declare_estimator</a></span><span class="op">(</span><span class="va">Y</span> <span class="op">~</span> <span class="va">Z</span> <span class="op">*</span> <span class="va">one_neighbor</span> <span class="op">+</span> <span class="va">Z</span> <span class="op">*</span> <span class="va">two_neighbors</span>,</span>
+<span>                    term <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"Z"</span>, <span class="st">"two_neighbors"</span><span class="op">)</span>,</span>
+<span>                    inquiry <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"direct"</span>, <span class="st">"indirect"</span><span class="op">)</span>, </span>
+<span>                    label <span class="op">=</span> <span class="st">"saturated"</span>, </span>
+<span>                    model <span class="op">=</span> <span class="va">lm_robust</span><span class="op">)</span></span></code></pre></div>
+</div>
+<p>The key feature of this design is that units belong in <strong>groups</strong>. When a unit gets treated, the effect of the treatment spreads out across other group members (but no further).</p>
+<p>In this kind of setting, we can say you get <strong>indirectly</strong> treated when someone in your group – your “neighbor” – gets treated. In this case, we might think of the <strong>number of neighbors treated</strong> in a given assignment as your indirect treatment. For three-member groups, this definition of spillovers implies every unit has at least six potential outcomes <span class="math inline">\(Y_{z,n}\)</span>. For example, <span class="math inline">\(Y_{1,2}\)</span> is the potential outcome for a unit who is treated in a group where both other members are treated, while <span class="math inline">\(Y_{1,0}\)</span> is the potential outcome for a unit when they are the only member treated in their group.</p>
+<p>If we plot the units in groups using colors for their individual treatment status and labeling them with the number of neighbors treated, one set of assignments for a sample of groups might look like this:</p>
+<div class="cell" data-layout-align="center">
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure"><p><img src="modelling-spillovers_files/figure-html/unnamed-chunk-2-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>There are two notable departures from the design we looked at before. First, we declare an estimand for indirect effects and not just for direct effects. For direct effects we focus on the effect of being treated given no neighbors are treated (<span class="math inline">\(E[Y_{1,0} - Y_{0,0}]\)</span>). For indirect effects we focus on the effect for an individual of having everyone else treated given that they themselves are not treated (<span class="math inline">\(E[Y_{0,2} - Y_{0,0}]\)</span>).<a href="#fn3" class="footnote-ref" id="fnref3" role="doc-noteref"><sup>3</sup></a> Importantly, this <strong>estimand</strong> is defined in terms of potential outcomes rather than being dependent on a particular model.</p>
+<p>Second, alongside the naive estimator, we use an estimator that seeks to model the direct and indirect effects directly. By modelling indirect effects in the estimation step, we can seek to estimate the average direct treatment effect without bias and conditional on the number of neighbors treated.</p>
+<p>In this context, where the spillover mechanism is well-understood and captured by the statistical model, our modelling approach does a great job of removing bias. Here we show the estimated effects of being treated when no others are treated (direct effect) and of not being treated when all others are treated (indirect effect). We see the mean estimate (dashed blue line) is right on the mean estimand (solid red line) in both cases when we model the spillovers:</p>
+<div class="cell">
+
+</div>
+<div class="cell">
+<div class="cell-output-display">
+<p><img src="modelling-spillovers_files/figure-html/unnamed-chunk-4-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>Power for all estimates now looks like this:</p>
+<div class="cell">
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: It is deprecated to specify `guide = FALSE` to remove a guide. Please
+use `guide = "none"` instead.</code></pre>
+</div>
+<div class="cell-output-display">
+<p><img src="modelling-spillovers_files/figure-html/unnamed-chunk-5-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>We have great power for the naive estimator – but only because it confidently delivers the wrong answer! The power from the saturated model is not so great, especially for the direct effect.</p>
+</section><section id="you-can-use-assignment-to-improve-power-in-the-presence-of-spillovers" class="level1"><h1>You can use assignment to improve power in the presence of spillovers</h1>
+<p>One approach to increase power for the direct effect is to tweak the assignment to control the number of groups that have one or two members treated.</p>
+<p>Doing this may produce tradeoffs, however, between power for direct effects and power for indirect effects.</p>
+<p>The current assignment just assigns units to treatment with .5 probability, ignoring groups. We’ll replace that step with a new assignment strategy where we directly control whether groups get 0, 1, or 2 members treated. (This kind of design is sometimes called a randomized saturation design.)</p>
+<p>We declare a custom assignment that uses a two-stage procedure, in which we first assign groups to treatment densities, then assign units to treatment conditional on their group’s density.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb3"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">two_stage</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">data</span>, <span class="va">density_probs</span><span class="op">)</span><span class="op">{</span></span>
+<span>  <span class="va">density</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/with.html">with</a></span><span class="op">(</span><span class="va">data</span>, <span class="fu"><a href="//reference/cluster_ra.html">cluster_ra</a></span><span class="op">(</span>clusters <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/unique.html">unique</a></span><span class="op">(</span><span class="va">G</span><span class="op">)</span>, </span>
+<span>                                   conditions <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">0</span>,<span class="fl">1</span>,<span class="fl">2</span><span class="op">)</span>,</span>
+<span>                                   prob_each <span class="op">=</span> <span class="va">density_probs</span><span class="op">)</span><span class="op">)</span></span>
+<span>  <span class="va">data</span><span class="op">$</span><span class="va">Z</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/with.html">with</a></span><span class="op">(</span><span class="va">data</span>, <span class="fu"><a href="//reference/block_ra.html">block_ra</a></span><span class="op">(</span>blocks <span class="op">=</span> <span class="va">G</span>, block_m <span class="op">=</span> <span class="va">density</span><span class="op">)</span><span class="op">)</span></span>
+<span>  <span class="kw"><a href="https://rdrr.io/r/base/function.html">return</a></span><span class="op">(</span><span class="va">data</span><span class="op">)</span></span>
+<span><span class="op">}</span></span></code></pre></div>
+</div>
+<p>Let’s compare two different first-stage approaches: one where we assign more of our groups to have 0 or 1 members treated, and another in which we assign more to have 0 or 2 members treated.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb4"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">spillovers_assigned_1</span> <span class="op">&lt;-</span> </span>
+<span>  <span class="fu"><a href="https://declaredesign.org/r/declaredesign/reference/modify_design.html">replace_step</a></span><span class="op">(</span></span>
+<span>    design <span class="op">=</span> <span class="va">spillover_design</span>, </span>
+<span>    step  <span class="op">=</span>  <span class="fl">4</span>, </span>
+<span>    new_step <span class="op">=</span> <span class="fu"><a href="https://declaredesign.org/r/declaredesign/reference/declare_assignment.html">declare_assignment</a></span><span class="op">(</span>handler <span class="op">=</span> <span class="va">two_stage</span>, </span>
+<span>                                  density_probs <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">.45</span>,<span class="fl">.45</span>,<span class="fl">.1</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="va">spillovers_assigned_2</span> <span class="op">&lt;-</span> </span>
+<span>  <span class="fu"><a href="https://declaredesign.org/r/declaredesign/reference/modify_design.html">replace_step</a></span><span class="op">(</span></span>
+<span>    design <span class="op">=</span> <span class="va">spillover_design</span>, </span>
+<span>    step  <span class="op">=</span>  <span class="fl">4</span>, </span>
+<span>    new_step <span class="op">=</span> <span class="fu"><a href="https://declaredesign.org/r/declaredesign/reference/declare_assignment.html">declare_assignment</a></span><span class="op">(</span>handler <span class="op">=</span> <span class="va">two_stage</span>, </span>
+<span>                                  density_probs <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">.45</span>,<span class="fl">.1</span>,<span class="fl">.45</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+</div>
+<p>Now power looks like this:</p>
+<div class="cell">
+
+</div>
+<div class="cell">
+
+</div>
+<div class="cell">
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: It is deprecated to specify `guide = FALSE` to remove a guide. Please
+use `guide = "none"` instead.</code></pre>
+</div>
+<div class="cell-output-display">
+<p><img src="modelling-spillovers_files/figure-html/unnamed-chunk-10-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>We see a large gain in power for the estimation of direct effects when assigning more groups to have 0 or 1 member treated, and a big loss when assigning fewer groups to those densities in favor of having 2 members treated. We see an opposite tradeoff for the estimation of indirect effects. Optimal assignment depends on the quantities of interest. See <span class="citation" data-cites="baird2017optimal">Baird et al. (<a href="#ref-baird2017optimal" role="doc-biblioref">2017</a>)</span> for a great treatment of these issues.</p>
+</section><section id="some-warnings" class="level1"><h1>Some warnings</h1>
+<p>We got things right in part because we were right about the structure of spillovers. The estimation strategy did not assume much about the functional form of the spillovers but it <em>did</em> require being right about spillovers being contained within groups. If, in addition to the spillovers that we modeled, there were also spillovers between groups, then the estimation strategy would get things wrong in much the same way as the naive approach that ignored spillovers within groups got things wrong. So you need to use knowledge about the structure of spillovers. An interesting exercise is to alter the dgp function so that outcomes also depend on <code>Z[1]</code>—the treatment status of person number 1. How would that alter things?</p>
+<p>Less obvious, perhaps, things were easy here because the group sizes were homogeneous. Why does that matter? The reason is that in this example uniform assignment probabilities for the direct treatment translated into uniform assignment probabilities for the indirect treatments. But generally you cannot count on this. In this case, if groups were of heterogeneous size and treatment was randomly assigned, then units in big groups would be more likely to be exposed to treatment indirectly than units in small groups: a unit in a group of size 3 would be less likely to have two neighbors treated (<code>prob = .25</code>) than a unit in a group of size 4 (<code>prob = 3/8</code>). This can produce bias if treatment effects also depend on group size. To remove the bias you would need to take account of the fact that the indirect treatments were assigned with unequal propensities (even though the direct treatments were assigned to all units with the same probability!). This is a very similar issue to <a href="https://declaredesign.org/blog/biased-fixed-effects.html">one we discussed here</a>, and some of those approaches to addressing bias arising from heterogeneous (indirect) assignment propensities can also help in the spillover context.</p>
+<p>Also not too obvious, even if direct treatments are assigned independently, assignment of indirect treatments might be clustered. For example everyone in a family gets indirectly treated together when one member gets directly treated. Given the possibly complex nature of clustering, it might make sense to use <a href="https://egap.org/methods-guides/10-things-randomization-inference">randomization inference</a> for hypothesis testing is this setting.</p>
+<p>For more on this topic, including strategies for estimating uncertainty given indirect treatment, see, for example, <span class="citation" data-cites="aronow2017estimating">Aronow and Samii (<a href="#ref-aronow2017estimating" role="doc-biblioref">2017</a>)</span>.</p>
+</section><section id="references" class="level1"></section><div id="quarto-appendix" class="default">
+<section class="quarto-appendix-contents" role="doc-bibliography"><h2 class="anchored quarto-appendix-heading">References</h2>
+<div id="refs" class="references csl-bib-body hanging-indent" role="doc-bibliography">
+<div id="ref-aronow2017estimating" class="csl-entry" role="doc-biblioentry">
+Aronow, Peter M, and Cyrus Samii. 2017. <span>“Estimating Average Causal Effects Under General Interference, with Application to a Social Network Experiment.”</span> <em>The Annals of Applied Statistics</em> 11 (4): 1912–47.
+</div>
+<div id="ref-baird2017optimal" class="csl-entry" role="doc-biblioentry">
+Baird, Sarah, J Aislinn Bohren, Craig McIntosh, and Berk Özler. 2017. <span>“Optimal Design of Experiments in the Presence of Interference.”</span> <em>Review of Economics and Statistics</em>, no. 0.
+</div>
+</div></section><section class="footnotes footnotes-end-of-document" role="doc-endnotes"><h2 class="anchored quarto-appendix-heading">Footnotes</h2>
+
+<ol>
+<li id="fn1" role="doc-endnote"><p>As with any design from the library, you can always look at the underlying code using <code>get_design_code(spillover_designer())</code>.<a href="#fnref1" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn2" role="doc-endnote"><p>This dgp function differs from what we examined before by having spillovers that are not complete: direct effects differ from indirect effects.<a href="#fnref2" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn3" role="doc-endnote"><p>In fact if you look a the design declaration we are a little more thorough and define the estimand in terms of the treatment status of <em>all individuals</em> and not just the in-group members.<a href="#fnref3" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+</ol></section>
+</div></main><!-- /main --><script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    target: function(trigger) {
+      return trigger.previousElementSibling;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    setTimeout(function() {
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn) {
+    const config = {
+      allowHTML: true,
+      content: contentFn,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start'
+    };
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      let href = ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const cites = ref.parentNode.getAttribute('data-cites').split(' ');
+    tippyHover(ref, function() {
+      var popup = window.document.createElement('div');
+      cites.forEach(function(cite) {
+        var citeDiv = window.document.createElement('div');
+        citeDiv.classList.add('hanging-indent');
+        citeDiv.classList.add('csl-entry');
+        var biblioDiv = window.document.getElementById('ref-' + cite);
+        if (biblioDiv) {
+          citeDiv.innerHTML = biblioDiv.innerHTML;
+        }
+        popup.appendChild(citeDiv);
+      });
+      return popup.innerHTML;
+    });
+  }
+});
+</script>
+</div> <!-- /content -->
+
+
+
+</body>
+</html>

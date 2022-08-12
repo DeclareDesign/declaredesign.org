@@ -1,0 +1,752 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.0.38">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+<meta name="author" content="Declare Design Team">
+<meta name="dcterms.date" content="2019-02-19">
+<title>DeclareDesign - An instrument does not have to be exogenous to be consistent</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+span.underline{text-decoration: underline;}
+div.column{display: inline-block; vertical-align: top; width: 50%;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+}
+.hanging div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}
+</style>
+<script src="../site_libs/quarto-nav/quarto-nav.js"></script><script src="../site_libs/quarto-nav/headroom.min.js"></script><script src="../site_libs/clipboard/clipboard.min.js"></script><script src="../site_libs/quarto-search/autocomplete.umd.js"></script><script src="../site_libs/quarto-search/fuse.min.js"></script><script src="../site_libs/quarto-search/quarto-search.js"></script><meta name="quarto:offset" content="../">
+<script src="../site_libs/quarto-html/quarto.js"></script><script src="../site_libs/quarto-html/popper.min.js"></script><script src="../site_libs/quarto-html/tippy.umd.min.js"></script><script src="../site_libs/quarto-html/anchor.min.js"></script><link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../site_libs/bootstrap/bootstrap.min.js"></script><link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 20,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit"
+  }
+}</script><script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script><link rel="stylesheet" href="../styles.css">
+</head>
+<body class="nav-fixed fullcontent">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top"><nav class="navbar navbar-expand-lg navbar-dark "><div class="navbar-container container-fluid">
+      <a class="navbar-brand" href="../index.html">
+    <img src="../static/dd-logo-sm.svg" alt=""><span class="navbar-title"><strong>Declare</strong>Design</span>
+  </a>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll ms-auto">
+<li class="nav-item">
+    <a class="nav-link" href="../getting-started.html">Getting started</a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="https://book.declaredesign.org">Book</a>
+  </li>  
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-software" role="button" data-bs-toggle="dropdown" aria-expanded="false">Software</a>
+    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="nav-menu-software">
+<li>
+    <a class="dropdown-item" href="../declaredesign/">
+ <span class="dropdown-text">DeclareDesign</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../fabricatr/">
+ <span class="dropdown-text">fabricatr</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../randomizr/">
+ <span class="dropdown-text">randomizr</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../estimatr/">
+ <span class="dropdown-text">estimatr</span></a>
+  </li>  
+    </ul>
+</li>
+  <li class="nav-item">
+    <a class="nav-link" href="../blog.html">Blog</a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../about.html">About</a>
+  </li>  
+</ul>
+<div id="quarto-search" class="" title="Search"></div>
+          </div> <!-- /navcollapse -->
+      </div> <!-- /container-fluid -->
+    </nav></header><!-- content --><header id="title-block-header" class="quarto-title-block default page-columns page-full"><div class="quarto-title-banner page-columns page-full">
+    <div class="quarto-title column-body">
+      <h1 class="title">An instrument does not have to be exogenous to be consistent</h1>
+                      </div>
+  </div>
+    
+  
+  <div class="quarto-title-meta">
+
+      <div>
+      <div class="quarto-title-meta-heading">Author</div>
+      <div class="quarto-title-meta-contents">
+               <p>Declare Design Team </p>
+            </div>
+    </div>
+      
+      <div>
+      <div class="quarto-title-meta-heading">Published</div>
+      <div class="quarto-title-meta-contents">
+        <p class="date">February 19, 2019</p>
+      </div>
+    </div>
+      
+    </div>
+    
+  
+  </header><div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+<!-- margin-sidebar -->
+    
+<!-- main -->
+<main class="content quarto-banner-title-block" id="quarto-document-content"><p>We often think of an instrumental variable (<span class="math inline">\(Z\)</span>) as a random shock that generates exogenous variation in a treatment of interest <span class="math inline">\(X\)</span>. The randomness of <span class="math inline">\(Z\)</span> lets us identify the effect of <span class="math inline">\(X\)</span> on <span class="math inline">\(Y\)</span>, at least for units for which <span class="math inline">\(Z\)</span> perturbs <span class="math inline">\(X\)</span> in a way that’s not possible by just looking at the relationship between <span class="math inline">\(X\)</span> and <span class="math inline">\(Y\)</span>. But surprisingly, we think, if effects are constant the instrumental variables estimator can be consistent for the effect of <span class="math inline">\(X\)</span> on <span class="math inline">\(Y\)</span> even when the relationship between the instrument (<span class="math inline">\(Z\)</span>) and the endogenous variable (<span class="math inline">\(X\)</span>) is confounded <span class="citation" data-cites="hernan2006instruments">(for example, <a href="#ref-hernan2006instruments" role="doc-biblioref">Hernán and Robins 2006</a>)</span>. That’s the good news. Less good news is that when there is effect heterogeneity you can get good estimates for some units but it can be hard to know <em>which</em> units those are <span class="citation" data-cites="Swanson2017">(<a href="#ref-Swanson2017" role="doc-biblioref">Swanson and Hernán 2017</a>)</span>. We use a declaration and diagnosis to illustrate these insights. <!-- We show first that instrumental variables approaches can do well even with confounded instruments if there are constant treatment effects. We then show that with a confounded instrument and effect heterogeneity  the interpretation of who the compliers are for "complier average effects" really depends on the nature of confounding.  --></p>
+<p>Consider the causal graph below (a directed acyclic graph, or DAG). Here <span class="math inline">\(U_2\)</span> confounds the relationship between <span class="math inline">\(X\)</span> and <span class="math inline">\(Y\)</span>. That’s the usual thing and the reason for why you need something like an instrument in the first place. But now a binary <span class="math inline">\(U_1\)</span> also confounds the relationship between <span class="math inline">\(Z\)</span> and <span class="math inline">\(X\)</span> (see for instance Fig 2d <span class="citation" data-cites="swanson2018partial">Swanson et al. (<a href="#ref-swanson2018partial" role="doc-biblioref">2018</a>)</span>). To emphasize, in this set up, the instrumental variable and the <strong>instrumented</strong> variable share a common cause in <span class="math inline">\(U_1\)</span>.</p>
+<div class="cell">
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure"><p><img src="instrument-does-not-have-to-be-exogenous_files/figure-html/dag-1.png" class="img-fluid figure-img" width="672"></p>
+<p></p>
+<figcaption class="figure-caption">DAG for a non-randomized instrument. Z is an instrument for the effect of X on Y</figcaption><p></p>
+</figure>
+</div>
+</div>
+</div>
+<p>Using <code>DeclareDesign</code>, we write down a declaration that is consistent with this DAG. Our declaration specifies some “compliance types” or “principal strata.” In the standard IV setup with a binary instrument <span class="math inline">\(Z\)</span> and a binary treatment <span class="math inline">\(X\)</span>, there are only four types (corresponding to all conceivable ways that the endogenous variable can respond to the exogenous variable): compliers, never-takers, always-takers, and defiers.<a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a> But here, the binary <span class="math inline">\(U_1\)</span> and binary <span class="math inline">\(Z\)</span> both affect <span class="math inline">\(X\)</span>, so there are actually <strong>sixteen</strong> conceivable ways to comply!<a href="#fn2" class="footnote-ref" id="fnref2" role="doc-noteref"><sup>2</sup></a></p>
+<p>We simplify by imagining a world with only three types: <span class="math inline">\(U_1\)</span>-compliers, <span class="math inline">\(Z\)</span>-compliers, and never-takers.<a href="#fn3" class="footnote-ref" id="fnref3" role="doc-noteref"><sup>3</sup></a> <span class="math inline">\(U_1\)</span>-compliers have <span class="math inline">\(X = 1\)</span> if and only if <span class="math inline">\(U_1 = 1\)</span>. <span class="math inline">\(Z\)</span>-compliers have <span class="math inline">\(X = 1\)</span> if and only if <span class="math inline">\(Z = 1\)</span>. Never-takers have <span class="math inline">\(X = 0\)</span> regardless of the values of <span class="math inline">\(U_1\)</span> or <span class="math inline">\(Z\)</span>. <span class="math inline">\(U_2\)</span> takes three values, 1-3, and plays two roles. First, it determines whether you are a <span class="math inline">\(U_1\)</span>-complier, <span class="math inline">\(Z\)</span>-complier, or never-taker with respect to <span class="math inline">\(X\)</span>. Second, it is positively correlated with your value in <span class="math inline">\(Y\)</span>.</p>
+<p>We’ll define five estimands, which is a lot.</p>
+<ol type="1">
+<li>The Average Treatment Effect (ATE) of <span class="math inline">\(X\)</span> on <span class="math inline">\(Y\)</span>.</li>
+<li>The Intention-To-Treat (ITT) effect. The average effect of <span class="math inline">\(Z\)</span> on <span class="math inline">\(Y\)</span>.</li>
+<li>The first-stage effect. This is the average effect of <span class="math inline">\(Z\)</span> on <span class="math inline">\(X\)</span>.</li>
+<li>The Local Average Treatment Effect (LATE_U1) of <span class="math inline">\(X\)</span> on <span class="math inline">\(Y\)</span>, among the subgroup of units that are <span class="math inline">\(U_1\)</span>-compliers</li>
+<li>The Local Average Treatment Effect (LATE_Z) of <span class="math inline">\(X\)</span> on <span class="math inline">\(Y\)</span>, among the subgroup of units that are <span class="math inline">\(Z\)</span>-compliers</li>
+</ol>
+<p>We’ll use three estimators:</p>
+<ol type="1">
+<li>The ITT estimator, which is an OLS regression of <span class="math inline">\(Y\)</span> on <span class="math inline">\(Z\)</span>.</li>
+<li>The first-stage estimator, which is an OLS regression of <span class="math inline">\(X\)</span> on <span class="math inline">\(Z\)</span>.</li>
+<li>The IV estimator, which is two-stage least squares regression of <span class="math inline">\(Y\)</span> on <span class="math inline">\(X\)</span>, instrumented by <span class="math inline">\(Z\)</span>.</li>
+</ol>
+<p>The declaration also includes two additional parameters (bear with us!) that we’ll vary down below. They are:</p>
+<ol type="1">
+<li>
+<code>heterogeneity</code>: the amount of treatment effect heterogeneity. When this is 0, the effect of <span class="math inline">\(X\)</span> on <span class="math inline">\(Y\)</span> is the same for <span class="math inline">\(U_1\)</span>-compliers as it is for <span class="math inline">\(Z\)</span>-compliers. Otherwise, the effect for the two subgroups is different.</li>
+<li>
+<code>path_weight</code>: describes whether the <code>U1 --&gt; X</code> or the <code>Z --&gt; X</code> path is stronger. This is equivalent to the fraction of compliers that are <span class="math inline">\(U_1\)</span>-compliers.</li>
+</ol>
+<p>OK, here’s the design:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb1"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">heterogeneity</span> <span class="op">&lt;-</span> <span class="fl">0</span>   <span class="co"># how much does LATE_Z differ from LATE_U1?</span></span>
+<span><span class="va">path_weight</span>   <span class="op">&lt;-</span> <span class="fl">.5</span>  <span class="co"># what fraction of compliers are U1 compliers?</span></span>
+<span></span>
+<span><span class="va">design</span> <span class="op">&lt;-</span></span>
+<span>  </span>
+<span>  <span class="co"># U2 is the compliance "type" (U1 complier, Z complier, or Never Taker)</span></span>
+<span>  <span class="fu"><a href="https://declaredesign.org/r/declaredesign/reference/declare_model.html">declare_model</a></span><span class="op">(</span></span>
+<span>    N <span class="op">=</span> <span class="fl">2000</span>, </span>
+<span>    <span class="co"># U1 is binary</span></span>
+<span>    U1 <span class="op">=</span> <span class="fu"><a href="//reference/complete_ra.html">complete_ra</a></span><span class="op">(</span><span class="va">N</span><span class="op">)</span>,</span>
+<span>    U2 <span class="op">=</span> <span class="fu"><a href="//reference/complete_ra.html">complete_ra</a></span><span class="op">(</span></span>
+<span>      <span class="va">N</span>, </span>
+<span>      prob_each <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="va">path_weight</span> <span class="op">*</span> <span class="fl">0.6</span>, <span class="op">(</span><span class="fl">1</span> <span class="op">-</span> <span class="va">path_weight</span><span class="op">)</span> <span class="op">*</span> <span class="fl">0.6</span>, <span class="fl">0.4</span><span class="op">)</span>, </span>
+<span>      conditions <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"U1_c"</span>, <span class="st">"Z_c"</span>, <span class="st">"NT"</span><span class="op">)</span><span class="op">)</span>,</span>
+<span>    noise <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/Normal.html">rnorm</a></span><span class="op">(</span><span class="va">N</span><span class="op">)</span>,</span>
+<span>    <span class="co"># X potential outcomes in terms of U1 and Z, given U2 (there are **four**)</span></span>
+<span>    <span class="fu"><a href="//reference/potential_outcomes.html">potential_outcomes</a></span><span class="op">(</span><span class="va">X</span> <span class="op">~</span> <span class="fu"><a href="https://rdrr.io/r/base/numeric.html">as.numeric</a></span><span class="op">(</span><span class="op">(</span><span class="va">U2</span> <span class="op">==</span> <span class="st">"U1_c"</span><span class="op">)</span> <span class="op">*</span> <span class="va">U1</span> <span class="op">+</span></span>
+<span>                                        <span class="op">(</span><span class="va">U2</span> <span class="op">==</span> <span class="st">"Z_c"</span><span class="op">)</span>  <span class="op">*</span> <span class="va">Z</span><span class="op">)</span>,</span>
+<span>                       conditions <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span>U1 <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">1</span><span class="op">)</span>, Z <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">1</span><span class="op">)</span><span class="op">)</span><span class="op">)</span>,</span>
+<span>    <span class="co"># X potential outcomes in terms of Z given U1 and U2 (there are **two**)</span></span>
+<span>    <span class="fu"><a href="//reference/potential_outcomes.html">potential_outcomes</a></span><span class="op">(</span><span class="va">X</span> <span class="op">~</span> <span class="fu"><a href="https://rdrr.io/r/base/numeric.html">as.numeric</a></span><span class="op">(</span><span class="op">(</span><span class="va">U2</span> <span class="op">==</span> <span class="st">"U1_c"</span><span class="op">)</span> <span class="op">*</span> <span class="va">U1</span> <span class="op">+</span></span>
+<span>                                        <span class="op">(</span><span class="va">U2</span> <span class="op">==</span> <span class="st">"Z_c"</span><span class="op">)</span>  <span class="op">*</span> <span class="va">Z</span><span class="op">)</span><span class="op">)</span>,</span>
+<span>    <span class="co"># Y potential outcomes in terms of X (there are **two**)</span></span>
+<span>    <span class="fu"><a href="//reference/potential_outcomes.html">potential_outcomes</a></span><span class="op">(</span><span class="va">Y</span> <span class="op">~</span> <span class="va">X</span> <span class="op">*</span> <span class="op">(</span><span class="fl">1</span> <span class="op">+</span> <span class="va">heterogeneity</span> <span class="op">*</span> <span class="fu"><a href="https://rdrr.io/r/base/numeric.html">as.numeric</a></span><span class="op">(</span><span class="va">U2</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span> <span class="va">noise</span>, </span>
+<span>                       conditions <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span>X <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">1</span><span class="op">)</span><span class="op">)</span><span class="op">)</span>,</span>
+<span>    <span class="co"># Y potential outcomes in terms of Z (there are **two**)</span></span>
+<span>    <span class="co"># this is same as above, but X is written in terms of Z</span></span>
+<span>    <span class="fu"><a href="//reference/potential_outcomes.html">potential_outcomes</a></span><span class="op">(</span><span class="va">Y</span> <span class="op">~</span> <span class="fu"><a href="https://rdrr.io/r/base/numeric.html">as.numeric</a></span><span class="op">(</span><span class="op">(</span><span class="va">U2</span> <span class="op">==</span> <span class="st">"U1_c"</span><span class="op">)</span> <span class="op">*</span> <span class="va">U1</span> <span class="op">+</span> <span class="op">(</span><span class="va">U2</span> <span class="op">==</span> <span class="st">"Z_c"</span><span class="op">)</span> <span class="op">*</span> <span class="va">Z</span><span class="op">)</span> <span class="op">*</span> </span>
+<span>                         <span class="op">(</span><span class="fl">1</span> <span class="op">+</span> <span class="va">heterogeneity</span> <span class="op">*</span> <span class="fu"><a href="https://rdrr.io/r/base/numeric.html">as.numeric</a></span><span class="op">(</span><span class="va">U2</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span> <span class="va">noise</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  </span>
+<span>  <span class="co"># Z is affected by U1: among U1 = 0, Z has probability 0.3; among U1 = 1, probability 0.6</span></span>
+<span>  <span class="fu"><a href="https://declaredesign.org/r/declaredesign/reference/declare_assignment.html">declare_assignment</a></span><span class="op">(</span>Z <span class="op">=</span> <span class="fu"><a href="//reference/block_ra.html">block_ra</a></span><span class="op">(</span>blocks <span class="op">=</span> <span class="va">U1</span>, block_prob <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">0.3</span>, <span class="fl">0.6</span><span class="op">)</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  </span>
+<span>  <span class="fu"><a href="https://declaredesign.org/r/declaredesign/reference/declare_measurement.html">declare_measurement</a></span><span class="op">(</span>X <span class="op">=</span> <span class="fu"><a href="//reference/reveal_outcomes.html">reveal_outcomes</a></span><span class="op">(</span><span class="va">X</span> <span class="op">~</span> <span class="va">U1</span> <span class="op">+</span> <span class="va">Z</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  </span>
+<span>  <span class="co"># reveal Y (doesn't matter "how" this is revealed, either via the X pos or the Z pos)</span></span>
+<span>  <span class="fu"><a href="https://declaredesign.org/r/declaredesign/reference/declare_measurement.html">declare_measurement</a></span><span class="op">(</span>Y <span class="op">=</span> <span class="fu"><a href="//reference/reveal_outcomes.html">reveal_outcomes</a></span><span class="op">(</span><span class="va">Y</span> <span class="op">~</span> <span class="va">X</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  </span>
+<span>  <span class="co"># Use X POs to learn about the two complier definitions</span></span>
+<span>  <span class="fu"><a href="https://declaredesign.org/r/declaredesign/reference/declare_measurement.html">declare_measurement</a></span><span class="op">(</span></span>
+<span>    U1_complier <span class="op">=</span> <span class="va">X_U1_0_Z_0</span> <span class="op">==</span> <span class="fl">0</span> <span class="op">&amp;</span> <span class="va">X_U1_0_Z_1</span> <span class="op">==</span> <span class="fl">0</span> <span class="op">&amp;</span> <span class="va">X_U1_1_Z_0</span> <span class="op">==</span> <span class="fl">1</span> <span class="op">&amp;</span> <span class="va">X_U1_1_Z_1</span> <span class="op">==</span> <span class="fl">1</span>,</span>
+<span>    Z_complier  <span class="op">=</span> <span class="va">X_U1_0_Z_0</span> <span class="op">==</span> <span class="fl">0</span> <span class="op">&amp;</span> <span class="va">X_U1_1_Z_0</span> <span class="op">==</span> <span class="fl">0</span> <span class="op">&amp;</span> <span class="va">X_U1_0_Z_1</span> <span class="op">==</span> <span class="fl">1</span> <span class="op">&amp;</span> <span class="va">X_U1_1_Z_1</span> <span class="op">==</span> <span class="fl">1</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  </span>
+<span>  <span class="co"># 5 (!) estimands</span></span>
+<span>  <span class="fu"><a href="https://declaredesign.org/r/declaredesign/reference/declare_inquiry.html">declare_inquiry</a></span><span class="op">(</span></span>
+<span>    ATE <span class="op">=</span>         <span class="fu"><a href="https://rdrr.io/r/base/mean.html">mean</a></span><span class="op">(</span><span class="va">Y_X_1</span> <span class="op">-</span> <span class="va">Y_X_0</span><span class="op">)</span>,</span>
+<span>    LATE_U1 <span class="op">=</span>     <span class="fu"><a href="https://rdrr.io/r/base/mean.html">mean</a></span><span class="op">(</span><span class="va">Y_X_1</span><span class="op">[</span><span class="va">U1_complier</span><span class="op">]</span> <span class="op">-</span> <span class="va">Y_X_0</span><span class="op">[</span><span class="va">U1_complier</span><span class="op">]</span><span class="op">)</span>,</span>
+<span>    LATE_Z <span class="op">=</span>      <span class="fu"><a href="https://rdrr.io/r/base/mean.html">mean</a></span><span class="op">(</span><span class="va">Y_X_1</span><span class="op">[</span><span class="va">Z_complier</span><span class="op">]</span> <span class="op">-</span> <span class="va">Y_X_0</span><span class="op">[</span><span class="va">Z_complier</span><span class="op">]</span><span class="op">)</span>,</span>
+<span>    ITT <span class="op">=</span>         <span class="fu"><a href="https://rdrr.io/r/base/mean.html">mean</a></span><span class="op">(</span><span class="va">Y_Z_1</span> <span class="op">-</span> <span class="va">Y_Z_0</span><span class="op">)</span>,</span>
+<span>    first_stage <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/mean.html">mean</a></span><span class="op">(</span><span class="va">X_Z_1</span><span class="op">)</span> <span class="op">-</span> <span class="fu"><a href="https://rdrr.io/r/base/mean.html">mean</a></span><span class="op">(</span><span class="va">X_Z_0</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span> </span>
+<span>  </span>
+<span>  <span class="co"># Three estimators</span></span>
+<span>  <span class="fu"><a href="https://declaredesign.org/r/declaredesign/reference/declare_estimator.html">declare_estimator</a></span><span class="op">(</span><span class="va">Y</span> <span class="op">~</span> <span class="va">Z</span>, inquiry <span class="op">=</span> <span class="st">"ITT"</span>, model <span class="op">=</span> <span class="va">lm_robust</span>, label <span class="op">=</span>  <span class="st">"itt"</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://declaredesign.org/r/declaredesign/reference/declare_estimator.html">declare_estimator</a></span><span class="op">(</span><span class="va">X</span> <span class="op">~</span> <span class="va">Z</span>, inquiry <span class="op">=</span> <span class="st">"first_stage"</span>, model <span class="op">=</span> <span class="va">lm_robust</span>, label <span class="op">=</span>  <span class="st">"first"</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://declaredesign.org/r/declaredesign/reference/declare_estimator.html">declare_estimator</a></span><span class="op">(</span><span class="va">Y</span> <span class="op">~</span> <span class="va">X</span> <span class="op">|</span> <span class="va">Z</span>, inquiry <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"ATE"</span>, <span class="st">"LATE_U1"</span>, <span class="st">"LATE_Z"</span><span class="op">)</span>, </span>
+<span>                    model <span class="op">=</span> <span class="va">iv_robust</span>, label <span class="op">=</span>  <span class="st">"iv_robust"</span><span class="op">)</span></span></code></pre></div>
+</div>
+<p>Let’s now diagnose this design to show that – pretty counterintuitively for us at least! – the IV estimator still recovers the LATE even when <span class="math inline">\(Z\)</span> and <span class="math inline">\(X\)</span> have a common cause.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb2"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">diagnosands</span> <span class="op">&lt;-</span> </span>
+<span>  <span class="fu"><a href="https://declaredesign.org/r/declaredesign/reference/declare_diagnosands.html">declare_diagnosands</a></span><span class="op">(</span>bias <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/mean.html">mean</a></span><span class="op">(</span><span class="va">estimate</span> <span class="op">-</span> <span class="va">estimand</span><span class="op">)</span>,</span>
+<span>                      mean_estimate <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/mean.html">mean</a></span><span class="op">(</span><span class="va">estimate</span><span class="op">)</span>,</span>
+<span>                      mean_estimand <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/mean.html">mean</a></span><span class="op">(</span><span class="va">estimand</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="va">diagnosis_1</span> <span class="op">&lt;-</span> </span>
+<span>  <span class="fu"><a href="https://declaredesign.org/r/declaredesign/reference/diagnose_design.html">diagnose_design</a></span><span class="op">(</span></span>
+<span>    <span class="va">design</span>, diagnosands <span class="op">=</span> <span class="va">diagnosands</span><span class="op">)</span></span></code></pre></div>
+</div>
+<div class="cell">
+<div class="cell-output-display">
+<table class="table table-sm table-striped">
+<colgroup>
+<col style="width: 9%">
+<col style="width: 15%">
+<col style="width: 13%">
+<col style="width: 6%">
+<col style="width: 9%">
+<col style="width: 9%">
+<col style="width: 18%">
+<col style="width: 18%">
+</colgroup>
+<thead><tr class="header">
+<th style="text-align: left;">Design</th>
+<th style="text-align: left;">Inquiry</th>
+<th style="text-align: left;">Estimator</th>
+<th style="text-align: left;">Term</th>
+<th style="text-align: left;">N Sims</th>
+<th style="text-align: left;">Bias</th>
+<th style="text-align: left;">Mean Estimate</th>
+<th style="text-align: left;">Mean Estimand</th>
+</tr></thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">design</td>
+<td style="text-align: left;">ATE</td>
+<td style="text-align: left;">iv_robust</td>
+<td style="text-align: left;">X</td>
+<td style="text-align: left;">200</td>
+<td style="text-align: left;">-0.01</td>
+<td style="text-align: left;">0.99</td>
+<td style="text-align: left;">1.00</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;">(0.01)</td>
+<td style="text-align: left;">(0.01)</td>
+<td style="text-align: left;">(0.00)</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">design</td>
+<td style="text-align: left;">first_stage</td>
+<td style="text-align: left;">first</td>
+<td style="text-align: left;">Z</td>
+<td style="text-align: left;">200</td>
+<td style="text-align: left;">0.09</td>
+<td style="text-align: left;">0.39</td>
+<td style="text-align: left;">0.30</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;">(0.00)</td>
+<td style="text-align: left;">(0.00)</td>
+<td style="text-align: left;">(0.00)</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">design</td>
+<td style="text-align: left;">ITT</td>
+<td style="text-align: left;">itt</td>
+<td style="text-align: left;">Z</td>
+<td style="text-align: left;">200</td>
+<td style="text-align: left;">0.09</td>
+<td style="text-align: left;">0.39</td>
+<td style="text-align: left;">0.30</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;">(0.00)</td>
+<td style="text-align: left;">(0.00)</td>
+<td style="text-align: left;">(0.00)</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">design</td>
+<td style="text-align: left;">LATE_U1</td>
+<td style="text-align: left;">iv_robust</td>
+<td style="text-align: left;">X</td>
+<td style="text-align: left;">200</td>
+<td style="text-align: left;">-0.01</td>
+<td style="text-align: left;">0.99</td>
+<td style="text-align: left;">1.00</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;">(0.01)</td>
+<td style="text-align: left;">(0.01)</td>
+<td style="text-align: left;">(0.00)</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">design</td>
+<td style="text-align: left;">LATE_Z</td>
+<td style="text-align: left;">iv_robust</td>
+<td style="text-align: left;">X</td>
+<td style="text-align: left;">200</td>
+<td style="text-align: left;">-0.01</td>
+<td style="text-align: left;">0.99</td>
+<td style="text-align: left;">1.00</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;">(0.01)</td>
+<td style="text-align: left;">(0.01)</td>
+<td style="text-align: left;">(0.00)</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<p>Let’s take the diagnosis estimand-by-estimand:</p>
+<ol type="1">
+<li>The ATE is well-estimated by the instrumental variables estimator. This, despite the fact that:</li>
+<li>The first stage regression estimates are biased for the average effect of <span class="math inline">\(Z\)</span> on <span class="math inline">\(X\)</span> because of the unobserved confounder <span class="math inline">\(U_1\)</span>.</li>
+<li>The ITT estimates are <strong>also</strong> biased because of the confounding between <span class="math inline">\(Y\)</span> and <span class="math inline">\(Z\)</span>.</li>
+<li>The instrumental variables performs well for the LATE, as defined here. But in this case the LATE is the same as the ATE so this is not surprising.</li>
+</ol>
+<p>You see in the estimator column that the bias in the ITT and first stage estimates are proportionate, such that, in the ratio, the bias cancels out. We provide some intuition for this result below, where we show how it can also break down.</p>
+<p>The upshot is that when assessing the validity of IV you might be imposing an additional assumption that you might not need to impose. This may be good news in some specific research settings where the more stringent assumption of exogenous assignment of <span class="math inline">\(X\)</span> to <span class="math inline">\(Z\)</span> is not well justified.<a href="#fn4" class="footnote-ref" id="fnref4" role="doc-noteref"><sup>4</sup></a></p>
+<section id="allowing-heterogeneity" class="level1"><h1>Allowing heterogeneity</h1>
+<p>We show here that we lose the ability to estimate the effect of <span class="math inline">\(X\)</span> on <span class="math inline">\(Y\)</span> when this effect varies among compliance types – the <span class="math inline">\(U_1\)</span>-compliers, the <span class="math inline">\(Z\)</span>-compliers, and the never-takers.<a href="#fn5" class="footnote-ref" id="fnref5" role="doc-noteref"><sup>5</sup></a> We can quickly redesign to allow heterogeneity, and see that now, we are biased for all the estimands!</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb3"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">design_h</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://declaredesign.org/r/declaredesign/reference/redesign.html">redesign</a></span><span class="op">(</span><span class="va">design</span>, heterogeneity <span class="op">=</span> <span class="fl">1</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">diagnosis_2</span> <span class="op">&lt;-</span> </span>
+<span>  <span class="fu"><a href="https://declaredesign.org/r/declaredesign/reference/diagnose_design.html">diagnose_design</a></span><span class="op">(</span></span>
+<span>    <span class="va">design_h</span>, diagnosands <span class="op">=</span> <span class="va">diagnosands</span><span class="op">)</span></span></code></pre></div>
+</div>
+<div class="cell">
+<div class="cell-output-display">
+<table class="table table-sm table-striped">
+<colgroup>
+<col style="width: 9%">
+<col style="width: 15%">
+<col style="width: 13%">
+<col style="width: 10%">
+<col style="width: 5%">
+<col style="width: 7%">
+<col style="width: 7%">
+<col style="width: 15%">
+<col style="width: 15%">
+</colgroup>
+<thead><tr class="header">
+<th style="text-align: left;">Design</th>
+<th style="text-align: left;">heterogeneity</th>
+<th style="text-align: left;">Inquiry</th>
+<th style="text-align: left;">Estimator</th>
+<th style="text-align: left;">Term</th>
+<th style="text-align: left;">N Sims</th>
+<th style="text-align: left;">Bias</th>
+<th style="text-align: left;">Mean Estimate</th>
+<th style="text-align: left;">Mean Estimand</th>
+</tr></thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">design_h</td>
+<td style="text-align: left;">1</td>
+<td style="text-align: left;">ATE</td>
+<td style="text-align: left;">iv_robust</td>
+<td style="text-align: left;">X</td>
+<td style="text-align: left;">200</td>
+<td style="text-align: left;">-0.34</td>
+<td style="text-align: left;">2.76</td>
+<td style="text-align: left;">3.10</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;">(0.01)</td>
+<td style="text-align: left;">(0.01)</td>
+<td style="text-align: left;">(0.00)</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">design_h</td>
+<td style="text-align: left;">1</td>
+<td style="text-align: left;">first_stage</td>
+<td style="text-align: left;">first</td>
+<td style="text-align: left;">Z</td>
+<td style="text-align: left;">200</td>
+<td style="text-align: left;">0.09</td>
+<td style="text-align: left;">0.39</td>
+<td style="text-align: left;">0.30</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;">(0.00)</td>
+<td style="text-align: left;">(0.00)</td>
+<td style="text-align: left;">(0.00)</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">design_h</td>
+<td style="text-align: left;">1</td>
+<td style="text-align: left;">ITT</td>
+<td style="text-align: left;">itt</td>
+<td style="text-align: left;">Z</td>
+<td style="text-align: left;">200</td>
+<td style="text-align: left;">0.18</td>
+<td style="text-align: left;">1.08</td>
+<td style="text-align: left;">0.90</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;">(0.00)</td>
+<td style="text-align: left;">(0.00)</td>
+<td style="text-align: left;">(0.00)</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">design_h</td>
+<td style="text-align: left;">1</td>
+<td style="text-align: left;">LATE_U1</td>
+<td style="text-align: left;">iv_robust</td>
+<td style="text-align: left;">X</td>
+<td style="text-align: left;">200</td>
+<td style="text-align: left;">0.76</td>
+<td style="text-align: left;">2.76</td>
+<td style="text-align: left;">2.00</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;">(0.01)</td>
+<td style="text-align: left;">(0.01)</td>
+<td style="text-align: left;">(0.00)</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">design_h</td>
+<td style="text-align: left;">1</td>
+<td style="text-align: left;">LATE_Z</td>
+<td style="text-align: left;">iv_robust</td>
+<td style="text-align: left;">X</td>
+<td style="text-align: left;">200</td>
+<td style="text-align: left;">-0.24</td>
+<td style="text-align: left;">2.76</td>
+<td style="text-align: left;">3.00</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;">(0.01)</td>
+<td style="text-align: left;">(0.01)</td>
+<td style="text-align: left;">(0.00)</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<p>Why was the bias so much lower under homogeneous effects of <span class="math inline">\(X\)</span> on <span class="math inline">\(Y\)</span> for compliers?</p>
+<p>Here’s some intuition. In both the heterogeneous and homogeneous cases, we misattribute some of the effect of <span class="math inline">\(U_1\)</span> on <span class="math inline">\(X\)</span> to the effect of <span class="math inline">\(Z\)</span> on <span class="math inline">\(X\)</span>, because those for whom <span class="math inline">\(U_1 = 1\)</span> are also more likely to have <span class="math inline">\(Z = 1\)</span>. Thus, we overestimate the first stage in proportion to this misattribution. In both the homogeneous and heterogeneous cases, we estimate that <span class="math inline">\(Z\)</span> increases the probability of <span class="math inline">\(X = 1\)</span> by 39pp on average, whereas the true effect is 30pp. When we compute the effect of <span class="math inline">\(Z\)</span> on <span class="math inline">\(Y\)</span> for the ITT, those <span class="math inline">\(U_1\)</span>-compliers that we mistook for <span class="math inline">\(Z\)</span>-compliers also produce an effect on <span class="math inline">\(Y\)</span> that we again misattribute to <span class="math inline">\(Z\)</span>, though in fact it was caused by the effect of <span class="math inline">\(U_1\)</span> running through <span class="math inline">\(X\)</span>. The extent of this misattribution in the ITT is the same as the extent of the misattribution in the first stage when the effects of <span class="math inline">\(X\)</span> on <span class="math inline">\(Y\)</span> are homogeneous. Thus, even though we wanted to divide 0.3 / 0.3 to get 1, we ended up dividing 0.39 / 0.39 – and we still got 1! When the effects are heterogeneous, however, we lose this proportionality: because the effect of <span class="math inline">\(X\)</span> on <span class="math inline">\(Y\)</span> is bigger now for <span class="math inline">\(Z\)</span>-compliers than for <span class="math inline">\(U_1\)</span> compliers, <em>our estimate of the ITT is not biased enough!</em>. We would have wanted to estimate an ITT of 1.20 so that our IV estimator would have given us the true ATE via 1.20 / 0.39 = 3.10. But instead, we misattribute the <span class="math inline">\(U_1\)</span>-compliers’ effect of <span class="math inline">\(X\)</span> on <span class="math inline">\(Y\)</span> to the <span class="math inline">\(Z\)</span>-compliers in a way that is disproportionate to the misattribution of the first stage, <span class="math inline">\(Z\)</span> on <span class="math inline">\(X\)</span>. We don’t have enough bias to unbias our estimates!</p>
+</section><section id="with-non-causal-instruments-the-compliers-are-those-that-comply-with-respect-to-the-unobserved-causal-instrument" class="level1"><h1>With non causal instruments the “compliers” are those that comply with respect to the unobserved causal instrument</h1>
+<p>Although we have described <span class="math inline">\(Z\)</span> as being the instrument, you can see in this DAG that both <span class="math inline">\(Z\)</span> and <span class="math inline">\(U_1\)</span> can affect <span class="math inline">\(X\)</span>. So perhaps <span class="math inline">\(U_1\)</span> should thought of as an instrument even if it is unobserved? And perhaps compliers should be thought of as units that comply with <span class="math inline">\(U_1\)</span> and not <span class="math inline">\(Z\)</span>?</p>
+<p>To explore this possibility, we diagnose design modifications that shift probability mass between two special cases of the DAG.</p>
+<p>The first special case is the standard IV setup with no arrow between <span class="math inline">\(U_1\)</span> and <span class="math inline">\(X\)</span>. The second special case is one discussed in <span class="citation" data-cites="Swanson2017">Swanson and Hernán (<a href="#ref-Swanson2017" role="doc-biblioref">2017</a>)</span> in which <span class="math inline">\(Z\)</span> is a “noncausal instrument” and the true causal instrument is the unobserved <span class="math inline">\(U_1\)</span>. We get this by removing the path from <span class="math inline">\(Z\)</span> to <span class="math inline">\(X\)</span>. <span class="citation" data-cites="Swanson2017">Swanson and Hernán (<a href="#ref-Swanson2017" role="doc-biblioref">2017</a>)</span> show that <strong>even though</strong> <span class="math inline">\(Z\)</span> does not itself affect <span class="math inline">\(X\)</span>, instrumenting <span class="math inline">\(X\)</span> with <span class="math inline">\(Z\)</span> will recover good estimates of a well-defined estimand. You guessed it, that estimand is the LATE for <span class="math inline">\(U_1\)</span> compliers. Amazing!</p>
+<p>These cases are the two extremes of a continuum of the relative strength of the two paths. To be clear those two paths are <code>U1 --&gt; X</code> and <code>Z --&gt; X</code>. We can adjust the strength of those two paths with the <code>path_weight</code> parameter in our design. For this last simulation, we’ll consider 5 values for this parameter between 0 and 1.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb4"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">designs</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://declaredesign.org/r/declaredesign/reference/redesign.html">redesign</a></span><span class="op">(</span><span class="va">design</span>, heterogeneity <span class="op">=</span> <span class="fl">1</span>, path_weight <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/seq.html">seq</a></span><span class="op">(</span><span class="fl">0.01</span>, <span class="fl">.99</span>, length <span class="op">=</span> <span class="fl">5</span><span class="op">)</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">diagnosis_3</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://declaredesign.org/r/declaredesign/reference/diagnose_design.html">diagnose_design</a></span><span class="op">(</span></span>
+<span>  <span class="va">designs</span>, diagnosands <span class="op">=</span> <span class="va">diagnosands</span><span class="op">)</span></span></code></pre></div>
+</div>
+<div class="cell">
+<div class="cell-output-display">
+<p><img src="instrument-does-not-have-to-be-exogenous_files/figure-html/unnamed-chunk-8-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>Let’s consider the graph from left to right.</p>
+<p>All the way to the left, all the compliers are <span class="math inline">\(Z\)</span> compliers. Equivalently, all the way to the left, <span class="math inline">\(U_1\)</span> has no effect on <span class="math inline">\(X\)</span>. That’s the standard IV setup in which <span class="math inline">\(Z\)</span> is as-if randomized, so our estimates of the ITT, the first stage, and the LATE are all on target.</p>
+<p>All the way to the right, all the compliers are <span class="math inline">\(U_1\)</span>-compliers, because <span class="math inline">\(Z\)</span> has no effect on <span class="math inline">\(X\)</span>. That’s the “non causal instrument” case described in <span class="citation" data-cites="Swanson2017">Swanson and Hernán (<a href="#ref-Swanson2017" role="doc-biblioref">2017</a>)</span> (see also <span class="citation" data-cites="brito2002generalized">Brito and Pearl (<a href="#ref-brito2002generalized" role="doc-biblioref">2002</a>)</span>). The estimates of everything else – the ITT, the first stage, and the ATE are all quite biased, but the IV estimator does a good job of estimating the LATE among <span class="math inline">\(U_1\)</span>-compliers.</p>
+<p>In between the leftmost and rightmost extremes, however, our estimates of all of the estimands are biased. Indeed, the middle case (at the <code>0.50</code> mark) is exactly the situation we described in the “Allowing heterogeneity” section above. It’s possible (and we’d love to hear from you if you have ideas along these lines!) that an alternative estimation strategy would recover good estimates of one or more of these estimands.</p>
+</section><section id="blog-update" class="level1"><h1>Blog update</h1>
+<p>This will be the last of our weekly blog posts on <a href="declaredesign.org">declaredesign.org</a>. When we started blogging, we set ourselves a goal of six months of posts. We really enjoyed putting these posts together, but we’re also excited to shift attention to other parts of the project. We expect to continue to post occasionally here and to put up more informal posts on <a href="http://discuss.declaredesign.org">http://discuss.declaredesign.org</a> and we’d love it if you joined us there.</p>
+<p>Yours in declaration and diagnosis,</p>
+<p>Graeme, Jasper, Alex, and Macartan</p>
+</section><section id="references" class="level1"></section><div id="quarto-appendix" class="default">
+<section class="quarto-appendix-contents" role="doc-bibliography"><h2 class="anchored quarto-appendix-heading">References</h2>
+<div id="refs" class="references csl-bib-body hanging-indent" role="doc-bibliography">
+<div id="ref-brito2002generalized" class="csl-entry" role="doc-biblioentry">
+Brito, Carlos, and Judea Pearl. 2002. <span>“Generalized Instrumental Variables.”</span> In <em>Proceedings of the Eighteenth Conference on Uncertainty in Artificial Intelligence</em>, 85–93. Morgan Kaufmann Publishers Inc.
+</div>
+<div id="ref-hernan2006instruments" class="csl-entry" role="doc-biblioentry">
+Hernán, Miguel A, and James M Robins. 2006. <span>“Instruments for Causal Inference: An Epidemiologist’s Dream?”</span> <em>Epidemiology</em>, 360–72.
+</div>
+<div id="ref-Swanson2017" class="csl-entry" role="doc-biblioentry">
+Swanson, Sonja A, and Miguel A Hernán. 2017. <span>“<span class="nocase">The challenging interpretation of instrumental variable estimates under monotonicity</span>.”</span> <em>International Journal of Epidemiology</em> 47 (4): 1289–97.
+</div>
+<div id="ref-swanson2018partial" class="csl-entry" role="doc-biblioentry">
+Swanson, Sonja A, Miguel A Hernán, Matthew Miller, James M Robins, and Thomas S Richardson. 2018. <span>“Partial Identification of the Average Treatment Effect Using Instrumental Variables: Review of Methods for Binary Instruments, Treatments, and Outcomes.”</span> <em>Journal of the American Statistical Association</em> 113 (522): 933–47.
+</div>
+</div></section><section class="footnotes footnotes-end-of-document" role="doc-endnotes"><h2 class="anchored quarto-appendix-heading">Footnotes</h2>
+
+<ol>
+<li id="fn1" role="doc-endnote"><p>Denoting <span class="math inline">\(x\)</span> the value that the endogenous variable <span class="math inline">\(X\)</span> takes, compliers have <span class="math inline">\(x = f_X(Z) = Z\)</span>, never-takers have <span class="math inline">\(x = f_X(Z) = 0\)</span>, always-takers have <span class="math inline">\(x = f_X(Z) = 1\)</span>, and defiers have <span class="math inline">\(x = f_X(Z) = (1 - Z)\)</span>.<a href="#fnref1" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn2" role="doc-endnote"><p>The value <span class="math inline">\(X\)</span> takes could depend on all four potential combinations of <span class="math inline">\(U_1\)</span> and <span class="math inline">\(Z\)</span>. So if <span class="math inline">\(x = f_X(U_1,Z)\)</span>, you have to think about every possible way in which <span class="math inline">\(f_X(0,0)\)</span>, <span class="math inline">\(f_X(1,0)\)</span>, <span class="math inline">\(f_X(0,1)\)</span> and <span class="math inline">\(f_X(0,0)\)</span> can map into values of <span class="math inline">\(x\)</span>.<a href="#fnref2" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn3" role="doc-endnote"><p>The assumption that there are no types who “defy” their <span class="math inline">\(U_1\)</span> or <span class="math inline">\(Z\)</span> assignments amounts to a monotonicity assumption common in the IV framework.<a href="#fnref3" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn4" role="doc-endnote"><p>Of course, the result also holds when <span class="math inline">\(Z\)</span> and <span class="math inline">\(X\)</span> are unconfounded, which also allows for unbiased estimation of the ITT and the first stage, which may be of practical or theoretical interest in and of themselves.<a href="#fnref4" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn5" role="doc-endnote"><p>More precisely, weaker conditions than homogeneity can be sufficient for identification. As put by <span class="citation" data-cites="hernan2006instruments">Hernán and Robins (<a href="#ref-hernan2006instruments" role="doc-biblioref">2006</a>)</span>, a sufficient assumption is that “the X-Y causal risk difference is the same among treated subjects with <span class="math inline">\(Z=1\)</span> as among treated subjects with <span class="math inline">\(Z=0\)</span>, and similarly among untreated subjects.” See other conditions discussed in <span class="citation" data-cites="swanson2018partial">Swanson et al. (<a href="#ref-swanson2018partial" role="doc-biblioref">2018</a>)</span>.<a href="#fnref5" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+</ol></section>
+</div></main><!-- /main --><script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    target: function(trigger) {
+      return trigger.previousElementSibling;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    setTimeout(function() {
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn) {
+    const config = {
+      allowHTML: true,
+      content: contentFn,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start'
+    };
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      let href = ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const cites = ref.parentNode.getAttribute('data-cites').split(' ');
+    tippyHover(ref, function() {
+      var popup = window.document.createElement('div');
+      cites.forEach(function(cite) {
+        var citeDiv = window.document.createElement('div');
+        citeDiv.classList.add('hanging-indent');
+        citeDiv.classList.add('csl-entry');
+        var biblioDiv = window.document.getElementById('ref-' + cite);
+        if (biblioDiv) {
+          citeDiv.innerHTML = biblioDiv.innerHTML;
+        }
+        popup.appendChild(citeDiv);
+      });
+      return popup.innerHTML;
+    });
+  }
+});
+</script>
+</div> <!-- /content -->
+
+
+
+</body>
+</html>

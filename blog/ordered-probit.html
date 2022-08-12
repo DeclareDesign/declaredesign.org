@@ -1,0 +1,488 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.0.38">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+<meta name="author" content="DeclareDesign Team">
+<meta name="dcterms.date" content="2019-02-06">
+<title>DeclareDesign - Estimating Average Treatment Effects with Ordered Probit: Is it worth it?</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+span.underline{text-decoration: underline;}
+div.column{display: inline-block; vertical-align: top; width: 50%;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+}
+.hanging div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}
+</style>
+<script src="../site_libs/quarto-nav/quarto-nav.js"></script><script src="../site_libs/quarto-nav/headroom.min.js"></script><script src="../site_libs/clipboard/clipboard.min.js"></script><script src="../site_libs/quarto-search/autocomplete.umd.js"></script><script src="../site_libs/quarto-search/fuse.min.js"></script><script src="../site_libs/quarto-search/quarto-search.js"></script><meta name="quarto:offset" content="../">
+<script src="../site_libs/quarto-html/quarto.js"></script><script src="../site_libs/quarto-html/popper.min.js"></script><script src="../site_libs/quarto-html/tippy.umd.min.js"></script><script src="../site_libs/quarto-html/anchor.min.js"></script><link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../site_libs/bootstrap/bootstrap.min.js"></script><link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 20,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit"
+  }
+}</script><link rel="stylesheet" href="../styles.css">
+</head>
+<body class="nav-fixed fullcontent">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top"><nav class="navbar navbar-expand-lg navbar-dark "><div class="navbar-container container-fluid">
+      <a class="navbar-brand" href="../index.html">
+    <img src="../static/dd-logo-sm.svg" alt=""><span class="navbar-title"><strong>Declare</strong>Design</span>
+  </a>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll ms-auto">
+<li class="nav-item">
+    <a class="nav-link" href="../getting-started.html">Getting started</a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="https://book.declaredesign.org">Book</a>
+  </li>  
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-software" role="button" data-bs-toggle="dropdown" aria-expanded="false">Software</a>
+    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="nav-menu-software">
+<li>
+    <a class="dropdown-item" href="../declaredesign/">
+ <span class="dropdown-text">DeclareDesign</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../fabricatr/">
+ <span class="dropdown-text">fabricatr</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../randomizr/">
+ <span class="dropdown-text">randomizr</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../estimatr/">
+ <span class="dropdown-text">estimatr</span></a>
+  </li>  
+    </ul>
+</li>
+  <li class="nav-item">
+    <a class="nav-link" href="../blog.html">Blog</a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../about.html">About</a>
+  </li>  
+</ul>
+<div id="quarto-search" class="" title="Search"></div>
+          </div> <!-- /navcollapse -->
+      </div> <!-- /container-fluid -->
+    </nav></header><!-- content --><header id="title-block-header" class="quarto-title-block default page-columns page-full"><div class="quarto-title-banner page-columns page-full">
+    <div class="quarto-title column-body">
+      <h1 class="title">Estimating Average Treatment Effects with Ordered Probit: Is it worth it?</h1>
+                      </div>
+  </div>
+    
+  
+  <div class="quarto-title-meta">
+
+      <div>
+      <div class="quarto-title-meta-heading">Author</div>
+      <div class="quarto-title-meta-contents">
+               <p>DeclareDesign Team </p>
+            </div>
+    </div>
+      
+      <div>
+      <div class="quarto-title-meta-heading">Published</div>
+      <div class="quarto-title-meta-contents">
+        <p class="date">February 6, 2019</p>
+      </div>
+    </div>
+      
+    </div>
+    
+  
+  </header><div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+<!-- margin-sidebar -->
+    
+<!-- main -->
+<main class="content quarto-banner-title-block" id="quarto-document-content"><p>We sometimes worry about whether we need to model data generating processes correctly. For example you have ordinal outcome variables, on a five-point Likert scale. How should you model the data generation process? Do you need to model it at all? Go-to approaches include ordered probit and ordered logit models which are designed for this kind of outcome variable. But maybe you don’t need them. After all, the argument that the difference-in-means procedure estimates the treatment effect doesn’t depend on any assumptions about the type of data (as long as expectations are defined)—ordered, count, censored, etc. We diagnose a design that hedges by using both differences in means and an ordered probit model. We do so assuming that the ordered probit model correctly describes data generation. Which does better?</p>
+<p>For the design declaration we assume that the estimand of interest is the average treatment effect on the scale of the data. We do this, perhaps contentiously, even though our outcome is defined on a 1 to 5 ordinal scale. The estimand can be thought of as the average number of steps up or down induced by treatment. This estimand has to be interpreted cautiously, however. In particular it presupposes an interest in outcomes in terms of “steps.” But the “size” of steps depends on the categories provided. Adding in an extra option in the middle of a scale, for example, changes the range of the scale and changes the value of the estimand. Given these issues, other estimands are possible and perhaps preferable <span class="citation" data-cites="volfovsky2015causal">(<a href="#ref-volfovsky2015causal" role="doc-biblioref">Volfovsky, Airoldi, and Rubin 2015</a>)</span>, but for this design, we’ll focus on the ATE.</p>
+<p>Surprisingly, perhaps, we find no real difference between the model-based ordinal logit approach and the differences in means approach. The ordered probit is much more complicated to implement and to draw inferences from: the model is estimated using maximum likelihood, simulation is then used to generate a distribution of fitted values, from which a simulation of the distribution of treatment effects is produced. The standard deviation of these differences is used as an estimate of the standard deviation of treatment effects. The Zelig package <span class="citation" data-cites="Zelig">(<a href="#ref-Zelig" role="doc-biblioref">Choirat et al. 2018</a>)</span> makes it easy to do all this quite compactly and turn it all into a step in our design.</p>
+<p>We call the <code>zelig</code> library, set some parameters, and define a function to take data in and return results.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb1"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://cran.r-project.org/package=Zelig">Zelig</a></span><span class="op">)</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://cran.r-project.org/package=ZeligChoice">ZeligChoice</a></span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># This helper function implements an ordered probit model using zelig; calculates </span></span>
+<span><span class="co"># quantities of interest and return tidy output</span></span>
+<span></span>
+<span><span class="va">ordered_probit</span> <span class="op">&lt;-</span></span>
+<span>  </span>
+<span>  <span class="kw">function</span><span class="op">(</span><span class="va">data</span><span class="op">)</span> <span class="op">{</span></span>
+<span>    <span class="va">zelig_out</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/Zelig/man/zelig.html">zelig</a></span><span class="op">(</span><span class="va">Y</span> <span class="op">~</span> <span class="va">Z</span>, model <span class="op">=</span> <span class="st">"oprobit"</span>, data <span class="op">=</span> <span class="va">data</span>, cite <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
+<span>    </span>
+<span>    <span class="va">sim_out</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/Zelig/man/sim.html">sim</a></span><span class="op">(</span><span class="va">zelig_out</span>, x <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/pkg/Zelig/man/setx.html">setx</a></span><span class="op">(</span><span class="va">zelig_out</span>, Z <span class="op">=</span> <span class="fl">0</span><span class="op">)</span>, x1 <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/pkg/Zelig/man/setx.html">setx</a></span><span class="op">(</span><span class="va">zelig_out</span>, Z <span class="op">=</span> <span class="fl">1</span><span class="op">)</span><span class="op">)</span></span>
+<span>    </span>
+<span>    <span class="va">zelig_df</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/Zelig/man/zelig_qi_to_df.html">zelig_qi_to_df</a></span><span class="op">(</span><span class="va">sim_out</span><span class="op">)</span></span>
+<span>    </span>
+<span>    <span class="va">predictions</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/with.html">with</a></span><span class="op">(</span><span class="va">zelig_df</span>,</span>
+<span>                        <span class="op">(</span><span class="va">X1</span> <span class="op">+</span> <span class="fl">2</span> <span class="op">*</span> <span class="va">X2</span> <span class="op">+</span> <span class="fl">3</span> <span class="op">*</span> <span class="va">X3</span> <span class="op">+</span> <span class="fl">4</span> <span class="op">*</span> <span class="va">X4</span> <span class="op">+</span> <span class="fl">5</span> <span class="op">*</span> <span class="va">X5</span><span class="op">)</span><span class="op">[</span><span class="va">Z</span> <span class="op">==</span> <span class="fl">1</span><span class="op">]</span> <span class="op">-</span></span>
+<span>                        <span class="op">(</span><span class="va">X1</span> <span class="op">+</span> <span class="fl">2</span> <span class="op">*</span> <span class="va">X2</span> <span class="op">+</span> <span class="fl">3</span> <span class="op">*</span> <span class="va">X3</span> <span class="op">+</span> <span class="fl">4</span> <span class="op">*</span> <span class="va">X4</span> <span class="op">+</span> <span class="fl">5</span> <span class="op">*</span> <span class="va">X5</span><span class="op">)</span><span class="op">[</span><span class="va">Z</span> <span class="op">==</span> <span class="fl">0</span><span class="op">]</span><span class="op">)</span></span>
+<span>    </span>
+<span>    <span class="va">return_dat</span> <span class="op">&lt;-</span></span>
+<span>      <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span><span class="op">(</span>term <span class="op">=</span> <span class="st">"Z"</span>,</span>
+<span>                 estimate <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/mean.html">mean</a></span><span class="op">(</span><span class="va">predictions</span><span class="op">)</span>,</span>
+<span>                 std.error <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/sd.html">sd</a></span><span class="op">(</span><span class="va">predictions</span><span class="op">)</span>,</span>
+<span>                 conf.low <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/quantile.html">quantile</a></span><span class="op">(</span><span class="va">predictions</span>, <span class="fl">.025</span><span class="op">)</span>,</span>
+<span>                 conf.high <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/quantile.html">quantile</a></span><span class="op">(</span><span class="va">predictions</span>, <span class="fl">.975</span><span class="op">)</span><span class="op">)</span></span>
+<span>    <span class="op">}</span></span></code></pre></div>
+</div>
+<!-- (\@Zelig friends -- can you advise on how to get $p$ values after calculating quantities of interest with Zelig?) -->
+<p>We can now declare the design:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb2"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">ordered_probit_design</span> <span class="op">&lt;-</span> </span>
+<span>  </span>
+<span>  <span class="fu"><a href="https://declaredesign.org/r/declaredesign/reference/declare_model.html">declare_model</a></span><span class="op">(</span></span>
+<span>    N <span class="op">=</span> <span class="fl">200</span>, </span>
+<span>    noise <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/Normal.html">rnorm</a></span><span class="op">(</span><span class="va">N</span><span class="op">)</span>,</span>
+<span>    <span class="fu"><a href="//reference/potential_outcomes.html">potential_outcomes</a></span><span class="op">(</span><span class="va">Y</span> <span class="op">~</span> <span class="fu"><a href="//reference/draw_discrete.html">draw_ordered</a></span><span class="op">(</span><span class="fl">1</span> <span class="op">*</span> <span class="va">Z</span> <span class="op">+</span> <span class="va">noise</span>, breaks <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">0.75</span>, <span class="fl">1</span>, <span class="fl">1.25</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span>
+<span>  <span class="op">)</span> <span class="op">+</span> </span>
+<span>      </span>
+<span>  <span class="fu"><a href="https://declaredesign.org/r/declaredesign/reference/declare_assignment.html">declare_assignment</a></span><span class="op">(</span>Z <span class="op">=</span> <span class="fu"><a href="//reference/complete_ra.html">complete_ra</a></span><span class="op">(</span><span class="va">N</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  </span>
+<span>  <span class="fu"><a href="https://declaredesign.org/r/declaredesign/reference/declare_inquiry.html">declare_inquiry</a></span><span class="op">(</span>ate <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/mean.html">mean</a></span><span class="op">(</span><span class="va">Y_Z_1</span> <span class="op">-</span> <span class="va">Y_Z_0</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  </span>
+<span>  <span class="fu"><a href="https://declaredesign.org/r/declaredesign/reference/declare_measurement.html">declare_measurement</a></span><span class="op">(</span>Y <span class="op">=</span> <span class="fu"><a href="//reference/reveal_outcomes.html">reveal_outcomes</a></span><span class="op">(</span><span class="va">Y</span> <span class="op">~</span> <span class="va">Z</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  </span>
+<span>  <span class="fu"><a href="https://declaredesign.org/r/declaredesign/reference/declare_estimator.html">declare_estimator</a></span><span class="op">(</span><span class="va">Y</span> <span class="op">~</span> <span class="va">Z</span>, inquiry <span class="op">=</span> <span class="st">"ate"</span>, label <span class="op">=</span> <span class="st">"DIM"</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  </span>
+<span>  <span class="fu"><a href="https://declaredesign.org/r/declaredesign/reference/declare_estimator.html">declare_estimator</a></span><span class="op">(</span>handler <span class="op">=</span> <span class="fu"><a href="https://declaredesign.org/r/declaredesign/reference/declare_estimator.html">label_estimator</a></span><span class="op">(</span><span class="va">ordered_probit</span><span class="op">)</span>, inquiry <span class="op">=</span> <span class="st">"ate"</span>, label <span class="op">=</span> <span class="st">"Ordered Probit"</span><span class="op">)</span></span></code></pre></div>
+</div>
+<p>Sample treatment/outcome data look like this:</p>
+<div class="cell">
+<div class="cell-output-display">
+<p><img src="ordered-probit_files/figure-html/unnamed-chunk-3-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>Diagnosis goes like this:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb3"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://declaredesign.org/r/declaredesign/reference/diagnose_design.html">diagnose_design</a></span><span class="op">(</span><span class="va">ordered_probit_design</span><span class="op">)</span></span></code></pre></div>
+</div>
+<div class="cell">
+<div class="cell-output-display">
+<table class="table table-sm table-striped">
+<colgroup>
+<col style="width: 12%">
+<col style="width: 4%">
+<col style="width: 5%">
+<col style="width: 5%">
+<col style="width: 5%">
+<col style="width: 5%">
+<col style="width: 7%">
+<col style="width: 11%">
+<col style="width: 10%">
+<col style="width: 6%">
+<col style="width: 10%">
+<col style="width: 11%">
+</colgroup>
+<thead><tr class="header">
+<th style="text-align: left;">Estimator</th>
+<th style="text-align: left;">Term</th>
+<th style="text-align: left;">N Sims</th>
+<th style="text-align: left;">Bias</th>
+<th style="text-align: left;">RMSE</th>
+<th style="text-align: left;">Power</th>
+<th style="text-align: left;">Coverage</th>
+<th style="text-align: left;">Mean Estimate</th>
+<th style="text-align: left;">SD Estimate</th>
+<th style="text-align: left;">Mean Se</th>
+<th style="text-align: left;">Type S Rate</th>
+<th style="text-align: left;">Mean Estimand</th>
+</tr></thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">DIM</td>
+<td style="text-align: left;">Z</td>
+<td style="text-align: left;">1000</td>
+<td style="text-align: left;">-0.00</td>
+<td style="text-align: left;">0.18</td>
+<td style="text-align: left;">1.00</td>
+<td style="text-align: left;">0.97</td>
+<td style="text-align: left;">1.35</td>
+<td style="text-align: left;">0.20</td>
+<td style="text-align: left;">0.20</td>
+<td style="text-align: left;">0.00</td>
+<td style="text-align: left;">1.35</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;">(0.01)</td>
+<td style="text-align: left;">(0.00)</td>
+<td style="text-align: left;">(0.00)</td>
+<td style="text-align: left;">(0.01)</td>
+<td style="text-align: left;">(0.01)</td>
+<td style="text-align: left;">(0.00)</td>
+<td style="text-align: left;">(0.00)</td>
+<td style="text-align: left;">(0.00)</td>
+<td style="text-align: left;">(0.00)</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Ordered Probit</td>
+<td style="text-align: left;">Z</td>
+<td style="text-align: left;">1000</td>
+<td style="text-align: left;">-0.03</td>
+<td style="text-align: left;">0.18</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: left;">0.93</td>
+<td style="text-align: left;">1.33</td>
+<td style="text-align: left;">0.19</td>
+<td style="text-align: left;">0.18</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: left;">1.35</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;">(0.01)</td>
+<td style="text-align: left;">(0.00)</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: left;">(0.01)</td>
+<td style="text-align: left;">(0.01)</td>
+<td style="text-align: left;">(0.00)</td>
+<td style="text-align: left;">(0.00)</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: left;">(0.00)</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<p>Next, we show a histogram of the difference-in-means and ordered probit estimates of the average treatment effect.</p>
+<div class="cell">
+<div class="cell-output-display">
+<p><img src="ordered-probit_files/figure-html/unnamed-chunk-6-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>Strikingly, difference-in-means and inferences using an ordered probit model perform very similarly.<a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a> We often reach for ordered models to accomodate the fact that the outcome variable is ordinal and not cardinal, but if your goal is to estimate the average shift in outcomes <em>in terms of shifts in points on the outcome variable</em> you might be making more assumptions than you need.</p>
+<p>To be clear, the point is not that there is no need to model the data properly. Modelling data generating processes lets you answer questions that difference-in-means does not. For example, assuming the model is correct, you get an estimate for treatment effects on a latent variable. Or you can ask how a treatment affects the probability of moving from a “3” to a “4” on this scale. So there may well be good reasons to use tailored models to model elaborate data generating processes, and buying the assumptions they require. But estimating average treatment effects doesn’t appear to be one of them.</p>
+<section id="references" class="level1"></section><div id="quarto-appendix" class="default">
+<section class="quarto-appendix-contents" role="doc-bibliography"><h2 class="anchored quarto-appendix-heading">References</h2>
+<div id="refs" class="references csl-bib-body hanging-indent" role="doc-bibliography">
+<div id="ref-Zelig" class="csl-entry" role="doc-biblioentry">
+Choirat, Christine, James Honaker, Kosuke Imai, Gary King, and Olivia Lau. 2018. <em>Zelig: Everyone’s Statistical Software</em>. <a href="http://zeligproject.org/">http://zeligproject.org/</a>.
+</div>
+<div id="ref-volfovsky2015causal" class="csl-entry" role="doc-biblioentry">
+Volfovsky, Alexander, Edoardo M. Airoldi, and Donald B. Rubin. 2015. <span>“Causal Inference for Ordinal Outcomes.”</span>
+</div>
+</div></section><section class="footnotes footnotes-end-of-document" role="doc-endnotes"><h2 class="anchored quarto-appendix-heading">Footnotes</h2>
+
+<ol>
+<li id="fn1" role="doc-endnote"><p>The ordered probit estimates are very slightly biased. The bias disappears as the sample size increases.<a href="#fnref1" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+</ol></section>
+</div></main><!-- /main --><script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    target: function(trigger) {
+      return trigger.previousElementSibling;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    setTimeout(function() {
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn) {
+    const config = {
+      allowHTML: true,
+      content: contentFn,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start'
+    };
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      let href = ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const cites = ref.parentNode.getAttribute('data-cites').split(' ');
+    tippyHover(ref, function() {
+      var popup = window.document.createElement('div');
+      cites.forEach(function(cite) {
+        var citeDiv = window.document.createElement('div');
+        citeDiv.classList.add('hanging-indent');
+        citeDiv.classList.add('csl-entry');
+        var biblioDiv = window.document.getElementById('ref-' + cite);
+        if (biblioDiv) {
+          citeDiv.innerHTML = biblioDiv.innerHTML;
+        }
+        popup.appendChild(citeDiv);
+      });
+      return popup.innerHTML;
+    });
+  }
+});
+</script>
+</div> <!-- /content -->
+
+
+
+</body>
+</html>

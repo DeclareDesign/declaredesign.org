@@ -1,0 +1,558 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.0.38">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+<title>**Declare**Design – draw_multivariate</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+span.underline{text-decoration: underline;}
+div.column{display: inline-block; vertical-align: top; width: 50%;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+<script src="../../site_libs/quarto-nav/quarto-nav.js"></script><script src="../../site_libs/quarto-nav/headroom.min.js"></script><script src="../../site_libs/clipboard/clipboard.min.js"></script><script src="../../site_libs/quarto-search/autocomplete.umd.js"></script><script src="../../site_libs/quarto-search/fuse.min.js"></script><script src="../../site_libs/quarto-search/quarto-search.js"></script><meta name="quarto:offset" content="../../">
+<script src="../../site_libs/quarto-html/quarto.js"></script><script src="../../site_libs/quarto-html/popper.min.js"></script><script src="../../site_libs/quarto-html/tippy.umd.min.js"></script><script src="../../site_libs/quarto-html/anchor.min.js"></script><link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../../site_libs/bootstrap/bootstrap.min.js"></script><link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 20,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit"
+  }
+}</script><link rel="stylesheet" href="../../styles.css">
+</head>
+<body class="nav-fixed fullcontent">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top"><nav class="navbar navbar-expand-lg navbar-dark "><div class="navbar-container container-fluid">
+      <a class="navbar-brand" href="../../index.html">
+    <img src="../../static/dd-logo-sm.svg" alt=""><span class="navbar-title"><strong>Declare</strong>Design</span>
+  </a>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll ms-auto">
+<li class="nav-item">
+    <a class="nav-link" href="../../getting-started.html">Getting started</a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="https://book.declaredesign.org">Book</a>
+  </li>  
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-software" role="button" data-bs-toggle="dropdown" aria-expanded="false">Software</a>
+    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="nav-menu-software">
+<li>
+    <a class="dropdown-item" href="../../declaredesign/">
+ <span class="dropdown-text">DeclareDesign</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../../fabricatr/">
+ <span class="dropdown-text">fabricatr</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../../randomizr/">
+ <span class="dropdown-text">randomizr</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../../estimatr/">
+ <span class="dropdown-text">estimatr</span></a>
+  </li>  
+    </ul>
+</li>
+  <li class="nav-item">
+    <a class="nav-link" href="../../blog.html">Blog</a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../../about.html">About</a>
+  </li>  
+</ul>
+<div id="quarto-search" class="" title="Search"></div>
+          </div> <!-- /navcollapse -->
+      </div> <!-- /container-fluid -->
+    </nav></header><!-- content --><div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+<!-- margin-sidebar -->
+    
+<!-- main -->
+<main class="content" id="quarto-document-content"><hr>
+<hr>
+<section id="draw_multivariate" class="level1"><h1>draw_multivariate</h1>
+<p>Draw multivariate random variables</p>
+<section id="description" class="level2"><h2 class="anchored" data-anchor-id="description">Description</h2>
+<p>Draw multivariate random variables</p>
+</section><section id="usage" class="level2"><h2 class="anchored" data-anchor-id="usage">Usage</h2>
+<div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="//reference/draw_multivariate.html">draw_multivariate</a></span><span class="op">(</span><span class="va">formula</span>, sep <span class="op">=</span> <span class="st">"_"</span><span class="op">)</span></span></code></pre></div>
+</section><section id="arguments" class="level2"><h2 class="anchored" data-anchor-id="arguments">Arguments</h2>
+<table class="table">
+<colgroup>
+<col style="width: 44%">
+<col style="width: 55%">
+</colgroup>
+<thead><tr class="header">
+<th>Argument</th>
+<th>Description</th>
+</tr></thead>
+<tbody>
+<tr class="odd">
+<td>formula</td>
+<td>Formula describing the multivariate draw. The lefthand side is the names or prefix and the right-hand side is the multivariate draw function call, such as mvrnorm from the MASS library or rmnom from the extraDistr library.</td>
+</tr>
+<tr class="even">
+<td>sep</td>
+<td>Separator string between prefix and variable number. Only used when a single character string is provided and multiple variables created.</td>
+</tr>
+</tbody>
+</table></section><section id="value" class="level2"><h2 class="anchored" data-anchor-id="value">Value</h2>
+<p>tibble</p>
+</section><section id="examples" class="level2"><h2 class="anchored" data-anchor-id="examples">Examples</h2>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb2"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://declaredesign.org/r/fabricatr/">fabricatr</a></span><span class="op">)</span></span>
+<span></span>
+<span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="http://www.stats.ox.ac.uk/pub/MASS4/">MASS</a></span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># draw from multivariate normal distribution</span></span>
+<span><span class="va">dat</span> <span class="op">&lt;-</span></span>
+<span>  <span class="fu"><a href="//reference/draw_multivariate.html">draw_multivariate</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="va">Y_1</span>, <span class="va">Y_2</span><span class="op">)</span> <span class="op">~</span> <span class="fu"><a href="https://rdrr.io/pkg/MASS/man/mvrnorm.html">mvrnorm</a></span><span class="op">(</span></span>
+<span>    n <span class="op">=</span> <span class="fl">500</span>,</span>
+<span>    mu <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">0</span><span class="op">)</span>,</span>
+<span>    Sigma <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/matrix.html">matrix</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">0.5</span>, <span class="fl">0.5</span>, <span class="fl">1</span><span class="op">)</span>, <span class="fl">2</span>, <span class="fl">2</span><span class="op">)</span></span>
+<span>  <span class="op">)</span><span class="op">)</span></span>
+<span></span>
+<span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/stats/cor.html">cor</a></span><span class="op">(</span><span class="va">dat</span><span class="op">)</span></span></code></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>          Y_1       Y_2
+Y_1 1.0000000 0.4078854
+Y_2 0.4078854 1.0000000</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb4"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co"># equivalently, you can provide a prefix for the variable names</span></span>
+<span><span class="co"># (easier if you have many variables)</span></span>
+<span><span class="fu"><a href="//reference/draw_multivariate.html">draw_multivariate</a></span><span class="op">(</span><span class="va">Y</span> <span class="op">~</span> <span class="fu"><a href="https://rdrr.io/pkg/MASS/man/mvrnorm.html">mvrnorm</a></span><span class="op">(</span></span>
+<span>  n <span class="op">=</span> <span class="fl">5</span>,</span>
+<span>  mu <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">0</span><span class="op">)</span>,</span>
+<span>  Sigma <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/matrix.html">matrix</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">0.5</span>, <span class="fl">0.5</span>, <span class="fl">1</span><span class="op">)</span>, <span class="fl">2</span>, <span class="fl">2</span><span class="op">)</span></span>
+<span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>         Y_1         Y_2
+1 -0.9976117 -0.75794625
+2  0.1527442 -0.36701429
+3 -0.9262240  0.15030707
+4  2.3361185 -0.09162546
+5  2.9882766  2.31654653</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb6"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co"># within fabricate</span></span>
+<span><span class="fu"><a href="//reference/fabricate.html">fabricate</a></span><span class="op">(</span></span>
+<span>  N <span class="op">=</span> <span class="fl">100</span>,</span>
+<span>  <span class="fu"><a href="//reference/draw_multivariate.html">draw_multivariate</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="va">Y_1</span>, <span class="va">Y_2</span><span class="op">)</span> <span class="op">~</span> <span class="fu"><a href="https://rdrr.io/pkg/MASS/man/mvrnorm.html">mvrnorm</a></span><span class="op">(</span></span>
+<span>    n <span class="op">=</span> <span class="va">N</span>,</span>
+<span>    mu <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">0</span><span class="op">)</span>,</span>
+<span>    Sigma <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/matrix.html">matrix</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">0.5</span>, <span class="fl">0.5</span>, <span class="fl">1</span><span class="op">)</span>, <span class="fl">2</span>, <span class="fl">2</span><span class="op">)</span></span>
+<span>  <span class="op">)</span><span class="op">)</span></span>
+<span><span class="op">)</span></span></code></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>     ID         Y_1         Y_2
+1   001 -0.85271930  0.28395927
+2   002 -1.89076380 -1.61846698
+3   003  0.78950081  1.94085055
+4   004 -0.66368436 -1.12987621
+5   005  0.39243816 -0.14401284
+6   006 -2.31278514 -2.50725776
+7   007 -1.44472211 -0.90083176
+8   008  0.66894348  1.28486946
+9   009 -1.05914509 -0.88599582
+10  010  0.07246823  1.53816433
+11  011  0.21550669  0.20758204
+12  012  0.67694048  2.90375956
+13  013 -0.06947890 -0.56479233
+14  014 -0.65490497  0.52970409
+15  015 -0.73843981 -0.40308657
+16  016 -0.33528814  0.41164355
+17  017 -0.59742391 -0.40578428
+18  018 -0.20407283 -0.89484348
+19  019 -1.96540036 -1.76824332
+20  020 -1.11446935 -0.87303907
+21  021 -0.25465295  1.41633811
+22  022 -0.18805739 -1.46770906
+23  023  1.22384809 -0.06828802
+24  024 -1.24842971 -0.89563741
+25  025  0.84789406 -0.71488611
+26  026 -1.42733831 -0.18041907
+27  027  1.67333997  2.47133751
+28  028  0.79763909 -0.05012403
+29  029  0.24696848 -0.03058105
+30  030  0.65515492 -1.72304061
+31  031 -0.13906277 -0.87523913
+32  032 -0.38002640  0.40509235
+33  033  0.36947183 -0.42341574
+34  034  0.55940054  0.48298897
+35  035 -0.99733376 -1.78505581
+36  036 -1.51873725 -1.91243924
+37  037 -0.11069407  0.12925105
+38  038  1.61441104 -0.25061715
+39  039  0.10572481  1.45567537
+40  040 -1.38525176 -0.60846075
+41  041  2.07502798  1.63122479
+42  042  0.30926814 -0.55431988
+43  043  0.40316565  0.15172298
+44  044  1.53102890  1.49328321
+45  045 -0.59075740  0.30081753
+46  046 -0.93325199 -1.79911662
+47  047  0.32319032  0.56374042
+48  048  0.51008440  1.75766158
+49  049 -0.48631229 -0.31269327
+50  050  0.09115748  0.04001508
+51  051 -0.97786029  0.80187129
+52  052  1.22211150  0.82610928
+53  053  0.53071650 -0.13109783
+54  054  1.01759010  1.42386614
+55  055  0.14076311 -0.48101529
+56  056  0.10472726  0.60638502
+57  057  0.13899130 -0.69356396
+58  058 -0.26309879 -1.33208525
+59  059  0.68537711  0.76477817
+60  060 -0.01929326 -1.21140071
+61  061  0.40692032  0.72905837
+62  062 -0.29938862 -0.52288228
+63  063  0.63667345  1.38519198
+64  064 -0.25961265 -0.69888876
+65  065 -0.62201935 -0.16533180
+66  066  0.51808465  0.54189655
+67  067 -0.62119190  0.77459473
+68  068  0.03273756 -0.24954150
+69  069 -1.18127985 -0.74455187
+70  070 -0.77296738  0.14444437
+71  071  0.19099530 -0.56909362
+72  072 -1.23416814 -0.91516218
+73  073 -1.96788054 -1.23532881
+74  074 -0.88508501 -0.68786709
+75  075  0.09800470  0.52396927
+76  076  0.30778220  0.63012413
+77  077 -0.98387498 -0.25495058
+78  078  0.33786318  1.29376876
+79  079 -0.98315338 -0.10965695
+80  080 -0.69852261 -0.93399806
+81  081  0.27107204  0.55372864
+82  082 -1.74538965 -1.39839972
+83  083 -1.05564124  0.28283010
+84  084  1.24723826  0.89203323
+85  085  0.17204287 -0.64226339
+86  086  0.47597076  0.36727194
+87  087  0.69586917  0.95184246
+88  088  0.09321180 -0.26250808
+89  089  0.15434133  0.56682895
+90  090  0.99446383 -0.23318117
+91  091  0.41259727  1.02324361
+92  092 -0.91868705  0.86188853
+93  093  0.32819246 -0.08367355
+94  094  0.94891454  0.90348949
+95  095  0.85917514  0.80919342
+96  096  0.59488349  0.34207080
+97  097  1.02949231 -0.71217547
+98  098 -0.74192577 -0.04700153
+99  099 -0.04770910  0.28963232
+100 100 -1.50245643 -0.48796931</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb8"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co"># You can also write the following, which works but gives less control over the names</span></span>
+<span><span class="fu"><a href="//reference/fabricate.html">fabricate</a></span><span class="op">(</span>N <span class="op">=</span> <span class="fl">100</span>,</span>
+<span>Y <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/pkg/MASS/man/mvrnorm.html">mvrnorm</a></span><span class="op">(</span></span>
+<span>  n <span class="op">=</span> <span class="va">N</span>,</span>
+<span>  mu <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">0</span><span class="op">)</span>,</span>
+<span>  Sigma <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/matrix.html">matrix</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">0.5</span>, <span class="fl">0.5</span>, <span class="fl">1</span><span class="op">)</span>, <span class="fl">2</span>, <span class="fl">2</span><span class="op">)</span></span>
+<span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>     ID         Y.1          Y.2
+1   001  0.10919126  2.541230393
+2   002  0.97860982 -0.763240464
+3   003  1.09025451 -0.802715362
+4   004 -2.15312249 -1.134608220
+5   005 -1.09589013 -0.557552090
+6   006  1.78963498 -0.181778557
+7   007  0.20919926  0.928064862
+8   008  0.36528933  0.312118918
+9   009 -1.57419090  0.094263494
+10  010  1.90700464  0.697420966
+11  011 -0.58112604 -1.411220686
+12  012  0.35987050  0.518384071
+13  013 -0.34923815 -0.463364800
+14  014  0.03414672  1.280959305
+15  015  0.93984727 -0.668959397
+16  016 -1.99950181 -1.787398960
+17  017 -0.55615593  0.323634884
+18  018  0.26994123 -0.005816714
+19  019 -1.61632008  0.163992952
+20  020 -0.62464461 -1.525111645
+21  021  1.53786083  1.121030916
+22  022  0.18249465 -0.254322092
+23  023 -1.26105905 -2.420483880
+24  024  1.09035694  1.034865941
+25  025 -0.11543052 -0.459348192
+26  026 -0.60331431 -2.250824940
+27  027 -2.80012054 -1.093301695
+28  028 -0.08584099 -0.473925625
+29  029  0.22512617  0.134641800
+30  030  0.57410161  1.804922041
+31  031 -0.75398066  0.345677126
+32  032 -1.00528244 -0.911524414
+33  033  0.31716987 -0.304444420
+34  034  0.27605993 -1.065649506
+35  035  1.15247014 -0.156248908
+36  036 -0.81567268  1.138191433
+37  037 -0.39449309 -0.694996115
+38  038  0.93060251  0.314957003
+39  039  0.01458909  1.266583921
+40  040  0.52881650  0.583120531
+41  041  0.12146805 -1.547124807
+42  042  0.98571455 -0.746217208
+43  043 -0.06672463 -0.090964060
+44  044  1.23789176  1.055002476
+45  045  1.42853285 -0.075322936
+46  046 -0.41812084 -1.668193038
+47  047  1.24141345  1.143166380
+48  048 -1.46217237 -1.637464913
+49  049 -0.30827362 -0.701851810
+50  050  1.11252703  1.092761324
+51  051  0.96122230  0.032569710
+52  052 -1.04159641 -1.776280039
+53  053 -0.42443194  1.002977120
+54  054  0.10569900  1.366359319
+55  055  1.22598479  1.493002176
+56  056 -0.62054238  0.285747343
+57  057  0.82369984  0.589873272
+58  058  0.56640149  0.417819971
+59  059  0.57287530  0.238073322
+60  060  0.03641087 -0.253492490
+61  061  0.13593020  0.034494084
+62  062 -0.48180934 -1.420584659
+63  063  0.46526971 -0.866124964
+64  064 -1.32965044 -1.754143373
+65  065 -1.61390428 -1.884902060
+66  066  0.22380881 -1.738907690
+67  067  1.28961463  0.505214596
+68  068  1.11270372 -0.856209259
+69  069 -1.14464299 -0.180655751
+70  070 -0.96654957 -0.134742911
+71  071  0.83827640  1.089195318
+72  072  1.81042376 -0.527539375
+73  073 -0.41556051 -0.474300927
+74  074  0.93748465 -0.317686745
+75  075  0.59754148 -1.968546365
+76  076 -0.75954976  1.341522254
+77  077 -0.94997513 -0.159253941
+78  078 -1.36789632 -1.261754309
+79  079 -0.33173270 -0.647576746
+80  080  0.36179693  0.035218454
+81  081  0.85243051  1.848132914
+82  082  1.86521801  0.673733457
+83  083 -0.48121604  0.582302006
+84  084 -0.44024728  0.775913335
+85  085 -0.30319301 -0.934929668
+86  086 -0.60750814 -0.034075331
+87  087 -1.49396332 -2.517487734
+88  088 -0.68017995 -1.906760356
+89  089  2.00332551  1.085023111
+90  090 -0.05563776 -0.597740467
+91  091  0.61922806  0.871371303
+92  092  0.23634816 -1.266226056
+93  093 -1.97018016 -0.958221850
+94  094  0.34011685  0.758835805
+95  095  0.63383140 -0.233424840
+96  096  0.65786453  0.255080457
+97  097  0.32608432  0.446319002
+98  098  1.66662968  0.640951424
+99  099  1.66985185  0.776505229
+100 100 -0.30560134  1.592896753</code></pre>
+</div>
+</div>
+
+
+</section></section></main><!-- /main --><script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    target: function(trigger) {
+      return trigger.previousElementSibling;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    setTimeout(function() {
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn) {
+    const config = {
+      allowHTML: true,
+      content: contentFn,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start'
+    };
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      let href = ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const cites = ref.parentNode.getAttribute('data-cites').split(' ');
+    tippyHover(ref, function() {
+      var popup = window.document.createElement('div');
+      cites.forEach(function(cite) {
+        var citeDiv = window.document.createElement('div');
+        citeDiv.classList.add('hanging-indent');
+        citeDiv.classList.add('csl-entry');
+        var biblioDiv = window.document.getElementById('ref-' + cite);
+        if (biblioDiv) {
+          citeDiv.innerHTML = biblioDiv.innerHTML;
+        }
+        popup.appendChild(citeDiv);
+      });
+      return popup.innerHTML;
+    });
+  }
+});
+</script>
+</div> <!-- /content -->
+
+
+
+</body>
+</html>

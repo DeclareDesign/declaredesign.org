@@ -1,0 +1,539 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.0.38">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+<meta name="author" content="Declare Design Team">
+<meta name="dcterms.date" content="2019-01-30">
+<title>DeclareDesign - What can you learn from simulating qualitative inference strategies?</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+span.underline{text-decoration: underline;}
+div.column{display: inline-block; vertical-align: top; width: 50%;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+}
+.hanging div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}
+</style>
+<script src="../site_libs/quarto-nav/quarto-nav.js"></script><script src="../site_libs/quarto-nav/headroom.min.js"></script><script src="../site_libs/clipboard/clipboard.min.js"></script><script src="../site_libs/quarto-search/autocomplete.umd.js"></script><script src="../site_libs/quarto-search/fuse.min.js"></script><script src="../site_libs/quarto-search/quarto-search.js"></script><meta name="quarto:offset" content="../">
+<script src="../site_libs/quarto-html/quarto.js"></script><script src="../site_libs/quarto-html/popper.min.js"></script><script src="../site_libs/quarto-html/tippy.umd.min.js"></script><script src="../site_libs/quarto-html/anchor.min.js"></script><link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../site_libs/bootstrap/bootstrap.min.js"></script><link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 20,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit"
+  }
+}</script><script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script><link rel="stylesheet" href="../styles.css">
+</head>
+<body class="nav-fixed fullcontent">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top"><nav class="navbar navbar-expand-lg navbar-dark "><div class="navbar-container container-fluid">
+      <a class="navbar-brand" href="../index.html">
+    <img src="../static/dd-logo-sm.svg" alt=""><span class="navbar-title"><strong>Declare</strong>Design</span>
+  </a>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll ms-auto">
+<li class="nav-item">
+    <a class="nav-link" href="../getting-started.html">Getting started</a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="https://book.declaredesign.org">Book</a>
+  </li>  
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-software" role="button" data-bs-toggle="dropdown" aria-expanded="false">Software</a>
+    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="nav-menu-software">
+<li>
+    <a class="dropdown-item" href="../declaredesign/">
+ <span class="dropdown-text">DeclareDesign</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../fabricatr/">
+ <span class="dropdown-text">fabricatr</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../randomizr/">
+ <span class="dropdown-text">randomizr</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../estimatr/">
+ <span class="dropdown-text">estimatr</span></a>
+  </li>  
+    </ul>
+</li>
+  <li class="nav-item">
+    <a class="nav-link" href="../blog.html">Blog</a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../about.html">About</a>
+  </li>  
+</ul>
+<div id="quarto-search" class="" title="Search"></div>
+          </div> <!-- /navcollapse -->
+      </div> <!-- /container-fluid -->
+    </nav></header><!-- content --><header id="title-block-header" class="quarto-title-block default page-columns page-full"><div class="quarto-title-banner page-columns page-full">
+    <div class="quarto-title column-body">
+      <h1 class="title">What can you learn from simulating qualitative inference strategies?</h1>
+                      </div>
+  </div>
+    
+  
+  <div class="quarto-title-meta">
+
+      <div>
+      <div class="quarto-title-meta-heading">Author</div>
+      <div class="quarto-title-meta-contents">
+               <p>Declare Design Team </p>
+            </div>
+    </div>
+      
+      <div>
+      <div class="quarto-title-meta-heading">Published</div>
+      <div class="quarto-title-meta-contents">
+        <p class="date">January 30, 2019</p>
+      </div>
+    </div>
+      
+    </div>
+    
+  
+  </header><div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+<!-- margin-sidebar -->
+    
+<!-- main -->
+<main class="content quarto-banner-title-block" id="quarto-document-content"><p>Qualitative process-tracing sometimes seeks to answer “cause of effects” claims using within-case data: how probable is the hypothesis that <span class="math inline">\(X\)</span> <em>did in fact</em> cause <span class="math inline">\(Y\)</span>? <span class="citation" data-cites="fairfield2017explicit">Fairfield and Charman (<a href="#ref-fairfield2017explicit" role="doc-biblioref">2017</a>)</span>, for example, ask whether the right changed position on tax reform during the 2005 Chilean presidential election (<span class="math inline">\(Y\)</span>) <em>because</em> of anti-inequality campaigns (<span class="math inline">\(X\)</span>) by examining whether the case study narrative bears evidence that you would only expect to see if this were true.<a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a> When inferential logics are so clearly articulated, it becomes possible to do design declaration and diagnosis. Here we declare a Bayesian process-tracing design and use it to think through choices about what kinds of within-case information have the greatest probative value.</p>
+<p>Say we want to evaluate a case-specific hypothesis, <span class="math inline">\(H\)</span>, regarding whether <span class="math inline">\(Y\)</span> happened <em>because</em> <span class="math inline">\(X\)</span> happened. The hypothesis is not that <span class="math inline">\(X\)</span> is the only cause of <span class="math inline">\(Y\)</span>, but more simply whether <span class="math inline">\(Y\)</span> would have been different had <span class="math inline">\(X\)</span> been different. A researcher looks for “clues” or evidence, <span class="math inline">\(E\)</span>, in a case narrative or other qualitative data, which would be more or less surprising to see depending on whether <span class="math inline">\(H\)</span> is true. <span class="citation" data-cites="collier2011understanding">Collier (<a href="#ref-collier2011understanding" role="doc-biblioref">2011</a>)</span> lays out the basic strategy. In a recent paper, <span class="citation" data-cites="murtas2017new">Murtas, Dawid, and Musio (<a href="#ref-murtas2017new" role="doc-biblioref">2017</a>)</span> show how to justify updating case level inferences from experimental data on moderators and mediators.</p>
+<p>Formally declaring and diagnosing such a procedure yields two non-obvious insights:</p>
+<ol type="1">
+<li><p><strong>Straws in the wind can be stronger than smoking guns</strong>: Strong but rare clues do not always give you better answers <em>on average</em> than weak but common clues.</p></li>
+<li><p><strong>The joint distribution of clues can be really important</strong>: Many applications of Bayesian process-tracing implicitly assume that clues are generated independently. Yet, when clues are negatively correlated (i.e., they arise through <em>alternative</em> causal pathways), they are jointly much more informative than when they are positively correlated.</p></li>
+</ol>
+<section id="declaring-a-process-tracing-design" class="level1"><h1>Declaring a process-tracing design</h1>
+<p>There are different approaches to process-tracing. We focus here on “theory testing” rather than exploratory process-tracing and use an approach that draws on the potential outcomes framework (see for example <span class="citation" data-cites="humphreys2015mixing">Humphreys and Jacobs (<a href="#ref-humphreys2015mixing" role="doc-biblioref">2015</a>)</span>).</p>
+<p>We consider a simple example: you choose one country in which there was a civil war (<span class="math inline">\(Y\)</span>) and natural resources (<span class="math inline">\(X\)</span>), and look for evidence (<span class="math inline">\(E\)</span>) that helps you update beliefs about <span class="math inline">\(Pr(H)\)</span>—the probability that the civil war happened <em>because</em> natural resources were present (H/T <span class="citation" data-cites="ross2004natural">Ross (<a href="#ref-ross2004natural" role="doc-biblioref">2004</a>)</span>).</p>
+<section id="model-inquiry-data" class="level2"><h2 class="anchored" data-anchor-id="model-inquiry-data">Model-Inquiry-Data</h2>
+<p>If we think of causal relations in counterfactual terms there are just four possible causal relationships between a binary <span class="math inline">\(X\)</span> and a binary <span class="math inline">\(Y\)</span>:</p>
+<ol type="1">
+<li><p>The presence of natural resources could cause civil war (<span class="math inline">\(X\)</span> causes <span class="math inline">\(Y\)</span>).</p></li>
+<li><p>The presence of natural resources could be the only thing <em>preventing</em> war (<span class="math inline">\(\neg X\)</span> causes <span class="math inline">\(Y\)</span>).</p></li>
+<li><p>Civil war might happen irrespective of whether natural resources are present (<span class="math inline">\(Y\)</span> irrespective of <span class="math inline">\(X\)</span>).</p></li>
+<li><p>Civil war might not happen irrespective of whether natural resources are present (<span class="math inline">\(\neg Y\)</span> irrespective of <span class="math inline">\(X\)</span>).</p></li>
+</ol>
+<p>For the simulations, we will imagine we are in a world with 195 countries of which roughly 30% have natural resources (<span class="math inline">\(X\)</span>) (that’s easy to specify). We will also specify a model in which civil war is governed by causal pathway 1 (<span class="math inline">\(X\)</span> causes <span class="math inline">\(Y\)</span>) in roughly 20% of countries, by pathway 2 (<span class="math inline">\(\neg X\)</span> causes <span class="math inline">\(Y\)</span>) in only 10% of countries, by pathway 3 (<span class="math inline">\(Y\)</span> irrespective of <span class="math inline">\(X\)</span>) in 20% of countries, and by pathway 4 (<span class="math inline">\(\neg Y\)</span> irrespective of <span class="math inline">\(X\)</span>) in half of all countries (that’s not so easy to specify and of course is information that is not available at the answer stage).</p>
+<p>In addition, we imagine that there is further “process” data that is informative about causal relations. We imagine two types (see <span class="citation" data-cites="collier2011understanding">Collier (<a href="#ref-collier2011understanding" role="doc-biblioref">2011</a>)</span> for a discussion of clues of this type):</p>
+<ul>
+<li><p><strong>A straw-in-the-wind clue.</strong> A straw-in-the-wind clue is an outcome that is somewhat more likely to be present if the hypothesized causal process is in operation and somewhat less likely if it is not. Let’s say, for example, that <span class="math inline">\(E_1\)</span> is the national army taking control over natural resources during a civil war. We imagine that that’s likely to happen if the natural resources caused the war: <span class="math inline">\(Pr(E_1 \mid H) = .75\)</span>. But even if the natural resources didn’t cause the war, the national army might still take over natural resources for other reasons, say <span class="math inline">\(Pr(E_1 \mid \neg H) = .25\)</span>.</p></li>
+<li><p><strong>A smoking gun clue</strong>. A smoking gun clue is an outcome that is somewhat likely to be present if the stipulated hypothesis is true, but very unlikely if it is false. Say one of the antagonists was an armed group whose main name, aims, and ideology were centered around the capture and control of natural resources. This information provides a clue which might be really unlikely to arise in general, even if <span class="math inline">\(H\)</span> is true. But it’s very informative if it is observed, since it’s so unlikely to arise if <span class="math inline">\(H\)</span> is not true: it’s a “smoking gun.” Let’s say <span class="math inline">\(Pr(E_2 \mid H) = .3, Pr(E_2 \mid \neg H) = 0.05\)</span>.</p></li>
+</ul>
+<p>These clues might themselves be mediators, or moderators, or even arise post treatment, though we do not specify the full causal model that gives rise to them here. Rather, we simply define a step that generates these clue observations independently, conditional on the causal process. This is a strong assumption: the fact that an armed group formed in order to take resources (<span class="math inline">\(E_2\)</span>) might convince the government to take over the natural resource (<span class="math inline">\(E_1\)</span>) – or it might dissuade the government! We therefore relax this “Independent Clues” assumption below.</p>
+<p>This gives us enough information to put down the stub of a design in which a model generates data with these features, an imaginary researcher samples one case from the <span class="math inline">\(X=Y=1\)</span> group, and defines the question the researcher wants to ask about this case. Notice here the inquiry takes place after the sampling because we care about what happens in the specific case we chose.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb1"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">design_stub</span> <span class="op">&lt;-</span> </span>
+<span>    </span>
+<span>  <span class="fu"><a href="https://declaredesign.org/r/declaredesign/reference/declare_model.html">declare_model</a></span><span class="op">(</span></span>
+<span>      N <span class="op">=</span> <span class="fl">195</span>, </span>
+<span>      X <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/Binomial.html">rbinom</a></span><span class="op">(</span><span class="va">N</span>, <span class="fl">1</span>, <span class="fl">.3</span><span class="op">)</span> <span class="op">==</span> <span class="fl">1</span>,</span>
+<span>      causal_process <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/sample.html">sample</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">'X_causes_Y'</span>, <span class="st">'X_causes_not_Y'</span>, <span class="st">'Y_regardless'</span>, <span class="st">'not_Y_regardless'</span><span class="op">)</span>, </span>
+<span>                              <span class="va">N</span>, replace <span class="op">=</span> <span class="cn">TRUE</span>, prob <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">.2</span>, <span class="fl">.1</span>, <span class="fl">.2</span>, <span class="fl">.5</span><span class="op">)</span><span class="op">)</span>,</span>
+<span>      Y <span class="op">=</span> <span class="op">(</span><span class="va">X</span> <span class="op">&amp;</span> <span class="va">causal_process</span> <span class="op">==</span> <span class="st">"X_causes_Y"</span><span class="op">)</span> <span class="op">|</span>     </span>
+<span>          <span class="op">(</span><span class="op">!</span><span class="va">X</span> <span class="op">&amp;</span> <span class="va">causal_process</span> <span class="op">==</span> <span class="st">"X_causes_not_Y"</span><span class="op">)</span> <span class="op">|</span></span>
+<span>          <span class="op">(</span><span class="va">causal_process</span> <span class="op">==</span> <span class="st">"Y_regardless"</span><span class="op">)</span><span class="op">)</span>  <span class="op">+</span></span>
+<span>  </span>
+<span>  <span class="fu"><a href="https://declaredesign.org/r/declaredesign/reference/declare_sampling.html">declare_sampling</a></span><span class="op">(</span>S <span class="op">=</span> <span class="fu"><a href="//reference/strata_rs.html">strata_rs</a></span><span class="op">(</span>strata <span class="op">=</span> <span class="op">(</span><span class="va">X</span> <span class="op">==</span> <span class="fl">1</span> <span class="op">&amp;</span> <span class="va">Y</span> <span class="op">==</span> <span class="fl">1</span><span class="op">)</span>, </span>
+<span>                                 strata_n <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"FALSE"</span> <span class="op">=</span> <span class="fl">0</span>, <span class="st">"TRUE"</span> <span class="op">=</span> <span class="fl">1</span><span class="op">)</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  </span>
+<span>  <span class="fu"><a href="https://declaredesign.org/r/declaredesign/reference/declare_measurement.html">declare_measurement</a></span><span class="op">(</span></span>
+<span>    SIW_observed <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/Binomial.html">rbinom</a></span><span class="op">(</span></span>
+<span>      n <span class="op">=</span> <span class="va">N</span>, size <span class="op">=</span> <span class="fl">1</span>, prob <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/ifelse.html">ifelse</a></span><span class="op">(</span>test <span class="op">=</span> <span class="va">causal_process</span> <span class="op">==</span> <span class="st">'X_causes_Y'</span>, <span class="fl">.75</span>, <span class="fl">.25</span><span class="op">)</span><span class="op">)</span>,</span>
+<span>    SMG_observed <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/Binomial.html">rbinom</a></span><span class="op">(</span></span>
+<span>      n <span class="op">=</span> <span class="va">N</span>, size <span class="op">=</span> <span class="fl">1</span>, prob <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/ifelse.html">ifelse</a></span><span class="op">(</span>test <span class="op">=</span> <span class="va">causal_process</span> <span class="op">==</span> <span class="st">'X_causes_Y'</span>, <span class="fl">.3</span>,  <span class="fl">.05</span><span class="op">)</span><span class="op">)</span>,</span>
+<span>    label <span class="op">=</span> <span class="st">"Independent Clues"</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  </span>
+<span>  <span class="fu"><a href="https://declaredesign.org/r/declaredesign/reference/declare_inquiry.html">declare_inquiry</a></span><span class="op">(</span>did_X_cause_Y <span class="op">=</span> <span class="va">causal_process</span> <span class="op">==</span> <span class="st">'X_causes_Y'</span><span class="op">)</span> </span></code></pre></div>
+</div>
+<p>So far, a dataset from this design stub might look like this:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb2"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://declaredesign.org/r/declaredesign/reference/draw_functions.html">draw_data</a></span><span class="op">(</span><span class="va">design_stub</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> <span class="fu">kable</span><span class="op">(</span>digits <span class="op">=</span> <span class="fl">2</span>, align <span class="op">=</span> <span class="st">"c"</span><span class="op">)</span></span></code></pre></div>
+<div class="cell-output-display">
+<table class="table table-sm table-striped">
+<thead><tr class="header">
+<th style="text-align: center;">ID</th>
+<th style="text-align: center;">X</th>
+<th style="text-align: center;">causal_process</th>
+<th style="text-align: center;">Y</th>
+<th style="text-align: center;">S</th>
+<th style="text-align: center;">SIW_observed</th>
+<th style="text-align: center;">SMG_observed</th>
+</tr></thead>
+<tbody><tr class="odd">
+<td style="text-align: center;">055</td>
+<td style="text-align: center;">TRUE</td>
+<td style="text-align: center;">X_causes_Y</td>
+<td style="text-align: center;">TRUE</td>
+<td style="text-align: center;">1</td>
+<td style="text-align: center;">1</td>
+<td style="text-align: center;">0</td>
+</tr></tbody>
+</table>
+</div>
+</div>
+</section><section id="answer-strategy" class="level2"><h2 class="anchored" data-anchor-id="answer-strategy">Answer strategy</h2>
+<p>We now turn to the answer strategy. For this, we’ll assume that at the analysis stage researchers use Bayes’ rule to figure out <span class="math inline">\(Pr(H \mid E)\)</span>: the posterior probability that <span class="math inline">\(X\)</span> caused <span class="math inline">\(Y\)</span> in the case we chose, given the clue evidence we found. We make a function that calculates the posterior using Bayes’ rule:</p>
+<p><span class="math display">\[Pr(H \mid E) = \frac{Pr(H) Pr(E|H)}{Pr(H)Pr(E\mid H) + Pr(\neg H)Pr(E\mid\neg H)}\]</span></p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb3"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">calculate_posterior</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">data</span>, <span class="va">p_H</span>, <span class="va">p_clue_found_H</span>, <span class="va">p_clue_found_not_H</span>, <span class="va">test</span>, <span class="va">label</span><span class="op">)</span> <span class="op">{</span></span>
+<span>  <span class="va">clue_found</span> <span class="op">&lt;-</span> <span class="va">data</span><span class="op">[</span>, <span class="va">test</span><span class="op">]</span></span>
+<span>  <span class="va">p_E_H</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/ifelse.html">ifelse</a></span><span class="op">(</span><span class="va">clue_found</span>, <span class="va">p_clue_found_H</span>, <span class="fl">1</span> <span class="op">-</span> <span class="va">p_clue_found_H</span><span class="op">)</span></span>
+<span>  <span class="va">p_E_not_H</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/ifelse.html">ifelse</a></span><span class="op">(</span><span class="va">clue_found</span>, <span class="va">p_clue_found_not_H</span>, <span class="fl">1</span> <span class="op">-</span> <span class="va">p_clue_found_not_H</span><span class="op">)</span></span>
+<span>  <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span><span class="op">(</span>posterior_H <span class="op">=</span> <span class="va">p_E_H</span> <span class="op">*</span> <span class="va">p_H</span> <span class="op">/</span> <span class="op">(</span><span class="va">p_E_H</span> <span class="op">*</span> <span class="va">p_H</span> <span class="op">+</span> <span class="va">p_E_not_H</span> <span class="op">*</span> <span class="op">(</span><span class="fl">1</span> <span class="op">-</span> <span class="va">p_H</span><span class="op">)</span><span class="op">)</span>, clue_found <span class="op">=</span> <span class="va">clue_found</span><span class="op">)</span><span class="op">}</span></span></code></pre></div>
+</div>
+<p>Bayes’ rule makes use of the probability of observing <span class="math inline">\(E\)</span> if <span class="math inline">\(H\)</span> is true and the probability of observing <span class="math inline">\(E\)</span> if <span class="math inline">\(H\)</span> is not true. The more different these probabilities are the more you learn from new data.</p>
+<p>We also need to specify the imaginary researcher’s prior belief that <span class="math inline">\(H\)</span> is true. The imaginary researcher knows that only two processes, 1 and 3 from above, could have generated the data <span class="math inline">\(X = Y = 1\)</span>. Thus, they might specify a “flat” prior: <span class="math inline">\(Pr(H) = .5\)</span> (though they might have more informed beliefs from background knowledge).</p>
+<p>We use the <code>calculate_posterior()</code> function we made above to declare two different answer strategies: one predicated on the straw-in-the-wind, and the other on the smoking gun.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb4"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">design</span> <span class="op">&lt;-</span></span>
+<span>  </span>
+<span>  <span class="va">design_stub</span> <span class="op">+</span> </span>
+<span>  </span>
+<span>  <span class="fu"><a href="https://declaredesign.org/r/declaredesign/reference/declare_estimator.html">declare_estimator</a></span><span class="op">(</span></span>
+<span>    test               <span class="op">=</span> <span class="st">"SIW_observed"</span>, </span>
+<span>    p_H                <span class="op">=</span> <span class="fl">.5</span>, </span>
+<span>    p_clue_found_H     <span class="op">=</span> <span class="fl">.75</span>,</span>
+<span>    p_clue_found_not_H <span class="op">=</span> <span class="fl">.25</span>,</span>
+<span>    label              <span class="op">=</span> <span class="st">"Straw in Wind"</span>,</span>
+<span>    estimand           <span class="op">=</span> <span class="st">"did_X_cause_Y"</span>,</span>
+<span>    handler            <span class="op">=</span> <span class="fu"><a href="https://declaredesign.org/r/declaredesign/reference/declare_estimator.html">label_estimator</a></span><span class="op">(</span><span class="va">calculate_posterior</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  </span>
+<span>  <span class="fu"><a href="https://declaredesign.org/r/declaredesign/reference/declare_estimator.html">declare_estimator</a></span><span class="op">(</span></span>
+<span>    test               <span class="op">=</span> <span class="st">"SMG_observed"</span>, </span>
+<span>    p_H                <span class="op">=</span> <span class="fl">.5</span>, </span>
+<span>    p_clue_found_H     <span class="op">=</span> <span class="fl">.30</span>,</span>
+<span>    p_clue_found_not_H <span class="op">=</span> <span class="fl">.05</span>,</span>
+<span>    label              <span class="op">=</span> <span class="st">"Smoking gun"</span>,</span>
+<span>    estimand           <span class="op">=</span> <span class="st">"did_X_cause_Y"</span>,</span>
+<span>    handler            <span class="op">=</span> <span class="fu"><a href="https://declaredesign.org/r/declaredesign/reference/declare_estimator.html">label_estimator</a></span><span class="op">(</span><span class="va">calculate_posterior</span><span class="op">)</span><span class="op">)</span> </span></code></pre></div>
+</div>
+</section></section><section id="diagnosis" class="level1"><h1>Diagnosis</h1>
+<p>With this declaration, we can use <code>simulate_design(design)</code> to simulate the design many times, and then see how the strategies perform on average.</p>
+<p>Below we plot the distribution of inferences, <span class="math inline">\(Pr(H|E)\)</span>, given strategies and true causal processes. The dotted lines show the true values of <span class="math inline">\(Pr(H)\)</span>. The left column represents guesses when conditioning on the straw-in-the-wind, whereas the right column represents guesses when conditioning on the smoking gun. In both cases, the results are “unbiased” (yes we can assess bias from diagnosis even for a Bayesian design)—because it so happened here that the distribution of causal pathways specified for the background model <em>and</em> the true probabilities of the clues matched the those used in the researcher’s answer strategy.</p>
+<div class="cell">
+
+</div>
+<div class="cell">
+<div class="cell-output-display">
+<p><img src="process-tracing_files/figure-html/unnamed-chunk-6-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>As expected, the smoking gun can be highly probative: the bottom right panel shows that we sometimes get the answer exactly right (i.e., in those cases when <span class="math inline">\(H\)</span> is true and we observe a smoking gun). Note, however, that this is pretty rare: most of the time we guess <span class="math inline">\(Pr(H\mid E_2) =\)</span> 0.25, which is quite far from the true values of 0 and 1. We sometimes, but very rarely, get a false smoking gun. The smoking gun distribution is one that is centered close to the prior but sometimes makes big, and usually correct, inferential leaps.</p>
+<p>By contrast, the left column shows that the straw-in-the-wind strategy gets pretty close pretty often. Whenever it is observed, the researcher guesses <span class="math inline">\(Pr(H\mid E_1) =\)</span> 0.86, and when it is not they guess <span class="math inline">\(Pr(H\mid E_1) =\)</span> 0.42. This means they sometimes make mistakes – because they observe <span class="math inline">\(E_1\)</span> even when <span class="math inline">\(H\)</span> is false, and vice versa. But it happens rarely enough that they tend to move in the right direction most of the time.</p>
+<p>The net result is that, in this case, the straw-in-the-wind test has lower root mean squared error (RMSE): 0.47 vs. the smoking gun’s 0.44. It’s less wrong more often. In general, however, which type of clue provides better inferences depends on the particular probabilities assumed.</p>
+</section><section id="using-more-than-one-clue" class="level1"><h1>Using more than one clue</h1>
+<p>In practice, researchers seldom pre-commit to updating from a single piece of evidence, but search for multiple clues and update about their cause of effects hypotheses jointly. As mentioned above, however, doing so in fact requires that we specify the joint distribution of the clues.</p>
+<p>In the code appendix below, we create a function (<code>joint_prob()</code>) for specifying the joint distribution of the clues, given their marginal probabilities and the correlation between them (<code>rho</code>). We also replace the “Independent Clues” step with a “Correlated Clues” step, in which clues arise according to this joint distribution. This enables us to add a strategy in which we update in light of both clues simultaneously.</p>
+<p>We skip that code here, and simply show how the RMSE changes as a function of <code>rho</code> for the three different strategies.</p>
+<div class="cell">
+
+</div>
+<div class="cell">
+<div class="cell-output cell-output-stderr">
+<pre><code>`summarise()` has grouped output by 'rho_H'. You can override using the
+`.groups` argument.</code></pre>
+</div>
+<div class="cell-output-display">
+<p><img src="process-tracing_files/figure-html/unnamed-chunk-8-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>As expected, using more information (both of the clues) gets you much better answers on average. However, notice that the gains from a joint approach are much greater when the clues are negatively correlated than when they are positively correlated.</p>
+<p>This feature arises because the pieces of evidence carry less independent information when they are positively correlated. To see this, suppose they were perfectly correlated, so that observing one clue guarantees that you would observe the other. In this case, there is no additional information gleaned from the observation of one clue once the other has been observed: they are effectively equivalent tests. So, one implication is that process-tracers may do better by looking for clues that are negatively correlated. What might this look like in practice?</p>
+<p>Negatively correlated clues might arise if they result from processes that substitute for each other. For example, if the national army is less likely to take control of the natural resources precisely when an armed group has declared that it will fight for them. Positively correlated clues might arise if they result from common processes. For example, if the national army takes control over natural resources precisely because this counters the stated strategic objectives of the armed group.</p>
+</section><section id="takeaways" class="level1"><h1>Takeaways</h1>
+<p>We see four main takeaways here:</p>
+<ol type="1">
+<li><p>The frequency of clues matters: against much of the advice in the process-tracing literature,<a href="#fn2" class="footnote-ref" id="fnref2" role="doc-noteref"><sup>2</sup></a> a researcher who had to choose one clue to make an inference would do better to choose a straw-in-the-wind than a smoking gun.</p></li>
+<li><p>The joint distribution of clues matters: very often we would expect clues to arise through interrelated causal processes. Researchers can in fact make more powerful inferences if they can defend the assumption that clues are negatively correlated.</p></li>
+<li><p>Declaring and diagnosing designs forces you to think them through in a way that can make non-obvious features and assumptions obvious. At a minimum, formalizing your design in this manner can highlight what kinds of beliefs are necessary to justify inferences.</p></li>
+<li><p>With that said, we also see here a lesson on the limits of declaration. Even with just two clues, declaring a process-tracing inferential strategy makes serious demands on researcher knowledge. In particular, the ability to make claims about the <em>joint</em> distribution of clues under alternative causal hypotheses. In principle, it is possible to base such beliefs on external data (see <span class="citation" data-cites="murtas2017new">Murtas, Dawid, and Musio (<a href="#ref-murtas2017new" role="doc-biblioref">2017</a>)</span>) but doing so is hard and the challenges rise exponentially as more and more complex clues are considered. The declaration strategy works best, perhaps, for major claims resulting from key evidence. It seems unlikely to be able to capture inferences made from all the complex evidence used by process tracers.</p></li>
+</ol></section><section id="code-appendix" class="level1"><h1>Code appendix</h1>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb6"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co"># Calculate bivariate probabilities given correlation</span></span>
+<span><span class="va">joint_prob</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">p1</span>, <span class="va">p2</span>, <span class="va">rho</span><span class="op">)</span> <span class="op">{</span></span>
+<span>  <span class="va">r</span> <span class="op">&lt;-</span> <span class="va">rho</span> <span class="op">*</span> <span class="op">(</span><span class="va">p1</span> <span class="op">*</span> <span class="va">p2</span> <span class="op">*</span> <span class="op">(</span><span class="fl">1</span> <span class="op">-</span> <span class="va">p1</span><span class="op">)</span> <span class="op">*</span> <span class="op">(</span><span class="fl">1</span> <span class="op">-</span> <span class="va">p2</span><span class="op">)</span><span class="op">)</span> <span class="op">^</span> <span class="fl">.5</span></span>
+<span>  <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span>`00` <span class="op">=</span> <span class="op">(</span><span class="fl">1</span> <span class="op">-</span> <span class="va">p1</span><span class="op">)</span> <span class="op">*</span> <span class="op">(</span><span class="fl">1</span> <span class="op">-</span> <span class="va">p2</span><span class="op">)</span> <span class="op">+</span> <span class="va">r</span>,</span>
+<span>    `01` <span class="op">=</span> <span class="va">p2</span> <span class="op">*</span> <span class="op">(</span><span class="fl">1</span> <span class="op">-</span> <span class="va">p1</span><span class="op">)</span> <span class="op">-</span> <span class="va">r</span>,</span>
+<span>    `10` <span class="op">=</span> <span class="va">p1</span> <span class="op">*</span> <span class="op">(</span><span class="fl">1</span> <span class="op">-</span> <span class="va">p2</span><span class="op">)</span> <span class="op">-</span> <span class="va">r</span>,</span>
+<span>    `11` <span class="op">=</span> <span class="va">p1</span> <span class="op">*</span> <span class="va">p2</span> <span class="op">+</span> <span class="va">r</span><span class="op">)</span><span class="op">}</span></span>
+<span></span>
+<span><span class="va">rho_H</span> <span class="op">&lt;-</span> <span class="fl">0</span></span>
+<span><span class="va">rho_not_H</span> <span class="op">&lt;-</span> <span class="fl">0</span></span>
+<span></span>
+<span><span class="va">calculate_posterior_joint</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">data</span>, <span class="va">p_H</span>, <span class="va">p_clue_1_found_H</span>, <span class="va">p_clue_1_found_not_H</span>, <span class="va">p_clue_2_found_H</span>, <span class="va">p_clue_2_found_not_H</span>, <span class="va">rho_H</span>, <span class="va">rho_not_H</span>, <span class="va">test</span><span class="op">)</span><span class="op">{</span></span>
+<span>  <span class="va">clue_found</span> <span class="op">&lt;-</span> <span class="va">data</span><span class="op">[</span>, <span class="va">test</span><span class="op">]</span></span>
+<span>  <span class="va">p_E_H</span> <span class="op">&lt;-</span> <span class="fu">joint_prob</span><span class="op">(</span>p1 <span class="op">=</span> <span class="va">p_clue_1_found_H</span>, p2 <span class="op">=</span> <span class="va">p_clue_2_found_H</span>, rho <span class="op">=</span> <span class="va">rho_H</span><span class="op">)</span><span class="op">[</span><span class="va">clue_found</span><span class="op">]</span></span>
+<span>  <span class="va">p_E_not_H</span> <span class="op">&lt;-</span> <span class="fu">joint_prob</span><span class="op">(</span>p1 <span class="op">=</span> <span class="va">p_clue_1_found_not_H</span>, p2 <span class="op">=</span> <span class="va">p_clue_2_found_not_H</span>, rho <span class="op">=</span> <span class="va">rho_not_H</span><span class="op">)</span><span class="op">[</span><span class="va">clue_found</span><span class="op">]</span></span>
+<span>  <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span><span class="op">(</span>posterior_H <span class="op">=</span> <span class="va">p_E_H</span> <span class="op">*</span> <span class="va">p_H</span> <span class="op">/</span> <span class="op">(</span><span class="va">p_E_H</span> <span class="op">*</span> <span class="va">p_H</span> <span class="op">+</span> <span class="va">p_E_not_H</span> <span class="op">*</span> <span class="op">(</span><span class="fl">1</span> <span class="op">-</span> <span class="va">p_H</span><span class="op">)</span><span class="op">)</span>, clue_found <span class="op">=</span> <span class="va">clue_found</span><span class="op">)</span></span>
+<span><span class="op">}</span></span>
+<span>  </span>
+<span><span class="va">corr_design</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://declaredesign.org/r/declaredesign/reference/modify_design.html">replace_step</a></span><span class="op">(</span></span>
+<span>  design <span class="op">=</span> <span class="va">design</span>, </span>
+<span>  step <span class="op">=</span> <span class="st">"Independent Clues"</span>,</span>
+<span>  new_step <span class="op">=</span>  <span class="fu"><a href="https://declaredesign.org/r/declaredesign/reference/declare_step.html">declare_step</a></span><span class="op">(</span></span>
+<span>    SIW_SMG <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/sample.html">sample</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"00"</span>, <span class="st">"01"</span>, <span class="st">"10"</span>, <span class="st">"11"</span><span class="op">)</span>,<span class="fl">1</span>, </span>
+<span>                     prob <span class="op">=</span> <span class="op">{</span></span>
+<span>                       <span class="kw">if</span><span class="op">(</span><span class="va">causal_process</span> <span class="op">==</span> <span class="st">"X_causes_Y"</span><span class="op">)</span> </span>
+<span>                         <span class="fu">joint_prob</span><span class="op">(</span><span class="fl">.75</span>, <span class="fl">.30</span>, <span class="va">rho_H</span><span class="op">)</span> </span>
+<span>                       <span class="kw">else</span> </span>
+<span>                         <span class="fu">joint_prob</span><span class="op">(</span><span class="fl">.25</span>,  <span class="fl">.05</span>, <span class="va">rho_not_H</span><span class="op">)</span></span>
+<span>                     <span class="op">}</span><span class="op">)</span>,</span>
+<span>  SIW_observed <span class="op">=</span> <span class="va">SIW_SMG</span> <span class="op">==</span> <span class="st">"10"</span> <span class="op">|</span> <span class="va">SIW_SMG</span> <span class="op">==</span> <span class="st">"11"</span>,</span>
+<span>  SMG_observed <span class="op">=</span> <span class="va">SIW_SMG</span> <span class="op">==</span> <span class="st">"01"</span> <span class="op">|</span> <span class="va">SIW_SMG</span> <span class="op">==</span> <span class="st">"11"</span>,</span>
+<span>  handler <span class="op">=</span> <span class="va">fabricate</span>,</span>
+<span>  label <span class="op">=</span> <span class="st">"Correlated Clues"</span><span class="op">)</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">corr_design</span> <span class="op">&lt;-</span> <span class="va">corr_design</span> <span class="op">+</span> </span>
+<span>  <span class="fu"><a href="https://declaredesign.org/r/declaredesign/reference/declare_estimator.html">declare_estimator</a></span><span class="op">(</span></span>
+<span>    test                 <span class="op">=</span> <span class="st">"SIW_SMG"</span>, </span>
+<span>    p_H                  <span class="op">=</span> <span class="fl">.5</span>, </span>
+<span>    p_clue_1_found_H     <span class="op">=</span> <span class="fl">.75</span>,</span>
+<span>    p_clue_1_found_not_H <span class="op">=</span> <span class="fl">.25</span>,</span>
+<span>    p_clue_2_found_H     <span class="op">=</span> <span class="fl">.30</span>,</span>
+<span>    p_clue_2_found_not_H <span class="op">=</span> <span class="fl">.05</span>,</span>
+<span>    rho_H                <span class="op">=</span> <span class="va">rho_H</span>,</span>
+<span>    rho_not_H            <span class="op">=</span> <span class="va">rho_not_H</span>,</span>
+<span>    label                <span class="op">=</span> <span class="st">"Update from both clues"</span>,</span>
+<span>    estimand             <span class="op">=</span> <span class="st">"did_X_cause_Y"</span>,</span>
+<span>    handler              <span class="op">=</span> <span class="fu"><a href="https://declaredesign.org/r/declaredesign/reference/declare_estimator.html">label_estimator</a></span><span class="op">(</span><span class="va">calculate_posterior_joint</span><span class="op">)</span><span class="op">)</span> </span></code></pre></div>
+</div>
+</section><section id="references" class="level1"></section><div id="quarto-appendix" class="default">
+<section class="quarto-appendix-contents" role="doc-bibliography"><h2 class="anchored quarto-appendix-heading">References</h2>
+<div id="refs" class="references csl-bib-body hanging-indent" role="doc-bibliography">
+<div id="ref-collier2011understanding" class="csl-entry" role="doc-biblioentry">
+Collier, David. 2011. <span>“Understanding Process Tracing.”</span> <em>PS: Political Science &amp; Politics</em> 44 (4): 823–30.
+</div>
+<div id="ref-fairfield2017explicit" class="csl-entry" role="doc-biblioentry">
+Fairfield, Tasha, and Andrew E. Charman. 2017. <span>“Explicit Bayesian Analysis for Process Tracing: Guidelines, Opportunities, and Caveats.”</span> <em>Political Analysis</em> 25 (3): 363–80.
+</div>
+<div id="ref-humphreys2015mixing" class="csl-entry" role="doc-biblioentry">
+Humphreys, Macartan, and Alan M Jacobs. 2015. <span>“Mixing Methods: A Bayesian Approach.”</span> <em>American Political Science Review</em> 109 (4): 653–73.
+</div>
+<div id="ref-murtas2017new" class="csl-entry" role="doc-biblioentry">
+Murtas, Rossella, Alexander Philip Dawid, and Monica Musio. 2017. <span>“New Bounds for the Probability of Causation in Mediation Analysis.”</span> <em>arXiv Preprint arXiv:1706.04857</em>.
+</div>
+<div id="ref-ross2004natural" class="csl-entry" role="doc-biblioentry">
+Ross, Michael L. 2004. <span>“How Do Natural Resources Influence Civil War? Evidence from Thirteen Cases.”</span> <em>International Organization</em> 58 (1): 35–67.
+</div>
+</div></section><section class="footnotes footnotes-end-of-document" role="doc-endnotes"><h2 class="anchored quarto-appendix-heading">Footnotes</h2>
+
+<ol>
+<li id="fn1" role="doc-endnote"><p>For example: “the former President [said] that the tax subsidy ‘never would have been eliminated if I had not taken [the opposition candidate] at his word’ when the latter publicly professed concern over inequality.”<a href="#fnref1" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn2" role="doc-endnote"><p>E.g. <span class="citation" data-cites="collier2011understanding">Collier (<a href="#ref-collier2011understanding" role="doc-biblioref">2011</a>)</span>: of the four process-tracing tests, straws-in-the-wind are ``the weakest and place the least demand on the researcher’s knowledge and assumptions.’’ (826)<a href="#fnref2" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+</ol></section>
+</div></main><!-- /main --><script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    target: function(trigger) {
+      return trigger.previousElementSibling;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    setTimeout(function() {
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn) {
+    const config = {
+      allowHTML: true,
+      content: contentFn,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start'
+    };
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      let href = ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const cites = ref.parentNode.getAttribute('data-cites').split(' ');
+    tippyHover(ref, function() {
+      var popup = window.document.createElement('div');
+      cites.forEach(function(cite) {
+        var citeDiv = window.document.createElement('div');
+        citeDiv.classList.add('hanging-indent');
+        citeDiv.classList.add('csl-entry');
+        var biblioDiv = window.document.getElementById('ref-' + cite);
+        if (biblioDiv) {
+          citeDiv.innerHTML = biblioDiv.innerHTML;
+        }
+        popup.appendChild(citeDiv);
+      });
+      return popup.innerHTML;
+    });
+  }
+});
+</script>
+</div> <!-- /content -->
+
+
+
+</body>
+</html>
