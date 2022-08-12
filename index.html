@@ -5,7 +5,7 @@
 <meta charset="utf-8">
 <meta name="generator" content="quarto-1.0.38">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
-<title>DeclareDesign - DeclareDesign</title>
+<title>DeclareDesign</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -101,8 +101,9 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
     "search-submit-button-title": "Submit"
   }
 }</script><link rel="stylesheet" href="styles.css">
+<link rel="stylesheet" href="index.css">
 </head>
-<body class="nav-fixed">
+<body class="nav-fixed fullcontent">
 
 <div id="quarto-search-results"></div>
   <header id="quarto-header" class="headroom fixed-top"><nav class="navbar navbar-expand-lg navbar-dark "><div class="navbar-container container-fluid">
@@ -151,43 +152,27 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div id="quarto-search" class="" title="Search"></div>
           </div> <!-- /navcollapse -->
       </div> <!-- /container-fluid -->
-    </nav></header><!-- content --><div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-full page-navbar">
+    </nav></header><!-- content --><div id="quarto-content" class="quarto-container page-layout-custom page-navbar">
 <!-- sidebar -->
 <!-- margin-sidebar -->
-    
 <!-- main -->
-<main class="content column-page" id="quarto-document-content"><header id="title-block-header" class="quarto-title-block default"><div class="quarto-title">
-<h1 class="title">DeclareDesign</h1>
-</div>
 
 
 
-<div class="quarto-title-meta">
-
-    
-    
-  </div>
-  
-
-</header><div class="hero-banner">
-<!-- ::: {.hero-image .hero-image-left} -->
-<!-- ![](images/hero_left.png){fig-alt="Stack of three printed articles with text, code, and graphics."} -->
-<!-- ::: -->
-<section id="declaring-and-diagnosing-research-designs" class="level1 content-block"><h1>Declaring and diagnosing research designs</h1>
-<section id="declaredesign-is-a-set-of-tools-to-plan-implement-analyze-and-communicate-about-empirical-research" class="level3"><h3 class="anchored" data-anchor-id="declaredesign-is-a-set-of-tools-to-plan-implement-analyze-and-communicate-about-empirical-research">DeclareDesign is a set of tools to plan, implement, analyze, and communicate about empirical research</h3>
-<ul>
-<li>some bullet points</li>
-</ul>
+<div class="hero-banner">
+<section id="declaring-and-diagnosing-research-designs" class="content-block"><h1>Declaring and diagnosing research designs</h1>
+<h3 id="declaredesign-is-a-set-of-tools-to-plan-implement-analyze-and-communicate-about-empirical-research">DeclareDesign is a set of tools to plan, implement, analyze, and communicate about empirical research</h3>
 <div class="hero-buttons">
 <p><a href="getting-started.html" class="btn-action-primary btn-action btn btn-success btn-lg" role="button">Get Started</a> <a href="https://book.declaredesign.org" id="btn-guide" class="btn-action btn btn-info btn-lg" role="button">Read the Book</a></p>
 </div>
-</section></section><div class="hero-image hero-image-right">
-<p><img src="images/hero_right.png" class="img-fluid" alt="Stack of three printed articles with text, code, and graphics."></p>
-</div>
+</section>
 </div>
 <div class="hello-quarto alt-background">
 <div class="content-block">
-<section id="declaredesign" class="level1 hello-quarto-banner"><h1>DeclareDesign</h1>
+<div class="hello-quarto-banner">
+<p style="font-size:25px;padding-top:5px">
+<b>DeclareDesign in three steps</b>     
+</p>
 <ul class="nav nav-pills" id="hello-quarto-tab" role="tablist">
 <li class="nav-item" role="presentation">
 <button class="nav-link active" id="python-tab" data-bs-toggle="tab" data-bs-target="#python" type="button" role="tab" aria-controls="python" aria-selected="true">
@@ -204,41 +189,146 @@ Diagnose
 Redesign
 </button>
 </li>
-</ul></section><div id="hello-quarto-tabcontent" class="tab-content">
+</ul>
+<p></p>
+</div>
+<div id="hello-quarto-tabcontent" class="tab-content">
 <div id="python" class="tab-pane fade show active" role="tabpanel" aria-labelledby="python-tab">
 <p>Declaring a design means writing down each component of a research design — the model, an inquiry about the model, a data strategy to generate data, and an answer strategy to take the data and return an answer to the inquiry.</p>
 <div class="grid">
 <div class="g-col-lg-6 g-col-12">
-<div class="sourceCode" id="cb1"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>two_arm_trial_design &lt;-</span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>  declare_model(N = 100,</span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>                U = rnorm(N),</span>
-<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>                potential_outcomes(Y ~ 0.2 * Z + U)) +</span>
-<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>  declare_inquiry(ATE = mean(Y_Z_1 - Y_Z_0)) +</span>
-<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>  declare_assignment(Z = complete_ra(N, prob = 0.5)) +</span>
-<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>  declare_measurement(Y = reveal_outcomes(Y ~ Z)) +</span>
-<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>  declare_estimator(Y ~ Z, inquiry = "ATE")</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell">
+
 </div>
-<!-- ::: {.hello-output .g-col-lg-6 .g-col-12} -->
-<!-- ![](images/hello-jupyter.png){fig-alt="Example output where header reads: matplotlib demo, the body reads: For a demonstration of a line plot on a polar axis, see Figure 1. Below the body text is a toggleable field to reveal the code, and the Figure 1 image with a caption that reads: Figure 1: A line plot on a polar axis."} -->
-<!-- ::: -->
+<div class="cell">
+<div class="sourceCode cell-code" id="cb1"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://declaredesign.org/r/declaredesign/">DeclareDesign</a></span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">two_arm_trial</span> <span class="op">&lt;-</span></span>
+<span>  <span class="fu"><a href="https://declaredesign.org/r/declaredesign/reference/declare_model.html">declare_model</a></span><span class="op">(</span>N <span class="op">=</span> <span class="fl">100</span>,</span>
+<span>                U <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/Normal.html">rnorm</a></span><span class="op">(</span><span class="va">N</span><span class="op">)</span>,</span>
+<span>                <span class="fu"><a href="//reference/potential_outcomes.html">potential_outcomes</a></span><span class="op">(</span><span class="va">Y</span> <span class="op">~</span> <span class="fl">0.2</span> <span class="op">*</span> <span class="va">Z</span> <span class="op">+</span> <span class="va">U</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://declaredesign.org/r/declaredesign/reference/declare_inquiry.html">declare_inquiry</a></span><span class="op">(</span>ATE <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/mean.html">mean</a></span><span class="op">(</span><span class="va">Y_Z_1</span> <span class="op">-</span> <span class="va">Y_Z_0</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://declaredesign.org/r/declaredesign/reference/declare_assignment.html">declare_assignment</a></span><span class="op">(</span>Z <span class="op">=</span> <span class="fu"><a href="//reference/complete_ra.html">complete_ra</a></span><span class="op">(</span><span class="va">N</span>, prob <span class="op">=</span> <span class="fl">0.5</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://declaredesign.org/r/declaredesign/reference/declare_measurement.html">declare_measurement</a></span><span class="op">(</span>Y <span class="op">=</span> <span class="fu"><a href="//reference/reveal_outcomes.html">reveal_outcomes</a></span><span class="op">(</span><span class="va">Y</span> <span class="op">~</span> <span class="va">Z</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://declaredesign.org/r/declaredesign/reference/declare_estimator.html">declare_estimator</a></span><span class="op">(</span><span class="va">Y</span> <span class="op">~</span> <span class="va">Z</span>, inquiry <span class="op">=</span> <span class="st">"ATE"</span><span class="op">)</span></span></code></pre></div>
+</div>
+</div>
+<div class="g-col-lg-6 g-col-12">
+<div class="cell">
+<div class="sourceCode cell-code" id="cb2"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://declaredesign.org/r/declaredesign/reference/draw_functions.html">draw_data</a></span><span class="op">(</span><span class="va">two_arm_trial</span><span class="op">)</span></span></code></pre></div>
+</div>
+<div class="cell">
+<div class="cell-output-display">
+<table class="table table-sm table-striped">
+<thead><tr class="header">
+<th style="text-align: left;">ID</th>
+<th style="text-align: right;">U</th>
+<th style="text-align: right;">Y_Z_0</th>
+<th style="text-align: right;">Y_Z_1</th>
+<th style="text-align: right;">Z</th>
+<th style="text-align: right;">Y</th>
+</tr></thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">001</td>
+<td style="text-align: right;">0.39</td>
+<td style="text-align: right;">0.39</td>
+<td style="text-align: right;">0.59</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0.39</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">002</td>
+<td style="text-align: right;">0.45</td>
+<td style="text-align: right;">0.45</td>
+<td style="text-align: right;">0.65</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0.45</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">003</td>
+<td style="text-align: right;">-0.71</td>
+<td style="text-align: right;">-0.71</td>
+<td style="text-align: right;">-0.51</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">-0.71</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb3"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://declaredesign.org/r/declaredesign/reference/run_design.html">run_design</a></span><span class="op">(</span><span class="va">two_arm_trial</span><span class="op">)</span></span></code></pre></div>
+</div>
+<div class="cell">
+<div class="cell-output-display">
+<table class="table table-sm table-striped">
+<thead><tr class="header">
+<th style="text-align: right;">estimate</th>
+<th style="text-align: right;">std.error</th>
+<th style="text-align: right;">p.value</th>
+<th style="text-align: left;">inquiry</th>
+<th style="text-align: right;">estimand</th>
+</tr></thead>
+<tbody><tr class="odd">
+<td style="text-align: right;">0.06</td>
+<td style="text-align: right;">0.19</td>
+<td style="text-align: right;">0.76</td>
+<td style="text-align: left;">ATE</td>
+<td style="text-align: right;">0.2</td>
+</tr></tbody>
+</table>
+</div>
+</div>
+</div>
 </div>
 </div>
 <div id="knitr" class="tab-pane fade" role="tabpanel" aria-labelledby="knitr-tab">
 <p>Diagnosing a design means simulating the design many times to learn about its properties. Is the design biased? Is there enough statistical power? How often will you get the sign of the effect wrong?</p>
 <div class="grid">
 <div class="g-col-lg-6 g-col-12">
-<div class="sourceCode" id="cb2"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>diagnose_design</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb4"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://declaredesign.org/r/declaredesign/reference/diagnose_design.html">diagnose_design</a></span><span class="op">(</span><span class="va">two_arm_trial</span><span class="op">)</span></span></code></pre></div>
 </div>
-<!-- ::: {.hello-output .g-col-lg-6 .g-col-12} -->
-<!-- ![](images/hello-knitr.png){fig-alt="Example output with title (ggplot2 demo), author (Norah Jones), and date (5/22/2021). Below is a header reading Air Quality followed by body text (Figure 1 further explores the impact of temperature on ozone level.) with a toggleable code field, and figure with caption Figure 1 Temperature and ozone level."} -->
-<!-- ::: -->
+<div class="cell">
+<div class="cell-output-display">
+<table class="table table-sm table-striped">
+<thead><tr class="header">
+<th style="text-align: right;">Bias</th>
+<th style="text-align: right;">SD(estimate)</th>
+<th style="text-align: right;">RMSE</th>
+<th style="text-align: right;">Power</th>
+<th style="text-align: right;">Coverage</th>
+</tr></thead>
+<tbody><tr class="odd">
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0.2</td>
+<td style="text-align: right;">0.2</td>
+<td style="text-align: right;">0.16</td>
+<td style="text-align: right;">0.94</td>
+</tr></tbody>
+</table>
+</div>
+</div>
+</div>
+<div class="g-col-lg-6 g-col-12">
+<div class="cell">
+<div class="cell-output-display">
+<p><img src="index_files/figure-html/unnamed-chunk-9-1.png" class="img-fluid" width="480"></p>
+</div>
+</div>
+</div>
 </div>
 </div>
 <div id="julia" class="tab-pane fade" role="tabpanel" aria-labelledby="julia-tab">
 <p>Redesigning means exploring how design choices like the number of clusters sampled change the <em>diagnosands</em> (properties) of the design.</p>
 <div class="grid">
 <div class="g-col-lg-6 g-col-12">
-<div class="sourceCode" id="cb3"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>redesign()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb5"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>redesign()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <!-- ::: {.hello-output .g-col-lg-6 .g-col-12} -->
 <!-- ![](images/hello-julia.png){fig-alt="Example Plots Demo output with title, author, date published and main section on Parametric plots which contains text, a toggleable code field, and the output of the plot, with the caption Figure 1 Parametric Plots."} -->
@@ -251,34 +341,35 @@ Redesign
 </div>
 </div>
 </div>
+<!-- grid of content -->
 <div class="content-block">
 <div class="features">
-<section id="dynamic-documents" class="level3 feature"><h3 class="anchored" data-anchor-id="dynamic-documents">Dynamic Documents</h3>
+<section id="dynamic-documents" class="feature"><h3>Dynamic Documents</h3>
 <p>Generate dynamic output using Python, R, Julia, and Observable. Create reproducible documents that can be regenerated when underlying assumptions or data change.</p>
 <div class="learn-more">
 <p><a href="docs/computations/python.qmd">Learn more »</a></p>
 </div>
-</section><section id="beautiful-publications" class="level3 feature"><h3 class="anchored" data-anchor-id="beautiful-publications">Beautiful Publications</h3>
+</section><section id="beautiful-publications" class="feature"><h3>Beautiful Publications</h3>
 <p>Publish high-quality articles, reports, presentations, websites, and books in HTML, PDF, MS Word, ePub, and more. Use a single source document to target multiple formats.</p>
 <div class="learn-more">
 <p><a href="docs/output-formats/all-formats.qmd">Learn more »</a></p>
 </div>
-</section><section id="scientific-markdown" class="level3 feature"><h3 class="anchored" data-anchor-id="scientific-markdown">Scientific Markdown</h3>
+</section><section id="scientific-markdown" class="feature"><h3>Scientific Markdown</h3>
 <p>Pandoc markdown has excellent support for LaTeX equations and citations. Quarto adds extensions for cross-references, figure panels, callouts, advanced page layout, and more.</p>
 <div class="learn-more">
 <p><a href="docs/authoring/markdown-basics.qmd">Learn more »</a></p>
 </div>
-</section><section id="authoring-tools" class="level3 feature"><h3 class="anchored" data-anchor-id="authoring-tools">Authoring Tools</h3>
+</section><section id="authoring-tools" class="feature"><h3>Authoring Tools</h3>
 <p>Use your favorite tools including VS Code, RStudio, Jupyter Lab, or any text editor. Use the Quarto visual markdown editor for long-form documents.</p>
 <div class="learn-more">
 <p><a href="docs/tools/jupyter-lab.qmd">Learn more »</a></p>
 </div>
-</section><section id="interactivity" class="level3 feature"><h3 class="anchored" data-anchor-id="interactivity">Interactivity</h3>
+</section><section id="interactivity" class="feature"><h3>Interactivity</h3>
 <p>Engage readers by adding interactive data exploration to your documents using Jupyter Widgets, htmlwidgets for R, Observable JS, and Shiny.</p>
 <div class="learn-more">
 <p><a href="docs/interactive/">Learn more »</a></p>
 </div>
-</section><section id="websites-and-books" class="level3 feature"><h3 class="anchored" data-anchor-id="websites-and-books">Websites and Books</h3>
+</section><section id="websites-and-books" class="feature"><h3>Websites and Books</h3>
 <p>Publish collections of documents as a blog or full website. Create books and manuscripts in both print formats (PDF and MS Word) and online formats (HTML and ePub).</p>
 <div class="learn-more">
 <p><a href="docs/websites/">Learn more »</a></p>
@@ -287,14 +378,15 @@ Redesign
 </div>
 </div>
 <div class="get-started alt-background">
-<section id="declare-and-diagnose-your-research-design-to-assess-improve-and-communicate-about-your-design" class="level3 content-block"><h3 class="anchored" data-anchor-id="declare-and-diagnose-your-research-design-to-assess-improve-and-communicate-about-your-design">Declare and diagnose your research design – to assess, improve, and communicate about your design</h3>
+<section id="declare-and-diagnose-your-research-design-to-assess-improve-and-communicate-about-your-design" class="content-block"><h3>Declare and diagnose your research design – to assess, improve, and communicate about your design</h3>
 <p><a href="getting_started.html" class="btn-action-primary btn-action btn btn-success btn-lg" role="button">Get Started</a></p>
 </section>
 </div>
 
 
 
-</main><!-- /main --><script id="quarto-html-after-body" type="application/javascript">
+
+<script id="quarto-html-after-body" type="application/javascript">
 window.document.addEventListener("DOMContentLoaded", function (event) {
   const toggleBodyColorMode = (bsSheetEl) => {
     const mode = bsSheetEl.getAttribute("data-mode");
