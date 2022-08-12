@@ -58,7 +58,12 @@ jobs:
         run: ecodown::ecodown_build(verbosity = "verbose")
         shell: Rscript {0}
 
-      - name: Commit changes back to branch
-        uses: stefanzweifel/git-auto-commit-action@v4
+      - name: Deploy 🚀
+        # only deploy when push to main
+        if: github.event_name != 'pull_request'
+        uses: JamesIves/github-pages-deploy-action@v4
         with:
-          commit_message: Updated by ecodown
+          # The branch the action should deploy to.
+          branch: gh-pages
+          # The folder the action should deploy. Adapt if you changed in Quarto config
+          folder: _site
