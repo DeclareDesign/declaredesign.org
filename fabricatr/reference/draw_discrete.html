@@ -302,9 +302,9 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span>   binary <span class="op">=</span> <span class="fu"><a href="//reference/draw_discrete.html">draw_binary</a></span><span class="op">(</span>latent <span class="op">=</span> <span class="va">x</span>, link <span class="op">=</span> <span class="st">"probit"</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>  ID          x binary
-1  1   3.272118      1
-2  2   2.061324      1
-3  3 -11.725994      0</code></pre>
+1  1   7.557322      1
+2  2  -2.812104      0
+3  3 -10.196073      0</code></pre>
 </div>
 <div class="sourceCode cell-code" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Repeated trials: `draw_binomial`</span></span>
@@ -314,7 +314,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div class="cell-output cell-output-stdout">
 <pre><code>  ID   p binomial
 1  1 0.0        0
-2  2 0.5        4
+2  2 0.5        5
 3  3 1.0       10</code></pre>
 </div>
 <div class="sourceCode cell-code" id="cb8"><pre class="downlit sourceCode r">
@@ -326,9 +326,9 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span>                          breaks <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="op">-</span><span class="cn">Inf</span>, <span class="op">-</span><span class="fl">1</span>, <span class="fl">1</span>, <span class="cn">Inf</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>  ID         x ordered
-1  1  4.014271       3
-2  2 -7.012224       1
-3  3  2.403306       3</code></pre>
+1  1 -1.211902       1
+2  2  2.924231       3
+3  3 -1.323802       1</code></pre>
 </div>
 <div class="sourceCode cell-code" id="cb10"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Providing break labels for latent data.</span></span>
@@ -340,10 +340,10 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span>                                           <span class="st">"Somewhat concerned"</span>,</span>
 <span>                                           <span class="st">"Very concerned"</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>  ID          x              ordered
-1  1 -5.7079836 Not at all concerned
-2  2 -3.9976554 Not at all concerned
-3  3  0.9714998   Somewhat concerned</code></pre>
+<pre><code>  ID        x        ordered
+1  1 3.379250 Very concerned
+2  2 2.869604 Very concerned
+3  3 7.633662 Very concerned</code></pre>
 </div>
 <div class="sourceCode cell-code" id="cb12"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Count data: useful for rates of occurrences over time.</span></span>
@@ -353,10 +353,10 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div class="cell-output cell-output-stdout">
 <pre><code>  ID   x theft_rate
 1  1   0          0
-2  2   5          8
-3  3  25         31
-4  4  50         47
-5  5 100         85</code></pre>
+2  2   5          5
+3  3  25         26
+4  4  50         58
+5  5 100         96</code></pre>
 </div>
 <div class="sourceCode cell-code" id="cb14"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Categorical data: useful for demographic data.</span></span>
@@ -364,12 +364,12 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span>          cat <span class="op">=</span> <span class="fu"><a href="//reference/draw_discrete.html">draw_categorical</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/cbind.html">cbind</a></span><span class="op">(</span><span class="va">p1</span>, <span class="va">p2</span>, <span class="va">p3</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>  ID         p1        p2         p3 cat
-1  1 0.95287897 0.2449375 0.74462038   3
-2  2 0.41465000 0.6597568 0.53413768   3
-3  3 0.08176569 0.1093379 0.63417133   3
-4  4 0.31483038 0.2019579 0.28952966   2
-5  5 0.20064134 0.4530378 0.01819352   3
-6  6 0.74845006 0.1827184 0.68927903   1</code></pre>
+1  1 0.88373669 0.3518097 0.57135244   1
+2  2 0.12723108 0.6813577 0.99375698   2
+3  3 0.36048000 0.9113728 0.28632989   1
+4  4 0.02963392 0.7009589 0.71739159   2
+5  5 0.82894118 0.3126660 0.67018184   3
+6  6 0.66638083 0.5578659 0.05990413   1</code></pre>
 </div>
 </div>
 
