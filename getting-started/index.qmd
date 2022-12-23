@@ -1,0 +1,166 @@
+---
+title: "Getting started with DeclareDesign"
+title-block-banner: true
+---
+
+```{r}
+#| echo: false
+
+library(kableExtra)
+library(rdddr)
+```
+
+<font size="6">DeclareDesign is a set of tools for planning research studies</font>
+
+VIDEO
+
+## Installing R 
+
+You can download R for free from [CRAN](https://cran.r-project.org). We also recommend the free program [RStudio](https://rstudio.com/products/rstudio/download), which provides a friendly interface to R. Both R and RStudio are available on Windows, Mac, and Linux.
+
+Once you have R and RStudio installed, open up RStudio and install DeclareDesign and its related packages. These include three packages that enable specific steps in the research process: `fabricatr` for simulating social science data, `randomizr` for random sampling and random assignment, and `estimatr` for design-based estimators. You can also install `rdddr`, which includes datasets and helper functions used in the book. To install them all, copy the following code into your R console:
+
+```{r install_package_example, eval = FALSE}
+install.packages(c("DeclareDesign", "rdddr"))
+```
+
+We also recommend that you install and get to know the `tidyverse` set of packages for data analysis:
+
+```{r install_tidyverse_example, eval = FALSE}
+install.packages("tidyverse")
+```
+
+For introductions to R and the `tidyverse` we especially recommend the free resource [R for Data Science](https://r4ds.had.co.nz).
+
+## Declaration
+
+Designs are constructed from design elements: models, inquiries, data strategies, and answer strategies. 
+
+In `DeclareDesign`, each design element is made with a function that starts with the word `declare`. For example, we can declare an assignment procedure using `declare_assignment` as follows:
+
+```{r}
+simple_random_assignment <- 
+  declare_assignment(Z = simple_ra(N = N, prob = 0.6))
+```
+
+Each element created by a `declare_*` function, perhaps surprisingly, is itself a *function*. The object `simple_random_assignment` is not a particular assignment --- instead, it is a function that conducts assignment when called. Each time we call `simple_random_assignment` we get a different random assignment:
+
+```{r}
+#| eval: false
+
+participants <- data.frame(ID = 1:100)
+
+assignment_1 <- simple_random_assignment(participants)
+assignment_2 <- simple_random_assignment(participants)
+assignment_3 <- simple_random_assignment(participants)
+
+bind_cols(assignment_1, assignment_2, assignment_3)
+```
+```{r}
+#| echo: false
+#| label: tbl-multiple-assignments
+#| tbl-cap: Three random assignments from the same random assignment step.
+#| tbl-subcap: ["1", "2", "3"]
+#| layout-ncol: 3
+
+participants <- data.frame(ID = 1:100)
+
+set.seed(7)
+
+assignment_1 <- simple_random_assignment(participants)
+assignment_2 <- simple_random_assignment(participants)
+assignment_3 <- simple_random_assignment(participants)
+
+head(assignment_1, 5) |> 
+  kable(booktabs = TRUE, align = "c", digits = 3) |> 
+  kable_styling()
+
+head(assignment_2, 5) |> 
+  kable(booktabs = TRUE, align = "c", digits = 3) |> 
+  kable_styling()
+
+head(assignment_3, 5) |> 
+  kable(booktabs = TRUE, align = "c", digits = 3) |> 
+  kable_styling()
+```
+
+Every step in a research design can be declared using one of the `declare_*` functions. @tbl-declarationfunctions collects these according to the four elements of a research design. In [Chapter 13 of the book](https://book.declaredesign.org/declaration-diagnosis-redesign/declaration-in-code.html), we detail how to build each kind of step.
+
+| Design component | Function                       | Description                                   |
+| ---------------- | ------------------------------ | --------------------------------------------- |
+| Model            | `declare_model()`              | background variables and potential outcomes   |
+| Inquiry          | `declare_inquiry()`            | research questions                            |
+| Data strategy    | `declare_sampling()`           | sampling procedures                           |
+|                  | `declare_assignment()`         | assignment procedures                         |
+|                  | `declare_measurement()`        | measurement procedures                        |
+| Answer strategy  | `declare_estimator()`          | estimation procedures                         |
+|                  | `declare_test()`               | testing procedures                            |
+
+: Declaration functions in DeclareDesign {#tbl-declarationfunctions} 
+
+We use the `+` operator to build from elements of a design to a design. @def-ch4num1 shows the format of most declarations throughout the book. This declaration represents a two-arm randomized experiment with 100 units from which we aim to estimate the average treatment effect.
+
+**Two-arm randomized experiment**
+
+![Two-arm randomized experiment declaration](/figures/declaration-example){#fig-designannotated}
+
+## Diagnosis {#diagnose-design-function}
+
+Diagnosis is the process of simulating the design many times and calculating summary statistics about the design that describe its properties, which we call diagnosands. Once a design is declared, diagnosis is as simple as using the `diagnose_design` function on it.
+
+**Example design diagnosis**
+
+```{r}
+#| eval: false
+diagnose_design(declaration, sims = 100)
+```
+
+```{r}
+#| tbl-cap: "Design diagnosis."
+#| echo: false
+#| label:  tbl-diagnosis4s1
+diagnosis <- get_rdddr_file("diagnosis_4.1")
+
+diagnosis |>
+  reshape_diagnosis() |>
+  select(Bias, RMSE, Power) |>
+  kable(
+    booktabs = TRUE,
+    align = "c",
+    digits = 3
+  ) |> 
+  kable_styling()
+```
+
+The output of the diagnosis includes the diagnosand values (top row), such as bias of $-0.01$, and our uncertainty about the diagnosand value (bootstrapped standard error in parentheses in the bottom row). The uncertainty estimates tell us whether we have conducted enough simulations to precisely estimate the diagnosands. The fact that that the estimate of bias is $-0.01$ and the standard error is $0.02$ means that we cannot distinguish the amount of bias from no bias at all. 
+
+## Redesign {#redesign-function}
+
+We redesign to learn how the diagnosands change as design features change. We can do this using the `redesign` function over a range of sample sizes, which produces a list of designs.
+
+```{r}
+#| eval: false
+
+designs <- redesign(declaration, N = c(100, 200, 300, 400, 500))
+```
+
+Our simulation and diagnosis tools can operate directly on this list of designs:
+
+```{r}
+#| eval: false
+
+diagnose_design(designs)
+```
+
+## Library of designs
+
+In our `DesignLibrary` package, we have created a set of common designs as designers (functions that create designs from just a few parameters), so you can get started quickly.
+
+```{r}
+#| eval: false
+
+library(DesignLibrary)
+
+block_cluster_design <- 
+  block_cluster_two_arm_designer(N = 1000, N_blocks = 10)
+```
