@@ -3,16 +3,21 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.0.38">
+<meta name="generator" content="quarto-1.2.280">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
-<title>**Declare**Design – draw_discrete</title>
+<title>DeclareDesign - Draw discrete variables including binary, binomial count, poisson count, ordered, and categorical</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
-span.underline{text-decoration: underline;}
-div.column{display: inline-block; vertical-align: top; width: 50%;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
 div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
 ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1.6em;
+  vertical-align: middle;
+}
 pre > code.sourceCode { white-space: pre; position: relative; }
 pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
 pre > code.sourceCode > span:empty { height: 1.2em; }
@@ -51,7 +56,7 @@ code span.al { color: #ff0000; font-weight: bold; } /* Alert */
 code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
 code span.at { color: #7d9029; } /* Attribute */
 code span.bn { color: #40a070; } /* BaseN */
-code span.bu { } /* BuiltIn */
+code span.bu { color: #008000; } /* BuiltIn */
 code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
 code span.ch { color: #4070a0; } /* Char */
 code span.cn { color: #880000; } /* Constant */
@@ -64,7 +69,7 @@ code span.er { color: #ff0000; font-weight: bold; } /* Error */
 code span.ex { } /* Extension */
 code span.fl { color: #40a070; } /* Float */
 code span.fu { color: #06287e; } /* Function */
-code span.im { } /* Import */
+code span.im { color: #008000; font-weight: bold; } /* Import */
 code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
 code span.kw { color: #007020; font-weight: bold; } /* Keyword */
 code span.op { color: #666666; } /* Operator */
@@ -106,22 +111,30 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 
 <div id="quarto-search-results"></div>
   <header id="quarto-header" class="headroom fixed-top"><nav class="navbar navbar-expand-lg navbar-dark "><div class="navbar-container container-fluid">
-      <a class="navbar-brand" href="../../index.html">
-    <img src="../../static/dd-logo-sm.svg" alt=""><span class="navbar-title"><strong>Declare</strong>Design</span>
-  </a>
+      <div class="navbar-brand-container">
+    <a href="../../index.html" class="navbar-brand navbar-brand-logo">
+    <img src="../../static/dd-logo-sm.svg" alt="" class="navbar-logo"></a>
+    <a class="navbar-brand" href="../../index.html">
+    <span class="navbar-title"><strong>Declare</strong>Design</span>
+    </a>
+  </div>
           <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
   <span class="navbar-toggler-icon"></span>
 </button>
           <div class="collapse navbar-collapse" id="navbarCollapse">
             <ul class="navbar-nav navbar-nav-scroll ms-auto">
 <li class="nav-item">
-    <a class="nav-link" href="../../getting-started.html">Getting started</a>
+    <a class="nav-link" href="../../getting-started.html">
+ <span class="menu-text">Getting started</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link" href="https://book.declaredesign.org">Book</a>
+    <a class="nav-link" href="https://book.declaredesign.org">
+ <span class="menu-text">Book</span></a>
   </li>  
   <li class="nav-item dropdown ">
-    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-software" role="button" data-bs-toggle="dropdown" aria-expanded="false">Software</a>
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-software" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+ <span class="menu-text">Software</span>
+    </a>
     <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="nav-menu-software">
 <li>
     <a class="dropdown-item" href="../../declaredesign/">
@@ -142,10 +155,12 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
     </ul>
 </li>
   <li class="nav-item">
-    <a class="nav-link" href="../../blog.html">Blog</a>
+    <a class="nav-link" href="../../blog">
+ <span class="menu-text">Blog</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link" href="../../about.html">About</a>
+    <a class="nav-link" href="../../about">
+ <span class="menu-text">About</span></a>
   </li>  
 </ul>
 <div id="quarto-search" class="" title="Search"></div>
@@ -156,66 +171,79 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <!-- margin-sidebar -->
     
 <!-- main -->
-<main class="content" id="quarto-document-content"><hr>
-<hr>
-<section id="draw_discrete" class="level1"><h1>draw_discrete</h1>
-<p>Draw discrete variables including binary, binomial count, poisson count, ordered, and categorical</p>
-<section id="description" class="level2"><h2 class="anchored" data-anchor-id="description">Description</h2>
+<main class="content" id="quarto-document-content"><header id="title-block-header" class="quarto-title-block default"><div class="quarto-title">
+<h1 class="title">Draw discrete variables including binary, binomial count, poisson count, ordered, and categorical</h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+</header><p><em>R/variable_creation_functions.R</em></p>
+<section id="draw_discrete" class="level2"><h2 class="anchored" data-anchor-id="draw_discrete">draw_discrete</h2>
+</section><section id="description" class="level2"><h2 class="anchored" data-anchor-id="description">Description</h2>
 <p>Drawing discrete data based on probabilities or latent traits is a common task that can be cumbersome. Each function in our discrete drawing set creates a different type of discrete data: <code>draw_binary</code> creates binary 0/1 data, <code>draw_binomial</code> creates binomial data (repeated trial binary data), <code>draw_categorical</code> creates categorical data, <code>draw_ordered</code> transforms latent data into observed ordered categories, <code>draw_count</code> creates count data (poisson-distributed).</p>
 </section><section id="usage" class="level2"><h2 class="anchored" data-anchor-id="usage">Usage</h2>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="//reference/draw_discrete.html">draw_binomial</a></span><span class="op">(</span></span>
-<span>  prob <span class="op">=</span> <span class="fu">link</span><span class="op">(</span><span class="va">latent</span><span class="op">)</span>,</span>
-<span>  trials <span class="op">=</span> <span class="fl">1</span>,</span>
-<span>  N <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/length.html">length</a></span><span class="op">(</span><span class="va">prob</span><span class="op">)</span>,</span>
-<span>  latent <span class="op">=</span> <span class="cn">NULL</span>,</span>
-<span>  link <span class="op">=</span> <span class="st">"identity"</span>,</span>
-<span>  quantile_y <span class="op">=</span> <span class="cn">NULL</span></span>
-<span><span class="op">)</span></span>
-<span></span>
-<span><span class="fu"><a href="//reference/draw_discrete.html">draw_categorical</a></span><span class="op">(</span></span>
-<span>  prob <span class="op">=</span> <span class="fu">link</span><span class="op">(</span><span class="va">latent</span><span class="op">)</span>,</span>
-<span>  N <span class="op">=</span> <span class="cn">NULL</span>,</span>
-<span>  latent <span class="op">=</span> <span class="cn">NULL</span>,</span>
-<span>  link <span class="op">=</span> <span class="st">"identity"</span>,</span>
-<span>  category_labels <span class="op">=</span> <span class="cn">NULL</span></span>
-<span><span class="op">)</span></span>
-<span></span>
-<span><span class="fu"><a href="//reference/draw_discrete.html">draw_ordered</a></span><span class="op">(</span></span>
-<span>  x <span class="op">=</span> <span class="fu">link</span><span class="op">(</span><span class="va">latent</span><span class="op">)</span>,</span>
-<span>  breaks <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="op">-</span><span class="fl">1</span>, <span class="fl">0</span>, <span class="fl">1</span><span class="op">)</span>,</span>
-<span>  break_labels <span class="op">=</span> <span class="cn">NULL</span>,</span>
-<span>  N <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/length.html">length</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span>,</span>
-<span>  latent <span class="op">=</span> <span class="cn">NULL</span>,</span>
-<span>  strict <span class="op">=</span> <span class="cn">FALSE</span>,</span>
-<span>  link <span class="op">=</span> <span class="st">"identity"</span></span>
-<span><span class="op">)</span></span>
-<span></span>
-<span><span class="fu"><a href="//reference/draw_discrete.html">draw_count</a></span><span class="op">(</span></span>
-<span>  mean <span class="op">=</span> <span class="fu">link</span><span class="op">(</span><span class="va">latent</span><span class="op">)</span>,</span>
-<span>  N <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/length.html">length</a></span><span class="op">(</span><span class="va">mean</span><span class="op">)</span>,</span>
-<span>  latent <span class="op">=</span> <span class="cn">NULL</span>,</span>
-<span>  link <span class="op">=</span> <span class="st">"identity"</span>,</span>
-<span>  quantile_y <span class="op">=</span> <span class="cn">NULL</span></span>
-<span><span class="op">)</span></span>
-<span></span>
-<span><span class="fu"><a href="//reference/draw_discrete.html">draw_binary</a></span><span class="op">(</span></span>
-<span>  prob <span class="op">=</span> <span class="fu">link</span><span class="op">(</span><span class="va">latent</span><span class="op">)</span>,</span>
-<span>  N <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/length.html">length</a></span><span class="op">(</span><span class="va">prob</span><span class="op">)</span>,</span>
-<span>  link <span class="op">=</span> <span class="st">"identity"</span>,</span>
-<span>  latent <span class="op">=</span> <span class="cn">NULL</span>,</span>
-<span>  quantile_y <span class="op">=</span> <span class="cn">NULL</span></span>
-<span><span class="op">)</span></span>
-<span></span>
-<span><span class="fu"><a href="//reference/draw_discrete.html">draw_quantile</a></span><span class="op">(</span><span class="va">type</span>, <span class="va">N</span><span class="op">)</span></span></code></pre></div>
+<code class="sourceCode R"><span> </span>
+<span><span class="fu"><a href="//reference/draw_discrete.html">draw_binomial</a></span><span class="op">(</span> </span>
+<span>  prob <span class="op">=</span> <span class="fu">link</span><span class="op">(</span><span class="va">latent</span><span class="op">)</span>, </span>
+<span>  trials <span class="op">=</span> <span class="fl">1</span>, </span>
+<span>  N <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/length.html">length</a></span><span class="op">(</span><span class="va">prob</span><span class="op">)</span>, </span>
+<span>  latent <span class="op">=</span> <span class="cn">NULL</span>, </span>
+<span>  link <span class="op">=</span> <span class="st">"identity"</span>, </span>
+<span>  quantile_y <span class="op">=</span> <span class="cn">NULL</span> </span>
+<span><span class="op">)</span> </span>
+<span> </span>
+<span><span class="fu"><a href="//reference/draw_discrete.html">draw_categorical</a></span><span class="op">(</span> </span>
+<span>  prob <span class="op">=</span> <span class="fu">link</span><span class="op">(</span><span class="va">latent</span><span class="op">)</span>, </span>
+<span>  N <span class="op">=</span> <span class="cn">NULL</span>, </span>
+<span>  latent <span class="op">=</span> <span class="cn">NULL</span>, </span>
+<span>  link <span class="op">=</span> <span class="st">"identity"</span>, </span>
+<span>  category_labels <span class="op">=</span> <span class="cn">NULL</span> </span>
+<span><span class="op">)</span> </span>
+<span> </span>
+<span><span class="fu"><a href="//reference/draw_discrete.html">draw_ordered</a></span><span class="op">(</span> </span>
+<span>  x <span class="op">=</span> <span class="fu">link</span><span class="op">(</span><span class="va">latent</span><span class="op">)</span>, </span>
+<span>  breaks <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="op">-</span><span class="fl">1</span>, <span class="fl">0</span>, <span class="fl">1</span><span class="op">)</span>, </span>
+<span>  break_labels <span class="op">=</span> <span class="cn">NULL</span>, </span>
+<span>  N <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/length.html">length</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span>, </span>
+<span>  latent <span class="op">=</span> <span class="cn">NULL</span>, </span>
+<span>  strict <span class="op">=</span> <span class="cn">FALSE</span>, </span>
+<span>  link <span class="op">=</span> <span class="st">"identity"</span> </span>
+<span><span class="op">)</span> </span>
+<span> </span>
+<span><span class="fu"><a href="//reference/draw_discrete.html">draw_count</a></span><span class="op">(</span> </span>
+<span>  mean <span class="op">=</span> <span class="fu">link</span><span class="op">(</span><span class="va">latent</span><span class="op">)</span>, </span>
+<span>  N <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/length.html">length</a></span><span class="op">(</span><span class="va">mean</span><span class="op">)</span>, </span>
+<span>  latent <span class="op">=</span> <span class="cn">NULL</span>, </span>
+<span>  link <span class="op">=</span> <span class="st">"identity"</span>, </span>
+<span>  quantile_y <span class="op">=</span> <span class="cn">NULL</span> </span>
+<span><span class="op">)</span> </span>
+<span> </span>
+<span><span class="fu"><a href="//reference/draw_discrete.html">draw_binary</a></span><span class="op">(</span> </span>
+<span>  prob <span class="op">=</span> <span class="fu">link</span><span class="op">(</span><span class="va">latent</span><span class="op">)</span>, </span>
+<span>  N <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/length.html">length</a></span><span class="op">(</span><span class="va">prob</span><span class="op">)</span>, </span>
+<span>  link <span class="op">=</span> <span class="st">"identity"</span>, </span>
+<span>  latent <span class="op">=</span> <span class="cn">NULL</span>, </span>
+<span>  quantile_y <span class="op">=</span> <span class="cn">NULL</span> </span>
+<span><span class="op">)</span> </span>
+<span> </span>
+<span><span class="fu"><a href="//reference/draw_discrete.html">draw_quantile</a></span><span class="op">(</span><span class="va">type</span>, <span class="va">N</span><span class="op">)</span> </span></code></pre></div>
 </section><section id="arguments" class="level2"><h2 class="anchored" data-anchor-id="arguments">Arguments</h2>
 <table class="table">
 <colgroup>
-<col style="width: 44%">
-<col style="width: 55%">
+<col style="width: 50%">
+<col style="width: 50%">
 </colgroup>
 <thead><tr class="header">
-<th>Argument</th>
+<th>Arguments</th>
 <th>Description</th>
 </tr></thead>
 <tbody>
@@ -282,99 +310,53 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div class="cell">
 <div class="sourceCode cell-code" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://declaredesign.org/r/fabricatr/">fabricatr</a></span><span class="op">)</span></span>
-<span></span>
-<span></span>
-<span><span class="co"># Drawing binary values (success or failure, treatment assignment)</span></span>
-<span><span class="fu"><a href="//reference/fabricate.html">fabricate</a></span><span class="op">(</span>N <span class="op">=</span> <span class="fl">3</span>,</span>
-<span>   p <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">.5</span>, <span class="fl">1</span><span class="op">)</span>,</span>
-<span>   binary <span class="op">=</span> <span class="fu"><a href="//reference/draw_discrete.html">draw_binary</a></span><span class="op">(</span>prob <span class="op">=</span> <span class="va">p</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>  ID   p binary
-1  1 0.0      0
-2  2 0.5      1
-3  3 1.0      1</code></pre>
-</div>
-<div class="sourceCode cell-code" id="cb4"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="co"># Drawing binary values with probit link (transforming continuous data</span></span>
-<span><span class="co"># into a probability range).</span></span>
-<span><span class="fu"><a href="//reference/fabricate.html">fabricate</a></span><span class="op">(</span>N <span class="op">=</span> <span class="fl">3</span>,</span>
-<span>   x <span class="op">=</span> <span class="fl">10</span> <span class="op">*</span> <span class="fu"><a href="https://rdrr.io/r/stats/Normal.html">rnorm</a></span><span class="op">(</span><span class="va">N</span><span class="op">)</span>,</span>
-<span>   binary <span class="op">=</span> <span class="fu"><a href="//reference/draw_discrete.html">draw_binary</a></span><span class="op">(</span>latent <span class="op">=</span> <span class="va">x</span>, link <span class="op">=</span> <span class="st">"probit"</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>  ID          x binary
-1  1  0.7057801      1
-2  2 -5.2610542      0
-3  3  7.8272174      1</code></pre>
-</div>
-<div class="sourceCode cell-code" id="cb6"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="co"># Repeated trials: `draw_binomial`</span></span>
-<span><span class="fu"><a href="//reference/fabricate.html">fabricate</a></span><span class="op">(</span>N <span class="op">=</span> <span class="fl">3</span>,</span>
-<span>   p <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">.5</span>, <span class="fl">1</span><span class="op">)</span>,</span>
-<span>   binomial <span class="op">=</span> <span class="fu"><a href="//reference/draw_discrete.html">draw_binomial</a></span><span class="op">(</span>prob <span class="op">=</span> <span class="va">p</span>, trials <span class="op">=</span> <span class="fl">10</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>  ID   p binomial
-1  1 0.0        0
-2  2 0.5        4
-3  3 1.0       10</code></pre>
-</div>
-<div class="sourceCode cell-code" id="cb8"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="co"># Ordered data: transforming latent data into observed, ordinal data.</span></span>
-<span><span class="co"># useful for survey responses.</span></span>
-<span><span class="fu"><a href="//reference/fabricate.html">fabricate</a></span><span class="op">(</span>N <span class="op">=</span> <span class="fl">3</span>,</span>
-<span>   x <span class="op">=</span> <span class="fl">5</span> <span class="op">*</span> <span class="fu"><a href="https://rdrr.io/r/stats/Normal.html">rnorm</a></span><span class="op">(</span><span class="va">N</span><span class="op">)</span>,</span>
-<span>   ordered <span class="op">=</span> <span class="fu"><a href="//reference/draw_discrete.html">draw_ordered</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">x</span>,</span>
-<span>                          breaks <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="op">-</span><span class="cn">Inf</span>, <span class="op">-</span><span class="fl">1</span>, <span class="fl">1</span>, <span class="cn">Inf</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>  ID         x ordered
-1  1 -3.603064       1
-2  2  2.266120       3
-3  3  1.769760       3</code></pre>
-</div>
-<div class="sourceCode cell-code" id="cb10"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="co"># Providing break labels for latent data.</span></span>
-<span><span class="fu"><a href="//reference/fabricate.html">fabricate</a></span><span class="op">(</span>N <span class="op">=</span> <span class="fl">3</span>,</span>
-<span>   x <span class="op">=</span> <span class="fl">5</span> <span class="op">*</span> <span class="fu"><a href="https://rdrr.io/r/stats/Normal.html">rnorm</a></span><span class="op">(</span><span class="va">N</span><span class="op">)</span>,</span>
-<span>   ordered <span class="op">=</span> <span class="fu"><a href="//reference/draw_discrete.html">draw_ordered</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">x</span>,</span>
-<span>                          breaks <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="op">-</span><span class="cn">Inf</span>, <span class="op">-</span><span class="fl">1</span>, <span class="fl">1</span>, <span class="cn">Inf</span><span class="op">)</span>,</span>
-<span>                          break_labels <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"Not at all concerned"</span>,</span>
-<span>                                           <span class="st">"Somewhat concerned"</span>,</span>
-<span>                                           <span class="st">"Very concerned"</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>  ID        x        ordered
-1  1 1.503739 Very concerned
-2  2 4.369899 Very concerned
-3  3 9.350427 Very concerned</code></pre>
-</div>
-<div class="sourceCode cell-code" id="cb12"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="co"># Count data: useful for rates of occurrences over time.</span></span>
-<span><span class="fu"><a href="//reference/fabricate.html">fabricate</a></span><span class="op">(</span>N <span class="op">=</span> <span class="fl">5</span>,</span>
-<span>   x <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">5</span>, <span class="fl">25</span>, <span class="fl">50</span>, <span class="fl">100</span><span class="op">)</span>,</span>
-<span>   theft_rate <span class="op">=</span> <span class="fu"><a href="//reference/draw_discrete.html">draw_count</a></span><span class="op">(</span>mean<span class="op">=</span><span class="va">x</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>  ID   x theft_rate
-1  1   0          0
-2  2   5          3
-3  3  25         28
-4  4  50         59
-5  5 100         91</code></pre>
-</div>
-<div class="sourceCode cell-code" id="cb14"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="co"># Categorical data: useful for demographic data.</span></span>
-<span><span class="fu"><a href="//reference/fabricate.html">fabricate</a></span><span class="op">(</span>N <span class="op">=</span> <span class="fl">6</span>, p1 <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/Uniform.html">runif</a></span><span class="op">(</span><span class="va">N</span><span class="op">)</span>, p2 <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/Uniform.html">runif</a></span><span class="op">(</span><span class="va">N</span><span class="op">)</span>, p3 <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/Uniform.html">runif</a></span><span class="op">(</span><span class="va">N</span><span class="op">)</span>,</span>
-<span>          cat <span class="op">=</span> <span class="fu"><a href="//reference/draw_discrete.html">draw_categorical</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/cbind.html">cbind</a></span><span class="op">(</span><span class="va">p1</span>, <span class="va">p2</span>, <span class="va">p3</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>  ID         p1        p2         p3 cat
-1  1 0.93793611 0.8154866 0.09613346   3
-2  2 0.15475900 0.3842354 0.24934133   2
-3  3 0.28531131 0.3722985 0.04245008   1
-4  4 0.85519108 0.2935597 0.74688705   3
-5  5 0.05139329 0.2123995 0.50332430   2
-6  6 0.50059602 0.6162062 0.44261807   3</code></pre>
-</div>
+<span> </span>
+<span> </span>
+<span><span class="co"># Drawing binary values (success or failure, treatment assignment) </span></span>
+<span><span class="fu"><a href="//reference/fabricate.html">fabricate</a></span><span class="op">(</span>N <span class="op">=</span> <span class="fl">3</span>, </span>
+<span>   p <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">.5</span>, <span class="fl">1</span><span class="op">)</span>, </span>
+<span>   binary <span class="op">=</span> <span class="fu"><a href="//reference/draw_discrete.html">draw_binary</a></span><span class="op">(</span>prob <span class="op">=</span> <span class="va">p</span><span class="op">)</span><span class="op">)</span> </span>
+<span> </span>
+<span><span class="co"># Drawing binary values with probit link (transforming continuous data </span></span>
+<span><span class="co"># into a probability range). </span></span>
+<span><span class="fu"><a href="//reference/fabricate.html">fabricate</a></span><span class="op">(</span>N <span class="op">=</span> <span class="fl">3</span>, </span>
+<span>   x <span class="op">=</span> <span class="fl">10</span> <span class="op">*</span> <span class="fu"><a href="https://rdrr.io/r/stats/Normal.html">rnorm</a></span><span class="op">(</span><span class="va">N</span><span class="op">)</span>, </span>
+<span>   binary <span class="op">=</span> <span class="fu"><a href="//reference/draw_discrete.html">draw_binary</a></span><span class="op">(</span>latent <span class="op">=</span> <span class="va">x</span>, link <span class="op">=</span> <span class="st">"probit"</span><span class="op">)</span><span class="op">)</span> </span>
+<span> </span>
+<span><span class="co"># Repeated trials: `draw_binomial` </span></span>
+<span><span class="fu"><a href="//reference/fabricate.html">fabricate</a></span><span class="op">(</span>N <span class="op">=</span> <span class="fl">3</span>, </span>
+<span>   p <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">.5</span>, <span class="fl">1</span><span class="op">)</span>, </span>
+<span>   binomial <span class="op">=</span> <span class="fu"><a href="//reference/draw_discrete.html">draw_binomial</a></span><span class="op">(</span>prob <span class="op">=</span> <span class="va">p</span>, trials <span class="op">=</span> <span class="fl">10</span><span class="op">)</span><span class="op">)</span> </span>
+<span> </span>
+<span><span class="co"># Ordered data: transforming latent data into observed, ordinal data. </span></span>
+<span><span class="co"># useful for survey responses. </span></span>
+<span><span class="fu"><a href="//reference/fabricate.html">fabricate</a></span><span class="op">(</span>N <span class="op">=</span> <span class="fl">3</span>, </span>
+<span>   x <span class="op">=</span> <span class="fl">5</span> <span class="op">*</span> <span class="fu"><a href="https://rdrr.io/r/stats/Normal.html">rnorm</a></span><span class="op">(</span><span class="va">N</span><span class="op">)</span>, </span>
+<span>   ordered <span class="op">=</span> <span class="fu"><a href="//reference/draw_discrete.html">draw_ordered</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">x</span>, </span>
+<span>                          breaks <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="op">-</span><span class="cn">Inf</span>, <span class="op">-</span><span class="fl">1</span>, <span class="fl">1</span>, <span class="cn">Inf</span><span class="op">)</span><span class="op">)</span><span class="op">)</span> </span>
+<span> </span>
+<span><span class="co"># Providing break labels for latent data. </span></span>
+<span><span class="fu"><a href="//reference/fabricate.html">fabricate</a></span><span class="op">(</span>N <span class="op">=</span> <span class="fl">3</span>, </span>
+<span>   x <span class="op">=</span> <span class="fl">5</span> <span class="op">*</span> <span class="fu"><a href="https://rdrr.io/r/stats/Normal.html">rnorm</a></span><span class="op">(</span><span class="va">N</span><span class="op">)</span>, </span>
+<span>   ordered <span class="op">=</span> <span class="fu"><a href="//reference/draw_discrete.html">draw_ordered</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">x</span>, </span>
+<span>                          breaks <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="op">-</span><span class="cn">Inf</span>, <span class="op">-</span><span class="fl">1</span>, <span class="fl">1</span>, <span class="cn">Inf</span><span class="op">)</span>, </span>
+<span>                          break_labels <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"Not at all concerned"</span>, </span>
+<span>                                           <span class="st">"Somewhat concerned"</span>, </span>
+<span>                                           <span class="st">"Very concerned"</span><span class="op">)</span><span class="op">)</span><span class="op">)</span> </span>
+<span> </span>
+<span> </span>
+<span><span class="co"># Count data: useful for rates of occurrences over time. </span></span>
+<span><span class="fu"><a href="//reference/fabricate.html">fabricate</a></span><span class="op">(</span>N <span class="op">=</span> <span class="fl">5</span>, </span>
+<span>   x <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">5</span>, <span class="fl">25</span>, <span class="fl">50</span>, <span class="fl">100</span><span class="op">)</span>, </span>
+<span>   theft_rate <span class="op">=</span> <span class="fu"><a href="//reference/draw_discrete.html">draw_count</a></span><span class="op">(</span>mean<span class="op">=</span><span class="va">x</span><span class="op">)</span><span class="op">)</span> </span>
+<span> </span>
+<span><span class="co"># Categorical data: useful for demographic data. </span></span>
+<span><span class="fu"><a href="//reference/fabricate.html">fabricate</a></span><span class="op">(</span>N <span class="op">=</span> <span class="fl">6</span>, p1 <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/Uniform.html">runif</a></span><span class="op">(</span><span class="va">N</span><span class="op">)</span>, p2 <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/Uniform.html">runif</a></span><span class="op">(</span><span class="va">N</span><span class="op">)</span>, p3 <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/Uniform.html">runif</a></span><span class="op">(</span><span class="va">N</span><span class="op">)</span>, </span>
+<span>          cat <span class="op">=</span> <span class="fu"><a href="//reference/draw_discrete.html">draw_categorical</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/cbind.html">cbind</a></span><span class="op">(</span><span class="va">p1</span>, <span class="va">p2</span>, <span class="va">p3</span><span class="op">)</span><span class="op">)</span><span class="op">)</span> </span></code></pre></div>
 </div>
 
 
-</section></section></main><!-- /main --><script id="quarto-html-after-body" type="application/javascript">
+</section></main><!-- /main --><script id="quarto-html-after-body" type="application/javascript">
 window.document.addEventListener("DOMContentLoaded", function (event) {
   const toggleBodyColorMode = (bsSheetEl) => {
     const mode = bsSheetEl.getAttribute("data-mode");
@@ -415,7 +397,24 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     button.classList.add('code-copy-button-checked');
     var currentTitle = button.getAttribute("title");
     button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
     setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
       button.setAttribute("title", currentTitle);
       button.classList.remove('code-copy-button-checked');
     }, 1000);
@@ -443,31 +442,50 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
   for (var i=0; i<noterefs.length; i++) {
     const ref = noterefs[i];
     tippyHover(ref, function() {
-      let href = ref.getAttribute('href');
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
       try { href = new URL(href).hash; } catch {}
       const id = href.replace(/^#\/?/, "");
       const note = window.document.getElementById(id);
       return note.innerHTML;
     });
   }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
   var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
   for (var i=0; i<bibliorefs.length; i++) {
     const ref = bibliorefs[i];
-    const cites = ref.parentNode.getAttribute('data-cites').split(' ');
-    tippyHover(ref, function() {
-      var popup = window.document.createElement('div');
-      cites.forEach(function(cite) {
-        var citeDiv = window.document.createElement('div');
-        citeDiv.classList.add('hanging-indent');
-        citeDiv.classList.add('csl-entry');
-        var biblioDiv = window.document.getElementById('ref-' + cite);
-        if (biblioDiv) {
-          citeDiv.innerHTML = biblioDiv.innerHTML;
-        }
-        popup.appendChild(citeDiv);
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
       });
-      return popup.innerHTML;
-    });
+    }
   }
 });
 </script>

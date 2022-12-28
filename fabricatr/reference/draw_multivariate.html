@@ -3,16 +3,21 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.0.38">
+<meta name="generator" content="quarto-1.2.280">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
-<title>**Declare**Design – draw_multivariate</title>
+<title>DeclareDesign - Draw multivariate random variables</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
-span.underline{text-decoration: underline;}
-div.column{display: inline-block; vertical-align: top; width: 50%;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
 div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
 ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1.6em;
+  vertical-align: middle;
+}
 pre > code.sourceCode { white-space: pre; position: relative; }
 pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
 pre > code.sourceCode > span:empty { height: 1.2em; }
@@ -51,7 +56,7 @@ code span.al { color: #ff0000; font-weight: bold; } /* Alert */
 code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
 code span.at { color: #7d9029; } /* Attribute */
 code span.bn { color: #40a070; } /* BaseN */
-code span.bu { } /* BuiltIn */
+code span.bu { color: #008000; } /* BuiltIn */
 code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
 code span.ch { color: #4070a0; } /* Char */
 code span.cn { color: #880000; } /* Constant */
@@ -64,7 +69,7 @@ code span.er { color: #ff0000; font-weight: bold; } /* Error */
 code span.ex { } /* Extension */
 code span.fl { color: #40a070; } /* Float */
 code span.fu { color: #06287e; } /* Function */
-code span.im { } /* Import */
+code span.im { color: #008000; font-weight: bold; } /* Import */
 code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
 code span.kw { color: #007020; font-weight: bold; } /* Keyword */
 code span.op { color: #666666; } /* Operator */
@@ -106,22 +111,30 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 
 <div id="quarto-search-results"></div>
   <header id="quarto-header" class="headroom fixed-top"><nav class="navbar navbar-expand-lg navbar-dark "><div class="navbar-container container-fluid">
-      <a class="navbar-brand" href="../../index.html">
-    <img src="../../static/dd-logo-sm.svg" alt=""><span class="navbar-title"><strong>Declare</strong>Design</span>
-  </a>
+      <div class="navbar-brand-container">
+    <a href="../../index.html" class="navbar-brand navbar-brand-logo">
+    <img src="../../static/dd-logo-sm.svg" alt="" class="navbar-logo"></a>
+    <a class="navbar-brand" href="../../index.html">
+    <span class="navbar-title"><strong>Declare</strong>Design</span>
+    </a>
+  </div>
           <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
   <span class="navbar-toggler-icon"></span>
 </button>
           <div class="collapse navbar-collapse" id="navbarCollapse">
             <ul class="navbar-nav navbar-nav-scroll ms-auto">
 <li class="nav-item">
-    <a class="nav-link" href="../../getting-started.html">Getting started</a>
+    <a class="nav-link" href="../../getting-started.html">
+ <span class="menu-text">Getting started</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link" href="https://book.declaredesign.org">Book</a>
+    <a class="nav-link" href="https://book.declaredesign.org">
+ <span class="menu-text">Book</span></a>
   </li>  
   <li class="nav-item dropdown ">
-    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-software" role="button" data-bs-toggle="dropdown" aria-expanded="false">Software</a>
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-software" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+ <span class="menu-text">Software</span>
+    </a>
     <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="nav-menu-software">
 <li>
     <a class="dropdown-item" href="../../declaredesign/">
@@ -142,10 +155,12 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
     </ul>
 </li>
   <li class="nav-item">
-    <a class="nav-link" href="../../blog.html">Blog</a>
+    <a class="nav-link" href="../../blog">
+ <span class="menu-text">Blog</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link" href="../../about.html">About</a>
+    <a class="nav-link" href="../../about">
+ <span class="menu-text">About</span></a>
   </li>  
 </ul>
 <div id="quarto-search" class="" title="Search"></div>
@@ -156,23 +171,36 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <!-- margin-sidebar -->
     
 <!-- main -->
-<main class="content" id="quarto-document-content"><hr>
-<hr>
-<section id="draw_multivariate" class="level1"><h1>draw_multivariate</h1>
-<p>Draw multivariate random variables</p>
-<section id="description" class="level2"><h2 class="anchored" data-anchor-id="description">Description</h2>
+<main class="content" id="quarto-document-content"><header id="title-block-header" class="quarto-title-block default"><div class="quarto-title">
+<h1 class="title">Draw multivariate random variables</h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+</header><p><em>R/draw_multivariate.R</em></p>
+<section id="draw_multivariate" class="level2"><h2 class="anchored" data-anchor-id="draw_multivariate">draw_multivariate</h2>
+</section><section id="description" class="level2"><h2 class="anchored" data-anchor-id="description">Description</h2>
 <p>Draw multivariate random variables</p>
 </section><section id="usage" class="level2"><h2 class="anchored" data-anchor-id="usage">Usage</h2>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="//reference/draw_multivariate.html">draw_multivariate</a></span><span class="op">(</span><span class="va">formula</span>, sep <span class="op">=</span> <span class="st">"_"</span><span class="op">)</span></span></code></pre></div>
+<code class="sourceCode R"><span> </span>
+<span><span class="fu"><a href="//reference/draw_multivariate.html">draw_multivariate</a></span><span class="op">(</span><span class="va">formula</span>, sep <span class="op">=</span> <span class="st">"_"</span><span class="op">)</span> </span></code></pre></div>
 </section><section id="arguments" class="level2"><h2 class="anchored" data-anchor-id="arguments">Arguments</h2>
 <table class="table">
 <colgroup>
-<col style="width: 44%">
-<col style="width: 55%">
+<col style="width: 50%">
+<col style="width: 50%">
 </colgroup>
 <thead><tr class="header">
-<th>Argument</th>
+<th>Arguments</th>
 <th>Description</th>
 </tr></thead>
 <tbody>
@@ -191,269 +219,51 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div class="cell">
 <div class="sourceCode cell-code" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://declaredesign.org/r/fabricatr/">fabricatr</a></span><span class="op">)</span></span>
-<span></span>
-<span></span>
-<span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="http://www.stats.ox.ac.uk/pub/MASS4/">MASS</a></span><span class="op">)</span></span>
-<span></span>
-<span><span class="co"># draw from multivariate normal distribution</span></span>
-<span><span class="va">dat</span> <span class="op">&lt;-</span></span>
-<span>  <span class="fu"><a href="//reference/draw_multivariate.html">draw_multivariate</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="va">Y_1</span>, <span class="va">Y_2</span><span class="op">)</span> <span class="op">~</span> <span class="fu"><a href="https://rdrr.io/pkg/MASS/man/mvrnorm.html">mvrnorm</a></span><span class="op">(</span></span>
-<span>    n <span class="op">=</span> <span class="fl">500</span>,</span>
-<span>    mu <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">0</span><span class="op">)</span>,</span>
-<span>    Sigma <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/matrix.html">matrix</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">0.5</span>, <span class="fl">0.5</span>, <span class="fl">1</span><span class="op">)</span>, <span class="fl">2</span>, <span class="fl">2</span><span class="op">)</span></span>
-<span>  <span class="op">)</span><span class="op">)</span></span>
-<span></span>
-<span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/stats/cor.html">cor</a></span><span class="op">(</span><span class="va">dat</span><span class="op">)</span></span></code></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>          Y_1       Y_2
-Y_1 1.0000000 0.4865295
-Y_2 0.4865295 1.0000000</code></pre>
-</div>
-<div class="sourceCode cell-code" id="cb4"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="co"># equivalently, you can provide a prefix for the variable names</span></span>
-<span><span class="co"># (easier if you have many variables)</span></span>
-<span><span class="fu"><a href="//reference/draw_multivariate.html">draw_multivariate</a></span><span class="op">(</span><span class="va">Y</span> <span class="op">~</span> <span class="fu"><a href="https://rdrr.io/pkg/MASS/man/mvrnorm.html">mvrnorm</a></span><span class="op">(</span></span>
-<span>  n <span class="op">=</span> <span class="fl">5</span>,</span>
-<span>  mu <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">0</span><span class="op">)</span>,</span>
-<span>  Sigma <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/matrix.html">matrix</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">0.5</span>, <span class="fl">0.5</span>, <span class="fl">1</span><span class="op">)</span>, <span class="fl">2</span>, <span class="fl">2</span><span class="op">)</span></span>
-<span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>         Y_1        Y_2
-1  0.4074942  0.5130405
-2 -0.1729683 -0.7498355
-3  1.1002972  0.2146240
-4 -0.4009598 -0.9910991
-5  0.6552198  1.1353623</code></pre>
-</div>
-<div class="sourceCode cell-code" id="cb6"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="co"># within fabricate</span></span>
-<span><span class="fu"><a href="//reference/fabricate.html">fabricate</a></span><span class="op">(</span></span>
-<span>  N <span class="op">=</span> <span class="fl">100</span>,</span>
-<span>  <span class="fu"><a href="//reference/draw_multivariate.html">draw_multivariate</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="va">Y_1</span>, <span class="va">Y_2</span><span class="op">)</span> <span class="op">~</span> <span class="fu"><a href="https://rdrr.io/pkg/MASS/man/mvrnorm.html">mvrnorm</a></span><span class="op">(</span></span>
-<span>    n <span class="op">=</span> <span class="va">N</span>,</span>
-<span>    mu <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">0</span><span class="op">)</span>,</span>
-<span>    Sigma <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/matrix.html">matrix</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">0.5</span>, <span class="fl">0.5</span>, <span class="fl">1</span><span class="op">)</span>, <span class="fl">2</span>, <span class="fl">2</span><span class="op">)</span></span>
-<span>  <span class="op">)</span><span class="op">)</span></span>
-<span><span class="op">)</span></span></code></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>     ID         Y_1          Y_2
-1   001 -0.76805241 -1.143020841
-2   002 -0.43665453  0.101518661
-3   003 -0.90520426 -0.602799079
-4   004 -0.49653808 -0.317203476
-5   005 -1.15913092  0.214483751
-6   006  1.80681909  1.526699848
-7   007 -0.05760966  0.322723643
-8   008  0.36660601  0.881214486
-9   009 -1.37069329 -1.385389523
-10  010 -1.62478580  0.368110894
-11  011 -2.53818381 -1.640520511
-12  012 -0.99081223  0.418675016
-13  013  0.07628821  0.879532821
-14  014 -0.68553700 -0.532003104
-15  015  1.22177738  1.273240001
-16  016  0.13222551  0.573320465
-17  017 -0.31227466 -0.451294922
-18  018  1.07130578  0.310713201
-19  019  0.69560759  1.725848470
-20  020 -0.37153034 -0.335905211
-21  021 -1.39182001 -0.755045866
-22  022 -1.03223526 -1.152090493
-23  023  0.04919966 -0.294744814
-24  024 -0.62539771 -1.156676709
-25  025 -0.88983263 -0.076112132
-26  026  0.83498733 -0.296632222
-27  027  0.89778455  0.384816446
-28  028  0.13724838  1.165974383
-29  029  0.10280603 -0.214029206
-30  030  0.05851596  0.293895623
-31  031  1.10312169 -0.144993989
-32  032  1.90792075 -0.324429164
-33  033 -0.30357467  2.137448924
-34  034  0.86175102 -0.273378682
-35  035 -0.80121213  1.235670339
-36  036  0.39092373 -2.020527168
-37  037 -0.13089123 -1.350388211
-38  038  0.52983984  0.006844545
-39  039  0.65902660 -0.005961098
-40  040  1.12111305  1.273649066
-41  041  0.35809794  1.190899688
-42  042  0.06397330 -0.337471339
-43  043  0.15999868  0.385131513
-44  044  0.13671608 -0.992536517
-45  045  1.17359416 -0.111669585
-46  046  0.87356281  1.648652378
-47  047  0.91608584  0.333531986
-48  048 -0.06320187  0.423065189
-49  049  0.94811614  1.549922214
-50  050 -0.55165353  1.117181472
-51  051 -2.73483035 -3.309910367
-52  052 -1.50851645 -0.703950034
-53  053 -1.77768858 -1.100678880
-54  054 -0.80845667 -1.715301905
-55  055  0.86117455 -0.039846879
-56  056  0.49045032  0.433665105
-57  057 -1.83522833 -0.919938363
-58  058 -0.35841661 -0.397060096
-59  059 -0.45644056 -1.497362194
-60  060  0.23440173  0.737510358
-61  061  2.31911254  0.671593386
-62  062 -0.08961243  0.402000913
-63  063  0.54499825 -0.249559169
-64  064 -0.41870042 -0.555009476
-65  065  0.13976661 -0.544815225
-66  066 -1.27209607  2.012709376
-67  067  0.67729640  1.253631725
-68  068  1.98616974  0.922969184
-69  069 -0.68704613 -0.722778171
-70  070  0.25038447 -0.691248474
-71  071 -0.90097829  0.448089407
-72  072  0.31522900 -1.217332739
-73  073 -0.79875865  0.012003772
-74  074  1.25727910 -0.332339897
-75  075 -1.18595483  1.021511840
-76  076 -0.12935054  0.173148070
-77  077  0.41514071 -0.510332488
-78  078 -0.21687080 -0.569475077
-79  079 -1.11733975  0.141087129
-80  080  0.04341216 -0.216106380
-81  081 -1.09582466 -1.188638699
-82  082 -0.01403699 -2.469331193
-83  083  0.06604064 -0.317955973
-84  084 -0.47273845  1.096337505
-85  085  0.17481941  0.511663648
-86  086 -0.44905004  0.008818656
-87  087 -1.44228410 -1.945813412
-88  088 -2.57133790 -1.974835221
-89  089 -0.79413734 -0.769141464
-90  090 -1.01944753 -1.328932444
-91  091 -0.48377542  0.075267014
-92  092 -0.60004258  0.145137397
-93  093 -0.54215843 -0.577888857
-94  094  0.46254202  0.553296583
-95  095 -0.01685945 -0.356478248
-96  096  0.60121044 -0.335737525
-97  097 -0.81570143 -0.673134680
-98  098 -0.29410803 -0.536335621
-99  099 -0.01482143  0.444685153
-100 100  1.04441426  1.480036241</code></pre>
-</div>
-<div class="sourceCode cell-code" id="cb8"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="co"># You can also write the following, which works but gives less control over the names</span></span>
-<span><span class="fu"><a href="//reference/fabricate.html">fabricate</a></span><span class="op">(</span>N <span class="op">=</span> <span class="fl">100</span>,</span>
-<span>Y <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/pkg/MASS/man/mvrnorm.html">mvrnorm</a></span><span class="op">(</span></span>
-<span>  n <span class="op">=</span> <span class="va">N</span>,</span>
-<span>  mu <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">0</span><span class="op">)</span>,</span>
-<span>  Sigma <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/matrix.html">matrix</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">0.5</span>, <span class="fl">0.5</span>, <span class="fl">1</span><span class="op">)</span>, <span class="fl">2</span>, <span class="fl">2</span><span class="op">)</span></span>
-<span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>     ID         Y.1          Y.2
-1   001 -0.56188359  0.829679475
-2   002 -1.22070391 -1.668520137
-3   003  1.06552687 -0.058131048
-4   004 -0.01526510  0.552875463
-5   005 -0.33393300 -1.343806461
-6   006 -1.90469991 -0.776800553
-7   007  1.48941470  0.323533265
-8   008 -0.59906016  0.485303200
-9   009 -0.68435364  0.250245365
-10  010 -1.22581518 -0.776496182
-11  011  0.01712305  1.276262220
-12  012  1.38147263  2.404407114
-13  013 -0.41493505 -0.881065401
-14  014  0.89282777  0.104250875
-15  015  0.21043310  0.817205965
-16  016  1.96821180  0.089970286
-17  017 -0.95537025  0.948012220
-18  018 -0.34314718 -1.284884758
-19  019 -1.34122349  0.077174065
-20  020  0.33844390 -1.482553988
-21  021 -0.84539197 -1.239971097
-22  022 -0.58414167 -1.698518398
-23  023 -0.59565510 -1.442556095
-24  024 -0.91532803 -0.525587194
-25  025 -0.51828638  0.069795655
-26  026 -0.66594975  0.131635102
-27  027 -0.17422181 -0.046535272
-28  028  0.93030870  0.069705707
-29  029  0.92035335  0.503034306
-30  030  1.08587940  0.450227237
-31  031  1.93591597  0.940516394
-32  032 -0.80176544 -1.395138651
-33  033 -1.83614339  0.449368622
-34  034  1.03793815  0.588108014
-35  035 -0.63366099 -0.352414872
-36  036  1.03268470 -0.169109408
-37  037 -0.53043551 -0.762121998
-38  038 -1.40263888 -3.349771604
-39  039 -0.14645041  1.077483634
-40  040 -0.17093523 -0.353643655
-41  041  0.59994248  0.211498964
-42  042  0.82365650 -0.871200509
-43  043 -1.63610377 -0.794936205
-44  044 -0.16166851 -0.566996080
-45  045 -0.92131214 -2.273295571
-46  046  0.05477358  0.636772657
-47  047 -0.06230720  0.103841085
-48  048 -0.47655272 -0.630774744
-49  049  1.16974555  0.261623992
-50  050  1.11013677 -0.587116305
-51  051 -0.68815723 -0.818564688
-52  052  1.76149436  0.013457610
-53  053  0.86710761  0.741911833
-54  054  0.02481243 -0.022488779
-55  055 -0.07040020 -1.451574971
-56  056  1.97693775  1.594299304
-57  057  1.47993451  0.837685945
-58  058 -0.67438211 -1.756361606
-59  059 -1.58853186 -1.432230015
-60  060  1.29403956 -0.166101266
-61  061  0.54286363  0.180505392
-62  062  2.16903680  1.503264039
-63  063 -0.88028248 -0.716480129
-64  064 -0.65716647 -0.847783359
-65  065  0.98345335  1.724999390
-66  066  0.87243210  0.227517866
-67  067 -0.75286535  0.441065079
-68  068  0.83190561  0.577995980
-69  069 -1.90877992 -2.408933245
-70  070 -1.80188745 -2.073360195
-71  071 -0.63024533 -0.112772828
-72  072 -0.31989427  0.968763961
-73  073 -0.07660735  1.012104553
-74  074  1.20820075 -0.101794651
-75  075  0.26036716 -0.678187756
-76  076 -0.81656945 -3.011148484
-77  077 -1.44121012 -1.855569988
-78  078  2.59348073  1.167682175
-79  079  1.35857080  0.791896038
-80  080  2.29906651  1.223675289
-81  081  0.56213498  0.270578808
-82  082  0.87488927 -1.289188249
-83  083 -0.39441518 -0.792293465
-84  084  0.55765571 -0.103746916
-85  085 -0.64355783 -0.531178753
-86  086 -1.24933735 -0.816644941
-87  087 -0.33574865 -0.419094560
-88  088 -0.92059911 -1.082884059
-89  089 -0.10601554  0.001365831
-90  090  0.18931381 -1.201402149
-91  091 -0.06102305  0.248140049
-92  092  0.47777422  0.464562745
-93  093 -0.28797377  1.168069118
-94  094 -0.89769185 -1.012910032
-95  095  0.68612291  0.043484817
-96  096  0.23563328  0.435801479
-97  097  1.18084037  0.871607932
-98  098  1.47061184  0.597375422
-99  099  0.59188574  1.010537769
-100 100  0.25208227  0.991531971</code></pre>
-</div>
+<span> </span>
+<span> </span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="http://www.stats.ox.ac.uk/pub/MASS4/">MASS</a></span><span class="op">)</span> </span>
+<span> </span>
+<span><span class="co"># draw from multivariate normal distribution </span></span>
+<span><span class="va">dat</span> <span class="op">&lt;-</span> </span>
+<span>  <span class="fu"><a href="//reference/draw_multivariate.html">draw_multivariate</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="va">Y_1</span>, <span class="va">Y_2</span><span class="op">)</span> <span class="op">~</span> <span class="fu"><a href="https://rdrr.io/pkg/MASS/man/mvrnorm.html">mvrnorm</a></span><span class="op">(</span> </span>
+<span>    n <span class="op">=</span> <span class="fl">500</span>, </span>
+<span>    mu <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">0</span><span class="op">)</span>, </span>
+<span>    Sigma <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/matrix.html">matrix</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">0.5</span>, <span class="fl">0.5</span>, <span class="fl">1</span><span class="op">)</span>, <span class="fl">2</span>, <span class="fl">2</span><span class="op">)</span> </span>
+<span>  <span class="op">)</span><span class="op">)</span> </span>
+<span> </span>
+<span> </span>
+<span><span class="fu"><a href="https://rdrr.io/r/stats/cor.html">cor</a></span><span class="op">(</span><span class="va">dat</span><span class="op">)</span> </span>
+<span> </span>
+<span> </span>
+<span><span class="co"># equivalently, you can provide a prefix for the variable names </span></span>
+<span><span class="co"># (easier if you have many variables) </span></span>
+<span><span class="fu"><a href="//reference/draw_multivariate.html">draw_multivariate</a></span><span class="op">(</span><span class="va">Y</span> <span class="op">~</span> <span class="fu"><a href="https://rdrr.io/pkg/MASS/man/mvrnorm.html">mvrnorm</a></span><span class="op">(</span> </span>
+<span>  n <span class="op">=</span> <span class="fl">5</span>, </span>
+<span>  mu <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">0</span><span class="op">)</span>, </span>
+<span>  Sigma <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/matrix.html">matrix</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">0.5</span>, <span class="fl">0.5</span>, <span class="fl">1</span><span class="op">)</span>, <span class="fl">2</span>, <span class="fl">2</span><span class="op">)</span> </span>
+<span><span class="op">)</span><span class="op">)</span> </span>
+<span> </span>
+<span><span class="co"># within fabricate </span></span>
+<span><span class="fu"><a href="//reference/fabricate.html">fabricate</a></span><span class="op">(</span> </span>
+<span>  N <span class="op">=</span> <span class="fl">100</span>, </span>
+<span>  <span class="fu"><a href="//reference/draw_multivariate.html">draw_multivariate</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="va">Y_1</span>, <span class="va">Y_2</span><span class="op">)</span> <span class="op">~</span> <span class="fu"><a href="https://rdrr.io/pkg/MASS/man/mvrnorm.html">mvrnorm</a></span><span class="op">(</span> </span>
+<span>    n <span class="op">=</span> <span class="va">N</span>, </span>
+<span>    mu <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">0</span><span class="op">)</span>, </span>
+<span>    Sigma <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/matrix.html">matrix</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">0.5</span>, <span class="fl">0.5</span>, <span class="fl">1</span><span class="op">)</span>, <span class="fl">2</span>, <span class="fl">2</span><span class="op">)</span> </span>
+<span>  <span class="op">)</span><span class="op">)</span> </span>
+<span><span class="op">)</span> </span>
+<span> </span>
+<span><span class="co"># You can also write the following, which works but gives less control over the names </span></span>
+<span><span class="fu"><a href="//reference/fabricate.html">fabricate</a></span><span class="op">(</span>N <span class="op">=</span> <span class="fl">100</span>, </span>
+<span>Y <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/pkg/MASS/man/mvrnorm.html">mvrnorm</a></span><span class="op">(</span> </span>
+<span>  n <span class="op">=</span> <span class="va">N</span>, </span>
+<span>  mu <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">0</span><span class="op">)</span>, </span>
+<span>  Sigma <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/matrix.html">matrix</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">0.5</span>, <span class="fl">0.5</span>, <span class="fl">1</span><span class="op">)</span>, <span class="fl">2</span>, <span class="fl">2</span><span class="op">)</span> </span>
+<span><span class="op">)</span><span class="op">)</span> </span></code></pre></div>
 </div>
 
 
-</section></section></main><!-- /main --><script id="quarto-html-after-body" type="application/javascript">
+</section></main><!-- /main --><script id="quarto-html-after-body" type="application/javascript">
 window.document.addEventListener("DOMContentLoaded", function (event) {
   const toggleBodyColorMode = (bsSheetEl) => {
     const mode = bsSheetEl.getAttribute("data-mode");
@@ -494,7 +304,24 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     button.classList.add('code-copy-button-checked');
     var currentTitle = button.getAttribute("title");
     button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
     setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
       button.setAttribute("title", currentTitle);
       button.classList.remove('code-copy-button-checked');
     }, 1000);
@@ -522,31 +349,50 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
   for (var i=0; i<noterefs.length; i++) {
     const ref = noterefs[i];
     tippyHover(ref, function() {
-      let href = ref.getAttribute('href');
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
       try { href = new URL(href).hash; } catch {}
       const id = href.replace(/^#\/?/, "");
       const note = window.document.getElementById(id);
       return note.innerHTML;
     });
   }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
   var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
   for (var i=0; i<bibliorefs.length; i++) {
     const ref = bibliorefs[i];
-    const cites = ref.parentNode.getAttribute('data-cites').split(' ');
-    tippyHover(ref, function() {
-      var popup = window.document.createElement('div');
-      cites.forEach(function(cite) {
-        var citeDiv = window.document.createElement('div');
-        citeDiv.classList.add('hanging-indent');
-        citeDiv.classList.add('csl-entry');
-        var biblioDiv = window.document.getElementById('ref-' + cite);
-        if (biblioDiv) {
-          citeDiv.innerHTML = biblioDiv.innerHTML;
-        }
-        popup.appendChild(citeDiv);
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
       });
-      return popup.innerHTML;
-    });
+    }
   }
 });
 </script>

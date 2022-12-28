@@ -3,16 +3,21 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.0.38">
+<meta name="generator" content="quarto-1.2.280">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
-<title>**Declare**Design – fabricate</title>
+<title>DeclareDesign - Fabricate data</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
-span.underline{text-decoration: underline;}
-div.column{display: inline-block; vertical-align: top; width: 50%;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
 div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
 ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1.6em;
+  vertical-align: middle;
+}
 pre > code.sourceCode { white-space: pre; position: relative; }
 pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
 pre > code.sourceCode > span:empty { height: 1.2em; }
@@ -51,7 +56,7 @@ code span.al { color: #ff0000; font-weight: bold; } /* Alert */
 code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
 code span.at { color: #7d9029; } /* Attribute */
 code span.bn { color: #40a070; } /* BaseN */
-code span.bu { } /* BuiltIn */
+code span.bu { color: #008000; } /* BuiltIn */
 code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
 code span.ch { color: #4070a0; } /* Char */
 code span.cn { color: #880000; } /* Constant */
@@ -64,7 +69,7 @@ code span.er { color: #ff0000; font-weight: bold; } /* Error */
 code span.ex { } /* Extension */
 code span.fl { color: #40a070; } /* Float */
 code span.fu { color: #06287e; } /* Function */
-code span.im { } /* Import */
+code span.im { color: #008000; font-weight: bold; } /* Import */
 code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
 code span.kw { color: #007020; font-weight: bold; } /* Keyword */
 code span.op { color: #666666; } /* Operator */
@@ -106,22 +111,30 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 
 <div id="quarto-search-results"></div>
   <header id="quarto-header" class="headroom fixed-top"><nav class="navbar navbar-expand-lg navbar-dark "><div class="navbar-container container-fluid">
-      <a class="navbar-brand" href="../../index.html">
-    <img src="../../static/dd-logo-sm.svg" alt=""><span class="navbar-title"><strong>Declare</strong>Design</span>
-  </a>
+      <div class="navbar-brand-container">
+    <a href="../../index.html" class="navbar-brand navbar-brand-logo">
+    <img src="../../static/dd-logo-sm.svg" alt="" class="navbar-logo"></a>
+    <a class="navbar-brand" href="../../index.html">
+    <span class="navbar-title"><strong>Declare</strong>Design</span>
+    </a>
+  </div>
           <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
   <span class="navbar-toggler-icon"></span>
 </button>
           <div class="collapse navbar-collapse" id="navbarCollapse">
             <ul class="navbar-nav navbar-nav-scroll ms-auto">
 <li class="nav-item">
-    <a class="nav-link" href="../../getting-started.html">Getting started</a>
+    <a class="nav-link" href="../../getting-started.html">
+ <span class="menu-text">Getting started</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link" href="https://book.declaredesign.org">Book</a>
+    <a class="nav-link" href="https://book.declaredesign.org">
+ <span class="menu-text">Book</span></a>
   </li>  
   <li class="nav-item dropdown ">
-    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-software" role="button" data-bs-toggle="dropdown" aria-expanded="false">Software</a>
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-software" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+ <span class="menu-text">Software</span>
+    </a>
     <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="nav-menu-software">
 <li>
     <a class="dropdown-item" href="../../declaredesign/">
@@ -142,10 +155,12 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
     </ul>
 </li>
   <li class="nav-item">
-    <a class="nav-link" href="../../blog.html">Blog</a>
+    <a class="nav-link" href="../../blog">
+ <span class="menu-text">Blog</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link" href="../../about.html">About</a>
+    <a class="nav-link" href="../../about">
+ <span class="menu-text">About</span></a>
   </li>  
 </ul>
 <div id="quarto-search" class="" title="Search"></div>
@@ -156,29 +171,42 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <!-- margin-sidebar -->
     
 <!-- main -->
-<main class="content" id="quarto-document-content"><hr>
-<hr>
-<section id="fabricate" class="level1"><h1>fabricate</h1>
-<p>Fabricate data</p>
-<section id="description" class="level2"><h2 class="anchored" data-anchor-id="description">Description</h2>
+<main class="content" id="quarto-document-content"><header id="title-block-header" class="quarto-title-block default"><div class="quarto-title">
+<h1 class="title">Fabricate data</h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+</header><p><em>R/aaa_fabricate.R, R/add_level.R,</em></p>
+<section id="fabricate" class="level2"><h2 class="anchored" data-anchor-id="fabricate">fabricate</h2>
+</section><section id="description" class="level2"><h2 class="anchored" data-anchor-id="description">Description</h2>
 <p><code>fabricate</code> helps you simulate a dataset before you collect it. You can either start with your own data and add simulated variables to it (by passing <code>data</code> to <code><a href="//reference/fabricate.html">fabricate()</a></code>) or start from scratch by defining <code>N</code>. Create hierarchical data with multiple levels of data such as citizens within cities within states using <code><a href="//reference/fabricate.html">add_level()</a></code> or modify existing hierarchical data using <code><a href="//reference/fabricate.html">modify_level()</a></code>. You can use any R function to create each variable. Use <code><a href="//reference/cross_levels.html">cross_levels()</a></code> and <code><a href="//reference/cross_levels.html">link_levels()</a></code> to make more complex designs such as panel or cross-classified data.</p>
 </section><section id="usage" class="level2"><h2 class="anchored" data-anchor-id="usage">Usage</h2>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="//reference/fabricate.html">fabricate</a></span><span class="op">(</span><span class="va">...</span>, data <span class="op">=</span> <span class="cn">NULL</span>, N <span class="op">=</span> <span class="cn">NULL</span>, ID_label <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span></span>
-<span></span>
-<span><span class="fu"><a href="//reference/fabricate.html">add_level</a></span><span class="op">(</span>N <span class="op">=</span> <span class="cn">NULL</span>, <span class="va">...</span>, nest <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
-<span></span>
-<span><span class="fu"><a href="//reference/fabricate.html">modify_level</a></span><span class="op">(</span><span class="va">...</span>, by <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span></span>
-<span></span>
-<span><span class="fu"><a href="//reference/fabricate.html">nest_level</a></span><span class="op">(</span>N <span class="op">=</span> <span class="cn">NULL</span>, <span class="va">...</span><span class="op">)</span></span></code></pre></div>
+<code class="sourceCode R"><span> </span>
+<span><span class="fu"><a href="//reference/fabricate.html">fabricate</a></span><span class="op">(</span><span class="va">...</span>, data <span class="op">=</span> <span class="cn">NULL</span>, N <span class="op">=</span> <span class="cn">NULL</span>, ID_label <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span> </span>
+<span> </span>
+<span><span class="fu"><a href="//reference/fabricate.html">add_level</a></span><span class="op">(</span>N <span class="op">=</span> <span class="cn">NULL</span>, <span class="va">...</span>, nest <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span> </span>
+<span> </span>
+<span><span class="fu"><a href="//reference/fabricate.html">modify_level</a></span><span class="op">(</span><span class="va">...</span>, by <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span> </span>
+<span> </span>
+<span><span class="fu"><a href="//reference/fabricate.html">nest_level</a></span><span class="op">(</span>N <span class="op">=</span> <span class="cn">NULL</span>, <span class="va">...</span><span class="op">)</span> </span></code></pre></div>
 </section><section id="arguments" class="level2"><h2 class="anchored" data-anchor-id="arguments">Arguments</h2>
 <table class="table">
 <colgroup>
-<col style="width: 44%">
-<col style="width: 55%">
+<col style="width: 50%">
+<col style="width: 50%">
 </colgroup>
 <thead><tr class="header">
-<th>Argument</th>
+<th>Arguments</th>
 <th>Description</th>
 </tr></thead>
 <tbody>
@@ -215,103 +243,69 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div class="cell">
 <div class="sourceCode cell-code" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://declaredesign.org/r/fabricatr/">fabricatr</a></span><span class="op">)</span></span>
-<span></span>
-<span></span>
-<span></span>
-<span><span class="co"># Draw a single-level dataset with a covariate</span></span>
-<span><span class="va">building_df</span> <span class="op">&lt;-</span> <span class="fu"><a href="//reference/fabricate.html">fabricate</a></span><span class="op">(</span></span>
-<span>  N <span class="op">=</span> <span class="fl">100</span>,</span>
-<span>  height_ft <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/Uniform.html">runif</a></span><span class="op">(</span><span class="va">N</span>, <span class="fl">300</span>, <span class="fl">800</span><span class="op">)</span></span>
-<span><span class="op">)</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span><span class="op">(</span><span class="va">building_df</span><span class="op">)</span></span></code></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>   ID height_ft
-1 001  667.7004
-2 002  569.3364
-3 003  569.2783
-4 004  753.7673
-5 005  425.6066
-6 006  649.5601</code></pre>
-</div>
-<div class="sourceCode cell-code" id="cb4"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="co"># Start with existing data instead</span></span>
-<span><span class="va">building_modified</span> <span class="op">&lt;-</span> <span class="fu"><a href="//reference/fabricate.html">fabricate</a></span><span class="op">(</span></span>
-<span>  data <span class="op">=</span> <span class="va">building_df</span>,</span>
-<span>  rent <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/Normal.html">rnorm</a></span><span class="op">(</span><span class="va">N</span>, mean <span class="op">=</span> <span class="va">height_ft</span> <span class="op">*</span> <span class="fl">100</span>, sd <span class="op">=</span> <span class="va">height_ft</span> <span class="op">*</span> <span class="fl">30</span><span class="op">)</span></span>
-<span><span class="op">)</span></span>
-<span></span>
-<span><span class="co"># Draw a two-level hierarchical dataset</span></span>
-<span><span class="co"># containing cities within regions</span></span>
-<span><span class="va">multi_level_df</span> <span class="op">&lt;-</span> <span class="fu"><a href="//reference/fabricate.html">fabricate</a></span><span class="op">(</span></span>
-<span> regions <span class="op">=</span> <span class="fu"><a href="//reference/fabricate.html">add_level</a></span><span class="op">(</span>N <span class="op">=</span> <span class="fl">5</span><span class="op">)</span>,</span>
-<span> cities <span class="op">=</span> <span class="fu"><a href="//reference/fabricate.html">add_level</a></span><span class="op">(</span>N <span class="op">=</span> <span class="fl">2</span>, pollution <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/Normal.html">rnorm</a></span><span class="op">(</span><span class="va">N</span>, mean <span class="op">=</span> <span class="fl">5</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span><span class="op">(</span><span class="va">multi_level_df</span><span class="op">)</span></span></code></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>  regions cities pollution
-1       1     01  4.937988
-2       1     02  4.442235
-3       2     03  3.977448
-4       2     04  5.175421
-5       3     05  5.940253
-6       3     06  5.393520</code></pre>
-</div>
-<div class="sourceCode cell-code" id="cb6"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="co"># Start with existing data and add a nested level:</span></span>
-<span><span class="va">company_df</span> <span class="op">&lt;-</span> <span class="fu"><a href="//reference/fabricate.html">fabricate</a></span><span class="op">(</span></span>
-<span> data <span class="op">=</span> <span class="va">building_df</span>,</span>
-<span> company_id <span class="op">=</span> <span class="fu"><a href="//reference/fabricate.html">add_level</a></span><span class="op">(</span>N<span class="op">=</span><span class="fl">10</span>, is_headquarters <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/sample.html">sample</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">1</span><span class="op">)</span>, <span class="va">N</span>, replace<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span><span class="op">)</span></span>
-<span><span class="op">)</span></span>
-<span></span>
-<span><span class="co"># Start with existing data and add variables to hierarchical data</span></span>
-<span><span class="co"># at levels which are already present in the existing data.</span></span>
-<span><span class="co"># Note: do not provide N when adding variables to an existing level</span></span>
-<span><span class="fu"><a href="//reference/fabricate.html">fabricate</a></span><span class="op">(</span></span>
-<span>  data <span class="op">=</span> <span class="va">multi_level_df</span>,</span>
-<span>  regions <span class="op">=</span> <span class="fu"><a href="//reference/fabricate.html">modify_level</a></span><span class="op">(</span>watershed <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/sample.html">sample</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">1</span><span class="op">)</span>, <span class="va">N</span>, replace <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span><span class="op">)</span>,</span>
-<span>  cities <span class="op">=</span> <span class="fu"><a href="//reference/fabricate.html">modify_level</a></span><span class="op">(</span>runoff <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/Normal.html">rnorm</a></span><span class="op">(</span><span class="va">N</span><span class="op">)</span><span class="op">)</span></span>
-<span><span class="op">)</span></span></code></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>   regions cities pollution watershed      runoff
-1        1     01  4.937988         0  0.33194039
-2        1     02  4.442235         0  1.48089760
-3        2     03  3.977448         1  0.51573112
-4        2     04  5.175421         0 -1.18901517
-5        3     05  5.940253         1  1.67259998
-6        3     06  5.393520         1 -1.65174024
-7        4     07  5.192119         1  0.05431504
-8        4     08  7.034289         1  0.21867079
-9        5     09  5.788995         0 -2.48088772
-10       5     10  5.546166         1  0.27319202</code></pre>
-</div>
-<div class="sourceCode cell-code" id="cb8"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="co"># fabricatr can add variables that are higher-level summaries of lower-level</span></span>
-<span><span class="co"># variables via a split-modify-combine logic and the \code{by} argument</span></span>
-<span></span>
-<span><span class="va">multi_level_df</span> <span class="op">&lt;-</span></span>
-<span> <span class="fu"><a href="//reference/fabricate.html">fabricate</a></span><span class="op">(</span></span>
-<span>   regions <span class="op">=</span> <span class="fu"><a href="//reference/fabricate.html">add_level</a></span><span class="op">(</span>N <span class="op">=</span> <span class="fl">5</span>, elevation <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/Normal.html">rnorm</a></span><span class="op">(</span><span class="va">N</span><span class="op">)</span><span class="op">)</span>,</span>
-<span>   cities <span class="op">=</span> <span class="fu"><a href="//reference/fabricate.html">add_level</a></span><span class="op">(</span>N <span class="op">=</span> <span class="fl">2</span>, pollution <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/Normal.html">rnorm</a></span><span class="op">(</span><span class="va">N</span>, mean <span class="op">=</span> <span class="fl">5</span><span class="op">)</span><span class="op">)</span>,</span>
-<span>   cities <span class="op">=</span> <span class="fu"><a href="//reference/fabricate.html">modify_level</a></span><span class="op">(</span>by <span class="op">=</span> <span class="st">"regions"</span>, regional_pollution <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/mean.html">mean</a></span><span class="op">(</span><span class="va">pollution</span><span class="op">)</span><span class="op">)</span></span>
-<span> <span class="op">)</span></span>
-<span></span>
-<span><span class="co"># fabricatr can also make panel or cross-classified data. For more</span></span>
-<span><span class="co"># information about syntax for this functionality please read our vignette</span></span>
-<span><span class="co"># or check documentation for \code{link_levels}:</span></span>
-<span><span class="va">cross_classified</span> <span class="op">&lt;-</span> <span class="fu"><a href="//reference/fabricate.html">fabricate</a></span><span class="op">(</span></span>
-<span>  primary_schools <span class="op">=</span> <span class="fu"><a href="//reference/fabricate.html">add_level</a></span><span class="op">(</span>N <span class="op">=</span> <span class="fl">50</span>, ps_quality <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/Uniform.html">runif</a></span><span class="op">(</span><span class="va">N</span>, <span class="fl">0</span>, <span class="fl">10</span><span class="op">)</span><span class="op">)</span>,</span>
-<span>  secondary_schools <span class="op">=</span> <span class="fu"><a href="//reference/fabricate.html">add_level</a></span><span class="op">(</span>N <span class="op">=</span> <span class="fl">100</span>, ss_quality <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/Uniform.html">runif</a></span><span class="op">(</span><span class="va">N</span>, <span class="fl">0</span>, <span class="fl">10</span><span class="op">)</span>, nest<span class="op">=</span><span class="cn">FALSE</span><span class="op">)</span>,</span>
-<span>  students <span class="op">=</span> <span class="fu"><a href="//reference/cross_levels.html">link_levels</a></span><span class="op">(</span>N <span class="op">=</span> <span class="fl">2000</span>,</span>
-<span>                          by <span class="op">=</span> <span class="fu"><a href="//reference/join_using.html">join_using</a></span><span class="op">(</span><span class="va">ps_quality</span>, <span class="va">ss_quality</span>, rho <span class="op">=</span> <span class="fl">0.5</span><span class="op">)</span>,</span>
-<span>                          student_quality <span class="op">=</span> <span class="va">ps_quality</span> <span class="op">+</span> <span class="fl">3</span><span class="op">*</span><span class="va">ss_quality</span> <span class="op">+</span> <span class="fu"><a href="https://rdrr.io/r/stats/Normal.html">rnorm</a></span><span class="op">(</span><span class="va">N</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
-<div class="cell-output cell-output-stderr">
-<pre><code>`link_levels()` calls are faster if the `mvnfast` package is installed.</code></pre>
-</div>
+<span> </span>
+<span> </span>
+<span> </span>
+<span><span class="co"># Draw a single-level dataset with a covariate </span></span>
+<span><span class="va">building_df</span> <span class="op">&lt;-</span> <span class="fu"><a href="//reference/fabricate.html">fabricate</a></span><span class="op">(</span> </span>
+<span>  N <span class="op">=</span> <span class="fl">100</span>, </span>
+<span>  height_ft <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/Uniform.html">runif</a></span><span class="op">(</span><span class="va">N</span>, <span class="fl">300</span>, <span class="fl">800</span><span class="op">)</span> </span>
+<span><span class="op">)</span> </span>
+<span><span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span><span class="op">(</span><span class="va">building_df</span><span class="op">)</span> </span>
+<span> </span>
+<span><span class="co"># Start with existing data instead </span></span>
+<span><span class="va">building_modified</span> <span class="op">&lt;-</span> <span class="fu"><a href="//reference/fabricate.html">fabricate</a></span><span class="op">(</span> </span>
+<span>  data <span class="op">=</span> <span class="va">building_df</span>, </span>
+<span>  rent <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/Normal.html">rnorm</a></span><span class="op">(</span><span class="va">N</span>, mean <span class="op">=</span> <span class="va">height_ft</span> <span class="op">*</span> <span class="fl">100</span>, sd <span class="op">=</span> <span class="va">height_ft</span> <span class="op">*</span> <span class="fl">30</span><span class="op">)</span> </span>
+<span><span class="op">)</span> </span>
+<span> </span>
+<span><span class="co"># Draw a two-level hierarchical dataset </span></span>
+<span><span class="co"># containing cities within regions </span></span>
+<span><span class="va">multi_level_df</span> <span class="op">&lt;-</span> <span class="fu"><a href="//reference/fabricate.html">fabricate</a></span><span class="op">(</span> </span>
+<span> regions <span class="op">=</span> <span class="fu"><a href="//reference/fabricate.html">add_level</a></span><span class="op">(</span>N <span class="op">=</span> <span class="fl">5</span><span class="op">)</span>, </span>
+<span> cities <span class="op">=</span> <span class="fu"><a href="//reference/fabricate.html">add_level</a></span><span class="op">(</span>N <span class="op">=</span> <span class="fl">2</span>, pollution <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/Normal.html">rnorm</a></span><span class="op">(</span><span class="va">N</span>, mean <span class="op">=</span> <span class="fl">5</span><span class="op">)</span><span class="op">)</span><span class="op">)</span> </span>
+<span><span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span><span class="op">(</span><span class="va">multi_level_df</span><span class="op">)</span> </span>
+<span> </span>
+<span><span class="co"># Start with existing data and add a nested level: </span></span>
+<span><span class="va">company_df</span> <span class="op">&lt;-</span> <span class="fu"><a href="//reference/fabricate.html">fabricate</a></span><span class="op">(</span> </span>
+<span> data <span class="op">=</span> <span class="va">building_df</span>, </span>
+<span> company_id <span class="op">=</span> <span class="fu"><a href="//reference/fabricate.html">add_level</a></span><span class="op">(</span>N<span class="op">=</span><span class="fl">10</span>, is_headquarters <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/sample.html">sample</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">1</span><span class="op">)</span>, <span class="va">N</span>, replace<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span><span class="op">)</span> </span>
+<span><span class="op">)</span> </span>
+<span> </span>
+<span><span class="co"># Start with existing data and add variables to hierarchical data </span></span>
+<span><span class="co"># at levels which are already present in the existing data. </span></span>
+<span><span class="co"># Note: do not provide N when adding variables to an existing level </span></span>
+<span><span class="fu"><a href="//reference/fabricate.html">fabricate</a></span><span class="op">(</span> </span>
+<span>  data <span class="op">=</span> <span class="va">multi_level_df</span>, </span>
+<span>  regions <span class="op">=</span> <span class="fu"><a href="//reference/fabricate.html">modify_level</a></span><span class="op">(</span>watershed <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/sample.html">sample</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">1</span><span class="op">)</span>, <span class="va">N</span>, replace <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span><span class="op">)</span>, </span>
+<span>  cities <span class="op">=</span> <span class="fu"><a href="//reference/fabricate.html">modify_level</a></span><span class="op">(</span>runoff <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/Normal.html">rnorm</a></span><span class="op">(</span><span class="va">N</span><span class="op">)</span><span class="op">)</span> </span>
+<span><span class="op">)</span> </span>
+<span> </span>
+<span><span class="co"># fabricatr can add variables that are higher-level summaries of lower-level </span></span>
+<span><span class="co"># variables via a split-modify-combine logic and the \code{by} argument </span></span>
+<span> </span>
+<span><span class="va">multi_level_df</span> <span class="op">&lt;-</span> </span>
+<span> <span class="fu"><a href="//reference/fabricate.html">fabricate</a></span><span class="op">(</span> </span>
+<span>   regions <span class="op">=</span> <span class="fu"><a href="//reference/fabricate.html">add_level</a></span><span class="op">(</span>N <span class="op">=</span> <span class="fl">5</span>, elevation <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/Normal.html">rnorm</a></span><span class="op">(</span><span class="va">N</span><span class="op">)</span><span class="op">)</span>, </span>
+<span>   cities <span class="op">=</span> <span class="fu"><a href="//reference/fabricate.html">add_level</a></span><span class="op">(</span>N <span class="op">=</span> <span class="fl">2</span>, pollution <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/Normal.html">rnorm</a></span><span class="op">(</span><span class="va">N</span>, mean <span class="op">=</span> <span class="fl">5</span><span class="op">)</span><span class="op">)</span>, </span>
+<span>   cities <span class="op">=</span> <span class="fu"><a href="//reference/fabricate.html">modify_level</a></span><span class="op">(</span>by <span class="op">=</span> <span class="st">"regions"</span>, regional_pollution <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/mean.html">mean</a></span><span class="op">(</span><span class="va">pollution</span><span class="op">)</span><span class="op">)</span> </span>
+<span> <span class="op">)</span> </span>
+<span> </span>
+<span><span class="co"># fabricatr can also make panel or cross-classified data. For more </span></span>
+<span><span class="co"># information about syntax for this functionality please read our vignette </span></span>
+<span><span class="co"># or check documentation for \code{link_levels}: </span></span>
+<span><span class="va">cross_classified</span> <span class="op">&lt;-</span> <span class="fu"><a href="//reference/fabricate.html">fabricate</a></span><span class="op">(</span> </span>
+<span>  primary_schools <span class="op">=</span> <span class="fu"><a href="//reference/fabricate.html">add_level</a></span><span class="op">(</span>N <span class="op">=</span> <span class="fl">50</span>, ps_quality <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/Uniform.html">runif</a></span><span class="op">(</span><span class="va">N</span>, <span class="fl">0</span>, <span class="fl">10</span><span class="op">)</span><span class="op">)</span>, </span>
+<span>  secondary_schools <span class="op">=</span> <span class="fu"><a href="//reference/fabricate.html">add_level</a></span><span class="op">(</span>N <span class="op">=</span> <span class="fl">100</span>, ss_quality <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/Uniform.html">runif</a></span><span class="op">(</span><span class="va">N</span>, <span class="fl">0</span>, <span class="fl">10</span><span class="op">)</span>, nest<span class="op">=</span><span class="cn">FALSE</span><span class="op">)</span>, </span>
+<span>  students <span class="op">=</span> <span class="fu"><a href="//reference/cross_levels.html">link_levels</a></span><span class="op">(</span>N <span class="op">=</span> <span class="fl">2000</span>, </span>
+<span>                          by <span class="op">=</span> <span class="fu"><a href="//reference/join_using.html">join_using</a></span><span class="op">(</span><span class="va">ps_quality</span>, <span class="va">ss_quality</span>, rho <span class="op">=</span> <span class="fl">0.5</span><span class="op">)</span>, </span>
+<span>                          student_quality <span class="op">=</span> <span class="va">ps_quality</span> <span class="op">+</span> <span class="fl">3</span><span class="op">*</span><span class="va">ss_quality</span> <span class="op">+</span> <span class="fu"><a href="https://rdrr.io/r/stats/Normal.html">rnorm</a></span><span class="op">(</span><span class="va">N</span><span class="op">)</span><span class="op">)</span><span class="op">)</span> </span></code></pre></div>
 </div>
 </section><section id="see-also" class="level2"><h2 class="anchored" data-anchor-id="see-also">See Also</h2>
 <p><code>link_levels</code></p>
 
 
-</section></section></main><!-- /main --><script id="quarto-html-after-body" type="application/javascript">
+</section></main><!-- /main --><script id="quarto-html-after-body" type="application/javascript">
 window.document.addEventListener("DOMContentLoaded", function (event) {
   const toggleBodyColorMode = (bsSheetEl) => {
     const mode = bsSheetEl.getAttribute("data-mode");
@@ -352,7 +346,24 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     button.classList.add('code-copy-button-checked');
     var currentTitle = button.getAttribute("title");
     button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
     setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
       button.setAttribute("title", currentTitle);
       button.classList.remove('code-copy-button-checked');
     }, 1000);
@@ -380,31 +391,50 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
   for (var i=0; i<noterefs.length; i++) {
     const ref = noterefs[i];
     tippyHover(ref, function() {
-      let href = ref.getAttribute('href');
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
       try { href = new URL(href).hash; } catch {}
       const id = href.replace(/^#\/?/, "");
       const note = window.document.getElementById(id);
       return note.innerHTML;
     });
   }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
   var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
   for (var i=0; i<bibliorefs.length; i++) {
     const ref = bibliorefs[i];
-    const cites = ref.parentNode.getAttribute('data-cites').split(' ');
-    tippyHover(ref, function() {
-      var popup = window.document.createElement('div');
-      cites.forEach(function(cite) {
-        var citeDiv = window.document.createElement('div');
-        citeDiv.classList.add('hanging-indent');
-        citeDiv.classList.add('csl-entry');
-        var biblioDiv = window.document.getElementById('ref-' + cite);
-        if (biblioDiv) {
-          citeDiv.innerHTML = biblioDiv.innerHTML;
-        }
-        popup.appendChild(citeDiv);
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
       });
-      return popup.innerHTML;
-    });
+    }
   }
 });
 </script>

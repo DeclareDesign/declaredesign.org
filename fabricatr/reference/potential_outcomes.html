@@ -3,16 +3,21 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.0.38">
+<meta name="generator" content="quarto-1.2.280">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
-<title>**Declare**Design – potential_outcomes</title>
+<title>DeclareDesign - Build potential outcomes variables</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
-span.underline{text-decoration: underline;}
-div.column{display: inline-block; vertical-align: top; width: 50%;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
 div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
 ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1.6em;
+  vertical-align: middle;
+}
 pre > code.sourceCode { white-space: pre; position: relative; }
 pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
 pre > code.sourceCode > span:empty { height: 1.2em; }
@@ -51,7 +56,7 @@ code span.al { color: #ff0000; font-weight: bold; } /* Alert */
 code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
 code span.at { color: #7d9029; } /* Attribute */
 code span.bn { color: #40a070; } /* BaseN */
-code span.bu { } /* BuiltIn */
+code span.bu { color: #008000; } /* BuiltIn */
 code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
 code span.ch { color: #4070a0; } /* Char */
 code span.cn { color: #880000; } /* Constant */
@@ -64,7 +69,7 @@ code span.er { color: #ff0000; font-weight: bold; } /* Error */
 code span.ex { } /* Extension */
 code span.fl { color: #40a070; } /* Float */
 code span.fu { color: #06287e; } /* Function */
-code span.im { } /* Import */
+code span.im { color: #008000; font-weight: bold; } /* Import */
 code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
 code span.kw { color: #007020; font-weight: bold; } /* Keyword */
 code span.op { color: #666666; } /* Operator */
@@ -106,22 +111,30 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 
 <div id="quarto-search-results"></div>
   <header id="quarto-header" class="headroom fixed-top"><nav class="navbar navbar-expand-lg navbar-dark "><div class="navbar-container container-fluid">
-      <a class="navbar-brand" href="../../index.html">
-    <img src="../../static/dd-logo-sm.svg" alt=""><span class="navbar-title"><strong>Declare</strong>Design</span>
-  </a>
+      <div class="navbar-brand-container">
+    <a href="../../index.html" class="navbar-brand navbar-brand-logo">
+    <img src="../../static/dd-logo-sm.svg" alt="" class="navbar-logo"></a>
+    <a class="navbar-brand" href="../../index.html">
+    <span class="navbar-title"><strong>Declare</strong>Design</span>
+    </a>
+  </div>
           <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
   <span class="navbar-toggler-icon"></span>
 </button>
           <div class="collapse navbar-collapse" id="navbarCollapse">
             <ul class="navbar-nav navbar-nav-scroll ms-auto">
 <li class="nav-item">
-    <a class="nav-link" href="../../getting-started.html">Getting started</a>
+    <a class="nav-link" href="../../getting-started.html">
+ <span class="menu-text">Getting started</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link" href="https://book.declaredesign.org">Book</a>
+    <a class="nav-link" href="https://book.declaredesign.org">
+ <span class="menu-text">Book</span></a>
   </li>  
   <li class="nav-item dropdown ">
-    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-software" role="button" data-bs-toggle="dropdown" aria-expanded="false">Software</a>
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-software" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+ <span class="menu-text">Software</span>
+    </a>
     <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="nav-menu-software">
 <li>
     <a class="dropdown-item" href="../../declaredesign/">
@@ -142,10 +155,12 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
     </ul>
 </li>
   <li class="nav-item">
-    <a class="nav-link" href="../../blog.html">Blog</a>
+    <a class="nav-link" href="../../blog">
+ <span class="menu-text">Blog</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link" href="../../about.html">About</a>
+    <a class="nav-link" href="../../about">
+ <span class="menu-text">About</span></a>
   </li>  
 </ul>
 <div id="quarto-search" class="" title="Search"></div>
@@ -156,23 +171,36 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <!-- margin-sidebar -->
     
 <!-- main -->
-<main class="content" id="quarto-document-content"><hr>
-<hr>
-<section id="potential_outcomes" class="level1"><h1>potential_outcomes</h1>
-<p>Build potential outcomes variables</p>
-<section id="description" class="level2"><h2 class="anchored" data-anchor-id="description">Description</h2>
+<main class="content" id="quarto-document-content"><header id="title-block-header" class="quarto-title-block default"><div class="quarto-title">
+<h1 class="title">Build potential outcomes variables</h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+</header><p><em>R/potential_outcomes.R</em></p>
+<section id="potential_outcomes" class="level2"><h2 class="anchored" data-anchor-id="potential_outcomes">potential_outcomes</h2>
+</section><section id="description" class="level2"><h2 class="anchored" data-anchor-id="description">Description</h2>
 <p>Function to draw multiple potential outcomes, one for each condition that an assignment variable can be set to.</p>
 </section><section id="usage" class="level2"><h2 class="anchored" data-anchor-id="usage">Usage</h2>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="//reference/potential_outcomes.html">potential_outcomes</a></span><span class="op">(</span><span class="va">x</span>, conditions <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span>Z <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">1</span><span class="op">)</span><span class="op">)</span>, sep <span class="op">=</span> <span class="st">"_"</span><span class="op">)</span></span></code></pre></div>
+<code class="sourceCode R"><span> </span>
+<span><span class="fu"><a href="//reference/potential_outcomes.html">potential_outcomes</a></span><span class="op">(</span><span class="va">x</span>, conditions <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span>Z <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">1</span><span class="op">)</span><span class="op">)</span>, sep <span class="op">=</span> <span class="st">"_"</span><span class="op">)</span> </span></code></pre></div>
 </section><section id="arguments" class="level2"><h2 class="anchored" data-anchor-id="arguments">Arguments</h2>
 <table class="table">
 <colgroup>
-<col style="width: 44%">
-<col style="width: 55%">
+<col style="width: 50%">
+<col style="width: 50%">
 </colgroup>
 <thead><tr class="header">
-<th>Argument</th>
+<th>Arguments</th>
 <th>Description</th>
 </tr></thead>
 <tbody>
@@ -193,93 +221,41 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div class="cell">
 <div class="sourceCode cell-code" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://declaredesign.org/r/fabricatr/">fabricatr</a></span><span class="op">)</span></span>
-<span></span>
-<span></span>
-<span><span class="fu"><a href="//reference/fabricate.html">fabricate</a></span><span class="op">(</span></span>
-<span>  N <span class="op">=</span> <span class="fl">10</span>,</span>
-<span>  U <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/Normal.html">rnorm</a></span><span class="op">(</span><span class="va">N</span><span class="op">)</span>,</span>
-<span>  <span class="fu"><a href="//reference/potential_outcomes.html">potential_outcomes</a></span><span class="op">(</span><span class="va">Y</span> <span class="op">~</span> <span class="fl">0.1</span> <span class="op">*</span> <span class="va">Z</span> <span class="op">+</span> <span class="va">U</span><span class="op">)</span></span>
-<span><span class="op">)</span></span></code></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>   ID          U      Y_Z_0      Y_Z_1
-1  01 -0.7589717 -0.7589717 -0.6589717
-2  02 -1.1703048 -1.1703048 -1.0703048
-3  03  0.2373359  0.2373359  0.3373359
-4  04 -0.3432341 -0.3432341 -0.2432341
-5  05 -1.8410530 -1.8410530 -1.7410530
-6  06  2.4237120  2.4237120  2.5237120
-7  07  0.7432956  0.7432956  0.8432956
-8  08  0.3332010  0.3332010  0.4332010
-9  09  0.4652502  0.4652502  0.5652502
-10 10  1.9988474  1.9988474  2.0988474</code></pre>
-</div>
-<div class="sourceCode cell-code" id="cb4"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="co"># equivalently,</span></span>
-<span></span>
-<span><span class="fu"><a href="//reference/fabricate.html">fabricate</a></span><span class="op">(</span></span>
-<span>  N <span class="op">=</span> <span class="fl">10</span>,</span>
-<span>  U <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/Normal.html">rnorm</a></span><span class="op">(</span><span class="va">N</span><span class="op">)</span>,</span>
-<span>  <span class="fu"><a href="//reference/potential_outcomes.html">potential_outcomes</a></span><span class="op">(</span><span class="va">Y</span> <span class="op">~</span> <span class="fl">0.1</span> <span class="op">*</span> <span class="va">Z</span> <span class="op">+</span> <span class="va">U</span>,</span>
-<span>                     conditions <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span>Z <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">1</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span>
-<span><span class="op">)</span></span></code></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>   ID           U       Y_Z_0      Y_Z_1
-1  01  1.27727779  1.27727779  1.3772778
-2  02 -0.38578234 -0.38578234 -0.2857823
-3  03  0.78414448  0.78414448  0.8841445
-4  04  1.37029151  1.37029151  1.4702915
-5  05 -2.57225294 -2.57225294 -2.4722529
-6  06 -1.37136900 -1.37136900 -1.2713690
-7  07 -1.80680154 -1.80680154 -1.7068015
-8  08 -2.17022715 -2.17022715 -2.0702272
-9  09  0.06308687  0.06308687  0.1630869
-10 10 -0.43214796 -0.43214796 -0.3321480</code></pre>
-</div>
-<div class="sourceCode cell-code" id="cb6"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="//reference/fabricate.html">fabricate</a></span><span class="op">(</span></span>
-<span>  N <span class="op">=</span> <span class="fl">10</span>,</span>
-<span>  U <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/Normal.html">rnorm</a></span><span class="op">(</span><span class="va">N</span><span class="op">)</span>,</span>
-<span>  <span class="fu"><a href="//reference/potential_outcomes.html">potential_outcomes</a></span><span class="op">(</span><span class="va">Y</span> <span class="op">~</span> <span class="fl">0.1</span> <span class="op">*</span> <span class="va">Z</span> <span class="op">+</span> <span class="va">U</span>,</span>
-<span>                     conditions <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span>Z <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">2</span>, <span class="fl">3</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span>
-<span><span class="op">)</span></span></code></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>   ID           U       Y_Z_1      Y_Z_2     Y_Z_3
-1  01  0.10913673  0.20913673 0.30913673 0.4091367
-2  02 -0.04854323  0.05145677 0.15145677 0.2514568
-3  03  1.44564926  1.54564926 1.64564926 1.7456493
-4  04 -0.13998041 -0.03998041 0.06001959 0.1600196
-5  05  0.68758635  0.78758635 0.88758635 0.9875864
-6  06  1.62953055  1.72953055 1.82953055 1.9295306
-7  07  1.25825861  1.35825861 1.45825861 1.5582586
-8  08  0.94176864  1.04176864 1.14176864 1.2417686
-9  09  0.56050642  0.66050642 0.76050642 0.8605064
-10 10  0.22591487  0.32591487 0.42591487 0.5259149</code></pre>
-</div>
-<div class="sourceCode cell-code" id="cb8"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="//reference/fabricate.html">fabricate</a></span><span class="op">(</span></span>
-<span>  N <span class="op">=</span> <span class="fl">10</span>,</span>
-<span>  U <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/Normal.html">rnorm</a></span><span class="op">(</span><span class="va">N</span><span class="op">)</span>,</span>
-<span>  <span class="fu"><a href="//reference/potential_outcomes.html">potential_outcomes</a></span><span class="op">(</span><span class="va">Y</span> <span class="op">~</span> <span class="fl">0.1</span> <span class="op">*</span> <span class="va">Z1</span> <span class="op">+</span> <span class="fl">0.3</span> <span class="op">*</span> <span class="va">Z2</span> <span class="op">+</span> <span class="fl">0.5</span> <span class="op">*</span> <span class="va">Z1</span> <span class="op">*</span> <span class="va">Z2</span> <span class="op">+</span> <span class="va">U</span>,</span>
-<span>                     conditions <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span>Z1 <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">1</span><span class="op">)</span>,</span>
-<span>                                       Z2 <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">1</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span>
-<span><span class="op">)</span></span></code></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>   ID           U Y_Z1_0_Z2_0 Y_Z1_1_Z2_0 Y_Z1_0_Z2_1 Y_Z1_1_Z2_1
-1  01  0.16876702  0.16876702  0.26876702  0.46876702  1.06876702
-2  02 -0.63331868 -0.63331868 -0.53331868 -0.33331868  0.26668132
-3  03  1.52209477  1.52209477  1.62209477  1.82209477  2.42209477
-4  04 -0.80216428 -0.80216428 -0.70216428 -0.50216428  0.09783572
-5  05 -0.65112288 -0.65112288 -0.55112288 -0.35112288  0.24887712
-6  06 -0.33904863 -0.33904863 -0.23904863 -0.03904863  0.56095137
-7  07 -0.02012759 -0.02012759  0.07987241  0.27987241  0.87987241
-8  08 -1.04349500 -1.04349500 -0.94349500 -0.74349500 -0.14349500
-9  09 -1.11272333 -1.11272333 -1.01272333 -0.81272333 -0.21272333
-10 10  0.04887519  0.04887519  0.14887519  0.34887519  0.94887519</code></pre>
-</div>
+<span> </span>
+<span> </span>
+<span><span class="fu"><a href="//reference/fabricate.html">fabricate</a></span><span class="op">(</span> </span>
+<span>  N <span class="op">=</span> <span class="fl">10</span>, </span>
+<span>  U <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/Normal.html">rnorm</a></span><span class="op">(</span><span class="va">N</span><span class="op">)</span>, </span>
+<span>  <span class="fu"><a href="//reference/potential_outcomes.html">potential_outcomes</a></span><span class="op">(</span><span class="va">Y</span> <span class="op">~</span> <span class="fl">0.1</span> <span class="op">*</span> <span class="va">Z</span> <span class="op">+</span> <span class="va">U</span><span class="op">)</span> </span>
+<span><span class="op">)</span> </span>
+<span> </span>
+<span><span class="co"># equivalently, </span></span>
+<span> </span>
+<span><span class="fu"><a href="//reference/fabricate.html">fabricate</a></span><span class="op">(</span> </span>
+<span>  N <span class="op">=</span> <span class="fl">10</span>, </span>
+<span>  U <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/Normal.html">rnorm</a></span><span class="op">(</span><span class="va">N</span><span class="op">)</span>, </span>
+<span>  <span class="fu"><a href="//reference/potential_outcomes.html">potential_outcomes</a></span><span class="op">(</span><span class="va">Y</span> <span class="op">~</span> <span class="fl">0.1</span> <span class="op">*</span> <span class="va">Z</span> <span class="op">+</span> <span class="va">U</span>, </span>
+<span>                     conditions <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span>Z <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">1</span><span class="op">)</span><span class="op">)</span><span class="op">)</span> </span>
+<span><span class="op">)</span> </span>
+<span> </span>
+<span><span class="fu"><a href="//reference/fabricate.html">fabricate</a></span><span class="op">(</span> </span>
+<span>  N <span class="op">=</span> <span class="fl">10</span>, </span>
+<span>  U <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/Normal.html">rnorm</a></span><span class="op">(</span><span class="va">N</span><span class="op">)</span>, </span>
+<span>  <span class="fu"><a href="//reference/potential_outcomes.html">potential_outcomes</a></span><span class="op">(</span><span class="va">Y</span> <span class="op">~</span> <span class="fl">0.1</span> <span class="op">*</span> <span class="va">Z</span> <span class="op">+</span> <span class="va">U</span>, </span>
+<span>                     conditions <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span>Z <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">2</span>, <span class="fl">3</span><span class="op">)</span><span class="op">)</span><span class="op">)</span> </span>
+<span><span class="op">)</span> </span>
+<span> </span>
+<span><span class="fu"><a href="//reference/fabricate.html">fabricate</a></span><span class="op">(</span> </span>
+<span>  N <span class="op">=</span> <span class="fl">10</span>, </span>
+<span>  U <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/Normal.html">rnorm</a></span><span class="op">(</span><span class="va">N</span><span class="op">)</span>, </span>
+<span>  <span class="fu"><a href="//reference/potential_outcomes.html">potential_outcomes</a></span><span class="op">(</span><span class="va">Y</span> <span class="op">~</span> <span class="fl">0.1</span> <span class="op">*</span> <span class="va">Z1</span> <span class="op">+</span> <span class="fl">0.3</span> <span class="op">*</span> <span class="va">Z2</span> <span class="op">+</span> <span class="fl">0.5</span> <span class="op">*</span> <span class="va">Z1</span> <span class="op">*</span> <span class="va">Z2</span> <span class="op">+</span> <span class="va">U</span>, </span>
+<span>                     conditions <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span>Z1 <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">1</span><span class="op">)</span>, </span>
+<span>                                       Z2 <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">1</span><span class="op">)</span><span class="op">)</span><span class="op">)</span> </span>
+<span><span class="op">)</span> </span></code></pre></div>
 </div>
 
 
-</section></section></main><!-- /main --><script id="quarto-html-after-body" type="application/javascript">
+</section></main><!-- /main --><script id="quarto-html-after-body" type="application/javascript">
 window.document.addEventListener("DOMContentLoaded", function (event) {
   const toggleBodyColorMode = (bsSheetEl) => {
     const mode = bsSheetEl.getAttribute("data-mode");
@@ -320,7 +296,24 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     button.classList.add('code-copy-button-checked');
     var currentTitle = button.getAttribute("title");
     button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
     setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
       button.setAttribute("title", currentTitle);
       button.classList.remove('code-copy-button-checked');
     }, 1000);
@@ -348,31 +341,50 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
   for (var i=0; i<noterefs.length; i++) {
     const ref = noterefs[i];
     tippyHover(ref, function() {
-      let href = ref.getAttribute('href');
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
       try { href = new URL(href).hash; } catch {}
       const id = href.replace(/^#\/?/, "");
       const note = window.document.getElementById(id);
       return note.innerHTML;
     });
   }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
   var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
   for (var i=0; i<bibliorefs.length; i++) {
     const ref = bibliorefs[i];
-    const cites = ref.parentNode.getAttribute('data-cites').split(' ');
-    tippyHover(ref, function() {
-      var popup = window.document.createElement('div');
-      cites.forEach(function(cite) {
-        var citeDiv = window.document.createElement('div');
-        citeDiv.classList.add('hanging-indent');
-        citeDiv.classList.add('csl-entry');
-        var biblioDiv = window.document.getElementById('ref-' + cite);
-        if (biblioDiv) {
-          citeDiv.innerHTML = biblioDiv.innerHTML;
-        }
-        popup.appendChild(citeDiv);
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
       });
-      return popup.innerHTML;
-    });
+    }
   }
 });
 </script>
