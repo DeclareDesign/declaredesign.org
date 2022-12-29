@@ -125,7 +125,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
           <div class="collapse navbar-collapse" id="navbarCollapse">
             <ul class="navbar-nav navbar-nav-scroll ms-auto">
 <li class="nav-item">
-    <a class="nav-link" href="../getting-started.html">
+    <a class="nav-link" href="../getting-started/">
  <span class="menu-text">Getting started</span></a>
   </li>  
   <li class="nav-item">
@@ -188,17 +188,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
     
 <!-- main -->
 <main class="content quarto-banner-title-block" id="quarto-document-content"><div class="cell">
-<div class="cell-output cell-output-stderr">
-<pre><code>── Attaching packages ─────────────────────────────────────── tidyverse 1.3.2 ──
-✔ ggplot2 3.4.0      ✔ purrr   1.0.0 
-✔ tibble  3.1.8      ✔ dplyr   1.0.10
-✔ tidyr   1.2.1      ✔ stringr 1.5.0 
-✔ readr   2.1.3      ✔ forcats 0.5.2 
-── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──
-✖ dplyr::filter()     masks stats::filter()
-✖ dplyr::group_rows() masks kableExtra::group_rows()
-✖ dplyr::lag()        masks stats::lag()</code></pre>
-</div>
+
 </div>
 <p><font size="6">DeclareDesign is a set of tools for planning research studies</font></p>
 <p>VIDEO</p>
@@ -206,12 +196,12 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p>You can download R for free from <a href="https://cran.r-project.org">CRAN</a>. We also recommend the free program <a href="https://rstudio.com/products/rstudio/download">RStudio</a>, which provides a friendly interface to R. Both R and RStudio are available on Windows, Mac, and Linux.</p>
 <p>Once you have R and RStudio installed, open up RStudio and install DeclareDesign and its related packages. These include three packages that enable specific steps in the research process: <code>fabricatr</code> for simulating social science data, <code>randomizr</code> for random sampling and random assignment, and <code>estimatr</code> for design-based estimators. You can also install <code>rdddr</code>, which includes datasets and helper functions used in the book. To install them all, copy the following code into your R console:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb2"><pre class="downlit sourceCode r">
+<div class="sourceCode cell-code" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html">install.packages</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"DeclareDesign"</span>, <span class="st">"rdddr"</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 </div>
 <p>We also recommend that you install and get to know the <code>tidyverse</code> set of packages for data analysis:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb3"><pre class="downlit sourceCode r">
+<div class="sourceCode cell-code" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html">install.packages</a></span><span class="op">(</span><span class="st">"tidyverse"</span><span class="op">)</span></span></code></pre></div>
 </div>
 <p>For introductions to R and the <code>tidyverse</code> we especially recommend the free resource <a href="https://r4ds.had.co.nz">R for Data Science</a>.</p>
@@ -219,38 +209,15 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p>Designs are constructed from design elements: models, inquiries, data strategies, and answer strategies.</p>
 <p>In <code>DeclareDesign</code>, each design element is made with a function that starts with the word <code>declare</code>. For example, we can declare an assignment procedure using <code>declare_assignment</code> as follows:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb4"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://declaredesign.org/r/declaredesign/">DeclareDesign</a></span><span class="op">)</span></span></code></pre></div>
-<div class="cell-output cell-output-stderr">
-<pre><code>Loading required package: randomizr</code></pre>
-</div>
-<div class="cell-output cell-output-stderr">
-<pre><code>Loading required package: fabricatr</code></pre>
-</div>
-<div class="cell-output cell-output-stderr">
-<pre><code>Loading required package: estimatr</code></pre>
-</div>
-<div class="cell-output cell-output-stderr">
-<pre><code>
-Attaching package: 'DeclareDesign'</code></pre>
-</div>
-<div class="cell-output cell-output-stderr">
-<pre><code>The following object is masked from 'package:dplyr':
-
-    vars</code></pre>
-</div>
-<div class="cell-output cell-output-stderr">
-<pre><code>The following object is masked from 'package:ggplot2':
-
-    vars</code></pre>
-</div>
-<div class="sourceCode cell-code" id="cb11"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">simple_random_assignment</span> <span class="op">&lt;-</span> </span>
+<div class="sourceCode cell-code" id="cb3"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://declaredesign.org/r/declaredesign/">DeclareDesign</a></span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">simple_random_assignment</span> <span class="op">&lt;-</span> </span>
 <span>  <span class="fu"><a href="https://declaredesign.org/r/declaredesign/reference/declare_assignment.html">declare_assignment</a></span><span class="op">(</span>Z <span class="op">=</span> <span class="fu"><a href="//reference/simple_ra.html">simple_ra</a></span><span class="op">(</span>N <span class="op">=</span> <span class="va">N</span>, prob <span class="op">=</span> <span class="fl">0.6</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 </div>
 <p>Each element created by a <code>declare_*</code> function, perhaps surprisingly, is itself a <em>function</em>. The object <code>simple_random_assignment</code> is not a particular assignment — instead, it is a function that conducts assignment when called. Each time we call <code>simple_random_assignment</code> we get a different random assignment:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb12"><pre class="downlit sourceCode r">
+<div class="sourceCode cell-code" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">participants</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span><span class="op">(</span>ID <span class="op">=</span> <span class="fl">1</span><span class="op">:</span><span class="fl">100</span><span class="op">)</span></span>
 <span></span>
 <span><span class="va">assignment_1</span> <span class="op">&lt;-</span> <span class="fu">simple_random_assignment</span><span class="op">(</span><span class="va">participants</span><span class="op">)</span></span>
@@ -418,7 +385,7 @@ Attaching package: 'DeclareDesign'</code></pre>
 <p>We use the <code>+</code> operator to build from elements of a design to a design. <strong>?@def-ch4num1</strong> shows the format of most declarations throughout the book. This declaration represents a two-arm randomized experiment with 100 units from which we aim to estimate the average treatment effect.</p>
 <p><strong>Two-arm randomized experiment</strong></p>
 <div id="fig-designannotated" class="quarto-figure quarto-figure-center anchored">
-<figure class="figure"><p><img src="../figures/declaration-example.png" class="img-fluid figure-img"></p>
+<figure class="figure"><p><img src="https://draft.declaredesign.org/figures/declaration-example.svg" class="img-fluid figure-img"></p>
 <p></p>
 <figcaption class="figure-caption">Figure 1: Two-arm randomized experiment declaration</figcaption><p></p>
 </figure>
@@ -427,7 +394,7 @@ Attaching package: 'DeclareDesign'</code></pre>
 <p>Diagnosis is the process of simulating the design many times and calculating summary statistics about the design that describe its properties, which we call diagnosands. Once a design is declared, diagnosis is as simple as using the <code>diagnose_design</code> function on it.</p>
 <p><strong>Example design diagnosis</strong></p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb13"><pre class="downlit sourceCode r">
+<div class="sourceCode cell-code" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://declaredesign.org/r/declaredesign/reference/diagnose_design.html">diagnose_design</a></span><span class="op">(</span><span class="va">declaration</span>, sims <span class="op">=</span> <span class="fl">100</span><span class="op">)</span></span></code></pre></div>
 </div>
 <div class="cell">
@@ -461,18 +428,18 @@ Attaching package: 'DeclareDesign'</code></pre>
 </section><section id="redesign-function" class="level2"><h2 class="anchored" data-anchor-id="redesign-function">Redesign</h2>
 <p>We redesign to learn how the diagnosands change as design features change. We can do this using the <code>redesign</code> function over a range of sample sizes, which produces a list of designs.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb14"><pre class="downlit sourceCode r">
+<div class="sourceCode cell-code" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">designs</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://declaredesign.org/r/declaredesign/reference/redesign.html">redesign</a></span><span class="op">(</span><span class="va">declaration</span>, N <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">100</span>, <span class="fl">200</span>, <span class="fl">300</span>, <span class="fl">400</span>, <span class="fl">500</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 </div>
 <p>Our simulation and diagnosis tools can operate directly on this list of designs:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb15"><pre class="downlit sourceCode r">
+<div class="sourceCode cell-code" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://declaredesign.org/r/declaredesign/reference/diagnose_design.html">diagnose_design</a></span><span class="op">(</span><span class="va">designs</span><span class="op">)</span></span></code></pre></div>
 </div>
 </section><section id="library-of-designs" class="level2"><h2 class="anchored" data-anchor-id="library-of-designs">Library of designs</h2>
 <p>In our <code>DesignLibrary</code> package, we have created a set of common designs as designers (functions that create designs from just a few parameters), so you can get started quickly.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb16"><pre class="downlit sourceCode r">
+<div class="sourceCode cell-code" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://declaredesign.org/r/designlibrary/">DesignLibrary</a></span><span class="op">)</span></span>
 <span></span>
 <span><span class="va">block_cluster_design</span> <span class="op">&lt;-</span> </span>
