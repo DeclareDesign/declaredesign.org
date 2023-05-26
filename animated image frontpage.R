@@ -113,6 +113,6 @@ for(i in 1:250) {
 
 library(gifski)
 
-png_files <- paste0("static/img/img", 1:250, ".png")
+png_files <- paste0("static/img/img", c(1:250, rep(250, 100)), ".png")
 gifski(png_files, "static/frontpage.gif", width = 4000, height = 4000, delay = 0.01)
 
