@@ -1,10 +1,12 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
-<head>
-<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.2.280">
+<meta name="generator" content="quarto-1.3.433">
+
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
 <title>DeclareDesign</title>
 <style>
 code{white-space: pre-wrap;}
@@ -15,9 +17,10 @@ div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
 ul.task-list{list-style: none;}
 ul.task-list li input[type="checkbox"] {
   width: 0.8em;
-  margin: 0 0.8em 0.2em -1.6em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
+/* CSS for syntax highlighting */
 pre > code.sourceCode { white-space: pre; position: relative; }
 pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
 pre > code.sourceCode > span:empty { height: 1.2em; }
@@ -44,48 +47,31 @@ pre.numberSource code > span > a:first-child::before
     -khtml-user-select: none; -moz-user-select: none;
     -ms-user-select: none; user-select: none;
     padding: 0 4px; width: 4em;
-    color: #aaaaaa;
   }
-pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
 div.sourceCode
   {   }
 @media screen {
 pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
 }
-code span.al { color: #ff0000; font-weight: bold; } /* Alert */
-code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
-code span.at { color: #7d9029; } /* Attribute */
-code span.bn { color: #40a070; } /* BaseN */
-code span.bu { color: #008000; } /* BuiltIn */
-code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
-code span.ch { color: #4070a0; } /* Char */
-code span.cn { color: #880000; } /* Constant */
-code span.co { color: #60a0b0; font-style: italic; } /* Comment */
-code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
-code span.do { color: #ba2121; font-style: italic; } /* Documentation */
-code span.dt { color: #902000; } /* DataType */
-code span.dv { color: #40a070; } /* DecVal */
-code span.er { color: #ff0000; font-weight: bold; } /* Error */
-code span.ex { } /* Extension */
-code span.fl { color: #40a070; } /* Float */
-code span.fu { color: #06287e; } /* Function */
-code span.im { color: #008000; font-weight: bold; } /* Import */
-code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
-code span.kw { color: #007020; font-weight: bold; } /* Keyword */
-code span.op { color: #666666; } /* Operator */
-code span.ot { color: #007020; } /* Other */
-code span.pp { color: #bc7a00; } /* Preprocessor */
-code span.sc { color: #4070a0; } /* SpecialChar */
-code span.ss { color: #bb6688; } /* SpecialString */
-code span.st { color: #4070a0; } /* String */
-code span.va { color: #19177c; } /* Variable */
-code span.vs { color: #4070a0; } /* VerbatimString */
-code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
 </style>
-<script src="site_libs/quarto-nav/quarto-nav.js"></script><script src="site_libs/quarto-nav/headroom.min.js"></script><script src="site_libs/clipboard/clipboard.min.js"></script><script src="site_libs/quarto-search/autocomplete.umd.js"></script><script src="site_libs/quarto-search/fuse.min.js"></script><script src="site_libs/quarto-search/quarto-search.js"></script><meta name="quarto:offset" content="./">
-<script src="site_libs/quarto-html/quarto.js"></script><script src="site_libs/quarto-html/popper.min.js"></script><script src="site_libs/quarto-html/tippy.umd.min.js"></script><script src="site_libs/quarto-html/anchor.min.js"></script><link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
+
+
+<script src="site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="site_libs/quarto-nav/headroom.min.js"></script>
+<script src="site_libs/clipboard/clipboard.min.js"></script>
+<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="site_libs/quarto-search/fuse.min.js"></script>
+<script src="site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="./">
+<script src="site_libs/quarto-html/quarto.js"></script>
+<script src="site_libs/quarto-html/popper.min.js"></script>
+<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="site_libs/quarto-html/anchor.min.js"></script>
+<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
 <link href="site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
-<script src="site_libs/bootstrap/bootstrap.min.js"></script><link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<script src="site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
 <link href="site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
@@ -103,71 +89,84 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
     "search-more-matches-text": "more matches in this document",
     "search-clear-button-title": "Clear",
     "search-detached-cancel-button-title": "Cancel",
-    "search-submit-button-title": "Submit"
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
   }
-}</script><link rel="stylesheet" href="styles.css">
+}</script>
+
+
+<link rel="stylesheet" href="styles.css">
 <link rel="stylesheet" href="index.css">
 </head>
+
 <body class="nav-fixed fullcontent">
 
 <div id="quarto-search-results"></div>
-  <header id="quarto-header" class="headroom fixed-top"><nav class="navbar navbar-expand-lg navbar-dark "><div class="navbar-container container-fluid">
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg navbar-dark ">
+      <div class="navbar-container container-fluid">
       <div class="navbar-brand-container">
     <a href="./index.html" class="navbar-brand navbar-brand-logo">
-    <img src="./static/dd-logo-sm.svg" alt="" class="navbar-logo"></a>
+    <img src="./static/dd-logo-sm.svg" alt="" class="navbar-logo">
+    </a>
     <a class="navbar-brand" href="./index.html">
     <span class="navbar-title"><strong>Declare</strong>Design</span>
     </a>
   </div>
+            <div id="quarto-search" class="" title="Search"></div>
           <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
   <span class="navbar-toggler-icon"></span>
 </button>
           <div class="collapse navbar-collapse" id="navbarCollapse">
             <ul class="navbar-nav navbar-nav-scroll ms-auto">
-<li class="nav-item">
-    <a class="nav-link" href="./getting-started/">
+  <li class="nav-item">
+    <a class="nav-link" href="./getting-started/" rel="" target="">
  <span class="menu-text">Getting started</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link" href="https://book.declaredesign.org">
+    <a class="nav-link" href="https://book.declaredesign.org" rel="" target="">
  <span class="menu-text">Book</span></a>
   </li>  
   <li class="nav-item dropdown ">
-    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-software" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-software" role="button" data-bs-toggle="dropdown" aria-expanded="false" rel="" target="">
  <span class="menu-text">Software</span>
     </a>
-    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="nav-menu-software">
-<li>
-    <a class="dropdown-item" href="./declaredesign/">
+    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="nav-menu-software">    
+        <li>
+    <a class="dropdown-item" href="./declaredesign/" rel="" target="">
  <span class="dropdown-text">DeclareDesign</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="./fabricatr/">
+    <a class="dropdown-item" href="./fabricatr/" rel="" target="">
  <span class="dropdown-text">fabricatr</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="./randomizr/">
+    <a class="dropdown-item" href="./randomizr/" rel="" target="">
  <span class="dropdown-text">randomizr</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="./estimatr/">
+    <a class="dropdown-item" href="./estimatr/" rel="" target="">
  <span class="dropdown-text">estimatr</span></a>
   </li>  
     </ul>
-</li>
+  </li>
   <li class="nav-item">
-    <a class="nav-link" href="./blog">
+    <a class="nav-link" href="./blog" rel="" target="">
  <span class="menu-text">Blog</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link" href="./about">
+    <a class="nav-link" href="./about" rel="" target="">
  <span class="menu-text">About</span></a>
   </li>  
 </ul>
-<div id="quarto-search" class="" title="Search"></div>
+            <div class="quarto-navbar-tools">
+</div>
           </div> <!-- /navcollapse -->
       </div> <!-- /container-fluid -->
-    </nav></header><!-- content --><div id="quarto-content" class="quarto-container page-layout-custom page-navbar">
+    </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-layout-custom page-navbar">
 <!-- sidebar -->
 <!-- margin-sidebar -->
 <!-- main -->
@@ -180,26 +179,31 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <!-- ::: -->
 <div class="dd-hero">
 <div class="grid">
-<section id="declare-and-diagnose-your-research-design" class="g-col-6 hero-left"><h1>Declare and diagnose your research design</h1>
+<section id="declare-and-diagnose-your-research-design" class="g-col-6 hero-left align-items-center">
+<h1>Declare and diagnose your research design</h1>
 <h3 id="declaredesign-is-a-set-of-software-tools-to-plan-implement-analyze-and-communicate-about-empirical-research">DeclareDesign is a set of software tools to plan, implement, analyze, and communicate about empirical research</h3>
 <p><br></p>
 <div class="hero-buttons">
-<p><a href="getting-started/" class="btn-action-primary btn-action btn btn-success btn-lg" role="button">Get Started</a>   <a href="https://book.declaredesign.org" id="btn-guide" class="btn-action btn btn-info btn-lg" role="button">Read Book</a></p>
+<p><a href="getting-started/" class="btn-action-primary btn-action btn btn-success btn-lg" role="button">Get Started</a> &nbsp; <a href="./DeclareDesign/" class="btn-action-primary btn-action btn btn-success btn-lg" role="button">Software</a> &nbsp; <a href="https://book.declaredesign.org" class="btn-action-primary btn-action btn btn-success btn-lg" role="button">Read Book</a></p>
 </div>
-</section><div class="g-col-6 hero-right">
-<p><img src="./static/frontpage.gif" class="img-fluid"></p>
+</section>
+<div class="g-col-6 hero-right text-center">
+<p><img src="https://book.declaredesign.org/figures/cover.jpg" class="img-fluid" width="400"></p>
 </div>
 </div>
 </div>
 <!-- mida -->
-<section id="model-inquiry-data-strategy-answer-strategy" class="mida-panel"><h1>Model + Inquiry + Data Strategy + Answer Strategy</h1>
-<p>Research designs have four components. Learn more about the MIDA framework</p>
-<p><a href="mida/" class="btn-action-primary btn-action btn btn-success btn-lg" role="button">Learn more</a></p>
-</section><!-- ddr --><div class="hello-quarto alt-background">
+<!-- ::: {.mida-panel} -->
+<!-- # Model + Inquiry + Data Strategy + Answer Strategy -->
+<!-- Research designs have four components. Learn more about the MIDA framework -->
+<!-- [Learn more](mida/){.btn-action-primary .btn-action .btn .btn-success .btn-lg role="button"} -->
+<!-- ::: -->
+<!-- ddr -->
+<div class="hello-quarto alt-background">
 <div class="content-block">
 <div class="hello-quarto-banner">
 <p style="font-size:25px;padding-top:5px">
-<b>DeclareDesign in three steps</b>     
+<b>DeclareDesign in three steps</b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 </p>
 <ul class="nav nav-pills" id="hello-quarto-tab" role="tablist">
 <li class="nav-item" role="presentation">
@@ -225,89 +229,89 @@ Redesign
 <p>Declaring a design means writing down each component of a research design — the model, an inquiry about the model, a data strategy to generate data, and an answer strategy to take the data and return an answer to the inquiry.</p>
 <div class="grid">
 <div class="g-col-lg-6 g-col-12">
-<div class="cell" data-hash="index_cache/html/unnamed-chunk-1_6e30d67b88038014a13d5d9da65a8791">
-
-</div>
 <div class="cell" data-hash="index_cache/html/unnamed-chunk-2_443f327e2616d550ff2ad3a64225527d">
-<div class="sourceCode cell-code" id="cb1"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://declaredesign.org/r/declaredesign/">DeclareDesign</a></span><span class="op">)</span></span>
-<span></span>
-<span><span class="va">two_arm_trial</span> <span class="op">&lt;-</span></span>
-<span>  <span class="fu"><a href="https://declaredesign.org/r/declaredesign/reference/declare_model.html">declare_model</a></span><span class="op">(</span>N <span class="op">=</span> <span class="fl">100</span>,</span>
-<span>                U <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/Normal.html">rnorm</a></span><span class="op">(</span><span class="va">N</span><span class="op">)</span>,</span>
-<span>                <span class="fu"><a href="//reference/potential_outcomes.html">potential_outcomes</a></span><span class="op">(</span><span class="va">Y</span> <span class="op">~</span> <span class="fl">0.2</span> <span class="op">*</span> <span class="va">Z</span> <span class="op">+</span> <span class="va">U</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
-<span>  <span class="fu"><a href="https://declaredesign.org/r/declaredesign/reference/declare_inquiry.html">declare_inquiry</a></span><span class="op">(</span>ATE <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/mean.html">mean</a></span><span class="op">(</span><span class="va">Y_Z_1</span> <span class="op">-</span> <span class="va">Y_Z_0</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
-<span>  <span class="fu"><a href="https://declaredesign.org/r/declaredesign/reference/declare_assignment.html">declare_assignment</a></span><span class="op">(</span>Z <span class="op">=</span> <span class="fu"><a href="//reference/complete_ra.html">complete_ra</a></span><span class="op">(</span><span class="va">N</span>, prob <span class="op">=</span> <span class="fl">0.5</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
-<span>  <span class="fu"><a href="https://declaredesign.org/r/declaredesign/reference/declare_measurement.html">declare_measurement</a></span><span class="op">(</span>Y <span class="op">=</span> <span class="fu"><a href="//reference/reveal_outcomes.html">reveal_outcomes</a></span><span class="op">(</span><span class="va">Y</span> <span class="op">~</span> <span class="va">Z</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
-<span>  <span class="fu"><a href="https://declaredesign.org/r/declaredesign/reference/declare_estimator.html">declare_estimator</a></span><span class="op">(</span><span class="va">Y</span> <span class="op">~</span> <span class="va">Z</span>, inquiry <span class="op">=</span> <span class="st">"ATE"</span><span class="op">)</span></span></code></pre></div>
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(DeclareDesign)</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>two_arm_trial <span class="ot">&lt;-</span></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">declare_model</span>(<span class="at">N =</span> <span class="dv">100</span>,</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>                <span class="at">U =</span> <span class="fu">rnorm</span>(N),</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>                <span class="fu">potential_outcomes</span>(Y <span class="sc">~</span> <span class="fl">0.2</span> <span class="sc">*</span> Z <span class="sc">+</span> U)) <span class="sc">+</span></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">declare_inquiry</span>(<span class="at">ATE =</span> <span class="fu">mean</span>(Y_Z_1 <span class="sc">-</span> Y_Z_0)) <span class="sc">+</span></span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">declare_assignment</span>(<span class="at">Z =</span> <span class="fu">complete_ra</span>(N, <span class="at">prob =</span> <span class="fl">0.5</span>)) <span class="sc">+</span></span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">declare_measurement</span>(<span class="at">Y =</span> <span class="fu">reveal_outcomes</span>(Y <span class="sc">~</span> Z)) <span class="sc">+</span></span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">declare_estimator</span>(Y <span class="sc">~</span> Z, <span class="at">inquiry =</span> <span class="st">"ATE"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </div>
 <div class="g-col-lg-6 g-col-12">
 <div class="cell" data-hash="index_cache/html/unnamed-chunk-3_b8091398b7679c7107750bf3a9bd1078">
-<div class="sourceCode cell-code" id="cb2"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="https://declaredesign.org/r/declaredesign/reference/draw_functions.html">draw_data</a></span><span class="op">(</span><span class="va">two_arm_trial</span><span class="op">)</span></span></code></pre></div>
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">draw_data</span>(two_arm_trial)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div class="cell" data-hash="index_cache/html/unnamed-chunk-4_5cd4491bb83ece3058f18ef80bc1ff38">
 <div class="cell-output-display">
-<table class="table table-sm table-striped">
-<thead><tr class="header">
+<table class="table table-sm table-striped small">
+<thead>
+<tr class="header">
 <th style="text-align: left;">ID</th>
 <th style="text-align: right;">U</th>
 <th style="text-align: right;">Y_Z_0</th>
 <th style="text-align: right;">Y_Z_1</th>
 <th style="text-align: right;">Z</th>
 <th style="text-align: right;">Y</th>
-</tr></thead>
+</tr>
+</thead>
 <tbody>
 <tr class="odd">
 <td style="text-align: left;">001</td>
-<td style="text-align: right;">-0.90</td>
-<td style="text-align: right;">-0.90</td>
-<td style="text-align: right;">-0.70</td>
+<td style="text-align: right;">-0.57</td>
+<td style="text-align: right;">-0.57</td>
+<td style="text-align: right;">-0.37</td>
 <td style="text-align: right;">1</td>
-<td style="text-align: right;">-0.70</td>
+<td style="text-align: right;">-0.37</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">002</td>
-<td style="text-align: right;">0.06</td>
-<td style="text-align: right;">0.06</td>
-<td style="text-align: right;">0.26</td>
-<td style="text-align: right;">1</td>
-<td style="text-align: right;">0.26</td>
+<td style="text-align: right;">-1.50</td>
+<td style="text-align: right;">-1.50</td>
+<td style="text-align: right;">-1.30</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">-1.50</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">003</td>
-<td style="text-align: right;">1.22</td>
-<td style="text-align: right;">1.22</td>
-<td style="text-align: right;">1.42</td>
+<td style="text-align: right;">-0.50</td>
+<td style="text-align: right;">-0.50</td>
+<td style="text-align: right;">-0.30</td>
 <td style="text-align: right;">1</td>
-<td style="text-align: right;">1.42</td>
+<td style="text-align: right;">-0.30</td>
 </tr>
 </tbody>
 </table>
 </div>
 </div>
 <div class="cell" data-hash="index_cache/html/unnamed-chunk-5_90d65cf4c89a894a8f7490fec900cdaf">
-<div class="sourceCode cell-code" id="cb3"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="https://declaredesign.org/r/declaredesign/reference/run_design.html">run_design</a></span><span class="op">(</span><span class="va">two_arm_trial</span><span class="op">)</span></span></code></pre></div>
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">run_design</span>(two_arm_trial)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div class="cell" data-hash="index_cache/html/unnamed-chunk-6_9c7615abada89228d1b7e878256d1035">
 <div class="cell-output-display">
-<table class="table table-sm table-striped">
-<thead><tr class="header">
+<table class="table table-sm table-striped small">
+<thead>
+<tr class="header">
 <th style="text-align: right;">estimate</th>
 <th style="text-align: right;">std.error</th>
 <th style="text-align: right;">p.value</th>
 <th style="text-align: left;">inquiry</th>
 <th style="text-align: right;">estimand</th>
-</tr></thead>
-<tbody><tr class="odd">
-<td style="text-align: right;">0.33</td>
-<td style="text-align: right;">0.2</td>
-<td style="text-align: right;">0.11</td>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: right;">0.24</td>
+<td style="text-align: right;">0.19</td>
+<td style="text-align: right;">0.22</td>
 <td style="text-align: left;">ATE</td>
 <td style="text-align: right;">0.2</td>
-</tr></tbody>
+</tr>
+</tbody>
 </table>
 </div>
 </div>
@@ -319,26 +323,29 @@ Redesign
 <div class="grid">
 <div class="g-col-lg-6 g-col-12">
 <div class="cell" data-hash="index_cache/html/unnamed-chunk-7_6b2afba392074141dd30984134622179">
-<div class="sourceCode cell-code" id="cb4"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="https://declaredesign.org/r/declaredesign/reference/diagnose_design.html">diagnose_design</a></span><span class="op">(</span><span class="va">two_arm_trial</span><span class="op">)</span></span></code></pre></div>
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">diagnose_design</span>(two_arm_trial)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div class="cell" data-hash="index_cache/html/unnamed-chunk-8_acab3c5d5771b71524e0639220fb9c4c">
 <div class="cell-output-display">
-<table class="table table-sm table-striped">
-<thead><tr class="header">
+<table class="table table-sm table-striped small">
+<thead>
+<tr class="header">
 <th style="text-align: right;">Bias</th>
 <th style="text-align: right;">SD(estimate)</th>
 <th style="text-align: right;">RMSE</th>
 <th style="text-align: right;">Power</th>
 <th style="text-align: right;">Coverage</th>
-</tr></thead>
-<tbody><tr class="odd">
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
 <td style="text-align: right;">0</td>
 <td style="text-align: right;">0.2</td>
 <td style="text-align: right;">0.2</td>
-<td style="text-align: right;">0.17</td>
-<td style="text-align: right;">0.94</td>
-</tr></tbody>
+<td style="text-align: right;">0.15</td>
+<td style="text-align: right;">0.95</td>
+</tr>
+</tbody>
 </table>
 </div>
 </div>
@@ -370,7 +377,8 @@ Redesign
 </div>
 </div>
 <!-- grid of content -->
-<section id="adapt-common-research-designs" class="content-block"><h2>Adapt common research designs</h2>
+<section id="adapt-common-research-designs" class="content-block">
+<h2>Adapt common research designs</h2>
 <div class="grid">
 <div class="g-col-3">
 <p><img src="https://draft.declaredesign.org/figures/figure-15-4.svg" class="img-fluid"></p>
@@ -393,8 +401,11 @@ Redesign
 <p>Use your favorite tools including VS Code, RStudio, Jupyter Lab, or any text editor. Use the Quarto visual markdown editor for long-form documents.</p>
 </div>
 </div>
-</section><!-- take action --><div class="get-started alt-background">
-<section id="declare-and-diagnose-your-research-design-to-assess-improve-and-communicate-about-your-design" class="content-block"><h3>Declare and diagnose your research design –<br>to assess, improve, and communicate about your design</h3>
+</section>
+<!-- take action -->
+<div class="get-started alt-background">
+<section id="declare-and-diagnose-your-research-design-to-assess-improve-and-communicate-about-your-design" class="content-block">
+<h3>Declare and diagnose your research design –<br>to assess, improve, and communicate about your design</h3>
 <p><a href="getting_started/" class="btn-action-primary btn-action btn btn-success btn-lg" role="button">Get Started</a></p>
 </section>
 </div>
@@ -429,9 +440,23 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     icon: icon
   };
   anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
   const clipboard = new window.ClipboardJS('.code-copy-button', {
-    target: function(trigger) {
-      return trigger.previousElementSibling;
+    text: function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
     }
   });
   clipboard.on('success', function(e) {
@@ -496,6 +521,92 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       return note.innerHTML;
     });
   }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
   const findCites = (el) => {
     const parentEl = el.parentElement;
     if (parentEl) {
@@ -539,5 +650,4 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 
 
 
-</body>
-</html>
+</body></html>

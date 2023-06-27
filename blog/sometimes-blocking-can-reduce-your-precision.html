@@ -1,12 +1,14 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
-<head>
-<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.2.280">
+<meta name="generator" content="quarto-1.3.433">
+
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
 <meta name="author" content="DeclareDesign Team">
 <meta name="dcterms.date" content="2018-09-24">
+
 <title>DeclareDesign - Sometimes blocking can reduce your precision</title>
 <style>
 code{white-space: pre-wrap;}
@@ -17,9 +19,10 @@ div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
 ul.task-list{list-style: none;}
 ul.task-list li input[type="checkbox"] {
   width: 0.8em;
-  margin: 0 0.8em 0.2em -1.6em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
+/* CSS for syntax highlighting */
 pre > code.sourceCode { white-space: pre; position: relative; }
 pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
 pre > code.sourceCode > span:empty { height: 1.2em; }
@@ -46,48 +49,19 @@ pre.numberSource code > span > a:first-child::before
     -khtml-user-select: none; -moz-user-select: none;
     -ms-user-select: none; user-select: none;
     padding: 0 4px; width: 4em;
-    color: #aaaaaa;
   }
-pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
 div.sourceCode
   {   }
 @media screen {
 pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
 }
-code span.al { color: #ff0000; font-weight: bold; } /* Alert */
-code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
-code span.at { color: #7d9029; } /* Attribute */
-code span.bn { color: #40a070; } /* BaseN */
-code span.bu { color: #008000; } /* BuiltIn */
-code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
-code span.ch { color: #4070a0; } /* Char */
-code span.cn { color: #880000; } /* Constant */
-code span.co { color: #60a0b0; font-style: italic; } /* Comment */
-code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
-code span.do { color: #ba2121; font-style: italic; } /* Documentation */
-code span.dt { color: #902000; } /* DataType */
-code span.dv { color: #40a070; } /* DecVal */
-code span.er { color: #ff0000; font-weight: bold; } /* Error */
-code span.ex { } /* Extension */
-code span.fl { color: #40a070; } /* Float */
-code span.fu { color: #06287e; } /* Function */
-code span.im { color: #008000; font-weight: bold; } /* Import */
-code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
-code span.kw { color: #007020; font-weight: bold; } /* Keyword */
-code span.op { color: #666666; } /* Operator */
-code span.ot { color: #007020; } /* Other */
-code span.pp { color: #bc7a00; } /* Preprocessor */
-code span.sc { color: #4070a0; } /* SpecialChar */
-code span.ss { color: #bb6688; } /* SpecialString */
-code span.st { color: #4070a0; } /* String */
-code span.va { color: #19177c; } /* Variable */
-code span.vs { color: #4070a0; } /* VerbatimString */
-code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+/* CSS for citations */
 div.csl-bib-body { }
 div.csl-entry {
   clear: both;
 }
-.hanging div.csl-entry {
+.hanging-indent div.csl-entry {
   margin-left:2em;
   text-indent:-2em;
 }
@@ -101,12 +75,24 @@ div.csl-right-inline {
 }
 div.csl-indent {
   margin-left: 2em;
-}
-</style>
-<script src="../site_libs/quarto-nav/quarto-nav.js"></script><script src="../site_libs/quarto-nav/headroom.min.js"></script><script src="../site_libs/clipboard/clipboard.min.js"></script><script src="../site_libs/quarto-search/autocomplete.umd.js"></script><script src="../site_libs/quarto-search/fuse.min.js"></script><script src="../site_libs/quarto-search/quarto-search.js"></script><meta name="quarto:offset" content="../">
-<script src="../site_libs/quarto-html/quarto.js"></script><script src="../site_libs/quarto-html/popper.min.js"></script><script src="../site_libs/quarto-html/tippy.umd.min.js"></script><script src="../site_libs/quarto-html/anchor.min.js"></script><link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
+}</style>
+
+
+<script src="../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../">
+<script src="../site_libs/quarto-html/quarto.js"></script>
+<script src="../site_libs/quarto-html/popper.min.js"></script>
+<script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
 <link href="../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
-<script src="../site_libs/bootstrap/bootstrap.min.js"></script><link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<script src="../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
 <link href="../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
@@ -124,70 +110,86 @@ div.csl-indent {
     "search-more-matches-text": "more matches in this document",
     "search-clear-button-title": "Clear",
     "search-detached-cancel-button-title": "Cancel",
-    "search-submit-button-title": "Submit"
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
   }
-}</script><script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script><link rel="stylesheet" href="../styles.css">
+}</script>
+
+  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<link rel="stylesheet" href="../styles.css">
 </head>
+
 <body class="nav-fixed fullcontent">
 
 <div id="quarto-search-results"></div>
-  <header id="quarto-header" class="headroom fixed-top"><nav class="navbar navbar-expand-lg navbar-dark "><div class="navbar-container container-fluid">
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg navbar-dark ">
+      <div class="navbar-container container-fluid">
       <div class="navbar-brand-container">
     <a href="../index.html" class="navbar-brand navbar-brand-logo">
-    <img src="../static/dd-logo-sm.svg" alt="" class="navbar-logo"></a>
+    <img src="../static/dd-logo-sm.svg" alt="" class="navbar-logo">
+    </a>
     <a class="navbar-brand" href="../index.html">
     <span class="navbar-title"><strong>Declare</strong>Design</span>
     </a>
   </div>
+            <div id="quarto-search" class="" title="Search"></div>
           <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
   <span class="navbar-toggler-icon"></span>
 </button>
           <div class="collapse navbar-collapse" id="navbarCollapse">
             <ul class="navbar-nav navbar-nav-scroll ms-auto">
-<li class="nav-item">
-    <a class="nav-link" href="../getting-started/">
+  <li class="nav-item">
+    <a class="nav-link" href="../getting-started/" rel="" target="">
  <span class="menu-text">Getting started</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link" href="https://book.declaredesign.org">
+    <a class="nav-link" href="https://book.declaredesign.org" rel="" target="">
  <span class="menu-text">Book</span></a>
   </li>  
   <li class="nav-item dropdown ">
-    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-software" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-software" role="button" data-bs-toggle="dropdown" aria-expanded="false" rel="" target="">
  <span class="menu-text">Software</span>
     </a>
-    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="nav-menu-software">
-<li>
-    <a class="dropdown-item" href="../declaredesign/">
+    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="nav-menu-software">    
+        <li>
+    <a class="dropdown-item" href="../declaredesign/" rel="" target="">
  <span class="dropdown-text">DeclareDesign</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="../fabricatr/">
+    <a class="dropdown-item" href="../fabricatr/" rel="" target="">
  <span class="dropdown-text">fabricatr</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="../randomizr/">
+    <a class="dropdown-item" href="../randomizr/" rel="" target="">
  <span class="dropdown-text">randomizr</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="../estimatr/">
+    <a class="dropdown-item" href="../estimatr/" rel="" target="">
  <span class="dropdown-text">estimatr</span></a>
   </li>  
     </ul>
-</li>
+  </li>
   <li class="nav-item">
-    <a class="nav-link" href="../blog">
+    <a class="nav-link" href="../blog" rel="" target="">
  <span class="menu-text">Blog</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link" href="../about">
+    <a class="nav-link" href="../about" rel="" target="">
  <span class="menu-text">About</span></a>
   </li>  
 </ul>
-<div id="quarto-search" class="" title="Search"></div>
+            <div class="quarto-navbar-tools">
+</div>
           </div> <!-- /navcollapse -->
       </div> <!-- /container-fluid -->
-    </nav></header><!-- content --><header id="title-block-header" class="quarto-title-block default page-columns page-full"><div class="quarto-title-banner page-columns page-full">
+    </nav>
+</header>
+<!-- content -->
+<header id="title-block-header" class="quarto-title-block default page-columns page-full">
+  <div class="quarto-title-banner page-columns page-full">
     <div class="quarto-title column-body">
       <h1 class="title">Sometimes blocking can reduce your precision</h1>
                       </div>
@@ -219,70 +221,68 @@ div.csl-indent {
 <!-- margin-sidebar -->
     
 <!-- main -->
-<main class="content quarto-banner-title-block" id="quarto-document-content"><div class="cell">
+<main class="content quarto-banner-title-block" id="quarto-document-content">
 
-</div>
+
+
+
 <p>You can often improve the precision of your randomized controlled trial with blocking: first gather similar units together into groups, then run experiments inside each little group, then average results across experiments. Block random assignment (sometimes called stratified random assignment) can be great—increasing precision with blocking is like getting extra sample size for free. Blocking works because it’s like controlling for a pre-treatment covariate in the “Data Strategy” rather than in the “Answer Strategy.” But sometimes it does more harm than good.</p>
 <p>The standard experimental guidance is to block if you can in order to improve precision. (If for some reason you don’t have access to the pre-treatment covariates before the experiment is conducted, don’t fret, as the precision gains you would get from blocking on the front end can largely be made up by controlling on the back end.) In fact, even if you make blocks <em>at random</em>, you do as well as you would do under complete random assignment. For a textbook explanation of the benefits of blocking, see <span class="citation" data-cites="gerber2012field">Gerber and Green (<a href="#ref-gerber2012field" role="doc-biblioref">2012</a>)</span> (Section 3.6.1).</p>
 <p>But is it possible to make things <em>worse</em>? Can you make a blocking that results in less precision than you would get from complete random assignment design?</p>
 <p>The answer is yes. But you have to try really hard. If you organize units into groups that are internally unusually heterogeneous you can make things worse. For a formal analysis, see <span class="citation" data-cites="imai2008variance">Imai (<a href="#ref-imai2008variance" role="doc-biblioref">2008</a>)</span>.</p>
-<section id="some-intuition" class="level1"><h1>Some intuition</h1>
+<section id="some-intuition" class="level1">
+<h1>Some intuition</h1>
 <p>Why does blocking usually work? Under most circumstances, blocking works because it limits the <em>types</em> of assignment that might result from randomization Blocking works well when it rules out “bad” random assignments in favor of “good” random assignments.</p>
 <p>For example, if you’ve got four units and you’re going to assign exactly two to treatment, there are <span class="math inline">\({4 \choose 2} = 6\)</span> possible ways to do it.</p>
 <p>Imagine there is a covariate <span class="math inline">\(X = \{1, 2, 3, 4\}\)</span> that is correlated with potential outcomes. If we make matched pairs <span class="math inline">\(\{A, A, B, B\}\)</span>, we’ve done a “good” blocking and now there are only 4 possible assignments. We’ve ruled out the two “bad” assignments in which we only treat the first two units or only treat the last two units.</p>
 <p>But if we make “bad blocks” <span class="math inline">\(\{A, B, B, A\}\)</span>, then we rule out the <strong>good</strong> assignments in which we treat units 1 and 4 or units 2 and 3 in favor of the <strong>bad</strong> assignments. It’s odd scenarios like these that can lead to precision decreases.</p>
-</section><section id="bad-blocking-in-action" class="level1"><h1>Bad blocking in action</h1>
+</section>
+<section id="bad-blocking-in-action" class="level1">
+<h1>Bad blocking in action</h1>
 <p>Say your dataset includes information on romantic partners. You reason that couples tend to be similar on all sort of unobservables and so you decide to use the “couples” indicator as the blocking variable. Here’s a design:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb1"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://declaredesign.org/r/declaredesign/">DeclareDesign</a></span><span class="op">)</span></span>
-<span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://tidyverse.tidyverse.org">tidyverse</a></span><span class="op">)</span></span>
-<span></span>
-<span><span class="va">N</span> <span class="op">=</span> <span class="fl">100</span></span>
-<span></span>
-<span><span class="va">model</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://declaredesign.org/r/declaredesign/reference/declare_model.html">declare_model</a></span><span class="op">(</span></span>
-<span>  N <span class="op">=</span> <span class="va">N</span>, </span>
-<span>  X <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/sort.html">sort</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/Normal.html">rnorm</a></span><span class="op">(</span><span class="va">N</span><span class="op">)</span><span class="op">)</span>, </span>
-<span>  u <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/Normal.html">rnorm</a></span><span class="op">(</span><span class="va">N</span><span class="op">)</span>, </span>
-<span>  <span class="fu"><a href="//reference/potential_outcomes.html">potential_outcomes</a></span><span class="op">(</span><span class="va">Y</span> <span class="op">~</span> <span class="va">Z</span> <span class="op">-</span> <span class="va">X</span> <span class="op">*</span> <span class="va">Z</span> <span class="op">+</span> <span class="va">u</span><span class="op">/</span><span class="fl">10</span><span class="op">)</span></span>
-<span><span class="op">)</span></span>
-<span><span class="va">inquiry</span>     <span class="op">&lt;-</span> <span class="fu"><a href="https://declaredesign.org/r/declaredesign/reference/declare_inquiry.html">declare_inquiry</a></span><span class="op">(</span>ATE <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/mean.html">mean</a></span><span class="op">(</span><span class="va">Y_Z_1</span> <span class="op">-</span> <span class="va">Y_Z_0</span><span class="op">)</span><span class="op">)</span></span>
-<span><span class="va">blocking</span>    <span class="op">&lt;-</span> <span class="fu"><a href="https://declaredesign.org/r/declaredesign/reference/declare_step.html">declare_step</a></span><span class="op">(</span><span class="va">fabricate</span>, couples <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/rep.html">rep</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="op">(</span><span class="va">N</span><span class="op">/</span><span class="fl">2</span><span class="op">)</span>, each <span class="op">=</span> <span class="fl">2</span><span class="op">)</span><span class="op">)</span></span>
-<span><span class="va">assignment</span>  <span class="op">&lt;-</span> <span class="fu"><a href="https://declaredesign.org/r/declaredesign/reference/declare_assignment.html">declare_assignment</a></span><span class="op">(</span>Z <span class="op">=</span> <span class="fu"><a href="//reference/block_ra.html">block_ra</a></span><span class="op">(</span>blocks <span class="op">=</span> <span class="va">couples</span><span class="op">)</span><span class="op">)</span></span>
-<span><span class="va">measurement</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://declaredesign.org/r/declaredesign/reference/declare_measurement.html">declare_measurement</a></span><span class="op">(</span>Y <span class="op">=</span> <span class="fu"><a href="//reference/reveal_outcomes.html">reveal_outcomes</a></span><span class="op">(</span><span class="va">Y</span> <span class="op">~</span> <span class="va">Z</span><span class="op">)</span><span class="op">)</span></span>
-<span><span class="va">estimator</span>   <span class="op">&lt;-</span> <span class="fu"><a href="https://declaredesign.org/r/declaredesign/reference/declare_estimator.html">declare_estimator</a></span><span class="op">(</span><span class="va">Y</span> <span class="op">~</span> <span class="va">Z</span><span class="op">)</span></span>
-<span></span>
-<span><span class="va">design_likes</span> <span class="op">&lt;-</span>  <span class="va">model</span> <span class="op">+</span> <span class="va">inquiry</span> <span class="op">+</span></span>
-<span>                 <span class="va">blocking</span> <span class="op">+</span> <span class="va">assignment</span> <span class="op">+</span> <span class="va">measurement</span> <span class="op">+</span> <span class="va">estimator</span></span></code></pre></div>
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(DeclareDesign)</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>N <span class="ot">=</span> <span class="dv">100</span></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>model <span class="ot">&lt;-</span> <span class="fu">declare_model</span>(</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">N =</span> N, </span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>  <span class="at">X =</span> <span class="fu">sort</span>(<span class="fu">rnorm</span>(N)), </span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>  <span class="at">u =</span> <span class="fu">rnorm</span>(N), </span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">potential_outcomes</span>(Y <span class="sc">~</span> Z <span class="sc">-</span> X <span class="sc">*</span> Z <span class="sc">+</span> u<span class="sc">/</span><span class="dv">10</span>)</span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>inquiry     <span class="ot">&lt;-</span> <span class="fu">declare_inquiry</span>(<span class="at">ATE =</span> <span class="fu">mean</span>(Y_Z_1 <span class="sc">-</span> Y_Z_0))</span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a>blocking    <span class="ot">&lt;-</span> <span class="fu">declare_step</span>(fabricate, <span class="at">couples =</span> <span class="fu">rep</span>(<span class="dv">1</span><span class="sc">:</span>(N<span class="sc">/</span><span class="dv">2</span>), <span class="at">each =</span> <span class="dv">2</span>))</span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a>assignment  <span class="ot">&lt;-</span> <span class="fu">declare_assignment</span>(<span class="at">Z =</span> <span class="fu">block_ra</span>(<span class="at">blocks =</span> couples))</span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a>measurement <span class="ot">&lt;-</span> <span class="fu">declare_measurement</span>(<span class="at">Y =</span> <span class="fu">reveal_outcomes</span>(Y <span class="sc">~</span> Z))</span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a>estimator   <span class="ot">&lt;-</span> <span class="fu">declare_estimator</span>(Y <span class="sc">~</span> Z)</span>
+<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a>design_likes <span class="ot">&lt;-</span>  model <span class="sc">+</span> inquiry <span class="sc">+</span></span>
+<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a>                 blocking <span class="sc">+</span> assignment <span class="sc">+</span> measurement <span class="sc">+</span> estimator</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>The design here built in the assumption that couples are similar by putting people together if they have adjacent values of a prognostic (and, let’s assume, unobservable) variable, <span class="math inline">\(X\)</span>. In this design we have assumed an average effect of 1, but heterogeneity of effects that depends on <span class="math inline">\(X\)</span>.</p>
 <p>But what if we are wrong about couples being similar? Let’s now assume that couples contain maximally <em>dissimilar</em> people. We’ll make a new design that differs from the last design by assuming a matching in which the lowest person on <span class="math inline">\(X\)</span> couples with the highest person on <span class="math inline">\(X\)</span>, the second lowest with the second highest, and so on.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb2"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">design_opposites</span> <span class="op">&lt;-</span>  <span class="fu"><a href="https://declaredesign.org/r/declaredesign/reference/modify_design.html">replace_step</a></span><span class="op">(</span><span class="va">design_likes</span>,</span>
-<span>                                  <span class="va">blocking</span>,</span>
-<span>                                  <span class="fu"><a href="https://declaredesign.org/r/declaredesign/reference/declare_step.html">declare_step</a></span><span class="op">(</span><span class="va">fabricate</span>, couples <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="op">(</span><span class="va">N</span><span class="op">/</span><span class="fl">2</span><span class="op">)</span>, <span class="op">(</span><span class="va">N</span><span class="op">/</span><span class="fl">2</span><span class="op">)</span><span class="op">:</span><span class="fl">1</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>design_opposites <span class="ot">&lt;-</span>  <span class="fu">replace_step</span>(design_likes,</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>                                  blocking,</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>                                  <span class="fu">declare_step</span>(fabricate, <span class="at">couples =</span> <span class="fu">c</span>(<span class="dv">1</span><span class="sc">:</span>(N<span class="sc">/</span><span class="dv">2</span>), (N<span class="sc">/</span><span class="dv">2</span>)<span class="sc">:</span><span class="dv">1</span>)))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>We also want to compare both of these to a design with no blocking. To do this we will take <code>design_likes</code> and make a new design that just replaces the assignment step with one that does not use the blocks:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb3"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">design_no_blocks</span> <span class="op">&lt;-</span>  <span class="fu"><a href="https://declaredesign.org/r/declaredesign/reference/modify_design.html">replace_step</a></span><span class="op">(</span><span class="va">design_likes</span>,</span>
-<span>                                  <span class="va">assignment</span>,</span>
-<span>                                  <span class="fu"><a href="https://declaredesign.org/r/declaredesign/reference/declare_assignment.html">declare_assignment</a></span><span class="op">(</span>Z <span class="op">=</span> <span class="fu"><a href="//reference/complete_ra.html">complete_ra</a></span><span class="op">(</span><span class="va">N</span><span class="op">)</span><span class="op">)</span></span>
-<span><span class="op">)</span></span></code></pre></div>
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>design_no_blocks <span class="ot">&lt;-</span>  <span class="fu">replace_step</span>(design_likes,</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>                                  assignment,</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>                                  <span class="fu">declare_assignment</span>(<span class="at">Z =</span> <span class="fu">complete_ra</span>(N))</span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>We can simulate all three designs in one go and graph the distribution of estimated effects for each design—that is the distribution of estimated effects that you might get if you ran the experiment many times.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb4"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="https://declaredesign.org/r/declaredesign/reference/simulate_design.html">simulate_design</a></span><span class="op">(</span><span class="va">design_likes</span>, <span class="va">design_no_blocks</span>, <span class="va">design_opposites</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
-<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span><span class="va">estimate</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
-<span>    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_histogram.html">geom_histogram</a></span><span class="op">(</span>bins <span class="op">=</span> <span class="fl">30</span><span class="op">)</span> <span class="op">+</span></span>
-<span>    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/facet_wrap.html">facet_wrap</a></span><span class="op">(</span> <span class="op">~</span> <span class="va">design</span><span class="op">)</span> <span class="op">+</span></span>
-<span>    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html">theme_bw</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
-<span>    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/theme.html">theme</a></span><span class="op">(</span>strip.background <span class="op">=</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/element.html">element_blank</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
-</div>
-<div class="cell">
-
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">simulate_design</span>(design_likes, design_no_blocks, design_opposites) <span class="sc">%&gt;%</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(estimate)) <span class="sc">+</span></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_histogram</span>(<span class="at">bins =</span> <span class="dv">30</span>) <span class="sc">+</span></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">facet_wrap</span>( <span class="sc">~</span> design) <span class="sc">+</span></span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>    <span class="fu">theme_bw</span>() <span class="sc">+</span></span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>    <span class="fu">theme</span>(<span class="at">strip.background =</span> <span class="fu">element_blank</span>())</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div class="cell">
 <div class="cell-output-display">
@@ -293,20 +293,18 @@ div.csl-indent {
 <p>So blocking here will tend to work well if indeed couples are similar on dimensions that are correlated with potential outcomes. But the gains from blocking really depend on the assumption of couples being similar. If in fact “opposites attract,” then blocking on couple can do more harm than good.</p>
 <p>We can confirm the graphical intuition by directly calculating the true standard error of each approach.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb5"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="https://declaredesign.org/r/declaredesign/reference/diagnose_design.html">diagnose_design</a></span><span class="op">(</span><span class="va">design_likes</span>, <span class="va">design_no_blocks</span>, <span class="va">design_opposites</span>,</span>
-<span>                diagnosands <span class="op">=</span> <span class="fu"><a href="https://declaredesign.org/r/declaredesign/reference/declare_diagnosands.html">declare_diagnosands</a></span><span class="op">(</span>sd_estimate <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/sd.html">sd</a></span><span class="op">(</span><span class="va">estimate</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
-</div>
-<div class="cell">
-
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">diagnose_design</span>(design_likes, design_no_blocks, design_opposites,</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>                <span class="at">diagnosands =</span> <span class="fu">declare_diagnosands</span>(<span class="at">sd_estimate =</span> <span class="fu">sd</span>(estimate)))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div class="cell">
 <div class="cell-output-display">
-<table class="table table-sm table-striped">
-<thead><tr class="header">
+<table class="table table-sm table-striped small">
+<thead>
+<tr class="header">
 <th style="text-align: left;">Design</th>
 <th style="text-align: left;">SD Estimate</th>
-</tr></thead>
+</tr>
+</thead>
 <tbody>
 <tr class="odd">
 <td style="text-align: left;">design_likes</td>
@@ -325,7 +323,9 @@ div.csl-indent {
 </div>
 </div>
 <p>So there you have it. It is technically possible that some blocking strategies could make things worse. If you make homogeneous blocks (homogeneous in terms of potential outcomes), blocking helps. But if you make <em>heterogeneous</em> blocks (again in terms of potential outcomes) blocking could hurt.</p>
-</section><section id="size" class="level1"><h1>Size</h1>
+</section>
+<section id="size" class="level1">
+<h1>Size</h1>
 <p>As discussed in <span class="citation" data-cites="moore2012multivariate">Moore (<a href="#ref-moore2012multivariate" role="doc-biblioref">2012</a>)</span> and <span class="citation" data-cites="imai2008misunderstandings">Imai, King, and Stuart (<a href="#ref-imai2008misunderstandings" role="doc-biblioref">2008</a>)</span>, “bad blocking” is often only a problem in small samples and can go away if the sample size is sufficiently large.</p>
 <p>How small small is will depend on the background model and specifics of the estimand <span class="citation" data-cites="imai2008variance">(<a href="#ref-imai2008variance" role="doc-biblioref">Imai 2008</a>)</span>. For any given model, however, <code>DeclareDesign</code> makes it easy to answer that kind of question. Here we do the same diagnosis as above but with larger designs with <span class="math inline">\(N\)</span>s of 250 and 2500.</p>
 <div class="cell">
@@ -338,16 +338,15 @@ div.csl-indent {
 <span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>                <span class="at">diagnosands      =</span> <span class="fu">declare_diagnosands</span>(<span class="at">sd_estimate =</span> <span class="fu">sd</span>(estimate))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div class="cell">
-
-</div>
-<div class="cell">
 <div class="cell-output-display">
-<table class="table table-sm table-striped">
-<thead><tr class="header">
+<table class="table table-sm table-striped small">
+<thead>
+<tr class="header">
 <th style="text-align: left;">Design</th>
 <th style="text-align: right;">N</th>
 <th style="text-align: left;">SD Estimate</th>
-</tr></thead>
+</tr>
+</thead>
 <tbody>
 <tr class="odd">
 <td style="text-align: left;">Like_blocks_250</td>
@@ -384,21 +383,29 @@ div.csl-indent {
 </div>
 </div>
 <p>We see here how the loss from bad blocking declines, in absolute terms, with sample size (as does variance in general). In <em>relative</em> terms though we note that we are not seeing clear declines for this design. In the <span class="math inline">\(N = 100\)</span> case the variance in the sampling distribution with bad blocking is an estimated 47% bigger than the variance with no blocking; for <span class="math inline">\(N = 250\)</span> it is 50% bigger and for <span class="math inline">\(N = 2500\)</span> it is 48% bigger.</p>
-<section id="references" class="level2"></section></section><div id="quarto-appendix" class="default"><section class="quarto-appendix-contents" role="doc-bibliography"><h2 class="anchored quarto-appendix-heading">References</h2>
-<div id="refs" class="references csl-bib-body hanging-indent" role="doc-bibliography">
-<div id="ref-gerber2012field" class="csl-entry" role="doc-biblioentry">
+<section id="references" class="level2">
+
+
+
+
+</section>
+</section>
+
+<div id="quarto-appendix" class="default"><section class="quarto-appendix-contents" role="doc-bibliography"><h2 class="anchored quarto-appendix-heading">References</h2><div id="refs" class="references csl-bib-body hanging-indent" role="list">
+<div id="ref-gerber2012field" class="csl-entry" role="listitem">
 Gerber, Alan S., and Donald P. Green. 2012. <em>Field Experiments: Design, Analysis, and Interpretation</em>. WW Norton.
 </div>
-<div id="ref-imai2008variance" class="csl-entry" role="doc-biblioentry">
+<div id="ref-imai2008variance" class="csl-entry" role="listitem">
 Imai, Kosuke. 2008. <span>“Variance Identification and Efficiency Analysis in Randomized Experiments Under the Matched-Pair Design.”</span> <em>Statistics in Medicine</em> 27 (24): 4857–73.
 </div>
-<div id="ref-imai2008misunderstandings" class="csl-entry" role="doc-biblioentry">
+<div id="ref-imai2008misunderstandings" class="csl-entry" role="listitem">
 Imai, Kosuke, Gary King, and Elizabeth A Stuart. 2008. <span>“Misunderstandings Between Experimentalists and Observationalists about Causal Inference.”</span> <em>Journal of the Royal Statistical Society: Series A (Statistics in Society)</em> 171 (2): 481–502.
 </div>
-<div id="ref-moore2012multivariate" class="csl-entry" role="doc-biblioentry">
+<div id="ref-moore2012multivariate" class="csl-entry" role="listitem">
 Moore, Ryan T. 2012. <span>“Multivariate Continuous Blocking to Improve Political Science Experiments.”</span> <em>Political Analysis</em> 20 (4): 460–79.
 </div>
-</div></section></div></main><!-- /main --><script id="quarto-html-after-body" type="application/javascript">
+</div></section></div></main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
 window.document.addEventListener("DOMContentLoaded", function (event) {
   const toggleBodyColorMode = (bsSheetEl) => {
     const mode = bsSheetEl.getAttribute("data-mode");
@@ -425,9 +432,23 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     icon: icon
   };
   anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
   const clipboard = new window.ClipboardJS('.code-copy-button', {
-    target: function(trigger) {
-      return trigger.previousElementSibling;
+    text: function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
     }
   });
   clipboard.on('success', function(e) {
@@ -492,6 +513,92 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       return note.innerHTML;
     });
   }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
   const findCites = (el) => {
     const parentEl = el.parentElement;
     if (parentEl) {
@@ -535,5 +642,4 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 
 
 
-</body>
-</html>
+</body></html>
