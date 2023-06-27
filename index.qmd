@@ -76,15 +76,15 @@ execute:
 
 <p style="font-size:25px;padding-top:5px"><b>DeclareDesign in three steps</b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</p>
 <ul class="nav nav-pills" id="hello-quarto-tab" role="tablist"> 
-  <li class="nav-item" role="presentation">
-    <button class="nav-link active" id="python-tab" data-bs-toggle="tab" data-bs-target="#python" type="button" role="tab" aria-controls="python" aria-selected="true">Declare</button>
-  </li>
-  <li class="nav-item" role="presentation">
-    <button class="nav-link" id="knitr-tab" data-bs-toggle="tab" data-bs-target="#knitr" type="button" role="tab" aria-controls="knitr" aria-selected="false">Diagnose</button>
-  </li>
-  <li class="nav-item" role="presentation">
-    <button class="nav-link" id="julia-tab" data-bs-toggle="tab" data-bs-target="#julia" type="button" role="tab" aria-controls="julia" aria-selected="false">Redesign</button>
-  </li>
+<li class="nav-item" role="presentation">
+<button class="nav-link active" id="python-tab" data-bs-toggle="tab" data-bs-target="#python" type="button" role="tab" aria-controls="python" aria-selected="true">Declare</button>
+</li>
+<li class="nav-item" role="presentation">
+<button class="nav-link" id="knitr-tab" data-bs-toggle="tab" data-bs-target="#knitr" type="button" role="tab" aria-controls="knitr" aria-selected="false">Diagnose</button>
+</li>
+<li class="nav-item" role="presentation">
+<button class="nav-link" id="julia-tab" data-bs-toggle="tab" data-bs-target="#julia" type="button" role="tab" aria-controls="julia" aria-selected="false">Redesign</button>
+</li>
 </ul>
 </p>
 :::
@@ -104,8 +104,10 @@ library(knitr)
 ```{r}
 library(DeclareDesign)
 
+sample_size <- 100
+
 two_arm_trial <-
-  declare_model(N = 100,
+  declare_model(N = sample_size,
                 U = rnorm(N),
                 potential_outcomes(Y ~ 0.2 * Z + U)) +
   declare_inquiry(ATE = mean(Y_Z_1 - Y_Z_0)) +
@@ -179,8 +181,31 @@ Redesigning means exploring how design choices like the number of clusters sampl
 ::: {.grid}
 ::: {.g-col-lg-6 .g-col-12}
 ````markdown
-redesign()
+redesign(two_arm_trial, sample_size = c(250, 500, 750, 1000, 1250, 1500))
 ````
+
+```{r dev.args = list(bg = 'transparent')}
+#| fig.width: 6
+#| fig.height: 3
+#| echo: false
+designs_ss <- redesign(two_arm_trial, sample_size = c(250, 500, 750, 1000, 1250, 1500))
+diagnosis_ss <- diagnose_design(designs_ss, sims = 1000)
+diagnosands <- diagnosis_ss |> tidy() |> filter(diagnosand == "power")
+ggplot(diagnosands, aes(sample_size, estimate)) + 
+  # geom_ribbon(aes(ymin = conf.low, ymax = conf.high), fill = "lightblue", col = NA) + 
+  geom_smooth() +
+  geom_hline(yintercept = 0.8, color = "red", size = 1, lty = "dashed") + 
+  geom_curve(
+    data = data.frame(x1 = 600, x2 = 760, y1 = 0.9, y2 = 0.82),
+    aes(x = x1, y = y1, xend = x2, yend = y2),
+    arrow = arrow(length = unit(0.01, "npc"))
+  ) + 
+  annotate("text", x = 450, y = 0.94, label = "Minimum sample size with\n at least 80% power", ) + 
+  # annotate("text", x = diagnosands$mean_estimand + 0.025, y = 100, hjust = 0, label = "Estimand", color = "#C6227F") +   
+  # annotate("text", x = diagnosands$mean_estimate - 0.025, y = 100, hjust = 1, label = "Average estimate", color = gray(0.1)) + 
+  labs(x = "Sample size", y = "Statistical power") + 
+  theme_minimal()
+```
 :::
 
 <!-- ::: {.hello-output .g-col-lg-6 .g-col-12} -->
