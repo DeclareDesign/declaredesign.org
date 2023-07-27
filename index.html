@@ -151,7 +151,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     </ul>
   </li>
   <li class="nav-item">
-    <a class="nav-link" href="./blog" rel="" target="">
+    <a class="nav-link" href="./blog.html" rel="" target="">
  <span class="menu-text">Blog</span></a>
   </li>  
   <li class="nav-item">
@@ -271,27 +271,27 @@ Redesign
 <tbody>
 <tr class="odd">
 <td style="text-align: left;">001</td>
-<td style="text-align: right;">-0.44</td>
-<td style="text-align: right;">-0.44</td>
-<td style="text-align: right;">-0.24</td>
+<td style="text-align: right;">-1.67</td>
+<td style="text-align: right;">-1.67</td>
+<td style="text-align: right;">-1.47</td>
 <td style="text-align: right;">1</td>
-<td style="text-align: right;">-0.24</td>
+<td style="text-align: right;">-1.47</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">002</td>
-<td style="text-align: right;">-0.59</td>
-<td style="text-align: right;">-0.59</td>
-<td style="text-align: right;">-0.39</td>
+<td style="text-align: right;">1.62</td>
+<td style="text-align: right;">1.62</td>
+<td style="text-align: right;">1.82</td>
 <td style="text-align: right;">1</td>
-<td style="text-align: right;">-0.39</td>
+<td style="text-align: right;">1.82</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">003</td>
-<td style="text-align: right;">1.25</td>
-<td style="text-align: right;">1.25</td>
-<td style="text-align: right;">1.45</td>
-<td style="text-align: right;">0</td>
-<td style="text-align: right;">1.25</td>
+<td style="text-align: right;">-0.14</td>
+<td style="text-align: right;">-0.14</td>
+<td style="text-align: right;">0.06</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">0.06</td>
 </tr>
 </tbody>
 </table>
@@ -335,24 +335,63 @@ Redesign
 <div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>diagnosis <span class="ot">&lt;-</span> <span class="fu">diagnose_design</span>(two_arm_trial)</span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="fu">tidy</span>(diagnosis)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div class="cell" data-hash="index_cache/html/unnamed-chunk-8_790821a7afcf46991d09851ab10435bb">
-<div class="cell-output cell-output-stdout">
-<pre><code>     diagnosand    estimate   std.error
-1 mean_estimand  0.20000000 0.000000000
-2 mean_estimate  0.18281642 0.008772502
-3          bias -0.01718358 0.008772502
-4   sd_estimate  0.19919322 0.006042210
-5          rmse  0.19973447 0.005979387
-6         power  0.13200000 0.015775752
-7      coverage  0.95000000 0.008309274</code></pre>
+<div class="cell" data-hash="index_cache/html/unnamed-chunk-8_7ec2756297ea7bf746ec5210152da289">
+<div class="cell-output-display">
+<table class="table table-sm table-striped small">
+<thead>
+<tr class="header">
+<th style="text-align: left;">diagnosand</th>
+<th style="text-align: right;">estimate</th>
+<th style="text-align: right;">std.error</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">mean_estimand</td>
+<td style="text-align: right;">0.200</td>
+<td style="text-align: right;">0.000</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">mean_estimate</td>
+<td style="text-align: right;">0.183</td>
+<td style="text-align: right;">0.009</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">bias</td>
+<td style="text-align: right;">-0.017</td>
+<td style="text-align: right;">0.009</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">sd_estimate</td>
+<td style="text-align: right;">0.199</td>
+<td style="text-align: right;">0.006</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">rmse</td>
+<td style="text-align: right;">0.200</td>
+<td style="text-align: right;">0.006</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">power</td>
+<td style="text-align: right;">0.132</td>
+<td style="text-align: right;">0.016</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">coverage</td>
+<td style="text-align: right;">0.950</td>
+<td style="text-align: right;">0.008</td>
+</tr>
+</tbody>
+</table>
 </div>
 </div>
 </div>
-<div class="g-col-lg-6 g-col-12">
-<div class="cell" data-hash="index_cache/html/unnamed-chunk-9_581e8b23f7f6835bef482b2f8576085b">
-<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data =</span> <span class="fu">get_simulations</span>(diagnosis), </span>
-<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>       <span class="fu">aes</span>(<span class="at">x =</span> estimate)) <span class="sc">+</span></span>
-<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_histogram</span>() </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="g-col-lg-6">
+<div class="cell" data-hash="index_cache/html/unnamed-chunk-9_0c1193e5de031041f20618f841ef3e7b">
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data =</span> <span class="fu">get_simulations</span>(diagnosis), </span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>       <span class="fu">aes</span>(<span class="at">x =</span> estimate)) <span class="sc">+</span></span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_histogram</span>() </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div class="cell" data-hash="index_cache/html/unnamed-chunk-10_e2595e6a8401928453384f1bbb1a533a">
 <div class="cell-output-display">
@@ -365,21 +404,23 @@ Redesign
 <div id="julia" class="tab-pane fade" role="tabpanel" aria-labelledby="julia-tab">
 <p>Redesigning means exploring how design choices like the number of clusters sampled change the <em>diagnosands</em> (properties) of the design.</p>
 <div class="grid">
-<div class="g-col-lg-6 g-col-12">
-<div class="sourceCode" id="cb7"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>redesign(two_arm_trial, sample_size = c(250, 500, 750, 1000, 1250, 1500))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell" data-hash="index_cache/html/unnamed-chunk-11_ea8e9364249df10d487f82bf3a0c7eef">
-<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>diagnosis <span class="ot">&lt;-</span></span>
-<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>  two_arm_trial <span class="sc">|&gt;</span></span>
-<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">redesign</span>(<span class="at">sample_size =</span> <span class="fu">c</span>(<span class="dv">250</span>, <span class="dv">500</span>, <span class="dv">750</span>, <span class="dv">1000</span>, <span class="dv">1250</span>, <span class="dv">1500</span>)) <span class="sc">|&gt;</span></span>
-<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">diagnose_designs</span>() <span class="sc">|&gt;</span></span>
-<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tidy</span>() <span class="sc">|&gt;</span></span>
-<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(diagnosand <span class="sc">==</span> <span class="st">"power"</span>)</span>
-<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(diagnosis, <span class="fu">aes</span>(sample_size, estimate)) <span class="sc">+</span> </span>
-<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>() <span class="sc">+</span></span>
-<span id="cb8-10"><a href="#cb8-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="g-col-lg-6">
+<div class="cell" data-hash="index_cache/html/unnamed-chunk-11_6370ea1a296086b2ff9d1d3d8f74a2f9">
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>diagnosis <span class="ot">&lt;-</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>  two_arm_trial <span class="sc">|&gt;</span></span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">redesign</span>(<span class="at">sample_size =</span> <span class="fu">c</span>(<span class="dv">250</span>, <span class="dv">500</span>, <span class="dv">750</span>, <span class="dv">1000</span>, <span class="dv">1250</span>)) <span class="sc">|&gt;</span></span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">diagnose_designs</span>() <span class="sc">|&gt;</span></span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tidy</span>() <span class="sc">|&gt;</span></span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(diagnosand <span class="sc">==</span> <span class="st">"power"</span>)</span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
+<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(diagnosis, <span class="fu">aes</span>(sample_size, estimate)) <span class="sc">+</span> </span>
+<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>() <span class="sc">+</span></span>
+<span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div class="cell" data-hash="index_cache/html/unnamed-chunk-12_ec8874f2fb4c095b9bec0b1f24f9e5aa">
+</div>
+<div class="g-col-lg-6">
+<div class="cell" data-hash="index_cache/html/unnamed-chunk-12_c2200f1dcc0abe60e87262ef14094f7b">
 <div class="cell-output-display">
 <p><img src="index_files/figure-html/unnamed-chunk-12-1.png" class="img-fluid" width="576"></p>
 </div>
@@ -397,37 +438,32 @@ Redesign
 </div>
 </div>
 <!-- grid of content -->
-<section id="adapt-common-research-designs" class="content-block">
-<h2>Adapt common research designs</h2>
+<section id="library-of-common-research-designs" class="content-block">
+<h2>Library of common research designs</h2>
 <div class="grid">
-<div class="g-col-3">
-<p><img src="https://draft.declaredesign.org/figures/figure-15-4.svg" class="img-fluid"></p>
+<div class="g-col-4">
 <h3 id="observational-designs-for-descriptive-inference">Observational designs for descriptive inference</h3>
-<p>Generate dynamic output using Python, R, Julia, and Observable. Create reproducible documents that can be regenerated when underlying assumptions or data change.</p>
-</div>
-<div class="g-col-3">
-<p><img src="https://draft.declaredesign.org/figures/figure-16-9.svg" class="img-fluid"></p>
+<p><a href="https://book.declaredesign.org/library/observational-descriptive.html#simple-random-sampling">Simple random sampling</a><br> <a href="https://book.declaredesign.org/library/observational-descriptive.html#sec-ch15s2">Cluster random sampling</a><br> <a href="https://book.declaredesign.org/library/observational-descriptive.html#sec-ch15s3">Multi-level regression and poststratification</a><br> <a href="https://book.declaredesign.org/library/observational-descriptive.html#index-creation">Index creation</a></p>
 <h3 id="observational-designs-for-causal-inference">Observational designs for causal inference</h3>
-<p>Publish high-quality articles, reports, presentations, websites, and books in HTML, PDF, MS Word, ePub, and more. Use a single source document to target multiple formats.</p>
+<p><a href="https://book.declaredesign.org/library/observational-causal.html#sec-ch16s1">Process tracing</a><br> <a href="https://book.declaredesign.org/library/observational-causal.html#sec-ch16s2">Selection-on-observables</a><br> <a href="https://book.declaredesign.org/library/observational-causal.html#sec-ch16s3">Difference-in-differences</a><br> <a href="https://book.declaredesign.org/library/observational-causal.html#sec-ch16s4">Instrumental variables</a><br> <a href="https://book.declaredesign.org/library/observational-causal.html#sec-ch16s5">Regression discontinuity designs</a></p>
 </div>
-<div class="g-col-3">
-<p><img src="https://draft.declaredesign.org/figures/figure-17-3.svg" class="img-fluid"></p>
+<div class="g-col-4">
 <h3 id="experimental-designs-for-descriptive-inference">Experimental designs for descriptive inference</h3>
-<p>Pandoc markdown has excellent support for LaTeX equations and citations. Quarto adds extensions for cross-references, figure panels, callouts, advanced page layout, and more.</p>
-</div>
-<div class="g-col-3">
-<p><img src="https://draft.declaredesign.org/figures/figure-18-12.svg" class="img-fluid"></p>
+<p><a href="https://book.declaredesign.org/library/experimental-descriptive.html#audit-experiments">Audit experiments</a><br> <a href="https://book.declaredesign.org/library/experimental-descriptive.html#list-experiments">List experiments</a><br> <a href="https://book.declaredesign.org/library/experimental-descriptive.html#sec-ch17s3">Conjoint experiments</a><br> <a href="https://book.declaredesign.org/library/experimental-descriptive.html#behavioral-games">Behavioral games</a></p>
 <h3 id="experimental-designs-for-causal-inference">Experimental designs for causal inference</h3>
-<p>Use your favorite tools including VS Code, RStudio, Jupyter Lab, or any text editor. Use the Quarto visual markdown editor for long-form documents.</p>
+<p><a href="https://book.declaredesign.org/library/experimental-causal.html#sec-ch18s1">Two-arm randomized experiments</a><br> <a href="https://book.declaredesign.org/library/experimental-causal.html#block-randomized-experiments">Block-randomized experiments</a><br> <a href="https://book.declaredesign.org/library/experimental-causal.html#sec-ch18s3">Cluster-randomized experiments</a><br> <a href="https://book.declaredesign.org/library/experimental-causal.html#sec-ch18s4">Subgroup designs</a><br> <a href="https://book.declaredesign.org/library/experimental-causal.html#sec-ch18s5">Factorial experiments</a><br> <a href="https://book.declaredesign.org/library/experimental-causal.html#sec-ch18s6">Encouragement designs</a><br> <a href="https://book.declaredesign.org/library/experimental-causal.html#sec-ch18s7">Placebo-controlled experiments</a><br> <a href="https://book.declaredesign.org/library/experimental-causal.html#stepped-wedge-experiments">Stepped-wedge experiments</a><br> <a href="https://book.declaredesign.org/library/experimental-causal.html#sec-ch18s9">Randomized saturation experiments</a><br> <a href="https://book.declaredesign.org/library/experimental-causal.html#sec-ch18s10">Experiments over networks</a></p>
 </div>
+<section id="complex-designs" class="g-col-4">
+<h3>Complex designs</h3>
+<p><a href="https://book.declaredesign.org/library/complex.html#discovery-using-causal-forests">Discovery using causal forests</a><br> <a href="https://book.declaredesign.org/library/complex.html#sec-ch19s2">Structural estimation</a><br> <a href="https://book.declaredesign.org/library/complex.html#sec-ch19s3">Meta-analysis</a><br> <a href="https://book.declaredesign.org/library/complex.html#multi-site-studies">Multi-site studies</a><br></p>
+</section>
 </div>
 </section>
 <!-- take action -->
 <div class="get-started alt-background">
-<section id="declare-and-diagnose-your-research-design-to-assess-improve-and-communicate-about-your-design" class="content-block">
-<h3>Declare and diagnose your research design –<br>to assess, improve, and communicate about your design</h3>
+<div class="content-block">
 <p><a href="getting_started/" class="btn-action-primary btn-action btn btn-success btn-lg" role="button">Get Started</a></p>
-</section>
+</div>
 </div>
 
 
