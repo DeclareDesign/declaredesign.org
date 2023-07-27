@@ -125,14 +125,18 @@ two_arm_trial <-
 draw_data(two_arm_trial)
 ```
 ```{r, echo = FALSE}
-draw_data(two_arm_trial) |> head(3) |> kable(digits = 2)
+draw_data(two_arm_trial) |> 
+  head(3) |> 
+  kable(digits = 2)
 ```
 
 ```{r, eval = FALSE}
 run_design(two_arm_trial)
 ```
 ```{r, echo = FALSE}
-run_design(two_arm_trial) |> select(estimate, std.error, p.value, inquiry, estimand) |> kable(digits = 2)
+run_design(two_arm_trial) |> 
+  select(estimate, std.error, p.value, inquiry, estimand) |> 
+  kable(digits = 2)
 ```
 :::
 
@@ -142,33 +146,66 @@ run_design(two_arm_trial) |> select(estimate, std.error, p.value, inquiry, estim
 
 <div class="tab-pane fade" id="knitr" role="tabpanel" aria-labelledby="knitr-tab">
 
-Diagnosing a design means simulating the design many times to learn about its properties. Is the design biased? Is there enough statistical power? How often will you get the sign of the effect wrong?
+Diagnosing a design means simulating the design many times to learn about its properties. Is the design biased? Is there enough statistical power? Do the 95% confidence intervals cover the estimand 95% of the time?
 
 ::: {.grid}
 ::: {.g-col-lg-6}
 ```{r, eval = FALSE}
-diagnose_design(two_arm_trial)
+diagnosis <- diagnose_design(two_arm_trial)
+tidy(diagnosis)
 ```
 ```{r, echo = FALSE}
-dx <- diagnose_design(two_arm_trial, sims = 1000)
-dx |> get_diagnosands() |> select(bias, sd_estimate, rmse, power, coverage) |> rename_with(~str_replace(str_to_sentence(.), "_", " "), .cols = everything()) |> rename(`SD(estimate)` = `Sd estimate`, `RMSE` = `Rmse`) |> kable(digits = 2)
+diagnosis <- diagnose_design(two_arm_trial)
+tidy(diagnosis) |> 
+  select(diagnosand, estimate, std.error)
 ```
 :::
 
 ::: {.g-col-lg-6 .g-col-12}
+
+```{r, eval = FALSE}
+ggplot(data = get_simulations(diagnosis), 
+       aes(x = estimate)) +
+  geom_histogram() 
+```
 ```{r dev.args = list(bg = 'transparent')}
 #| fig.width: 4
 #| fig.height: 3
 #| echo: false
-sims <- dx |> get_simulations() 
-diagnosands <- dx |> get_diagnosands()
-ggplot(sims, aes(estimate)) + 
-  geom_histogram(color = NA, fill = "#72B4F3") + 
-  geom_vline(data = diagnosands, aes(xintercept = mean_estimate), color = gray(0.1), lty = "dashed") + 
-  geom_vline(data = diagnosands, aes(xintercept = mean_estimand), color = "#C6227F", lwd = 1.25) + 
-  annotate("text", x = diagnosands$mean_estimand + 0.025, y = 100, hjust = 0, label = "Estimand", color = "#C6227F") +   
-  annotate("text", x = diagnosands$mean_estimate - 0.025, y = 100, hjust = 1, label = "Average estimate", color = gray(0.1)) + 
-  labs(x = "Simulation sampling distribution of estimator", y = "Density") + 
+sims <- diagnosis |> get_simulations() 
+diagnosands <- diagnosis |> get_diagnosands()
+
+ggplot(sims, aes(estimate)) +
+  geom_histogram(color = NA, fill = "#72B4F3", bins = 30) +
+  geom_vline(
+    data = diagnosands,
+    aes(xintercept = mean_estimate),
+    color = gray(0.1),
+    lty = "dashed"
+  ) +
+  geom_vline(
+    data = diagnosands,
+    aes(xintercept = mean_estimand),
+    color = "#C6227F",
+    lwd = 1.25
+  ) +
+  annotate(
+    "text",
+    x = diagnosands$mean_estimand + 0.025,
+    y = 50,
+    hjust = 0,
+    label = "Estimand",
+    color = "#C6227F"
+  ) +
+  annotate(
+    "text",
+    x = diagnosands$mean_estimate - 0.025,
+    y = 50,
+    hjust = 1,
+    label = "Average estimate",
+    color = gray(0.1)
+  ) +
+  labs(x = "Simulation sampling distribution of estimator", y = "Density") +
   theme_minimal()
 ```
 :::
@@ -186,26 +223,42 @@ Redesigning means exploring how design choices like the number of clusters sampl
 ````markdown
 redesign(two_arm_trial, sample_size = c(250, 500, 750, 1000, 1250, 1500))
 ````
+```{r, eval = FALSE}
+diagnosis <-
+  two_arm_trial |>
+  redesign(sample_size = c(250, 500, 750, 1000, 1250, 1500)) |>
+  diagnose_designs() |>
+  tidy() |>
+  filter(diagnosand == "power")
 
+ggplot(diagnosis, aes(sample_size, estimate)) + 
+  geom_point() +
+  geom_line()
+
+```
 ```{r dev.args = list(bg = 'transparent')}
 #| fig.width: 6
 #| fig.height: 3
 #| echo: false
-designs_ss <- redesign(two_arm_trial, sample_size = c(250, 500, 750, 1000, 1250, 1500))
-diagnosis_ss <- diagnose_design(designs_ss, sims = 1000)
-diagnosands <- diagnosis_ss |> tidy() |> filter(diagnosand == "power")
+designs_ss <- 
+  two_arm_trial |> 
+  redesign(sample_size = c(250, 500, 750, 1000, 1250, 1500))
+
+diagnosis_ss <- 
+  diagnose_design(designs_ss, 
+                  sims = 1000)
+
+diagnosands <- 
+  diagnosis_ss |> 
+  tidy() |> 
+  filter(diagnosand == "power")
+
 ggplot(diagnosands, aes(sample_size, estimate)) + 
-  # geom_ribbon(aes(ymin = conf.low, ymax = conf.high), fill = "lightblue", col = NA) + 
-  geom_smooth() +
-  geom_hline(yintercept = 0.8, color = "red", size = 1, lty = "dashed") + 
-  geom_curve(
-    data = data.frame(x1 = 600, x2 = 760, y1 = 0.9, y2 = 0.82),
-    aes(x = x1, y = y1, xend = x2, yend = y2),
-    arrow = arrow(length = unit(0.01, "npc"))
-  ) + 
-  annotate("text", x = 450, y = 0.94, label = "Minimum sample size with\n at least 80% power", ) + 
-  # annotate("text", x = diagnosands$mean_estimand + 0.025, y = 100, hjust = 0, label = "Estimand", color = "#C6227F") +   
-  # annotate("text", x = diagnosands$mean_estimate - 0.025, y = 100, hjust = 1, label = "Average estimate", color = gray(0.1)) + 
+  geom_ribbon(aes(ymin = conf.low, ymax = conf.high), fill = "lightblue", color = NA) + 
+  geom_point() +
+  geom_line() +
+  geom_hline(yintercept = 0.8, color = "red", linewidth = 1, lty = "dashed") + 
+  annotate("text", x = 800, y = 0.75, label = "80% power target", hjust = 0) + 
   labs(x = "Sample size", y = "Statistical power") + 
   theme_minimal()
 ```
