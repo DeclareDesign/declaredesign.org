@@ -149,7 +149,9 @@ run_design(two_arm_trial) |>
 Diagnosing a design means simulating the design many times to learn about its properties. Is the design biased? Is there enough statistical power? Do the 95% confidence intervals cover the estimand 95% of the time?
 
 ::: {.grid}
+
 ::: {.g-col-lg-6}
+
 ```{r, eval = FALSE}
 diagnosis <- diagnose_design(two_arm_trial)
 tidy(diagnosis)
@@ -157,13 +159,16 @@ tidy(diagnosis)
 ```{r, echo = FALSE}
 diagnosis <- diagnose_design(two_arm_trial)
 tidy(diagnosis) |> 
-  select(diagnosand, estimate, std.error)
+  select(diagnosand, estimate, std.error) |> 
+  kable(digits = 3, row.names = FALSE)
 ```
+
 :::
 
-::: {.g-col-lg-6 .g-col-12}
+::: {.g-col-lg-6}
 
 ```{r, eval = FALSE}
+library(ggplot2)
 ggplot(data = get_simulations(diagnosis), 
        aes(x = estimate)) +
   geom_histogram() 
@@ -219,30 +224,34 @@ ggplot(sims, aes(estimate)) +
 Redesigning means exploring how design choices like the number of clusters sampled change the *diagnosands* (properties) of the design. 
 
 ::: {.grid}
-::: {.g-col-lg-6 .g-col-12}
-````markdown
-redesign(two_arm_trial, sample_size = c(250, 500, 750, 1000, 1250, 1500))
-````
+
+::: {.g-col-lg-6}
+
 ```{r, eval = FALSE}
 diagnosis <-
   two_arm_trial |>
-  redesign(sample_size = c(250, 500, 750, 1000, 1250, 1500)) |>
+  redesign(sample_size = c(250, 500, 750, 1000, 1250)) |>
   diagnose_designs() |>
   tidy() |>
   filter(diagnosand == "power")
 
+library(ggplot2)
 ggplot(diagnosis, aes(sample_size, estimate)) + 
   geom_point() +
   geom_line()
-
 ```
+
+:::
+
+::: {.g-col-lg-6}
+
 ```{r dev.args = list(bg = 'transparent')}
 #| fig.width: 6
 #| fig.height: 3
 #| echo: false
 designs_ss <- 
   two_arm_trial |> 
-  redesign(sample_size = c(250, 500, 750, 1000, 1250, 1500))
+  redesign(sample_size = c(250, 500, 750, 1000, 1250))
 
 diagnosis_ss <- 
   diagnose_design(designs_ss, 
@@ -262,6 +271,7 @@ ggplot(diagnosands, aes(sample_size, estimate)) +
   labs(x = "Sample size", y = "Statistical power") + 
   theme_minimal()
 ```
+
 :::
 
 <!-- ::: {.hello-output .g-col-lg-6 .g-col-12} -->
@@ -288,42 +298,61 @@ ggplot(diagnosands, aes(sample_size, estimate)) +
 
 ::: {.content-block}
 
-## Adapt common research designs
+## Library of common research designs 
 
 ::: {.grid}
 
-::: {.g-col-3}
-
-![](https://draft.declaredesign.org/figures/figure-15-4.svg)
+::: {.g-col-4}
 
 ### Observational designs for descriptive inference
-Generate dynamic output using Python, R, Julia, and Observable. Create reproducible documents that can be regenerated when underlying assumptions or data change.
 
-:::
-
-::: {.g-col-3}
-
-![](https://draft.declaredesign.org/figures/figure-16-9.svg)
+[Simple random sampling](https://book.declaredesign.org/library/observational-descriptive.html#simple-random-sampling)<br />
+[Cluster random sampling](https://book.declaredesign.org/library/observational-descriptive.html#sec-ch15s2)<br />
+[Multi-level regression and poststratification](https://book.declaredesign.org/library/observational-descriptive.html#sec-ch15s3)<br />
+[Index creation](https://book.declaredesign.org/library/observational-descriptive.html#index-creation)
 
 ### Observational designs for causal inference
-Publish high-quality articles, reports, presentations, websites, and books in HTML, PDF, MS Word, ePub, and more. Use a single source document to target multiple formats.
+
+[Process tracing](https://book.declaredesign.org/library/observational-causal.html#sec-ch16s1)<br />
+[Selection-on-observables](https://book.declaredesign.org/library/observational-causal.html#sec-ch16s2)<br />
+[Difference-in-differences](https://book.declaredesign.org/library/observational-causal.html#sec-ch16s3)<br />
+[Instrumental variables](https://book.declaredesign.org/library/observational-causal.html#sec-ch16s4)<br />
+[Regression discontinuity designs](https://book.declaredesign.org/library/observational-causal.html#sec-ch16s5)
+
 :::
 
-::: {.g-col-3}
-
-![](https://draft.declaredesign.org/figures/figure-17-3.svg)
+::: {.g-col-4}
 
 ### Experimental designs for descriptive inference
-Pandoc markdown has excellent support for LaTeX equations and citations. Quarto adds extensions for cross-references, figure panels, callouts, advanced page layout, and more.
+
+[Audit experiments](https://book.declaredesign.org/library/experimental-descriptive.html#audit-experiments)<br />
+[List experiments](https://book.declaredesign.org/library/experimental-descriptive.html#list-experiments)<br />
+[Conjoint experiments](https://book.declaredesign.org/library/experimental-descriptive.html#sec-ch17s3)<br />
+[Behavioral games](https://book.declaredesign.org/library/experimental-descriptive.html#behavioral-games)
+
+### Experimental designs for causal inference
+
+[Two-arm randomized experiments](https://book.declaredesign.org/library/experimental-causal.html#sec-ch18s1)<br />
+[Block-randomized experiments](https://book.declaredesign.org/library/experimental-causal.html#block-randomized-experiments)<br />
+[Cluster-randomized experiments](https://book.declaredesign.org/library/experimental-causal.html#sec-ch18s3)<br />
+[Subgroup designs](https://book.declaredesign.org/library/experimental-causal.html#sec-ch18s4)<br />
+[Factorial experiments](https://book.declaredesign.org/library/experimental-causal.html#sec-ch18s5)<br />
+[Encouragement designs](https://book.declaredesign.org/library/experimental-causal.html#sec-ch18s6)<br />
+[Placebo-controlled experiments](https://book.declaredesign.org/library/experimental-causal.html#sec-ch18s7)<br />
+[Stepped-wedge experiments](https://book.declaredesign.org/library/experimental-causal.html#stepped-wedge-experiments)<br />
+[Randomized saturation experiments](https://book.declaredesign.org/library/experimental-causal.html#sec-ch18s9)<br />
+[Experiments over networks](https://book.declaredesign.org/library/experimental-causal.html#sec-ch18s10)
 
 :::
 
-::: {.g-col-3}
+::: {.g-col-4}
 
-![](https://draft.declaredesign.org/figures/figure-18-12.svg)
+### Complex designs
 
-### Experimental designs for causal inference
-Use your favorite tools including VS Code, RStudio, Jupyter Lab, or any text editor. Use the Quarto visual markdown editor for long-form documents.
+[Discovery using causal forests](https://book.declaredesign.org/library/complex.html#discovery-using-causal-forests)<br />
+[Structural estimation](https://book.declaredesign.org/library/complex.html#sec-ch19s2)<br />
+[Meta-analysis](https://book.declaredesign.org/library/complex.html#sec-ch19s3)<br />
+[Multi-site studies](https://book.declaredesign.org/library/complex.html#multi-site-studies)<br />
 
 :::
 
@@ -334,8 +363,6 @@ Use your favorite tools including VS Code, RStudio, Jupyter Lab, or any text edi
 
 ::: {.get-started .alt-background}
 ::: {.content-block}
-
-### Declare and diagnose your research design --<br>to assess, improve, and communicate about your design
 
 [Get Started](getting_started/){.btn-action-primary  .btn-action .btn .btn-success .btn-lg role="button"}
 
