@@ -255,7 +255,7 @@ Redesign
 <div class="cell" data-hash="index_cache/html/unnamed-chunk-3_b8091398b7679c7107750bf3a9bd1078">
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">draw_data</span>(two_arm_trial)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div class="cell" data-hash="index_cache/html/unnamed-chunk-4_5cd4491bb83ece3058f18ef80bc1ff38">
+<div class="cell" data-hash="index_cache/html/unnamed-chunk-4_bae6c174f5629217da07cd4c0b8dc103">
 <div class="cell-output-display">
 <table class="table table-sm table-striped small">
 <thead>
@@ -271,27 +271,27 @@ Redesign
 <tbody>
 <tr class="odd">
 <td style="text-align: left;">001</td>
-<td style="text-align: right;">-0.57</td>
-<td style="text-align: right;">-0.57</td>
-<td style="text-align: right;">-0.37</td>
+<td style="text-align: right;">-0.44</td>
+<td style="text-align: right;">-0.44</td>
+<td style="text-align: right;">-0.24</td>
 <td style="text-align: right;">1</td>
-<td style="text-align: right;">-0.37</td>
+<td style="text-align: right;">-0.24</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">002</td>
-<td style="text-align: right;">-1.50</td>
-<td style="text-align: right;">-1.50</td>
-<td style="text-align: right;">-1.30</td>
-<td style="text-align: right;">0</td>
-<td style="text-align: right;">-1.50</td>
+<td style="text-align: right;">-0.59</td>
+<td style="text-align: right;">-0.59</td>
+<td style="text-align: right;">-0.39</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">-0.39</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">003</td>
-<td style="text-align: right;">-0.50</td>
-<td style="text-align: right;">-0.50</td>
-<td style="text-align: right;">-0.30</td>
-<td style="text-align: right;">1</td>
-<td style="text-align: right;">-0.30</td>
+<td style="text-align: right;">1.25</td>
+<td style="text-align: right;">1.25</td>
+<td style="text-align: right;">1.45</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">1.25</td>
 </tr>
 </tbody>
 </table>
@@ -300,7 +300,7 @@ Redesign
 <div class="cell" data-hash="index_cache/html/unnamed-chunk-5_90d65cf4c89a894a8f7490fec900cdaf">
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">run_design</span>(two_arm_trial)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div class="cell" data-hash="index_cache/html/unnamed-chunk-6_9c7615abada89228d1b7e878256d1035">
+<div class="cell" data-hash="index_cache/html/unnamed-chunk-6_aecf68c9cd69e41a954d9f75e8b5c93b">
 <div class="cell-output-display">
 <table class="table table-sm table-striped small">
 <thead>
@@ -314,9 +314,9 @@ Redesign
 </thead>
 <tbody>
 <tr class="odd">
-<td style="text-align: right;">0.24</td>
+<td style="text-align: right;">0.48</td>
 <td style="text-align: right;">0.19</td>
-<td style="text-align: right;">0.22</td>
+<td style="text-align: right;">0.01</td>
 <td style="text-align: left;">ATE</td>
 <td style="text-align: right;">0.2</td>
 </tr>
@@ -328,41 +328,35 @@ Redesign
 </div>
 </div>
 <div id="knitr" class="tab-pane fade" role="tabpanel" aria-labelledby="knitr-tab">
-<p>Diagnosing a design means simulating the design many times to learn about its properties. Is the design biased? Is there enough statistical power? How often will you get the sign of the effect wrong?</p>
+<p>Diagnosing a design means simulating the design many times to learn about its properties. Is the design biased? Is there enough statistical power? Do the 95% confidence intervals cover the estimand 95% of the time?</p>
 <div class="grid">
 <div class="g-col-lg-6">
-<div class="cell" data-hash="index_cache/html/unnamed-chunk-7_6b2afba392074141dd30984134622179">
-<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">diagnose_design</span>(two_arm_trial)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell" data-hash="index_cache/html/unnamed-chunk-7_2bdc37eac9741964b22e999b9887aeb8">
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>diagnosis <span class="ot">&lt;-</span> <span class="fu">diagnose_design</span>(two_arm_trial)</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="fu">tidy</span>(diagnosis)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div class="cell" data-hash="index_cache/html/unnamed-chunk-8_acab3c5d5771b71524e0639220fb9c4c">
-<div class="cell-output-display">
-<table class="table table-sm table-striped small">
-<thead>
-<tr class="header">
-<th style="text-align: right;">Bias</th>
-<th style="text-align: right;">SD(estimate)</th>
-<th style="text-align: right;">RMSE</th>
-<th style="text-align: right;">Power</th>
-<th style="text-align: right;">Coverage</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td style="text-align: right;">0</td>
-<td style="text-align: right;">0.2</td>
-<td style="text-align: right;">0.2</td>
-<td style="text-align: right;">0.15</td>
-<td style="text-align: right;">0.95</td>
-</tr>
-</tbody>
-</table>
+<div class="cell" data-hash="index_cache/html/unnamed-chunk-8_790821a7afcf46991d09851ab10435bb">
+<div class="cell-output cell-output-stdout">
+<pre><code>     diagnosand    estimate   std.error
+1 mean_estimand  0.20000000 0.000000000
+2 mean_estimate  0.18281642 0.008772502
+3          bias -0.01718358 0.008772502
+4   sd_estimate  0.19919322 0.006042210
+5          rmse  0.19973447 0.005979387
+6         power  0.13200000 0.015775752
+7      coverage  0.95000000 0.008309274</code></pre>
 </div>
 </div>
 </div>
 <div class="g-col-lg-6 g-col-12">
-<div class="cell" data-hash="index_cache/html/unnamed-chunk-9_319a72b1b213ecebb89185c768fe1cbf">
+<div class="cell" data-hash="index_cache/html/unnamed-chunk-9_581e8b23f7f6835bef482b2f8576085b">
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data =</span> <span class="fu">get_simulations</span>(diagnosis), </span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>       <span class="fu">aes</span>(<span class="at">x =</span> estimate)) <span class="sc">+</span></span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_histogram</span>() </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell" data-hash="index_cache/html/unnamed-chunk-10_e2595e6a8401928453384f1bbb1a533a">
 <div class="cell-output-display">
-<p><img src="index_files/figure-html/unnamed-chunk-9-1.png" class="img-fluid" width="384"></p>
+<p><img src="index_files/figure-html/unnamed-chunk-10-1.png" class="img-fluid" width="384"></p>
 </div>
 </div>
 </div>
@@ -372,10 +366,22 @@ Redesign
 <p>Redesigning means exploring how design choices like the number of clusters sampled change the <em>diagnosands</em> (properties) of the design.</p>
 <div class="grid">
 <div class="g-col-lg-6 g-col-12">
-<div class="sourceCode" id="cb5"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>redesign(two_arm_trial, sample_size = c(250, 500, 750, 1000, 1250, 1500))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell" data-hash="index_cache/html/unnamed-chunk-10_f12549d98411ff2f407f0f95de93b184">
+<div class="sourceCode" id="cb7"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>redesign(two_arm_trial, sample_size = c(250, 500, 750, 1000, 1250, 1500))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell" data-hash="index_cache/html/unnamed-chunk-11_ea8e9364249df10d487f82bf3a0c7eef">
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>diagnosis <span class="ot">&lt;-</span></span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>  two_arm_trial <span class="sc">|&gt;</span></span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">redesign</span>(<span class="at">sample_size =</span> <span class="fu">c</span>(<span class="dv">250</span>, <span class="dv">500</span>, <span class="dv">750</span>, <span class="dv">1000</span>, <span class="dv">1250</span>, <span class="dv">1500</span>)) <span class="sc">|&gt;</span></span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">diagnose_designs</span>() <span class="sc">|&gt;</span></span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tidy</span>() <span class="sc">|&gt;</span></span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(diagnosand <span class="sc">==</span> <span class="st">"power"</span>)</span>
+<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(diagnosis, <span class="fu">aes</span>(sample_size, estimate)) <span class="sc">+</span> </span>
+<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>() <span class="sc">+</span></span>
+<span id="cb8-10"><a href="#cb8-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell" data-hash="index_cache/html/unnamed-chunk-12_ec8874f2fb4c095b9bec0b1f24f9e5aa">
 <div class="cell-output-display">
-<p><img src="index_files/figure-html/unnamed-chunk-10-1.png" class="img-fluid" width="576"></p>
+<p><img src="index_files/figure-html/unnamed-chunk-12-1.png" class="img-fluid" width="576"></p>
 </div>
 </div>
 </div>
