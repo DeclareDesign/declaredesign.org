@@ -24,9 +24,9 @@ execute:
 
 ::: {.dd-hero}
 
-::: {.grid}
+::: {.grid .v-center-container}
 
-::: {.g-col-6 .hero-left .align-items-center}
+::: {.g-col-5 .hero-left}
 
 # Declare and diagnose your research design
 
@@ -40,9 +40,12 @@ execute:
 ::: 
 :::
 
+::: {.g-col-3 }
 
-::: {.g-col-6 .hero-right .text-center}
-![](https://book.declaredesign.org/figures/cover.jpg){width=400}
+:::
+
+::: {.g-col-4 .hero-right .text-center}
+![](https://book.declaredesign.org/figures/cover.jpg){width=400 fig-id="img-border"}
 :::
 
 :::
@@ -96,7 +99,7 @@ execute:
 Declaring a design means writing down each component of a research design --- the model, an inquiry about the model, a data strategy to generate data, and an answer strategy to take the data and return an answer to the inquiry. 
 
 ::: {.grid}
-::: {.g-col-lg-6 .g-col-12}
+::: {.g-col-lg-6}
 ```{r, echo = FALSE, message = FALSE}
 library(tidyverse)
 library(knitr)
@@ -117,7 +120,7 @@ two_arm_trial <-
 ```
 :::
 
-::: {.g-col-lg-6 .g-col-12}
+::: {.g-col-lg-6}
 ```{r, eval = FALSE}
 draw_data(two_arm_trial)
 ```
@@ -142,7 +145,7 @@ run_design(two_arm_trial) |> select(estimate, std.error, p.value, inquiry, estim
 Diagnosing a design means simulating the design many times to learn about its properties. Is the design biased? Is there enough statistical power? How often will you get the sign of the effect wrong?
 
 ::: {.grid}
-::: {.g-col-lg-6 .g-col-12}
+::: {.g-col-lg-6}
 ```{r, eval = FALSE}
 diagnose_design(two_arm_trial)
 ```
@@ -154,7 +157,7 @@ dx |> get_diagnosands() |> select(bias, sd_estimate, rmse, power, coverage) |> r
 
 ::: {.g-col-lg-6 .g-col-12}
 ```{r dev.args = list(bg = 'transparent')}
-#| fig.width: 5
+#| fig.width: 4
 #| fig.height: 3
 #| echo: false
 sims <- dx |> get_simulations() 
