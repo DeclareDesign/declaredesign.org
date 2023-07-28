@@ -1,7 +1,9 @@
 on:
-  push:
-    branches:
-      - main
+  on:
+  workflow_run:
+    workflows: ["Build Site"]
+    types:
+      - completed
   schedule:
     # run every day at 11 PM
     - cron: '0 23 * * *'
