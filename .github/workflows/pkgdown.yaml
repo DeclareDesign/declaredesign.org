@@ -18,7 +18,7 @@ jobs:
       fail-fast: false
       matrix:
         config:
-          - {os: macOS-latest, r: 'release', package: 'declaredesign'}
+          - {os: macOS-latest, r: 'release', package: 'declaredesign', branch: 'docs-patch-jul-23'}
           # - {os: macOS-latest, r: 'release', package: 'fabricatr'}
           # - {os: macOS-latest, r: 'release', package: 'randomizr'}
           # - {os: macOS-latest, r: 'release', package: 'estimatr'}
@@ -71,7 +71,7 @@ jobs:
         
       - name: Clone all DD packages
         run: | 
-          git clone https://github.com/DeclareDesign/${{ matrix.config.package }} pkg
+          git clone -b ${{ matrix.config.r }} https://github.com/DeclareDesign/${{ matrix.config.package }} pkg
 
       - name: Search for dependences in docs
         run: Rscript -e 'library(checkpoint); found_packages <- scan_project_files(".", scan_rnw_with_knitr = TRUE)$pkgs; if(length(found_packages[!found_packages%in% installed.packages()[, 1]]) > 0) install.packages(found_packages[!found_packages%in% installed.packages()[,1]], repos = "https://cran.r-project.org")'
