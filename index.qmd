@@ -38,27 +38,12 @@ DeclareDesign is a set of software tools to plan, implement, analyze, and commun
 :::
 
 
-<!-- tabset -->
+<!-- tabset for declare diagnose redesign -->
 
-<p style="font-size:25px;padding-top:5px"><b>DeclareDesign in three steps</b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</p>
-<ul class="nav nav-pills" id="hello-quarto-tab" role="tablist"> 
-<li class="nav-item" role="presentation">
-<button class="nav-link active" id="python-tab" data-bs-toggle="tab" data-bs-target="#python" type="button" role="tab" aria-controls="python" aria-selected="true">Declare</button>
-</li>
-<li class="nav-item" role="presentation">
-<button class="nav-link" id="knitr-tab" data-bs-toggle="tab" data-bs-target="#knitr" type="button" role="tab" aria-controls="knitr" aria-selected="false">Diagnose</button>
-</li>
-<li class="nav-item" role="presentation">
-<button class="nav-link" id="julia-tab" data-bs-toggle="tab" data-bs-target="#julia" type="button" role="tab" aria-controls="julia" aria-selected="false">Redesign</button>
-</li>
-</ul>
-</p>
 
-<div class="tab-content" id="hello-quarto-tabcontent">
+::: {.panel-tabset}
 
-<div class="tab-pane fade  show active" id="python" role="tabpanel" aria-labelledby="python-tab">
-
-Declaring a design means writing down each component of a research design --- the model, an inquiry about the model, a data strategy to generate data, and an answer strategy to take the data and return an answer to the inquiry. 
+## Declare
 
 ::: {.grid}
 ::: {.g-col-lg-6}
@@ -104,11 +89,8 @@ run_design(two_arm_trial) |>
 
 :::
 
-</div>
 
-<div class="tab-pane fade" id="knitr" role="tabpanel" aria-labelledby="knitr-tab">
-
-Diagnosing a design means simulating the design many times to learn about its properties. Is the design biased? Is there enough statistical power? Do the 95% confidence intervals cover the estimand 95% of the time?
+## Diagnose
 
 ::: {.grid}
 
@@ -179,11 +161,8 @@ ggplot(sims, aes(estimate)) +
 
 :::
 
-</div>
 
-<div class="tab-pane fade" id="julia" role="tabpanel" aria-labelledby="julia-tab">
-
-Redesigning means exploring how design choices like the number of clusters sampled change the *diagnosands* (properties) of the design. 
+## Redesign
 
 ::: {.grid}
 
@@ -236,12 +215,8 @@ ggplot(diagnosands, aes(sample_size, estimate)) +
 
 :::
 
-<!-- ::: {.hello-output .g-col-lg-6 .g-col-12} -->
-<!-- ![](images/hello-julia.png){fig-alt="Example Plots Demo output with title, author, date published and main section on Parametric plots which contains text, a toggleable code field, and the output of the plot, with the caption Figure 1 Parametric Plots."} -->
-<!-- ::: -->
+:::
+
 
 :::
 
-</div>
-
-</div>
