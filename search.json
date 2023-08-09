@@ -205,14 +205,21 @@
   {
     "objectID": "index.html",
     "href": "index.html",
-    "title": "DeclareDesign in three steps",
+    "title": "**Declare**Design",
     "section": "",
     "text": "Declare and diagnose your research design\n\n\nDeclareDesign is a set of software tools to plan, implement, analyze, and communicate about empirical research\n\n\n\n\nGet Started\n\n\nSoftware\n\n\nRead Book"
   },
   {
+    "objectID": "index.html#declaredesign-in-three-steps",
+    "href": "index.html#declaredesign-in-three-steps",
+    "title": "**Declare**Design",
+    "section": "DeclareDesign in three steps",
+    "text": "DeclareDesign in three steps\n\n\nDeclareDiagnoseRedesign\n\n\n\n\n\nlibrary(DeclareDesign)\n\nsample_size &lt;- 100\n\ntwo_arm_trial &lt;-\n  declare_model(N = sample_size,\n                U = rnorm(N),\n                potential_outcomes(Y ~ 0.2 * Z + U)) +\n  declare_inquiry(ATE = mean(Y_Z_1 - Y_Z_0)) +\n  declare_assignment(Z = complete_ra(N, prob = 0.5)) +\n  declare_measurement(Y = reveal_outcomes(Y ~ Z)) +\n  declare_estimator(Y ~ Z, inquiry = \"ATE\")\n\n\n\n\ndraw_data(two_arm_trial)\n\n\n\n\n\n\nID\nU\nY_Z_0\nY_Z_1\nZ\nY\n\n\n\n\n001\n2.11\n2.11\n2.31\n0\n2.11\n\n\n002\n-0.51\n-0.51\n-0.31\n1\n-0.31\n\n\n003\n-0.64\n-0.64\n-0.44\n0\n-0.64\n\n\n\n\n\n\nrun_design(two_arm_trial)\n\n\n\n\n\n\nestimate\nstd.error\np.value\ninquiry\nestimand\n\n\n\n\n0.48\n0.19\n0.01\nATE\n0.2\n\n\n\n\n\n\n\n\n\n\n\n\ndiagnosis &lt;- diagnose_design(two_arm_trial)\ntidy(diagnosis)\n\n\n\n\n\n\ndiagnosand\nestimate\nstd.error\n\n\n\n\nmean_estimand\n0.200\n0.000\n\n\nmean_estimate\n0.183\n0.009\n\n\nbias\n-0.017\n0.009\n\n\nsd_estimate\n0.199\n0.006\n\n\nrmse\n0.200\n0.006\n\n\npower\n0.132\n0.016\n\n\ncoverage\n0.950\n0.008\n\n\n\n\n\n\n\n\nlibrary(ggplot2)\nggplot(data = get_simulations(diagnosis), \n       aes(x = estimate)) +\n  geom_histogram() \n\n\n\n\n\n\n\n\n\n\n\n\n\ndiagnosis &lt;-\n  two_arm_trial |&gt;\n  redesign(sample_size = c(250, 500, 750, 1000, 1250)) |&gt;\n  diagnose_designs() |&gt;\n  tidy() |&gt;\n  filter(diagnosand == \"power\")\n\nlibrary(ggplot2)\nggplot(diagnosis, aes(sample_size, estimate)) + \n  geom_point() +\n  geom_line()"
+  },
+  {
     "objectID": "index.html#library-of-common-research-designs",
     "href": "index.html#library-of-common-research-designs",
-    "title": "DeclareDesign in three steps",
+    "title": "**Declare**Design",
     "section": "Library of common research designs",
     "text": "Library of common research designs\n\n\nObservational designs for descriptive inference\nSimple random sampling Cluster random sampling Multi-level regression and poststratification Index creation\n\n\nObservational designs for causal inference\nProcess tracing Selection-on-observables Difference-in-differences Instrumental variables Regression discontinuity designs\n\n\nExperimental designs for descriptive inference\nAudit experiments List experiments Conjoint experiments Behavioral games\n\n\nExperimental designs for causal inference\nTwo-arm randomized experiments Block-randomized experiments Cluster-randomized experiments Subgroup designs Factorial experiments Encouragement designs Placebo-controlled experiments Stepped-wedge experiments Randomized saturation experiments Experiments over networks\n\n\nComplex designs\nDiscovery using causal forests Structural estimation Meta-analysis Multi-site studies"
   },
