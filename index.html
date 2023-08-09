@@ -192,13 +192,13 @@ DeclareDesign is a set of software tools to plan, implement, analyze, and commun
 </p>
 <p><br></p>
 <div class="grid">
-<div class="g-col-12 g-col-md-4 text-center">
+<div class="g-col-12 g-col-lg-4 text-center">
 <p><a href="getting-started/" class="btn-action-primary btn-action btn btn-success btn-lg" role="button">Get Started</a></p>
 </div>
-<div class="g-col-12 g-col-md-4 text-center">
+<div class="g-col-12 g-col-lg-4 text-center">
 <p><a href="./r/declaredesign/" class="btn-action-primary btn-action btn btn-success btn-lg" role="button">Software</a></p>
 </div>
-<div class="g-col-12 g-col-md-4 text-center">
+<div class="g-col-12 g-col-lg-4 text-center">
 <p><a href="https://book.declaredesign.org" class="btn-action-primary btn-action btn btn-success btn-lg" role="button">Read Book</a></p>
 </div>
 </div>
@@ -206,38 +206,66 @@ DeclareDesign is a set of software tools to plan, implement, analyze, and commun
 <div class="g-col-12 g-col-md-6">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><a href="https://book.declaredesign.org"><img src="https://book.declaredesign.org/figures/cover.jpg" class="img-fluid figure-img" width="400"></a></p>
+<p><a href="https://book.declaredesign.org"><img src="https://book.declaredesign.org/figures/cover.jpg" class="img-fluid figure-img" style="width:80.0%"></a></p>
 </figure>
 </div>
 </div>
 </div>
+<!-- Figure 5.1 / MIDA -->
+<h2 id="mida-framework-for-describing-research-designs">MIDA framework for describing research designs</h2>
+<div class="grid align-items-center">
+<div class="g-col-12 g-col-md-8">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="static/mida.svg" class="img-fluid figure-img" style="width:80.0%"></p>
+</figure>
+</div>
+</div>
+<div class="g-col-12 g-col-md-4">
+<p>The MIDA framework describes the four elements of any empirical research design:</p>
+<ul>
+<li><strong>Model:</strong> the worlds you consider</li>
+<li><strong>Inquiry:</strong> the question you ask</li>
+<li><strong>Data strategy:</strong> sampling, treatment assignment, and measurement procedures</li>
+<li><strong>Answer strategy:</strong> estimation, testing, interpretation, and visualization procedures</li>
+</ul>
+<p>Read <a href="https://book.declaredesign.org/declaration-diagnosis-redesign/declaring-designs.html">Chapter 5</a> of <em>Research Design in the Social Sciences</em> to learn how these four research design elements connect to reality and simulations that can be used to plan and improve research designs.</p>
+</div>
+</div>
 <!-- tabset -->
-<h2 id="declaredesign-in-three-steps">DeclareDesign in three steps</h2>
-<div class="container">
+<h2 id="declare-diagnose-redesign-algorithm-for-designing-research">Declare-Diagnose-Redesign algorithm for designing research</h2>
+<ul>
+<li><strong>Declare</strong> designs in code following the MIDA framework.</li>
+<li><strong>Diagnose</strong> declared designs through Monte Carlo simulation to learn their properties, such as bias and power.</li>
+<li><strong>Redesign</strong> data and answer strategy features to optimize designs under logistical, financial, and ethical constraints.</li>
+</ul>
+<p>Here is an illustration of using DeclareDesign for a two-arm randomized trial:</p>
 <div class="tabset-margin-container"></div><div class="panel-tabset">
 <ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-1-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-1" role="tab" aria-controls="tabset-1-1" aria-selected="true">1. Declare</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-2" role="tab" aria-controls="tabset-1-2" aria-selected="false">2. Diagnose</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-3-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-3" role="tab" aria-controls="tabset-1-3" aria-selected="false">3. Redesign</a></li></ul>
 <div class="tab-content">
 <div id="tabset-1-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-1-1-tab">
 <div class="grid">
 <div class="g-col-12 g-col-md-6">
-<div class="cell" data-hash="index_cache/html/unnamed-chunk-2_f049c71bca04773bcc96e1eed244aeda">
+<div class="cell" data-hash="index_cache/html/unnamed-chunk-2_afa7e62c08f8caaf901b905b8d68941f">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(DeclareDesign)</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>sample_size <span class="ot">&lt;-</span> <span class="dv">100</span></span>
 <span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>two_arm_trial <span class="ot">&lt;-</span></span>
-<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">declare_model</span>(<span class="at">N =</span> sample_size,</span>
-<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>                <span class="at">U =</span> <span class="fu">rnorm</span>(N),</span>
-<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>                <span class="fu">potential_outcomes</span>(Y <span class="sc">~</span> <span class="fl">0.2</span> <span class="sc">*</span> Z <span class="sc">+</span> U)) <span class="sc">+</span></span>
-<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">declare_inquiry</span>(<span class="at">ATE =</span> <span class="fu">mean</span>(Y_Z_1 <span class="sc">-</span> Y_Z_0)) <span class="sc">+</span></span>
-<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">declare_assignment</span>(<span class="at">Z =</span> <span class="fu">complete_ra</span>(N, <span class="at">prob =</span> <span class="fl">0.5</span>)) <span class="sc">+</span></span>
-<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">declare_measurement</span>(<span class="at">Y =</span> <span class="fu">reveal_outcomes</span>(Y <span class="sc">~</span> Z)) <span class="sc">+</span></span>
-<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">declare_estimator</span>(Y <span class="sc">~</span> Z, <span class="at">inquiry =</span> <span class="st">"ATE"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Declare a two-arm trial in code</span></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>two_arm_trial <span class="ot">&lt;-</span></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">declare_model</span>(<span class="at">N =</span> sample_size,</span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>                <span class="at">U =</span> <span class="fu">rnorm</span>(N),</span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>                <span class="fu">potential_outcomes</span>(Y <span class="sc">~</span> <span class="fl">0.2</span> <span class="sc">*</span> Z <span class="sc">+</span> U)) <span class="sc">+</span></span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">declare_inquiry</span>(<span class="at">ATE =</span> <span class="fu">mean</span>(Y_Z_1 <span class="sc">-</span> Y_Z_0)) <span class="sc">+</span></span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">declare_assignment</span>(<span class="at">Z =</span> <span class="fu">complete_ra</span>(N, <span class="at">prob =</span> <span class="fl">0.5</span>)) <span class="sc">+</span></span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">declare_measurement</span>(<span class="at">Y =</span> <span class="fu">reveal_outcomes</span>(Y <span class="sc">~</span> Z)) <span class="sc">+</span></span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">declare_estimator</span>(Y <span class="sc">~</span> Z, <span class="at">inquiry =</span> <span class="st">"ATE"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </div>
 <div class="g-col-12 g-col-md-6">
-<div class="cell" data-hash="index_cache/html/unnamed-chunk-3_b8091398b7679c7107750bf3a9bd1078">
-<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">draw_data</span>(two_arm_trial)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell" data-hash="index_cache/html/unnamed-chunk-3_0736c304d3d77f7c71489019eabbca2a">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Draw a simulated dataset </span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="fu">draw_data</span>(two_arm_trial)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div class="cell" data-hash="index_cache/html/unnamed-chunk-4_bae6c174f5629217da07cd4c0b8dc103">
 <div class="cell-output-display">
@@ -255,34 +283,35 @@ DeclareDesign is a set of software tools to plan, implement, analyze, and commun
 <tbody>
 <tr class="odd">
 <td style="text-align: left;">001</td>
-<td style="text-align: right;">0.04</td>
-<td style="text-align: right;">0.04</td>
-<td style="text-align: right;">0.24</td>
-<td style="text-align: right;">1</td>
-<td style="text-align: right;">0.24</td>
+<td style="text-align: right;">-0.27</td>
+<td style="text-align: right;">-0.27</td>
+<td style="text-align: right;">-0.07</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">-0.27</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">002</td>
-<td style="text-align: right;">-1.57</td>
-<td style="text-align: right;">-1.57</td>
-<td style="text-align: right;">-1.37</td>
+<td style="text-align: right;">0.64</td>
+<td style="text-align: right;">0.64</td>
+<td style="text-align: right;">0.84</td>
 <td style="text-align: right;">0</td>
-<td style="text-align: right;">-1.57</td>
+<td style="text-align: right;">0.64</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">003</td>
-<td style="text-align: right;">0.67</td>
-<td style="text-align: right;">0.67</td>
-<td style="text-align: right;">0.87</td>
-<td style="text-align: right;">0</td>
-<td style="text-align: right;">0.67</td>
+<td style="text-align: right;">1.44</td>
+<td style="text-align: right;">1.44</td>
+<td style="text-align: right;">1.64</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1.64</td>
 </tr>
 </tbody>
 </table>
 </div>
 </div>
-<div class="cell" data-hash="index_cache/html/unnamed-chunk-5_90d65cf4c89a894a8f7490fec900cdaf">
-<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">run_design</span>(two_arm_trial)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell" data-hash="index_cache/html/unnamed-chunk-5_b893156a4e612fec6c1214307a846ae6">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Obtain a simulated estimate and estimand</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="fu">run_design</span>(two_arm_trial)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div class="cell" data-hash="index_cache/html/unnamed-chunk-6_aecf68c9cd69e41a954d9f75e8b5c93b">
 <div class="cell-output-display">
@@ -298,9 +327,9 @@ DeclareDesign is a set of software tools to plan, implement, analyze, and commun
 </thead>
 <tbody>
 <tr class="odd">
-<td style="text-align: right;">0.48</td>
-<td style="text-align: right;">0.19</td>
-<td style="text-align: right;">0.01</td>
+<td style="text-align: right;">0.09</td>
+<td style="text-align: right;">0.18</td>
+<td style="text-align: right;">0.61</td>
 <td style="text-align: left;">ATE</td>
 <td style="text-align: right;">0.2</td>
 </tr>
@@ -314,9 +343,11 @@ DeclareDesign is a set of software tools to plan, implement, analyze, and commun
 <div id="tabset-1-2" class="tab-pane" role="tabpanel" aria-labelledby="tabset-1-2-tab">
 <div class="grid">
 <div class="g-col-12 g-col-md-6">
-<div class="cell" data-hash="index_cache/html/unnamed-chunk-7_2bdc37eac9741964b22e999b9887aeb8">
-<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>diagnosis <span class="ot">&lt;-</span> <span class="fu">diagnose_design</span>(two_arm_trial)</span>
-<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="fu">tidy</span>(diagnosis)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell" data-hash="index_cache/html/unnamed-chunk-7_fb9bb1e19202c8de386c4d8571f0f8f9">
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Simulate the research design 500 times and </span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="co">#   summarize the simulations</span></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>diagnosis <span class="ot">&lt;-</span> <span class="fu">diagnose_design</span>(two_arm_trial, <span class="at">sims =</span> <span class="dv">500</span>)</span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a><span class="fu">tidy</span>(diagnosis)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div class="cell" data-hash="index_cache/html/unnamed-chunk-8_7ec2756297ea7bf746ec5210152da289">
 <div class="cell-output-display">
@@ -336,33 +367,33 @@ DeclareDesign is a set of software tools to plan, implement, analyze, and commun
 </tr>
 <tr class="even">
 <td style="text-align: left;">mean_estimate</td>
-<td style="text-align: right;">0.183</td>
-<td style="text-align: right;">0.009</td>
+<td style="text-align: right;">0.204</td>
+<td style="text-align: right;">0.008</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">bias</td>
-<td style="text-align: right;">-0.017</td>
-<td style="text-align: right;">0.009</td>
+<td style="text-align: right;">0.004</td>
+<td style="text-align: right;">0.008</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">sd_estimate</td>
-<td style="text-align: right;">0.199</td>
+<td style="text-align: right;">0.198</td>
 <td style="text-align: right;">0.006</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">rmse</td>
-<td style="text-align: right;">0.200</td>
+<td style="text-align: right;">0.197</td>
 <td style="text-align: right;">0.006</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">power</td>
-<td style="text-align: right;">0.132</td>
-<td style="text-align: right;">0.016</td>
+<td style="text-align: right;">0.188</td>
+<td style="text-align: right;">0.014</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">coverage</td>
-<td style="text-align: right;">0.950</td>
-<td style="text-align: right;">0.008</td>
+<td style="text-align: right;">0.952</td>
+<td style="text-align: right;">0.009</td>
 </tr>
 </tbody>
 </table>
@@ -370,11 +401,13 @@ DeclareDesign is a set of software tools to plan, implement, analyze, and commun
 </div>
 </div>
 <div class="g-col-12 g-col-md-6">
-<div class="cell" data-hash="index_cache/html/unnamed-chunk-9_0c1193e5de031041f20618f841ef3e7b">
+<div class="cell" data-hash="index_cache/html/unnamed-chunk-9_4533aef9983db2f446223de73628e8e4">
 <div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
-<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data =</span> <span class="fu">get_simulations</span>(diagnosis), </span>
-<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>       <span class="fu">aes</span>(<span class="at">x =</span> estimate)) <span class="sc">+</span></span>
-<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_histogram</span>() </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Visualize simulated sampling distribution</span></span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data =</span> <span class="fu">get_simulations</span>(diagnosis), </span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>       <span class="fu">aes</span>(<span class="at">x =</span> estimate)) <span class="sc">+</span></span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_histogram</span>() </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div class="cell" data-hash="index_cache/html/unnamed-chunk-10_e2595e6a8401928453384f1bbb1a533a">
 <div class="cell-output-display">
@@ -387,18 +420,19 @@ DeclareDesign is a set of software tools to plan, implement, analyze, and commun
 <div id="tabset-1-3" class="tab-pane" role="tabpanel" aria-labelledby="tabset-1-3-tab">
 <div class="grid">
 <div class="g-col-12 g-col-md-6">
-<div class="cell" data-hash="index_cache/html/unnamed-chunk-11_6370ea1a296086b2ff9d1d3d8f74a2f9">
-<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>diagnosis <span class="ot">&lt;-</span></span>
-<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>  two_arm_trial <span class="sc">|&gt;</span></span>
-<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">redesign</span>(<span class="at">sample_size =</span> <span class="fu">c</span>(<span class="dv">250</span>, <span class="dv">500</span>, <span class="dv">750</span>, <span class="dv">1000</span>, <span class="dv">1250</span>)) <span class="sc">|&gt;</span></span>
-<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">diagnose_designs</span>() <span class="sc">|&gt;</span></span>
-<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tidy</span>() <span class="sc">|&gt;</span></span>
-<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(diagnosand <span class="sc">==</span> <span class="st">"power"</span>)</span>
-<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
-<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(diagnosis, <span class="fu">aes</span>(sample_size, estimate)) <span class="sc">+</span> </span>
-<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>() <span class="sc">+</span></span>
-<span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell" data-hash="index_cache/html/unnamed-chunk-11_00de2fbe15889ea32947cbaf1c053e1c">
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Redesign over sample size and calculate power</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>diagnosis <span class="ot">&lt;-</span></span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>  two_arm_trial <span class="sc">|&gt;</span></span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">redesign</span>(<span class="at">sample_size =</span> <span class="fu">c</span>(<span class="dv">250</span>, <span class="dv">500</span>, <span class="dv">750</span>, <span class="dv">1000</span>, <span class="dv">1250</span>)) <span class="sc">|&gt;</span></span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">diagnose_designs</span>() <span class="sc">|&gt;</span></span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tidy</span>() <span class="sc">|&gt;</span></span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(diagnosand <span class="sc">==</span> <span class="st">"power"</span>)</span>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a><span class="co"># Visualize power curve over sample sizes</span></span>
+<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(diagnosis, <span class="fu">aes</span>(sample_size, estimate)) <span class="sc">+</span> </span>
+<span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>() <span class="sc">+</span></span>
+<span id="cb6-12"><a href="#cb6-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </div>
 <div class="g-col-12 g-col-md-6">
@@ -412,10 +446,9 @@ DeclareDesign is a set of software tools to plan, implement, analyze, and commun
 </div>
 </div>
 </div>
-</div>
 <!-- grid of content -->
-<section id="library-of-common-research-designs" class="content-block">
-<h2>Library of common research designs</h2>
+<h2 id="library-of-common-research-designs">Library of common research designs</h2>
+<p>The MIDA framework can accomodate observational and experimental, descriptive and causal, qualitative and quantitative research designs. Part III of <em>Research Design in the Social Sciences</em> illustrates the framework for these common designs.</p>
 <div class="grid">
 <section id="observational-designs-for-descriptive-inference" class="g-col-12 g-col-md-6 g-col-lg-4">
 <h3>Observational designs for descriptive inference</h3>
@@ -438,23 +471,22 @@ DeclareDesign is a set of software tools to plan, implement, analyze, and commun
 <p><a href="https://book.declaredesign.org/library/complex.html#discovery-using-causal-forests">Discovery using causal forests</a><br> <a href="https://book.declaredesign.org/library/complex.html#sec-ch19s2">Structural estimation</a><br> <a href="https://book.declaredesign.org/library/complex.html#sec-ch19s3">Meta-analysis</a><br> <a href="https://book.declaredesign.org/library/complex.html#multi-site-studies">Multi-site studies</a></p>
 </section>
 </div>
-</section>
 <!-- take action -->
 <p><br><br></p>
-<div class="grid">
-<div class="g-col-12 g-col-md-2 g-start-md-2 text-center">
+<div class="grid align-items-center">
+<div class="g-col-12 g-col-lg-2 g-col-md-4 g-start-lg-2 text-center">
 <p><a href="./getting-started/" class="btn-action-primary btn-action btn btn-success btn-lg" role="button">Get Started</a></p>
 </div>
-<div class="g-col-12 g-col-md-2 text-center">
+<div class="g-col-12 g-col-lg-2 g-col-md-4 text-center">
 <p><a href="./r/declaredesign/" class="btn-action-primary btn-action btn btn-success btn-lg" role="button">Software</a></p>
 </div>
-<div class="g-col-12 g-col-md-2 text-center">
+<div class="g-col-12 g-col-lg-2 g-col-md-4 text-center">
 <p><a href="https://book.declaredesign.org" class="btn-action-primary btn-action btn btn-success btn-lg" role="button">Read Book</a></p>
 </div>
-<div class="g-col-12 g-col-md-2 text-center">
+<div class="g-col-12 g-col-lg-2 g-start-md-3 g-col-md-4 text-center">
 <p><a href="./blog" class="btn-action-primary btn-action btn btn-success btn-lg" role="button">Read Blog</a></p>
 </div>
-<div class="g-col-12 g-col-md-2 text-center">
+<div class="g-col-12 g-col-lg-2 g-col-md-4 text-center">
 <p><a href="./about" class="btn-action-primary btn-action btn btn-success btn-lg" role="button">About</a></p>
 </div>
 </div>
