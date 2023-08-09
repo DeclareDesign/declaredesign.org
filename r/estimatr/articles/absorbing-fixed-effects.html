@@ -126,9 +126,9 @@
 <span><span class="co"># Create matched-pairs dataset using fabricatr</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/Random.html" class="external-link">set.seed</a></span><span class="op">(</span><span class="fl">40</span><span class="op">)</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://declaredesign.org/r/fabricatr/" class="external-link">fabricatr</a></span><span class="op">)</span></span>
-<span><span class="va">dat</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/fabricatr/man/fabricate.html" class="external-link">fabricate</a></span><span class="op">(</span></span>
-<span>  blocks <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/pkg/fabricatr/man/fabricate.html" class="external-link">add_level</a></span><span class="op">(</span>N <span class="op">=</span> <span class="fl">300</span><span class="op">)</span>,</span>
-<span>  indiv <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/pkg/fabricatr/man/fabricate.html" class="external-link">add_level</a></span><span class="op">(</span>N <span class="op">=</span> <span class="fl">2</span>, z <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/sample.html" class="external-link">sample</a></span><span class="op">(</span><span class="fl">0</span><span class="op">:</span><span class="fl">1</span><span class="op">)</span>, y <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/Normal.html" class="external-link">rnorm</a></span><span class="op">(</span><span class="va">N</span><span class="op">)</span> <span class="op">+</span> <span class="va">z</span><span class="op">)</span></span>
+<span><span class="va">dat</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://declaredesign.org/r/fabricatr/reference/fabricate.html" class="external-link">fabricate</a></span><span class="op">(</span></span>
+<span>  blocks <span class="op">=</span> <span class="fu"><a href="https://declaredesign.org/r/fabricatr/reference/fabricate.html" class="external-link">add_level</a></span><span class="op">(</span>N <span class="op">=</span> <span class="fl">300</span><span class="op">)</span>,</span>
+<span>  indiv <span class="op">=</span> <span class="fu"><a href="https://declaredesign.org/r/fabricatr/reference/fabricate.html" class="external-link">add_level</a></span><span class="op">(</span>N <span class="op">=</span> <span class="fl">2</span>, z <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/sample.html" class="external-link">sample</a></span><span class="op">(</span><span class="fl">0</span><span class="op">:</span><span class="fl">1</span><span class="op">)</span>, y <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/Normal.html" class="external-link">rnorm</a></span><span class="op">(</span><span class="va">N</span><span class="op">)</span> <span class="op">+</span> <span class="va">z</span><span class="op">)</span></span>
 <span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">dat</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">##   blocks indiv z          y</span></span>
@@ -150,10 +150,10 @@
 <span>  times <span class="op">=</span> <span class="fl">50</span></span>
 <span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## Unit: milliseconds</span></span>
-<span><span class="co">##             expr       min        lq     mean    median        uq      max</span></span>
-<span><span class="co">##  base + sandwich 177.55459 188.25816 248.4419 225.95161 276.48634 432.9694</span></span>
-<span><span class="co">##        lm_robust  77.86928  85.11408 107.2268  90.12281 111.90387 403.2261</span></span>
-<span><span class="co">##  lm_robust + fes  50.34899  55.46896  75.7356  65.30151  82.55582 206.1815</span></span>
+<span><span class="co">##             expr       min        lq      mean    median       uq      max</span></span>
+<span><span class="co">##  base + sandwich 181.70501 199.20577 254.66208 230.58951 287.1060 527.1081</span></span>
+<span><span class="co">##        lm_robust  80.89132  89.75072 121.79190 101.04199 150.0496 252.5158</span></span>
+<span><span class="co">##  lm_robust + fes  51.41662  55.27855  75.12953  59.56113  79.7807 279.6193</span></span>
 <span><span class="co">##  neval cld</span></span>
 <span><span class="co">##     50 a  </span></span>
 <span><span class="co">##     50  b </span></span>
@@ -180,10 +180,10 @@
 <span>  times <span class="op">=</span> <span class="fl">50</span></span>
 <span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## Unit: milliseconds</span></span>
-<span><span class="co">##             expr       min         lq      mean     median        uq       max</span></span>
-<span><span class="co">##  base + sandwich 175.25193 186.660262 225.22052 205.944601 244.60640 424.28925</span></span>
-<span><span class="co">##        lm_robust  63.13498  67.401424  88.78500  71.855856 105.66648 233.28017</span></span>
-<span><span class="co">##  lm_robust + fes   8.02841   8.755571  10.79907   9.276993  12.65685  25.54012</span></span>
+<span><span class="co">##             expr       min         lq      mean    median        uq       max</span></span>
+<span><span class="co">##  base + sandwich 173.14539 190.605519 261.81846 220.55023 340.87627 469.29085</span></span>
+<span><span class="co">##        lm_robust  65.54985  70.870375  90.18985  76.34861 105.47270 221.67756</span></span>
+<span><span class="co">##  lm_robust + fes   8.17682   9.414376  14.74875  11.66681  16.49004  53.52045</span></span>
 <span><span class="co">##  neval cld</span></span>
 <span><span class="co">##     50 a  </span></span>
 <span><span class="co">##     50  b </span></span>
