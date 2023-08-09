@@ -25,19 +25,19 @@ execute:
 
 ::: {.grid}
 
-::: {.g-col-12 .g-col-md-4 .text-center}
+::: {.g-col-12 .g-col-lg-4 .text-center}
 
 [Get Started](getting-started/){.btn-action-primary .btn-action .btn .btn-success .btn-lg role="button"} 
 
 :::
 
-::: {.g-col-12 .g-col-md-4 .text-center}
+::: {.g-col-12 .g-col-lg-4 .text-center}
 
 [Software](/r/declaredesign/){.btn-action-primary .btn-action .btn .btn-success .btn-lg role="button"} 
 
 :::
 
-::: {.g-col-12 .g-col-md-4 .text-center}
+::: {.g-col-12 .g-col-lg-4 .text-center}
 
 [Read Book](https://book.declaredesign.org){.btn-action-primary .btn-action .btn .btn-success .btn-lg role="button"} 
 
@@ -49,18 +49,46 @@ execute:
 
   
 ::: {.g-col-12 .g-col-md-6}  
-[![](https://book.declaredesign.org/figures/cover.jpg){width=400 fig-id="img-border"}](https://book.declaredesign.org)
+[![](https://book.declaredesign.org/figures/cover.jpg){width=80% fig-id="img-border"}](https://book.declaredesign.org)
 :::
 
 :::
 
+<!-- Figure 5.1 / MIDA -->
 
+## MIDA framework for describing research designs
+
+::: {.grid .align-items-center}
+
+::: {.g-col-12 .g-col-md-8}  
+![](static/mida.svg){width=80% fig-id="img-border"}
+:::
+
+::: {.g-col-12 .g-col-md-4}  
+
+The MIDA framework describes the four elements of any empirical research design:
+
+- **Model:** the worlds you consider
+- **Inquiry:** the question you ask
+- **Data strategy:** sampling, treatment assignment, and measurement procedures
+- **Answer strategy:** estimation, testing, interpretation, and visualization procedures
+
+Read [Chapter 5](https://book.declaredesign.org/declaration-diagnosis-redesign/declaring-designs.html) of *Research Design in the Social Sciences* to learn how these four research design elements connect to reality and simulations that can be used to plan and improve research designs.
+
+
+:::
+
+:::
 
 <!-- tabset -->
 
-## DeclareDesign in three steps
+## Declare-Diagnose-Redesign algorithm for designing research
 
-::: {.container}
+* **Declare** designs in code following the MIDA framework.
+* **Diagnose** declared designs through Monte Carlo simulation to learn their properties, such as bias and power.
+* **Redesign** data and answer strategy features to optimize designs under logistical, financial, and ethical constraints.
+
+Here is an illustration of using DeclareDesign for a two-arm randomized trial:
 
 ::: {.panel-tabset}
 
@@ -77,6 +105,7 @@ library(DeclareDesign)
 
 sample_size <- 100
 
+# Declare a two-arm trial in code
 two_arm_trial <-
   declare_model(N = sample_size,
                 U = rnorm(N),
@@ -90,6 +119,7 @@ two_arm_trial <-
 
 ::: {.g-col-12 .g-col-md-6}
 ```{r, eval = FALSE}
+# Draw a simulated dataset 
 draw_data(two_arm_trial)
 ```
 ```{r, echo = FALSE}
@@ -99,6 +129,7 @@ draw_data(two_arm_trial) |>
 ```
 
 ```{r, eval = FALSE}
+# Obtain a simulated estimate and estimand
 run_design(two_arm_trial)
 ```
 ```{r, echo = FALSE}
@@ -118,7 +149,9 @@ run_design(two_arm_trial) |>
 ::: {.g-col-12 .g-col-md-6}
 
 ```{r, eval = FALSE}
-diagnosis <- diagnose_design(two_arm_trial)
+# Simulate the research design 500 times and 
+#   summarize the simulations
+diagnosis <- diagnose_design(two_arm_trial, sims = 500)
 tidy(diagnosis)
 ```
 ```{r, echo = FALSE}
@@ -134,6 +167,8 @@ tidy(diagnosis) |>
 
 ```{r, eval = FALSE}
 library(ggplot2)
+
+# Visualize simulated sampling distribution
 ggplot(data = get_simulations(diagnosis), 
        aes(x = estimate)) +
   geom_histogram() 
@@ -190,6 +225,7 @@ ggplot(sims, aes(estimate)) +
 ::: {.g-col-12 .g-col-md-6}
 
 ```{r, eval = FALSE}
+# Redesign over sample size and calculate power
 diagnosis <-
   two_arm_trial |>
   redesign(sample_size = c(250, 500, 750, 1000, 1250)) |>
@@ -197,7 +233,7 @@ diagnosis <-
   tidy() |>
   filter(diagnosand == "power")
 
-library(ggplot2)
+# Visualize power curve over sample sizes
 ggplot(diagnosis, aes(sample_size, estimate)) + 
   geom_point() +
   geom_line()
@@ -242,15 +278,13 @@ ggplot(diagnosands, aes(sample_size, estimate)) +
 
 :::
 
-:::
-
 
 
 <!-- grid of content -->
 
-::: {.content-block}
-
 ## Library of common research designs 
+
+The MIDA framework can accomodate observational and experimental, descriptive and causal, qualitative and quantitative research designs. Part III of *Research Design in the Social Sciences* illustrates the framework for these common designs.
 
 ::: {.grid}
 
@@ -317,39 +351,38 @@ ggplot(diagnosands, aes(sample_size, estimate)) +
 :::
 
 :::
-:::
 
 <!-- take action -->
 
 <br/><br/>
 
-::: {.grid}
+::: {.grid .align-items-center}
 
-::: {.g-col-12 .g-col-md-2 .g-start-md-2 .text-center}
+::: {.g-col-12 .g-col-lg-2 .g-col-md-4 .g-start-lg-2 .text-center}
 
 [Get Started](/getting-started/){.btn-action-primary .btn-action .btn .btn-success .btn-lg role="button"} 
 
 :::
 
-::: {.g-col-12 .g-col-md-2 .text-center}
+::: {.g-col-12 .g-col-lg-2 .g-col-md-4 .text-center}
 
 [Software](/r/declaredesign/){.btn-action-primary .btn-action .btn .btn-success .btn-lg role="button"} 
 
 :::
 
-::: {.g-col-12 .g-col-md-2 .text-center}
+::: {.g-col-12 .g-col-lg-2 .g-col-md-4 .text-center}
 
 [Read Book](https://book.declaredesign.org){.btn-action-primary .btn-action .btn .btn-success .btn-lg role="button"} 
 
 :::
 
-::: {.g-col-12 .g-col-md-2 .text-center}
+::: {.g-col-12 .g-col-lg-2 .g-start-md-3 .g-col-md-4 .text-center}
 
 [Read Blog](/blog){.btn-action-primary .btn-action .btn .btn-success .btn-lg role="button"}
 
 :::
 
-::: {.g-col-12 .g-col-md-2 .text-center}
+::: {.g-col-12 .g-col-lg-2 .g-col-md-4 .text-center}
 
 [About](/about){.btn-action-primary .btn-action .btn .btn-success .btn-lg role="button"}
 
