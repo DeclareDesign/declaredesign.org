@@ -1,52 +1,71 @@
 ---
 pagetitle: "DeclareDesign"
-section-divs: false
 toc: false
+page-layout: full
+css: index.css
 execute:
   message: false
   error: false
   warning: false
   cache: true
+  code-overflow: wrap
 ---
 
-::: {.grid .v-center-container}
+::: {.grid .align-items-center}
 
-::: {.g-col-5}
+::: {.g-col-12 .g-col-md-6}  
 
-# Declare and diagnose your research design
+<p class="hdr1">Declare and diagnose your research design</p>
 
-DeclareDesign is a set of software tools to plan, implement, analyze, and communicate about empirical research
+<p class="hdr2">DeclareDesign is a set of software tools to plan, implement, analyze, and communicate about empirical research</p>
 
 <br>
 
+::: {.grid}
+
+::: {.g-col-12 .g-col-md-4}
+
 [Get Started](getting-started/){.btn-action-primary .btn-action .btn .btn-success .btn-lg role="button"} 
+
+:::
+
+::: {.g-col-12 .g-col-md-4}
 
 [Software](/DeclareDesign/){.btn-action-primary .btn-action .btn .btn-success .btn-lg role="button"} 
 
-[Read Book](https://book.declaredesign.org){.btn-action-primary .btn-action .btn .btn-success .btn-lg role="button"}
+:::
+
+::: {.g-col-12 .g-col-md-4}
+
+[Read Book](https://book.declaredesign.org){.btn-action-primary .btn-action .btn .btn-success .btn-lg role="button"} 
 
 :::
 
-::: {.g-col-2 }
+:::
 
 :::
 
-::: {.g-col-5 .text-center}
+  
+::: {.g-col-12 .g-col-md-6}  
 ![](https://book.declaredesign.org/figures/cover.jpg){width=400 fig-id="img-border"}
 :::
 
 :::
 
 
-<!-- tabset for declare diagnose redesign -->
 
+<!-- tabset -->
+
+# DeclareDesign in three steps
+
+::: {.container}
 
 ::: {.panel-tabset}
 
 ## Declare
 
 ::: {.grid}
-::: {.g-col-lg-6}
+::: {.g-col-12 .g-col-md-6}
 ```{r, echo = FALSE, message = FALSE}
 library(tidyverse)
 library(knitr)
@@ -67,7 +86,7 @@ two_arm_trial <-
 ```
 :::
 
-::: {.g-col-lg-6}
+::: {.g-col-12 .g-col-md-6}
 ```{r, eval = FALSE}
 draw_data(two_arm_trial)
 ```
@@ -94,7 +113,7 @@ run_design(two_arm_trial) |>
 
 ::: {.grid}
 
-::: {.g-col-lg-6}
+::: {.g-col-12 .g-col-md-6}
 
 ```{r, eval = FALSE}
 diagnosis <- diagnose_design(two_arm_trial)
@@ -109,7 +128,7 @@ tidy(diagnosis) |>
 
 :::
 
-::: {.g-col-lg-6}
+::: {.g-col-12 .g-col-md-6}
 
 ```{r, eval = FALSE}
 library(ggplot2)
@@ -166,7 +185,7 @@ ggplot(sims, aes(estimate)) +
 
 ::: {.grid}
 
-::: {.g-col-lg-6}
+::: {.g-col-12 .g-col-md-6}
 
 ```{r, eval = FALSE}
 diagnosis <-
@@ -184,19 +203,20 @@ ggplot(diagnosis, aes(sample_size, estimate)) +
 
 :::
 
-::: {.g-col-lg-6}
+::: {.g-col-12 .g-col-md-6}
 
 ```{r dev.args = list(bg = 'transparent')}
 #| fig.width: 6
 #| fig.height: 3
 #| echo: false
+#| code-overflow: wrap
 designs_ss <- 
   two_arm_trial |> 
   redesign(sample_size = c(250, 500, 750, 1000, 1250))
 
 diagnosis_ss <- 
   diagnose_design(designs_ss, 
-                  sims = 1000)
+                  sims = 4)
 
 diagnosands <- 
   diagnosis_ss |> 
@@ -220,3 +240,117 @@ ggplot(diagnosands, aes(sample_size, estimate)) +
 
 :::
 
+:::
+
+
+
+<!-- grid of content -->
+
+::: {.content-block}
+
+## Library of common research designs 
+
+::: {.grid}
+
+::: {.g-col-12 .g-col-md-4}
+
+### Observational designs for descriptive inference
+
+[Simple random sampling](https://book.declaredesign.org/library/observational-descriptive.html#simple-random-sampling)<br />
+[Cluster random sampling](https://book.declaredesign.org/library/observational-descriptive.html#sec-ch15s2)<br />
+[Multi-level regression and poststratification](https://book.declaredesign.org/library/observational-descriptive.html#sec-ch15s3)<br />
+[Index creation](https://book.declaredesign.org/library/observational-descriptive.html#index-creation)
+
+:::
+
+::: {.g-col-12 .g-col-md-4}
+
+### Observational designs for causal inference
+
+[Process tracing](https://book.declaredesign.org/library/observational-causal.html#sec-ch16s1)<br />
+[Selection-on-observables](https://book.declaredesign.org/library/observational-causal.html#sec-ch16s2)<br />
+[Difference-in-differences](https://book.declaredesign.org/library/observational-causal.html#sec-ch16s3)<br />
+[Instrumental variables](https://book.declaredesign.org/library/observational-causal.html#sec-ch16s4)<br />
+[Regression discontinuity designs](https://book.declaredesign.org/library/observational-causal.html#sec-ch16s5)
+
+:::
+
+::: {.g-col-12 .g-col-md-4}
+
+### Experimental designs for descriptive inference
+
+[Audit experiments](https://book.declaredesign.org/library/experimental-descriptive.html#audit-experiments)<br />
+[List experiments](https://book.declaredesign.org/library/experimental-descriptive.html#list-experiments)<br />
+[Conjoint experiments](https://book.declaredesign.org/library/experimental-descriptive.html#sec-ch17s3)<br />
+[Behavioral games](https://book.declaredesign.org/library/experimental-descriptive.html#behavioral-games)
+
+:::
+
+::: {.g-col-12 .g-col-md-4}
+
+### Experimental designs for causal inference
+
+[Two-arm randomized experiments](https://book.declaredesign.org/library/experimental-causal.html#sec-ch18s1)<br />
+[Block-randomized experiments](https://book.declaredesign.org/library/experimental-causal.html#block-randomized-experiments)<br />
+[Cluster-randomized experiments](https://book.declaredesign.org/library/experimental-causal.html#sec-ch18s3)<br />
+[Subgroup designs](https://book.declaredesign.org/library/experimental-causal.html#sec-ch18s4)<br />
+[Factorial experiments](https://book.declaredesign.org/library/experimental-causal.html#sec-ch18s5)<br />
+[Encouragement designs](https://book.declaredesign.org/library/experimental-causal.html#sec-ch18s6)<br />
+[Placebo-controlled experiments](https://book.declaredesign.org/library/experimental-causal.html#sec-ch18s7)<br />
+[Stepped-wedge experiments](https://book.declaredesign.org/library/experimental-causal.html#stepped-wedge-experiments)<br />
+[Randomized saturation experiments](https://book.declaredesign.org/library/experimental-causal.html#sec-ch18s9)<br />
+[Experiments over networks](https://book.declaredesign.org/library/experimental-causal.html#sec-ch18s10)
+
+:::
+
+::: {.g-col-12 .g-col-md-4}
+
+### Complex designs
+
+[Discovery using causal forests](https://book.declaredesign.org/library/complex.html#discovery-using-causal-forests)<br />
+[Structural estimation](https://book.declaredesign.org/library/complex.html#sec-ch19s2)<br />
+[Meta-analysis](https://book.declaredesign.org/library/complex.html#sec-ch19s3)<br />
+[Multi-site studies](https://book.declaredesign.org/library/complex.html#multi-site-studies)
+
+:::
+
+:::
+:::
+
+<!-- take action -->
+
+<br/><br/>
+
+::: {.grid}
+
+::: {.g-col-12 .g-col-md-2 .g-start-md-2}
+
+[Get Started](getting-started/){.btn-action-primary .btn-action .btn .btn-success .btn-lg role="button"} 
+
+:::
+
+::: {.g-col-12 .g-col-md-2}
+
+[Software](/DeclareDesign/){.btn-action-primary .btn-action .btn .btn-success .btn-lg role="button"} 
+
+:::
+
+::: {.g-col-12 .g-col-md-2}
+
+[Read Book](https://book.declaredesign.org){.btn-action-primary .btn-action .btn .btn-success .btn-lg role="button"} 
+
+:::
+
+::: {.g-col-12 .g-col-md-2}
+
+[Read Blog](/blog){.btn-action-primary .btn-action .btn .btn-success .btn-lg role="button"}
+
+:::
+
+::: {.g-col-12 .g-col-md-2}
+
+[About](/about){.btn-action-primary .btn-action .btn .btn-success .btn-lg role="button"}
+
+:::
+
+:::
