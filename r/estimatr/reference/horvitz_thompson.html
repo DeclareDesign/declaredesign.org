@@ -139,7 +139,7 @@ probabilities of all units in condition1 and condition2. See details.</p></dd>
 
 <dt>ra_declaration</dt>
 <dd><p>An object of class <code>"ra_declaration"</code>, from
-the <code><a href="https://rdrr.io/pkg/randomizr/man/declare_ra.html" class="external-link">declare_ra</a></code> function in the <span class="pkg">randomizr</span>
+the <code><a href="https://declaredesign.org/r/randomizr/reference/declare_ra.html" class="external-link">declare_ra</a></code> function in the <span class="pkg">randomizr</span>
 package. This is the third way that one can specify a design for this
 estimator. Cannot be used along with any of <code>condition_prs</code>,
 <code>blocks</code>, <code>clusters</code>, or <code>condition_pr_mat</code>. See details.</p></dd>
@@ -266,7 +266,7 @@ treatment conditions.</p>
 for more information and references, or see the references below.</p>
 <p>There are three distinct ways that users can specify the design to the
 function. The preferred way is to use
-the <code><a href="https://rdrr.io/pkg/randomizr/man/declare_ra.html" class="external-link">declare_ra</a></code> function in the <span class="pkg">randomizr</span>
+the <code><a href="https://declaredesign.org/r/randomizr/reference/declare_ra.html" class="external-link">declare_ra</a></code> function in the <span class="pkg">randomizr</span>
 package. This function takes several arguments, including blocks, clusters,
 treatment probabilities, whether randomization is simple or not, and more.
 Passing the outcome of that function, an object of class
@@ -310,7 +310,7 @@ only use this option if they are certain they know what they are doing.</p>
     </div>
     <div class="section level2">
     <h2 id="see-also">See also<a class="anchor" aria-label="anchor" href="#see-also"></a></h2>
-    <div class="dont-index"><p><code><a href="https://rdrr.io/pkg/randomizr/man/declare_ra.html" class="external-link">declare_ra</a></code></p></div>
+    <div class="dont-index"><p><code><a href="https://declaredesign.org/r/randomizr/reference/declare_ra.html" class="external-link">declare_ra</a></code></p></div>
     </div>
 
     <div class="section level2">
@@ -341,7 +341,7 @@ only use this option if they are certain they know what they are doing.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> z -0.2532128  0.6038814 -0.4193088 0.6749904 -1.436799 0.930373 NA</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Also can use randomizr to pass a declaration</span></span></span>
-<span class="r-in"><span><span class="va">srs_declaration</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/randomizr/man/declare_ra.html" class="external-link">declare_ra</a></span><span class="op">(</span>N <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/nrow.html" class="external-link">nrow</a></span><span class="op">(</span><span class="va">dat</span><span class="op">)</span>, prob <span class="op">=</span> <span class="fl">0.5</span>, simple <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">srs_declaration</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://declaredesign.org/r/randomizr/reference/declare_ra.html" class="external-link">declare_ra</a></span><span class="op">(</span>N <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/nrow.html" class="external-link">nrow</a></span><span class="op">(</span><span class="va">dat</span><span class="op">)</span>, prob <span class="op">=</span> <span class="fl">0.5</span>, simple <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="fu">horvitz_thompson</span><span class="op">(</span><span class="va">y</span> <span class="op">~</span> <span class="va">z</span>, data <span class="op">=</span> <span class="va">dat</span>, ra_declaration <span class="op">=</span> <span class="va">srs_declaration</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>     Estimate Std. Error    t value Pr(&gt;|t|)  CI Lower  CI Upper DF</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> z -0.2532128   0.609167 -0.4156706 0.677651 -1.447158 0.9407325 NA</span>
@@ -352,7 +352,7 @@ only use this option if they are certain they know what they are doing.</p>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="va">dat</span><span class="op">$</span><span class="va">z</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/sample.html" class="external-link">sample</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep</a></span><span class="op">(</span><span class="fl">0</span><span class="op">:</span><span class="fl">1</span>, each <span class="op">=</span> <span class="va">n</span><span class="op">/</span><span class="fl">2</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="co"># Can use a declaration</span></span></span>
-<span class="r-in"><span><span class="va">crs_declaration</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/randomizr/man/declare_ra.html" class="external-link">declare_ra</a></span><span class="op">(</span>N <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/nrow.html" class="external-link">nrow</a></span><span class="op">(</span><span class="va">dat</span><span class="op">)</span>, prob <span class="op">=</span> <span class="fl">0.5</span>, simple <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">crs_declaration</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://declaredesign.org/r/randomizr/reference/declare_ra.html" class="external-link">declare_ra</a></span><span class="op">(</span>N <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/nrow.html" class="external-link">nrow</a></span><span class="op">(</span><span class="va">dat</span><span class="op">)</span>, prob <span class="op">=</span> <span class="fl">0.5</span>, simple <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="fu">horvitz_thompson</span><span class="op">(</span><span class="va">y</span> <span class="op">~</span> <span class="va">z</span>, data <span class="op">=</span> <span class="va">dat</span>, ra_declaration <span class="op">=</span> <span class="va">crs_declaration</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>     Estimate Std. Error   t value  Pr(&gt;|t|)  CI Lower  CI Upper DF</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> z -0.2312303  0.5310475 -0.435423 0.6632554 -1.272064 0.8096037 NA</span>
@@ -369,8 +369,8 @@ only use this option if they are certain they know what they are doing.</p>
 <span class="r-in"><span><span class="co"># Simulating data</span></span></span>
 <span class="r-in"><span><span class="va">dat</span><span class="op">$</span><span class="va">cl</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">4</span>, times <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">2</span>, <span class="fl">2</span>, <span class="fl">3</span>, <span class="fl">3</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="va">dat</span><span class="op">$</span><span class="va">prob</span> <span class="op">&lt;-</span> <span class="fl">0.5</span></span></span>
-<span class="r-in"><span><span class="va">clust_crs_decl</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/randomizr/man/declare_ra.html" class="external-link">declare_ra</a></span><span class="op">(</span>N <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/nrow.html" class="external-link">nrow</a></span><span class="op">(</span><span class="va">dat</span><span class="op">)</span>, clusters <span class="op">=</span> <span class="va">dat</span><span class="op">$</span><span class="va">cl</span>, prob <span class="op">=</span> <span class="fl">0.5</span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="va">dat</span><span class="op">$</span><span class="va">z</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/randomizr/man/conduct_ra.html" class="external-link">conduct_ra</a></span><span class="op">(</span><span class="va">clust_crs_decl</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">clust_crs_decl</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://declaredesign.org/r/randomizr/reference/declare_ra.html" class="external-link">declare_ra</a></span><span class="op">(</span>N <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/nrow.html" class="external-link">nrow</a></span><span class="op">(</span><span class="va">dat</span><span class="op">)</span>, clusters <span class="op">=</span> <span class="va">dat</span><span class="op">$</span><span class="va">cl</span>, prob <span class="op">=</span> <span class="fl">0.5</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">dat</span><span class="op">$</span><span class="va">z</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://declaredesign.org/r/randomizr/reference/conduct_ra.html" class="external-link">conduct_ra</a></span><span class="op">(</span><span class="va">clust_crs_decl</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="co"># Easiest to specify using declaration</span></span></span>
 <span class="r-in"><span><span class="va">ht_cl</span> <span class="op">&lt;-</span> <span class="fu">horvitz_thompson</span><span class="op">(</span><span class="va">y</span> <span class="op">~</span> <span class="va">z</span>, data <span class="op">=</span> <span class="va">dat</span>, ra_declaration <span class="op">=</span> <span class="va">clust_crs_decl</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="co"># Also can pass the condition probability and the clusters</span></span></span>

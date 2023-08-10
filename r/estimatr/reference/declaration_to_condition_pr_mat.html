@@ -92,7 +92,7 @@ randomizr declaration"><!-- mathjax --><script src="https://cdnjs.cloudflare.com
     <h2 id="arguments">Arguments<a class="anchor" aria-label="anchor" href="#arguments"></a></h2>
     <dl><dt>ra_declaration</dt>
 <dd><p>An object of class <code>"ra_declaration"</code>, generated
-by the <code><a href="https://rdrr.io/pkg/randomizr/man/declare_ra.html" class="external-link">declare_ra</a></code> function in <span class="pkg">randomizr</span>. This
+by the <code><a href="https://declaredesign.org/r/randomizr/reference/declare_ra.html" class="external-link">declare_ra</a></code> function in <span class="pkg">randomizr</span>. This
 object contains the experimental design that will be represented in a
 condition probability matrix</p></dd>
 
@@ -125,7 +125,7 @@ probabilities to be passed to the <code>condition_pr_mat</code> argument of
     <div class="section level2">
     <h2 id="details">Details<a class="anchor" aria-label="anchor" href="#details"></a></h2>
     <p>This function takes a <code>"ra_declaration"</code>, generated
-by the <code><a href="https://rdrr.io/pkg/randomizr/man/declare_ra.html" class="external-link">declare_ra</a></code> function in <span class="pkg">randomizr</span> and
+by the <code><a href="https://declaredesign.org/r/randomizr/reference/declare_ra.html" class="external-link">declare_ra</a></code> function in <span class="pkg">randomizr</span> and
 returns a 2n*2n matrix that can be used to fully specify the design for
 <code><a href="horvitz_thompson.html">horvitz_thompson</a></code> estimation. This is done by passing this
 matrix to the <code>condition_pr_mat</code> argument of
@@ -176,22 +176,22 @@ Pr(Z_i = Condition2, Z_j = Condition2).</p>
 <span class="r-in"><span><span class="op">)</span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Declare complete blocked randomization</span></span></span>
-<span class="r-in"><span><span class="va">bl_declaration</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/randomizr/man/declare_ra.html" class="external-link">declare_ra</a></span><span class="op">(</span>blocks <span class="op">=</span> <span class="va">dat</span><span class="op">$</span><span class="va">blocks</span>, prob <span class="op">=</span> <span class="fl">0.4</span>, simple <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">bl_declaration</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://declaredesign.org/r/randomizr/reference/declare_ra.html" class="external-link">declare_ra</a></span><span class="op">(</span>blocks <span class="op">=</span> <span class="va">dat</span><span class="op">$</span><span class="va">blocks</span>, prob <span class="op">=</span> <span class="fl">0.4</span>, simple <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="co"># Get probabilities</span></span></span>
 <span class="r-in"><span><span class="va">block_pr_mat</span> <span class="op">&lt;-</span> <span class="fu">declaration_to_condition_pr_mat</span><span class="op">(</span><span class="va">bl_declaration</span>, <span class="fl">0</span>, <span class="fl">1</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="co"># Do randomiztion</span></span></span>
-<span class="r-in"><span><span class="va">dat</span><span class="op">$</span><span class="va">z</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/randomizr/man/conduct_ra.html" class="external-link">conduct_ra</a></span><span class="op">(</span><span class="va">bl_declaration</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">dat</span><span class="op">$</span><span class="va">z</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://declaredesign.org/r/randomizr/reference/conduct_ra.html" class="external-link">conduct_ra</a></span><span class="op">(</span><span class="va">bl_declaration</span><span class="op">)</span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="fu"><a href="horvitz_thompson.html">horvitz_thompson</a></span><span class="op">(</span><span class="va">y</span> <span class="op">~</span> <span class="va">z</span>, data <span class="op">=</span> <span class="va">dat</span>, condition_pr_mat <span class="op">=</span> <span class="va">block_pr_mat</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>     Estimate Std. Error   t value  Pr(&gt;|t|)   CI Lower CI Upper DF</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> z -0.1720545  0.1644859 -1.046013 0.2955548 -0.4944409 0.150332 NA</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>     Estimate Std. Error    t value  Pr(&gt;|t|)   CI Lower  CI Upper DF</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> z -0.1130271  0.1949703 -0.5797146 0.5621071 -0.4951619 0.2691076 NA</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># When you pass a declaration to horvitz_thompson, this function is called</span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Equivalent to above call</span></span></span>
 <span class="r-in"><span><span class="fu"><a href="horvitz_thompson.html">horvitz_thompson</a></span><span class="op">(</span><span class="va">y</span> <span class="op">~</span> <span class="va">z</span>, data <span class="op">=</span> <span class="va">dat</span>, ra_declaration <span class="op">=</span> <span class="va">bl_declaration</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>     Estimate Std. Error   t value  Pr(&gt;|t|)   CI Lower CI Upper DF</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> z -0.1720545  0.1644859 -1.046013 0.2955548 -0.4944409 0.150332 NA</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>     Estimate Std. Error    t value  Pr(&gt;|t|)   CI Lower  CI Upper DF</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> z -0.1130271  0.1949703 -0.5797146 0.5621071 -0.4951619 0.2691076 NA</span>
 <span class="r-in"><span></span></span>
 </code></pre></div>
     </div>
