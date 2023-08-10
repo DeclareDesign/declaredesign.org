@@ -134,8 +134,8 @@
 <span>    <span class="va">Y_A_1_B_0</span><span class="op">)</span> <span class="op">+</span> <span class="op">(</span><span class="fl">1</span> <span class="op">-</span> <span class="va">weight_A</span><span class="op">)</span> <span class="op">*</span> <span class="fu"><a href="https://rdrr.io/r/base/mean.html" class="external-link">mean</a></span><span class="op">(</span><span class="va">Y_A_0_B_1</span> <span class="op">-</span> <span class="va">Y_A_0_B_0</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="va">estimand_3</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://declaredesign.org/r/declaredesign/reference/declare_inquiry.html" class="external-link">declare_inquiry</a></span><span class="op">(</span>interaction <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/mean.html" class="external-link">mean</a></span><span class="op">(</span><span class="op">(</span><span class="va">Y_A_1_B_1</span> <span class="op">-</span> </span>
 <span>    <span class="va">Y_A_1_B_0</span><span class="op">)</span> <span class="op">-</span> <span class="op">(</span><span class="va">Y_A_0_B_1</span> <span class="op">-</span> <span class="va">Y_A_0_B_0</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span>
-<span><span class="va">assign_A</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://declaredesign.org/r/declaredesign/reference/declare_assignment.html" class="external-link">declare_assignment</a></span><span class="op">(</span>A <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/pkg/randomizr/man/complete_ra.html" class="external-link">complete_ra</a></span><span class="op">(</span><span class="va">N</span>, prob <span class="op">=</span> <span class="va">prob_A</span><span class="op">)</span><span class="op">)</span></span>
-<span><span class="va">assign_B</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://declaredesign.org/r/declaredesign/reference/declare_assignment.html" class="external-link">declare_assignment</a></span><span class="op">(</span>B <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/pkg/randomizr/man/block_ra.html" class="external-link">block_ra</a></span><span class="op">(</span>prob <span class="op">=</span> <span class="va">prob_B</span>, </span>
+<span><span class="va">assign_A</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://declaredesign.org/r/declaredesign/reference/declare_assignment.html" class="external-link">declare_assignment</a></span><span class="op">(</span>A <span class="op">=</span> <span class="fu"><a href="https://declaredesign.org/r/randomizr/reference/complete_ra.html" class="external-link">complete_ra</a></span><span class="op">(</span><span class="va">N</span>, prob <span class="op">=</span> <span class="va">prob_A</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="va">assign_B</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://declaredesign.org/r/declaredesign/reference/declare_assignment.html" class="external-link">declare_assignment</a></span><span class="op">(</span>B <span class="op">=</span> <span class="fu"><a href="https://declaredesign.org/r/randomizr/reference/block_ra.html" class="external-link">block_ra</a></span><span class="op">(</span>prob <span class="op">=</span> <span class="va">prob_B</span>, </span>
 <span>    blocks <span class="op">=</span> <span class="va">A</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="va">reveal_Y</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://declaredesign.org/r/declaredesign/reference/declare_reveal.html" class="external-link">declare_reveal</a></span><span class="op">(</span>Y_variables <span class="op">=</span> <span class="va">Y</span>, assignment_variables <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="va">A</span>, </span>
 <span>    <span class="va">B</span><span class="op">)</span><span class="op">)</span></span>
@@ -283,34 +283,10 @@
 <td align="left">Y</td>
 <td align="left">25</td>
 <td align="left">0.00</td>
-<td align="left">0.11</td>
-<td align="left">0.11</td>
-<td align="left">0.17</td>
-<td align="left">0.20</td>
-<td align="left">0.04</td>
-<td align="left">0.96</td>
-</tr>
-<tr class="even">
-<td align="left"></td>
-<td align="left"></td>
-<td align="left"></td>
-<td align="left">(0.00)</td>
-<td align="left">(0.03)</td>
-<td align="left">(0.03)</td>
-<td align="left">(0.02)</td>
-<td align="left">(0.03)</td>
-<td align="left">(0.03)</td>
-<td align="left">(0.03)</td>
-</tr>
-<tr class="odd">
-<td align="left">ate_B</td>
-<td align="left">Y</td>
-<td align="left">25</td>
-<td align="left">0.00</td>
-<td align="left">0.07</td>
-<td align="left">0.07</td>
-<td align="left">0.21</td>
-<td align="left">0.22</td>
+<td align="left">0.06</td>
+<td align="left">0.06</td>
+<td align="left">0.25</td>
+<td align="left">0.25</td>
 <td align="left">0.12</td>
 <td align="left">0.88</td>
 </tr>
@@ -319,10 +295,34 @@
 <td align="left"></td>
 <td align="left"></td>
 <td align="left">(0.00)</td>
+<td align="left">(0.05)</td>
+<td align="left">(0.05)</td>
+<td align="left">(0.03)</td>
+<td align="left">(0.03)</td>
+<td align="left">(0.07)</td>
+<td align="left">(0.07)</td>
+</tr>
+<tr class="odd">
+<td align="left">ate_B</td>
+<td align="left">Y</td>
+<td align="left">25</td>
+<td align="left">0.00</td>
+<td align="left">0.04</td>
+<td align="left">0.04</td>
+<td align="left">0.21</td>
+<td align="left">0.21</td>
+<td align="left">0.08</td>
+<td align="left">0.92</td>
+</tr>
+<tr class="even">
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left">(0.00)</td>
 <td align="left">(0.04)</td>
 <td align="left">(0.04)</td>
-<td align="left">(0.02)</td>
-<td align="left">(0.02)</td>
+<td align="left">(0.03)</td>
+<td align="left">(0.03)</td>
 <td align="left">(0.06)</td>
 <td align="left">(0.06)</td>
 </tr>
@@ -331,29 +331,29 @@
 <td align="left">Y</td>
 <td align="left">25</td>
 <td align="left">0.10</td>
-<td align="left">0.11</td>
-<td align="left">0.01</td>
-<td align="left">0.45</td>
-<td align="left">0.44</td>
-<td align="left">0.12</td>
-<td align="left">0.88</td>
+<td align="left">0.07</td>
+<td align="left">-0.03</td>
+<td align="left">0.37</td>
+<td align="left">0.36</td>
+<td align="left">0.00</td>
+<td align="left">1.00</td>
 </tr>
 <tr class="even">
 <td align="left"></td>
 <td align="left"></td>
 <td align="left"></td>
 <td align="left">(0.00)</td>
-<td align="left">(0.09)</td>
-<td align="left">(0.09)</td>
-<td align="left">(0.08)</td>
 <td align="left">(0.07)</td>
 <td align="left">(0.07)</td>
-<td align="left">(0.07)</td>
+<td align="left">(0.04)</td>
+<td align="left">(0.04)</td>
+<td align="left">(0.00)</td>
+<td align="left">(0.00)</td>
 </tr>
 </tbody>
 </table>
 <ul>
-<li><p>Wow, the power is really low for our interaction! It’s only 12%. That’s because our estimator has to take account of the variation in both effects when estimating their difference. Note that the standard deviation of the interaction estimates is twice that of the estimates of the main effects.</p></li>
+<li><p>Wow, the power is really low for our interaction! It’s only 0%. That’s because our estimator has to take account of the variation in both effects when estimating their difference. Note that the standard deviation of the interaction estimates is twice that of the estimates of the main effects.</p></li>
 <li><p>We also see that our estimates of the main effects are biased: we set out to estimate the effect of each treatment when the other was absent, but half the time the other treatment was present, so we get a boost in the <em>estimated</em> effect size due to the interaction.</p></li>
 </ul>
 </div>

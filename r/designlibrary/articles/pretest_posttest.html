@@ -124,8 +124,8 @@
 <span><span class="va">potential_outcomes</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://declaredesign.org/r/declaredesign/reference/declare_potential_outcomes.html" class="external-link">declare_potential_outcomes</a></span><span class="op">(</span><span class="va">Y_t2</span> <span class="op">~</span> <span class="va">u_t2</span> <span class="op">+</span> </span>
 <span>    <span class="va">ate</span> <span class="op">*</span> <span class="va">Z</span><span class="op">)</span></span>
 <span><span class="va">estimand</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://declaredesign.org/r/declaredesign/reference/declare_inquiry.html" class="external-link">declare_inquiry</a></span><span class="op">(</span>ATE <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/mean.html" class="external-link">mean</a></span><span class="op">(</span><span class="va">Y_t2_Z_1</span> <span class="op">-</span> <span class="va">Y_t2_Z_0</span><span class="op">)</span><span class="op">)</span></span>
-<span><span class="va">assignment</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://declaredesign.org/r/declaredesign/reference/declare_assignment.html" class="external-link">declare_assignment</a></span><span class="op">(</span>Z <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/pkg/randomizr/man/complete_ra.html" class="external-link">complete_ra</a></span><span class="op">(</span><span class="va">N</span><span class="op">)</span><span class="op">)</span></span>
-<span><span class="va">report</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://declaredesign.org/r/declaredesign/reference/declare_assignment.html" class="external-link">declare_assignment</a></span><span class="op">(</span>R <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/pkg/randomizr/man/complete_ra.html" class="external-link">complete_ra</a></span><span class="op">(</span><span class="va">N</span>, prob <span class="op">=</span> <span class="fl">1</span> <span class="op">-</span> </span>
+<span><span class="va">assignment</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://declaredesign.org/r/declaredesign/reference/declare_assignment.html" class="external-link">declare_assignment</a></span><span class="op">(</span>Z <span class="op">=</span> <span class="fu"><a href="https://declaredesign.org/r/randomizr/reference/complete_ra.html" class="external-link">complete_ra</a></span><span class="op">(</span><span class="va">N</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="va">report</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://declaredesign.org/r/declaredesign/reference/declare_assignment.html" class="external-link">declare_assignment</a></span><span class="op">(</span>R <span class="op">=</span> <span class="fu"><a href="https://declaredesign.org/r/randomizr/reference/complete_ra.html" class="external-link">complete_ra</a></span><span class="op">(</span><span class="va">N</span>, prob <span class="op">=</span> <span class="fl">1</span> <span class="op">-</span> </span>
 <span>    <span class="va">attrition_rate</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="va">reveal_t2</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://declaredesign.org/r/declaredesign/reference/declare_reveal.html" class="external-link">declare_reveal</a></span><span class="op">(</span><span class="va">Y_t2</span><span class="op">)</span></span>
 <span><span class="va">manipulation</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://declaredesign.org/r/declaredesign/reference/declare_step.html" class="external-link">declare_step</a></span><span class="op">(</span>difference <span class="op">=</span> <span class="op">(</span><span class="va">Y_t2</span> <span class="op">-</span> <span class="va">Y_t1</span><span class="op">)</span>, </span>
@@ -327,59 +327,35 @@
 <td align="left">Z</td>
 <td align="left">25</td>
 <td align="left">0.25</td>
-<td align="left">0.23</td>
-<td align="left">-0.02</td>
-<td align="left">0.27</td>
 <td align="left">0.26</td>
+<td align="left">0.01</td>
+<td align="left">0.21</td>
 <td align="left">0.20</td>
-<td align="left">0.80</td>
+<td align="left">0.24</td>
+<td align="left">0.96</td>
 </tr>
 <tr class="even">
 <td align="left"></td>
 <td align="left"></td>
 <td align="left"></td>
 <td align="left">(0.00)</td>
-<td align="left">(0.06)</td>
-<td align="left">(0.06)</td>
 <td align="left">(0.04)</td>
 <td align="left">(0.04)</td>
+<td align="left">(0.02)</td>
+<td align="left">(0.02)</td>
 <td align="left">(0.08)</td>
-<td align="left">(0.08)</td>
+<td align="left">(0.04)</td>
 </tr>
 <tr class="odd">
 <td align="left">Condition on pretest</td>
 <td align="left">Z</td>
 <td align="left">25</td>
 <td align="left">0.25</td>
-<td align="left">0.22</td>
-<td align="left">-0.03</td>
-<td align="left">0.18</td>
-<td align="left">0.18</td>
-<td align="left">0.20</td>
-<td align="left">0.92</td>
-</tr>
-<tr class="even">
-<td align="left"></td>
-<td align="left"></td>
-<td align="left"></td>
-<td align="left">(0.00)</td>
-<td align="left">(0.04)</td>
-<td align="left">(0.04)</td>
-<td align="left">(0.03)</td>
-<td align="left">(0.02)</td>
-<td align="left">(0.09)</td>
-<td align="left">(0.05)</td>
-</tr>
-<tr class="odd">
-<td align="left">Posttest only</td>
-<td align="left">Z</td>
-<td align="left">25</td>
 <td align="left">0.25</td>
-<td align="left">0.19</td>
-<td align="left">-0.06</td>
-<td align="left">0.16</td>
-<td align="left">0.17</td>
-<td align="left">0.12</td>
+<td align="left">0.00</td>
+<td align="left">0.18</td>
+<td align="left">0.18</td>
+<td align="left">0.28</td>
 <td align="left">1.00</td>
 </tr>
 <tr class="even">
@@ -387,12 +363,36 @@
 <td align="left"></td>
 <td align="left"></td>
 <td align="left">(0.00)</td>
-<td align="left">(0.03)</td>
-<td align="left">(0.03)</td>
+<td align="left">(0.04)</td>
+<td align="left">(0.04)</td>
 <td align="left">(0.02)</td>
-<td align="left">(0.02)</td>
-<td align="left">(0.07)</td>
+<td align="left">(0.01)</td>
+<td align="left">(0.09)</td>
 <td align="left">(0.00)</td>
+</tr>
+<tr class="odd">
+<td align="left">Posttest only</td>
+<td align="left">Z</td>
+<td align="left">25</td>
+<td align="left">0.25</td>
+<td align="left">0.25</td>
+<td align="left">0.00</td>
+<td align="left">0.20</td>
+<td align="left">0.19</td>
+<td align="left">0.24</td>
+<td align="left">0.96</td>
+</tr>
+<tr class="even">
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left">(0.00)</td>
+<td align="left">(0.04)</td>
+<td align="left">(0.04)</td>
+<td align="left">(0.02)</td>
+<td align="left">(0.02)</td>
+<td align="left">(0.08)</td>
+<td align="left">(0.05)</td>
 </tr>
 </tbody>
 </table>
