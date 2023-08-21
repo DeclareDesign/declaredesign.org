@@ -126,9 +126,9 @@
 <span><span class="co"># Create matched-pairs dataset using fabricatr</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/Random.html" class="external-link">set.seed</a></span><span class="op">(</span><span class="fl">40</span><span class="op">)</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://declaredesign.org/r/fabricatr/" class="external-link">fabricatr</a></span><span class="op">)</span></span>
-<span><span class="va">dat</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/fabricatr/man/fabricate.html" class="external-link">fabricate</a></span><span class="op">(</span></span>
-<span>  blocks <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/pkg/fabricatr/man/fabricate.html" class="external-link">add_level</a></span><span class="op">(</span>N <span class="op">=</span> <span class="fl">300</span><span class="op">)</span>,</span>
-<span>  indiv <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/pkg/fabricatr/man/fabricate.html" class="external-link">add_level</a></span><span class="op">(</span>N <span class="op">=</span> <span class="fl">2</span>, z <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/sample.html" class="external-link">sample</a></span><span class="op">(</span><span class="fl">0</span><span class="op">:</span><span class="fl">1</span><span class="op">)</span>, y <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/Normal.html" class="external-link">rnorm</a></span><span class="op">(</span><span class="va">N</span><span class="op">)</span> <span class="op">+</span> <span class="va">z</span><span class="op">)</span></span>
+<span><span class="va">dat</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://declaredesign.org/r/fabricatr/reference/fabricate.html" class="external-link">fabricate</a></span><span class="op">(</span></span>
+<span>  blocks <span class="op">=</span> <span class="fu"><a href="https://declaredesign.org/r/fabricatr/reference/fabricate.html" class="external-link">add_level</a></span><span class="op">(</span>N <span class="op">=</span> <span class="fl">300</span><span class="op">)</span>,</span>
+<span>  indiv <span class="op">=</span> <span class="fu"><a href="https://declaredesign.org/r/fabricatr/reference/fabricate.html" class="external-link">add_level</a></span><span class="op">(</span>N <span class="op">=</span> <span class="fl">2</span>, z <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/sample.html" class="external-link">sample</a></span><span class="op">(</span><span class="fl">0</span><span class="op">:</span><span class="fl">1</span><span class="op">)</span>, y <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/Normal.html" class="external-link">rnorm</a></span><span class="op">(</span><span class="va">N</span><span class="op">)</span> <span class="op">+</span> <span class="va">z</span><span class="op">)</span></span>
 <span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">dat</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">##   blocks indiv z          y</span></span>
@@ -150,10 +150,10 @@
 <span>  times <span class="op">=</span> <span class="fl">50</span></span>
 <span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## Unit: milliseconds</span></span>
-<span><span class="co">##             expr       min        lq     mean    median        uq      max</span></span>
-<span><span class="co">##  base + sandwich 173.79998 178.56389 227.5932 226.55256 255.46443 418.9463</span></span>
-<span><span class="co">##        lm_robust  78.09352  87.01257 115.4656 116.50754 122.87756 298.2286</span></span>
-<span><span class="co">##  lm_robust + fes  49.35696  51.65036  69.9140  67.39847  77.28988 252.0499</span></span>
+<span><span class="co">##             expr       min        lq      mean    median        uq      max</span></span>
+<span><span class="co">##  base + sandwich 170.43826 176.90266 211.97665 188.32390 233.13672 424.1852</span></span>
+<span><span class="co">##        lm_robust  77.71297  80.71024  96.30244  84.04451  92.06260 294.5372</span></span>
+<span><span class="co">##  lm_robust + fes  49.78921  51.73389  65.66363  53.18724  61.35887 431.2460</span></span>
 <span><span class="co">##  neval cld</span></span>
 <span><span class="co">##     50 a  </span></span>
 <span><span class="co">##     50  b </span></span>
@@ -180,10 +180,10 @@
 <span>  times <span class="op">=</span> <span class="fl">50</span></span>
 <span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## Unit: milliseconds</span></span>
-<span><span class="co">##             expr        min         lq      mean     median        uq      max</span></span>
-<span><span class="co">##  base + sandwich 171.997200 181.458925 236.35030 236.432649 269.02659 473.8527</span></span>
-<span><span class="co">##        lm_robust  61.739675  65.427527  84.36608  73.637178  91.23099 309.4307</span></span>
-<span><span class="co">##  lm_robust + fes   7.837757   8.505616  10.54558   9.406417  11.79240  22.8698</span></span>
+<span><span class="co">##             expr        min         lq      mean     median        uq       max</span></span>
+<span><span class="co">##  base + sandwich 171.757961 177.536255 204.59600 183.019217 228.86611 393.12860</span></span>
+<span><span class="co">##        lm_robust  60.314356  66.234689  80.26770  69.913182  86.35300 220.61359</span></span>
+<span><span class="co">##  lm_robust + fes   7.677611   8.545487  10.16999   9.312797  10.85231  21.62534</span></span>
 <span><span class="co">##  neval cld</span></span>
 <span><span class="co">##     50 a  </span></span>
 <span><span class="co">##     50  b </span></span>

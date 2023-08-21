@@ -141,20 +141,20 @@
 <pre><code><span><span class="co">## [1] 0.07831866</span></span></code></pre>
 <p>Now, using <a href="/r/declaredesign/"><code>DeclareDesign</code></a>, let’s specify the rest of the data generating process (DGP). Let’s set <span class="math inline">\(\beta = [0, 1]^\top\)</span>, so that the true DGP is <span class="math inline">\(\mathbf{y} = \mathbf{x_1} + \epsilon\)</span>.</p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">simp_pop</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/DeclareDesign/man/declare_model.html" class="external-link">declare_model</a></span><span class="op">(</span></span>
+<code class="sourceCode R"><span><span class="va">simp_pop</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://declaredesign.org/r/declaredesign/reference/declare_model.html" class="external-link">declare_model</a></span><span class="op">(</span></span>
 <span>  epsilon <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/Normal.html" class="external-link">rnorm</a></span><span class="op">(</span><span class="va">N</span>, sd <span class="op">=</span> <span class="fl">2</span><span class="op">)</span>,</span>
 <span>  y <span class="op">=</span> <span class="va">x</span> <span class="op">+</span> <span class="va">epsilon</span></span>
 <span><span class="op">)</span></span></code></pre></div>
 <p>Now let’s tell DeclareDesign that our target, our estimand, is the true variance.</p>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">varb_estimand</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/DeclareDesign/man/declare_inquiry.html" class="external-link">declare_inquiry</a></span><span class="op">(</span>true_varb <span class="op">=</span> <span class="va">true_varb</span><span class="op">)</span></span></code></pre></div>
+<code class="sourceCode R"><span><span class="va">varb_estimand</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://declaredesign.org/r/declaredesign/reference/declare_inquiry.html" class="external-link">declare_inquiry</a></span><span class="op">(</span>true_varb <span class="op">=</span> <span class="va">true_varb</span><span class="op">)</span></span></code></pre></div>
 <p>Our estimator for this estimand will be the classical OLS variance estimator, which we know should be unbiased:</p>
 <p><span class="math display">\[
 \widehat{\mathbb{V}[\widehat{\beta}]} = \frac{\mathbf{e}^\top\mathbf{e}}{N - K} (\mathbf{X}^\top \mathbf{X})^{-1},
 \]</span></p>
 <p>where the residuals <span class="math inline">\(\mathbf{e} = \mathbf{y} - \mathbf{X}\widehat{\beta}\)</span>, <span class="math inline">\(N\)</span> is the number of observations, and <span class="math inline">\(K\)</span> is the number of regressors—two in our case. We can easily get this estimate of the variance by squaring the standard error we get out from <code>lm_robust</code> in <a href="/r/estimatr/"><code>estimatr</code></a>. Let’s tell <a href="/r/declaredesign/"><code>DeclareDesign</code></a> to use that estimator and get the coefficient on the <span class="math inline">\(\mathbf{x}_1\)</span> variable.</p>
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">lmc</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/DeclareDesign/man/declare_estimator.html" class="external-link">declare_estimator</a></span><span class="op">(</span></span>
+<code class="sourceCode R"><span><span class="va">lmc</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://declaredesign.org/r/declaredesign/reference/declare_estimator.html" class="external-link">declare_estimator</a></span><span class="op">(</span></span>
 <span>  <span class="va">y</span> <span class="op">~</span> <span class="va">x</span>,</span>
 <span>  model <span class="op">=</span> <span class="va">lm_robust</span>,</span>
 <span>  se_type <span class="op">=</span> <span class="st">"classical"</span>,</span>
@@ -165,11 +165,11 @@
 <p>Let’s first set up the design and our diagnosands.</p>
 <div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># First declare all the steps of our design, starting with our fixed data</span></span>
-<span><span class="va">classical_design</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/DeclareDesign/man/declare_model.html" class="external-link">declare_model</a></span><span class="op">(</span><span class="va">dat</span><span class="op">)</span> <span class="op">+</span> <span class="va">simp_pop</span> <span class="op">+</span> <span class="va">varb_estimand</span> <span class="op">+</span> <span class="va">lmc</span></span>
+<span><span class="va">classical_design</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://declaredesign.org/r/declaredesign/reference/declare_model.html" class="external-link">declare_model</a></span><span class="op">(</span><span class="va">dat</span><span class="op">)</span> <span class="op">+</span> <span class="va">simp_pop</span> <span class="op">+</span> <span class="va">varb_estimand</span> <span class="op">+</span> <span class="va">lmc</span></span>
 <span></span>
 <span><span class="co"># Declare a set of diagnosands that help us check if</span></span>
 <span><span class="co"># we have unbiasedness</span></span>
-<span><span class="va">my_diagnosands</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/DeclareDesign/man/declare_diagnosands.html" class="external-link">declare_diagnosands</a></span><span class="op">(</span></span>
+<span><span class="va">my_diagnosands</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://declaredesign.org/r/declaredesign/reference/declare_diagnosands.html" class="external-link">declare_diagnosands</a></span><span class="op">(</span></span>
 <span>  `Bias of Estimated Variance` <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/mean.html" class="external-link">mean</a></span><span class="op">(</span><span class="va">std.error</span><span class="op">^</span><span class="fl">2</span> <span class="op">-</span> <span class="va">estimand</span><span class="op">)</span>,</span>
 <span>  `Bias of Standard Error` <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/mean.html" class="external-link">mean</a></span><span class="op">(</span><span class="va">std.error</span> <span class="op">-</span> <span class="fu"><a href="https://rdrr.io/r/stats/sd.html" class="external-link">sd</a></span><span class="op">(</span><span class="va">estimate</span><span class="op">)</span><span class="op">)</span>,</span>
 <span>  `Coverage Rate` <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/mean.html" class="external-link">mean</a></span><span class="op">(</span><span class="fl">1</span> <span class="op">&lt;=</span> <span class="va">conf.low</span> <span class="op">&amp;</span> <span class="fl">1</span> <span class="op">&gt;=</span> <span class="va">conf.high</span><span class="op">)</span>,</span>
@@ -180,12 +180,12 @@
 <p>Now let’s run the simulations!</p>
 <div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/Random.html" class="external-link">set.seed</a></span><span class="op">(</span><span class="fl">42</span><span class="op">)</span></span>
-<span><span class="va">dx1</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/DeclareDesign/man/diagnose_design.html" class="external-link">diagnose_design</a></span><span class="op">(</span></span>
+<span><span class="va">dx1</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://declaredesign.org/r/declaredesign/reference/diagnose_design.html" class="external-link">diagnose_design</a></span><span class="op">(</span></span>
 <span>  <span class="va">classical_design</span>,</span>
 <span>  sims <span class="op">=</span> <span class="va">sims</span>,</span>
 <span>  diagnosands <span class="op">=</span> <span class="va">my_diagnosands</span></span>
 <span><span class="op">)</span></span>
-<span><span class="fu"><a href="https://rdrr.io/pkg/knitr/man/kable.html" class="external-link">kable</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/pkg/DeclareDesign/man/reshape_diagnosis.html" class="external-link">reshape_diagnosis</a></span><span class="op">(</span><span class="va">dx1</span>, digits <span class="op">=</span> <span class="fl">3</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+<span><span class="fu"><a href="https://rdrr.io/pkg/knitr/man/kable.html" class="external-link">kable</a></span><span class="op">(</span><span class="fu"><a href="https://declaredesign.org/r/declaredesign/reference/reshape_diagnosis.html" class="external-link">reshape_diagnosis</a></span><span class="op">(</span><span class="va">dx1</span>, digits <span class="op">=</span> <span class="fl">3</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <p>Our diagnosands can help us see if there is any bias. As we can see the bias is very close to zero. Because the standard error of the bias is much larger than the estimated bias, we can be reasonably certain that the only reason the bias is not exactly zero is due to simulation error. We can also see the unbiasedness visually, using a density plot of estimated variances with a line for the true variance.</p>
 <p><img src="simulations-ols-variance_files/figure-html/unnamed-chunk-9-1.png" width="480"></p>
 </div>
@@ -228,7 +228,7 @@
 <div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">het_designer</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">N</span><span class="op">)</span> <span class="op">{</span></span>
 <span>  </span>
-<span>  <span class="va">dat</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/fabricatr/man/fabricate.html" class="external-link">fabricate</a></span><span class="op">(</span>N <span class="op">=</span> <span class="va">N</span>, x <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/Normal.html" class="external-link">rnorm</a></span><span class="op">(</span><span class="va">N</span><span class="op">)</span>, noise_var <span class="op">=</span> <span class="fl">1</span> <span class="op">+</span> <span class="op">(</span><span class="va">x</span> <span class="op">-</span> <span class="fu"><a href="https://rdrr.io/r/base/Extremes.html" class="external-link">min</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span><span class="op">)</span><span class="op">^</span><span class="fl">2</span><span class="op">)</span></span>
+<span>  <span class="va">dat</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://declaredesign.org/r/fabricatr/reference/fabricate.html" class="external-link">fabricate</a></span><span class="op">(</span>N <span class="op">=</span> <span class="va">N</span>, x <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/Normal.html" class="external-link">rnorm</a></span><span class="op">(</span><span class="va">N</span><span class="op">)</span>, noise_var <span class="op">=</span> <span class="fl">1</span> <span class="op">+</span> <span class="op">(</span><span class="va">x</span> <span class="op">-</span> <span class="fu"><a href="https://rdrr.io/r/base/Extremes.html" class="external-link">min</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span><span class="op">)</span><span class="op">^</span><span class="fl">2</span><span class="op">)</span></span>
 <span></span>
 <span>  <span class="co"># Get true variance for this data</span></span>
 <span>  <span class="va">Xmat</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/with.html" class="external-link">with</a></span><span class="op">(</span><span class="va">dat</span>, <span class="fu"><a href="https://rdrr.io/r/base/cbind.html" class="external-link">cbind</a></span><span class="op">(</span><span class="fl">1</span>, <span class="va">x</span><span class="op">)</span><span class="op">)</span></span>
@@ -237,16 +237,16 @@
 <span>  <span class="va">true_varb_het</span> <span class="op">&lt;-</span> <span class="va">varb</span><span class="op">[</span><span class="fl">2</span>, <span class="fl">2</span><span class="op">]</span></span>
 <span></span>
 <span>  <span class="co"># Population function now has heteroskedastic noise</span></span>
-<span>  <span class="va">simp_pop</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/DeclareDesign/man/declare_model.html" class="external-link">declare_model</a></span><span class="op">(</span></span>
+<span>  <span class="va">simp_pop</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://declaredesign.org/r/declaredesign/reference/declare_model.html" class="external-link">declare_model</a></span><span class="op">(</span></span>
 <span>    <span class="va">dat</span>,</span>
 <span>    epsilon <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/Normal.html" class="external-link">rnorm</a></span><span class="op">(</span><span class="va">N</span>, sd <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/MathFun.html" class="external-link">sqrt</a></span><span class="op">(</span><span class="va">noise_var</span><span class="op">)</span><span class="op">)</span>,</span>
 <span>    y <span class="op">=</span> <span class="va">x</span> <span class="op">+</span> <span class="va">epsilon</span></span>
 <span>  <span class="op">)</span></span>
 <span></span>
-<span>  <span class="va">varb_het_estimand</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/DeclareDesign/man/declare_inquiry.html" class="external-link">declare_inquiry</a></span><span class="op">(</span>true_varb_het <span class="op">=</span> <span class="va">true_varb_het</span><span class="op">)</span></span>
+<span>  <span class="va">varb_het_estimand</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://declaredesign.org/r/declaredesign/reference/declare_inquiry.html" class="external-link">declare_inquiry</a></span><span class="op">(</span>true_varb_het <span class="op">=</span> <span class="va">true_varb_het</span><span class="op">)</span></span>
 <span></span>
 <span>  <span class="co"># Now we declare all three estimators</span></span>
-<span>  <span class="va">lm1</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/DeclareDesign/man/declare_estimator.html" class="external-link">declare_estimator</a></span><span class="op">(</span></span>
+<span>  <span class="va">lm1</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://declaredesign.org/r/declaredesign/reference/declare_estimator.html" class="external-link">declare_estimator</a></span><span class="op">(</span></span>
 <span>    <span class="va">y</span> <span class="op">~</span> <span class="va">x</span>,</span>
 <span>    model <span class="op">=</span> <span class="va">lm_robust</span>,</span>
 <span>    se_type <span class="op">=</span> <span class="st">"classical"</span>,</span>
@@ -255,7 +255,7 @@
 <span>    label <span class="op">=</span> <span class="st">"classical"</span></span>
 <span>  <span class="op">)</span></span>
 <span></span>
-<span>  <span class="va">lm2</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/DeclareDesign/man/declare_estimator.html" class="external-link">declare_estimator</a></span><span class="op">(</span></span>
+<span>  <span class="va">lm2</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://declaredesign.org/r/declaredesign/reference/declare_estimator.html" class="external-link">declare_estimator</a></span><span class="op">(</span></span>
 <span>    <span class="va">y</span> <span class="op">~</span> <span class="va">x</span>,</span>
 <span>    model <span class="op">=</span> <span class="va">lm_robust</span>,</span>
 <span>    se_type <span class="op">=</span> <span class="st">"HC1"</span>,</span>
@@ -264,7 +264,7 @@
 <span>    label <span class="op">=</span> <span class="st">"HC1"</span></span>
 <span>  <span class="op">)</span></span>
 <span>  </span>
-<span>  <span class="va">lm3</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/DeclareDesign/man/declare_estimator.html" class="external-link">declare_estimator</a></span><span class="op">(</span></span>
+<span>  <span class="va">lm3</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://declaredesign.org/r/declaredesign/reference/declare_estimator.html" class="external-link">declare_estimator</a></span><span class="op">(</span></span>
 <span>    <span class="va">y</span> <span class="op">~</span> <span class="va">x</span>,</span>
 <span>    model <span class="op">=</span> <span class="va">lm_robust</span>,</span>
 <span>    se_type <span class="op">=</span> <span class="st">"HC2"</span>,</span>
@@ -281,18 +281,18 @@
 <div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Create a design using our template and the data we have been using</span></span>
 <span><span class="va">het_design</span> <span class="op">&lt;-</span> <span class="fu">het_designer</span><span class="op">(</span>N <span class="op">=</span> <span class="fl">50</span><span class="op">)</span></span>
-<span><span class="va">dx2</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/DeclareDesign/man/diagnose_design.html" class="external-link">diagnose_design</a></span><span class="op">(</span></span>
+<span><span class="va">dx2</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://declaredesign.org/r/declaredesign/reference/diagnose_design.html" class="external-link">diagnose_design</a></span><span class="op">(</span></span>
 <span>  <span class="va">het_design</span>,</span>
 <span>  diagnosands <span class="op">=</span> <span class="va">my_diagnosands</span>,</span>
 <span>  sims <span class="op">=</span> <span class="va">sims</span></span>
 <span>  <span class="op">)</span></span>
-<span><span class="fu"><a href="https://rdrr.io/pkg/knitr/man/kable.html" class="external-link">kable</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/pkg/DeclareDesign/man/reshape_diagnosis.html" class="external-link">reshape_diagnosis</a></span><span class="op">(</span><span class="va">dx2</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+<span><span class="fu"><a href="https://rdrr.io/pkg/knitr/man/kable.html" class="external-link">kable</a></span><span class="op">(</span><span class="fu"><a href="https://declaredesign.org/r/declaredesign/reference/reshape_diagnosis.html" class="external-link">reshape_diagnosis</a></span><span class="op">(</span><span class="va">dx2</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <p>The bias for the HC2 errors is much closer to zero, whereas the bias for the classical error is much larger, especially when compared to the standard error of the bias diagnosand. How does this bias change as the sample size changes? As the HC2 variance estimate is consistent under heteroskedasticity, it should converge to zero.</p>
 <div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">designs</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/DeclareDesign/man/expand_design.html" class="external-link">expand_design</a></span><span class="op">(</span><span class="va">het_designer</span>, N <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">100</span>, <span class="fl">200</span>, <span class="fl">300</span>, <span class="fl">500</span>, <span class="fl">1000</span>, <span class="fl">2500</span><span class="op">)</span><span class="op">)</span></span>
+<code class="sourceCode R"><span><span class="va">designs</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://declaredesign.org/r/declaredesign/reference/expand_design.html" class="external-link">expand_design</a></span><span class="op">(</span><span class="va">het_designer</span>, N <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">100</span>, <span class="fl">200</span>, <span class="fl">300</span>, <span class="fl">500</span>, <span class="fl">1000</span>, <span class="fl">2500</span><span class="op">)</span><span class="op">)</span></span>
 <span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/Random.html" class="external-link">set.seed</a></span><span class="op">(</span><span class="fl">42</span><span class="op">)</span></span>
-<span><span class="va">dx3</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/DeclareDesign/man/diagnose_design.html" class="external-link">diagnose_design</a></span><span class="op">(</span><span class="va">designs</span>, sims <span class="op">=</span> <span class="va">sims</span>, diagnosands <span class="op">=</span> <span class="va">my_diagnosands</span><span class="op">)</span></span></code></pre></div>
+<span><span class="va">dx3</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://declaredesign.org/r/declaredesign/reference/diagnose_design.html" class="external-link">diagnose_design</a></span><span class="op">(</span><span class="va">designs</span>, sims <span class="op">=</span> <span class="va">sims</span>, diagnosands <span class="op">=</span> <span class="va">my_diagnosands</span><span class="op">)</span></span></code></pre></div>
 <div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span><span class="va">dx3</span><span class="op">$</span><span class="va">diagnosands_df</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">N</span>, y <span class="op">=</span> <span class="va">`Bias of Estimated Variance`</span>, color <span class="op">=</span> <span class="va">estimator</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_point.html" class="external-link">geom_point</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
