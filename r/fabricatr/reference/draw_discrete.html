@@ -233,7 +233,7 @@ numeric but for some functions, including <code>draw_ordered</code> and
 <span class="r-in"><span>   binary <span class="op">=</span> <span class="fu">draw_binary</span><span class="op">(</span>prob <span class="op">=</span> <span class="va">p</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   ID   p binary</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 1  1 0.0      0</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2  2 0.5      1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2  2 0.5      0</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 3  3 1.0      1</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Drawing binary values with probit link (transforming continuous data</span></span></span>
@@ -241,10 +241,10 @@ numeric but for some functions, including <code>draw_ordered</code> and
 <span class="r-in"><span><span class="fu"><a href="fabricate.html">fabricate</a></span><span class="op">(</span>N <span class="op">=</span> <span class="fl">3</span>,</span></span>
 <span class="r-in"><span>   x <span class="op">=</span> <span class="fl">10</span> <span class="op">*</span> <span class="fu"><a href="https://rdrr.io/r/stats/Normal.html" class="external-link">rnorm</a></span><span class="op">(</span><span class="va">N</span><span class="op">)</span>,</span></span>
 <span class="r-in"><span>   binary <span class="op">=</span> <span class="fu">draw_binary</span><span class="op">(</span>latent <span class="op">=</span> <span class="va">x</span>, link <span class="op">=</span> <span class="st">"probit"</span><span class="op">)</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   ID           x binary</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1  1 21.20154925      1</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2  2  0.07562783      1</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 3  3 -4.03169876      0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   ID          x binary</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1  1  -8.375497      0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2  2  12.132842      1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3  3 -14.445231      0</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Repeated trials: `draw_binomial`</span></span></span>
 <span class="r-in"><span><span class="fu"><a href="fabricate.html">fabricate</a></span><span class="op">(</span>N <span class="op">=</span> <span class="fl">3</span>,</span></span>
@@ -261,10 +261,10 @@ numeric but for some functions, including <code>draw_ordered</code> and
 <span class="r-in"><span>   x <span class="op">=</span> <span class="fl">5</span> <span class="op">*</span> <span class="fu"><a href="https://rdrr.io/r/stats/Normal.html" class="external-link">rnorm</a></span><span class="op">(</span><span class="va">N</span><span class="op">)</span>,</span></span>
 <span class="r-in"><span>   ordered <span class="op">=</span> <span class="fu">draw_ordered</span><span class="op">(</span>x <span class="op">=</span> <span class="va">x</span>,</span></span>
 <span class="r-in"><span>                          breaks <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="op">-</span><span class="cn">Inf</span>, <span class="op">-</span><span class="fl">1</span>, <span class="fl">1</span>, <span class="cn">Inf</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   ID          x ordered</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1  1 -0.5511905       2</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2  2 -3.5098268       1</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 3  3  3.2803443       3</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   ID         x ordered</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1  1 -6.675131       1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2  2 -3.106676       1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3  3 10.577862       3</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Providing break labels for latent data.</span></span></span>
 <span class="r-in"><span><span class="fu"><a href="fabricate.html">fabricate</a></span><span class="op">(</span>N <span class="op">=</span> <span class="fl">3</span>,</span></span>
@@ -274,10 +274,10 @@ numeric but for some functions, including <code>draw_ordered</code> and
 <span class="r-in"><span>                          break_labels <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Not at all concerned"</span>,</span></span>
 <span class="r-in"><span>                                           <span class="st">"Somewhat concerned"</span>,</span></span>
 <span class="r-in"><span>                                           <span class="st">"Very concerned"</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   ID         x              ordered</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1  1  3.517140       Very concerned</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2  2  4.098413       Very concerned</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 3  3 -4.812994 Not at all concerned</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   ID         x            ordered</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1  1 3.7312066     Very concerned</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2  2 0.8487946 Somewhat concerned</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3  3 5.3203202     Very concerned</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Count data: useful for rates of occurrences over time.</span></span></span>
@@ -286,21 +286,21 @@ numeric but for some functions, including <code>draw_ordered</code> and
 <span class="r-in"><span>   theft_rate <span class="op">=</span> <span class="fu">draw_count</span><span class="op">(</span>mean<span class="op">=</span><span class="va">x</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   ID   x theft_rate</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 1  1   0          0</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2  2   5          8</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 3  3  25         24</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 4  4  50         46</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 5  5 100        105</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2  2   5          5</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3  3  25         32</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 4  4  50         50</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 5  5 100        103</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Categorical data: useful for demographic data.</span></span></span>
 <span class="r-in"><span><span class="fu"><a href="fabricate.html">fabricate</a></span><span class="op">(</span>N <span class="op">=</span> <span class="fl">6</span>, p1 <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/Uniform.html" class="external-link">runif</a></span><span class="op">(</span><span class="va">N</span><span class="op">)</span>, p2 <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/Uniform.html" class="external-link">runif</a></span><span class="op">(</span><span class="va">N</span><span class="op">)</span>, p3 <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/Uniform.html" class="external-link">runif</a></span><span class="op">(</span><span class="va">N</span><span class="op">)</span>,</span></span>
 <span class="r-in"><span>          cat <span class="op">=</span> <span class="fu">draw_categorical</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/cbind.html" class="external-link">cbind</a></span><span class="op">(</span><span class="va">p1</span>, <span class="va">p2</span>, <span class="va">p3</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   ID        p1        p2         p3 cat</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1  1 0.2871553 0.8116492 0.96285902   3</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2  2 0.9321460 0.7637180 0.29409341   3</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 3  3 0.3296282 0.7036476 0.03698426   2</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 4  4 0.8081625 0.6674765 0.43091899   3</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 5  5 0.5712512 0.4125579 0.13560616   2</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 6  6 0.5561227 0.1253944 0.95697190   3</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   ID          p1        p2        p3 cat</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1  1 0.410654231 0.6146801 0.0597276   2</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2  2 0.718858636 0.5043835 0.4864831   1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3  3 0.002461545 0.3331867 0.3435409   2</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 4  4 0.106361856 0.9491195 0.1084866   2</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 5  5 0.904266187 0.3568945 0.9975327   3</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 6  6 0.143362402 0.8076473 0.2458613   2</span>
 <span class="r-in"><span></span></span>
 </code></pre></div>
     </div>
