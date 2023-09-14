@@ -272,8 +272,8 @@ More details of the about each of the estimators can be found in the
 <span class="r-out co"><span class="r-pr">#&gt;</span> 60 40 </span>
 <span class="r-in"><span><span class="fu">difference_in_means</span><span class="op">(</span><span class="va">Y</span> <span class="op">~</span> <span class="va">Z_comp</span>, data <span class="op">=</span> <span class="va">dat</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Design:  Standard </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>         Estimate Std. Error   t value Pr(&gt;|t|)   CI Lower  CI Upper       DF</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Z_comp 0.1353831  0.1891359 0.7157978 0.476194 -0.2409917 0.5117579 80.24614</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>          Estimate Std. Error    t value  Pr(&gt;|t|)   CI Lower CI Upper       DF</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Z_comp -0.1231257   0.210759 -0.5842015 0.5605231 -0.5417444 0.295493 91.45575</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># ----------</span></span></span>
 <span class="r-in"><span><span class="co"># 2. Cluster randomized</span></span></span>
@@ -284,15 +284,15 @@ More details of the about each of the estimators can be found in the
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/table.html" class="external-link">table</a></span><span class="op">(</span><span class="va">dat</span><span class="op">$</span><span class="va">Z_clust</span>, <span class="va">dat</span><span class="op">$</span><span class="va">clust</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>    </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>     1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   0 0 0 0 0 0 0 4 4 0  0  5  0  0  4  7  6  0  0  5</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   1 4 4 4 5 8 7 0 0 6  6  0  6  7  0  0  0  3  5  0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>     1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   0 5 4 0 0 0 4 0 0 0  5  4  0  9  0  6  0  9  0  0  0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   1 0 0 2 4 5 0 6 7 3  0  0  9  0  4  0  3  0  2  7  2</span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary</a></span><span class="op">(</span><span class="fu">difference_in_means</span><span class="op">(</span><span class="va">Y</span> <span class="op">~</span> <span class="va">Z_clust</span>, clusters <span class="op">=</span> <span class="va">clust</span>, data <span class="op">=</span> <span class="va">dat</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $coefficients</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>           Estimate Std. Error   t value   Pr(&gt;|t|)   CI Lower     CI Upper</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Z_clust -0.3055809  0.1390135 -2.198211 0.04899085 -0.6095656 -0.001596285</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>           Estimate Std. Error   t value   Pr(&gt;|t|)   CI Lower   CI Upper</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Z_clust -0.3843513  0.1952959 -1.968046 0.06925038 -0.8033282 0.03462555</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>               DF</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Z_clust 11.62064</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Z_clust 13.96136</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $design</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] "Clustered"</span>
@@ -311,8 +311,8 @@ More details of the about each of the estimators can be found in the
 <span class="r-out co"><span class="r-pr">#&gt;</span>   1 5 5 5 5 5 5 5 5 5  5</span>
 <span class="r-in"><span><span class="fu">difference_in_means</span><span class="op">(</span><span class="va">Y</span> <span class="op">~</span> <span class="va">Z_block</span>, blocks <span class="op">=</span> <span class="va">block</span>, data <span class="op">=</span> <span class="va">dat</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Design:  Blocked </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>           Estimate Std. Error    t value  Pr(&gt;|t|)  CI Lower  CI Upper DF</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Z_block 0.01597042  0.1870706 0.08537108 0.9321797 -0.356312 0.3882528 80</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>          Estimate Std. Error t value  Pr(&gt;|t|)   CI Lower  CI Upper DF</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Z_block 0.1558487  0.2213006 0.70424 0.4833283 -0.2845534 0.5962509 80</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># ----------</span></span></span>
 <span class="r-in"><span><span class="co"># 4. Block cluster randomized</span></span></span>
@@ -333,8 +333,8 @@ More details of the about each of the estimators can be found in the
 <span class="r-in"><span>  data <span class="op">=</span> <span class="va">dat</span></span></span>
 <span class="r-in"><span> <span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Design:  Block-clustered </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>         Estimate Std. Error  t value  Pr(&gt;|t|)   CI Lower  CI Upper DF</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Z_blcl 0.1869882  0.1933386 0.967154 0.3392786 -0.2037637 0.5777402 40</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>         Estimate Std. Error    t value  Pr(&gt;|t|)  CI Lower CI Upper DF</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Z_blcl -0.152641  0.2410321 -0.6332809 0.5301546 -0.639785 0.334503 40</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># ----------</span></span></span>
 <span class="r-in"><span><span class="co"># 5. Matched-pairs</span></span></span>
@@ -400,8 +400,8 @@ More details of the about each of the estimators can be found in the
 <span class="r-out co"><span class="r-pr">#&gt;</span>   50 1 1</span>
 <span class="r-in"><span><span class="fu">difference_in_means</span><span class="op">(</span><span class="va">Y</span> <span class="op">~</span> <span class="va">Z_pairs</span>, blocks <span class="op">=</span> <span class="va">pairs</span>, data <span class="op">=</span> <span class="va">dat</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Design:  Matched-pair </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>           Estimate Std. Error   t value  Pr(&gt;|t|)   CI Lower  CI Upper DF</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Z_pairs -0.2062357  0.1692919 -1.218225 0.2289718 -0.5464405 0.1339691 49</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>           Estimate Std. Error   t value  Pr(&gt;|t|)   CI Lower   CI Upper DF</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Z_pairs -0.2924317  0.1938682 -1.508405 0.1378721 -0.6820244 0.09716091 49</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># ----------</span></span></span>
 <span class="r-in"><span><span class="co"># 6. Matched-pair cluster randomized</span></span></span>
@@ -477,8 +477,8 @@ More details of the about each of the estimators can be found in the
 <span class="r-in"><span>  data <span class="op">=</span> <span class="va">dat</span></span></span>
 <span class="r-in"><span> <span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Design:  Matched-pair clustered </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>         Estimate Std. Error  t value  Pr(&gt;|t|)    CI Lower  CI Upper DF</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Z_mpcl 0.2333677  0.1545277 1.510199 0.1440474 -0.08556187 0.5522973 24</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>         Estimate Std. Error   t value  Pr(&gt;|t|)   CI Lower  CI Upper DF</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Z_mpcl 0.1354837  0.2139156 0.6333512 0.5324939 -0.3060164 0.5769839 24</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># ----------</span></span></span>
 <span class="r-in"><span><span class="co"># Other examples</span></span></span>
@@ -501,10 +501,10 @@ More details of the about each of the estimators can be found in the
 <span class="r-in"><span>  data <span class="op">=</span> <span class="va">dat</span></span></span>
 <span class="r-in"><span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Design:  Standard </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>                  Estimate Std. Error   t value  Pr(&gt;|t|)   CI Lower CI Upper</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Z_multiControl 0.07942653  0.2085875 0.3807828 0.7051365 -0.3405629 0.499416</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                   Estimate Std. Error    t value  Pr(&gt;|t|)   CI Lower  CI Upper</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Z_multiControl -0.07294771    0.27316 -0.2670513 0.7906457 -0.6230695 0.4771741</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                      DF</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Z_multiControl 45.49965</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Z_multiControl 45.15052</span>
 <span class="r-in"><span><span class="fu">difference_in_means</span><span class="op">(</span></span></span>
 <span class="r-in"><span>  <span class="va">Y</span> <span class="op">~</span> <span class="va">Z_multi</span>,</span></span>
 <span class="r-in"><span>  condition1 <span class="op">=</span> <span class="st">"Treatment 1"</span>,</span></span>
@@ -512,21 +512,24 @@ More details of the about each of the estimators can be found in the
 <span class="r-in"><span>  data <span class="op">=</span> <span class="va">dat</span></span></span>
 <span class="r-in"><span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Design:  Standard </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>                 Estimate Std. Error  t value   Pr(&gt;|t|)    CI Lower  CI Upper</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Z_multiControl 0.4724661  0.2591262 1.823305 0.07400891 -0.04751154 0.9924436</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                   Estimate Std. Error    t value  Pr(&gt;|t|)   CI Lower  CI Upper</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Z_multiControl -0.05865777  0.2762211 -0.2123581 0.8327845 -0.6149601 0.4976445</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                      DF</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Z_multiControl 51.98794</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Z_multiControl 45.10437</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Specifying weights will result in estimation via lm_robust()</span></span></span>
 <span class="r-in"><span><span class="va">dat</span><span class="op">$</span><span class="va">w</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/Uniform.html" class="external-link">runif</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/nrow.html" class="external-link">nrow</a></span><span class="op">(</span><span class="va">dat</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="fu">difference_in_means</span><span class="op">(</span><span class="va">Y</span> <span class="op">~</span> <span class="va">Z_comp</span>, weights <span class="op">=</span> <span class="va">w</span>, data <span class="op">=</span> <span class="va">dat</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Design:  Standard (weighted) </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>          Estimate Std. Error   t value  Pr(&gt;|t|)   CI Lower  CI Upper DF</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Z_comp 0.08824575  0.2653793 0.3325269 0.7402016 -0.4383908 0.6148823 98</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>           Estimate Std. Error    t value Pr(&gt;|t|)   CI Lower  CI Upper DF</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Z_comp -0.09070294  0.2505416 -0.3620275 0.718111 -0.5878945 0.4064886 98</span>
 <span class="r-in"><span><span class="fu"><a href="lm_robust.html">lm_robust</a></span><span class="op">(</span><span class="va">Y</span> <span class="op">~</span> <span class="va">Z_comp</span>, weights <span class="op">=</span> <span class="va">w</span>, data <span class="op">=</span> <span class="va">dat</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>                Estimate Std. Error    t value  Pr(&gt;|t|)   CI Lower  CI Upper DF</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> (Intercept) -0.10920257  0.1719359 -0.6351353 0.5268203 -0.4504038 0.2319986 98</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Z_comp       0.08824575  0.2653793  0.3325269 0.7402016 -0.4383908 0.6148823 98</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                Estimate Std. Error    t value  Pr(&gt;|t|)    CI Lower  CI Upper</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> (Intercept)  0.22482403  0.1589216  1.4146851 0.1603304 -0.09055073 0.5401988</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Z_comp      -0.09070294  0.2505416 -0.3620275 0.7181110 -0.58789452 0.4064886</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>             DF</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> (Intercept) 98</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Z_comp      98</span>
 <span class="r-in"><span></span></span>
 </code></pre></div>
     </div>
