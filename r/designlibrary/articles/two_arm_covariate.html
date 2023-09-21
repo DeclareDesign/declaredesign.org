@@ -117,24 +117,24 @@
 <span><span class="va">b_Y</span> <span class="op">&lt;-</span> <span class="fl">1</span></span>
 <span><span class="va">rho</span> <span class="op">&lt;-</span> <span class="fl">0</span></span>
 <span></span>
-<span><span class="va">population</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/DeclareDesign/man/declare_population.html" class="external-link">declare_population</a></span><span class="op">(</span>N <span class="op">=</span> <span class="va">N</span>, u_R <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/Normal.html" class="external-link">rnorm</a></span><span class="op">(</span><span class="va">N</span><span class="op">)</span>, u_Y <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/Normal.html" class="external-link">rnorm</a></span><span class="op">(</span><span class="va">N</span>, </span>
+<span><span class="va">population</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://declaredesign.org/r/declaredesign/reference/declare_population.html" class="external-link">declare_population</a></span><span class="op">(</span>N <span class="op">=</span> <span class="va">N</span>, u_R <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/Normal.html" class="external-link">rnorm</a></span><span class="op">(</span><span class="va">N</span><span class="op">)</span>, u_Y <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/Normal.html" class="external-link">rnorm</a></span><span class="op">(</span><span class="va">N</span>, </span>
 <span>    mean <span class="op">=</span> <span class="va">rho</span> <span class="op">*</span> <span class="va">u_R</span>, sd <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/MathFun.html" class="external-link">sqrt</a></span><span class="op">(</span><span class="fl">1</span> <span class="op">-</span> <span class="va">rho</span><span class="op">^</span><span class="fl">2</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span>
-<span><span class="va">potential_outcomes_R</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/DeclareDesign/man/declare_potential_outcomes.html" class="external-link">declare_potential_outcomes</a></span><span class="op">(</span><span class="va">R</span> <span class="op">~</span> <span class="op">(</span><span class="va">a_R</span> <span class="op">+</span> </span>
+<span><span class="va">potential_outcomes_R</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://declaredesign.org/r/declaredesign/reference/declare_potential_outcomes.html" class="external-link">declare_potential_outcomes</a></span><span class="op">(</span><span class="va">R</span> <span class="op">~</span> <span class="op">(</span><span class="va">a_R</span> <span class="op">+</span> </span>
 <span>    <span class="va">b_R</span> <span class="op">*</span> <span class="va">Z</span> <span class="op">&gt;</span> <span class="va">u_R</span><span class="op">)</span><span class="op">)</span></span>
-<span><span class="va">potential_outcomes_Y</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/DeclareDesign/man/declare_potential_outcomes.html" class="external-link">declare_potential_outcomes</a></span><span class="op">(</span><span class="va">Y</span> <span class="op">~</span> <span class="op">(</span><span class="va">a_Y</span> <span class="op">+</span> </span>
+<span><span class="va">potential_outcomes_Y</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://declaredesign.org/r/declaredesign/reference/declare_potential_outcomes.html" class="external-link">declare_potential_outcomes</a></span><span class="op">(</span><span class="va">Y</span> <span class="op">~</span> <span class="op">(</span><span class="va">a_Y</span> <span class="op">+</span> </span>
 <span>    <span class="va">b_Y</span> <span class="op">*</span> <span class="va">Z</span> <span class="op">&gt;</span> <span class="va">u_Y</span><span class="op">)</span><span class="op">)</span></span>
-<span><span class="va">estimand_1</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/DeclareDesign/man/declare_inquiry.html" class="external-link">declare_inquiry</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/mean.html" class="external-link">mean</a></span><span class="op">(</span><span class="va">R_Z_1</span> <span class="op">-</span> <span class="va">R_Z_0</span><span class="op">)</span>, label <span class="op">=</span> <span class="st">"ATE on R"</span><span class="op">)</span></span>
-<span><span class="va">estimand_2</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/DeclareDesign/man/declare_inquiry.html" class="external-link">declare_inquiry</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/mean.html" class="external-link">mean</a></span><span class="op">(</span><span class="va">Y_Z_1</span> <span class="op">-</span> <span class="va">Y_Z_0</span><span class="op">)</span>, label <span class="op">=</span> <span class="st">"ATE on Y"</span><span class="op">)</span></span>
-<span><span class="va">estimand_3</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/DeclareDesign/man/declare_inquiry.html" class="external-link">declare_inquiry</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/mean.html" class="external-link">mean</a></span><span class="op">(</span><span class="op">(</span><span class="va">Y_Z_1</span> <span class="op">-</span> <span class="va">Y_Z_0</span><span class="op">)</span><span class="op">[</span><span class="va">R</span> <span class="op">==</span> <span class="fl">1</span><span class="op">]</span><span class="op">)</span>, </span>
+<span><span class="va">estimand_1</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://declaredesign.org/r/declaredesign/reference/declare_inquiry.html" class="external-link">declare_inquiry</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/mean.html" class="external-link">mean</a></span><span class="op">(</span><span class="va">R_Z_1</span> <span class="op">-</span> <span class="va">R_Z_0</span><span class="op">)</span>, label <span class="op">=</span> <span class="st">"ATE on R"</span><span class="op">)</span></span>
+<span><span class="va">estimand_2</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://declaredesign.org/r/declaredesign/reference/declare_inquiry.html" class="external-link">declare_inquiry</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/mean.html" class="external-link">mean</a></span><span class="op">(</span><span class="va">Y_Z_1</span> <span class="op">-</span> <span class="va">Y_Z_0</span><span class="op">)</span>, label <span class="op">=</span> <span class="st">"ATE on Y"</span><span class="op">)</span></span>
+<span><span class="va">estimand_3</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://declaredesign.org/r/declaredesign/reference/declare_inquiry.html" class="external-link">declare_inquiry</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/mean.html" class="external-link">mean</a></span><span class="op">(</span><span class="op">(</span><span class="va">Y_Z_1</span> <span class="op">-</span> <span class="va">Y_Z_0</span><span class="op">)</span><span class="op">[</span><span class="va">R</span> <span class="op">==</span> <span class="fl">1</span><span class="op">]</span><span class="op">)</span>, </span>
 <span>    label <span class="op">=</span> <span class="st">"ATE on Y (Given R)"</span><span class="op">)</span></span>
-<span><span class="va">assignment</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/DeclareDesign/man/declare_assignment.html" class="external-link">declare_assignment</a></span><span class="op">(</span>Z <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/pkg/randomizr/man/complete_ra.html" class="external-link">complete_ra</a></span><span class="op">(</span><span class="va">N</span>, prob <span class="op">=</span> <span class="fl">0.5</span><span class="op">)</span><span class="op">)</span></span>
-<span><span class="va">reveal</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/DeclareDesign/man/declare_reveal.html" class="external-link">declare_reveal</a></span><span class="op">(</span>outcome_variables <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"R"</span>, <span class="st">"Y"</span><span class="op">)</span><span class="op">)</span></span>
-<span><span class="va">observed</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/DeclareDesign/man/declare_step.html" class="external-link">declare_step</a></span><span class="op">(</span>Y_obs <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/ifelse.html" class="external-link">ifelse</a></span><span class="op">(</span><span class="va">R</span>, <span class="va">Y</span>, <span class="cn">NA</span><span class="op">)</span>, handler <span class="op">=</span> <span class="va">fabricate</span><span class="op">)</span></span>
-<span><span class="va">estimator_1</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/DeclareDesign/man/declare_estimator.html" class="external-link">declare_estimator</a></span><span class="op">(</span><span class="va">R</span> <span class="op">~</span> <span class="va">Z</span>, term <span class="op">=</span> <span class="st">"Z"</span>, inquiry <span class="op">=</span> <span class="va">estimand_1</span>, </span>
+<span><span class="va">assignment</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://declaredesign.org/r/declaredesign/reference/declare_assignment.html" class="external-link">declare_assignment</a></span><span class="op">(</span>Z <span class="op">=</span> <span class="fu"><a href="https://declaredesign.org/r/randomizr/reference/complete_ra.html" class="external-link">complete_ra</a></span><span class="op">(</span><span class="va">N</span>, prob <span class="op">=</span> <span class="fl">0.5</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="va">reveal</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://declaredesign.org/r/declaredesign/reference/declare_reveal.html" class="external-link">declare_reveal</a></span><span class="op">(</span>outcome_variables <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"R"</span>, <span class="st">"Y"</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="va">observed</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://declaredesign.org/r/declaredesign/reference/declare_step.html" class="external-link">declare_step</a></span><span class="op">(</span>Y_obs <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/ifelse.html" class="external-link">ifelse</a></span><span class="op">(</span><span class="va">R</span>, <span class="va">Y</span>, <span class="cn">NA</span><span class="op">)</span>, handler <span class="op">=</span> <span class="va">fabricate</span><span class="op">)</span></span>
+<span><span class="va">estimator_1</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://declaredesign.org/r/declaredesign/reference/declare_estimator.html" class="external-link">declare_estimator</a></span><span class="op">(</span><span class="va">R</span> <span class="op">~</span> <span class="va">Z</span>, term <span class="op">=</span> <span class="st">"Z"</span>, inquiry <span class="op">=</span> <span class="va">estimand_1</span>, </span>
 <span>    label <span class="op">=</span> <span class="st">"DIM on R"</span><span class="op">)</span></span>
-<span><span class="va">estimator_2</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/DeclareDesign/man/declare_estimator.html" class="external-link">declare_estimator</a></span><span class="op">(</span><span class="va">Y_obs</span> <span class="op">~</span> <span class="va">Z</span>, term <span class="op">=</span> <span class="st">"Z"</span>, inquiry <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="va">estimand_2</span>, </span>
+<span><span class="va">estimator_2</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://declaredesign.org/r/declaredesign/reference/declare_estimator.html" class="external-link">declare_estimator</a></span><span class="op">(</span><span class="va">Y_obs</span> <span class="op">~</span> <span class="va">Z</span>, term <span class="op">=</span> <span class="st">"Z"</span>, inquiry <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="va">estimand_2</span>, </span>
 <span>    <span class="va">estimand_3</span><span class="op">)</span>, label <span class="op">=</span> <span class="st">"DIM on Y_obs"</span><span class="op">)</span></span>
-<span><span class="va">estimator_3</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/DeclareDesign/man/declare_estimator.html" class="external-link">declare_estimator</a></span><span class="op">(</span><span class="va">Y</span> <span class="op">~</span> <span class="va">Z</span>, term <span class="op">=</span> <span class="st">"Z"</span>, inquiry <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="va">estimand_2</span>, </span>
+<span><span class="va">estimator_3</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://declaredesign.org/r/declaredesign/reference/declare_estimator.html" class="external-link">declare_estimator</a></span><span class="op">(</span><span class="va">Y</span> <span class="op">~</span> <span class="va">Z</span>, term <span class="op">=</span> <span class="st">"Z"</span>, inquiry <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="va">estimand_2</span>, </span>
 <span>    <span class="va">estimand_3</span><span class="op">)</span>, label <span class="op">=</span> <span class="st">"DIM on Y"</span><span class="op">)</span></span>
 <span><span class="va">two_arm_attrition_design</span> <span class="op">&lt;-</span> <span class="va">population</span> <span class="op">+</span> <span class="va">potential_outcomes_R</span> <span class="op">+</span> </span>
 <span>    <span class="va">potential_outcomes_Y</span> <span class="op">+</span> <span class="va">assignment</span> <span class="op">+</span> <span class="va">reveal</span> <span class="op">+</span> <span class="va">observed</span> <span class="op">+</span> </span>
@@ -145,10 +145,10 @@
 <h2 id="takeaways">Takeaways<a class="anchor" aria-label="anchor" href="#takeaways"></a>
 </h2>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">designs</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/DeclareDesign/man/expand_design.html" class="external-link">expand_design</a></span><span class="op">(</span></span>
+<code class="sourceCode R"><span><span class="va">designs</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://declaredesign.org/r/declaredesign/reference/expand_design.html" class="external-link">expand_design</a></span><span class="op">(</span></span>
 <span>  designer <span class="op">=</span> <span class="va">two_arm_covariate_designer</span>,</span>
 <span>  N <span class="op">=</span> <span class="fl">30</span>, rho_WY <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>,<span class="fl">.8</span><span class="op">)</span>, rho_WZ <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>,<span class="fl">.8</span><span class="op">)</span>, h <span class="op">=</span> <span class="fl">.5</span><span class="op">)</span></span>
-<span><span class="va">diagnoses</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/DeclareDesign/man/diagnose_design.html" class="external-link">diagnose_designs</a></span><span class="op">(</span><span class="va">designs</span>, sims <span class="op">=</span> <span class="fl">25</span><span class="op">)</span></span></code></pre></div>
+<span><span class="va">diagnoses</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://declaredesign.org/r/declaredesign/reference/diagnose_design.html" class="external-link">diagnose_designs</a></span><span class="op">(</span><span class="va">designs</span>, sims <span class="op">=</span> <span class="fl">25</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## Warning: We recommend you choose a number of simulations higher than 30.</span></span></code></pre>
 <pre><code><span><span class="co">## Warning in fn(data, ~(Y ~ Z + W), model = ~lm_robust): The argument 'model = '</span></span>
 <span><span class="co">## is deprecated. Please use '.method = ' instead.</span></span></code></pre>
@@ -566,85 +566,85 @@
 <td align="left">No controls</td>
 <td align="right">0.0</td>
 <td align="right">0.0</td>
-<td align="right">0.14</td>
-<td align="right">0.44</td>
+<td align="right">-0.06</td>
+<td align="right">0.42</td>
 </tr>
 <tr class="even">
 <td align="left">With controls</td>
 <td align="right">0.0</td>
 <td align="right">0.0</td>
-<td align="right">0.09</td>
-<td align="right">0.40</td>
+<td align="right">-0.04</td>
+<td align="right">0.39</td>
 </tr>
 <tr class="odd">
 <td align="left">Lin</td>
 <td align="right">0.0</td>
 <td align="right">0.0</td>
-<td align="right">0.08</td>
-<td align="right">0.41</td>
-</tr>
-<tr class="even">
-<td align="left">No controls</td>
-<td align="right">0.0</td>
-<td align="right">0.8</td>
-<td align="right">0.29</td>
-<td align="right">0.55</td>
-</tr>
-<tr class="odd">
-<td align="left">With controls</td>
-<td align="right">0.0</td>
-<td align="right">0.8</td>
-<td align="right">0.07</td>
-<td align="right">0.26</td>
-</tr>
-<tr class="even">
-<td align="left">Lin</td>
-<td align="right">0.0</td>
-<td align="right">0.8</td>
-<td align="right">0.06</td>
-<td align="right">0.27</td>
-</tr>
-<tr class="odd">
-<td align="left">No controls</td>
-<td align="right">0.8</td>
-<td align="right">0.0</td>
-<td align="right">-0.33</td>
-<td align="right">0.51</td>
-</tr>
-<tr class="even">
-<td align="left">With controls</td>
-<td align="right">0.8</td>
-<td align="right">0.0</td>
-<td align="right">0.12</td>
-<td align="right">0.64</td>
-</tr>
-<tr class="odd">
-<td align="left">Lin</td>
-<td align="right">0.8</td>
-<td align="right">0.0</td>
-<td align="right">0.12</td>
-<td align="right">0.69</td>
-</tr>
-<tr class="even">
-<td align="left">No controls</td>
-<td align="right">0.8</td>
-<td align="right">0.8</td>
-<td align="right">-1.44</td>
-<td align="right">1.47</td>
-</tr>
-<tr class="odd">
-<td align="left">With controls</td>
-<td align="right">0.8</td>
-<td align="right">0.8</td>
-<td align="right">0.09</td>
+<td align="right">-0.03</td>
 <td align="right">0.38</td>
 </tr>
 <tr class="even">
+<td align="left">No controls</td>
+<td align="right">0.0</td>
+<td align="right">0.8</td>
+<td align="right">-0.10</td>
+<td align="right">0.45</td>
+</tr>
+<tr class="odd">
+<td align="left">With controls</td>
+<td align="right">0.0</td>
+<td align="right">0.8</td>
+<td align="right">-0.03</td>
+<td align="right">0.22</td>
+</tr>
+<tr class="even">
+<td align="left">Lin</td>
+<td align="right">0.0</td>
+<td align="right">0.8</td>
+<td align="right">-0.02</td>
+<td align="right">0.22</td>
+</tr>
+<tr class="odd">
+<td align="left">No controls</td>
+<td align="right">0.8</td>
+<td align="right">0.0</td>
+<td align="right">-0.35</td>
+<td align="right">0.53</td>
+</tr>
+<tr class="even">
+<td align="left">With controls</td>
+<td align="right">0.8</td>
+<td align="right">0.0</td>
+<td align="right">-0.04</td>
+<td align="right">0.46</td>
+</tr>
+<tr class="odd">
+<td align="left">Lin</td>
+<td align="right">0.8</td>
+<td align="right">0.0</td>
+<td align="right">0.00</td>
+<td align="right">0.48</td>
+</tr>
+<tr class="even">
+<td align="left">No controls</td>
+<td align="right">0.8</td>
+<td align="right">0.8</td>
+<td align="right">-1.34</td>
+<td align="right">1.38</td>
+</tr>
+<tr class="odd">
+<td align="left">With controls</td>
+<td align="right">0.8</td>
+<td align="right">0.8</td>
+<td align="right">-0.06</td>
+<td align="right">0.30</td>
+</tr>
+<tr class="even">
 <td align="left">Lin</td>
 <td align="right">0.8</td>
 <td align="right">0.8</td>
-<td align="right">0.09</td>
-<td align="right">0.38</td>
+<td align="right">-0.02</td>
+<td align="right">0.30</td>
 </tr>
 </tbody>
 </table>
