@@ -161,16 +161,16 @@
 <span class="r-in"><span><span class="va">pt_1</span> <span class="op">&lt;-</span> <span class="fu">process_tracing_designer</span><span class="op">(</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="fu"><a href="https://declaredesign.org/r/declaredesign/reference/draw_functions.html" class="external-link">draw_estimands</a></span><span class="op">(</span><span class="va">pt_1</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>         inquiry estimand</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1 did_X_cause_Y     TRUE</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1 did_X_cause_Y    FALSE</span>
 <span class="r-in"><span><span class="fu"><a href="https://declaredesign.org/r/declaredesign/reference/draw_functions.html" class="external-link">draw_estimates</a></span><span class="op">(</span><span class="va">pt_1</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                           estimator posterior_H result       inquiry</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 1                  No tests (Prior)   0.5000000   TRUE did_X_cause_Y</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2                 Straw in the Wind   0.8000000   TRUE did_X_cause_Y</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2                 Straw in the Wind   0.2000000  FALSE did_X_cause_Y</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 3                       Smoking Gun   0.4117647  FALSE did_X_cause_Y</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 4 Straw in the Wind and Smoking Gun   0.7368421     10 did_X_cause_Y</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 4 Straw in the Wind and Smoking Gun   0.1489362     00 did_X_cause_Y</span>
 <span class="r-in"><span><span class="fu"><a href="https://declaredesign.org/r/declaredesign/reference/draw_functions.html" class="external-link">draw_data</a></span><span class="op">(</span><span class="va">pt_1</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>    ID causal_process    X    Y S test_results    E1   E2</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1 052     X_causes_Y TRUE TRUE 1           01 FALSE TRUE</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>    ID causal_process    X    Y S test_results   E1    E2</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1 074   Y_regardless TRUE TRUE 1           10 TRUE FALSE</span>
 <span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span></span></span>
 <span class="r-in"><span><span class="fu"><a href="https://declaredesign.org/r/declaredesign/reference/diagnose_design.html" class="external-link">diagnose_design</a></span><span class="op">(</span><span class="va">pt_1</span>, sims <span class="op">=</span> <span class="fl">1000</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="op">}</span></span></span>
