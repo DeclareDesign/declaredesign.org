@@ -1,5 +1,10 @@
 project:
   type: website
+  render:
+    - "!static/"
+  post-render:
+    - "mkdir _site/static"
+    - "cp -rnv static/. _site/static/."
 
 website:
   title: "**Declare**Design"
