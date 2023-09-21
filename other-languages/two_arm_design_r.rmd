@@ -42,11 +42,11 @@ two_arm_design <-
   declare_inquiry(ATE = mean(Y_Z_1 - Y_Z_0)) +
   
   # D: Data Strategy
-  declare_assignment(m = number_treated) +
+  declare_assignment(Z = complete_ra(N, m = number_treated)) +
   declare_measurement(Y = reveal_outcomes(Y ~ Z)) +
   
   # A: Answer Strategy
-  declare_estimator(Y ~ Z, model = lm_robust, estimand = "ATE")
+  declare_estimator(Y ~ Z, .method = lm_robust, estimand = "ATE")
 ```
 
 \clearpage
