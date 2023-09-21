@@ -1,0 +1,727 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.3.450">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>DeclareDesign</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="site_libs/quarto-nav/headroom.min.js"></script>
+<script src="site_libs/clipboard/clipboard.min.js"></script>
+<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="site_libs/quarto-search/fuse.min.js"></script>
+<script src="site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="./">
+<script src="site_libs/quarto-html/quarto.js"></script>
+<script src="site_libs/quarto-html/popper.min.js"></script>
+<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
+<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 20,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+
+
+<link rel="stylesheet" href="styles.css">
+<link rel="stylesheet" href="index.css">
+</head>
+
+<body class="nav-fixed">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg navbar-dark ">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container">
+    <a href="./index.html" class="navbar-brand navbar-brand-logo">
+    <img src="./static/dd-logo-sm.svg" alt="" class="navbar-logo">
+    </a>
+    <a class="navbar-brand" href="./index.html">
+    <span class="navbar-title"><strong>Declare</strong>Design</span>
+    </a>
+  </div>
+            <div id="quarto-search" class="" title="Search"></div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll ms-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="./getting-started/" rel="" target="">
+ <span class="menu-text">Getting started</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="https://book.declaredesign.org" rel="" target="">
+ <span class="menu-text">Book</span></a>
+  </li>  
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-software" role="button" data-bs-toggle="dropdown" aria-expanded="false" rel="" target="">
+ <span class="menu-text">Software</span>
+    </a>
+    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="nav-menu-software">    
+        <li>
+    <a class="dropdown-item" href="./r/declaredesign/" rel="" target="">
+ <span class="dropdown-text">DeclareDesign</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./r/fabricatr/" rel="" target="">
+ <span class="dropdown-text">fabricatr</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./r/randomizr/" rel="" target="">
+ <span class="dropdown-text">randomizr</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./r/estimatr/" rel="" target="">
+ <span class="dropdown-text">estimatr</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./r/designlibrary/" rel="" target="">
+ <span class="dropdown-text">DesignLibrary</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="https://eos.wzb.eu/ipi/DDWizard/" rel="" target="">
+ <span class="dropdown-text">DesignWizard</span></a>
+  </li>  
+    </ul>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="./blog" rel="" target="">
+ <span class="menu-text">Blog</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="./about" rel="" target="">
+ <span class="menu-text">About</span></a>
+  </li>  
+</ul>
+            <div class="quarto-navbar-tools">
+</div>
+          </div> <!-- /navcollapse -->
+      </div> <!-- /container-fluid -->
+    </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-full page-navbar">
+<!-- sidebar -->
+<!-- margin-sidebar -->
+    
+<!-- main -->
+<main class="content column-page" id="quarto-document-content">
+
+
+
+<div class="grid align-items-center">
+<div class="g-col-12 g-col-md-6">
+<p class="hdr1">
+Declare and diagnose your research design
+</p>
+<p class="hdr2">
+DeclareDesign is a set of software tools to plan, implement, analyze, and communicate about empirical research
+</p>
+<p><br></p>
+<div class="grid">
+<div class="g-col-12 g-col-lg-4 text-center">
+<p><a href="getting-started/" class="btn-action-primary btn-action btn btn-success btn-lg" role="button">Get Started</a></p>
+</div>
+<div class="g-col-12 g-col-lg-4 text-center">
+<p><a href="./r/declaredesign/" class="btn-action-primary btn-action btn btn-success btn-lg" role="button">Software</a></p>
+</div>
+<div class="g-col-12 g-col-lg-4 text-center">
+<p><a href="https://book.declaredesign.org" class="btn-action-primary btn-action btn btn-success btn-lg" role="button">Read Book</a></p>
+</div>
+</div>
+</div>
+<div class="g-col-12 g-col-md-6">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><a href="https://book.declaredesign.org"><img src="https://book.declaredesign.org/figures/cover.jpg" class="img-fluid figure-img" style="width:80.0%"></a></p>
+</figure>
+</div>
+</div>
+</div>
+<!-- Figure 5.1 / MIDA -->
+<h2 id="mida-framework-for-describing-research-designs">MIDA framework for describing research designs</h2>
+<div class="grid align-items-center">
+<div class="g-col-12 g-col-md-8">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="static/mida.svg" class="img-fluid figure-img" style="width:80.0%"></p>
+</figure>
+</div>
+</div>
+<div class="g-col-12 g-col-md-4">
+<p>The MIDA framework describes the four elements of any empirical research design:</p>
+<ul>
+<li><strong>Model:</strong> the worlds you consider</li>
+<li><strong>Inquiry:</strong> the question you ask</li>
+<li><strong>Data strategy:</strong> sampling, treatment assignment, and measurement procedures</li>
+<li><strong>Answer strategy:</strong> estimation, testing, interpretation, and visualization procedures</li>
+</ul>
+<p>Read <a href="https://book.declaredesign.org/declaration-diagnosis-redesign/declaring-designs.html">Chapter 5</a> of <em>Research Design in the Social Sciences</em> to learn how these four research design elements connect to reality and simulations that can be used to plan and improve research designs.</p>
+</div>
+</div>
+<!-- tabset -->
+<h2 id="declare-diagnose-redesign-algorithm-for-designing-research">Declare-Diagnose-Redesign algorithm for designing research</h2>
+<ul>
+<li><strong>Declare</strong> designs in code following the MIDA framework.</li>
+<li><strong>Diagnose</strong> declared designs through Monte Carlo simulation to learn their properties, such as bias and power.</li>
+<li><strong>Redesign</strong> data and answer strategy features to optimize designs under logistical, financial, and ethical constraints.</li>
+</ul>
+<p>Here is an illustration of using DeclareDesign for a two-arm randomized trial:</p>
+<div class="tabset-margin-container"></div><div class="panel-tabset">
+<ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-1-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-1" role="tab" aria-controls="tabset-1-1" aria-selected="true">1. Declare</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-2" role="tab" aria-controls="tabset-1-2" aria-selected="false">2. Diagnose</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-3-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-3" role="tab" aria-controls="tabset-1-3" aria-selected="false">3. Redesign</a></li></ul>
+<div class="tab-content">
+<div id="tabset-1-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-1-1-tab">
+<div class="grid">
+<div class="g-col-12 g-col-md-6">
+<div class="cell" data-hash="index_cache/html/unnamed-chunk-2_afa7e62c08f8caaf901b905b8d68941f">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(DeclareDesign)</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>sample_size <span class="ot">&lt;-</span> <span class="dv">100</span></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Declare a two-arm trial in code</span></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>two_arm_trial <span class="ot">&lt;-</span></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">declare_model</span>(<span class="at">N =</span> sample_size,</span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>                <span class="at">U =</span> <span class="fu">rnorm</span>(N),</span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>                <span class="fu">potential_outcomes</span>(Y <span class="sc">~</span> <span class="fl">0.2</span> <span class="sc">*</span> Z <span class="sc">+</span> U)) <span class="sc">+</span></span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">declare_inquiry</span>(<span class="at">ATE =</span> <span class="fu">mean</span>(Y_Z_1 <span class="sc">-</span> Y_Z_0)) <span class="sc">+</span></span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">declare_assignment</span>(<span class="at">Z =</span> <span class="fu">complete_ra</span>(N, <span class="at">prob =</span> <span class="fl">0.5</span>)) <span class="sc">+</span></span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">declare_measurement</span>(<span class="at">Y =</span> <span class="fu">reveal_outcomes</span>(Y <span class="sc">~</span> Z)) <span class="sc">+</span></span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">declare_estimator</span>(Y <span class="sc">~</span> Z, <span class="at">inquiry =</span> <span class="st">"ATE"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</div>
+<div class="g-col-12 g-col-md-6">
+<div class="cell" data-hash="index_cache/html/unnamed-chunk-3_0736c304d3d77f7c71489019eabbca2a">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Draw a simulated dataset </span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="fu">draw_data</span>(two_arm_trial)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell" data-hash="index_cache/html/unnamed-chunk-4_bae6c174f5629217da07cd4c0b8dc103">
+<div class="cell-output-display">
+<table class="table table-sm table-striped small">
+<thead>
+<tr class="header">
+<th style="text-align: left;">ID</th>
+<th style="text-align: right;">U</th>
+<th style="text-align: right;">Y_Z_0</th>
+<th style="text-align: right;">Y_Z_1</th>
+<th style="text-align: right;">Z</th>
+<th style="text-align: right;">Y</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">001</td>
+<td style="text-align: right;">-0.19</td>
+<td style="text-align: right;">-0.19</td>
+<td style="text-align: right;">0.01</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">-0.19</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">002</td>
+<td style="text-align: right;">1.05</td>
+<td style="text-align: right;">1.05</td>
+<td style="text-align: right;">1.25</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1.25</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">003</td>
+<td style="text-align: right;">2.39</td>
+<td style="text-align: right;">2.39</td>
+<td style="text-align: right;">2.59</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">2.39</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div class="cell" data-hash="index_cache/html/unnamed-chunk-5_b893156a4e612fec6c1214307a846ae6">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Obtain a simulated estimate and estimand</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="fu">run_design</span>(two_arm_trial)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell" data-hash="index_cache/html/unnamed-chunk-6_aecf68c9cd69e41a954d9f75e8b5c93b">
+<div class="cell-output-display">
+<table class="table table-sm table-striped small">
+<thead>
+<tr class="header">
+<th style="text-align: right;">estimate</th>
+<th style="text-align: right;">std.error</th>
+<th style="text-align: right;">p.value</th>
+<th style="text-align: left;">inquiry</th>
+<th style="text-align: right;">estimand</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: right;">0.42</td>
+<td style="text-align: right;">0.23</td>
+<td style="text-align: right;">0.08</td>
+<td style="text-align: left;">ATE</td>
+<td style="text-align: right;">0.2</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div id="tabset-1-2" class="tab-pane" role="tabpanel" aria-labelledby="tabset-1-2-tab">
+<div class="grid">
+<div class="g-col-12 g-col-md-6">
+<div class="cell" data-hash="index_cache/html/unnamed-chunk-7_fb9bb1e19202c8de386c4d8571f0f8f9">
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Simulate the research design 500 times and </span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="co">#   summarize the simulations</span></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>diagnosis <span class="ot">&lt;-</span> <span class="fu">diagnose_design</span>(two_arm_trial, <span class="at">sims =</span> <span class="dv">500</span>)</span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a><span class="fu">tidy</span>(diagnosis)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell" data-hash="index_cache/html/unnamed-chunk-8_7ec2756297ea7bf746ec5210152da289">
+<div class="cell-output-display">
+<table class="table table-sm table-striped small">
+<thead>
+<tr class="header">
+<th style="text-align: left;">diagnosand</th>
+<th style="text-align: right;">estimate</th>
+<th style="text-align: right;">std.error</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">mean_estimand</td>
+<td style="text-align: right;">0.200</td>
+<td style="text-align: right;">0.000</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">mean_estimate</td>
+<td style="text-align: right;">0.195</td>
+<td style="text-align: right;">0.008</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">bias</td>
+<td style="text-align: right;">-0.005</td>
+<td style="text-align: right;">0.008</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">sd_estimate</td>
+<td style="text-align: right;">0.194</td>
+<td style="text-align: right;">0.006</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">rmse</td>
+<td style="text-align: right;">0.194</td>
+<td style="text-align: right;">0.006</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">power</td>
+<td style="text-align: right;">0.150</td>
+<td style="text-align: right;">0.016</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">coverage</td>
+<td style="text-align: right;">0.954</td>
+<td style="text-align: right;">0.009</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+<div class="g-col-12 g-col-md-6">
+<div class="cell" data-hash="index_cache/html/unnamed-chunk-9_4533aef9983db2f446223de73628e8e4">
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Visualize simulated sampling distribution</span></span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data =</span> <span class="fu">get_simulations</span>(diagnosis), </span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>       <span class="fu">aes</span>(<span class="at">x =</span> estimate)) <span class="sc">+</span></span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_histogram</span>() </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell" data-hash="index_cache/html/unnamed-chunk-10_e2595e6a8401928453384f1bbb1a533a">
+<div class="cell-output-display">
+<p><img src="index_files/figure-html/unnamed-chunk-10-1.png" class="img-fluid" width="384"></p>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div id="tabset-1-3" class="tab-pane" role="tabpanel" aria-labelledby="tabset-1-3-tab">
+<div class="grid">
+<div class="g-col-12 g-col-md-6">
+<div class="cell" data-hash="index_cache/html/unnamed-chunk-11_00de2fbe15889ea32947cbaf1c053e1c">
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Redesign over sample size and calculate power</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>diagnosis <span class="ot">&lt;-</span></span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>  two_arm_trial <span class="sc">|&gt;</span></span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">redesign</span>(<span class="at">sample_size =</span> <span class="fu">c</span>(<span class="dv">250</span>, <span class="dv">500</span>, <span class="dv">750</span>, <span class="dv">1000</span>, <span class="dv">1250</span>)) <span class="sc">|&gt;</span></span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">diagnose_designs</span>() <span class="sc">|&gt;</span></span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tidy</span>() <span class="sc">|&gt;</span></span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(diagnosand <span class="sc">==</span> <span class="st">"power"</span>)</span>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a><span class="co"># Visualize power curve over sample sizes</span></span>
+<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(diagnosis, <span class="fu">aes</span>(sample_size, estimate)) <span class="sc">+</span> </span>
+<span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>() <span class="sc">+</span></span>
+<span id="cb6-12"><a href="#cb6-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</div>
+<div class="g-col-12 g-col-md-6">
+<div class="cell" data-hash="index_cache/html/unnamed-chunk-12_f5422cd6f3a08576fb90b8c2b00e2899">
+<div class="cell-output-display">
+<p><img src="index_files/figure-html/unnamed-chunk-12-1.png" class="img-fluid" width="576"></p>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- grid of content -->
+<h2 id="library-of-common-research-designs">Library of common research designs</h2>
+<p>The MIDA framework can accomodate observational and experimental, descriptive and causal, qualitative and quantitative research designs. Part III of <em>Research Design in the Social Sciences</em> illustrates the framework for these common designs.</p>
+<div class="grid">
+<section id="observational-designs-for-descriptive-inference" class="g-col-12 g-col-md-6 g-col-lg-4">
+<h3>Observational designs for descriptive inference</h3>
+<p><a href="https://book.declaredesign.org/library/observational-descriptive.html#simple-random-sampling">Simple random sampling</a><br> <a href="https://book.declaredesign.org/library/observational-descriptive.html#sec-ch15s2">Cluster random sampling</a><br> <a href="https://book.declaredesign.org/library/observational-descriptive.html#sec-ch15s3">Multi-level regression and poststratification</a><br> <a href="https://book.declaredesign.org/library/observational-descriptive.html#index-creation">Index creation</a></p>
+</section>
+<section id="observational-designs-for-causal-inference" class="g-col-12 g-col-md-6 g-col-lg-4">
+<h3>Observational designs for causal inference</h3>
+<p><a href="https://book.declaredesign.org/library/observational-causal.html#sec-ch16s1">Process tracing</a><br> <a href="https://book.declaredesign.org/library/observational-causal.html#sec-ch16s2">Selection-on-observables</a><br> <a href="https://book.declaredesign.org/library/observational-causal.html#sec-ch16s3">Difference-in-differences</a><br> <a href="https://book.declaredesign.org/library/observational-causal.html#sec-ch16s4">Instrumental variables</a><br> <a href="https://book.declaredesign.org/library/observational-causal.html#sec-ch16s5">Regression discontinuity designs</a></p>
+</section>
+<section id="experimental-designs-for-descriptive-inference" class="g-col-12 g-col-md-6 g-col-lg-4">
+<h3>Experimental designs for descriptive inference</h3>
+<p><a href="https://book.declaredesign.org/library/experimental-descriptive.html#audit-experiments">Audit experiments</a><br> <a href="https://book.declaredesign.org/library/experimental-descriptive.html#list-experiments">List experiments</a><br> <a href="https://book.declaredesign.org/library/experimental-descriptive.html#sec-ch17s3">Conjoint experiments</a><br> <a href="https://book.declaredesign.org/library/experimental-descriptive.html#behavioral-games">Behavioral games</a></p>
+</section>
+<section id="experimental-designs-for-causal-inference" class="g-col-12 g-col-md-6 g-col-lg-4">
+<h3>Experimental designs for causal inference</h3>
+<p><a href="https://book.declaredesign.org/library/experimental-causal.html#sec-ch18s1">Two-arm randomized experiments</a><br> <a href="https://book.declaredesign.org/library/experimental-causal.html#block-randomized-experiments">Block-randomized experiments</a><br> <a href="https://book.declaredesign.org/library/experimental-causal.html#sec-ch18s3">Cluster-randomized experiments</a><br> <a href="https://book.declaredesign.org/library/experimental-causal.html#sec-ch18s4">Subgroup designs</a><br> <a href="https://book.declaredesign.org/library/experimental-causal.html#sec-ch18s5">Factorial experiments</a><br> <a href="https://book.declaredesign.org/library/experimental-causal.html#sec-ch18s6">Encouragement designs</a><br> <a href="https://book.declaredesign.org/library/experimental-causal.html#sec-ch18s7">Placebo-controlled experiments</a><br> <a href="https://book.declaredesign.org/library/experimental-causal.html#stepped-wedge-experiments">Stepped-wedge experiments</a><br> <a href="https://book.declaredesign.org/library/experimental-causal.html#sec-ch18s9">Randomized saturation experiments</a><br> <a href="https://book.declaredesign.org/library/experimental-causal.html#sec-ch18s10">Experiments over networks</a></p>
+</section>
+<section id="complex-designs" class="g-col-12 g-col-md-6 g-col-lg-4">
+<h3>Complex designs</h3>
+<p><a href="https://book.declaredesign.org/library/complex.html#discovery-using-causal-forests">Discovery using causal forests</a><br> <a href="https://book.declaredesign.org/library/complex.html#sec-ch19s2">Structural estimation</a><br> <a href="https://book.declaredesign.org/library/complex.html#sec-ch19s3">Meta-analysis</a><br> <a href="https://book.declaredesign.org/library/complex.html#multi-site-studies">Multi-site studies</a></p>
+</section>
+</div>
+<!-- take action -->
+<p><br><br></p>
+<div class="grid align-items-center">
+<div class="g-col-12 g-col-lg-2 g-col-md-4 g-start-lg-2 text-center">
+<p><a href="./getting-started/" class="btn-action-primary btn-action btn btn-success btn-lg" role="button">Get Started</a></p>
+</div>
+<div class="g-col-12 g-col-lg-2 g-col-md-4 text-center">
+<p><a href="./r/declaredesign/" class="btn-action-primary btn-action btn btn-success btn-lg" role="button">Software</a></p>
+</div>
+<div class="g-col-12 g-col-lg-2 g-col-md-4 text-center">
+<p><a href="https://book.declaredesign.org" class="btn-action-primary btn-action btn btn-success btn-lg" role="button">Read Book</a></p>
+</div>
+<div class="g-col-12 g-col-lg-2 g-start-md-3 g-col-md-4 text-center">
+<p><a href="./blog" class="btn-action-primary btn-action btn btn-success btn-lg" role="button">Read Blog</a></p>
+</div>
+<div class="g-col-12 g-col-lg-2 g-col-md-4 text-center">
+<p><a href="./about" class="btn-action-primary btn-action btn btn-success btn-lg" role="button">About</a></p>
+</div>
+</div>
+
+
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    text: function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn) {
+    const config = {
+      allowHTML: true,
+      content: contentFn,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start'
+    };
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+</div> <!-- /content -->
+
+
+
+</body></html>
