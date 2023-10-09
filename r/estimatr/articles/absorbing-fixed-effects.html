@@ -150,14 +150,14 @@
 <span>  times <span class="op">=</span> <span class="fl">50</span></span>
 <span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## Unit: milliseconds</span></span>
-<span><span class="co">##             expr       min       lq     mean    median        uq      max neval</span></span>
-<span><span class="co">##  base + sandwich 177.40191 182.6099 225.0322 193.60217 239.57960 487.7109    50</span></span>
-<span><span class="co">##        lm_robust  77.30623  83.3742 100.7212  87.34933  94.95880 276.4274    50</span></span>
-<span><span class="co">##  lm_robust + fes  50.56655  53.7003  71.9694  56.76897  75.51219 336.9073    50</span></span>
-<span><span class="co">##  cld</span></span>
-<span><span class="co">##  a  </span></span>
-<span><span class="co">##   b </span></span>
-<span><span class="co">##    c</span></span></code></pre>
+<span><span class="co">##             expr       min        lq      mean    median       uq      max</span></span>
+<span><span class="co">##  base + sandwich 237.09626 341.33149 394.51548 367.21172 443.8973 698.8164</span></span>
+<span><span class="co">##        lm_robust  99.49113 138.18410 158.51801 149.60956 167.8744 382.2414</span></span>
+<span><span class="co">##  lm_robust + fes  56.65822  72.86797  96.78441  88.10874 104.2700 376.8889</span></span>
+<span><span class="co">##  neval cld</span></span>
+<span><span class="co">##     50 a  </span></span>
+<span><span class="co">##     50  b </span></span>
+<span><span class="co">##     50   c</span></span></code></pre>
 <p>Speed gains are <em>considerably</em> greater with HC1 standard errors. This is because we need to get the hat matrix for HC2, HC3, and CR2 standard errors, which requires inverting that large matrix of dummies we previously avoided doing. HC0, HC1, CR0, and CRstata standard errors do not require this inversion.</p>
 <div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># With HC1</span></span>
@@ -180,10 +180,10 @@
 <span>  times <span class="op">=</span> <span class="fl">50</span></span>
 <span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## Unit: milliseconds</span></span>
-<span><span class="co">##             expr        min         lq      mean     median        uq       max</span></span>
-<span><span class="co">##  base + sandwich 177.457753 190.902010 263.69571 259.507869 301.88889 532.33548</span></span>
-<span><span class="co">##        lm_robust  63.130347  71.028915  94.47138  85.454473 102.65553 308.50940</span></span>
-<span><span class="co">##  lm_robust + fes   8.047306   8.969183  12.39017   9.881837  13.42461  31.45673</span></span>
+<span><span class="co">##             expr       min        lq      mean    median       uq       max</span></span>
+<span><span class="co">##  base + sandwich 240.63715 335.07518 371.00939 354.84235 381.2255 766.64338</span></span>
+<span><span class="co">##        lm_robust  80.54703 119.03873 132.56553 130.05447 140.0356 240.69885</span></span>
+<span><span class="co">##  lm_robust + fes   8.72123  11.02876  17.14567  16.59157  21.1643  42.35839</span></span>
 <span><span class="co">##  neval cld</span></span>
 <span><span class="co">##     50 a  </span></span>
 <span><span class="co">##     50  b </span></span>
