@@ -176,12 +176,12 @@ and intra-cluster correlated variables <code><a href="draw_binary_icc.html">draw
 <span class="r-in"><span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">building_df</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>    ID height_ft</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1 001  391.2840</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2 002  777.8934</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 3 003  774.9812</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 4 004  494.5908</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 5 005  752.1664</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 6 006  710.8841</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1 001  675.8438</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2 002  342.0496</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3 003  447.8829</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 4 004  693.3834</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 5 005  440.7641</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 6 006  490.6461</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Start with existing data instead</span></span></span>
 <span class="r-in"><span><span class="va">building_modified</span> <span class="op">&lt;-</span> <span class="fu">fabricate</span><span class="op">(</span></span></span>
@@ -196,12 +196,12 @@ and intra-cluster correlated variables <code><a href="draw_binary_icc.html">draw
 <span class="r-in"><span> cities <span class="op">=</span> <span class="fu">add_level</span><span class="op">(</span>N <span class="op">=</span> <span class="fl">2</span>, pollution <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/Normal.html" class="external-link">rnorm</a></span><span class="op">(</span><span class="va">N</span>, mean <span class="op">=</span> <span class="fl">5</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">multi_level_df</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   regions cities pollution</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1       1     01  4.256393</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2       1     02  4.314908</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 3       2     03  4.959737</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 4       2     04  5.329353</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 5       3     05  6.329713</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 6       3     06  5.793679</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1       1     01  4.526136</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2       1     02  6.829737</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3       2     03  4.773794</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 4       2     04  3.356783</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 5       3     05  4.907252</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 6       3     06  5.984957</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Start with existing data and add a nested level:</span></span></span>
 <span class="r-in"><span><span class="va">company_df</span> <span class="op">&lt;-</span> <span class="fu">fabricate</span><span class="op">(</span></span></span>
@@ -217,17 +217,17 @@ and intra-cluster correlated variables <code><a href="draw_binary_icc.html">draw
 <span class="r-in"><span>  regions <span class="op">=</span> <span class="fu">modify_level</span><span class="op">(</span>watershed <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/sample.html" class="external-link">sample</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">1</span><span class="op">)</span>, <span class="va">N</span>, replace <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span><span class="op">)</span>,</span></span>
 <span class="r-in"><span>  cities <span class="op">=</span> <span class="fu">modify_level</span><span class="op">(</span>runoff <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/Normal.html" class="external-link">rnorm</a></span><span class="op">(</span><span class="va">N</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>    regions cities pollution watershed     runoff</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1        1     01  4.256393         0 -0.1123891</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2        1     02  4.314908         1 -0.9470288</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 3        2     03  4.959737         1 -0.8973195</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 4        2     04  5.329353         0 -1.2940983</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 5        3     05  6.329713         0  0.5601775</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 6        3     06  5.793679         0  0.6985068</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 7        4     07  4.702412         1  1.6428889</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 8        4     08  4.106529         1 -0.3809515</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 9        5     09  4.493185         1  0.3430898</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 10       5     10  5.363127         1 -0.4476166</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>    regions cities pollution watershed        runoff</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1        1     01  4.526136         0 -1.5270860951</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2        1     02  6.829737         0 -0.5949795543</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3        2     03  4.773794         0 -0.9810937497</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 4        2     04  3.356783         0 -2.1719370918</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 5        3     05  4.907252         1 -1.3095542948</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 6        3     06  5.984957         0 -0.0008843098</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 7        4     07  3.905215         1  0.4799136170</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 8        4     08  4.701018         0 -0.6954734868</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 9        5     09  5.829349         1 -0.9955720414</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 10       5     10  4.376915         1  0.5844881675</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># fabricatr can add variables that are higher-level summaries of lower-level</span></span></span>
 <span class="r-in"><span><span class="co"># variables via a split-modify-combine logic and the \code{by} argument</span></span></span>
