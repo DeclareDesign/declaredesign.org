@@ -137,12 +137,12 @@ function call, it is possible to induce correlation in cross-classified data.</p
 <span class="r-in"><span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">students</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   primary_school ps_quality secondary_school ss_quality students</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1             07   7.788376               06   1.114947      001</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2             09   4.448949               12   4.419669      002</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 3             07   7.788376               06   1.114947      003</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 4             03   1.632601               15   1.773079      004</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 5             09   4.448949               11   7.530743      005</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 6             04   2.265515               10   2.881283      006</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1             03   3.655974               03   9.284073      001</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2             02   9.950485               03   9.284073      002</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3             06   3.868702               13   6.617489      003</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 4             20   4.274907               15   6.646751      004</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 5             18   4.181310               13   6.617489      005</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 6             03   3.655974               12   7.917693      006</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Induce a correlation structure in cross-classified data by providing</span></span></span>
 <span class="r-in"><span><span class="co"># rho.</span></span></span>
@@ -152,7 +152,7 @@ function call, it is possible to induce correlation in cross-classified data.</p
 <span class="r-in"><span> students <span class="op">=</span> <span class="fu">link_levels</span><span class="op">(</span>N <span class="op">=</span> <span class="fl">500</span>, by <span class="op">=</span> <span class="fu"><a href="join_using.html">join_using</a></span><span class="op">(</span><span class="va">ps_quality</span>, <span class="va">ss_quality</span>, rho <span class="op">=</span> <span class="fl">0.5</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/stats/cor.html" class="external-link">cor</a></span><span class="op">(</span><span class="va">students</span><span class="op">$</span><span class="va">ps_quality</span>, <span class="va">students</span><span class="op">$</span><span class="va">ss_quality</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.5250873</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.4636325</span>
 <span class="r-in"><span></span></span>
 </code></pre></div>
     </div>
