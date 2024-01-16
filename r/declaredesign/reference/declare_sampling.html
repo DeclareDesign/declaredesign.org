@@ -112,10 +112,10 @@
 <span class="r-in"><span>  <span class="fu"><a href="declare_estimator.html">declare_estimator</a></span><span class="op">(</span><span class="va">Y</span> <span class="op">~</span> <span class="va">Z</span>, inquiry <span class="op">=</span> <span class="st">"ATE"</span><span class="op">)</span></span></span>
 <span class="r-in"><span>  </span></span>
 <span class="r-in"><span><span class="fu"><a href="run_design.html">run_design</a></span><span class="op">(</span><span class="va">design</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   inquiry estimand estimator term  estimate  std.error statistic      p.value</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1     ATE      0.2 estimator    Z 0.3308988 0.07461297   4.43487 1.526199e-05</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>    conf.low conf.high  df outcome</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1 0.1837607 0.4780369 198       Y</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   inquiry estimand estimator term   estimate  std.error statistic   p.value</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1     ATE      0.2 estimator    Z 0.07246854 0.07841589 0.9241564 0.3565298</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>      conf.low conf.high  df outcome</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1 -0.08216896  0.227106 198       Y</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Set up population to sample from</span></span></span>
 <span class="r-in"><span><span class="va">model</span> <span class="op">&lt;-</span> <span class="fu"><a href="declare_model.html">declare_model</a></span><span class="op">(</span></span></span>
@@ -142,12 +142,12 @@
 <span class="r-in"><span>  </span></span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="fu"><a href="draw_functions.html">draw_data</a></span><span class="op">(</span><span class="va">design</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>    villages N_households households N_members individuals age gender S</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2        01           69       0001         3        0002  39      1 1</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 12       01           69       0005         3        0012  67      0 1</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 41       01           69       0015         2        0041  45      1 1</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 52       01           69       0020         2        0052  65      0 1</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 56       01           69       0022         2        0056  89      1 1</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 70       01           69       0028         3        0070  77      1 1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 6        01           86       0002         4        0006  49      0 1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 13       01           86       0004         4        0013  48      1 1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 16       01           86       0005         3        0016  33      0 1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 18       01           86       0006         4        0018  85      0 1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 21       01           86       0006         4        0021  42      0 1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 29       01           86       0009         4        0029  84      1 1</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co">## Cluster random sampling</span></span></span>
 <span class="r-in"><span><span class="va">design</span> <span class="op">&lt;-</span> <span class="va">model</span> <span class="op">+</span></span></span>
@@ -156,12 +156,12 @@
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="fu"><a href="draw_functions.html">draw_data</a></span><span class="op">(</span><span class="va">design</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>     villages N_households households N_members individuals age gender S</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 217       02           54       0085         4        0217  72      1 1</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 218       02           54       0085         4        0218  38      0 1</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 219       02           54       0085         4        0219  25      1 1</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 220       02           54       0085         4        0220  71      1 1</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 221       02           54       0086         2        0221  34      1 1</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 222       02           54       0086         2        0222  34      1 1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 473       03           88       0184         2        0473  45      0 1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 474       03           88       0184         2        0474  70      1 1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 475       03           88       0185         2        0475  29      1 1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 476       03           88       0185         2        0476  86      1 1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 477       03           88       0186         3        0477  40      1 1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 478       03           88       0186         3        0478  77      1 1</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co">## Strata and cluster random sampling</span></span></span>
 <span class="r-in"><span><span class="va">design</span> <span class="op">&lt;-</span> <span class="va">model</span> <span class="op">+</span></span></span>
@@ -172,25 +172,25 @@
 <span class="r-in"><span>    </span></span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="fu"><a href="draw_functions.html">draw_data</a></span><span class="op">(</span><span class="va">design</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>    villages N_households households N_members individuals age gender S</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 11       01           60       0004         4        0011  59      1 1</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 12       01           60       0004         4        0012  77      1 1</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 13       01           60       0004         4        0013  44      0 1</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 14       01           60       0004         4        0014  61      1 1</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 23       01           60       0007         2        0023  27      0 1</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 24       01           60       0007         2        0024  84      0 1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1        01           84       0001         2        0001  18      0 1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2        01           84       0001         2        0002  31      0 1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3        01           84       0002         1        0003  55      0 1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 15       01           84       0008         2        0015  70      1 1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 16       01           84       0008         2        0016  50      0 1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 26       01           84       0014         4        0026  84      1 1</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co">## Stratified random sampling</span></span></span>
 <span class="r-in"><span><span class="va">design</span> <span class="op">&lt;-</span> <span class="va">model</span> <span class="op">+</span></span></span>
 <span class="r-in"><span>  <span class="fu">declare_sampling</span><span class="op">(</span>S <span class="op">=</span> <span class="fu"><a href="https://declaredesign.org/r/randomizr/reference/strata_rs.html" class="external-link">strata_rs</a></span><span class="op">(</span>strata <span class="op">=</span> <span class="va">gender</span>, n <span class="op">=</span> <span class="fl">100</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="fu"><a href="draw_functions.html">draw_data</a></span><span class="op">(</span><span class="va">design</span><span class="op">)</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>     villages N_households households N_members individuals age gender S</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 49        01           79       0019         2        0049  32      0 1</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 72        01           79       0027         2        0072  53      1 1</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 125       01           79       0050         4        0125  62      0 1</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 243       02           56       0097         3        0243  58      0 1</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 283       02           56       0115         2        0283  69      1 1</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 311       02           56       0128         3        0311  59      0 1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>    villages N_households households N_members individuals age gender S</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 23       01           80       0009         1        0023  57      1 1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 24       01           80       0010         3        0024  80      0 1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 52       01           80       0020         3        0052  71      1 1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 58       01           80       0023         1        0058  46      1 1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 67       01           80       0028         3        0067  77      0 1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 79       01           80       0031         4        0079  35      0 1</span>
 <span class="r-in"><span></span></span>
 </code></pre></div>
     </div>
