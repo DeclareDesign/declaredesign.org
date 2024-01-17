@@ -16,7 +16,7 @@ https://stats.stackexchange.com/questions/263451/create-synthetic-data-with-a-gi
     
     <a class="navbar-brand me-2" href="../index.html">fabricatr</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">1.0.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">1.0.2</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -158,39 +158,39 @@ deviations for generating the data.</p>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Default: unit variance within each cluster</span></span></span>
 <span class="r-in"><span><span class="fu">draw_normal_icc</span><span class="op">(</span>clusters <span class="op">=</span> <span class="va">clusters</span>, ICC <span class="op">=</span> <span class="fl">0.5</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [1] -1.9485537  0.6495315  0.9887677 -1.5603308  1.1954578 -1.4348638</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [7]  1.4038399  0.9211811 -0.2907625 -0.1225077 -0.4844660  2.3285648</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [13]  0.7455190  0.6264620  1.1344838 -2.1525810  1.9278133  1.1045064</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [19] -1.7145357 -0.3165376 -1.8942894  0.3351735  0.9843629 -0.5590339</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [25]  1.3442073 -2.4384945  1.8076544  0.6574772 -1.0572342  0.5204092</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [31]  0.3857391  1.1890086  0.8786908  0.7467699  1.7173760 -1.2290062</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [37]  1.2405772  2.7536730 -0.9741976  2.2357941 -1.2833475  2.6155242</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [43]  1.4458084  0.3476442 -0.2351502 -2.1723018  1.7373165  2.3772094</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [49] -2.1378833  0.7123717</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [1]  0.77929066  0.05583622  1.04689839  3.36319999 -2.59597153  1.04561825</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [7]  0.82163758  1.24334265  3.04262249 -2.74707159  1.57442449  0.67303177</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [13]  1.57804119  3.84885169 -2.75790282  0.52852726  1.84551872  1.03838235</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [19]  3.66877805 -1.41398361  1.46490210  0.11321516  0.09879596  1.66089943</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [25] -1.00929482  2.19397503  1.54224420  0.84164257  1.85520460 -1.90019576</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [31] -0.41237712 -0.67659904  0.46734573  1.86419632 -1.88546682  0.88179600</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [37]  1.69593274  1.04824219  0.78111337 -1.77618796  1.01926615 -0.38585976</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [43]  1.15376594  2.56632738 -0.36995741 -0.28874719  2.62144987  0.37521052</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [49]  2.94565335  0.28079408</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Alternatively, you can specify characteristics:</span></span></span>
 <span class="r-in"><span><span class="fu">draw_normal_icc</span><span class="op">(</span>mean <span class="op">=</span> <span class="fl">10</span>, clusters <span class="op">=</span> <span class="va">clusters</span>, sd <span class="op">=</span> <span class="fl">3</span>, ICC <span class="op">=</span> <span class="fl">0.3</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [1] 16.34876279 10.27451702 15.58307378 13.15701231 12.18693283  8.90650754</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [7] 10.24892713 11.23898626 15.25262499  9.59155491  8.21988182 12.06107602</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [13]  8.92452854 17.86729950 12.15836279 10.73774575 17.59399284  9.93923105</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [19] 16.58460918 12.21433376  9.61793118  8.44825998 13.92751865 13.48768108</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [25] 12.87160497  2.91750684 10.34091660  8.29014325  6.59248590 14.41710489</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [31] 10.18282152 10.68436194 11.13845003 14.92604441 12.48940996  8.03949418</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [37] 13.21788008  8.79831916  9.32879635  8.75710056 -0.08147852 10.70551952</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [43] 10.59880174 10.89117916  9.51373362 11.66878496  9.82012672  8.72103108</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [49] 11.48381620  8.78290687</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [1] 12.536573 12.512369  6.264494 12.579453  8.875538 17.724870 11.870808</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [8]  6.034366  8.401600  5.981980 12.964939  1.954819  8.040242  8.336206</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [15] 11.692609 12.643058  4.998140  9.493022  5.936959  5.519373 10.950054</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [22]  5.879818  7.170970 11.641103 13.082030 16.295629  4.979014  9.903956</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [29] 10.015819 10.082598 12.990313 10.520855 11.916609  9.700550 10.290251</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [36] 10.913594  7.057740  9.804318 14.052711  9.717378 16.768930  9.729655</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [43]  7.145765  9.895259 17.023143 17.341153  8.050773  9.739234  9.172570</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [50]  9.063279</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Can specify between-cluster standard deviation instead:</span></span></span>
 <span class="r-in"><span><span class="fu">draw_normal_icc</span><span class="op">(</span>clusters <span class="op">=</span> <span class="va">clusters</span>, sd_between <span class="op">=</span> <span class="fl">4</span>, ICC <span class="op">=</span> <span class="fl">0.2</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [1]   2.8681102   2.9675389   4.1621796  18.4351466  -4.9228144  15.6870416</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [7]  -5.5596148  14.8967527  10.5187664   6.2818510 -10.5531658  -1.9337492</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [13]   8.7434009   3.5418218  -7.7916368  -2.4364896   0.5055800  -5.3320936</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [19]  18.3996517  13.9744484   1.3484774 -14.8530176  -1.6778706   7.6182785</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [25]  -7.9120303  -7.4563933  -5.3606203   7.8879835  -7.3719322  -4.9229198</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [31] -12.2784529  -1.0083182   2.3993922  -9.8621151  -5.6718220 -17.1076964</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [37]  -2.3776305  -4.4247961 -15.9023926   4.6291463  12.4000516 -15.5699317</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [43]  -3.2307416   7.8154756  -6.0666650   6.5808037 -12.9548492   8.3821985</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [49]   6.8923649   0.4343888</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [1]   2.66821201  -4.85442351   5.30094093  -2.73595470 -14.79487760</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [6]  -1.03404195   1.25861114   5.34240269   4.39590760  -3.44202658</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [11]  -1.11618590  14.40295961   0.01523843  17.14638411   1.62678724</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [16]   0.66215800  13.11537623  -0.67788429   7.11582478 -13.73691444</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [21]  -8.30442396  15.28768008  16.71199017  -0.40354873   5.49352915</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [26]  10.88601210  -4.99637516  -7.29237048   2.57863333   4.98388182</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [31]   9.95105479   8.83458645  22.92377262  -2.83865284  -0.03082492</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [36]  11.00291619 -12.01902386   4.35340453   5.83343187   9.50098190</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [41]   3.65873337  -0.11767330  11.12115921   4.69453929   8.81203728</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [46]   8.58032347   2.64183594  21.50894009   1.95811056 -15.45208367</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Can specify total SD instead:</span></span></span>
 <span class="r-in"><span><span class="va">total_sd_draw</span> <span class="op">=</span> <span class="fu">draw_normal_icc</span><span class="op">(</span>clusters <span class="op">=</span> <span class="va">clusters</span>, ICC <span class="op">=</span> <span class="fl">0.5</span>, total_sd <span class="op">=</span> <span class="fl">3</span><span class="op">)</span></span></span>
@@ -200,7 +200,7 @@ deviations for generating the data.</p>
 <span class="r-in"><span><span class="co"># Verify that ICC generated is accurate</span></span></span>
 <span class="r-in"><span><span class="va">corr_draw</span> <span class="op">=</span> <span class="fu">draw_normal_icc</span><span class="op">(</span>clusters <span class="op">=</span> <span class="va">clusters</span>, ICC <span class="op">=</span> <span class="fl">0.4</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/lm.html" class="external-link">lm</a></span><span class="op">(</span><span class="va">corr_draw</span> <span class="op">~</span> <span class="fu"><a href="https://rdrr.io/r/base/factor.html" class="external-link">as.factor</a></span><span class="op">(</span><span class="va">clusters</span><span class="op">)</span><span class="op">)</span><span class="op">)</span><span class="op">$</span><span class="va">r.squared</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.240946</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.4785981</span>
 <span class="r-in"><span></span></span>
 </code></pre></div>
     </div>
