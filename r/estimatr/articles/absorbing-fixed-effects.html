@@ -22,7 +22,7 @@
     <a href="#main" class="visually-hidden-focusable">Skip to contents</a>
     
 
-    <nav class="navbar fixed-top navbar-light navbar-expand-lg bg-light"><div class="container">
+    <nav class="navbar fixed-top navbar-light navbar-expand-lg bg-light" data-bs-theme="light"><div class="container">
     
     <a class="navbar-brand me-2" href="../index.html">estimatr</a>
 
@@ -150,14 +150,14 @@
 <span>  times <span class="op">=</span> <span class="fl">50</span></span>
 <span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## Unit: milliseconds</span></span>
-<span><span class="co">##             expr       min        lq      mean    median        uq      max</span></span>
-<span><span class="co">##  base + sandwich 181.71976 196.23574 259.06666 247.42439 286.38623 475.2510</span></span>
-<span><span class="co">##        lm_robust  81.14635  89.29926 124.11797 105.01964 140.19512 469.9170</span></span>
-<span><span class="co">##  lm_robust + fes  52.20116  58.35043  82.08147  62.68864  88.01449 229.8373</span></span>
+<span><span class="co">##             expr       min        lq      mean    median        uq       max</span></span>
+<span><span class="co">##  base + sandwich 175.03097 182.72424 275.31656 223.23957 308.01762 1042.9372</span></span>
+<span><span class="co">##        lm_robust  80.74216  84.54404 119.81308  93.20380 138.65121  393.6382</span></span>
+<span><span class="co">##  lm_robust + fes  51.53428  54.57368  77.57925  61.26047  80.90433  212.8862</span></span>
 <span><span class="co">##  neval cld</span></span>
-<span><span class="co">##     50 a  </span></span>
-<span><span class="co">##     50  b </span></span>
-<span><span class="co">##     50   c</span></span></code></pre>
+<span><span class="co">##     50  a </span></span>
+<span><span class="co">##     50   b</span></span>
+<span><span class="co">##     50   b</span></span></code></pre>
 <p>Speed gains are <em>considerably</em> greater with HC1 standard errors. This is because we need to get the hat matrix for HC2, HC3, and CR2 standard errors, which requires inverting that large matrix of dummies we previously avoided doing. HC0, HC1, CR0, and CRstata standard errors do not require this inversion.</p>
 <div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># With HC1</span></span>
@@ -180,10 +180,10 @@
 <span>  times <span class="op">=</span> <span class="fl">50</span></span>
 <span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## Unit: milliseconds</span></span>
-<span><span class="co">##             expr        min         lq      mean     median        uq      max</span></span>
-<span><span class="co">##  base + sandwich 176.015661 188.977930 260.57063 217.110910 273.99817 803.8014</span></span>
-<span><span class="co">##        lm_robust  62.794729  67.136431  90.97164  72.895161  82.28185 523.8997</span></span>
-<span><span class="co">##  lm_robust + fes   8.050863   8.989364  15.80298   9.662388  13.87593 152.3614</span></span>
+<span><span class="co">##             expr        min         lq      mean     median        uq       max</span></span>
+<span><span class="co">##  base + sandwich 174.555363 181.962213 224.79130 191.394748 245.82313 527.45261</span></span>
+<span><span class="co">##        lm_robust  62.814908  68.096423  82.08359  70.587342  82.51209 328.55744</span></span>
+<span><span class="co">##  lm_robust + fes   8.026572   8.794658  13.76395   9.877198  15.48109  35.09701</span></span>
 <span><span class="co">##  neval cld</span></span>
 <span><span class="co">##     50 a  </span></span>
 <span><span class="co">##     50  b </span></span>
@@ -201,7 +201,7 @@
 
 <div class="pkgdown-footer-right">
   <p></p>
-<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.7.</p>
+<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.8.</p>
 </div>
 
     </footer>
