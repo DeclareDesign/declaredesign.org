@@ -10,7 +10,7 @@
     
     <a class="navbar-brand me-2" href="../index.html">DeclareDesign</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">1.0.6</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">1.0.8</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -64,6 +64,7 @@
 <span>  diagnosands <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  sims <span class="op">=</span> <span class="fl">500</span>,</span>
 <span>  bootstrap_sims <span class="op">=</span> <span class="fl">100</span>,</span>
+<span>  future.seed <span class="op">=</span> <span class="cn">TRUE</span>,</span>
 <span>  make_groups <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  add_grouping_variables <span class="op">=</span> <span class="cn">NULL</span></span>
 <span><span class="op">)</span></span>
@@ -73,6 +74,7 @@
 <span>  diagnosands <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  sims <span class="op">=</span> <span class="fl">500</span>,</span>
 <span>  bootstrap_sims <span class="op">=</span> <span class="fl">100</span>,</span>
+<span>  future.seed <span class="op">=</span> <span class="cn">TRUE</span>,</span>
 <span>  make_groups <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  add_grouping_variables <span class="op">=</span> <span class="cn">NULL</span></span>
 <span><span class="op">)</span></span>
@@ -96,6 +98,10 @@
 
 <dt>bootstrap_sims</dt>
 <dd><p>Number of bootstrap replicates for the diagnosands to obtain the standard errors of the diagnosands, defaulting to <code>100</code>. Set to FALSE to turn off bootstrapping.</p></dd>
+
+
+<dt>future.seed</dt>
+<dd><p>Option for parallel diagnosis via the function future_lapply. A logical or an integer (of length one or seven), or a list of length(X) with pre-generated random seeds. For details, see ?future_lapply.</p></dd>
 
 
 <dt>make_groups</dt>
@@ -210,13 +216,13 @@
 <span class="r-in"><span>  diagnosands <span class="op">=</span> <span class="va">default_diagnosands</span></span></span>
 <span class="r-in"><span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Research design diagnosis based on 500 simulations. Diagnosis completed in 10 secs. Diagnosand estimates with bootstrapped standard errors in parentheses (100 replicates).</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Research design diagnosis based on 500 simulations. Diagnosis completed in 11 secs. Diagnosand estimates with bootstrapped standard errors in parentheses (100 replicates).</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  Design Inquiry Estimator Outcome Term N Sims Mean Estimand Mean Estimate</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  design     ATE estimator       Y    Z    500          0.20          0.20</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                                                      (0.00)        (0.00)</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>    Bias SD Estimate   RMSE  Power Coverage</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>    0.00        0.05   0.05   0.99     0.96</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   -0.00        0.05   0.05   0.97     0.93</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  (0.00)      (0.00) (0.00) (0.01)   (0.01)</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># A longer list of useful diagnosands might include:</span></span></span>

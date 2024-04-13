@@ -12,7 +12,7 @@ Use of declare_test is identical to use of declare_estimator. Use declare_test f
     
     <a class="navbar-brand me-2" href="../index.html">DeclareDesign</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">1.0.6</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">1.0.8</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -173,7 +173,7 @@ declare_estimator(handler = label_estimator(my_fun), inquiry = "ATE")
 <span class="r-in"><span>  </span></span>
 <span class="r-in"><span><span class="fu"><a href="run_design.html">run_design</a></span><span class="op">(</span><span class="va">design</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   inquiry estimand</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1     ATE    0.122</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1     ATE    0.108</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># default estimator is lm_robust with tidy summary</span></span></span>
 <span class="r-in"><span><span class="va">design_0</span> <span class="op">&lt;-</span></span></span>
@@ -181,10 +181,10 @@ declare_estimator(handler = label_estimator(my_fun), inquiry = "ATE")
 <span class="r-in"><span>  <span class="fu">declare_estimator</span><span class="op">(</span><span class="va">Y</span> <span class="op">~</span> <span class="va">Z</span>, inquiry <span class="op">=</span> <span class="st">"ATE"</span><span class="op">)</span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="fu"><a href="run_design.html">run_design</a></span><span class="op">(</span><span class="va">design_0</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   inquiry estimand estimator term estimate  std.error statistic     p.value</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1     ATE    0.112 estimator    Z     0.21 0.06815757  3.081096 0.002355851</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>     conf.low conf.high  df outcome</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1 0.07559208 0.3444079 198       Y</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   inquiry estimand estimator term estimate  std.error statistic   p.value</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1     ATE    0.104 estimator    Z     0.09 0.07034547    1.2794 0.2022534</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>      conf.low conf.high  df outcome</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1 -0.04872249 0.2287225 198       Y</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Linear regression using lm_robust and tidy summary</span></span></span>
 <span class="r-in"><span><span class="va">design_1</span> <span class="op">&lt;-</span></span></span>
@@ -199,10 +199,10 @@ declare_estimator(handler = label_estimator(my_fun), inquiry = "ATE")
 <span class="r-in"><span>  <span class="op">)</span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="fu"><a href="run_design.html">run_design</a></span><span class="op">(</span><span class="va">design_1</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   inquiry estimand term      estimator estimate  std.error statistic</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1     ATE    0.128    Z lm_no_controls     0.23 0.06783075  3.390793</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>        p.value   conf.low conf.high  df outcome</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1 0.0008412285 0.09623658 0.3637634 198       Y</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   inquiry estimand term      estimator estimate  std.error statistic   p.value</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1     ATE    0.096    Z lm_no_controls     0.08 0.06939857  1.152761 0.2503981</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>      conf.low conf.high  df outcome</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1 -0.05685519 0.2168552 198       Y</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Use glance summary function to view model fit statistics</span></span></span>
 <span class="r-in"><span><span class="va">design_2</span> <span class="op">&lt;-</span></span></span>
@@ -212,8 +212,8 @@ declare_estimator(handler = label_estimator(my_fun), inquiry = "ATE")
 <span class="r-in"><span>                    .summary <span class="op">=</span> <span class="va">glance</span><span class="op">)</span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="fu"><a href="run_design.html">run_design</a></span><span class="op">(</span><span class="va">design_2</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   inquiry estimand estimator    r.squared adj.r.squared  statistic   p.value</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1     ATE      0.1 estimator 0.0004166667  -0.004631734 0.08253439 0.7741923</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   inquiry estimand estimator r.squared adj.r.squared statistic     p.value</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1     ATE    0.038 estimator 0.0410509    0.03620773  8.476027 0.004011144</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   df.residual nobs se_type</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 1         198  200     HC2</span>
 <span class="r-in"><span></span></span>
@@ -231,8 +231,8 @@ declare_estimator(handler = label_estimator(my_fun), inquiry = "ATE")
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="fu"><a href="run_design.html">run_design</a></span><span class="op">(</span><span class="va">design_3</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   inquiry estimand estimator estimate</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1   Y_bar    0.550      mean     0.55</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2     ATE    0.086      &lt;NA&gt;       NA</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1   Y_bar    0.570      mean     0.57</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2     ATE    0.054      &lt;NA&gt;       NA</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Use `term` to select particular coefficients</span></span></span>
 <span class="r-in"><span><span class="va">design_4</span> <span class="op">&lt;-</span></span></span>
@@ -245,12 +245,12 @@ declare_estimator(handler = label_estimator(my_fun), inquiry = "ATE")
 <span class="r-in"><span>                    .method <span class="op">=</span> <span class="va">lm_robust</span><span class="op">)</span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="fu"><a href="run_design.html">run_design</a></span><span class="op">(</span><span class="va">design_4</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>               inquiry   estimand     term estimator  estimate std.error</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1 difference_in_cates 0.03205128 Z:gender estimator 0.0371203 0.1372233</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2                 ATE 0.09400000     &lt;NA&gt;      &lt;NA&gt;        NA        NA</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   statistic   p.value   conf.low conf.high  df outcome</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1 0.2705102 0.7870524 -0.2335034  0.307744 196       Y</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2        NA        NA         NA        NA  NA    &lt;NA&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>               inquiry     estimand     term estimator    estimate std.error</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1 difference_in_cates 0.0008003201 Z:gender estimator -0.08878265 0.1340375</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2                 ATE 0.0500000000     &lt;NA&gt;      &lt;NA&gt;          NA        NA</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>    statistic   p.value   conf.low conf.high  df outcome</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1 -0.6623717 0.5085111 -0.3531235 0.1755582 196       Y</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2         NA        NA         NA        NA  NA    &lt;NA&gt;</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Use glm from base R</span></span></span>
 <span class="r-in"><span><span class="va">design_5</span> <span class="op">&lt;-</span></span></span>
@@ -261,10 +261,10 @@ declare_estimator(handler = label_estimator(my_fun), inquiry = "ATE")
 <span class="r-in"><span>                    .method <span class="op">=</span> <span class="va">glm</span><span class="op">)</span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="fu"><a href="run_design.html">run_design</a></span><span class="op">(</span><span class="va">design_5</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   inquiry estimand estimator term    estimate  std.error  statistic   p.value</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1     ATE     0.08 estimator    Z -0.02893894 0.06921779 -0.4180853 0.6763401</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>     conf.low conf.high</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1 -0.1646033 0.1067254</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   inquiry estimand estimator term  estimate  std.error statistic    p.value</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1     ATE      0.1 estimator    Z 0.1407181 0.07030539  2.001527 0.04670775</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>      conf.low conf.high</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1 0.002922105 0.2785142</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># If we use logit, we'll need to estimate the average marginal effect with</span></span></span>
 <span class="r-in"><span><span class="co"># margins::margins. We wrap this up in function we'll pass to model_summary</span></span></span>
@@ -287,10 +287,10 @@ declare_estimator(handler = label_estimator(my_fun), inquiry = "ATE")
 <span class="r-in"><span>  <span class="op">)</span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="fu"><a href="run_design.html">run_design</a></span><span class="op">(</span><span class="va">design_6</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   inquiry estimand estimator term   estimate std.error statistic   p.value</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1     ATE    0.104 estimator    Z 0.01424934 0.0681537 0.2090766 0.8343885</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>     conf.low conf.high</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1 -0.1193295 0.1478281</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   inquiry estimand estimator term estimate  std.error statistic   p.value</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1     ATE    0.084 estimator    Z 0.057864 0.06728875 0.8599358 0.3898244</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>      conf.low conf.high</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1 -0.07401952 0.1897475</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Multiple estimators for one inquiry</span></span></span>
 <span class="r-in"><span></span></span>
@@ -311,12 +311,12 @@ declare_estimator(handler = label_estimator(my_fun), inquiry = "ATE")
 <span class="r-in"><span>  <span class="op">)</span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="fu"><a href="run_design.html">run_design</a></span><span class="op">(</span><span class="va">design_7</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   inquiry estimand estimator term   estimate  std.error statistic   p.value</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1     ATE    0.136       OLS    Z 0.04000000 0.07065352 0.5661431 0.5719376</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2     ATE    0.136     logit    Z 0.04037695 0.07001660 0.5766768 0.5641578</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   inquiry estimand estimator term  estimate  std.error statistic   p.value</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1     ATE    0.102       OLS    Z 0.1100000 0.06904105  1.593255 0.1126981</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2     ATE    0.102     logit    Z 0.1054202 0.06594752  1.598547 0.1099214</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>      conf.low conf.high  df outcome</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1 -0.09932997  0.179330 198       Y</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2 -0.09685306  0.177607  NA    &lt;NA&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1 -0.02615016 0.2461502 198       Y</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2 -0.02383457 0.2346749  NA    &lt;NA&gt;</span>
 </code></pre></div>
     </div>
   </main><aside class="col-md-3"><nav id="toc"><h2>On this page</h2>

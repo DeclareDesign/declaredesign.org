@@ -10,7 +10,7 @@
     
     <a class="navbar-brand me-2" href="../index.html">DeclareDesign</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">1.0.6</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">1.0.8</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -59,9 +59,9 @@
 
     <div class="section level2">
     <h2 id="ref-usage">Usage<a class="anchor" aria-label="anchor" href="#ref-usage"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">simulate_design</span><span class="op">(</span><span class="va">...</span>, sims <span class="op">=</span> <span class="fl">500</span><span class="op">)</span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">simulate_design</span><span class="op">(</span><span class="va">...</span>, sims <span class="op">=</span> <span class="fl">500</span>, future.seed <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
 <span></span>
-<span><span class="fu">simulate_designs</span><span class="op">(</span><span class="va">...</span>, sims <span class="op">=</span> <span class="fl">500</span><span class="op">)</span></span></code></pre></div>
+<span><span class="fu">simulate_designs</span><span class="op">(</span><span class="va">...</span>, sims <span class="op">=</span> <span class="fl">500</span>, future.seed <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div class="section level2">
@@ -72,6 +72,10 @@
 
 <dt>sims</dt>
 <dd><p>The number of simulations, defaulting to 500. If sims is a vector of the form c(10, 1, 2, 1) then different steps of a design will be simulated different numbers of times.</p></dd>
+
+
+<dt>future.seed</dt>
+<dd><p>Option for parallel diagnosis via the function future_lapply. A logical or an integer (of length one or seven), or a list of length(X) with pre-generated random seeds. For details, see ?future_lapply.</p></dd>
 
 </dl></div>
     <div class="section level2">
