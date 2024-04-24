@@ -269,11 +269,12 @@ declare_estimator(handler = label_estimator(my_fun), inquiry = "ATE")
 <span class="r-in"><span><span class="co"># If we use logit, we'll need to estimate the average marginal effect with</span></span></span>
 <span class="r-in"><span><span class="co"># margins::margins. We wrap this up in function we'll pass to model_summary</span></span></span>
 <span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/leeper/margins" class="external-link">margins</a></span><span class="op">)</span> <span class="co"># for margins</span></span></span>
+<span class="r-in"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va">margins</span><span class="op">)</span> <span class="co"># for margins</span></span></span>
+<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in library(margins):</span> there is no package called ‘margins’</span>
 <span class="r-in"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://broom.tidymodels.org/" class="external-link">broom</a></span><span class="op">)</span> <span class="co"># for tidy</span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="va">tidy_margins</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">x</span><span class="op">)</span> <span class="op">{</span></span></span>
-<span class="r-in"><span>  <span class="fu"><a href="https://generics.r-lib.org/reference/tidy.html" class="external-link">tidy</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/pkg/margins/man/margins.html" class="external-link">margins</a></span><span class="op">(</span><span class="va">x</span>, data <span class="op">=</span> <span class="va">x</span><span class="op">$</span><span class="va">data</span><span class="op">)</span>, conf.int <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></span>
+<span class="r-in"><span>  <span class="fu"><a href="https://generics.r-lib.org/reference/tidy.html" class="external-link">tidy</a></span><span class="op">(</span><span class="fu">margins</span><span class="op">(</span><span class="va">x</span>, data <span class="op">=</span> <span class="va">x</span><span class="op">$</span><span class="va">data</span><span class="op">)</span>, conf.int <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="op">}</span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="va">design_6</span> <span class="op">&lt;-</span></span></span>
@@ -287,10 +288,8 @@ declare_estimator(handler = label_estimator(my_fun), inquiry = "ATE")
 <span class="r-in"><span>  <span class="op">)</span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="fu"><a href="run_design.html">run_design</a></span><span class="op">(</span><span class="va">design_6</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   inquiry estimand estimator term estimate  std.error statistic   p.value</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1     ATE    0.084 estimator    Z 0.057864 0.06728875 0.8599358 0.3898244</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>      conf.low conf.high</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1 -0.07401952 0.1897475</span>
+<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error:</span> Error in step 6 (estimator):</span>
+<span class="r-err co"><span class="r-pr">#&gt;</span> 	Error in margins(x, data = x$data): could not find function "margins"</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Multiple estimators for one inquiry</span></span></span>
 <span class="r-in"><span></span></span>
@@ -311,12 +310,8 @@ declare_estimator(handler = label_estimator(my_fun), inquiry = "ATE")
 <span class="r-in"><span>  <span class="op">)</span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="fu"><a href="run_design.html">run_design</a></span><span class="op">(</span><span class="va">design_7</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   inquiry estimand estimator term  estimate  std.error statistic   p.value</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1     ATE    0.102       OLS    Z 0.1100000 0.06904105  1.593255 0.1126981</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2     ATE    0.102     logit    Z 0.1054202 0.06594752  1.598547 0.1099214</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>      conf.low conf.high  df outcome</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1 -0.02615016 0.2461502 198       Y</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2 -0.02383457 0.2346749  NA    &lt;NA&gt;</span>
+<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error:</span> Error in step 7 (logit):</span>
+<span class="r-err co"><span class="r-pr">#&gt;</span> 	Error in margins(x, data = x$data): could not find function "margins"</span>
 </code></pre></div>
     </div>
   </main><aside class="col-md-3"><nav id="toc"><h2>On this page</h2>
