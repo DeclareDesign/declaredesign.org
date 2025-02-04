@@ -16,6 +16,7 @@ jobs:
     name: ${{ matrix.config.package }} ${{ matrix.config.os }} (${{ matrix.config.r }})
 
     strategy:
+      max-parallel: 1
       fail-fast: false
       matrix:
         config:
@@ -61,13 +62,13 @@ jobs:
       - name: Search for dependences in docs
         run: Rscript -e 'library(checkpoint); found_packages <- scan_project_files(".", scan_rnw_with_knitr = TRUE)$pkgs; if(length(found_packages[!found_packages%in% installed.packages()[, 1]]) > 0) install.packages(found_packages[!found_packages%in% installed.packages()[,1]], repos = "https://cran.r-project.org")'
 
-      - name: Pkgdown
-        run: | 
-          Rscript -e 'pkgdown::build_site("pkg")'
+      - name: Build site
+        run: pkgdown::build_site_github_pages(new_process = FALSE, install = FALSE)
+        shell: Rscript {0}
 
       - name: Push to gh-pages
         if: github.ref == 'refs/heads/main'
-        uses: JamesIves/github-pages-deploy-action@3.7.1
+        uses: JamesIves/github-pages-deploy-action@4.5.0
         with:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           BRANCH: gh-pages
