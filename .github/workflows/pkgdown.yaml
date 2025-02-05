@@ -68,11 +68,11 @@ jobs:
 
       - name: Push to gh-pages
         if: github.ref == 'refs/heads/main'
-        uses: JamesIves/github-pages-deploy-action@v3.7.1
+        uses: JamesIves/github-pages-deploy-action@v4.5.0
         with:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          BRANCH: gh-pages
-          FOLDER: 'pkg/docs'
-          TARGET_FOLDER: 'r/${{ matrix.config.package }}'
-          CLEAN: true
+          token: ${{ secrets.GITHUB_TOKEN }}
+          branch: gh-pages
+          folder: 'pkg/docs'
+          target-folder: 'r/${{ matrix.config.package }}'
+          clean: true
           
