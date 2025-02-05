@@ -63,7 +63,7 @@ jobs:
         run: Rscript -e 'library(checkpoint); found_packages <- scan_project_files(".", scan_rnw_with_knitr = TRUE)$pkgs; if(length(found_packages[!found_packages%in% installed.packages()[, 1]]) > 0) install.packages(found_packages[!found_packages%in% installed.packages()[,1]], repos = "https://cran.r-project.org")'
 
       - name: Build site
-        run: pkgdown::build_site_github_pages(pkg = "pkg", new_process = FALSE, install = FALSE)
+        run: pkgdown::build_site(pkg = "pkg")
         shell: Rscript {0}
 
       - name: Push to gh-pages
