@@ -5,14 +5,14 @@
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<title>Declaring and diagnosing research designs • DeclareDesign</title>
+<title>Imagine Your Data Before You Collect It • fabricatr</title>
 <script src="deps/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <link href="deps/bootstrap-5.3.1/bootstrap.min.css" rel="stylesheet">
 <script src="deps/bootstrap-5.3.1/bootstrap.bundle.min.js"></script><link href="deps/font-awesome-6.5.2/css/all.min.css" rel="stylesheet">
 <link href="deps/font-awesome-6.5.2/css/v4-shims.min.css" rel="stylesheet">
-<script src="deps/headroom-0.11.0/headroom.min.js"></script><script src="deps/headroom-0.11.0/jQuery.headroom.min.js"></script><script src="deps/bootstrap-toc-1.0.1/bootstrap-toc.min.js"></script><script src="deps/clipboard.js-2.0.11/clipboard.min.js"></script><script src="deps/search-1.0.0/autocomplete.jquery.min.js"></script><script src="deps/search-1.0.0/fuse.min.js"></script><script src="deps/search-1.0.0/mark.min.js"></script><!-- pkgdown --><script src="pkgdown.js"></script><meta property="og:title" content="Declaring and diagnosing research designs">
-<meta name="description" content="Researchers can characterize and learn about the properties of research designs before implementation using `DeclareDesign`. Ex ante declaration and diagnosis of designs can help researchers clarify the strengths and limitations of their designs and to improve their properties, and can help readers evaluate a research strategy prior to implementation and without access to results. It can also make it easier for designs to be shared, replicated, and critiqued.">
-<meta property="og:description" content="Researchers can characterize and learn about the properties of research designs before implementation using `DeclareDesign`. Ex ante declaration and diagnosis of designs can help researchers clarify the strengths and limitations of their designs and to improve their properties, and can help readers evaluate a research strategy prior to implementation and without access to results. It can also make it easier for designs to be shared, replicated, and critiqued.">
+<script src="deps/headroom-0.11.0/headroom.min.js"></script><script src="deps/headroom-0.11.0/jQuery.headroom.min.js"></script><script src="deps/bootstrap-toc-1.0.1/bootstrap-toc.min.js"></script><script src="deps/clipboard.js-2.0.11/clipboard.min.js"></script><script src="deps/search-1.0.0/autocomplete.jquery.min.js"></script><script src="deps/search-1.0.0/fuse.min.js"></script><script src="deps/search-1.0.0/mark.min.js"></script><!-- pkgdown --><script src="pkgdown.js"></script><meta property="og:title" content="Imagine Your Data Before You Collect It">
+<meta name="description" content="Helps you imagine your data before you collect it. Hierarchical data structures and correlated data can be easily simulated, either from random number generators or by resampling from existing data sources. This package is faster with data.table and mvnfast installed.">
+<meta property="og:description" content="Helps you imagine your data before you collect it. Hierarchical data structures and correlated data can be easily simulated, either from random number generators or by resampling from existing data sources. This package is faster with data.table and mvnfast installed.">
 </head>
 <body>
     <a href="#main" class="visually-hidden-focusable">Skip to contents</a>
@@ -20,9 +20,9 @@
 
     <nav class="navbar navbar-expand-lg fixed-top bg-light" data-bs-theme="light" aria-label="Site navigation"><div class="container">
 
-    <a class="navbar-brand me-2" href="index.html">DeclareDesign</a>
+    <a class="navbar-brand me-2" href="index.html">fabricatr</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">1.0.8</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">1.0.2</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -31,16 +31,30 @@
 
     <div id="navbar" class="collapse navbar-collapse ms-3">
       <ul class="navbar-nav me-auto">
-<li class="nav-item"><a class="external-link nav-link" href="https://declaredesign.org/getting-started/">Getting started</a></li>
+<li class="nav-item"><a class="nav-link" href="articles/getting_started.html">Getting started</a></li>
 <li class="nav-item"><a class="nav-link" href="reference/index.html">Reference</a></li>
+<li class="nav-item dropdown">
+  <button class="nav-link dropdown-toggle" type="button" id="dropdown-articles" data-bs-toggle="dropdown" aria-expanded="false" aria-haspopup="true">Articles</button>
+  <ul class="dropdown-menu" aria-labelledby="dropdown-articles">
+<li><a class="dropdown-item" href="articles/getting_started.html">Getting started with fabricatr</a></li>
+    <li><a class="dropdown-item" href="articles/building_importing.html">Building and Importing Data</a></li>
+    <li><a class="dropdown-item" href="articles/common_social.html">Common Social Science variables</a></li>
+    <li><a class="dropdown-item" href="articles/cross_classified.html">Panel and Cross-classified data</a></li>
+    <li><a class="dropdown-item" href="articles/resampling.html">Resampling data with fabricatr</a></li>
+    <li><a class="dropdown-item" href="articles/time_series.html">Time series data with fabricatr</a></li>
+    <li><a class="dropdown-item" href="articles/variable_generation.html">Generating discrete random variables with fabricatr</a></li>
+    <li><a class="dropdown-item" href="articles/other_packages.html">Using other data generating packages with fabricatr</a></li>
+    <li><a class="dropdown-item" href="articles/advanced_features.html">Advanced features</a></li>
+  </ul>
+</li>
       </ul>
 <ul class="navbar-nav">
 <li class="nav-item dropdown">
   <button class="nav-link dropdown-toggle" type="button" id="dropdown-software" data-bs-toggle="dropdown" aria-expanded="false" aria-haspopup="true">Software</button>
   <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdown-software">
-<li><a class="dropdown-item" href="https://declaredesign.org/r/declaredesign/">DeclareDesign</a></li>
+<li><a class="external-link dropdown-item" href="https://declaredesign.org/r/declaredesign/">DeclareDesign</a></li>
     <li><a class="external-link dropdown-item" href="https://declaredesign.org/r/randomizr/">randomizr</a></li>
-    <li><a class="external-link dropdown-item" href="https://declaredesign.org/r/fabricatr/">fabricatr</a></li>
+    <li><a class="dropdown-item" href="https://declaredesign.org/r/fabricatr/">fabricatr</a></li>
     <li><a class="external-link dropdown-item" href="https://declaredesign.org/r/estimatr/">estimatr</a></li>
     <li><a class="external-link dropdown-item" href="https://declaredesign.org/r/designlibrary/">DesignLibrary</a></li>
     <li><a class="external-link dropdown-item" href="https://eos.wzb.eu/ipi/DDWizard/">DesignWizard</a></li>
@@ -55,134 +69,107 @@
 </nav><div class="container template-home">
 <div class="row">
   <main id="main" class="col-md-9"><div class="section level1">
-<div class="page-header"><h1 id="declaredesign-declare-and-diagnose-research-designs">DeclareDesign: Declare and Diagnose Research Designs<a class="anchor" aria-label="anchor" href="#declaredesign-declare-and-diagnose-research-designs"></a>
+<div class="page-header"><h1 id="fabricatr-imagine-your-data-before-you-collect-it">fabricatr: Imagine your data before you collect it<a class="anchor" aria-label="anchor" href="#fabricatr-imagine-your-data-before-you-collect-it"></a>
 </h1></div>
-<!-- README.md is generated from README.Rmd. Please edit that file --><p><a href="https://cran.r-project.org/package=DeclareDesign" class="external-link"><img src="https://www.r-pkg.org/badges/version/DeclareDesign" alt="CRAN status"></a> <a href="https://r-pkg.org/pkg/DeclareDesign" class="external-link"><img src="https://cranlogs.r-pkg.org/badges/grand-total/DeclareDesign?color=green" alt="CRAN RStudio mirror downloads"></a> <a href="https://github.com/DeclareDesign/DeclareDesign/actions" class="external-link"><img src="https://github.com/DeclareDesign/DeclareDesign/workflows/R-CMD-check/badge.svg" alt="Build status"></a> <a href="https://codecov.io/gh/DeclareDesign/DeclareDesign" class="external-link"><img src="https://codecov.io/gh/DeclareDesign/DeclareDesign/branch/master/graph/badge.svg?token=3WzOK9Glc2" alt="Code coverage"></a> <a href="https://softwarecite.com/package/DeclareDesign" class="external-link"><img src="https://softwarecite.com/badge/DeclareDesign" alt="Replications"></a></p>
-<p>DeclareDesign is a system for describing research designs in code and simulating them in order to understand their properties. Because DeclareDesign employs a consistent grammar of designs, you can focus on the intellectually challenging part – designing good research studies – without having to code up simulations from scratch. For more, see <a href="https://declaredesign.org" class="external-link">declaredesign.org</a>.</p>
-<div class="section level2">
-<h2 id="installation">Installation<a class="anchor" aria-label="anchor" href="#installation"></a>
-</h2>
-<p>To install the latest stable release of <strong>DeclareDesign</strong>, please ensure that you are running version 3.5 or later of R and run the following code:</p>
+<!-- README.md is generated from README.Rmd. Please edit that file --><p><a href="https://cran.r-project.org/package=fabricatr" class="external-link"><img src="https://www.r-pkg.org/badges/version/fabricatr" alt="CRAN status"></a> <a href="https://r-pkg.org/pkg/fabricatr" class="external-link"><img src="https://cranlogs.r-pkg.org/badges/grand-total/fabricatr?color=green" alt="CRAN RStudio mirror downloads"></a> <a href="https://github.com/DeclareDesign/fabricatr/actions" class="external-link"><img src="https://github.com/DeclareDesign/fabricatr/workflows/R-CMD-check/badge.svg" alt="Build status"></a> <a href="https://codecov.io/gh/DeclareDesign/fabricatr" class="external-link"><img src="https://codecov.io/gh/DeclareDesign/fabricatr/branch/master/graph/badge.svg?token=x9MpkuKobc" alt="Code coverage"></a> <a href="https://softwarecite.com/package/fabricatr" class="external-link"><img src="https://softwarecite.com/badge/fabricatr" alt="Replications"></a></p>
+<p>Making decisions about research design and analysis strategies is often difficult before data is collected, because it is hard to imagine the exact form data will take. Instead, researchers typically modify analysis strategies to fit the data. <strong>fabricatr</strong> helps researchers imagine what data will look like before they collect it. Researchers can evaluate alternative analysis strategies, find the best one given how the data will look, and precommit before looking at the realized data.</p>
+<div class="section level3">
+<h3 id="installing-fabricatr">Installing fabricatr<a class="anchor" aria-label="anchor" href="#installing-fabricatr"></a>
+</h3>
+<p>To install the latest stable release of <strong>fabricatr</strong>, please ensure that you are running version 3.5 or later of R and run the following code:</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html" class="external-link">install.packages</a></span><span class="op">(</span><span class="st">"DeclareDesign"</span><span class="op">)</span></span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html" class="external-link">install.packages</a></span><span class="op">(</span><span class="st">"fabricatr"</span><span class="op">)</span></span></code></pre></div>
 </div>
-<div class="section level2">
-<h2 id="usage">Usage<a class="anchor" aria-label="anchor" href="#usage"></a>
-</h2>
-<p>Designs are declared by adding together design elements. Here’s a minimal example that describes a 100 unit randomized controlled trial with a binary outcome. Half the units are assigned to treatment and the remainder to control. The true value of the average treatment effect is 0.05 and it will be estimated with the difference-in-means estimator. The diagnosis shows that the study is unbiased but underpowered.</p>
+<div class="section level3">
+<h3 id="getting-started">Getting started<a class="anchor" aria-label="anchor" href="#getting-started"></a>
+</h3>
+<p>Once you have installed <strong>fabricatr</strong>, you can easily import your own data or generate new data. <strong>fabricatr</strong> is designed to help you solve two key problems:</p>
+<ol style="list-style-type: decimal">
+<li>Generating variables that look like the real thing, including Likert survey responses, treatment status, demographic variables, and variables correlated by group.</li>
+<li>Generating data that are structured like the real thing, including panel data, multi-level (“nested”) data or cross-classified data.</li>
+</ol>
+<p><strong>fabricatr</strong> is easy to learn and easy to read. Consider this example which generates data modeling the United States House of Representatives:</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://declaredesign.org/r/declaredesign/">DeclareDesign</a></span><span class="op">)</span></span>
+<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://declaredesign.org/r/fabricatr/">fabricatr</a></span><span class="op">)</span></span>
 <span></span>
-<span><span class="va">design</span> <span class="op">&lt;-</span></span>
-<span>  <span class="fu"><a href="reference/declare_model.html">declare_model</a></span><span class="op">(</span></span>
-<span>    N <span class="op">=</span> <span class="fl">100</span>, </span>
-<span>    <span class="fu"><a href="https://rdrr.io/pkg/fabricatr/man/potential_outcomes.html" class="external-link">potential_outcomes</a></span><span class="op">(</span><span class="va">Y</span> <span class="op">~</span> <span class="fu"><a href="https://rdrr.io/r/stats/Binomial.html" class="external-link">rbinom</a></span><span class="op">(</span><span class="va">N</span>, size <span class="op">=</span> <span class="fl">1</span>, prob <span class="op">=</span> <span class="fl">0.5</span> <span class="op">+</span> <span class="fl">0.05</span> <span class="op">*</span> <span class="va">Z</span><span class="op">)</span><span class="op">)</span></span>
-<span>  <span class="op">)</span> <span class="op">+</span></span>
-<span>  <span class="fu"><a href="reference/declare_inquiry.html">declare_inquiry</a></span><span class="op">(</span>ATE <span class="op">=</span> <span class="fl">0.05</span><span class="op">)</span> <span class="op">+</span></span>
-<span>  <span class="fu"><a href="reference/declare_assignment.html">declare_assignment</a></span><span class="op">(</span>Z <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/pkg/randomizr/man/complete_ra.html" class="external-link">complete_ra</a></span><span class="op">(</span><span class="va">N</span>, m <span class="op">=</span> <span class="fl">50</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
-<span>  <span class="fu"><a href="reference/declare_measurement.html">declare_measurement</a></span><span class="op">(</span>Y <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/pkg/fabricatr/man/reveal_outcomes.html" class="external-link">reveal_outcomes</a></span><span class="op">(</span><span class="va">Y</span> <span class="op">~</span> <span class="va">Z</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span> </span>
-<span>  <span class="fu"><a href="reference/declare_estimator.html">declare_estimator</a></span><span class="op">(</span><span class="va">Y</span> <span class="op">~</span> <span class="va">Z</span>, .method <span class="op">=</span> <span class="va">lm_robust</span>, inquiry <span class="op">=</span> <span class="st">"ATE"</span><span class="op">)</span></span>
-<span></span>
-<span><span class="va">diagnosands</span> <span class="op">&lt;-</span></span>
-<span>  <span class="fu"><a href="reference/declare_diagnosands.html">declare_diagnosands</a></span><span class="op">(</span>bias <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/mean.html" class="external-link">mean</a></span><span class="op">(</span><span class="va">estimate</span> <span class="op">-</span> <span class="va">estimand</span><span class="op">)</span>,</span>
-<span>                      power <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/mean.html" class="external-link">mean</a></span><span class="op">(</span><span class="va">p.value</span> <span class="op">&lt;=</span> <span class="fl">0.05</span><span class="op">)</span><span class="op">)</span></span>
-<span></span>
-<span><span class="va">diagnosis</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/diagnose_design.html">diagnose_design</a></span><span class="op">(</span><span class="va">design</span>, diagnosands <span class="op">=</span> <span class="va">diagnosands</span><span class="op">)</span></span></code></pre></div>
-<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">diagnosis</span></span></code></pre></div>
+<span><span class="va">house_members</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/fabricate.html">fabricate</a></span><span class="op">(</span></span>
+<span>  party_id <span class="op">=</span> <span class="fu"><a href="reference/fabricate.html">add_level</a></span><span class="op">(</span></span>
+<span>    N <span class="op">=</span> <span class="fl">2</span>, party_names <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Republican"</span>, <span class="st">"Democrat"</span><span class="op">)</span>, party_ideology <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0.5</span>, <span class="op">-</span><span class="fl">0.5</span><span class="op">)</span>,</span>
+<span>    in_power <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">0</span><span class="op">)</span>, party_incumbents <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">241</span>, <span class="fl">194</span><span class="op">)</span></span>
+<span>  <span class="op">)</span>,</span>
+<span>  rep_id <span class="op">=</span> <span class="fu"><a href="reference/fabricate.html">add_level</a></span><span class="op">(</span></span>
+<span>    N <span class="op">=</span> <span class="va">party_incumbents</span>, member_ideology <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/Normal.html" class="external-link">rnorm</a></span><span class="op">(</span><span class="va">N</span>, <span class="va">party_ideology</span>, sd <span class="op">=</span> <span class="fl">0.5</span><span class="op">)</span>,</span>
+<span>    terms_served <span class="op">=</span> <span class="fu"><a href="reference/draw_discrete.html">draw_count</a></span><span class="op">(</span>N <span class="op">=</span> <span class="va">N</span>, mean <span class="op">=</span> <span class="fl">4</span><span class="op">)</span>,</span>
+<span>    female <span class="op">=</span> <span class="fu"><a href="reference/draw_discrete.html">draw_binary</a></span><span class="op">(</span>N <span class="op">=</span> <span class="va">N</span>, prob <span class="op">=</span> <span class="fl">0.198</span><span class="op">)</span></span>
+<span>  <span class="op">)</span></span>
+<span><span class="op">)</span></span></code></pre></div>
 <table class="table">
 <thead><tr class="header">
-<th align="left">Inquiry</th>
-<th align="left">Estimator</th>
-<th align="left">Outcome</th>
-<th align="right">Bias</th>
-<th align="right">SE(Bias)</th>
-<th align="right">Power</th>
-<th align="right">SE(Power)</th>
-<th align="right">n sims</th>
+<th align="left">party_names</th>
+<th align="right">party_ideology</th>
+<th align="right">in_power</th>
+<th align="right">member_ideology</th>
+<th align="right">terms_served</th>
+<th align="right">female</th>
 </tr></thead>
-<tbody><tr class="odd">
-<td align="left">ATE</td>
-<td align="left">estimator</td>
-<td align="left">Y</td>
-<td align="right">-0.004</td>
-<td align="right">0.004</td>
-<td align="right">0.076</td>
-<td align="right">0.01</td>
-<td align="right">500</td>
-</tr></tbody>
+<tbody>
+<tr class="odd">
+<td align="left">Republican</td>
+<td align="right">0.5</td>
+<td align="right">1</td>
+<td align="right">0.43</td>
+<td align="right">3</td>
+<td align="right">0</td>
+</tr>
+<tr class="even">
+<td align="left">Republican</td>
+<td align="right">0.5</td>
+<td align="right">1</td>
+<td align="right">-0.19</td>
+<td align="right">1</td>
+<td align="right">0</td>
+</tr>
+<tr class="odd">
+<td align="left">Republican</td>
+<td align="right">0.5</td>
+<td align="right">1</td>
+<td align="right">0.52</td>
+<td align="right">4</td>
+<td align="right">0</td>
+</tr>
+<tr class="even">
+<td align="left">Republican</td>
+<td align="right">0.5</td>
+<td align="right">1</td>
+<td align="right">0.85</td>
+<td align="right">2</td>
+<td align="right">0</td>
+</tr>
+<tr class="odd">
+<td align="left">Republican</td>
+<td align="right">0.5</td>
+<td align="right">1</td>
+<td align="right">0.59</td>
+<td align="right">5</td>
+<td align="right">0</td>
+</tr>
+</tbody>
 </table>
 </div>
-<div class="section level2">
-<h2 id="companion-software">Companion software<a class="anchor" aria-label="anchor" href="#companion-software"></a>
-</h2>
-<p>The core DeclareDesign package relies on four companion packages, each of which is useful in its own right.</p>
-<ol style="list-style-type: decimal">
-<li>
-<a href="https://declaredesign.org/r/randomizr/" class="external-link">randomizr</a>: Easy to use tools for common forms of random assignment and sampling.</li>
-<li>
-<a href="https://declaredesign.org/r/fabricatr/" class="external-link">fabricatr</a>: Imagine your data before you collect it.</li>
-<li>
-<a href="https://declaredesign.org/r/estimatr/" class="external-link">estimatr</a>: Fast estimators for social scientists.</li>
-<li>
-<a href="https://declaredesign.org/r/designlibrary/" class="external-link">DesignLibrary</a>: Templates to quickly adopt and adapt common research designs.</li>
-</ol>
-</div>
-<div class="section level2">
-<h2 id="learning-declaredesign">Learning DeclareDesign<a class="anchor" aria-label="anchor" href="#learning-declaredesign"></a>
-</h2>
-<ol style="list-style-type: decimal">
-<li><p>To get started, have a look at this vignette on <a href="https://declaredesign.org/getting-started/" class="external-link">the idea behind DeclareDesign</a>, which covers the main functionality of the software.</p></li>
-<li><p>For an explanation of the philosophy behind DeclareDesign, examples in code and words of declaring and diagnosing common research designs in the social sciences, as well as examples of how to incorporate DeclareDesign into your own research, see the book <a href="https://book.declaredesign.org" class="external-link">Research Design in the Social Sciences</a> (Blair, Coppock, Humphreys, 2023).</p></li>
-</ol>
-</div>
-<div class="section level2">
-<h2 id="package-structure">Package structure<a class="anchor" aria-label="anchor" href="#package-structure"></a>
-</h2>
-<p>Each of these <code>declare_*()</code> functions returns a <em>function</em>.</p>
-<ol style="list-style-type: decimal">
-<li>
-<code><a href="reference/declare_model.html">declare_model()</a></code> (describes dimensions and distributions over the variables, including potential outcomes)</li>
-<li>
-<code><a href="reference/declare_inquiry.html">declare_inquiry()</a></code> (takes variables in the model and calculates estimand value)</li>
-<li>
-<code><a href="reference/declare_sampling.html">declare_sampling()</a></code> (takes a population and selects a sample)</li>
-<li>
-<code><a href="reference/declare_assignment.html">declare_assignment()</a></code> (takes a population or sample and adds treatment assignments)</li>
-<li>
-<code><a href="reference/declare_measurement.html">declare_measurement()</a></code> (takes data and adds measured values)</li>
-<li>
-<code><a href="reference/declare_estimator.html">declare_estimator()</a></code> (takes data produced by sampling, assignment, and measurement and returns estimates linked to inquiries)</li>
-<li>
-<code><a href="reference/declare_test.html">declare_test()</a></code> (takes data produced by sampling, assignment, and measurement and returns the result of a test)</li>
-</ol>
-<p>To <em>declare a design</em>, connect the components of your design with the + operator.</p>
-<p>Once you have declared your design, there are four core post-design-declaration commands used to modify or diagnose your design:</p>
-<ol style="list-style-type: decimal">
-<li>
-<code><a href="reference/diagnose_design.html">diagnose_design()</a></code> (takes a design and returns simulations and diagnosis)</li>
-<li>
-<code><a href="reference/draw_functions.html">draw_data()</a></code> (takes a design and returns a single draw of the data)</li>
-<li>
-<code><a href="reference/draw_functions.html">draw_estimates()</a></code> (takes a design and returns a single simulation of estimates)</li>
-<li>
-<code><a href="reference/draw_functions.html">draw_estimands()</a></code> (takes a design and returns a single simulation of estimands)</li>
-</ol>
-<p>A few other features:</p>
-<ol style="list-style-type: decimal">
-<li>A designer is a function that takes parameters (e.g., <code>N</code>) and returns a design. <code><a href="reference/expand_design.html">expand_design()</a></code> is a function of a designer and parameters that return a design.</li>
-<li>You can change the diagnosands with <code><a href="reference/declare_diagnosands.html">declare_diagnosands()</a></code>.</li>
-</ol>
+<div class="section level3">
+<h3 id="next-steps">Next Steps<a class="anchor" aria-label="anchor" href="#next-steps"></a>
+</h3>
+<p>For more information, read our <a href="/r/fabricatr/articles/getting_started.html">online tutorial</a> to get started with <strong>fabricatr</strong>. This tutorial will give you a brief overview of <strong>fabricatr</strong>’s main functions and direct you towards your next steps. You can also read our documentation inside R using the command <code><a href="reference/fabricate.html">?fabricate</a></code> as your entry point.</p>
 <hr>
-<p>This project was generously supported by a grant from the <a href="http://www.arnoldfoundation.org" class="external-link">Laura and John Arnold Foundation</a> and seed funding from <a href="http://egap.org" class="external-link">EGAP</a>.</p>
+<p>This project is generously supported by a grant from the <a href="http://www.arnoldfoundation.org" class="external-link">Laura and John Arnold Foundation</a> and seed funding from <a href="http://egap.org" class="external-link">EGAP</a>.</p>
 </div>
 </div>
   </main><aside class="col-md-3"><div class="links">
 <h2 data-toc-skip>Links</h2>
 <ul class="list-unstyled">
-<li><a href="https://cloud.r-project.org/package=DeclareDesign" class="external-link">View on CRAN</a></li>
-<li><a href="https://github.com/DeclareDesign/DeclareDesign/" class="external-link">Browse source code</a></li>
-<li><a href="https://github.com/DeclareDesign/DeclareDesign/issues" class="external-link">Report a bug</a></li>
+<li><a href="https://cloud.r-project.org/package=fabricatr" class="external-link">View on CRAN</a></li>
+<li><a href="https://github.com/DeclareDesign/fabricatr/" class="external-link">Browse source code</a></li>
+<li><a href="https://github.com/DeclareDesign/fabricatr/issues" class="external-link">Report a bug</a></li>
 </ul>
 </div>
 
@@ -199,7 +186,7 @@
 <div class="citation">
 <h2 data-toc-skip>Citation</h2>
 <ul class="list-unstyled">
-<li><a href="authors.html#citation">Citing DeclareDesign</a></li>
+<li><a href="authors.html#citation">Citing fabricatr</a></li>
 </ul>
 </div>
 
@@ -210,7 +197,9 @@
 <li>Jasper Cooper <br><small class="roles"> Author </small> <a href="https://orcid.org/0000-0002-8639-3188" target="orcid.widget" aria-label="ORCID" class="external-link"><span class="fab fa-orcid orcid" aria-hidden="true"></span></a> </li>
 <li>Alexander Coppock <br><small class="roles"> Author </small> <a href="https://orcid.org/0000-0002-5733-2386" target="orcid.widget" aria-label="ORCID" class="external-link"><span class="fab fa-orcid orcid" aria-hidden="true"></span></a> </li>
 <li>Macartan Humphreys <br><small class="roles"> Author </small> <a href="https://orcid.org/0000-0001-7029-2326" target="orcid.widget" aria-label="ORCID" class="external-link"><span class="fab fa-orcid orcid" aria-hidden="true"></span></a> </li>
+<li>Aaron Rudkin <br><small class="roles"> Author </small>  </li>
 <li>Neal Fultz <br><small class="roles"> Author </small>  </li>
+<li><a href="authors.html">More about authors...</a></li>
 </ul>
 </div>
 
@@ -221,7 +210,7 @@
 
 
     <footer><div class="pkgdown-footer-left">
-  <p>Developed by Graeme Blair, Jasper Cooper, Alexander Coppock, Macartan Humphreys, Neal Fultz.</p>
+  <p>Developed by Graeme Blair, Jasper Cooper, Alexander Coppock, Macartan Humphreys, Aaron Rudkin, Neal Fultz.</p>
 </div>
 
 <div class="pkgdown-footer-right">
