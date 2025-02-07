@@ -70,7 +70,8 @@
 
 
 
-<script src="absorbing-fixed-effects_files/accessible-code-block-0.0.1/empty-anchor.js"></script><div class="row">
+
+<div class="row">
   <main id="main" class="col-md-9"><div class="page-header">
 
       <h1>Absorbing Fixed Effects with estimatr</h1>
@@ -82,7 +83,12 @@
 
     
     
-<p>Whether analyzing a block-randomized experiment or adding fixed effects for a panel model, absorbing group means can speed up estimation time. The <code>fixed_effects</code> argument in both <code>lm_robust</code> and <code>iv_robust</code> allows you to do just that, although the speed gains are greatest with “HC1” standard errors. Specifying fixed effects is really simple.</p>
+<p>Whether analyzing a block-randomized experiment or adding fixed
+effects for a panel model, absorbing group means can speed up estimation
+time. The <code>fixed_effects</code> argument in both
+<code>lm_robust</code> and <code>iv_robust</code> allows you to do just
+that, although the speed gains are greatest with “HC1” standard errors.
+Specifying fixed effects is really simple.</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://declaredesign.org/r/estimatr/">estimatr</a></span><span class="op">)</span></span>
 <span><span class="va">lmr_out</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/lm_robust.html">lm_robust</a></span><span class="op">(</span><span class="va">mpg</span> <span class="op">~</span> <span class="va">hp</span>, data <span class="op">=</span> <span class="va">mtcars</span>, fixed_effects <span class="op">=</span> <span class="op">~</span> <span class="va">cyl</span><span class="op">)</span></span>
@@ -95,14 +101,25 @@
 <span><span class="co">## 28.65012 22.68246 20.12927</span></span></code></pre>
 <p>Before proceeding, three quick notes:</p>
 <ul>
-<li>Most of the speed gains occur when estimating “HC1” robust standard errors, or “stata” standard errors when there is clustering. This is because most of the speed gains come from avoiding inverting a large matrix of group dummies, but this step is still necessary for “HC2”, “HC3”, and “CR2” standard errors.</li>
-<li>While you can specify multiple sets of fixed effects, such as <code>fixed_effects = ~ year + country</code>, please ensure that your model is well-specified if you do so. If there are dependencies or overlapping groups across multiple sets of fixed effects, we cannot guarantee the correct degrees of freedom.</li>
-<li>For now, weighted “CR2” estimation is not possible with fixed_effects.</li>
+<li>Most of the speed gains occur when estimating “HC1” robust standard
+errors, or “stata” standard errors when there is clustering. This is
+because most of the speed gains come from avoiding inverting a large
+matrix of group dummies, but this step is still necessary for “HC2”,
+“HC3”, and “CR2” standard errors.</li>
+<li>While you can specify multiple sets of fixed effects, such as
+<code>fixed_effects = ~ year + country</code>, please ensure that your
+model is well-specified if you do so. If there are dependencies or
+overlapping groups across multiple sets of fixed effects, we cannot
+guarantee the correct degrees of freedom.</li>
+<li>For now, weighted “CR2” estimation is not possible with
+fixed_effects.</li>
 </ul>
 <div class="section level2">
 <h2 id="speed-gains">Speed gains<a class="anchor" aria-label="anchor" href="#speed-gains"></a>
 </h2>
-<p>In general, our speed gains will be greatest as the number of groups/fixed effects is large relative to the number of observations. Imagine we have 300 matched-pairs in an experiment.</p>
+<p>In general, our speed gains will be greatest as the number of
+groups/fixed effects is large relative to the number of observations.
+Imagine we have 300 matched-pairs in an experiment.</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Load packages for comparison</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/joshuaulrich/microbenchmark/" class="external-link">microbenchmark</a></span><span class="op">)</span></span>
@@ -139,14 +156,18 @@
 <span><span class="co">## to avoid potential integer overflows</span></span></code></pre>
 <pre><code><span><span class="co">## Unit: milliseconds</span></span>
 <span><span class="co">##             expr       min        lq      mean    median        uq       max</span></span>
-<span><span class="co">##  base + sandwich 144.15448 153.44147 159.90925 157.82233 163.91554 244.15328</span></span>
-<span><span class="co">##        lm_robust  35.90747  39.00715  42.13127  41.11529  42.83401 101.16881</span></span>
-<span><span class="co">##  lm_robust + fes  22.42614  24.53625  27.13051  25.93795  26.90502  86.00619</span></span>
+<span><span class="co">##  base + sandwich 140.74160 143.01296 145.11314 143.42501 144.92680 202.52586</span></span>
+<span><span class="co">##        lm_robust  34.74320  35.30645  37.15807  35.48708  36.96810  95.93053</span></span>
+<span><span class="co">##  lm_robust + fes  22.02758  22.31638  24.19348  22.47669  24.07438  86.23555</span></span>
 <span><span class="co">##  neval cld</span></span>
 <span><span class="co">##     50 a  </span></span>
 <span><span class="co">##     50  b </span></span>
 <span><span class="co">##     50   c</span></span></code></pre>
-<p>Speed gains are <em>considerably</em> greater with HC1 standard errors. This is because we need to get the hat matrix for HC2, HC3, and CR2 standard errors, which requires inverting that large matrix of dummies we previously avoided doing. HC0, HC1, CR0, and CRstata standard errors do not require this inversion.</p>
+<p>Speed gains are <em>considerably</em> greater with HC1 standard
+errors. This is because we need to get the hat matrix for HC2, HC3, and
+CR2 standard errors, which requires inverting that large matrix of
+dummies we previously avoided doing. HC0, HC1, CR0, and CRstata standard
+errors do not require this inversion.</p>
 <div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># With HC1</span></span>
 <span><span class="fu"><a href="https://rdrr.io/pkg/microbenchmark/man/microbenchmark.html" class="external-link">microbenchmark</a></span><span class="op">(</span></span>
@@ -168,14 +189,14 @@
 <span>  times <span class="op">=</span> <span class="fl">50</span></span>
 <span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## Unit: milliseconds</span></span>
-<span><span class="co">##             expr        min         lq       mean     median        uq</span></span>
-<span><span class="co">##  base + sandwich 159.376143 166.315639 184.775301 174.152153 189.71881</span></span>
-<span><span class="co">##        lm_robust  33.216601  35.427157  38.370947  36.859061  40.84174</span></span>
-<span><span class="co">##  lm_robust + fes   3.436784   3.920994   4.619582   4.251065   4.72197</span></span>
+<span><span class="co">##             expr        min         lq       mean    median         uq</span></span>
+<span><span class="co">##  base + sandwich 141.038032 143.251048 147.720294 143.84934 144.752263</span></span>
+<span><span class="co">##        lm_robust  28.361340  28.697171  29.968036  29.31926  31.160533</span></span>
+<span><span class="co">##  lm_robust + fes   2.506125   2.752207   2.931118   2.85194   2.924448</span></span>
 <span><span class="co">##         max neval cld</span></span>
-<span><span class="co">##  351.340849    50 a  </span></span>
-<span><span class="co">##   50.515690    50  b </span></span>
-<span><span class="co">##    7.982618    50   c</span></span></code></pre>
+<span><span class="co">##  207.851099    50 a  </span></span>
+<span><span class="co">##   33.029887    50  b </span></span>
+<span><span class="co">##    5.040909    50   c</span></span></code></pre>
 </div>
   </main>
 </div>

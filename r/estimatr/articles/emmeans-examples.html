@@ -70,7 +70,8 @@
 
 
 
-<script src="emmeans-examples_files/accessible-code-block-0.0.1/empty-anchor.js"></script><div class="row">
+
+<div class="row">
   <main id="main" class="col-md-9"><div class="page-header">
 
       <h1>Examples with emmeans</h1>
@@ -84,17 +85,25 @@
 
     
     
-<p>The <strong>emmeans</strong> package provides a variety of <em>post hoc</em> analyses such as obtaining estimated marginal means (EMMs) and comparisons thereof, displaying these results in a graph, and a number of related tasks.</p>
-<p>This vignette illustrates basic uses of <strong>emmeans</strong> with <code>lm_robust</code> objects. For more details, refer to the <strong>emmeans</strong> package itself and its vignettes.</p>
+<p>The <strong>emmeans</strong> package provides a variety of <em>post
+hoc</em> analyses such as obtaining estimated marginal means (EMMs) and
+comparisons thereof, displaying these results in a graph, and a number
+of related tasks.</p>
+<p>This vignette illustrates basic uses of <strong>emmeans</strong> with
+<code>lm_robust</code> objects. For more details, refer to the
+<strong>emmeans</strong> package itself and its vignettes.</p>
 <div class="section level3">
 <h3 id="a-factorial-experiment">A factorial experiment<a class="anchor" aria-label="anchor" href="#a-factorial-experiment"></a>
 </h3>
-<p>The <code>warpbreaks</code> dataset provided in base R has the results of a two-factor experiment. We start by fitting a model</p>
+<p>The <code>warpbreaks</code> dataset provided in base R has the
+results of a two-factor experiment. We start by fitting a model</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://declaredesign.org/r/estimatr/">estimatr</a></span><span class="op">)</span></span>
 <span></span>
 <span><span class="va">warp.rlm</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/lm_robust.html">lm_robust</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/Log.html" class="external-link">log</a></span><span class="op">(</span><span class="va">breaks</span><span class="op">)</span> <span class="op">~</span> <span class="va">wool</span> <span class="op">*</span> <span class="va">tension</span>, data <span class="op">=</span> <span class="va">warpbreaks</span><span class="op">)</span></span></code></pre></div>
-<p>Typical use of <code><a href="https://rvlenth.github.io/emmeans/reference/emmeans.html" class="external-link">emmeans()</a></code> is to obtain predictions, or marginal means thereof, via a formula of the form <code>~ primary.variables | by.variables</code>:</p>
+<p>Typical use of <code><a href="https://rvlenth.github.io/emmeans/reference/emmeans.html" class="external-link">emmeans()</a></code> is to obtain predictions, or
+marginal means thereof, via a formula of the form
+<code>~ primary.variables | by.variables</code>:</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://rvlenth.github.io/emmeans/" class="external-link">emmeans</a></span><span class="op">)</span></span>
 <span></span>
@@ -102,49 +111,73 @@
 <span><span class="fu"><a href="https://rdrr.io/r/base/class.html" class="external-link">class</a></span><span class="op">(</span><span class="va">emm</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/utils/str.html" class="external-link">str</a></span><span class="op">(</span><span class="va">emm</span><span class="op">)</span></span>
 <span><span class="va">emm</span></span></code></pre></div>
-<p>These results may be plotted as side-by-side intervals or as an interaction-style plot:</p>
+<p>These results may be plotted as side-by-side intervals or as an
+interaction-style plot:</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">emm</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rvlenth.github.io/emmeans/reference/emmip.html" class="external-link">emmip</a></span><span class="op">(</span><span class="va">emm</span>, <span class="va">wool</span> <span class="op">~</span> <span class="va">tension</span>, CIs <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
-<p>This particular example has a response transformation. That transformation is detected and we may back-transform to the original scale:</p>
+<p>This particular example has a response transformation. That
+transformation is detected and we may back-transform to the original
+scale:</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/stats/confint.html" class="external-link">confint</a></span><span class="op">(</span><span class="va">emm</span>, type <span class="op">=</span> <span class="st">"response"</span><span class="op">)</span></span></code></pre></div>
 <p>We may do comparisons and other contrasts:</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/pairs.html" class="external-link">pairs</a></span><span class="op">(</span><span class="va">emm</span><span class="op">)</span> <span class="co"># pairwise comparisons</span></span>
 <span><span class="fu"><a href="https://rvlenth.github.io/emmeans/reference/contrast.html" class="external-link">contrast</a></span><span class="op">(</span><span class="va">emm</span>, <span class="st">"trt.vs.ctrl"</span>, ref <span class="op">=</span> <span class="st">"L"</span>, type <span class="op">=</span> <span class="st">"response"</span>, adjust <span class="op">=</span> <span class="st">"mvt"</span><span class="op">)</span></span></code></pre></div>
-<p>Note that with a log transformations, it is possible to back-transform comparisons, and they become ratios. With other transformations, back-transforming is not possible.</p>
+<p>Note that with a log transformations, it is possible to
+back-transform comparisons, and they become ratios. With other
+transformations, back-transforming is not possible.</p>
 </div>
 <div class="section level3">
 <h3 id="rank-deficient-models">Rank-deficient models<a class="anchor" aria-label="anchor" href="#rank-deficient-models"></a>
 </h3>
-<p>Let’s create a variation on this example where one cell is omitted:</p>
+<p>Let’s create a variation on this example where one cell is
+omitted:</p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">warpi.rlm</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/update.html" class="external-link">update</a></span><span class="op">(</span><span class="va">warp.rlm</span>, subset <span class="op">=</span> <span class="op">-</span><span class="op">(</span><span class="fl">37</span><span class="op">:</span><span class="fl">48</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="op">(</span><span class="va">rgi</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rvlenth.github.io/emmeans/reference/ref_grid.html" class="external-link">ref_grid</a></span><span class="op">(</span><span class="va">warpi.rlm</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary</a></span><span class="op">(</span><span class="va">rgi</span><span class="op">)</span></span></code></pre></div>
-<p>Note that the empty cell is detected and flagged as non-estimable.</p>
-<p>Some additional explanation here. EMMs are based on a <em>reference grid</em>, defined as the grid created by all possible combinations of factor levels, together with the mean of each numerical predictor. The reference grid here (<code>rgi</code>) is also an <code>"emmGrid"</code> object just like the previous <code>emm</code>. The grid itself is available as a data frame via the <code>grid</code> member, and you can verify that the above results match those of the <code>predict</code> function for the model:</p>
+<p>Note that the empty cell is detected and flagged as
+non-estimable.</p>
+<p>Some additional explanation here. EMMs are based on a <em>reference
+grid</em>, defined as the grid created by all possible combinations of
+factor levels, together with the mean of each numerical predictor. The
+reference grid here (<code>rgi</code>) is also an <code>"emmGrid"</code>
+object just like the previous <code>emm</code>. The grid itself is
+available as a data frame via the <code>grid</code> member, and you can
+verify that the above results match those of the <code>predict</code>
+function for the model:</p>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/stats/predict.html" class="external-link">predict</a></span><span class="op">(</span><span class="va">warpi.rlm</span>, newdata <span class="op">=</span> <span class="va">rgi</span><span class="op">@</span><span class="va">grid</span>, se.fit <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
-<p>There is one exception for the empty cell. I will leave it as a user exercise to demonstrate that if we were to use different contrasts when fitting <code>warpi.rlm</code>, the predictions will be the same <em>except</em> for the empty cell.</p>
+<p>There is one exception for the empty cell. I will leave it as a user
+exercise to demonstrate that if we were to use different contrasts when
+fitting <code>warpi.rlm</code>, the predictions will be the same
+<em>except</em> for the empty cell.</p>
 </div>
 <div class="section level3">
 <h3 id="multivariate-models">Multivariate models<a class="anchor" aria-label="anchor" href="#multivariate-models"></a>
 </h3>
-<p>If there is a multivariate response, it is treated as another factor that is crossed with the other factors in the model. To illustrate, consider the dataset <code>MOats</code>, provided in <strong>emmeans</strong>:</p>
+<p>If there is a multivariate response, it is treated as another factor
+that is crossed with the other factors in the model. To illustrate,
+consider the dataset <code>MOats</code>, provided in
+<strong>emmeans</strong>:</p>
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">MOats.rlm</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/lm_robust.html">lm_robust</a></span><span class="op">(</span><span class="va">yield</span> <span class="op">~</span> <span class="va">Block</span> <span class="op">+</span> <span class="va">Variety</span>, data <span class="op">=</span> <span class="va">MOats</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rvlenth.github.io/emmeans/reference/ref_grid.html" class="external-link">ref_grid</a></span><span class="op">(</span><span class="va">MOats.rlm</span><span class="op">)</span></span></code></pre></div>
-<p>By default, the pseudo-factor is named <code>rep.meas</code>, but we can change it if we like:</p>
+<p>By default, the pseudo-factor is named <code>rep.meas</code>, but we
+can change it if we like:</p>
 <div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rvlenth.github.io/emmeans/reference/emmeans.html" class="external-link">emmeans</a></span><span class="op">(</span><span class="va">MOats.rlm</span>, <span class="va">pairwise</span> <span class="op">~</span> <span class="va">nitro</span>, mult.name <span class="op">=</span> <span class="st">"nitro"</span><span class="op">)</span></span></code></pre></div>
-<p>This illustrates an additional feature of <code>emmeans</code> that we can put a contrast method in the left side of a formula.</p>
+<p>This illustrates an additional feature of <code>emmeans</code> that
+we can put a contrast method in the left side of a formula.</p>
 </div>
 <div class="section level3">
 <h3 id="afterword">Afterword<a class="anchor" aria-label="anchor" href="#afterword"></a>
 </h3>
-<p>There are numerous capabilities of <strong>emmeans</strong> not illustrated here. See that package’s help files and vignettes. Using <code><a href="https://rvlenth.github.io/emmeans/articles/basics.html" class="external-link">vignette("basics", "emmeans")</a></code> is a good starting point.</p>
+<p>There are numerous capabilities of <strong>emmeans</strong> not
+illustrated here. See that package’s help files and vignettes. Using
+<code><a href="https://rvlenth.github.io/emmeans/articles/basics.html" class="external-link">vignette("basics", "emmeans")</a></code> is a good starting point.</p>
 </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
     </nav></aside>

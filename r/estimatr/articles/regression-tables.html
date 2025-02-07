@@ -70,7 +70,8 @@
 
 
 
-<script src="regression-tables_files/accessible-code-block-0.0.1/empty-anchor.js"></script><div class="row">
+
+<div class="row">
   <main id="main" class="col-md-9"><div class="page-header">
 
       <h1>Regression Tables with estimatr</h1>
@@ -82,11 +83,15 @@
 
     
     
-<p>Preparing regression tables with estimatr is possible with all of the major r-to-LaTeX packages, including <code>texreg</code>, <code>modelsummary</code>, <code>stargazer</code>, <code>xtable</code>, and <code>huxtable</code>.</p>
+<p>Preparing regression tables with estimatr is possible with all of the
+major r-to-LaTeX packages, including <code>texreg</code>,
+<code>modelsummary</code>, <code>stargazer</code>, <code>xtable</code>,
+and <code>huxtable</code>.</p>
 <div class="section level2">
 <h2 id="setup">Setup<a class="anchor" aria-label="anchor" href="#setup"></a>
 </h2>
-<p>First we’ll load both <code>estimatr</code> and <code>magrittr</code> (for pipes).</p>
+<p>First we’ll load both <code>estimatr</code> and <code>magrittr</code>
+(for pipes).</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://declaredesign.org/r/estimatr/">estimatr</a></span><span class="op">)</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://magrittr.tidyverse.org" class="external-link">magrittr</a></span><span class="op">)</span></span></code></pre></div>
@@ -94,7 +99,9 @@
 <div class="section level2">
 <h2 id="texreg">Texreg<a class="anchor" aria-label="anchor" href="#texreg"></a>
 </h2>
-<p>Texreg operates directly on an <code>lm_robust</code> object. If you would like standard errors instead of confidence intervals, use <code>include.ci = FALSE</code>.</p>
+<p>Texreg operates directly on an <code>lm_robust</code> object. If you
+would like standard errors instead of confidence intervals, use
+<code>include.ci = FALSE</code>.</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/leifeld/texreg/" class="external-link">texreg</a></span><span class="op">)</span></span>
 <span><span class="va">fit</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/lm_robust.html">lm_robust</a></span><span class="op">(</span><span class="va">mpg</span> <span class="op">~</span> <span class="va">disp</span>, data <span class="op">=</span> <span class="va">mtcars</span><span class="op">)</span></span>
@@ -126,18 +133,32 @@
 <div class="section level2">
 <h2 id="modelsummary">modelsummary<a class="anchor" aria-label="anchor" href="#modelsummary"></a>
 </h2>
-<p><code>modelsummary</code> operates directly on <code>lm_robust</code> objects:</p>
+<p><code>modelsummary</code> operates directly on <code>lm_robust</code>
+objects:</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://modelsummary.com" class="external-link">modelsummary</a></span><span class="op">)</span></span>
 <span><span class="va">fit1</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/lm.html" class="external-link">lm</a></span><span class="op">(</span><span class="va">mpg</span> <span class="op">~</span> <span class="va">disp</span>, data <span class="op">=</span> <span class="va">mtcars</span><span class="op">)</span></span>
 <span><span class="va">fit2</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/lm.html" class="external-link">lm</a></span><span class="op">(</span><span class="va">mpg</span> <span class="op">~</span> <span class="va">hp</span>, data <span class="op">=</span> <span class="va">mtcars</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://modelsummary.com/man/modelsummary.html" class="external-link">modelsummary</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="va">fit1</span>, <span class="va">fit2</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
-<p>To learn how to customize the output table and/or statistics, please consult the <code>modelsummary</code> README file on Github: <a href="https://github.com/vincentarelbundock/modelsummary" class="external-link uri">https://github.com/vincentarelbundock/modelsummary</a></p>
+<p>To learn how to customize the output table and/or statistics, please
+consult the <code>modelsummary</code> README file on Github: <a href="https://github.com/vincentarelbundock/modelsummary" class="external-link uri">https://github.com/vincentarelbundock/modelsummary</a></p>
 </div>
 <div class="section level2">
 <h2 id="stargazer">Stargazer<a class="anchor" aria-label="anchor" href="#stargazer"></a>
 </h2>
-<p>Stargazer has to be <em>tricked</em> – there’s unfortunately no way around this unless something in the stargazer package changes. The maintainer has indicated that he has no active plans to update stargazer in the future. First, run the regression using <code>lm</code>. Then you can pass the <code>lm</code> fits to <code>starprep</code> a function which transforms the <code>lm</code> fits into <code>lm_robust</code> fits and then prepare the appropriate statistic you requested. The <code>starprep</code> function defaults to returning standard errors and uses <code>lm_robust</code> defaults for standard errors (robust HC2 SEs are the default in both <code>lm_robust</code>). Then you pass the <code>lm</code> fit to stargazer and then pass <code>starprep(fit)</code> to the <code>se</code> argument in <code>stargazer</code>. This process works great with multiple fits.</p>
+<p>Stargazer has to be <em>tricked</em> – there’s unfortunately no way
+around this unless something in the stargazer package changes. The
+maintainer has indicated that he has no active plans to update stargazer
+in the future. First, run the regression using <code>lm</code>. Then you
+can pass the <code>lm</code> fits to <code>starprep</code> a function
+which transforms the <code>lm</code> fits into <code>lm_robust</code>
+fits and then prepare the appropriate statistic you requested. The
+<code>starprep</code> function defaults to returning standard errors and
+uses <code>lm_robust</code> defaults for standard errors (robust HC2 SEs
+are the default in both <code>lm_robust</code>). Then you pass the
+<code>lm</code> fit to stargazer and then pass
+<code>starprep(fit)</code> to the <code>se</code> argument in
+<code>stargazer</code>. This process works great with multiple fits.</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va">stargazer</span><span class="op">)</span></span>
 <span><span class="va">fit_1</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/lm.html" class="external-link">lm</a></span><span class="op">(</span><span class="va">mpg</span> <span class="op">~</span> <span class="va">disp</span>, data <span class="op">=</span> <span class="va">mtcars</span><span class="op">)</span></span>
@@ -175,7 +196,8 @@
 <span><span class="co">## \textit{Note:}  &amp; \multicolumn{2}{r}{$^{*}$p$&lt;$0.1; $^{**}$p$&lt;$0.05; $^{***}$p$&lt;$0.01} \\ </span></span>
 <span><span class="co">## \end{tabular} </span></span>
 <span><span class="co">## \end{table}</span></span></code></pre>
-<p>Below are some more examples, although we hide the output for brevity.</p>
+<p>Below are some more examples, although we hide the output for
+brevity.</p>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Can also specify clusters and standard error type</span></span>
 <span><span class="fu"><a href="https://rdrr.io/pkg/stargazer/man/stargazer.html" class="external-link">stargazer</a></span><span class="op">(</span></span>
@@ -198,13 +220,15 @@
 <div class="section level2">
 <h2 id="xtable">xtable<a class="anchor" aria-label="anchor" href="#xtable"></a>
 </h2>
-<p><code>xtable</code> works directly on a data.frame, so we just have to prep the <code>lm_robust</code> output with the <code>tidy</code> function.</p>
+<p><code>xtable</code> works directly on a data.frame, so we just have
+to prep the <code>lm_robust</code> output with the <code>tidy</code>
+function.</p>
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="http://xtable.r-forge.r-project.org/" class="external-link">xtable</a></span><span class="op">)</span></span>
 <span><span class="va">fit</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/lm_robust.html">lm_robust</a></span><span class="op">(</span><span class="va">mpg</span> <span class="op">~</span> <span class="va">disp</span>, data <span class="op">=</span> <span class="va">mtcars</span><span class="op">)</span></span>
 <span><span class="va">fit</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="va">tidy</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="https://rdrr.io/pkg/xtable/man/xtable.html" class="external-link">xtable</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## % latex table generated in R 4.4.2 by xtable 1.8-4 package</span></span>
-<span><span class="co">## % Fri Feb  7 07:29:10 2025</span></span>
+<span><span class="co">## % Fri Feb  7 23:17:28 2025</span></span>
 <span><span class="co">## \begin{table}[ht]</span></span>
 <span><span class="co">## \centering</span></span>
 <span><span class="co">## \begin{tabular}{rlrrrrrrrl}</span></span>
@@ -220,7 +244,8 @@
 <div class="section level2">
 <h2 id="huxtable">huxtable<a class="anchor" aria-label="anchor" href="#huxtable"></a>
 </h2>
-<p><code>huxtable</code>, too, works on a data.frame, so all we have to do is prep with <code>tidy</code>.</p>
+<p><code>huxtable</code>, too, works on a data.frame, so all we have to
+do is prep with <code>tidy</code>.</p>
 <div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://hughjonesd.github.io/huxtable/" class="external-link">huxtable</a></span><span class="op">)</span></span>
 <span><span class="va">fit</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/lm_robust.html">lm_robust</a></span><span class="op">(</span><span class="va">mpg</span> <span class="op">~</span> <span class="va">disp</span>, data <span class="op">=</span> <span class="va">mtcars</span><span class="op">)</span></span>

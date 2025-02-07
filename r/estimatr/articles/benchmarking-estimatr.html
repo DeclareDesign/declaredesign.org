@@ -70,11 +70,13 @@
 
 
 
-<script src="benchmarking-estimatr_files/accessible-code-block-0.0.1/empty-anchor.js"></script><div class="row">
+
+<div class="row">
   <main id="main" class="col-md-9"><div class="page-header">
 
       <h1>Benchmarking estimatr</h1>
-                        <h4 data-toc-skip class="author">Luke Sonnet</h4>
+                        <h4 data-toc-skip class="author">Luke
+Sonnet</h4>
             
       
       <small class="dont-index">Source: <a href="https://github.com/DeclareDesign/estimatr/blob/main/vignettes/benchmarking-estimatr.Rmd" class="external-link"><code>vignettes/benchmarking-estimatr.Rmd</code></a></small>
@@ -83,12 +85,30 @@
 
     
     
-<p>This document benchmarks the speed of <code>lm_robust</code> against other estimators. Our performance is slightly better than base R when using classical standard errors, but most of our improvements come when estimating robust standard errors.</p>
-<p>The times are milliseconds and are a median over 200 runs for all but the CR2 case, which was taken on a sample of 50 runs, using the <code>microbenchmark</code> package. This benchmarking was done on a 2017 MacBook Air, with a 1.8 GHz Intel Core i5 CPU and 8 GB of memory.</p>
+<p>This document benchmarks the speed of <code>lm_robust</code> against
+other estimators. Our performance is slightly better than base R when
+using classical standard errors, but most of our improvements come when
+estimating robust standard errors.</p>
+<p>The times are milliseconds and are a median over 200 runs for all but
+the CR2 case, which was taken on a sample of 50 runs, using the
+<code>microbenchmark</code> package. This benchmarking was done on a
+2017 MacBook Air, with a 1.8 GHz Intel Core i5 CPU and 8 GB of
+memory.</p>
 <div class="section level2">
 <h2 id="linear-regression">Linear regression<a class="anchor" aria-label="anchor" href="#linear-regression"></a>
 </h2>
-<p>I test our speed in estimating coefficients, standard errors, and doing inference on four different datasets (500 and 5000 observations; 5 and 50 covariates) and across several different specifications. Below I preview the results comparing <code><a href="../reference/lm_robust.html">lm_robust()</a></code> to base R for fitting coefficients and a commonly used package for robust standard errors, such as the <code>sandwich</code> package. In the two largest datasets, our method is almost always faster and at worst is the same as base R, and only with classical standard errors. When it comes to the biggest gains, using <code><a href="../reference/lm_robust.html">lm_robust()</a></code> to get HC2 or Stata-like cluster-robust standard errors will roughly halve your waiting time. If you want CR2 standard errors, <code><a href="../reference/lm_robust.html">lm_robust()</a></code> can reduce your run time by a factor of 10!</p>
+<p>I test our speed in estimating coefficients, standard errors, and
+doing inference on four different datasets (500 and 5000 observations; 5
+and 50 covariates) and across several different specifications. Below I
+preview the results comparing <code><a href="../reference/lm_robust.html">lm_robust()</a></code> to base R for
+fitting coefficients and a commonly used package for robust standard
+errors, such as the <code>sandwich</code> package. In the two largest
+datasets, our method is almost always faster and at worst is the same as
+base R, and only with classical standard errors. When it comes to the
+biggest gains, using <code><a href="../reference/lm_robust.html">lm_robust()</a></code> to get HC2 or Stata-like
+cluster-robust standard errors will roughly halve your waiting time. If
+you want CR2 standard errors, <code><a href="../reference/lm_robust.html">lm_robust()</a></code> can reduce your
+run time by a factor of 10!</p>
 <table class="table">
 <thead><tr class="header">
 <th>
@@ -607,7 +627,9 @@ AER + ivpack/clubSandwich
 <span>    <span class="kw"><a href="https://rdrr.io/r/base/function.html" class="external-link">return</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span><span class="va">y</span>, <span class="va">X</span><span class="op">)</span><span class="op">)</span></span>
 <span>  <span class="op">}</span></span>
 <span><span class="op">)</span></span></code></pre>
-<p>First, we can look at the classical standard errors case. We do a few more computations than <code>summary.lm</code> does, and have a bit more overhead.</p>
+<p>First, we can look at the classical standard errors case. We do a few
+more computations than <code>summary.lm</code> does, and have a bit more
+overhead.</p>
 <pre><code><span><span class="va">test_base</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/lapply.html" class="external-link">lapply</a></span><span class="op">(</span><span class="va">data_list</span>, <span class="kw">function</span><span class="op">(</span><span class="va">dat</span><span class="op">)</span> <span class="op">{</span></span>
 <span>  <span class="va">mbo</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/pkg/microbenchmark/man/microbenchmark.html" class="external-link">microbenchmark</a></span><span class="op">(</span></span>
 <span>    <span class="st">'lm_robust'</span> <span class="op">=</span> <span class="fu"><a href="../reference/lm_robust.html">lm_robust</a></span><span class="op">(</span><span class="va">y</span> <span class="op">~</span> <span class="va">.</span>, data <span class="op">=</span> <span class="va">dat</span>, se_type <span class="op">=</span> <span class="st">"classical"</span><span class="op">)</span>,</span>
@@ -617,7 +639,8 @@ AER + ivpack/clubSandwich
 <span>  unit <span class="op">=</span> <span class="st">"ms"</span><span class="op">)</span></span>
 <span>  <span class="kw"><a href="https://rdrr.io/r/base/function.html" class="external-link">return</a></span><span class="op">(</span><span class="va">mbo</span><span class="op">[</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"expr"</span>, <span class="st">"median"</span><span class="op">)</span><span class="op">]</span><span class="op">)</span></span>
 <span><span class="op">}</span><span class="op">)</span></span></code></pre>
-<p>The following table has the median time in milliseconds across 50 runs of each estimator for each of the different data sets.</p>
+<p>The following table has the median time in milliseconds across 50
+runs of each estimator for each of the different data sets.</p>
 <table class="table">
 <thead><tr class="header">
 <th align="left">
@@ -673,7 +696,10 @@ base
 </tr>
 </tbody>
 </table>
-<p>However, the real speed gains come with robust standard errors. Let’s compare <code>lm_robust</code> to getting “HC2” standard errors and doing inference using them from the <code>coeftest</code> and <code>sandwich</code> packages.</p>
+<p>However, the real speed gains come with robust standard errors. Let’s
+compare <code>lm_robust</code> to getting “HC2” standard errors and
+doing inference using them from the <code>coeftest</code> and
+<code>sandwich</code> packages.</p>
 <pre><code><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://sandwich.R-Forge.R-project.org/" class="external-link">sandwich</a></span><span class="op">)</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va">lmtest</span><span class="op">)</span></span>
 <span></span>
@@ -744,7 +770,8 @@ lm + coeftest + sandwich
 </tr>
 </tbody>
 </table>
-<p>What about with Stata’s clustered standard errors using <code>tapply</code> and <code>sandwich</code>?</p>
+<p>What about with Stata’s clustered standard errors using
+<code>tapply</code> and <code>sandwich</code>?</p>
 <pre><code><span><span class="co"># Commonly used function attributed mostly to M. Arai replicating Stata </span></span>
 <span><span class="co"># clustered SEs in R using sandwich and lmtest packages</span></span>
 <span><span class="va">cluster_robust_se</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">model</span>, <span class="va">cluster</span><span class="op">)</span><span class="op">{</span></span>
@@ -831,7 +858,11 @@ lm + coeftest + sandwich
 </tr>
 </tbody>
 </table>
-<p>The original authors who came up with a generalized version of the CR2 errors and accompanying Satterthwaite-like corrected degrees of freedom have their own package, <a href="https://github.com/jepusto/clubSandwich" class="external-link"><code>clubSandwich</code></a>, that provides estimators for many methods. We show here how much faster our implementation is for simple linear regression.</p>
+<p>The original authors who came up with a generalized version of the
+CR2 errors and accompanying Satterthwaite-like corrected degrees of
+freedom have their own package, <a href="https://github.com/jepusto/clubSandwich" class="external-link"><code>clubSandwich</code></a>,
+that provides estimators for many methods. We show here how much faster
+our implementation is for simple linear regression.</p>
 <pre><code><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="http://jepusto.github.io/clubSandwich/" class="external-link">clubSandwich</a></span><span class="op">)</span></span>
 <span></span>
 <span><span class="va">test_cr2</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/lapply.html" class="external-link">lapply</a></span><span class="op">(</span><span class="va">data_list</span>, <span class="kw">function</span><span class="op">(</span><span class="va">dat</span><span class="op">)</span> <span class="op">{</span></span>

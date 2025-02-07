@@ -70,11 +70,13 @@
 
 
 
-<script src="getting-started_files/accessible-code-block-0.0.1/empty-anchor.js"></script><div class="row">
+
+<div class="row">
   <main id="main" class="col-md-9"><div class="page-header">
 
       <h1>Getting started using estimatr</h1>
-                        <h4 data-toc-skip class="author">Luke Sonnet</h4>
+                        <h4 data-toc-skip class="author">Luke
+Sonnet</h4>
             
       
       <small class="dont-index">Source: <a href="https://github.com/DeclareDesign/estimatr/blob/main/vignettes/getting-started.Rmd" class="external-link"><code>vignettes/getting-started.Rmd</code></a></small>
@@ -83,25 +85,46 @@
 
     
     
-<p><strong>estimatr</strong> is a package in R dedicated to providing <a href="/r/estimatr/articles/benchmarking-estimatr.html">fast</a> estimators that take into consideration designs often used by social scientists. Estimators are statistical methods for estimating quantities of interest like treatment effects or regression parameters. Many of the estimators included with the R programming language or popular R packages are slow and have default settings that lead to statistically inappropriate estimates. Certain estimators that reflect cutting-edge advances in statistics are not yet implemented in R packages for convenient use. <strong>estimatr</strong> is designed to solve these problems and provide estimators tuned for design-based inference.</p>
-<p>The most up-to-date version of this vignette can be found on the <a href="https://declaredesign.org/r/estimatr/articles/getting-started.html">DeclareDesign website here</a>.</p>
+<p><strong>estimatr</strong> is a package in R dedicated to providing <a href="/r/estimatr/articles/benchmarking-estimatr.html">fast</a>
+estimators that take into consideration designs often used by social
+scientists. Estimators are statistical methods for estimating quantities
+of interest like treatment effects or regression parameters. Many of the
+estimators included with the R programming language or popular R
+packages are slow and have default settings that lead to statistically
+inappropriate estimates. Certain estimators that reflect cutting-edge
+advances in statistics are not yet implemented in R packages for
+convenient use. <strong>estimatr</strong> is designed to solve these
+problems and provide estimators tuned for design-based inference.</p>
+<p>The most up-to-date version of this vignette can be found on the <a href="https://declaredesign.org/r/estimatr/articles/getting-started.html">DeclareDesign
+website here</a>.</p>
 <div class="section level2">
 <h2 id="estimators">Estimators<a class="anchor" aria-label="anchor" href="#estimators"></a>
 </h2>
 <p>The current estimators we provide are:</p>
 <ul>
 <li>
-<a href="#lm_robust"><code>lm_robust</code></a> - for fitting linear models with heteroskedasticity/cluster-robust standard errors</li>
+<a href="#lm_robust"><code>lm_robust</code></a> - for fitting linear
+models with heteroskedasticity/cluster-robust standard errors</li>
 <li>
-<a href="#lm_lin"><code>lm_lin</code></a> - a wrapper for <code><a href="../reference/lm_robust.html">lm_robust()</a></code> to simplify interacting centered pre-treatment covariates with a treatment variable</li>
+<a href="#lm_lin"><code>lm_lin</code></a> - a wrapper for
+<code><a href="../reference/lm_robust.html">lm_robust()</a></code> to simplify interacting centered pre-treatment
+covariates with a treatment variable</li>
 <li>
-<a href="#iv_robust"><code>iv_robust</code></a> - two stage least squares estimation of instrumental variables regression</li>
+<a href="#iv_robust"><code>iv_robust</code></a> - two stage least
+squares estimation of instrumental variables regression</li>
 <li>
-<a href="#difference_in_means"><code>difference_in_means</code></a> - for estimating differences in means with appropriate standard errors for unit-randomized, cluster-randomized, block-randomized, matched-pair randomized, and matched-pair clustered designs</li>
+<a href="#difference_in_means"><code>difference_in_means</code></a>
+- for estimating differences in means with appropriate standard errors
+for unit-randomized, cluster-randomized, block-randomized, matched-pair
+randomized, and matched-pair clustered designs</li>
 <li>
-<a href="#horvitz_thompson"><code>horvitz_thompson</code></a> - for estimating average treatment effects taking into consideration treatment probabilities or sampling probabilities for simple and cluster randomized designs</li>
+<a href="#horvitz_thompson"><code>horvitz_thompson</code></a> - for
+estimating average treatment effects taking into consideration treatment
+probabilities or sampling probabilities for simple and cluster
+randomized designs</li>
 </ul>
-<p>I first create some sample data to demonstrate how to use each of these estimators.</p>
+<p>I first create some sample data to demonstrate how to use each of
+these estimators.</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://declaredesign.org/r/estimatr/">estimatr</a></span><span class="op">)</span></span>
 <span></span>
@@ -209,8 +232,16 @@
 <h3 id="lm_robust">
 <code>lm_robust</code><a class="anchor" aria-label="anchor" href="#lm_robust"></a>
 </h3>
-<p>The <code>estimatr</code> package provides <code><a href="../reference/lm_robust.html">lm_robust()</a></code> to quickly fit linear models with the most common variance estimators and degrees of freedom corrections used in social science. You can easily estimate heteroskedastic standard errors, clustered standard errors, and classical standard errors.</p>
-<p>Usage largely mimics <code><a href="https://rdrr.io/r/stats/lm.html" class="external-link">lm()</a></code>, although it defaults to using Eicker-Huber-White robust standard errors, specifically “HC2” standard errors. More about the exact specifications used can be found in the <a href="/r/estimatr/articles/mathematical-notes.html#lm_robust-notes">mathematical notes</a> and more about the estimator can be found on its reference page: <code><a href="../reference/lm_robust.html">lm_robust()</a></code>.</p>
+<p>The <code>estimatr</code> package provides <code><a href="../reference/lm_robust.html">lm_robust()</a></code>
+to quickly fit linear models with the most common variance estimators
+and degrees of freedom corrections used in social science. You can
+easily estimate heteroskedastic standard errors, clustered standard
+errors, and classical standard errors.</p>
+<p>Usage largely mimics <code><a href="https://rdrr.io/r/stats/lm.html" class="external-link">lm()</a></code>, although it defaults to using
+Eicker-Huber-White robust standard errors, specifically “HC2” standard
+errors. More about the exact specifications used can be found in the <a href="/r/estimatr/articles/mathematical-notes.html#lm_robust-notes">mathematical
+notes</a> and more about the estimator can be found on its reference
+page: <code><a href="../reference/lm_robust.html">lm_robust()</a></code>.</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">lmout</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/lm_robust.html">lm_robust</a></span><span class="op">(</span><span class="va">y</span> <span class="op">~</span> <span class="va">z</span> <span class="op">+</span> <span class="va">x</span>, data <span class="op">=</span> <span class="va">dat</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary</a></span><span class="op">(</span><span class="va">lmout</span><span class="op">)</span></span>
@@ -228,10 +259,22 @@
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; Multiple R-squared:  0.192 , Adjusted R-squared:  0.176 </span></span>
 <span><span class="co">#&gt; F-statistic: 13.6 on 2 and 97 DF,  p-value: 6.05e-06</span></span></code></pre></div>
-<p>Users can also easily get the output as a data.frame by using <code><a href="https://generics.r-lib.org/reference/tidy.html" class="external-link">tidy()</a></code>.</p>
+<p>Users can also easily get the output as a data.frame by using
+<code><a href="https://generics.r-lib.org/reference/tidy.html" class="external-link">tidy()</a></code>.</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://generics.r-lib.org/reference/tidy.html" class="external-link">tidy</a></span><span class="op">(</span><span class="va">lmout</span><span class="op">)</span></span></code></pre></div>
-<table class="table">
+<table style="width:100%;" class="table">
+<colgroup>
+<col width="15%">
+<col width="11%">
+<col width="12%">
+<col width="12%">
+<col width="10%">
+<col width="11%">
+<col width="12%">
+<col width="3%">
+<col width="10%">
+</colgroup>
 <thead><tr class="header">
 <th align="left">term</th>
 <th align="right">estimate</th>
@@ -279,14 +322,32 @@
 </tr>
 </tbody>
 </table>
-<p>It is straightforward to do cluster-robust inference, by passing the name of your cluster variable to the <code>clusters =</code> argument. The default variance estimator with clusters is dubbed ‘CR2’ because it is analogous to ‘HC2’ for the clustered case, and utilizes recent advances proposed by <span class="citation">Pustejovsky and Tipton (<a href="#ref-pustejovskytipton2016" role="doc-biblioref">2018</a>)</span> to correct hypotheses tests for small samples and work with commonly specified fixed effects and weights. Note that <code><a href="../reference/lm_robust.html">lm_robust()</a></code> is quicker if your cluster variable is a factor!</p>
+<p>It is straightforward to do cluster-robust inference, by passing the
+name of your cluster variable to the <code>clusters =</code> argument.
+The default variance estimator with clusters is dubbed ‘CR2’ because it
+is analogous to ‘HC2’ for the clustered case, and utilizes recent
+advances proposed by <span class="citation">Pustejovsky and Tipton (<a href="#ref-pustejovskytipton2016">2018</a>)</span> to correct hypotheses
+tests for small samples and work with commonly specified fixed effects
+and weights. Note that <code><a href="../reference/lm_robust.html">lm_robust()</a></code> is quicker if your
+cluster variable is a factor!</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Standard estimator with clustered assignment 'z_clust'</span></span>
 <span><span class="va">lmout</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/lm_robust.html">lm_robust</a></span><span class="op">(</span></span>
 <span>  <span class="va">y_clust</span> <span class="op">~</span> <span class="va">z_clust</span> <span class="op">+</span> <span class="va">x</span>,</span>
 <span>  data <span class="op">=</span> <span class="va">dat</span></span>
 <span><span class="op">)</span></span></code></pre></div>
-<table class="table">
+<table style="width:100%;" class="table">
+<colgroup>
+<col width="15%">
+<col width="11%">
+<col width="12%">
+<col width="12%">
+<col width="10%">
+<col width="11%">
+<col width="12%">
+<col width="3%">
+<col width="10%">
+</colgroup>
 <thead><tr class="header">
 <th align="left">term</th>
 <th align="right">estimate</th>
@@ -342,7 +403,18 @@
 <span>  clusters <span class="op">=</span> <span class="va">clust</span></span>
 <span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://generics.r-lib.org/reference/tidy.html" class="external-link">tidy</a></span><span class="op">(</span><span class="va">lmout_cl</span><span class="op">)</span></span></code></pre></div>
-<table class="table">
+<table style="width:100%;" class="table">
+<colgroup>
+<col width="15%">
+<col width="11%">
+<col width="12%">
+<col width="12%">
+<col width="10%">
+<col width="11%">
+<col width="12%">
+<col width="3%">
+<col width="10%">
+</colgroup>
 <thead><tr class="header">
 <th align="left">term</th>
 <th align="right">estimate</th>
@@ -390,7 +462,8 @@
 </tr>
 </tbody>
 </table>
-<p>Researchers can also replicate Stata’s standard errors by using the <code>se_type =</code> argument both with and without clusters:</p>
+<p>Researchers can also replicate Stata’s standard errors by using the
+<code>se_type =</code> argument both with and without clusters:</p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">lmout_stata</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/lm_robust.html">lm_robust</a></span><span class="op">(</span></span>
 <span>  <span class="va">y_clust</span> <span class="op">~</span> <span class="va">z_clust</span> <span class="op">+</span> <span class="va">x</span>,</span>
@@ -399,7 +472,18 @@
 <span>  se_type <span class="op">=</span> <span class="st">"stata"</span></span>
 <span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://generics.r-lib.org/reference/tidy.html" class="external-link">tidy</a></span><span class="op">(</span><span class="va">lmout_stata</span><span class="op">)</span></span></code></pre></div>
-<table class="table">
+<table style="width:100%;" class="table">
+<colgroup>
+<col width="15%">
+<col width="11%">
+<col width="12%">
+<col width="12%">
+<col width="10%">
+<col width="11%">
+<col width="12%">
+<col width="3%">
+<col width="10%">
+</colgroup>
 <thead><tr class="header">
 <th align="left">term</th>
 <th align="right">estimate</th>
@@ -447,7 +531,10 @@
 </tr>
 </tbody>
 </table>
-<p>Furthermore, users can take advantage of the margins package to get marginal effects, average marginal effects and their standard errors, and more. Similarly, the prediction package from the same author also provides a suite of software for different kinds of predictions.</p>
+<p>Furthermore, users can take advantage of the margins package to get
+marginal effects, average marginal effects and their standard errors,
+and more. Similarly, the prediction package from the same author also
+provides a suite of software for different kinds of predictions.</p>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/bbolker/margins" class="external-link">margins</a></span><span class="op">)</span></span>
 <span></span>
@@ -472,7 +559,10 @@
 <span><span class="co">#&gt;     x       x</span></span>
 <span><span class="co">#&gt;  -0.5 -0.8006</span></span>
 <span><span class="co">#&gt;   0.5  0.6395</span></span></code></pre></div>
-<p>Users who want their regression output in LaTeX or HTML can use the <a href="https://github.com/leifeld/texreg" class="external-link"><code>texreg</code></a> package, which we extend for the output of both the <code><a href="../reference/lm_robust.html">lm_robust()</a></code> and <code><a href="../reference/lm_lin.html">lm_lin()</a></code> functions.</p>
+<p>Users who want their regression output in LaTeX or HTML can use the
+<a href="https://github.com/leifeld/texreg" class="external-link"><code>texreg</code></a>
+package, which we extend for the output of both the
+<code><a href="../reference/lm_robust.html">lm_robust()</a></code> and <code><a href="../reference/lm_lin.html">lm_lin()</a></code> functions.</p>
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/leifeld/texreg/" class="external-link">texreg</a></span><span class="op">)</span></span>
 <span></span>
@@ -482,8 +572,26 @@
 <h3 id="lm_lin">
 <code>lm_lin</code><a class="anchor" aria-label="anchor" href="#lm_lin"></a>
 </h3>
-<p>Adjusting for pre-treatment covariates when using regression to estimate treatment effects is common practice across scientific disciplines. However, <span class="citation">Freedman (<a href="#ref-freedman2008" role="doc-biblioref">2008</a>)</span> demonstrated that pre-treatment covariate adjustment biases estimates of average treatment effects. In response, <span class="citation">Lin (<a href="#ref-lin2013" role="doc-biblioref">2013</a>)</span> proposed an alternative estimator that would reduce this bias and improve precision. <span class="citation">Lin (<a href="#ref-lin2013" role="doc-biblioref">2013</a>)</span> proposes centering all pre-treatment covariates, interacting them with the treatment variable, and regressing the outcome on the treatment, the centered pre-treatment covariates, and all of the interaction terms. This can require a non-trivial amount of data pre-processing.</p>
-<p>To facilitate this, we provide a wrapper that processes the data and estimates the model. We dub this estimator the Lin estimator and it can be accessed using <code><a href="../reference/lm_lin.html">lm_lin()</a></code>. This function is a wrapper for <code><a href="../reference/lm_robust.html">lm_robust()</a></code>, and all arguments that work for <code><a href="../reference/lm_robust.html">lm_robust()</a></code> work here. The only difference is in the second argument <code>covariates</code>, where one specifies a right-sided formula with all of your pre-treatment covariates. Below is an example, and more can be seen on the function reference page <a href="#lm_lin"><code>lm_lin</code></a> and some formal notation can be seen in the <a href="/r/estimatr/articles/mathematical-notes.html#lm_lin-notes">mathematical notes</a>.</p>
+<p>Adjusting for pre-treatment covariates when using regression to
+estimate treatment effects is common practice across scientific
+disciplines. However, <span class="citation">Freedman (<a href="#ref-freedman2008">2008</a>)</span> demonstrated that
+pre-treatment covariate adjustment biases estimates of average treatment
+effects. In response, <span class="citation">Lin (<a href="#ref-lin2013">2013</a>)</span> proposed an alternative estimator
+that would reduce this bias and improve precision. <span class="citation">Lin (<a href="#ref-lin2013">2013</a>)</span> proposes
+centering all pre-treatment covariates, interacting them with the
+treatment variable, and regressing the outcome on the treatment, the
+centered pre-treatment covariates, and all of the interaction terms.
+This can require a non-trivial amount of data pre-processing.</p>
+<p>To facilitate this, we provide a wrapper that processes the data and
+estimates the model. We dub this estimator the Lin estimator and it can
+be accessed using <code><a href="../reference/lm_lin.html">lm_lin()</a></code>. This function is a wrapper for
+<code><a href="../reference/lm_robust.html">lm_robust()</a></code>, and all arguments that work for
+<code><a href="../reference/lm_robust.html">lm_robust()</a></code> work here. The only difference is in the second
+argument <code>covariates</code>, where one specifies a right-sided
+formula with all of your pre-treatment covariates. Below is an example,
+and more can be seen on the function reference page <a href="#lm_lin"><code>lm_lin</code></a> and some formal notation can be
+seen in the <a href="/r/estimatr/articles/mathematical-notes.html#lm_lin-notes">mathematical
+notes</a>.</p>
 <div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">lml_out</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/lm_lin.html">lm_lin</a></span><span class="op">(</span></span>
 <span>  <span class="va">y</span> <span class="op">~</span> <span class="va">z</span>,</span>
@@ -491,7 +599,18 @@
 <span>  data <span class="op">=</span> <span class="va">dat</span></span>
 <span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://generics.r-lib.org/reference/tidy.html" class="external-link">tidy</a></span><span class="op">(</span><span class="va">lml_out</span><span class="op">)</span></span></code></pre></div>
-<table class="table">
+<table style="width:100%;" class="table">
+<colgroup>
+<col width="15%">
+<col width="11%">
+<col width="12%">
+<col width="12%">
+<col width="10%">
+<col width="11%">
+<col width="12%">
+<col width="3%">
+<col width="10%">
+</colgroup>
 <thead><tr class="header">
 <th align="left">term</th>
 <th align="right">estimate</th>
@@ -550,13 +669,18 @@
 </tr>
 </tbody>
 </table>
-<p>The output of a <code><a href="../reference/lm_lin.html">lm_lin()</a></code> call can be used with the same methods as <code><a href="../reference/lm_robust.html">lm_robust()</a></code>, including the <a href="https://github.com/leeper/margins" class="external-link"><code>margins</code></a> package.</p>
+<p>The output of a <code><a href="../reference/lm_lin.html">lm_lin()</a></code> call can be used with the same
+methods as <code><a href="../reference/lm_robust.html">lm_robust()</a></code>, including the <a href="https://github.com/leeper/margins" class="external-link"><code>margins</code></a>
+package.</p>
 </div>
 <div class="section level3">
 <h3 id="iv_robust">
 <code>iv_robust</code><a class="anchor" aria-label="anchor" href="#iv_robust"></a>
 </h3>
-<p>We also implement a two-stage least squares instrumental variables estimator. This estimator provides a simple syntax and fast estimation of standard errors (users can select from the same set of standard error estimators as in <code><a href="../reference/lm_robust.html">lm_robust()</a></code>).</p>
+<p>We also implement a two-stage least squares instrumental variables
+estimator. This estimator provides a simple syntax and fast estimation
+of standard errors (users can select from the same set of standard error
+estimators as in <code><a href="../reference/lm_robust.html">lm_robust()</a></code>).</p>
 <div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># `x` is endogenous variable and `z` is the instrument</span></span>
 <span><span class="va">iv_out</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/iv_robust.html">iv_robust</a></span><span class="op">(</span><span class="va">y</span> <span class="op">~</span> <span class="va">x</span> <span class="op">|</span> <span class="va">z</span>, data <span class="op">=</span> <span class="va">dat</span><span class="op">)</span></span>
@@ -579,7 +703,17 @@
 <h3 id="difference_in_means">
 <code>difference_in_means</code><a class="anchor" aria-label="anchor" href="#difference_in_means"></a>
 </h3>
-<p>While estimating differences in means may seem straightforward, it can become more complicated in designs with blocks or clusters. In these cases, estimators need to average over within-block effects and estimates of variance have to appropriately adjust for features of a design. We provide support for unit-randomized, cluster-randomized, block-randomized, matched-pair randomized, and matched-pair clustered designs. Usage is similar to usage in regression functions. More examples can be seen on the function reference page, <code><a href="../reference/difference_in_means.html">difference_in_means()</a></code>, and the actual estimators used can be found in the <a href="/r/estimatr/articles/mathematical-notes.html#lm_robust-notes">mathematical notes</a>.</p>
+<p>While estimating differences in means may seem straightforward, it
+can become more complicated in designs with blocks or clusters. In these
+cases, estimators need to average over within-block effects and
+estimates of variance have to appropriately adjust for features of a
+design. We provide support for unit-randomized, cluster-randomized,
+block-randomized, matched-pair randomized, and matched-pair clustered
+designs. Usage is similar to usage in regression functions. More
+examples can be seen on the function reference page,
+<code><a href="../reference/difference_in_means.html">difference_in_means()</a></code>, and the actual estimators used can
+be found in the <a href="/r/estimatr/articles/mathematical-notes.html#lm_robust-notes">mathematical
+notes</a>.</p>
 <div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Simple version</span></span>
 <span><span class="va">dim_out</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/difference_in_means.html">difference_in_means</a></span><span class="op">(</span></span>
@@ -588,6 +722,17 @@
 <span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://generics.r-lib.org/reference/tidy.html" class="external-link">tidy</a></span><span class="op">(</span><span class="va">dim_out</span><span class="op">)</span></span></code></pre></div>
 <table class="table">
+<colgroup>
+<col width="6%">
+<col width="12%">
+<col width="13%">
+<col width="13%">
+<col width="11%">
+<col width="12%">
+<col width="13%">
+<col width="4%">
+<col width="11%">
+</colgroup>
 <thead><tr class="header">
 <th align="left">term</th>
 <th align="right">estimate</th>
@@ -620,6 +765,17 @@
 <span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://generics.r-lib.org/reference/tidy.html" class="external-link">tidy</a></span><span class="op">(</span><span class="va">dim_out_cl</span><span class="op">)</span></span></code></pre></div>
 <table class="table">
+<colgroup>
+<col width="10%">
+<col width="12%">
+<col width="13%">
+<col width="13%">
+<col width="10%">
+<col width="12%">
+<col width="13%">
+<col width="4%">
+<col width="10%">
+</colgroup>
 <thead><tr class="header">
 <th align="left">term</th>
 <th align="right">estimate</th>
@@ -643,7 +799,8 @@
 <td align="left">y_clust</td>
 </tr></tbody>
 </table>
-<p>You can check which design was learned and which kind of estimator used by examining the <code>design</code> in the output.</p>
+<p>You can check which design was learned and which kind of estimator
+used by examining the <code>design</code> in the output.</p>
 <div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">sleep</span><span class="op">)</span></span>
 <span><span class="va">dim_mps</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/difference_in_means.html">difference_in_means</a></span><span class="op">(</span><span class="va">extra</span> <span class="op">~</span> <span class="va">group</span>, data <span class="op">=</span> <span class="va">sleep</span>, blocks <span class="op">=</span> <span class="va">ID</span><span class="op">)</span></span>
@@ -654,8 +811,22 @@
 <h3 id="horvitz_thompson">
 <code>horvitz_thompson</code><a class="anchor" aria-label="anchor" href="#horvitz_thompson"></a>
 </h3>
-<p>Horvitz-Thompson estimators yield unbiased treatment effect estimates when the randomization is known. This is particularly useful when there are clusters of different sizes being randomized into treatment or when the treatment assignment is complex and there are dependencies across units in the probability of being treated. Horvitz-Thompson estimators require information about the probability each unit is in treatment and control, as well as the joint probability each unit is in the treatment, in the control, and in opposite treatment conditions.</p>
-<p>The estimator we implement here, <code><a href="../reference/horvitz_thompson.html">horvitz_thompson()</a></code> estimates treatment effects for two-armed trials. The easiest way to specify your design and recover the full set of joint and marginal probabilities is to declare your randomization scheme by using <a href="/r/randomizr/reference/declare_ra.html"><code>declare_ra()</code></a> from the <a href="/r/randomizr/"><code>randomizr</code></a> package. I show some examples of how to do that below. Again, the technical details for this estimator can be found <a href="/r/estimatr/articles/mathematical-notes.html#horvitz_thompson-notes">here</a> and in references in those notes.</p>
+<p>Horvitz-Thompson estimators yield unbiased treatment effect estimates
+when the randomization is known. This is particularly useful when there
+are clusters of different sizes being randomized into treatment or when
+the treatment assignment is complex and there are dependencies across
+units in the probability of being treated. Horvitz-Thompson estimators
+require information about the probability each unit is in treatment and
+control, as well as the joint probability each unit is in the treatment,
+in the control, and in opposite treatment conditions.</p>
+<p>The estimator we implement here, <code><a href="../reference/horvitz_thompson.html">horvitz_thompson()</a></code>
+estimates treatment effects for two-armed trials. The easiest way to
+specify your design and recover the full set of joint and marginal
+probabilities is to declare your randomization scheme by using <a href="/r/randomizr/reference/declare_ra.html"><code>declare_ra()</code></a>
+from the <a href="/r/randomizr/"><code>randomizr</code></a> package. I
+show some examples of how to do that below. Again, the technical details
+for this estimator can be found <a href="/r/estimatr/articles/mathematical-notes.html#horvitz_thompson-notes">here</a>
+and in references in those notes.</p>
 <div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Complete random assignment declaration</span></span>
 <span><span class="va">crs_decl</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://declaredesign.org/r/randomizr/reference/declare_ra.html" class="external-link">declare_ra</a></span><span class="op">(</span></span>
@@ -671,6 +842,17 @@
 <span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://generics.r-lib.org/reference/tidy.html" class="external-link">tidy</a></span><span class="op">(</span><span class="va">ht_comp</span><span class="op">)</span></span></code></pre></div>
 <table class="table">
+<colgroup>
+<col width="6%">
+<col width="12%">
+<col width="13%">
+<col width="13%">
+<col width="11%">
+<col width="12%">
+<col width="13%">
+<col width="4%">
+<col width="11%">
+</colgroup>
 <thead><tr class="header">
 <th align="left">term</th>
 <th align="right">estimate</th>
@@ -694,7 +876,10 @@
 <td align="left">y</td>
 </tr></tbody>
 </table>
-<p>We can also easily estimate treatment effects from a cluster randomized experiment. Letting <code>horvitz_thompson</code> know that the design is clustered means it uses a collapsed estimator for the variance, described in <span class="citation">Aronow and Middleton (<a href="#ref-aronowmiddleton2013" role="doc-biblioref">2013</a>)</span>.</p>
+<p>We can also easily estimate treatment effects from a cluster
+randomized experiment. Letting <code>horvitz_thompson</code> know that
+the design is clustered means it uses a collapsed estimator for the
+variance, described in <span class="citation">Aronow and Middleton (<a href="#ref-aronowmiddleton2013">2013</a>)</span>.</p>
 <div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Clustered random assignment declaration</span></span>
 <span><span class="va">crs_clust_decl</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://declaredesign.org/r/randomizr/reference/declare_ra.html" class="external-link">declare_ra</a></span><span class="op">(</span></span>
@@ -711,6 +896,17 @@
 <span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://generics.r-lib.org/reference/tidy.html" class="external-link">tidy</a></span><span class="op">(</span><span class="va">ht_clust</span><span class="op">)</span></span></code></pre></div>
 <table class="table">
+<colgroup>
+<col width="10%">
+<col width="12%">
+<col width="13%">
+<col width="13%">
+<col width="10%">
+<col width="12%">
+<col width="13%">
+<col width="4%">
+<col width="10%">
+</colgroup>
 <thead><tr class="header">
 <th align="left">term</th>
 <th align="right">estimate</th>
@@ -734,7 +930,16 @@
 <td align="left">y_clust</td>
 </tr></tbody>
 </table>
-<p>You can also build the condition probability matrix (<code>condition_prob_mat =</code>) that <code><a href="../reference/horvitz_thompson.html">horvitz_thompson()</a></code> needs from a declaration from the <a href="/r/randomizr"><code>randomizr</code></a> package—using <code>declaration_to_conditional_pr_mat()</code>—or from a matrix of permutations of the treatment vector—using <code>permutations_to_conditional_pr_mat()</code>. <strong>This is largely intended for use by experienced users. Note, that if one passes a <code>condition_prob_mat</code> that indicates clustering, but does not specify the <code>clusters</code> argument, then the collapsed estimator will not be used.</strong></p>
+<p>You can also build the condition probability matrix
+(<code>condition_prob_mat =</code>) that <code><a href="../reference/horvitz_thompson.html">horvitz_thompson()</a></code>
+needs from a declaration from the <a href="/r/randomizr"><code>randomizr</code></a> package—using
+<code>declaration_to_conditional_pr_mat()</code>—or from a matrix of
+permutations of the treatment vector—using
+<code>permutations_to_conditional_pr_mat()</code>. <strong>This is
+largely intended for use by experienced users. Note, that if one passes
+a <code>condition_prob_mat</code> that indicates clustering, but does
+not specify the <code>clusters</code> argument, then the collapsed
+estimator will not be used.</strong></p>
 <div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># arbitrary permutation matrix</span></span>
 <span><span class="va">possible_treats</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/cbind.html" class="external-link">cbind</a></span><span class="op">(</span></span>
@@ -757,6 +962,17 @@
 <span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://generics.r-lib.org/reference/tidy.html" class="external-link">tidy</a></span><span class="op">(</span><span class="va">ht_arb</span><span class="op">)</span></span></code></pre></div>
 <table class="table">
+<colgroup>
+<col width="6%">
+<col width="12%">
+<col width="13%">
+<col width="13%">
+<col width="11%">
+<col width="12%">
+<col width="13%">
+<col width="4%">
+<col width="11%">
+</colgroup>
 <thead><tr class="header">
 <th align="left">term</th>
 <th align="right">estimate</th>
@@ -783,20 +999,30 @@
 </div>
 </div>
 <div class="section level2">
-<h2 id="references">References<a class="anchor" aria-label="anchor" href="#references"></a>
+<h2 class="unnumbered" id="references">References<a class="anchor" aria-label="anchor" href="#references"></a>
 </h2>
-<div id="refs" class="references">
-<div id="ref-aronowmiddleton2013">
-<p>Aronow, Peter M, and Joel A Middleton. 2013. “A Class of Unbiased Estimators of the Average Treatment Effect in Randomized Experiments.” <em>Journal of Causal Inference</em> 1 (1): 135–54. <a href="https://doi.org/10.1515/jci-2012-0009" class="external-link">https://doi.org/10.1515/jci-2012-0009</a>.</p>
+<div id="refs" class="references csl-bib-body hanging-indent" entry-spacing="0">
+<div id="ref-aronowmiddleton2013" class="csl-entry">
+Aronow, Peter M, and Joel A Middleton. 2013. <span>“A Class of Unbiased
+Estimators of the Average Treatment Effect in Randomized
+Experiments.”</span> <em>Journal of Causal Inference</em> 1 (1): 135–54.
+<a href="https://doi.org/10.1515/jci-2012-0009" class="external-link">https://doi.org/10.1515/jci-2012-0009</a>.
 </div>
-<div id="ref-freedman2008">
-<p>Freedman, David A. 2008. “On Regression Adjustments in Experiments with Several Treatments.” <em>The Annals of Applied Statistics</em>, 176–96. <a href="https://doi.org/10.1214/07-AOAS143" class="external-link">https://doi.org/10.1214/07-AOAS143</a>.</p>
+<div id="ref-freedman2008" class="csl-entry">
+Freedman, David A. 2008. <span>“On Regression Adjustments in Experiments
+with Several Treatments.”</span> <em>The Annals of Applied
+Statistics</em>, 176–96. <a href="https://doi.org/10.1214/07-AOAS143" class="external-link">https://doi.org/10.1214/07-AOAS143</a>.
 </div>
-<div id="ref-lin2013">
-<p>Lin, Winston. 2013. “Agnostic Notes on Regression Adjustments to Experimental Data: Reexamining Freedman’s Critique.” <em>The Annals of Applied Statistics</em> 7 (1): 295–318. <a href="https://doi.org/10.1214/12-AOAS583" class="external-link">https://doi.org/10.1214/12-AOAS583</a>.</p>
+<div id="ref-lin2013" class="csl-entry">
+Lin, Winston. 2013. <span>“Agnostic Notes on Regression Adjustments to
+Experimental Data: Reexamining Freedman’s Critique.”</span> <em>The
+Annals of Applied Statistics</em> 7 (1): 295–318. <a href="https://doi.org/10.1214/12-AOAS583" class="external-link">https://doi.org/10.1214/12-AOAS583</a>.
 </div>
-<div id="ref-pustejovskytipton2016">
-<p>Pustejovsky, James E, and Elizabeth Tipton. 2018. “Small-Sample Methods for Cluster-Robust Variance Estimation and Hypothesis Testing in Fixed Effects Models.” <em>Journal of Business &amp; Economic Statistics</em> 36 (4). <a href="https://doi.org/10.1080/07350015.2016.1247004" class="external-link">https://doi.org/10.1080/07350015.2016.1247004</a>.</p>
+<div id="ref-pustejovskytipton2016" class="csl-entry">
+Pustejovsky, James E, and Elizabeth Tipton. 2018. <span>“Small-Sample
+Methods for Cluster-Robust Variance Estimation and Hypothesis Testing in
+Fixed Effects Models.”</span> <em>Journal of Business &amp; Economic
+Statistics</em> 36 (4). <a href="https://doi.org/10.1080/07350015.2016.1247004" class="external-link">https://doi.org/10.1080/07350015.2016.1247004</a>.
 </div>
 </div>
 </div>

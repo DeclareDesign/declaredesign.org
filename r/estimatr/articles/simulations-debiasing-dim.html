@@ -70,11 +70,13 @@
 
 
 
-<script src="simulations-debiasing-dim_files/accessible-code-block-0.0.1/empty-anchor.js"></script><div class="row">
+
+<div class="row">
   <main id="main" class="col-md-9"><div class="page-header">
 
       <h1>Simulations - Debiasing Difference-in-Means</h1>
-                        <h4 data-toc-skip class="author">Luke Sonnet</h4>
+                        <h4 data-toc-skip class="author">Luke
+Sonnet</h4>
             
       
       <small class="dont-index">Source: <a href="https://github.com/DeclareDesign/estimatr/blob/main/vignettes/simulations-debiasing-dim.Rmd" class="external-link"><code>vignettes/simulations-debiasing-dim.Rmd</code></a></small>
@@ -83,19 +85,36 @@
 
     
     
-<p>This document shows how providing <a href="/r/estimatr/"><code>estimatr</code></a> with the appropriate blocks and clusters that define a research design can eliminate bias when estimating treatment effects using <code><a href="../reference/difference_in_means.html">difference_in_means()</a></code>. More details about the estimators with references can be found in the <a href="/r/estimatr/articles/mathematical-notes.html">mathematical notes</a>.</p>
-<p>I am going to skip simple difference-in-means, and just straight to the case with blocks. Throughout I will use <a href="/r/declaredesign/"><code>DeclareDesign</code></a> to help diagnose the properties of the various estimators.</p>
+<p>This document shows how providing <a href="/r/estimatr/"><code>estimatr</code></a> with the appropriate
+blocks and clusters that define a research design can eliminate bias
+when estimating treatment effects using
+<code><a href="../reference/difference_in_means.html">difference_in_means()</a></code>. More details about the estimators
+with references can be found in the <a href="/r/estimatr/articles/mathematical-notes.html">mathematical
+notes</a>.</p>
+<p>I am going to skip simple difference-in-means, and just straight to
+the case with blocks. Throughout I will use <a href="/r/declaredesign/"><code>DeclareDesign</code></a> to help diagnose
+the properties of the various estimators.</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://declaredesign.org/r/declaredesign/" class="external-link">DeclareDesign</a></span><span class="op">)</span></span></code></pre></div>
 <div class="section level2">
 <h2 id="blocked-designs">Blocked designs<a class="anchor" aria-label="anchor" href="#blocked-designs"></a>
 </h2>
-<p>Blocking is a common strategy in experimental design used to improve the efficiency of estimators by ensuring that units with similar potential outcomes, when blocked, will be represented in both treatment conditions.</p>
+<p>Blocking is a common strategy in experimental design used to improve
+the efficiency of estimators by ensuring that units with similar
+potential outcomes, when blocked, will be represented in both treatment
+conditions.</p>
 <div class="section level3">
 <h3 id="fixed-probability-of-treatment">Fixed probability of treatment<a class="anchor" aria-label="anchor" href="#fixed-probability-of-treatment"></a>
 </h3>
-<p>Let’s first consider an example where blocks predict the potential outcomes but where the probability of treatment is constant across blocks. In this case, estimating a simple difference-in-means without passing the information about the blocks will not bias the estimate, but it will not take advantage of the increased efficiency blocking provides and the standard errors will be unnecessarily large. Let’s see that in an example.</p>
-<p>First, let’s set up our data and randomization scheme. In all of these analyses, our estimand will be the average treatment effect</p>
+<p>Let’s first consider an example where blocks predict the potential
+outcomes but where the probability of treatment is constant across
+blocks. In this case, estimating a simple difference-in-means without
+passing the information about the blocks will not bias the estimate, but
+it will not take advantage of the increased efficiency blocking provides
+and the standard errors will be unnecessarily large. Let’s see that in
+an example.</p>
+<p>First, let’s set up our data and randomization scheme. In all of
+these analyses, our estimand will be the average treatment effect</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Define population with blocks of the same size, with some block-level shock</span></span>
 <span><span class="va">simp_blocks</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://declaredesign.org/r/declaredesign/reference/declare_model.html" class="external-link">declare_model</a></span><span class="op">(</span></span>
@@ -115,7 +134,12 @@
 <span><span class="co"># Estimand is the ATE</span></span>
 <span><span class="va">ate</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://declaredesign.org/r/declaredesign/reference/declare_inquiry.html" class="external-link">declare_inquiry</a></span><span class="op">(</span>ATE <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/mean.html" class="external-link">mean</a></span><span class="op">(</span><span class="va">Y_Z_1</span> <span class="op">-</span> <span class="va">Y_Z_0</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="va">outcomes</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://declaredesign.org/r/declaredesign/reference/declare_measurement.html" class="external-link">declare_measurement</a></span><span class="op">(</span>Y <span class="op">=</span> <span class="fu"><a href="https://declaredesign.org/r/fabricatr/reference/reveal_outcomes.html" class="external-link">reveal_outcomes</a></span><span class="op">(</span><span class="va">Y</span> <span class="op">~</span> <span class="va">Z</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
-<p>Now let’s define our two estimators, one that doesn’t account for blocking and one that does. The estimator that accounts for blocking essentially will compute treatment effects within blocks and then will take a weighted average across blocks. Details and references can be found in the <a href="/r/estimatr/articles/mathematical-notes.html#difference_in_means-notes">mathematical notes</a>.</p>
+<p>Now let’s define our two estimators, one that doesn’t account for
+blocking and one that does. The estimator that accounts for blocking
+essentially will compute treatment effects within blocks and then will
+take a weighted average across blocks. Details and references can be
+found in the <a href="/r/estimatr/articles/mathematical-notes.html#difference_in_means-notes">mathematical
+notes</a>.</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">dim</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://declaredesign.org/r/declaredesign/reference/declare_estimator.html" class="external-link">declare_estimator</a></span><span class="op">(</span><span class="va">Y</span> <span class="op">~</span> <span class="va">Z</span>, inquiry <span class="op">=</span> <span class="st">"ATE"</span>, label <span class="op">=</span> <span class="st">"DIM"</span><span class="op">)</span></span>
 <span><span class="va">dim_bl</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://declaredesign.org/r/declaredesign/reference/declare_estimator.html" class="external-link">declare_estimator</a></span><span class="op">(</span><span class="va">Y</span> <span class="op">~</span> <span class="va">Z</span>, .method <span class="op">=</span> <span class="va">difference_in_means</span>, blocks <span class="op">=</span> <span class="va">blocks</span>, inquiry <span class="op">=</span> <span class="st">"ATE"</span>, label <span class="op">=</span> <span class="st">"DIM blocked"</span><span class="op">)</span></span>
@@ -136,14 +160,17 @@
 <span>  `Mean of True ATE (Estimand)` <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/mean.html" class="external-link">mean</a></span><span class="op">(</span><span class="va">estimand</span><span class="op">)</span>,</span>
 <span>  `Mean Standard Error` <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/mean.html" class="external-link">mean</a></span><span class="op">(</span><span class="va">std.error</span><span class="op">)</span></span>
 <span><span class="op">)</span></span></code></pre></div>
-<p>Let’s get a sample dataset to show the relationship between treatment potential outcomes and blocks.</p>
+<p>Let’s get a sample dataset to show the relationship between treatment
+potential outcomes and blocks.</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/Random.html" class="external-link">set.seed</a></span><span class="op">(</span><span class="fl">42</span><span class="op">)</span></span>
 <span><span class="va">dat</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://declaredesign.org/r/declaredesign/reference/draw_functions.html" class="external-link">draw_data</a></span><span class="op">(</span><span class="va">simp_bl_des</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">dat</span><span class="op">$</span><span class="va">blocks</span>, <span class="va">dat</span><span class="op">$</span><span class="va">Y_Z_1</span>,</span>
 <span>     ylab <span class="op">=</span> <span class="st">"Y_Z_1 (treatment PO)"</span>, xlab <span class="op">=</span> <span class="st">"Block ID"</span><span class="op">)</span></span></code></pre></div>
 <p><img src="simulations-debiasing-dim_files/figure-html/unnamed-chunk-4-1.png" width="384"></p>
-<p>As you can see, the blocks tend to have clustered treatment potential outcomes. Now let’s compare the performance of the two estimators using our diagnosands of interest.</p>
+<p>As you can see, the blocks tend to have clustered treatment potential
+outcomes. Now let’s compare the performance of the two estimators using
+our diagnosands of interest.</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/Random.html" class="external-link">set.seed</a></span><span class="op">(</span><span class="fl">42</span><span class="op">)</span></span>
 <span><span class="va">simp_bl_dig</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://declaredesign.org/r/declaredesign/reference/diagnose_design.html" class="external-link">diagnose_design</a></span><span class="op">(</span></span>
@@ -200,12 +227,29 @@
 </tr>
 </tbody>
 </table>
-<p>Both estimates are unbiased (and indeed are identical), and you can see that standard errors when accounting for blocking are much smaller (leading to better coverage and more efficient estimation). Note that the <code>"se"</code> rows in the table describe the uncertainty arising from the simulation and can help us know well we estimated our bias and variance using the simulation approach.</p>
+<p>Both estimates are unbiased (and indeed are identical), and you can
+see that standard errors when accounting for blocking are much smaller
+(leading to better coverage and more efficient estimation). Note that
+the <code>"se"</code> rows in the table describe the uncertainty arising
+from the simulation and can help us know well we estimated our bias and
+variance using the simulation approach.</p>
 </div>
 <div class="section level3">
 <h3 id="correlated-potential-outcomes-and-treatment-probabilities">Correlated potential outcomes and treatment probabilities<a class="anchor" aria-label="anchor" href="#correlated-potential-outcomes-and-treatment-probabilities"></a>
 </h3>
-<p>However, not accounting for blocking becomes more problematic if the probability of treatment in each block is correlated with the potential outcomes. Imagine, for example, that you are working with a partner who wants their intervention to both have a big effect and be amenable to rigorous analysis (in which case, congratulations). In this scenario, they may suspect certain types of units have higher treatment effects and want those units to be treated more often. In this case, if blocks with higher treatment effects are treated more often, the naive estimator will overrepresent those treated units and upwardly bias the ATE. Accounting for blocking by estimating treatment effects within block and then weighting for the probability of treatment, which our <code><a href="../reference/difference_in_means.html">difference_in_means()</a></code> estimator does when blocks are specified, will eliminate this bias.</p>
+<p>However, not accounting for blocking becomes more problematic if the
+probability of treatment in each block is correlated with the potential
+outcomes. Imagine, for example, that you are working with a partner who
+wants their intervention to both have a big effect and be amenable to
+rigorous analysis (in which case, congratulations). In this scenario,
+they may suspect certain types of units have higher treatment effects
+and want those units to be treated more often. In this case, if blocks
+with higher treatment effects are treated more often, the naive
+estimator will overrepresent those treated units and upwardly bias the
+ATE. Accounting for blocking by estimating treatment effects within
+block and then weighting for the probability of treatment, which our
+<code><a href="../reference/difference_in_means.html">difference_in_means()</a></code> estimator does when blocks are
+specified, will eliminate this bias.</p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">corr_blocks</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://declaredesign.org/r/declaredesign/reference/declare_model.html" class="external-link">declare_model</a></span><span class="op">(</span></span>
 <span>  blocks <span class="op">=</span> <span class="fu"><a href="https://declaredesign.org/r/fabricatr/reference/fabricate.html" class="external-link">add_level</a></span><span class="op">(</span></span>
@@ -239,7 +283,8 @@
 <span>  <span class="va">outcomes</span> <span class="op">+</span></span>
 <span>  <span class="va">dim</span> <span class="op">+</span></span>
 <span>  <span class="va">dim_bl</span></span></code></pre></div>
-<p>As you can see below, the probability of treatment is strongly correlated with the treatment effect.</p>
+<p>As you can see below, the probability of treatment is strongly
+correlated with the treatment effect.</p>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/Random.html" class="external-link">set.seed</a></span><span class="op">(</span><span class="fl">43</span><span class="op">)</span></span>
 <span><span class="va">dat</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://declaredesign.org/r/declaredesign/reference/draw_functions.html" class="external-link">draw_data</a></span><span class="op">(</span><span class="va">corr_bl_des</span><span class="op">)</span></span>
@@ -304,17 +349,30 @@
 </tr>
 </tbody>
 </table>
-<p>As you can see, the bias and coverage are all wrong for the naive difference in means, while our corrected estimator has no bias and the coverage is closer to the nominal level.</p>
+<p>As you can see, the bias and coverage are all wrong for the naive
+difference in means, while our corrected estimator has no bias and the
+coverage is closer to the nominal level.</p>
 </div>
 </div>
 <div class="section level2">
 <h2 id="clustered-designs">Clustered designs<a class="anchor" aria-label="anchor" href="#clustered-designs"></a>
 </h2>
-<p>Another common design involves clustered treatment assignment, where units are can only be treated in groups. This often arises when treatments only can happen at the classroom, village, or some other aggregated level, but you can observe outcomes at a lower level, such as a student in a classroom or a voter in a village.</p>
+<p>Another common design involves clustered treatment assignment, where
+units are can only be treated in groups. This often arises when
+treatments only can happen at the classroom, village, or some other
+aggregated level, but you can observe outcomes at a lower level, such as
+a student in a classroom or a voter in a village.</p>
 <div class="section level3">
 <h3 id="clusters-of-the-same-size">Clusters of the same size<a class="anchor" aria-label="anchor" href="#clusters-of-the-same-size"></a>
 </h3>
-<p>With clustered designs, the naive difference-in-means estimate of the ATE will be unbiased. However, if the potential outcomes are correlated with cluster, than the naive standard error will underestimate the standard error. This is because the sampling variability of the estimated ATE is greater when certain clusters with similar potential outcomes will be in the same treatment status across runs. If you pass <code>clusters</code> to our difference-in-means estimator, we properly account for this increase in the sampling variability.</p>
+<p>With clustered designs, the naive difference-in-means estimate of the
+ATE will be unbiased. However, if the potential outcomes are correlated
+with cluster, than the naive standard error will underestimate the
+standard error. This is because the sampling variability of the
+estimated ATE is greater when certain clusters with similar potential
+outcomes will be in the same treatment status across runs. If you pass
+<code>clusters</code> to our difference-in-means estimator, we properly
+account for this increase in the sampling variability.</p>
 <p>Let’s see this in action.</p>
 <div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Define clustered data</span></span>
@@ -346,7 +404,8 @@
 <span>  <span class="va">outcomes</span> <span class="op">+</span> </span>
 <span>  <span class="va">dim</span> <span class="op">+</span></span>
 <span>  <span class="va">dim_cl</span></span></code></pre></div>
-<p>Let’s look at an example of the data generated by this design. As you can see, treatment is clustered.</p>
+<p>Let’s look at an example of the data generated by this design. As you
+can see, treatment is clustered.</p>
 <div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/Random.html" class="external-link">set.seed</a></span><span class="op">(</span><span class="fl">45</span><span class="op">)</span></span>
 <span><span class="va">dat</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://declaredesign.org/r/declaredesign/reference/draw_functions.html" class="external-link">draw_data</a></span><span class="op">(</span><span class="va">simp_cl_des</span><span class="op">)</span></span>
@@ -359,7 +418,8 @@
 <span><span class="co">## Z   26 27 28 29 30 31 32 33 34 35 36 37 38 39 40</span></span>
 <span><span class="co">##   0  8  0  0  8  0  8  0  0  8  8  8  0  8  0  0</span></span>
 <span><span class="co">##   1  0  8  8  0  8  0  8  8  0  0  0  8  0  8  8</span></span></code></pre>
-<p>Furthermore, treatment potential outcomes are correlated with cluster.</p>
+<p>Furthermore, treatment potential outcomes are correlated with
+cluster.</p>
 <div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">dat</span><span class="op">$</span><span class="va">clusters</span>, <span class="va">dat</span><span class="op">$</span><span class="va">Y_Z_1</span>,</span>
 <span>     ylab <span class="op">=</span> <span class="st">"Y_Z_1 (treatment PO)"</span>, xlab <span class="op">=</span> <span class="st">"Cluster ID"</span><span class="op">)</span></span></code></pre></div>
@@ -421,13 +481,22 @@
 </tr>
 </tbody>
 </table>
-<p>As you can see, the estimates are the same but the coverage for the naive difference-in-means is below the nominal level of 95 percent. The design-aware difference-in-means that accounts for clustering is conservative and in this case is a more appropriate estimator.</p>
+<p>As you can see, the estimates are the same but the coverage for the
+naive difference-in-means is below the nominal level of 95 percent. The
+design-aware difference-in-means that accounts for clustering is
+conservative and in this case is a more appropriate estimator.</p>
 </div>
 <div class="section level3">
 <h3 id="clusters-of-different-sizes">Clusters of different sizes<a class="anchor" aria-label="anchor" href="#clusters-of-different-sizes"></a>
 </h3>
-<p>When clusters are different sizes, and potential outcomes are correlated with cluster size, the difference-in-means estimator is no longer appropriate as it is biased. One solution is to use the Horvitz-Thompson estimator, which is actually a difference-in-totals estimator.</p>
-<p>In the below, I use simulation to show that the difference-in-means estimator cannot account for the correlation between cluster size and potential outcomes, while the Horvitz-Thompson estimator can.</p>
+<p>When clusters are different sizes, and potential outcomes are
+correlated with cluster size, the difference-in-means estimator is no
+longer appropriate as it is biased. One solution is to use the
+Horvitz-Thompson estimator, which is actually a difference-in-totals
+estimator.</p>
+<p>In the below, I use simulation to show that the difference-in-means
+estimator cannot account for the correlation between cluster size and
+potential outcomes, while the Horvitz-Thompson estimator can.</p>
 <div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Correlated cluster size and potential outcomes</span></span>
 <span><span class="va">diff_size_cls</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://declaredesign.org/r/declaredesign/reference/declare_model.html" class="external-link">declare_model</a></span><span class="op">(</span></span>
@@ -532,8 +601,15 @@
 </tr>
 </tbody>
 </table>
-<p>As you can see, the Horvitz-Thompson estimate is unbiased while the DIM is biased (observe how the standard error of the DIM bias is much smaller than the bias, while the Horvitz-Thompson bias is much smaller than the standard error of the bias).</p>
-<p>Unfortunately, the cost of this lower bias is much higher variance. If you look at the Mean Standard Error, you’ll see that the standard error for the Horvitz-Thompson estimator is on average over 50 percent greater than the standard error for the biased difference-in-means estimator.</p>
+<p>As you can see, the Horvitz-Thompson estimate is unbiased while the
+DIM is biased (observe how the standard error of the DIM bias is much
+smaller than the bias, while the Horvitz-Thompson bias is much smaller
+than the standard error of the bias).</p>
+<p>Unfortunately, the cost of this lower bias is much higher variance.
+If you look at the Mean Standard Error, you’ll see that the standard
+error for the Horvitz-Thompson estimator is on average over 50 percent
+greater than the standard error for the biased difference-in-means
+estimator.</p>
 </div>
 </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
