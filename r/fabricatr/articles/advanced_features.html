@@ -69,11 +69,13 @@
 
 
 
-<script src="advanced_features_files/accessible-code-block-0.0.1/empty-anchor.js"></script><div class="row">
+
+<div class="row">
   <main id="main" class="col-md-9"><div class="page-header">
 
       <h1>Advanced features</h1>
-                        <h4 data-toc-skip class="author">Aaron Rudkin</h4>
+                        <h4 data-toc-skip class="author">Aaron
+Rudkin</h4>
             
       
       <small class="dont-index">Source: <a href="https://github.com/DeclareDesign/fabricatr/blob/main/vignettes/advanced_features.Rmd" class="external-link"><code>vignettes/advanced_features.Rmd</code></a></small>
@@ -83,9 +85,13 @@
     
     
 <div class="section level2">
-<h2 id="more-complicated-level-creation-with-variable-numbers-of-observations">More complicated level creation with variable numbers of observations<a class="anchor" aria-label="anchor" href="#more-complicated-level-creation-with-variable-numbers-of-observations"></a>
+<h2 id="more-complicated-level-creation-with-variable-numbers-of-observations">More complicated level creation with variable numbers of
+observations<a class="anchor" aria-label="anchor" href="#more-complicated-level-creation-with-variable-numbers-of-observations"></a>
 </h2>
-<p><code><a href="../reference/fabricate.html">add_level()</a></code> can be used to create more complicated patterns of nesting. For example, when creating lower level data, it is possible to use a different <code>N</code> for each of the values of the higher level data:</p>
+<p><code><a href="../reference/fabricate.html">add_level()</a></code> can be used to create more complicated
+patterns of nesting. For example, when creating lower level data, it is
+possible to use a different <code>N</code> for each of the values of the
+higher level data:</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">variable_data</span> <span class="op">&lt;-</span></span>
 <span>  <span class="fu"><a href="../reference/fabricate.html">fabricate</a></span><span class="op">(</span></span>
@@ -139,8 +145,14 @@
 </tr>
 </tbody>
 </table>
-<p>Here, each city has a different number of citizens. And the value of <code>N</code> used to create the age variable automatically updates as needed. The result is a dataset with 6 citizens, 2 in the first city and 4 in the second. As long as N is either a number, or a vector of the same length of the current lowest level of the data, <code><a href="../reference/fabricate.html">add_level()</a></code> will know what to do.</p>
-<p>It is also possible to provide a function to N, enabling a <em>random</em> number of citizens per city:</p>
+<p>Here, each city has a different number of citizens. And the value of
+<code>N</code> used to create the age variable automatically updates as
+needed. The result is a dataset with 6 citizens, 2 in the first city and
+4 in the second. As long as N is either a number, or a vector of the
+same length of the current lowest level of the data,
+<code><a href="../reference/fabricate.html">add_level()</a></code> will know what to do.</p>
+<p>It is also possible to provide a function to N, enabling a
+<em>random</em> number of citizens per city:</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">my_data</span> <span class="op">&lt;-</span></span>
 <span>  <span class="fu"><a href="../reference/fabricate.html">fabricate</a></span><span class="op">(</span></span>
@@ -206,8 +218,12 @@
 </tr>
 </tbody>
 </table>
-<p>Here, each city is given a random number of citizens between 1 and 6. Since the <code><a href="https://rdrr.io/r/base/sample.html" class="external-link">sample()</a></code> function returns a vector of length 2, this is like specifying 2 separate <code>N</code>s as in the example above.</p>
-<p>It is also possible to define <code>N</code> on the basis of higher level variables themselves. Consider the following example:</p>
+<p>Here, each city is given a random number of citizens between 1 and 6.
+Since the <code><a href="https://rdrr.io/r/base/sample.html" class="external-link">sample()</a></code> function returns a vector of length 2,
+this is like specifying 2 separate <code>N</code>s as in the example
+above.</p>
+<p>It is also possible to define <code>N</code> on the basis of higher
+level variables themselves. Consider the following example:</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">variable_n</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/fabricate.html">fabricate</a></span><span class="op">(</span></span>
 <span>  cities <span class="op">=</span> <span class="fu"><a href="../reference/fabricate.html">add_level</a></span><span class="op">(</span>N <span class="op">=</span> <span class="fl">5</span>, population <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/Uniform.html" class="external-link">runif</a></span><span class="op">(</span><span class="va">N</span>, <span class="fl">10</span>, <span class="fl">200</span><span class="op">)</span><span class="op">)</span>,</span>
@@ -252,20 +268,37 @@
 </tr>
 </tbody>
 </table>
-<p>Here, the city has a defined population, and the number of citizens in our simulated data reflects a sample of 30% of that population. Although we only display the first 6 rows for brevity’s sake, the first city would have 27 rows in total.</p>
-<p>Finally, relying on the ID label from the higher level, it is also possible to define <code>N</code> on the basis of the higher level’s length:</p>
+<p>Here, the city has a defined population, and the number of citizens
+in our simulated data reflects a sample of 30% of that population.
+Although we only display the first 6 rows for brevity’s sake, the first
+city would have 27 rows in total.</p>
+<p>Finally, relying on the ID label from the higher level, it is also
+possible to define <code>N</code> on the basis of the higher level’s
+length:</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">n_inherit</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/fabricate.html">fabricate</a></span><span class="op">(</span></span>
 <span>  cities <span class="op">=</span> <span class="fu"><a href="../reference/fabricate.html">add_level</a></span><span class="op">(</span>N <span class="op">=</span> <span class="fl">5</span>, population <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/Uniform.html" class="external-link">runif</a></span><span class="op">(</span><span class="va">N</span>, <span class="fl">10</span>, <span class="fl">200</span><span class="op">)</span><span class="op">)</span>,</span>
 <span>  citizens <span class="op">=</span> <span class="fu"><a href="../reference/fabricate.html">add_level</a></span><span class="op">(</span>N <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/sample.html" class="external-link">sample</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">10</span>, <span class="fu"><a href="https://rdrr.io/r/base/length.html" class="external-link">length</a></span><span class="op">(</span><span class="va">cities</span><span class="op">)</span>, replace<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="op">)</span></span></code></pre></div>
-<p>Here, each city has a random number of citizens from 1 to 10, but we need to supply the length of the higher level’s variable (in this case, the ID label <code>cities</code>) to the sample function to ensure that one draw is made per city.</p>
+<p>Here, each city has a random number of citizens from 1 to 10, but we
+need to supply the length of the higher level’s variable (in this case,
+the ID label <code>cities</code>) to the sample function to ensure that
+one draw is made per city.</p>
 </div>
 <div class="section level2">
 <h2 id="correlated-variables-with-custom-functions">Correlated variables with custom functions<a class="anchor" aria-label="anchor" href="#correlated-variables-with-custom-functions"></a>
 </h2>
-<p>Some users might be implemented in drawing correlated variables generated by functions not amongst the default <code>R</code> statistical distributions or those functions supplied by <strong>fabricatr</strong>. Any function can be made to work with <code><a href="../reference/correlate.html">correlate()</a></code> provided it accepts an argument called <code>quantile_y</code> which will pass a series of quantiles to draw from the distribution of interest.</p>
-<p>As an example, you might have some external data that represents an empirical distribution you wish to draw from. Here we use actual county level vote data from the 2016 US presidential election to generate a vote share correlated with</p>
+<p>Some users might be implemented in drawing correlated variables
+generated by functions not amongst the default <code>R</code>
+statistical distributions or those functions supplied by
+<strong>fabricatr</strong>. Any function can be made to work with
+<code><a href="../reference/correlate.html">correlate()</a></code> provided it accepts an argument called
+<code>quantile_y</code> which will pass a series of quantiles to draw
+from the distribution of interest.</p>
+<p>As an example, you might have some external data that represents an
+empirical distribution you wish to draw from. Here we use actual county
+level vote data from the 2016 US presidential election to generate a
+vote share correlated with</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Load external data: Thanks to Tony McGovern, https://github.com/tonmcg</span></span>
 <span><span class="va">county_level_2016_results</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/utils/read.table.html" class="external-link">read.csv</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/connections.html" class="external-link">url</a></span><span class="op">(</span><span class="st">"https://raw.githubusercontent.com/tonmcg/County_Level_Election_Results_12-16/master/2016_US_County_Level_Presidential_Results.csv"</span><span class="op">)</span><span class="op">)</span></span>
@@ -291,7 +324,11 @@
 <div class="section level2">
 <h2 id="tidyverse-integration">Tidyverse integration<a class="anchor" aria-label="anchor" href="#tidyverse-integration"></a>
 </h2>
-<p>Because the functions in <strong>fabricatr</strong> take data and return data, they are cross-compatible with a <code>tidyverse</code> workflow. Here is an example of using <strong>magrittr</strong>’s pipe operator (<code>%&gt;%</code>) and <strong>dplyr</strong>’s <code>group_by</code> and <code>mutate</code> verbs to add new data.</p>
+<p>Because the functions in <strong>fabricatr</strong> take data and
+return data, they are cross-compatible with a <code>tidyverse</code>
+workflow. Here is an example of using <strong>magrittr</strong>’s pipe
+operator (<code>%&gt;%</code>) and <strong>dplyr</strong>’s
+<code>group_by</code> and <code>mutate</code> verbs to add new data.</p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://dplyr.tidyverse.org" class="external-link">dplyr</a></span><span class="op">)</span></span>
 <span></span>
@@ -350,7 +387,10 @@
 </tr>
 </tbody>
 </table>
-<p>It is also possible to use the pipe operator (<code>%&gt;%</code>) to direct the flow of data between <code><a href="../reference/fabricate.html">fabricate()</a></code> calls. Remember that every <code><a href="../reference/fabricate.html">fabricate()</a></code> call can import existing data frames, and every call returns a single data frame.</p>
+<p>It is also possible to use the pipe operator (<code>%&gt;%</code>) to
+direct the flow of data between <code><a href="../reference/fabricate.html">fabricate()</a></code> calls. Remember
+that every <code><a href="../reference/fabricate.html">fabricate()</a></code> call can import existing data
+frames, and every call returns a single data frame.</p>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">my_data</span> <span class="op">&lt;-</span></span>
 <span>  <span class="fu"><a href="https://tibble.tidyverse.org/reference/deprecated.html" class="external-link">data_frame</a></span><span class="op">(</span>Y <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/sample.html" class="external-link">sample</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">10</span>, <span class="fl">2</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>

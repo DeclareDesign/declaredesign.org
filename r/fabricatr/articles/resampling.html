@@ -69,11 +69,13 @@
 
 
 
-<script src="resampling_files/accessible-code-block-0.0.1/empty-anchor.js"></script><div class="row">
+
+<div class="row">
   <main id="main" class="col-md-9"><div class="page-header">
 
       <h1>Resampling data with fabricatr</h1>
-                        <h4 data-toc-skip class="author">Aaron Rudkin</h4>
+                        <h4 data-toc-skip class="author">Aaron
+Rudkin</h4>
             
       
       <small class="dont-index">Source: <a href="https://github.com/DeclareDesign/fabricatr/blob/main/vignettes/resampling.Rmd" class="external-link"><code>vignettes/resampling.Rmd</code></a></small>
@@ -82,11 +84,20 @@
 
     
     
-<p>One way to imagine new data is to take data you already have and resample it, ensuring that existing inter-correlations between variables are preserved, while generating new data or expanding the size of the dataset. <strong>fabricatr</strong> offers several options to simulate resampling.</p>
+<p>One way to imagine new data is to take data you already have and
+resample it, ensuring that existing inter-correlations between variables
+are preserved, while generating new data or expanding the size of the
+dataset. <strong>fabricatr</strong> offers several options to simulate
+resampling.</p>
 <div class="section level2">
 <h2 id="bootstrapping">Bootstrapping<a class="anchor" aria-label="anchor" href="#bootstrapping"></a>
 </h2>
-<p>The simplest option in <strong>fabricatr</strong> is to “bootstrap” data. Taking data with N observations, the “bootstrap” resamples these observations with replacement and generates N new observations. Existing observations may be used zero times, once, or more than once. Bootstrapping is very simple with the <code><a href="../reference/resample_data.html">resample_data()</a></code> function:</p>
+<p>The simplest option in <strong>fabricatr</strong> is to “bootstrap”
+data. Taking data with N observations, the “bootstrap” resamples these
+observations with replacement and generates N new observations. Existing
+observations may be used zero times, once, or more than once.
+Bootstrapping is very simple with the <code><a href="../reference/resample_data.html">resample_data()</a></code>
+function:</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">survey_data</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/fabricate.html">fabricate</a></span><span class="op">(</span>N <span class="op">=</span> <span class="fl">10</span>, voted_republican <span class="op">=</span> <span class="fu"><a href="../reference/draw_discrete.html">draw_binary</a></span><span class="op">(</span>prob <span class="op">=</span> <span class="fl">0.5</span>, N <span class="op">=</span> <span class="va">N</span><span class="op">)</span><span class="op">)</span></span>
 <span></span>
@@ -124,7 +135,11 @@
 </tr>
 </tbody>
 </table>
-<p>It is also possible to resample fewer or greater number of observations from your existing data. We can do this by specifying the argument <code>N</code> to <code><a href="../reference/resample_data.html">resample_data()</a></code>. Consider expanding a small dataset to allow for better imagination of larger data to be collected later.</p>
+<p>It is also possible to resample fewer or greater number of
+observations from your existing data. We can do this by specifying the
+argument <code>N</code> to <code><a href="../reference/resample_data.html">resample_data()</a></code>. Consider
+expanding a small dataset to allow for better imagination of larger data
+to be collected later.</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">large_survey_data</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/resample_data.html">resample_data</a></span><span class="op">(</span><span class="va">survey_data</span>, N <span class="op">=</span> <span class="fl">100</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/nrow.html" class="external-link">nrow</a></span><span class="op">(</span><span class="va">large_survey_data</span><span class="op">)</span></span></code></pre></div>
@@ -133,8 +148,18 @@
 <div class="section level2">
 <h2 id="resampling-hierarchical-data">Resampling hierarchical data<a class="anchor" aria-label="anchor" href="#resampling-hierarchical-data"></a>
 </h2>
-<p>One of the most powerful features of all of <strong>fabricatr</strong> is the ability to resample from hierarchical data at any or all levels. Doing so requires specifying which levels you will want to resample with the <code>ID_labels</code> argument. Unless otherwise specified, all units from levels below the resampled level will be kept. In our earlier country-province-citizen dataset, resampling countries will lead to all provinces and citizens of the selected country being carried forward. You can resample at multiple levels simultaneously.</p>
-<p>Consider this example, which takes a dataset containing 2 cities of 3 citizens, and resamples it into a dataset of 3 cities, each containing 5 citizens.</p>
+<p>One of the most powerful features of all of
+<strong>fabricatr</strong> is the ability to resample from hierarchical
+data at any or all levels. Doing so requires specifying which levels you
+will want to resample with the <code>ID_labels</code> argument. Unless
+otherwise specified, all units from levels below the resampled level
+will be kept. In our earlier country-province-citizen dataset,
+resampling countries will lead to all provinces and citizens of the
+selected country being carried forward. You can resample at multiple
+levels simultaneously.</p>
+<p>Consider this example, which takes a dataset containing 2 cities of 3
+citizens, and resamples it into a dataset of 3 cities, each containing 5
+citizens.</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">my_data</span> <span class="op">&lt;-</span></span>
 <span>  <span class="fu"><a href="../reference/fabricate.html">fabricate</a></span><span class="op">(</span></span>
@@ -190,8 +215,18 @@
 </tr>
 </tbody>
 </table>
-<p><code><a href="../reference/resample_data.html">resample_data()</a></code> will first select the cities to be resampled. Then, for each city, it will continue by selecting the citizens to be resampled. If a higher level unit is used more than once (for example, the same city being chosen twice), and a lower level is subsequently resampled, the choices of which units to keep for the lower level will differ for each copy of the higher level. In this example, if city 1 is chosen twice, then the sets of five citizens chosen for each copy of the city 1 will differ.</p>
-<p>You can also specify the levels you wish to resample from using the name arguents to the <code>N</code> parameter, like in this example which does exactly the same thing as the previous example, but specifies the level names in a different way:</p>
+<p><code><a href="../reference/resample_data.html">resample_data()</a></code> will first select the cities to be
+resampled. Then, for each city, it will continue by selecting the
+citizens to be resampled. If a higher level unit is used more than once
+(for example, the same city being chosen twice), and a lower level is
+subsequently resampled, the choices of which units to keep for the lower
+level will differ for each copy of the higher level. In this example, if
+city 1 is chosen twice, then the sets of five citizens chosen for each
+copy of the city 1 will differ.</p>
+<p>You can also specify the levels you wish to resample from using the
+name arguents to the <code>N</code> parameter, like in this example
+which does exactly the same thing as the previous example, but specifies
+the level names in a different way:</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">my_data</span> <span class="op">&lt;-</span></span>
 <span>  <span class="fu"><a href="../reference/fabricate.html">fabricate</a></span><span class="op">(</span></span>
@@ -251,7 +286,14 @@
 <div class="section level2">
 <h2 id="unique-per-sample-labels">Unique per-sample labels<a class="anchor" aria-label="anchor" href="#unique-per-sample-labels"></a>
 </h2>
-<p>Some researchers may be interested in preserving unique labels for each sample draw at a given level. An example of this may be to sample cities, as above, but then want to run city-level statistics; if the same city is sampled twice, then the city-level statistic will incorrectly combine both samples. This can be solved with <code>unique_labels = TRUE</code>, which will create a new column for each sampled level, called <code>&lt;level name&gt;_unique</code>, which will be unique for each sample. Consider the following code:</p>
+<p>Some researchers may be interested in preserving unique labels for
+each sample draw at a given level. An example of this may be to sample
+cities, as above, but then want to run city-level statistics; if the
+same city is sampled twice, then the city-level statistic will
+incorrectly combine both samples. This can be solved with
+<code>unique_labels = TRUE</code>, which will create a new column for
+each sampled level, called <code>&lt;level name&gt;_unique</code>, which
+will be unique for each sample. Consider the following code:</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">my_data_unique</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/resample_data.html">resample_data</a></span><span class="op">(</span><span class="va">my_data</span>, N <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span>cities <span class="op">=</span> <span class="fl">3</span><span class="op">)</span>, unique_labels <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
 <table class="table">
@@ -332,7 +374,11 @@
 <div class="section level2">
 <h2 id="passthrough-resampling">“Passthrough” Resampling<a class="anchor" aria-label="anchor" href="#passthrough-resampling"></a>
 </h2>
-<p>In some cases it may make sense to resample each unit at a given level. For example, there may be value in resampling 1 citizen in each and every city represented in the data set. <strong>fabricatr</strong> allows the user to specify <code>ALL</code> for the <code>N</code> argument to a given level to accomplish this:</p>
+<p>In some cases it may make sense to resample each unit at a given
+level. For example, there may be value in resampling 1 citizen in each
+and every city represented in the data set. <strong>fabricatr</strong>
+allows the user to specify <code>ALL</code> for the <code>N</code>
+argument to a given level to accomplish this:</p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">my_data</span> <span class="op">&lt;-</span></span>
 <span>  <span class="fu"><a href="../reference/fabricate.html">fabricate</a></span><span class="op">(</span></span>
