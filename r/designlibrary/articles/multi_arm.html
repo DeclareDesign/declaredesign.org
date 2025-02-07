@@ -60,7 +60,8 @@
 
 
 
-<script src="multi_arm_files/accessible-code-block-0.0.1/empty-anchor.js"></script><div class="row">
+
+<div class="row">
   <main id="main" class="col-md-9"><div class="page-header">
 
       <h1>Multi-Arm Experiment</h1>
@@ -72,28 +73,62 @@
 
     
     
-<p>Learning about effects of causes takes time, money, and effort. Multi-arm designs can make this process somewhat more efficient: multiple treatments are assigned in parallel and compared against the same control group, which reduces sample size and hence costs.</p>
-<p>Suppose that we want to learn whether there is racial discrimination in the labor market by conducting an experiment. Companies from our population of size <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mn>30</mn><annotation encoding="application/x-tex">30</annotation></semantics></math> are randomly assigned to receive a résumé from a white, black, or Latino candidate. Companies are assigned to one of these three conditions with equal probabilities, and résumés only vary race and are otherwise identical. We define our outcome of interest as the difference in callbacks between experimental conditions.</p>
-<p>In settings of multiple treatment arms, we could do a number of pairwise comparisons: across treatments and each treatment against control.</p>
+<p>Learning about effects of causes takes time, money, and effort.
+Multi-arm designs can make this process somewhat more efficient:
+multiple treatments are assigned in parallel and compared against the
+same control group, which reduces sample size and hence costs.</p>
+<p>Suppose that we want to learn whether there is racial discrimination
+in the labor market by conducting an experiment. Companies from our
+population of size
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mn>30</mn><annotation encoding="application/x-tex">30</annotation></semantics></math>
+are randomly assigned to receive a résumé from a white, black, or Latino
+candidate. Companies are assigned to one of these three conditions with
+equal probabilities, and résumés only vary race and are otherwise
+identical. We define our outcome of interest as the difference in
+callbacks between experimental conditions.</p>
+<p>In settings of multiple treatment arms, we could do a number of
+pairwise comparisons: across treatments and each treatment against
+control.</p>
 <div class="section level2">
 <h2 id="design-declaration">Design Declaration<a class="anchor" aria-label="anchor" href="#design-declaration"></a>
 </h2>
 <ul>
 <li>
 <p><strong>M</strong>odel:</p>
-<p>We specify a population of size <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>N</mi><annotation encoding="application/x-tex">N</annotation></semantics></math> where a unit <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>i</mi><annotation encoding="application/x-tex">i</annotation></semantics></math> has a potential outcome, <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>Y</mi><mi>i</mi></msub><mo stretchy="false" form="prefix">(</mo><mi>Z</mi><mo>=</mo><mn>0</mn><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">Y_i(Z = 0)</annotation></semantics></math>, when it remains untreated and <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>M</mi><annotation encoding="application/x-tex">M</annotation></semantics></math><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false" form="prefix">(</mo><mi>m</mi><mo>=</mo><mn>1</mn><mo>,</mo><mn>2</mn><mo>,</mo><mi>.</mi><mi>.</mi><mi>.</mi><mo>,</mo><mi>M</mi><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">(m = 1, 2, ..., M)</annotation></semantics></math> potential outcomes defined according to the treatment that it receives. The effect of each treatment on the outcome of unit <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>i</mi><annotation encoding="application/x-tex">i</annotation></semantics></math> is equal to the difference in the potential outcome under treatment condition <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>m</mi><annotation encoding="application/x-tex">m</annotation></semantics></math> and the control condition: <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>Y</mi><mi>i</mi></msub><mo stretchy="false" form="prefix">(</mo><mi>Z</mi><mo>=</mo><mi>m</mi><mo stretchy="false" form="postfix">)</mo><mo>−</mo><msub><mi>Y</mi><mi>i</mi></msub><mo stretchy="false" form="prefix">(</mo><mi>Z</mi><mo>=</mo><mn>0</mn><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">Y_i(Z = m) -Y_i(Z = 0)</annotation></semantics></math>.</p>
+<p>We specify a population of size
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>N</mi><annotation encoding="application/x-tex">N</annotation></semantics></math>
+where a unit
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>i</mi><annotation encoding="application/x-tex">i</annotation></semantics></math>
+has a potential outcome,
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>Y</mi><mi>i</mi></msub><mrow><mo stretchy="true" form="prefix">(</mo><mi>Z</mi><mo>=</mo><mn>0</mn><mo stretchy="true" form="postfix">)</mo></mrow></mrow><annotation encoding="application/x-tex">Y_i(Z = 0)</annotation></semantics></math>,
+when it remains untreated and
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>M</mi><annotation encoding="application/x-tex">M</annotation></semantics></math><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="true" form="prefix">(</mo><mi>m</mi><mo>=</mo><mn>1</mn><mo>,</mo><mn>2</mn><mo>,</mo><mi>.</mi><mi>.</mi><mi>.</mi><mo>,</mo><mi>M</mi><mo stretchy="true" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">(m = 1, 2, ..., M)</annotation></semantics></math>
+potential outcomes defined according to the treatment that it receives.
+The effect of each treatment on the outcome of unit
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>i</mi><annotation encoding="application/x-tex">i</annotation></semantics></math>
+is equal to the difference in the potential outcome under treatment
+condition
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>m</mi><annotation encoding="application/x-tex">m</annotation></semantics></math>
+and the control condition:
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>Y</mi><mi>i</mi></msub><mrow><mo stretchy="true" form="prefix">(</mo><mi>Z</mi><mo>=</mo><mi>m</mi><mo stretchy="true" form="postfix">)</mo></mrow><mo>−</mo><msub><mi>Y</mi><mi>i</mi></msub><mrow><mo stretchy="true" form="prefix">(</mo><mi>Z</mi><mo>=</mo><mn>0</mn><mo stretchy="true" form="postfix">)</mo></mrow></mrow><annotation encoding="application/x-tex">Y_i(Z = m)  -Y_i(Z = 0)</annotation></semantics></math>.</p>
 </li>
 <li>
 <p><strong>I</strong>nquiry:</p>
-<p>We are interested in all of the pairwise comparisons between arms: <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>E</mi><mo stretchy="false" form="prefix">[</mo><mi>Y</mi><mo stretchy="false" form="prefix">(</mo><mi>m</mi><mo stretchy="false" form="postfix">)</mo><mo>−</mo><mi>Y</mi><mo stretchy="false" form="prefix">(</mo><mi>m</mi><mi>′</mi><mo stretchy="false" form="postfix">)</mo><mo stretchy="false" form="postfix">]</mo></mrow><annotation encoding="application/x-tex">E[Y(m) - Y(m')]</annotation></semantics></math>, for all <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>m</mi><mo>∈</mo><mo stretchy="false" form="prefix">{</mo><mn>1</mn><mo>,</mo><mi>.</mi><mi>.</mi><mi>.</mi><mo>,</mo><mi>M</mi><mo stretchy="false" form="postfix">}</mo></mrow><annotation encoding="application/x-tex">m \in \{1,...,M\}</annotation></semantics></math>.</p>
+<p>We are interested in all of the pairwise comparisons between arms:
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>E</mi><mrow><mo stretchy="true" form="prefix">[</mo><mi>Y</mi><mrow><mo stretchy="true" form="prefix">(</mo><mi>m</mi><mo stretchy="true" form="postfix">)</mo></mrow><mo>−</mo><mi>Y</mi><mrow><mo stretchy="true" form="prefix">(</mo><mi>m</mi><mi>′</mi><mo stretchy="true" form="postfix">)</mo></mrow><mo stretchy="true" form="postfix">]</mo></mrow></mrow><annotation encoding="application/x-tex">E[Y(m) - Y(m')]</annotation></semantics></math>,
+for all
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>m</mi><mo>∈</mo><mo stretchy="false" form="prefix">{</mo><mn>1</mn><mo>,</mo><mi>.</mi><mi>.</mi><mi>.</mi><mo>,</mo><mi>M</mi><mo stretchy="false" form="postfix">}</mo></mrow><annotation encoding="application/x-tex">m \in \{1,...,M\}</annotation></semantics></math>.</p>
 </li>
 <li>
 <p><strong>D</strong>ata strategy:</p>
-<p>We randomly assign <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>k</mi><mi>/</mi><mi>N</mi></mrow><annotation encoding="application/x-tex">k/N</annotation></semantics></math> units to each of the treatment arms.</p>
+<p>We randomly assign
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>k</mi><mi>/</mi><mi>N</mi></mrow><annotation encoding="application/x-tex">k/N</annotation></semantics></math>
+units to each of the treatment arms.</p>
 </li>
 <li>
 <p><strong>A</strong>nswer strategy:</p>
-<p>We take every pairwise difference in means corresponding to the specific estimand.</p>
+<p>We take every pairwise difference in means corresponding to the
+specific estimand.</p>
 </li>
 </ul>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
@@ -146,8 +181,11 @@
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">diagnosis</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://declaredesign.org/r/declaredesign/reference/diagnose_design.html" class="external-link">diagnose_design</a></span><span class="op">(</span><span class="va">multi_arm_design</span>, sims <span class="op">=</span> <span class="fl">25</span><span class="op">)</span></span></code></pre></div>
 <ul>
-<li><p>The pairwise differences in means provide unbiased estimates of the average treatment effect (ATE) in each arm.</p></li>
-<li><p>These estimates, however, are not so precise. The estimated standard deviation is large yielding wide confidence intervals that contain the true value of the ATEs more than 95% of the time.</p></li>
+<li><p>The pairwise differences in means provide unbiased estimates of
+the average treatment effect (ATE) in each arm.</p></li>
+<li><p>These estimates, however, are not so precise. The estimated
+standard deviation is large yielding wide confidence intervals that
+contain the true value of the ATEs more than 95% of the time.</p></li>
 </ul>
 </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>

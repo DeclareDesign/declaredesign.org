@@ -60,7 +60,8 @@
 
 
 
-<script src="randomized_response_files/accessible-code-block-0.0.1/empty-anchor.js"></script><div class="row">
+
+<div class="row">
   <main id="main" class="col-md-9"><div class="page-header">
 
       <h1>Randomized Response</h1>
@@ -72,28 +73,72 @@
 
     
     
-<p>Randomized response is a tool used in survey research to increase subject privacy and mitigate potential bias, particularly when our inquiries of interest pertain sensitive or controversial behavior or beliefs. For example, researchers may be interested in measuring participation in violence, engagement in illicit activities, or support for the opposition in authoritarian contexts.</p>
-<p>Let us consider a specific type of randomized response design in which respondents are asked to use a randomization device, such as a die, whose outcome is unobserved to the enumerator. Respondents are then asked to answer “Yes” if the die shows numbers “1”, “2”, “3”, or “4” and to answer truthfully if the die shows “5”, or “6.” Only the respondent knows what they truly answered, so their anonymity is protected. The researcher can never know the true answer provided by any particular individual, but can back out an estimate of the rate of true responses from what she knows about the probabilities that underly the randomization mechanism.</p>
-<p>Say, for example, we are interested in measuring the rate of intimate partner violence (IPV) in a given locality. Our design compares estimates from direct questions and questions using the randomized response principle.</p>
+<p>Randomized response is a tool used in survey research to increase
+subject privacy and mitigate potential bias, particularly when our
+inquiries of interest pertain sensitive or controversial behavior or
+beliefs. For example, researchers may be interested in measuring
+participation in violence, engagement in illicit activities, or support
+for the opposition in authoritarian contexts.</p>
+<p>Let us consider a specific type of randomized response design in
+which respondents are asked to use a randomization device, such as a
+die, whose outcome is unobserved to the enumerator. Respondents are then
+asked to answer “Yes” if the die shows numbers “1”, “2”, “3”, or “4” and
+to answer truthfully if the die shows “5”, or “6.” Only the respondent
+knows what they truly answered, so their anonymity is protected. The
+researcher can never know the true answer provided by any particular
+individual, but can back out an estimate of the rate of true responses
+from what she knows about the probabilities that underly the
+randomization mechanism.</p>
+<p>Say, for example, we are interested in measuring the rate of intimate
+partner violence (IPV) in a given locality. Our design compares
+estimates from direct questions and questions using the randomized
+response principle.</p>
 <div class="section level2">
 <h2 id="design-declaration">Design Declaration<a class="anchor" aria-label="anchor" href="#design-declaration"></a>
 </h2>
 <ul>
 <li>
 <p><strong>M</strong>odel:</p>
-<p>Respondents are expected to answer the sensitive question with a probability <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>p</mi><annotation encoding="application/x-tex">p</annotation></semantics></math> (a known quantity). <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>L</mi><mi>i</mi></msub><annotation encoding="application/x-tex">L_i</annotation></semantics></math> is a latent binary response to the sensitive question that equals 0 for respondent <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>i</mi><annotation encoding="application/x-tex">i</annotation></semantics></math> if he or she does not engage in IPV and 1 if he or she does. This is defined in our design as the prevalence rate. <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>Y</mi><mi>i</mi></msub><annotation encoding="application/x-tex">Y_i</annotation></semantics></math> is the response observed by researchers from the randomized approach. <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>D</mi><mi>i</mi></msub><annotation encoding="application/x-tex">D_i</annotation></semantics></math> is the response to the direct question of whether respondent engages in IPV. We expect respondents who engage in IPV to be inclined to misreport if asked to answer directly (we define this as the withholding rate).</p>
+<p>Respondents are expected to answer the sensitive question with a
+probability
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>p</mi><annotation encoding="application/x-tex">p</annotation></semantics></math>
+(a known quantity).
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>L</mi><mi>i</mi></msub><annotation encoding="application/x-tex">L_i</annotation></semantics></math>
+is a latent binary response to the sensitive question that equals 0 for
+respondent
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>i</mi><annotation encoding="application/x-tex">i</annotation></semantics></math>
+if he or she does not engage in IPV and 1 if he or she does. This is
+defined in our design as the prevalence rate.
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>Y</mi><mi>i</mi></msub><annotation encoding="application/x-tex">Y_i</annotation></semantics></math>
+is the response observed by researchers from the randomized approach.
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>D</mi><mi>i</mi></msub><annotation encoding="application/x-tex">D_i</annotation></semantics></math>
+is the response to the direct question of whether respondent engages in
+IPV. We expect respondents who engage in IPV to be inclined to misreport
+if asked to answer directly (we define this as the withholding
+rate).</p>
 </li>
 <li>
 <p><strong>I</strong>nquiry:</p>
-<p>Our estimand is the rate of intimate partner violence in the studied locality, or the population mean of L. Formally, we expect <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>P</mi><mi>r</mi><mo stretchy="false" form="prefix">(</mo><msub><mi>Y</mi><mi>i</mi></msub><mo>=</mo><mn>1</mn><mo stretchy="false" form="postfix">)</mo><mo>=</mo><mi>p</mi><mo>+</mo><mo stretchy="false" form="prefix">(</mo><mn>1</mn><mo>−</mo><mi>p</mi><mo stretchy="false" form="postfix">)</mo><mi>P</mi><mi>r</mi><mo stretchy="false" form="prefix">(</mo><msub><mi>L</mi><mi>i</mi></msub><mo>=</mo><mn>1</mn><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">Pr(Y_i = 1) = p + (1-p)Pr(L_i = 1)</annotation></semantics></math>.</p>
+<p>Our estimand is the rate of intimate partner violence in the studied
+locality, or the population mean of L. Formally, we expect
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>P</mi><mi>r</mi><mrow><mo stretchy="true" form="prefix">(</mo><msub><mi>Y</mi><mi>i</mi></msub><mo>=</mo><mn>1</mn><mo stretchy="true" form="postfix">)</mo></mrow><mo>=</mo><mi>p</mi><mo>+</mo><mrow><mo stretchy="true" form="prefix">(</mo><mn>1</mn><mo>−</mo><mi>p</mi><mo stretchy="true" form="postfix">)</mo></mrow><mi>P</mi><mi>r</mi><mrow><mo stretchy="true" form="prefix">(</mo><msub><mi>L</mi><mi>i</mi></msub><mo>=</mo><mn>1</mn><mo stretchy="true" form="postfix">)</mo></mrow></mrow><annotation encoding="application/x-tex">Pr(Y_i = 1) = p + (1-p)Pr(L_i = 1)</annotation></semantics></math>.</p>
 </li>
 <li>
 <p><strong>D</strong>ata strategy:</p>
-<p>We collect survey data on a representative sample of 1,000 individuals and respondents are assigned to respond “Yes” with probability <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>p</mi><mo>=</mo><mfrac><mn>4</mn><mn>6</mn></mfrac></mrow><annotation encoding="application/x-tex">p = \frac{4}{6}</annotation></semantics></math> and truthfully with probability <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>1</mn><mo>−</mo><mi>p</mi><mo>=</mo><mfrac><mn>1</mn><mn>3</mn></mfrac></mrow><annotation encoding="application/x-tex">1 - p = \frac{1}{3}</annotation></semantics></math>.</p>
+<p>We collect survey data on a representative sample of 1,000
+individuals and respondents are assigned to respond “Yes” with
+probability
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>p</mi><mo>=</mo><mfrac><mn>4</mn><mn>6</mn></mfrac></mrow><annotation encoding="application/x-tex">p = \frac{4}{6}</annotation></semantics></math>
+and truthfully with probability
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>1</mn><mo>−</mo><mi>p</mi><mo>=</mo><mfrac><mn>1</mn><mn>3</mn></mfrac></mrow><annotation encoding="application/x-tex">1 - p = \frac{1}{3}</annotation></semantics></math>.</p>
 </li>
 <li>
 <p><strong>A</strong>nswer strategy:</p>
-<p>We estimate our population rate of IPV in two ways: firstly by averaging the responses observed via direct question (<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mover><mover><mi>L</mi><mo accent="true">‾</mo></mover><mo accent="true">̂</mo></mover><mo>=</mo><mover><mi>D</mi><mo accent="true">‾</mo></mover></mrow><annotation encoding="application/x-tex">\hat{\bar{L}} = \bar{D}</annotation></semantics></math>), and secondly via randomized response: <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mover><mover><mi>L</mi><mo accent="true">‾</mo></mover><mo accent="true">̂</mo></mover><mo>=</mo><mfrac><mrow><mover><mi>Y</mi><mo accent="true">‾</mo></mover><mo>−</mo><mi>p</mi></mrow><mrow><mn>1</mn><mo>−</mo><mi>p</mi></mrow></mfrac></mrow><annotation encoding="application/x-tex">\hat{\bar{L}} = \frac{\bar{Y} - p}{1 - p}</annotation></semantics></math>.</p>
+<p>We estimate our population rate of IPV in two ways: firstly by
+averaging the responses observed via direct question
+(<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mover><mover><mi>L</mi><mo accent="true">‾</mo></mover><mo accent="true">̂</mo></mover><mo>=</mo><mover><mi>D</mi><mo accent="true">‾</mo></mover></mrow><annotation encoding="application/x-tex">\hat{\bar{L}} = \bar{D}</annotation></semantics></math>),
+and secondly via randomized response:
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mover><mover><mi>L</mi><mo accent="true">‾</mo></mover><mo accent="true">̂</mo></mover><mo>=</mo><mfrac><mrow><mover><mi>Y</mi><mo accent="true">‾</mo></mover><mo>−</mo><mi>p</mi></mrow><mrow><mn>1</mn><mo>−</mo><mi>p</mi></mrow></mfrac></mrow><annotation encoding="application/x-tex">\hat{\bar{L}} = \frac{\bar{Y} - p}{1 - p}</annotation></semantics></math>.</p>
 </li>
 </ul>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
@@ -132,6 +177,13 @@
 <pre><code><span><span class="co">## Warning in serializedSize(x): 'package:knitr' may not be available when loading</span></span>
 <span><span class="co">## Warning in serializedSize(x): 'package:knitr' may not be available when loading</span></span></code></pre>
 <table class="table">
+<colgroup>
+<col width="34%">
+<col width="12%">
+<col width="34%">
+<col width="8%">
+<col width="8%">
+</colgroup>
 <thead><tr class="header">
 <th align="left">Design</th>
 <th align="left">Inquiry</th>
@@ -170,20 +222,30 @@
 </tr>
 </tbody>
 </table>
-<p>Our diagnosis of the design indicates that randomized response yields an unbiased estimate of the true rate of IPV in the study sample and offer a better alternative to direct questions involving sensitive or controversial inquiries.</p>
+<p>Our diagnosis of the design indicates that randomized response yields
+an unbiased estimate of the true rate of IPV in the study sample and
+offer a better alternative to direct questions involving sensitive or
+controversial inquiries.</p>
 </div>
 <div class="section level2 unnumbered">
-<h2 id="references">References<a class="anchor" aria-label="anchor" href="#references"></a>
+<h2 class="unnumbered" id="references">References<a class="anchor" aria-label="anchor" href="#references"></a>
 </h2>
-<div id="refs" class="references">
-<div id="ref-blair2015design">
-<p>Blair, Graeme, Kosuke Imai, and Yang-Yang Zhou. 2015. “Design and Analysis of the Randomized Response Technique.” <em>Journal of the American Statistical Association</em> 110 (511): 1304–19.</p>
+<div id="refs" class="references csl-bib-body hanging-indent" entry-spacing="0">
+<div id="ref-blair2015design" class="csl-entry">
+Blair, Graeme, Kosuke Imai, and Yang-Yang Zhou. 2015. <span>“Design and
+Analysis of the Randomized Response Technique.”</span> <em>Journal of
+the American Statistical Association</em> 110 (511): 1304–19.
 </div>
-<div id="ref-greenberg1969unrelated">
-<p>Greenberg, Bernard G, Abdel-Latif A Abul-Ela, Walt R Simmons, and Daniel G Horvitz. 1969. “The Unrelated Question Randomized Response Model: Theoretical Framework.” <em>Journal of the American Statistical Association</em> 64 (326): 520–39.</p>
+<div id="ref-greenberg1969unrelated" class="csl-entry">
+Greenberg, Bernard G, Abdel-Latif A Abul-Ela, Walt R Simmons, and Daniel
+G Horvitz. 1969. <span>“The Unrelated Question Randomized Response
+Model: Theoretical Framework.”</span> <em>Journal of the American
+Statistical Association</em> 64 (326): 520–39.
 </div>
-<div id="ref-warner1965randomized">
-<p>Warner, Stanley L. 1965. “Randomized Response: A Survey Technique for Eliminating Evasive Answer Bias.” <em>Journal of the American Statistical Association</em> 60 (309): 63–69.</p>
+<div id="ref-warner1965randomized" class="csl-entry">
+Warner, Stanley L. 1965. <span>“Randomized Response: A Survey Technique
+for Eliminating Evasive Answer Bias.”</span> <em>Journal of the American
+Statistical Association</em> 60 (309): 63–69.
 </div>
 </div>
 </div>

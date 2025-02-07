@@ -60,7 +60,8 @@
 
 
 
-<script src="factorial_files/accessible-code-block-0.0.1/empty-anchor.js"></script><div class="row">
+
+<div class="row">
   <main id="main" class="col-md-9"><div class="page-header">
 
       <h1>Factorial Designs</h1>
@@ -72,27 +73,80 @@
 
     
     
-<p>A <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msup><mn>2</mn><mi>K</mi></msup><annotation encoding="application/x-tex">2^K</annotation></semantics></math> factorial design is an extension of the <code>two_by_two_designer</code> that allows for <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>k</mi><annotation encoding="application/x-tex">k</annotation></semantics></math> number of factors (or treatments), each with two levels, resulting in <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msup><mn>2</mn><mi>K</mi></msup><annotation encoding="application/x-tex">2^K</annotation></semantics></math> combinations of treatment conditions. You might be interested in testing not just how two, but rather how three, or how any number (<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>k</mi><annotation encoding="application/x-tex">k</annotation></semantics></math>) of treatment conditions interact. The interest in the effect of different treatments in the presence or absence of other treatments is a key distinction from the <code>multi_arm_designer</code>, in which we evaluate the effect of treatments where there is no overlap in the assignment of different conditions.</p>
-<p>Let’s say you set out to study how incentives and managerial practices affect employee productivity <em>in combination</em>. Let’s imagine that intervention <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>A</mi><annotation encoding="application/x-tex">A</annotation></semantics></math> is a salary increase conditional on performance indicators, intervention <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>B</mi><annotation encoding="application/x-tex">B</annotation></semantics></math> is increased monitoring, and intervention <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>C</mi><annotation encoding="application/x-tex">C</annotation></semantics></math> is a motivational activity. A key question might be the marginal effect of conditional salary increases on productivity in the presence of greater monitoring or in the presence of motivational interventions, or both.</p>
+<p>A
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msup><mn>2</mn><mi>K</mi></msup><annotation encoding="application/x-tex">2^K</annotation></semantics></math>
+factorial design is an extension of the <code>two_by_two_designer</code>
+that allows for
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>k</mi><annotation encoding="application/x-tex">k</annotation></semantics></math>
+number of factors (or treatments), each with two levels, resulting in
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msup><mn>2</mn><mi>K</mi></msup><annotation encoding="application/x-tex">2^K</annotation></semantics></math>
+combinations of treatment conditions. You might be interested in testing
+not just how two, but rather how three, or how any number
+(<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>k</mi><annotation encoding="application/x-tex">k</annotation></semantics></math>)
+of treatment conditions interact. The interest in the effect of
+different treatments in the presence or absence of other treatments is a
+key distinction from the <code>multi_arm_designer</code>, in which we
+evaluate the effect of treatments where there is no overlap in the
+assignment of different conditions.</p>
+<p>Let’s say you set out to study how incentives and managerial
+practices affect employee productivity <em>in combination</em>. Let’s
+imagine that intervention
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>A</mi><annotation encoding="application/x-tex">A</annotation></semantics></math>
+is a salary increase conditional on performance indicators, intervention
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>B</mi><annotation encoding="application/x-tex">B</annotation></semantics></math>
+is increased monitoring, and intervention
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>C</mi><annotation encoding="application/x-tex">C</annotation></semantics></math>
+is a motivational activity. A key question might be the marginal effect
+of conditional salary increases on productivity in the presence of
+greater monitoring or in the presence of motivational interventions, or
+both.</p>
 <div class="section level3">
 <h3 id="design-declaration">Design Declaration<a class="anchor" aria-label="anchor" href="#design-declaration"></a>
 </h3>
 <ul>
 <li>
 <p><strong>M</strong>odel:</p>
-<p>We stipulate <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msup><mn>2</mn><mi>k</mi></msup><annotation encoding="application/x-tex">2^k</annotation></semantics></math> potential outcomes. In our example, with treatments <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false" form="prefix">{</mo><mi>A</mi><mo>,</mo><mi>B</mi><mo>,</mo><mi>C</mi><mo stretchy="false" form="postfix">}</mo><mo>∈</mo><mo stretchy="false" form="prefix">{</mo><mn>0</mn><mo>,</mo><mn>1</mn><mo stretchy="false" form="postfix">}</mo></mrow><annotation encoding="application/x-tex">\{A,B,C\} \in \{0,1\}</annotation></semantics></math>, we have <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msup><mi>Y</mi><mrow><mi>A</mi><mi>B</mi><mi>C</mi></mrow></msup><annotation encoding="application/x-tex">Y^{ABC}</annotation></semantics></math>. We can denote the potential outcome of a unit who is in control for all treatments <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msubsup><mi>Y</mi><mi>i</mi><mn>000</mn></msubsup><annotation encoding="application/x-tex">Y^{000}_i</annotation></semantics></math>, for example, and that for a unit who is assigned to B and C only as <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msup><mi>Y</mi><mn>011</mn></msup><annotation encoding="application/x-tex">Y^{011}</annotation></semantics></math>. Each potential outcome is distributed normally with mean <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>μ</mi><mi>j</mi></msub><annotation encoding="application/x-tex">\mu_j</annotation></semantics></math> and standard deviation <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>σ</mi><mi>j</mi></msub><annotation encoding="application/x-tex">\sigma_j</annotation></semantics></math>, where <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>j</mi><mo>∈</mo><mo stretchy="false" form="prefix">{</mo><mn>1</mn><mo>,</mo><mi>.</mi><mi>.</mi><mi>.</mi><mo>,</mo><msup><mn>2</mn><mi>k</mi></msup><mo stretchy="false" form="postfix">}</mo></mrow><annotation encoding="application/x-tex">j \in \{1,...,2^k\}</annotation></semantics></math>.</p>
+<p>We stipulate
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msup><mn>2</mn><mi>k</mi></msup><annotation encoding="application/x-tex">2^k</annotation></semantics></math>
+potential outcomes. In our example, with treatments
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false" form="prefix">{</mo><mi>A</mi><mo>,</mo><mi>B</mi><mo>,</mo><mi>C</mi><mo stretchy="false" form="postfix">}</mo><mo>∈</mo><mo stretchy="false" form="prefix">{</mo><mn>0</mn><mo>,</mo><mn>1</mn><mo stretchy="false" form="postfix">}</mo></mrow><annotation encoding="application/x-tex">\{A,B,C\} \in \{0,1\}</annotation></semantics></math>,
+we have
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msup><mi>Y</mi><mrow><mi>A</mi><mi>B</mi><mi>C</mi></mrow></msup><annotation encoding="application/x-tex">Y^{ABC}</annotation></semantics></math>.
+We can denote the potential outcome of a unit who is in control for all
+treatments
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msubsup><mi>Y</mi><mi>i</mi><mn>000</mn></msubsup><annotation encoding="application/x-tex">Y^{000}_i</annotation></semantics></math>,
+for example, and that for a unit who is assigned to B and C only as
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msup><mi>Y</mi><mn>011</mn></msup><annotation encoding="application/x-tex">Y^{011}</annotation></semantics></math>.
+Each potential outcome is distributed normally with mean
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>μ</mi><mi>j</mi></msub><annotation encoding="application/x-tex">\mu_j</annotation></semantics></math>
+and standard deviation
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>σ</mi><mi>j</mi></msub><annotation encoding="application/x-tex">\sigma_j</annotation></semantics></math>,
+where
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>j</mi><mo>∈</mo><mo stretchy="false" form="prefix">{</mo><mn>1</mn><mo>,</mo><mi>.</mi><mi>.</mi><mi>.</mi><mo>,</mo><msup><mn>2</mn><mi>k</mi></msup><mo stretchy="false" form="postfix">}</mo></mrow><annotation encoding="application/x-tex">j \in \{1,...,2^k\}</annotation></semantics></math>.</p>
 </li>
 <li>
 <p><strong>I</strong>nquiry:</p>
-<p>Estimands are defined for each combination of treatment assignment as weighted averages of differences in potential outcomes. The effect of A in this design, <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>τ</mi><mi>A</mi></msub><annotation encoding="application/x-tex">\tau_A</annotation></semantics></math>, averaged over conditions defined by B and C, is given by: <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>τ</mi><mi>A</mi></msub><mo>=</mo><mn>1</mn><mi>/</mi><mn>4</mn><mo>*</mo><mo stretchy="false" form="prefix">(</mo><msup><mi>Y</mi><mn>111</mn></msup><mo>−</mo><msup><mi>Y</mi><mn>011</mn></msup><mo stretchy="false" form="postfix">)</mo><mo>+</mo><mn>1</mn><mi>/</mi><mn>4</mn><mo>*</mo><mo stretchy="false" form="prefix">(</mo><msup><mi>Y</mi><mn>101</mn></msup><mo>−</mo><msup><mi>Y</mi><mn>001</mn></msup><mo stretchy="false" form="postfix">)</mo><mo>+</mo><mn>1</mn><mi>/</mi><mn>4</mn><mo>*</mo><mo stretchy="false" form="prefix">(</mo><msup><mi>Y</mi><mn>110</mn></msup><mo>−</mo><msup><mi>Y</mi><mn>010</mn></msup><mo stretchy="false" form="postfix">)</mo><mo>+</mo><mn>1</mn><mi>/</mi><mn>4</mn><mo>*</mo><mo stretchy="false" form="prefix">(</mo><msup><mi>Y</mi><mn>100</mn></msup><mo>−</mo><msup><mi>Y</mi><mn>000</mn></msup><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">\tau_A = 1/4*(Y^{111} - Y^{011}) + 1/4*(Y^{101} - Y^{001}) + 1/4*(Y^{110} - Y^{010}) + 1/4*(Y^{100} - Y^{000})</annotation></semantics></math>.</p>
+<p>Estimands are defined for each combination of treatment assignment as
+weighted averages of differences in potential outcomes. The effect of A
+in this design,
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>τ</mi><mi>A</mi></msub><annotation encoding="application/x-tex">\tau_A</annotation></semantics></math>,
+averaged over conditions defined by B and C, is given by:
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>τ</mi><mi>A</mi></msub><mo>=</mo><mn>1</mn><mi>/</mi><mn>4</mn><mo>*</mo><mrow><mo stretchy="true" form="prefix">(</mo><msup><mi>Y</mi><mn>111</mn></msup><mo>−</mo><msup><mi>Y</mi><mn>011</mn></msup><mo stretchy="true" form="postfix">)</mo></mrow><mo>+</mo><mn>1</mn><mi>/</mi><mn>4</mn><mo>*</mo><mrow><mo stretchy="true" form="prefix">(</mo><msup><mi>Y</mi><mn>101</mn></msup><mo>−</mo><msup><mi>Y</mi><mn>001</mn></msup><mo stretchy="true" form="postfix">)</mo></mrow><mo>+</mo><mn>1</mn><mi>/</mi><mn>4</mn><mo>*</mo><mrow><mo stretchy="true" form="prefix">(</mo><msup><mi>Y</mi><mn>110</mn></msup><mo>−</mo><msup><mi>Y</mi><mn>010</mn></msup><mo stretchy="true" form="postfix">)</mo></mrow><mo>+</mo><mn>1</mn><mi>/</mi><mn>4</mn><mo>*</mo><mrow><mo stretchy="true" form="prefix">(</mo><msup><mi>Y</mi><mn>100</mn></msup><mo>−</mo><msup><mi>Y</mi><mn>000</mn></msup><mo stretchy="true" form="postfix">)</mo></mrow></mrow><annotation encoding="application/x-tex">\tau_A = 1/4*(Y^{111} - Y^{011}) + 1/4*(Y^{101} - Y^{001}) + 1/4*(Y^{110} - Y^{010}) + 1/4*(Y^{100} - Y^{000})</annotation></semantics></math>.</p>
 </li>
 <li>
 <p><strong>D</strong>ata strategy:</p>
-<p>We randomly assign units to one of the <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msup><mn>2</mn><mi>k</mi></msup><annotation encoding="application/x-tex">2^k</annotation></semantics></math> combinations of treatment using equal probabilities of assignment.</p>
+<p>We randomly assign units to one of the
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msup><mn>2</mn><mi>k</mi></msup><annotation encoding="application/x-tex">2^k</annotation></semantics></math>
+combinations of treatment using equal probabilities of
+assignment.</p>
 </li>
 <li>
 <p><strong>A</strong>nswer strategy:</p>
-<p>Estimates draw from a regression in which all treatments are demeaned and weighted by the inverse probability of being in the condition they are in. In this demeaned regression, the constant captures the average outcome across all conditions — not the outcome when all units are in the control condition.</p>
+<p>Estimates draw from a regression in which all treatments are demeaned
+and weighted by the inverse probability of being in the condition they
+are in. In this demeaned regression, the constant captures the average
+outcome across all conditions — not the outcome when all units are in
+the control condition.</p>
 </li>
 </ul>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
@@ -445,7 +499,8 @@
 </tbody>
 </table>
 <ul>
-<li>We see that the space of estimands we can estimate is amazingly rich, but our power to do so is very low.</li>
+<li>We see that the space of estimands we can estimate is amazingly
+rich, but our power to do so is very low.</li>
 </ul>
 </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>

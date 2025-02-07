@@ -60,7 +60,8 @@
 
 
 
-<script src="two_arm_attrition_files/accessible-code-block-0.0.1/empty-anchor.js"></script><div class="row">
+
+<div class="row">
   <main id="main" class="col-md-9"><div class="page-header">
 
       <h1>Two-Arm Experiment with Attrition</h1>
@@ -72,20 +73,52 @@
 
     
     
-<p>You don’t always get the data you want. Very often, individuals who would be relevant to your inquiry don’t show up in the data: people refuse to answer surveys, data gets lost, collection activities are interrupted.</p>
-<p>When data goes missing, two things happen. First, your power goes down because you have less data to work with relative to a study with complete data. Second, you have to worry about whether there exists any systematic relationship between missingness and the outcomes you are studying. If such a relationship exists, it can introduce bias.</p>
-<p>These features of attrition are fairly well-known. But how much attrition is too much attrition? How high does the correlation between the propensity to go missing and the outcome you care about have to be, in order to seriously jeapordize a study? Here, we declare a design that allows us to study such questions.</p>
+<p>You don’t always get the data you want. Very often, individuals who
+would be relevant to your inquiry don’t show up in the data: people
+refuse to answer surveys, data gets lost, collection activities are
+interrupted.</p>
+<p>When data goes missing, two things happen. First, your power goes
+down because you have less data to work with relative to a study with
+complete data. Second, you have to worry about whether there exists any
+systematic relationship between missingness and the outcomes you are
+studying. If such a relationship exists, it can introduce bias.</p>
+<p>These features of attrition are fairly well-known. But how much
+attrition is too much attrition? How high does the correlation between
+the propensity to go missing and the outcome you care about have to be,
+in order to seriously jeapordize a study? Here, we declare a design that
+allows us to study such questions.</p>
 <div class="section level2">
 <h2 id="design-declaration">Design Declaration<a class="anchor" aria-label="anchor" href="#design-declaration"></a>
 </h2>
 <ul>
 <li>
 <p><strong>M</strong>odel:</p>
-<p>Our model of the world specifies a population of <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>N</mi><annotation encoding="application/x-tex">N</annotation></semantics></math> units that have three variables affected by the treatment: a response variable, <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>R</mi><mi>i</mi></msub><annotation encoding="application/x-tex">R_i</annotation></semantics></math>; our outcome of interest, <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>Y</mi><mi>i</mi></msub><annotation encoding="application/x-tex">Y_i</annotation></semantics></math>, which is correlated with the response variable through <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>ρ</mi><annotation encoding="application/x-tex">\rho</annotation></semantics></math>; and <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msubsup><mi>Y</mi><mi>i</mi><mrow><mi>o</mi><mi>b</mi><mi>s</mi></mrow></msubsup><annotation encoding="application/x-tex">Y^{obs}_i</annotation></semantics></math>, the <em>measured</em> version of the true <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>Y</mi><mi>i</mi></msub><annotation encoding="application/x-tex">Y_i</annotation></semantics></math>, which is only observed when <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>R</mi><mi>i</mi></msub><mo>=</mo><mn>1</mn></mrow><annotation encoding="application/x-tex">R_i = 1</annotation></semantics></math>.</p>
+<p>Our model of the world specifies a population of
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>N</mi><annotation encoding="application/x-tex">N</annotation></semantics></math>
+units that have three variables affected by the treatment: a response
+variable,
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>R</mi><mi>i</mi></msub><annotation encoding="application/x-tex">R_i</annotation></semantics></math>;
+our outcome of interest,
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>Y</mi><mi>i</mi></msub><annotation encoding="application/x-tex">Y_i</annotation></semantics></math>,
+which is correlated with the response variable through
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>ρ</mi><annotation encoding="application/x-tex">\rho</annotation></semantics></math>;
+and
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msubsup><mi>Y</mi><mi>i</mi><mrow><mi>o</mi><mi>b</mi><mi>s</mi></mrow></msubsup><annotation encoding="application/x-tex">Y^{obs}_i</annotation></semantics></math>,
+the <em>measured</em> version of the true
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>Y</mi><mi>i</mi></msub><annotation encoding="application/x-tex">Y_i</annotation></semantics></math>,
+which is only observed when
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>R</mi><mi>i</mi></msub><mo>=</mo><mn>1</mn></mrow><annotation encoding="application/x-tex">R_i = 1</annotation></semantics></math>.</p>
 </li>
 <li>
 <p><strong>I</strong>nquiry:</p>
-<p>We want to know the average of all units’ differences in treated and untreated potential outcomes – the average treatment effect on the outcome of interest: <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>E</mi><mo stretchy="false" form="prefix">[</mo><msub><mi>Y</mi><mi>i</mi></msub><mo stretchy="false" form="prefix">(</mo><mi>Z</mi><mo>=</mo><mn>1</mn><mo stretchy="false" form="postfix">)</mo><mo>−</mo><msub><mi>Y</mi><mi>i</mi></msub><mo stretchy="false" form="prefix">(</mo><mi>Z</mi><mo>=</mo><mn>0</mn><mo stretchy="false" form="postfix">)</mo><mo stretchy="false" form="postfix">]</mo></mrow><annotation encoding="application/x-tex">E[Y_i(Z = 1) - Y_i(Z = 0)]</annotation></semantics></math>. But we also want to know the average treatment effect on reporting, <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>E</mi><mo stretchy="false" form="prefix">[</mo><msub><mi>R</mi><mi>i</mi></msub><mo stretchy="false" form="prefix">(</mo><mi>Z</mi><mo>=</mo><mn>1</mn><mo stretchy="false" form="postfix">)</mo><mo>−</mo><msub><mi>R</mi><mi>i</mi></msub><mo stretchy="false" form="prefix">(</mo><mi>Z</mi><mo>=</mo><mn>0</mn><mo stretchy="false" form="postfix">)</mo><mo stretchy="false" form="postfix">]</mo></mrow><annotation encoding="application/x-tex">E[R_i(Z = 1) - R_i(Z = 0)]</annotation></semantics></math>, as well as the effect of the treatment among those who report, <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>E</mi><mo stretchy="false" form="prefix">[</mo><msub><mi>Y</mi><mi>i</mi></msub><mo stretchy="false" form="prefix">(</mo><mi>Z</mi><mo>=</mo><mn>1</mn><mo stretchy="false" form="postfix">)</mo><mo>−</mo><msub><mi>Y</mi><mi>i</mi></msub><mo stretchy="false" form="prefix">(</mo><mi>Z</mi><mo>=</mo><mn>0</mn><mo stretchy="false" form="postfix">)</mo><mo>∣</mo><msub><mi>R</mi><mi>i</mi></msub><mo>=</mo><mn>1</mn><mo stretchy="false" form="postfix">]</mo></mrow><annotation encoding="application/x-tex">E[Y_i(Z = 1) - Y_i(Z = 0) \mid R_i = 1]</annotation></semantics></math>.</p>
+<p>We want to know the average of all units’ differences in treated and
+untreated potential outcomes – the average treatment effect on the
+outcome of interest:
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>E</mi><mrow><mo stretchy="true" form="prefix">[</mo><msub><mi>Y</mi><mi>i</mi></msub><mrow><mo stretchy="true" form="prefix">(</mo><mi>Z</mi><mo>=</mo><mn>1</mn><mo stretchy="true" form="postfix">)</mo></mrow><mo>−</mo><msub><mi>Y</mi><mi>i</mi></msub><mrow><mo stretchy="true" form="prefix">(</mo><mi>Z</mi><mo>=</mo><mn>0</mn><mo stretchy="true" form="postfix">)</mo></mrow><mo stretchy="true" form="postfix">]</mo></mrow></mrow><annotation encoding="application/x-tex">E[Y_i(Z = 1) - Y_i(Z = 0)]</annotation></semantics></math>.
+But we also want to know the average treatment effect on reporting,
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>E</mi><mrow><mo stretchy="true" form="prefix">[</mo><msub><mi>R</mi><mi>i</mi></msub><mrow><mo stretchy="true" form="prefix">(</mo><mi>Z</mi><mo>=</mo><mn>1</mn><mo stretchy="true" form="postfix">)</mo></mrow><mo>−</mo><msub><mi>R</mi><mi>i</mi></msub><mrow><mo stretchy="true" form="prefix">(</mo><mi>Z</mi><mo>=</mo><mn>0</mn><mo stretchy="true" form="postfix">)</mo></mrow><mo stretchy="true" form="postfix">]</mo></mrow></mrow><annotation encoding="application/x-tex">E[R_i(Z = 1) - R_i(Z = 0)]</annotation></semantics></math>,
+as well as the effect of the treatment among those who report,
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>E</mi><mrow><mo stretchy="true" form="prefix">[</mo><msub><mi>Y</mi><mi>i</mi></msub><mrow><mo stretchy="true" form="prefix">(</mo><mi>Z</mi><mo>=</mo><mn>1</mn><mo stretchy="true" form="postfix">)</mo></mrow><mo>−</mo><msub><mi>Y</mi><mi>i</mi></msub><mrow><mo stretchy="true" form="prefix">(</mo><mi>Z</mi><mo>=</mo><mn>0</mn><mo stretchy="true" form="postfix">)</mo></mrow><mo>∣</mo><msub><mi>R</mi><mi>i</mi></msub><mo>=</mo><mn>1</mn><mo stretchy="true" form="postfix">]</mo></mrow></mrow><annotation encoding="application/x-tex">E[Y_i(Z = 1) - Y_i(Z = 0) \mid R_i = 1]</annotation></semantics></math>.</p>
 </li>
 <li>
 <p><strong>D</strong>ata strategy:</p>
@@ -93,7 +126,13 @@
 </li>
 <li>
 <p><strong>A</strong>nswer strategy:</p>
-<p>For <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>R</mi><mi>i</mi></msub><annotation encoding="application/x-tex">R_i</annotation></semantics></math> and <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msubsup><mi>Y</mi><mi>i</mi><mrow><mi>o</mi><mi>b</mi><mi>s</mi></mrow></msubsup><annotation encoding="application/x-tex">Y^{obs}_i</annotation></semantics></math>, we subtract the mean of the control group’s values from the mean of the treatment group in order to estimate the average treatment effect.</p>
+<p>For
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>R</mi><mi>i</mi></msub><annotation encoding="application/x-tex">R_i</annotation></semantics></math>
+and
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msubsup><mi>Y</mi><mi>i</mi><mrow><mi>o</mi><mi>b</mi><mi>s</mi></mrow></msubsup><annotation encoding="application/x-tex">Y^{obs}_i</annotation></semantics></math>,
+we subtract the mean of the control group’s values from the mean of the
+treatment group in order to estimate the average treatment
+effect.</p>
 </li>
 </ul>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
@@ -141,6 +180,16 @@
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/pkg/knitr/man/kable.html" class="external-link">kable</a></span><span class="op">(</span><span class="fu"><a href="https://declaredesign.org/r/declaredesign/reference/reshape_diagnosis.html" class="external-link">reshape_diagnosis</a></span><span class="op">(</span><span class="va">diagnoses</span>,select <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Bias"</span>,<span class="st">"Power"</span><span class="op">)</span><span class="op">)</span>, digits <span class="op">=</span> <span class="fl">2</span><span class="op">)</span></span></code></pre></div>
 <table class="table">
+<colgroup>
+<col width="12%">
+<col width="25%">
+<col width="17%">
+<col width="10%">
+<col width="6%">
+<col width="9%">
+<col width="9%">
+<col width="9%">
+</colgroup>
 <thead><tr class="header">
 <th align="left">Design</th>
 <th align="left">Inquiry</th>
@@ -455,8 +504,13 @@
 </tbody>
 </table>
 <ul>
-<li><p>The diagnosis illustrates that the effect on reporting can always be estimated with high power and no bias</p></li>
-<li><p>However, any strategy that conditions on <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msubsup><mi>Y</mi><mi>i</mi><mrow><mi>o</mi><mi>b</mi><mi>s</mi></mrow></msubsup><annotation encoding="application/x-tex">Y_i^{obs}</annotation></semantics></math> is very biased, even for an estimand that is conditional on reporting. Even a small amount of correlation between missingness and outcomes can severely jeapordize inferences.</p></li>
+<li><p>The diagnosis illustrates that the effect on reporting can always
+be estimated with high power and no bias</p></li>
+<li><p>However, any strategy that conditions on
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msubsup><mi>Y</mi><mi>i</mi><mrow><mi>o</mi><mi>b</mi><mi>s</mi></mrow></msubsup><annotation encoding="application/x-tex">Y_i^{obs}</annotation></semantics></math>
+is very biased, even for an estimand that is conditional on reporting.
+Even a small amount of correlation between missingness and outcomes can
+severely jeapordize inferences.</p></li>
 </ul>
 </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>

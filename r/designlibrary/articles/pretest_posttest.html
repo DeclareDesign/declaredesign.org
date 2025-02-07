@@ -60,7 +60,8 @@
 
 
 
-<script src="pretest_posttest_files/accessible-code-block-0.0.1/empty-anchor.js"></script><div class="row">
+
+<div class="row">
   <main id="main" class="col-md-9"><div class="page-header">
 
       <h1>Pre-Test Post-Test Design</h1>
@@ -72,29 +73,76 @@
 
     
     
-<p>Pre-test post-test designs are designs in which researchers estimate the change in outcomes before and after an intervention. These designs are often preferred to post-test-only designs (which simply compare outcomes between control and treatment group <em>after</em> treatment assignment), because they enable much more efficient estimation and more informed assessment of imbalance.</p>
-<p>Nevertheless, baseline measurement often comes at a cost: when faced with budget constraints, researchers may be forced to decrease endline sample size in order to facilitate a baseline. Whether it is worth doing so often depends on how well the baseline will predict outcomes at endline.</p>
-<p>Furthermore, there is much debate about how best to estimate treatment effects in such designs: when are researchers better off using change scores versus conditioning on the baseline?</p>
-<p>Below we consider the example of a pre-test post-test applied to a study that seeks to evaluate the effect of a family-planning program on the incidence of teenage pregnancy.</p>
+<p>Pre-test post-test designs are designs in which researchers estimate
+the change in outcomes before and after an intervention. These designs
+are often preferred to post-test-only designs (which simply compare
+outcomes between control and treatment group <em>after</em> treatment
+assignment), because they enable much more efficient estimation and more
+informed assessment of imbalance.</p>
+<p>Nevertheless, baseline measurement often comes at a cost: when faced
+with budget constraints, researchers may be forced to decrease endline
+sample size in order to facilitate a baseline. Whether it is worth doing
+so often depends on how well the baseline will predict outcomes at
+endline.</p>
+<p>Furthermore, there is much debate about how best to estimate
+treatment effects in such designs: when are researchers better off using
+change scores versus conditioning on the baseline?</p>
+<p>Below we consider the example of a pre-test post-test applied to a
+study that seeks to evaluate the effect of a family-planning program on
+the incidence of teenage pregnancy.</p>
 <div class="section level2">
 <h2 id="design-declaration">Design Declaration<a class="anchor" aria-label="anchor" href="#design-declaration"></a>
 </h2>
 <ul>
 <li>
 <p><strong>M</strong>odel:</p>
-<p>We define a population of size <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>N</mi><annotation encoding="application/x-tex">N</annotation></semantics></math>, where effect at time <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>t</mi><mo>=</mo><mn>1</mn></mrow><annotation encoding="application/x-tex">t = 1</annotation></semantics></math> (pre-program) and <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>t</mi><mo>=</mo><mn>2</mn></mrow><annotation encoding="application/x-tex">t = 2</annotation></semantics></math> (post-program) are taken from a normal distribution of mean 0 and standard deviation smaller than 1. We assume pre- and post-test outcomes to be highly and positively correlated (<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>ρ</mi><mo>=</mo><mn>0.5</mn></mrow><annotation encoding="application/x-tex">\rho = 0.5</annotation></semantics></math>). We also expect subjects to leave the study at a rate of 10%, meaning we do not observe post-treatment outcomes for a tenth of the sample.</p>
+<p>We define a population of size
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>N</mi><annotation encoding="application/x-tex">N</annotation></semantics></math>,
+where effect at time
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>t</mi><mo>=</mo><mn>1</mn></mrow><annotation encoding="application/x-tex">t = 1</annotation></semantics></math>
+(pre-program) and
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>t</mi><mo>=</mo><mn>2</mn></mrow><annotation encoding="application/x-tex">t = 2</annotation></semantics></math>
+(post-program) are taken from a normal distribution of mean 0 and
+standard deviation smaller than 1. We assume pre- and post-test outcomes
+to be highly and positively correlated
+(<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>ρ</mi><mo>=</mo><mn>0.5</mn></mrow><annotation encoding="application/x-tex">\rho = 0.5</annotation></semantics></math>).
+We also expect subjects to leave the study at a rate of 10%, meaning we
+do not observe post-treatment outcomes for a tenth of the
+sample.</p>
 </li>
 <li>
 <p><strong>I</strong>nquiry:</p>
-<p>We wish to know the average effect of family pregnancy programs <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>Z</mi><annotation encoding="application/x-tex">Z</annotation></semantics></math> on rates of teenage pregnancy. Formally: <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>E</mi><mo stretchy="false" form="prefix">[</mo><mi>Y</mi><mo stretchy="false" form="prefix">(</mo><mi>Z</mi><mo>=</mo><mn>1</mn><mo stretchy="false" form="postfix">)</mo><mo>−</mo><mi>Y</mi><mo stretchy="false" form="prefix">(</mo><mi>Z</mi><mo>=</mo><mn>0</mn><mo stretchy="false" form="postfix">)</mo><mo>∣</mo><mi>t</mi><mo>=</mo><mn>2</mn><mo stretchy="false" form="postfix">]</mo></mrow><annotation encoding="application/x-tex">E[Y(Z = 1) - Y(Z = 0) \mid t = 2]</annotation></semantics></math>, where <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>Z</mi><mo>=</mo><mn>1</mn></mrow><annotation encoding="application/x-tex">Z = 1</annotation></semantics></math> denotes assignment to the program.</p>
+<p>We wish to know the average effect of family pregnancy programs
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>Z</mi><annotation encoding="application/x-tex">Z</annotation></semantics></math>
+on rates of teenage pregnancy. Formally:
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>E</mi><mrow><mo stretchy="true" form="prefix">[</mo><mi>Y</mi><mrow><mo stretchy="true" form="prefix">(</mo><mi>Z</mi><mo>=</mo><mn>1</mn><mo stretchy="true" form="postfix">)</mo></mrow><mo>−</mo><mi>Y</mi><mrow><mo stretchy="true" form="prefix">(</mo><mi>Z</mi><mo>=</mo><mn>0</mn><mo stretchy="true" form="postfix">)</mo></mrow><mo>∣</mo><mi>t</mi><mo>=</mo><mn>2</mn><mo stretchy="true" form="postfix">]</mo></mrow></mrow><annotation encoding="application/x-tex">E[Y(Z = 1) - Y(Z = 0) \mid t = 2]</annotation></semantics></math>,
+where
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>Z</mi><mo>=</mo><mn>1</mn></mrow><annotation encoding="application/x-tex">Z = 1</annotation></semantics></math>
+denotes assignment to the program.</p>
 </li>
 <li>
 <p><strong>D</strong>ata strategy:</p>
-<p>We observe the incidence of teenage pregnancy (<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>Y</mi><mi>i</mi></msub><annotation encoding="application/x-tex">Y_i</annotation></semantics></math>) for individual <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>i</mi><annotation encoding="application/x-tex">i</annotation></semantics></math> for a sample of 100 individuals at time <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>t</mi><mo>=</mo><mn>1</mn></mrow><annotation encoding="application/x-tex">t = 1</annotation></semantics></math> (just prior to treatment) and at time <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>t</mi><mo>=</mo><mn>2</mn></mrow><annotation encoding="application/x-tex">t = 2</annotation></semantics></math> (a year after treatment). We randomly assign 50 out of 100 women between the ages of 15 and 19 to receive treatment.</p>
+<p>We observe the incidence of teenage pregnancy
+(<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>Y</mi><mi>i</mi></msub><annotation encoding="application/x-tex">Y_i</annotation></semantics></math>)
+for individual
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>i</mi><annotation encoding="application/x-tex">i</annotation></semantics></math>
+for a sample of 100 individuals at time
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>t</mi><mo>=</mo><mn>1</mn></mrow><annotation encoding="application/x-tex">t = 1</annotation></semantics></math>
+(just prior to treatment) and at time
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>t</mi><mo>=</mo><mn>2</mn></mrow><annotation encoding="application/x-tex">t = 2</annotation></semantics></math>
+(a year after treatment). We randomly assign 50 out of 100 women between
+the ages of 15 and 19 to receive treatment.</p>
 </li>
 <li>
 <p><strong>A</strong>nswer strategy:</p>
-<p>We define three estimators. First, we estimate effects on the ``change score’’: the dependent variable is defined as the difference between observed post- and pre-treatment outcomes. The second estimator treats only the post-treatment outcome as the dependent variable, but conditions on the pre-treatment outcome on the righthand side of the regression. Finally, we also look at effects when we only use post-test outcome measures, so as to evaluate the gain from using a baseline.</p>
+<p>We define three estimators. First, we estimate effects on the
+``change score’’: the dependent variable is defined as the difference
+between observed post- and pre-treatment outcomes. The second estimator
+treats only the post-treatment outcome as the dependent variable, but
+conditions on the pre-treatment outcome on the righthand side of the
+regression. Finally, we also look at effects when we only use post-test
+outcome measures, so as to evaluate the gain from using a
+baseline.</p>
 </li>
 </ul>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
@@ -386,7 +434,10 @@
 </tbody>
 </table>
 <ul>
-<li>We see that the change score approach is less powerful than even the naive estimator! That’s because it essentially sums the variances from both periods. Any time invariant noise is being compounded by summing.</li>
+<li>We see that the change score approach is less powerful than even the
+naive estimator! That’s because it essentially sums the variances from
+both periods. Any time invariant noise is being compounded by
+summing.</li>
 </ul>
 </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>

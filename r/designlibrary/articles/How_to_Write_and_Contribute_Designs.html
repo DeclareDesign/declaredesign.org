@@ -60,7 +60,8 @@
 
 
 
-<script src="How_to_Write_and_Contribute_Designs_files/accessible-code-block-0.0.1/empty-anchor.js"></script><div class="row">
+
+<div class="row">
   <main id="main" class="col-md-9"><div class="page-header">
 
       <h1>How to Write and Contribute Designs</h1>
@@ -72,46 +73,72 @@
 
     
     
-<p>This guide provides instructions for contributing static design objects to the library at <a href="DeclareDesign.org/library">DeclareDesign.org/library</a>. Please note, designs should be submitted as <code>.Rmd</code> files (vignettes), and will not be added to the CRAN version of the <code>DesignLibrary</code>.</p>
+<p>This guide provides instructions for contributing static design
+objects to the library at <a href="DeclareDesign.org/library">DeclareDesign.org/library</a>. Please
+note, designs should be submitted as <code>.Rmd</code> files
+(vignettes), and will not be added to the CRAN version of the
+<code>DesignLibrary</code>.</p>
 <p>First, install <code>DeclareDesign</code> in <code>R</code>:</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html" class="external-link">install.packages</a></span><span class="op">(</span><span class="st">"DeclareDesign"</span><span class="op">)</span></span></code></pre></div>
-<p>A design is an object of class <code>design</code>, created by concatenating a series of <code>declare_*</code> calls using the <code>+</code> operator in <code>DeclareDesign</code>.</p>
+<p>A design is an object of class <code>design</code>, created by
+concatenating a series of <code>declare_*</code> calls using the
+<code>+</code> operator in <code>DeclareDesign</code>.</p>
 <div class="section level2">
 <h2 id="contributing-designs">Contributing designs<a class="anchor" aria-label="anchor" href="#contributing-designs"></a>
 </h2>
-<p>Your design should be submitted to <code>DesignLibrary</code> as an <code>.Rmd</code> vignette located in the vignette subfolder of the github repository: <a href="https://github.com/DeclareDesign/DesignLibrary/tree/master/vignettes" class="external-link">see here</a>.</p>
-<p>You should submit your design via a pull request to <a href="https://github.com/DeclareDesign/DesignLibrary/" class="external-link">https://github.com/DeclareDesign/DesignLibrary/</a>. This will typically involve <a href="https://guides.github.com/activities/forking/" class="external-link">forking the repository</a>, creating a new branch, adding your design to the vignettes folder, and <a href="https://guides.github.com/activities/forking/" class="external-link">then submitting a pull request</a> to the <code>DeclareDesign/DesignLibrary</code> repository.</p>
-<p>When you submit the pull request, you should see a pull request template, which contains a checklist. This checklist covers additional points addressed below.</p>
+<p>Your design should be submitted to <code>DesignLibrary</code> as an
+<code>.Rmd</code> vignette located in the vignette subfolder of the
+github repository: <a href="https://github.com/DeclareDesign/DesignLibrary/tree/master/vignettes" class="external-link">see
+here</a>.</p>
+<p>You should submit your design via a pull request to <a href="https://github.com/DeclareDesign/DesignLibrary/" class="external-link">https://github.com/DeclareDesign/DesignLibrary/</a>.
+This will typically involve <a href="https://guides.github.com/activities/forking/" class="external-link">forking the
+repository</a>, creating a new branch, adding your design to the
+vignettes folder, and <a href="https://guides.github.com/activities/forking/" class="external-link">then submitting a
+pull request</a> to the <code>DeclareDesign/DesignLibrary</code>
+repository.</p>
+<p>When you submit the pull request, you should see a pull request
+template, which contains a checklist. This checklist covers additional
+points addressed below.</p>
 </div>
 <div class="section level2">
 <h2 id="meta-data">Meta-data<a class="anchor" aria-label="anchor" href="#meta-data"></a>
 </h2>
-<p>In order for your design to appear on the table at <a href="DeclareDesign.org/library">DeclareDesign.org/library</a>, you will need to add some meta-data about your design to the <code>overview.csv</code> file located at <a href="https://github.com/DeclareDesign/DesignLibrary/tree/master/inst/extdata/overview.csv" class="external-link">DesignLibrary/inst/extdata</a>.</p>
+<p>In order for your design to appear on the table at <a href="DeclareDesign.org/library">DeclareDesign.org/library</a>, you will
+need to add some meta-data about your design to the
+<code>overview.csv</code> file located at <a href="https://github.com/DeclareDesign/DesignLibrary/tree/master/inst/extdata/overview.csv" class="external-link">DesignLibrary/inst/extdata</a>.</p>
 <p>You should add a row with:</p>
 <ul>
 <li>the name of your design under <code>design</code>
 </li>
 <li>leave <code>designer</code> blank</li>
-<li>put the name of the vignette file without the <code>.Rmd</code> extension under <code>vignette</code>
+<li>put the name of the vignette file without the <code>.Rmd</code>
+extension under <code>vignette</code>
 </li>
-<li>add any keywords under <code>keywords</code>, separated by commas</li>
+<li>add any keywords under <code>keywords</code>, separated by
+commas</li>
 <li>leave <code>shiny</code> blank</li>
 <li>you can put your name under <code>author</code>
 </li>
-<li>and a link to your website or twitter handle under <code>author_url</code>
+<li>and a link to your website or twitter handle under
+<code>author_url</code>
 </li>
 </ul>
 </div>
 <div class="section level2">
 <h2 id="external-data">External data<a class="anchor" aria-label="anchor" href="#external-data"></a>
 </h2>
-<p>Very often, more complicated designs will rely on external data. If your design requires external data to run, please make sure that it is sourced into your vignette through a publicly accessible URL. We will not accept any objects in a pull request aside from an <code>.Rmd</code> file.</p>
+<p>Very often, more complicated designs will rely on external data. If
+your design requires external data to run, please make sure that it is
+sourced into your vignette through a publicly accessible URL. We will
+not accept any objects in a pull request aside from an <code>.Rmd</code>
+file.</p>
 </div>
 <div class="section level2">
 <h2 id="if-in-doubt">If in doubt…<a class="anchor" aria-label="anchor" href="#if-in-doubt"></a>
 </h2>
-<p>Just <a href="https://github.com/DeclareDesign/DesignLibrary/issues" class="external-link">post an issue</a> and we’ll get right on it.</p>
+<p>Just <a href="https://github.com/DeclareDesign/DesignLibrary/issues" class="external-link">post an
+issue</a> and we’ll get right on it.</p>
 </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
     </nav></aside>

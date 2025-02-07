@@ -60,7 +60,8 @@
 
 
 
-<script src="block_cluster_two_arm_files/accessible-code-block-0.0.1/empty-anchor.js"></script><div class="row">
+
+<div class="row">
   <main id="main" class="col-md-9"><div class="page-header">
 
       <h1>Block-Cluster-Two-Arm Design</h1>
@@ -72,29 +73,64 @@
 
     
     
-<p>Blocked cluster designs involve units that are grouped into clusters which are in turn grouped into blocks.</p>
-<p>The clusters are assigned as a group to either treatment or control. When the clusters are of equal size the difference-in-means estimator yields unbiased but possibly imprecise estimates, especially when individuals are very similar within clusters and share characteristics that can potentially influence outcomes.</p>
-<p>In addition (optionally) clusters are assigned within blocks. Ideally clusters within a block are similar. For instance blocks might be formed on the basis of pre-treatment covariates. Treatment is then assigned <em>within</em> each block. Two main objectives can be achieved with block randomization: first, we can reduce sampling variability when individuals that belong to a specific block have similar potential outcomes. Secondly, we can ensure that certain characteristics that we care about are present at a particular rate in our treatment and control samples. For instance, policymakers might be interested in having an equal number of women and men in treatment and control. By defining one block as men and another as women and conducting the randomization separately for each gender, we can ensure that exactly half of the men and half of the women are treated.</p>
-<p>As a rule of thumb having blocks improves precision but having clusters weakens precision. Despite their drawbacks, cluster designs are sometimes unavoidable. For instance, imagine that we want to evaluate the effects of radio advertisements on donations to aid relief campaigns. It is, of course, impossible to target such advertising to a single individual, and the treatment must instead be assigned at a higher level; for instance at the city level.</p>
+<p>Blocked cluster designs involve units that are grouped into clusters
+which are in turn grouped into blocks.</p>
+<p>The clusters are assigned as a group to either treatment or control.
+When the clusters are of equal size the difference-in-means estimator
+yields unbiased but possibly imprecise estimates, especially when
+individuals are very similar within clusters and share characteristics
+that can potentially influence outcomes.</p>
+<p>In addition (optionally) clusters are assigned within blocks. Ideally
+clusters within a block are similar. For instance blocks might be formed
+on the basis of pre-treatment covariates. Treatment is then assigned
+<em>within</em> each block. Two main objectives can be achieved with
+block randomization: first, we can reduce sampling variability when
+individuals that belong to a specific block have similar potential
+outcomes. Secondly, we can ensure that certain characteristics that we
+care about are present at a particular rate in our treatment and control
+samples. For instance, policymakers might be interested in having an
+equal number of women and men in treatment and control. By defining one
+block as men and another as women and conducting the randomization
+separately for each gender, we can ensure that exactly half of the men
+and half of the women are treated.</p>
+<p>As a rule of thumb having blocks improves precision but having
+clusters weakens precision. Despite their drawbacks, cluster designs are
+sometimes unavoidable. For instance, imagine that we want to evaluate
+the effects of radio advertisements on donations to aid relief
+campaigns. It is, of course, impossible to target such advertising to a
+single individual, and the treatment must instead be assigned at a
+higher level; for instance at the city level.</p>
 <div class="section level2">
 <h2 id="design-declaration">Design Declaration<a class="anchor" aria-label="anchor" href="#design-declaration"></a>
 </h2>
 <ul>
 <li>
 <p><strong>M</strong>odel:</p>
-<p>We specify a population of <code>N</code> units partitioned into <code>N_blocks</code> (regions, say). Each block has <code>N_clusters_in_block</code> clusters (cities, say) and within each cluster there are <code>N_in_cluster</code> individuals. The variance of an individual’s outcomes has three components: the block’s variance, the cluster’s variance and the subject’s variance.</p>
+<p>We specify a population of <code>N</code> units partitioned into
+<code>N_blocks</code> (regions, say). Each block has
+<code>N_clusters_in_block</code> clusters (cities, say) and within each
+cluster there are <code>N_in_cluster</code> individuals. The variance of
+an individual’s outcomes has three components: the block’s variance, the
+cluster’s variance and the subject’s variance.</p>
 </li>
 <li>
 <p><strong>I</strong>nquiry:</p>
-<p>We are interested in the average difference in individuals’ treatment and control outcomes, <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>E</mi><mo stretchy="false" form="prefix">[</mo><msub><mi>Y</mi><mi>i</mi></msub><mo stretchy="false" form="prefix">(</mo><mi>Z</mi><mo>=</mo><mn>1</mn><mo stretchy="false" form="postfix">)</mo><mo>−</mo><msub><mi>Y</mi><mi>i</mi></msub><mo stretchy="false" form="prefix">(</mo><mi>Z</mi><mo>=</mo><mn>0</mn><mo stretchy="false" form="postfix">)</mo><mo stretchy="false" form="postfix">]</mo></mrow><annotation encoding="application/x-tex">E[Y_i(Z = 1) - Y_i(Z = 0)]</annotation></semantics></math>.</p>
+<p>We are interested in the average difference in individuals’ treatment
+and control outcomes,
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>E</mi><mrow><mo stretchy="true" form="prefix">[</mo><msub><mi>Y</mi><mi>i</mi></msub><mrow><mo stretchy="true" form="prefix">(</mo><mi>Z</mi><mo>=</mo><mn>1</mn><mo stretchy="true" form="postfix">)</mo></mrow><mo>−</mo><msub><mi>Y</mi><mi>i</mi></msub><mrow><mo stretchy="true" form="prefix">(</mo><mi>Z</mi><mo>=</mo><mn>0</mn><mo stretchy="true" form="postfix">)</mo></mrow><mo stretchy="true" form="postfix">]</mo></mrow></mrow><annotation encoding="application/x-tex">E[Y_i(Z = 1) - Y_i(Z = 0)]</annotation></semantics></math>.</p>
 </li>
 <li>
 <p><strong>D</strong>ata strategy:</p>
-<p>The units of randomization are cities (clusters). Cities are blocked by region so that we ensure that equal numbers of cities from each region are included in control and in treatment. All individuals belonging to the same city are either treated or assigned to control.</p>
+<p>The units of randomization are cities (clusters). Cities are blocked
+by region so that we ensure that equal numbers of cities from each
+region are included in control and in treatment. All individuals
+belonging to the same city are either treated or assigned to
+control.</p>
 </li>
 <li>
 <p><strong>A</strong>nswer strategy:</p>
-<p>We estimate the average treatment effect using a linear model that accounts for block structure and clusters.</p>
+<p>We estimate the average treatment effect using a linear model that
+accounts for block structure and clusters.</p>
 </li>
 </ul>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
@@ -132,7 +168,15 @@
 <div class="section level2">
 <h2 id="takeaways">Takeaways<a class="anchor" aria-label="anchor" href="#takeaways"></a>
 </h2>
-<p>To better illustrate how different sources of variance differentially affect our power, we compare three designs. Each of them features a design with 50 blocks featuring two clusters each, with 10 individuals per cluster. In each design the effect size is .25 and the standard deviation in the outcome is 1 (when possible the designer defaults to a variance for the individual shock such that total variance =1). In the first, all of the variance derives from differences between individuals, in the second it derives from differences between clusters, and in the third it derives from variance between blocks.</p>
+<p>To better illustrate how different sources of variance differentially
+affect our power, we compare three designs. Each of them features a
+design with 50 blocks featuring two clusters each, with 10 individuals
+per cluster. In each design the effect size is .25 and the standard
+deviation in the outcome is 1 (when possible the designer defaults to a
+variance for the individual shock such that total variance =1). In the
+first, all of the variance derives from differences between individuals,
+in the second it derives from differences between clusters, and in the
+third it derives from variance between blocks.</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">individual_var</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/block_cluster_two_arm_designer.html">block_cluster_two_arm_designer</a></span><span class="op">(</span>N_blocks <span class="op">=</span> <span class="fl">50</span>, </span>
 <span>                                                 N_clusters_in_block <span class="op">=</span> <span class="fl">2</span>, </span>
@@ -315,7 +359,16 @@
 <span><span class="co">## The argument 'model = ' is deprecated. Please use '.method = ' instead.</span></span>
 <span><span class="co">## Warning in fn(data, ~(Y ~ Z), fixed_effects = ~~blocks, clusters = ~clusters, :</span></span>
 <span><span class="co">## The argument 'model = ' is deprecated. Please use '.method = ' instead.</span></span></code></pre>
-<table class="table">
+<table style="width:100%;" class="table">
+<colgroup>
+<col width="14%">
+<col width="19%">
+<col width="19%">
+<col width="9%">
+<col width="16%">
+<col width="9%">
+<col width="9%">
+</colgroup>
 <thead><tr class="header">
 <th align="left">Estimator</th>
 <th align="left">Mean Estimand</th>
@@ -382,14 +435,21 @@
 </tr>
 </tbody>
 </table>
-<p>Diagnosis reveals that the efficiency is greatest when variance comes from blocks, and lowest when it comes from clusters. The reason for this is that our estimator models block-level variance, and can estimate the treatment effect independently from block-level effects because treatment assignment is orthogonal to blocks. However, any variance at the cluster level covaries with our treatment, and thus makes it harder to estimate the treatment effect.</p>
+<p>Diagnosis reveals that the efficiency is greatest when variance comes
+from blocks, and lowest when it comes from clusters. The reason for this
+is that our estimator models block-level variance, and can estimate the
+treatment effect independently from block-level effects because
+treatment assignment is orthogonal to blocks. However, any variance at
+the cluster level covaries with our treatment, and thus makes it harder
+to estimate the treatment effect.</p>
 </div>
 <div class="section level2 unnumbered">
-<h2 id="references">References<a class="anchor" aria-label="anchor" href="#references"></a>
+<h2 class="unnumbered" id="references">References<a class="anchor" aria-label="anchor" href="#references"></a>
 </h2>
-<div id="refs" class="references">
-<div id="ref-Gerber2012">
-<p>Gerber, Alan S., and Donald P. Green. 2012. <em>Field Experiments: Design, Analysis, and Interpretation</em>. New York: W.W. Norton.</p>
+<div id="refs" class="references csl-bib-body hanging-indent" entry-spacing="0">
+<div id="ref-Gerber2012" class="csl-entry">
+Gerber, Alan S., and Donald P. Green. 2012. <em><span class="nocase">Field Experiments: Design, Analysis, and
+Interpretation</span></em>. New York: W.W. Norton.
 </div>
 </div>
 </div>

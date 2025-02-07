@@ -60,7 +60,8 @@
 
 
 
-<script src="two_by_two_files/accessible-code-block-0.0.1/empty-anchor.js"></script><div class="row">
+
+<div class="row">
   <main id="main" class="col-md-9"><div class="page-header">
 
       <h1>Two-by-Two Factorial</h1>
@@ -72,28 +73,93 @@
 
     
     
-<p>Studying causal mechanisms is hard. One of the best ways we know to study if one cause works better or worse when another one is present is through a two-by-two experiment. As its name suggests, the design involves two overlapping two-arm experiments.</p>
-<p>Before conducting studies of this kind, researchers often want to increase their confidence in their ability to detect significant interactions when the effect of <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>Z</mi><mn>1</mn></msub><annotation encoding="application/x-tex">Z_1</annotation></semantics></math> on <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>Y</mi><annotation encoding="application/x-tex">Y</annotation></semantics></math> really is a function of <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>Z</mi><mn>2</mn></msub><annotation encoding="application/x-tex">Z_2</annotation></semantics></math>. How many subjects are needed to raise the probability of correctly inferring that there is an interaction 80%?</p>
-<p>This is a surprisingly difficult question to answer, because answering it accurately depends upon the specific model of the potential outcomes the researcher has in mind. As a result, many researchers use rules of thumb that may lead to systematic over- or under-confidence. Using the MIDA framework and design simulation, however, we can provide a flexible answer to this question that does not rely on rules of thumb.</p>
+<p>Studying causal mechanisms is hard. One of the best ways we know to
+study if one cause works better or worse when another one is present is
+through a two-by-two experiment. As its name suggests, the design
+involves two overlapping two-arm experiments.</p>
+<p>Before conducting studies of this kind, researchers often want to
+increase their confidence in their ability to detect significant
+interactions when the effect of
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>Z</mi><mn>1</mn></msub><annotation encoding="application/x-tex">Z_1</annotation></semantics></math>
+on
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>Y</mi><annotation encoding="application/x-tex">Y</annotation></semantics></math>
+really is a function of
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>Z</mi><mn>2</mn></msub><annotation encoding="application/x-tex">Z_2</annotation></semantics></math>.
+How many subjects are needed to raise the probability of correctly
+inferring that there is an interaction 80%?</p>
+<p>This is a surprisingly difficult question to answer, because
+answering it accurately depends upon the specific model of the potential
+outcomes the researcher has in mind. As a result, many researchers use
+rules of thumb that may lead to systematic over- or under-confidence.
+Using the MIDA framework and design simulation, however, we can provide
+a flexible answer to this question that does not rely on rules of
+thumb.</p>
 <div class="section level2">
 <h2 id="design-declaration">Design Declaration<a class="anchor" aria-label="anchor" href="#design-declaration"></a>
 </h2>
 <ul>
 <li>
 <p><strong>M</strong>odel:</p>
-<p>We specify <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>Z</mi><mn>1</mn></msub><annotation encoding="application/x-tex">Z_1</annotation></semantics></math> and <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>Z</mi><mn>2</mn></msub><annotation encoding="application/x-tex">Z_2</annotation></semantics></math> do not have any effect on the outcome when only one of the causal agents becomes present. When both are present the combination of the causal factors produces an increase of 1/10th of a standard deviation in the outcome.</p>
+<p>We specify
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>Z</mi><mn>1</mn></msub><annotation encoding="application/x-tex">Z_1</annotation></semantics></math>
+and
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>Z</mi><mn>2</mn></msub><annotation encoding="application/x-tex">Z_2</annotation></semantics></math>
+do not have any effect on the outcome when only one of the causal agents
+becomes present. When both are present the combination of the causal
+factors produces an increase of 1/10th of a standard deviation in the
+outcome.</p>
 </li>
 <li>
 <p><strong>I</strong>nquiry:</p>
-<p>We can express the effect of <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>Z</mi><mi>A</mi></msub><annotation encoding="application/x-tex">Z_A</annotation></semantics></math> when <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>Z</mi><mi>B</mi></msub><annotation encoding="application/x-tex">Z_B</annotation></semantics></math> is present as <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>τ</mi><mrow><msub><mi>Z</mi><mi>A</mi></msub><mo>∣</mo><msub><mi>Z</mi><mi>B</mi></msub></mrow></msub><mo>=</mo><mi>E</mi><mo stretchy="false" form="prefix">[</mo><mo stretchy="false" form="prefix">(</mo><mi>Y</mi><mo>∣</mo><msub><mi>Z</mi><mi>A</mi></msub><mo>=</mo><mn>1</mn><mo>,</mo><msub><mi>Z</mi><mi>B</mi></msub><mo>=</mo><mn>1</mn><mo stretchy="false" form="postfix">)</mo><mo>−</mo><mo stretchy="false" form="prefix">(</mo><mi>Y</mi><mo>∣</mo><msub><mi>Z</mi><mi>A</mi></msub><mo>=</mo><mn>0</mn><mo>,</mo><msub><mi>Z</mi><mi>B</mi></msub><mo>=</mo><mn>1</mn><mo stretchy="false" form="postfix">)</mo><mo stretchy="false" form="postfix">]</mo></mrow><annotation encoding="application/x-tex">\tau_{Z_A \mid Z_B} = E[(Y \mid Z_A = 1, Z_B = 1) - (Y \mid Z_A = 0, Z_B = 1)]</annotation></semantics></math>, and the effect of <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>Z</mi><mn>1</mn></msub><annotation encoding="application/x-tex">Z_1</annotation></semantics></math> when <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>Z</mi><mn>2</mn></msub><annotation encoding="application/x-tex">Z_2</annotation></semantics></math> is absent as <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>τ</mi><mrow><msub><mi>Z</mi><mi>A</mi></msub><mo>∣</mo><mo>¬</mo><msub><mi>Z</mi><mi>B</mi></msub></mrow></msub><mo>=</mo><mi>E</mi><mo stretchy="false" form="prefix">[</mo><mo stretchy="false" form="prefix">(</mo><mi>Y</mi><mo>∣</mo><msub><mi>Z</mi><mi>A</mi></msub><mo>=</mo><mn>1</mn><mo>,</mo><msub><mi>Z</mi><mi>B</mi></msub><mo>=</mo><mn>0</mn><mo stretchy="false" form="postfix">)</mo><mo>−</mo><mo stretchy="false" form="prefix">(</mo><mi>Y</mi><mo>∣</mo><msub><mi>Z</mi><mi>A</mi></msub><mo>=</mo><mn>0</mn><mo>,</mo><msub><mi>Z</mi><mi>B</mi></msub><mo>=</mo><mn>0</mn><mo stretchy="false" form="postfix">)</mo><mo stretchy="false" form="postfix">]</mo></mrow><annotation encoding="application/x-tex">\tau_{Z_A \mid \neg Z_B} = E[(Y \mid Z_A = 1, Z_B = 0) - (Y \mid Z_A = 0, Z_B = 0)]</annotation></semantics></math>. Thus, our estimand is <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>τ</mi><mrow><msub><mi>Z</mi><mi>A</mi></msub><mo>∣</mo><msub><mi>Z</mi><mi>B</mi></msub></mrow></msub><mo>−</mo><msub><mi>τ</mi><mrow><msub><mi>Z</mi><mi>A</mi></msub><mo>∣</mo><mo>¬</mo><msub><mi>Z</mi><mi>B</mi></msub></mrow></msub></mrow><annotation encoding="application/x-tex">\tau_{Z_A \mid Z_B} - \tau_{Z_A \mid \neg Z_B}</annotation></semantics></math>: the difference in the effect of <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>Z</mi><mi>A</mi></msub><annotation encoding="application/x-tex">Z_A</annotation></semantics></math> induced by moving <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>Z</mi><mi>B</mi></msub><annotation encoding="application/x-tex">Z_B</annotation></semantics></math> from 0 to 1. Our design also features estimands that involve a weighted average of <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>τ</mi><mrow><msub><mi>Z</mi><mi>A</mi></msub><mo>∣</mo><msub><mi>Z</mi><mi>B</mi></msub></mrow></msub><annotation encoding="application/x-tex">\tau_{Z_A \mid Z_B}</annotation></semantics></math> and <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>τ</mi><mrow><msub><mi>Z</mi><mi>A</mi></msub><mo>∣</mo><mo>¬</mo><msub><mi>Z</mi><mi>B</mi></msub></mrow></msub><annotation encoding="application/x-tex">\tau_{Z_A \mid \neg Z_B}</annotation></semantics></math> (with equivalent expressions for the effect of <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>B</mi><annotation encoding="application/x-tex">B</annotation></semantics></math>). We’re going to weight the average so that our non-interaction estimands are equivalent to the effect of each treatment when the other one is absent.</p>
+<p>We can express the effect of
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>Z</mi><mi>A</mi></msub><annotation encoding="application/x-tex">Z_A</annotation></semantics></math>
+when
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>Z</mi><mi>B</mi></msub><annotation encoding="application/x-tex">Z_B</annotation></semantics></math>
+is present as
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>τ</mi><mrow><msub><mi>Z</mi><mi>A</mi></msub><mo>∣</mo><msub><mi>Z</mi><mi>B</mi></msub></mrow></msub><mo>=</mo><mi>E</mi><mrow><mo stretchy="true" form="prefix">[</mo><mrow><mo stretchy="true" form="prefix">(</mo><mi>Y</mi><mo>∣</mo><msub><mi>Z</mi><mi>A</mi></msub><mo>=</mo><mn>1</mn><mo>,</mo><msub><mi>Z</mi><mi>B</mi></msub><mo>=</mo><mn>1</mn><mo stretchy="true" form="postfix">)</mo></mrow><mo>−</mo><mrow><mo stretchy="true" form="prefix">(</mo><mi>Y</mi><mo>∣</mo><msub><mi>Z</mi><mi>A</mi></msub><mo>=</mo><mn>0</mn><mo>,</mo><msub><mi>Z</mi><mi>B</mi></msub><mo>=</mo><mn>1</mn><mo stretchy="true" form="postfix">)</mo></mrow><mo stretchy="true" form="postfix">]</mo></mrow></mrow><annotation encoding="application/x-tex">\tau_{Z_A \mid Z_B} = E[(Y \mid Z_A = 1, Z_B = 1) - (Y \mid Z_A = 0, Z_B = 1)]</annotation></semantics></math>,
+and the effect of
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>Z</mi><mn>1</mn></msub><annotation encoding="application/x-tex">Z_1</annotation></semantics></math>
+when
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>Z</mi><mn>2</mn></msub><annotation encoding="application/x-tex">Z_2</annotation></semantics></math>
+is absent as
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>τ</mi><mrow><msub><mi>Z</mi><mi>A</mi></msub><mo>∣</mo><mo>¬</mo><msub><mi>Z</mi><mi>B</mi></msub></mrow></msub><mo>=</mo><mi>E</mi><mrow><mo stretchy="true" form="prefix">[</mo><mrow><mo stretchy="true" form="prefix">(</mo><mi>Y</mi><mo>∣</mo><msub><mi>Z</mi><mi>A</mi></msub><mo>=</mo><mn>1</mn><mo>,</mo><msub><mi>Z</mi><mi>B</mi></msub><mo>=</mo><mn>0</mn><mo stretchy="true" form="postfix">)</mo></mrow><mo>−</mo><mrow><mo stretchy="true" form="prefix">(</mo><mi>Y</mi><mo>∣</mo><msub><mi>Z</mi><mi>A</mi></msub><mo>=</mo><mn>0</mn><mo>,</mo><msub><mi>Z</mi><mi>B</mi></msub><mo>=</mo><mn>0</mn><mo stretchy="true" form="postfix">)</mo></mrow><mo stretchy="true" form="postfix">]</mo></mrow></mrow><annotation encoding="application/x-tex">\tau_{Z_A \mid \neg Z_B} = E[(Y \mid Z_A = 1, Z_B = 0) - (Y \mid Z_A = 0, Z_B = 0)]</annotation></semantics></math>.
+Thus, our estimand is
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>τ</mi><mrow><msub><mi>Z</mi><mi>A</mi></msub><mo>∣</mo><msub><mi>Z</mi><mi>B</mi></msub></mrow></msub><mo>−</mo><msub><mi>τ</mi><mrow><msub><mi>Z</mi><mi>A</mi></msub><mo>∣</mo><mo>¬</mo><msub><mi>Z</mi><mi>B</mi></msub></mrow></msub></mrow><annotation encoding="application/x-tex">\tau_{Z_A \mid Z_B} - \tau_{Z_A \mid \neg Z_B}</annotation></semantics></math>:
+the difference in the effect of
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>Z</mi><mi>A</mi></msub><annotation encoding="application/x-tex">Z_A</annotation></semantics></math>
+induced by moving
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>Z</mi><mi>B</mi></msub><annotation encoding="application/x-tex">Z_B</annotation></semantics></math>
+from 0 to 1. Our design also features estimands that involve a weighted
+average of
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>τ</mi><mrow><msub><mi>Z</mi><mi>A</mi></msub><mo>∣</mo><msub><mi>Z</mi><mi>B</mi></msub></mrow></msub><annotation encoding="application/x-tex">\tau_{Z_A \mid Z_B}</annotation></semantics></math>
+and
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>τ</mi><mrow><msub><mi>Z</mi><mi>A</mi></msub><mo>∣</mo><mo>¬</mo><msub><mi>Z</mi><mi>B</mi></msub></mrow></msub><annotation encoding="application/x-tex">\tau_{Z_A \mid \neg Z_B}</annotation></semantics></math>
+(with equivalent expressions for the effect of
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>B</mi><annotation encoding="application/x-tex">B</annotation></semantics></math>).
+We’re going to weight the average so that our non-interaction estimands
+are equivalent to the effect of each treatment when the other one is
+absent.</p>
 </li>
 <li>
 <p><strong>D</strong>ata strategy:</p>
-<p>We randomly assign an equal number of subjects to one of four conditions, by blocking the assignment of <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>B</mi><annotation encoding="application/x-tex">B</annotation></semantics></math> on the assignment of <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>A</mi><annotation encoding="application/x-tex">A</annotation></semantics></math>. In the first both causal factors are absent, in the second and third only <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>A</mi><annotation encoding="application/x-tex">A</annotation></semantics></math> or <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>B</mi><annotation encoding="application/x-tex">B</annotation></semantics></math> is present, respectively, and in the fourth both are present.</p>
+<p>We randomly assign an equal number of subjects to one of four
+conditions, by blocking the assignment of
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>B</mi><annotation encoding="application/x-tex">B</annotation></semantics></math>
+on the assignment of
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>A</mi><annotation encoding="application/x-tex">A</annotation></semantics></math>.
+In the first both causal factors are absent, in the second and third
+only
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>A</mi><annotation encoding="application/x-tex">A</annotation></semantics></math>
+or
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>B</mi><annotation encoding="application/x-tex">B</annotation></semantics></math>
+is present, respectively, and in the fourth both are present.</p>
 </li>
 <li>
 <p><strong>A</strong>nswer strategy:</p>
-<p>We estimate the interaction effect using a linear regression model that focuses on the coefficient on the <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>Z</mi><mi>A</mi></msub><mo>×</mo><msub><mi>Z</mi><mi>B</mi></msub></mrow><annotation encoding="application/x-tex">Z_A \times Z_B</annotation></semantics></math> term.</p>
+<p>We estimate the interaction effect using a linear regression model
+that focuses on the coefficient on the
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>Z</mi><mi>A</mi></msub><mo>×</mo><msub><mi>Z</mi><mi>B</mi></msub></mrow><annotation encoding="application/x-tex">Z_A \times Z_B</annotation></semantics></math>
+term.</p>
 </li>
 </ul>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
@@ -342,21 +408,37 @@
 </tbody>
 </table>
 <ul>
-<li><p>Wow, the power is really low for our interaction! It’s only 4%. That’s because our estimator has to take account of the variation in both effects when estimating their difference. Note that the standard deviation of the interaction estimates is twice that of the estimates of the main effects.</p></li>
-<li><p>We also see that our estimates of the main effects are biased: we set out to estimate the effect of each treatment when the other was absent, but half the time the other treatment was present, so we get a boost in the <em>estimated</em> effect size due to the interaction.</p></li>
+<li><p>Wow, the power is really low for our interaction! It’s only 4%.
+That’s because our estimator has to take account of the variation in
+both effects when estimating their difference. Note that the standard
+deviation of the interaction estimates is twice that of the estimates of
+the main effects.</p></li>
+<li><p>We also see that our estimates of the main effects are biased: we
+set out to estimate the effect of each treatment when the other was
+absent, but half the time the other treatment was present, so we get a
+boost in the <em>estimated</em> effect size due to the
+interaction.</p></li>
 </ul>
 </div>
 <div class="section level3">
 <h3 id="exercises">Exercises<a class="anchor" aria-label="anchor" href="#exercises"></a>
 </h3>
 <ol style="list-style-type: decimal">
-<li><p>Alter the answer strategy so that the estimates of the main effects are no longer biased.</p></li>
-<li><p>Use <code>expand_designs()</code> with the <code><a href="../reference/two_by_two_designer.html">two_by_two_designer()</a></code> to determine the minimal interaction that can be detected with 80% power, holding other parameters constant.</p></li>
-<li><p>Alter the template so that outcomes are binary instead of normally distibuted. What is the expected standard error for the interaction term for a sample size of 1000? Discuss the implications of your diagnosis for practice.</p></li>
+<li><p>Alter the answer strategy so that the estimates of the main
+effects are no longer biased.</p></li>
+<li><p>Use <code>expand_designs()</code> with the
+<code><a href="../reference/two_by_two_designer.html">two_by_two_designer()</a></code> to determine the minimal interaction
+that can be detected with 80% power, holding other parameters
+constant.</p></li>
+<li><p>Alter the template so that outcomes are binary instead of
+normally distibuted. What is the expected standard error for the
+interaction term for a sample size of 1000? Discuss the implications of
+your diagnosis for practice.</p></li>
 </ol>
-<div id="refs" class="references">
-<div id="ref-murray1998design">
-<p>Murray, David M. 1998. <em>Design and Analysis of Group-Randomized Trials</em>. Vol. 29. Monographs in Epidemiology &amp; B.</p>
+<div id="refs" class="references csl-bib-body hanging-indent" entry-spacing="0">
+<div id="ref-murray1998design" class="csl-entry">
+Murray, David M. 1998. <em>Design and Analysis of Group-Randomized
+Trials</em>. Vol. 29. Monographs in Epidemiology &amp; B.
 </div>
 </div>
 </div>

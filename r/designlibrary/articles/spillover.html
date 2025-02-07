@@ -60,7 +60,8 @@
 
 
 
-<script src="spillover_files/accessible-code-block-0.0.1/empty-anchor.js"></script><div class="row">
+
+<div class="row">
   <main id="main" class="col-md-9"><div class="page-header">
 
       <h1>Spillover Design</h1>
@@ -72,35 +73,78 @@
 
     
     
-<p>An advantage of experimental designs is that fewer assumptions are needed to justify causal claims. However, some assumptions are still needed. Perhaps the most important of these is the assumption that there are no spillovers (technically this is assumption is part of what is called the Stable Unit Treatment Value Assumption, or “SUTVA”).</p>
-<p>The presence of spillovers creates a challenge for the definition of the estimand. Indeed the assumption of no spillovers runs so deep that it is often invoked even prior to the definition of estimands. If you write the “average treatment effect” estimand as <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>E</mi><mo stretchy="false" form="prefix">(</mo><mi>Y</mi><mo stretchy="false" form="prefix">(</mo><mn>1</mn><mo stretchy="false" form="postfix">)</mo><mo>−</mo><mi>Y</mi><mo stretchy="false" form="prefix">(</mo><mn>0</mn><mo stretchy="false" form="postfix">)</mo><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">E(Y(1) - Y(0))</annotation></semantics></math> you are assuming already that the potential outcomes depend only on a unit’s own assignment to treatment.</p>
-<p>If there <em>are</em> spillovers however then another estimand is needed. It turns out however that in this case there may be an explosion in the set of possible estimands of interest.</p>
-<p>For instance, we can define estimands such as the difference for a unit when it—and only it—is treated, compared to a situation in which no unit is treated. In potential outcomes notation that could be written, for unit 3, say, as:</p>
-<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>τ</mi><mn>3</mn></msub><mo>=</mo><mi>Y</mi><mo stretchy="false" form="prefix">(</mo><mn>0</mn><mo>,</mo><mn>0</mn><mo>,</mo><mn>1</mn><mo>,</mo><mn>0</mn><mo>,</mo><mn>0</mn><mo>,</mo><mi>…</mi><mo stretchy="false" form="postfix">)</mo><mo>−</mo><mi>Y</mi><mo stretchy="false" form="prefix">(</mo><mn>0</mn><mo>,</mo><mn>0</mn><mo>,</mo><mn>0</mn><mo>,</mo><mn>0</mn><mo>,</mo><mn>0</mn><mo>,</mo><mi>…</mi><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">\tau_3 = Y(0,0,1,0,0,\dots) -  Y(0,0,0,0,0,\dots)</annotation></semantics></math> One could then define a population estimand that is the average of all these differences over a population. Note that these differences specify different counterfactual assignment vectors for each each individual. In the absence of spillovers, this would be the same as the usual average treatment effect. But in the presence of spillovers, this estimand is well-defined, while the usual average treatment effect estimand is not.</p>
-<p>But there are many other possibilities. For example, the difference in outcomes when none are treated and all are treated. Or the difference between not being treated when all others are, and all being treated. Or the difference a change in your own condition would make given that others are assigned to the value that they actually have.</p>
-<p>Below we describe a design that allows for the possibility of spillovers like this. Diagnosing the design shows how severe the problem of spillovers can be for estimation. Modifying this design lets you explore different types of solutions.</p>
+<p>An advantage of experimental designs is that fewer assumptions are
+needed to justify causal claims. However, some assumptions are still
+needed. Perhaps the most important of these is the assumption that there
+are no spillovers (technically this is assumption is part of what is
+called the Stable Unit Treatment Value Assumption, or “SUTVA”).</p>
+<p>The presence of spillovers creates a challenge for the definition of
+the estimand. Indeed the assumption of no spillovers runs so deep that
+it is often invoked even prior to the definition of estimands. If you
+write the “average treatment effect” estimand as
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>E</mi><mrow><mo stretchy="true" form="prefix">(</mo><mi>Y</mi><mrow><mo stretchy="true" form="prefix">(</mo><mn>1</mn><mo stretchy="true" form="postfix">)</mo></mrow><mo>−</mo><mi>Y</mi><mrow><mo stretchy="true" form="prefix">(</mo><mn>0</mn><mo stretchy="true" form="postfix">)</mo></mrow><mo stretchy="true" form="postfix">)</mo></mrow></mrow><annotation encoding="application/x-tex">E(Y(1) - Y(0))</annotation></semantics></math>
+you are assuming already that the potential outcomes depend only on a
+unit’s own assignment to treatment.</p>
+<p>If there <em>are</em> spillovers however then another estimand is
+needed. It turns out however that in this case there may be an explosion
+in the set of possible estimands of interest.</p>
+<p>For instance, we can define estimands such as the difference for a
+unit when it—and only it—is treated, compared to a situation in which no
+unit is treated. In potential outcomes notation that could be written,
+for unit 3, say, as:</p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>τ</mi><mn>3</mn></msub><mo>=</mo><mi>Y</mi><mrow><mo stretchy="true" form="prefix">(</mo><mn>0</mn><mo>,</mo><mn>0</mn><mo>,</mo><mn>1</mn><mo>,</mo><mn>0</mn><mo>,</mo><mn>0</mn><mo>,</mo><mi>…</mi><mo stretchy="true" form="postfix">)</mo></mrow><mo>−</mo><mi>Y</mi><mrow><mo stretchy="true" form="prefix">(</mo><mn>0</mn><mo>,</mo><mn>0</mn><mo>,</mo><mn>0</mn><mo>,</mo><mn>0</mn><mo>,</mo><mn>0</mn><mo>,</mo><mi>…</mi><mo stretchy="true" form="postfix">)</mo></mrow></mrow><annotation encoding="application/x-tex">\tau_3 = Y(0,0,1,0,0,\dots) -  Y(0,0,0,0,0,\dots)</annotation></semantics></math>
+One could then define a population estimand that is the average of all
+these differences over a population. Note that these differences specify
+different counterfactual assignment vectors for each each individual. In
+the absence of spillovers, this would be the same as the usual average
+treatment effect. But in the presence of spillovers, this estimand is
+well-defined, while the usual average treatment effect estimand is
+not.</p>
+<p>But there are many other possibilities. For example, the difference
+in outcomes when none are treated and all are treated. Or the difference
+between not being treated when all others are, and all being treated. Or
+the difference a change in your own condition would make given that
+others are assigned to the value that they actually have.</p>
+<p>Below we describe a design that allows for the possibility of
+spillovers like this. Diagnosing the design shows how severe the problem
+of spillovers can be for estimation. Modifying this design lets you
+explore different types of solutions.</p>
 <div class="section level2">
 <h2 id="design-declaration">Design Declaration<a class="anchor" aria-label="anchor" href="#design-declaration"></a>
 </h2>
 <ul>
 <li>
 <p><strong>M</strong>odel:</p>
-<p>Our model of the world specifies a population of units each of which is a member of a group (<code>n_groups</code> of size <code>group_size</code> each). The key assumption of this spillover design is that if any member of group is treated then all units receive some equal benefit (with marginal gains possibly increasing or decreasing in the numbers treated). Specifically, letting <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>G</mi><mo stretchy="false" form="prefix">[</mo><mi>i</mi><mo stretchy="false" form="postfix">]</mo></mrow><annotation encoding="application/x-tex">G[i]</annotation></semantics></math> denote the group of which <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>i</mi><annotation encoding="application/x-tex">i</annotation></semantics></math> is a member, we assume:</p>
+<p>Our model of the world specifies a population of units each of which
+is a member of a group (<code>n_groups</code> of size
+<code>group_size</code> each). The key assumption of this spillover
+design is that if any member of group is treated then all units receive
+some equal benefit (with marginal gains possibly increasing or
+decreasing in the numbers treated). Specifically, letting
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>G</mi><mrow><mo stretchy="true" form="prefix">[</mo><mi>i</mi><mo stretchy="true" form="postfix">]</mo></mrow></mrow><annotation encoding="application/x-tex">G[i]</annotation></semantics></math>
+denote the group of which
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>i</mi><annotation encoding="application/x-tex">i</annotation></semantics></math>
+is a member, we assume:</p>
 </li>
 </ul>
-<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>Y</mi><mi>i</mi></msub><mo>=</mo><msup><mrow><mo stretchy="true" form="prefix">(</mo><mfrac><mn>1</mn><msub><mi>n</mi><mrow><mi>G</mi><mo stretchy="false" form="prefix">[</mo><mi>i</mi><mo stretchy="false" form="postfix">]</mo></mrow></msub></mfrac><munder><mo>∑</mo><mrow><mi>j</mi><mo>∈</mo><mi>G</mi><mo stretchy="false" form="prefix">[</mo><mi>i</mi><mo stretchy="false" form="postfix">]</mo></mrow></munder><msub><mi>Z</mi><mi>j</mi></msub><mo stretchy="true" form="postfix">)</mo></mrow><mi>γ</mi></msup><mo>+</mo><msub><mi>ϵ</mi><mi>i</mi></msub></mrow><annotation encoding="application/x-tex">Y_i = \left(\frac{1}{n_{G[i]}} \sum_{j\in G[i]}Z_j \right)^\gamma + \epsilon_i</annotation></semantics></math></p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>Y</mi><mi>i</mi></msub><mo>=</mo><msup><mrow><mo stretchy="true" form="prefix">(</mo><mfrac><mn>1</mn><msub><mi>n</mi><mrow><mi>G</mi><mrow><mo stretchy="true" form="prefix">[</mo><mi>i</mi><mo stretchy="true" form="postfix">]</mo></mrow></mrow></msub></mfrac><munder><mo>∑</mo><mrow><mi>j</mi><mo>∈</mo><mi>G</mi><mrow><mo stretchy="true" form="prefix">[</mo><mi>i</mi><mo stretchy="true" form="postfix">]</mo></mrow></mrow></munder><msub><mi>Z</mi><mi>j</mi></msub><mo stretchy="true" form="postfix">)</mo></mrow><mi>γ</mi></msup><mo>+</mo><msub><mi>ϵ</mi><mi>i</mi></msub></mrow><annotation encoding="application/x-tex">Y_i = \left(\frac{1}{n_{G[i]}} \sum_{j\in G[i]}Z_j \right)^\gamma + \epsilon_i</annotation></semantics></math></p>
 <ul>
 <li>
 <p><strong>I</strong>nquiry:</p>
-<p>The estimand of interest is the average, across all individuals, of the difference between the situation in which that individual only is treated and one in which no individuals are treated.</p>
+<p>The estimand of interest is the average, across all individuals, of
+the difference between the situation in which that individual only is
+treated and one in which no individuals are treated.</p>
 </li>
 <li>
 <p><strong>D</strong>ata strategy:</p>
-<p>We randomly sample half the units to treatment and half to control, not taking account of group membership. .</p>
+<p>We randomly sample half the units to treatment and half to control,
+not taking account of group membership. .</p>
 </li>
 <li>
 <p><strong>A</strong>nswer strategy:</p>
-<p>We subtract the mean of the control group from the mean of the treatment group in order to estimate the average treatment effect.</p>
+<p>We subtract the mean of the control group from the mean of the
+treatment group in order to estimate the average treatment
+effect.</p>
 </li>
 </ul>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
@@ -184,7 +228,18 @@
 <span><span class="co">## Warning in fn(data, ~(Y ~ Z), model = ~lm_robust): The argument 'model = ' is</span></span>
 <span><span class="co">## deprecated. Please use '.method = ' instead.</span></span></code></pre>
 <pre><code><span><span class="co">## Warning in serializedSize(x): 'package:knitr' may not be available when loading</span></span></code></pre>
-<table class="table">
+<table style="width:100%;" class="table">
+<colgroup>
+<col width="9%">
+<col width="8%">
+<col width="16%">
+<col width="16%">
+<col width="8%">
+<col width="14%">
+<col width="8%">
+<col width="8%">
+<col width="10%">
+</colgroup>
 <thead><tr class="header">
 <th align="left">Outcome</th>
 <th align="left">N Sims</th>
@@ -222,8 +277,18 @@
 </tbody>
 </table>
 <ul>
-<li><p>The simplest point to note is that the estimates of effects are biased. This renders the excellent statistical power of the design somewhat meaningless.</p></li>
-<li><p>The sign of the bias term is perhaps more surprising. The idea that positive spillovers produce an underestimate of effects is a familiar one. An interesting feature of the structure of spillovers in this design is that positive spillovers can produce an <em>over</em>estimate of treatment effects when spillover effects are increasing in the number of neighbors treated. The reason is that if a treated individual is more likely to be in a group with multiple treated individuals than is an untreated individual and so outcomes for <em>treated</em> units are enhanced by within group spillovers</p></li>
+<li><p>The simplest point to note is that the estimates of effects are
+biased. This renders the excellent statistical power of the design
+somewhat meaningless.</p></li>
+<li><p>The sign of the bias term is perhaps more surprising. The idea
+that positive spillovers produce an underestimate of effects is a
+familiar one. An interesting feature of the structure of spillovers in
+this design is that positive spillovers can produce an
+<em>over</em>estimate of treatment effects when spillover effects are
+increasing in the number of neighbors treated. The reason is that if a
+treated individual is more likely to be in a group with multiple treated
+individuals than is an untreated individual and so outcomes for
+<em>treated</em> units are enhanced by within group spillovers</p></li>
 </ul>
 </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
