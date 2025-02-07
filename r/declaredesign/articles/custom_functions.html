@@ -55,7 +55,8 @@
 
 
 
-<script src="custom_functions_files/accessible-code-block-0.0.1/empty-anchor.js"></script><div class="row">
+
+<div class="row">
   <main id="main" class="col-md-9"><div class="page-header">
 
       <h1>Custom functions and DeclareDesign</h1>
@@ -67,8 +68,17 @@
 
     
     
-<p>The <code>declare_*</code> functions in <strong>DeclareDesign</strong> use functions in the <strong>fabricatr</strong>, <strong>randomizr</strong>, and <strong>estimatr</strong> packages as defaults, which work great for most designs. Sometimes, however, you might want to write your own function. This advanced vignette declares a design using only custom functions.</p>
-<p>First, we’ll write custom functions for each of the steps in the design. All functions must take a data.frame and return a data.frame, with the exception of a population step, whose inputs can be anything but whose output must be a data.frame.</p>
+<p>The <code>declare_*</code> functions in
+<strong>DeclareDesign</strong> use functions in the
+<strong>fabricatr</strong>, <strong>randomizr</strong>, and
+<strong>estimatr</strong> packages as defaults, which work great for
+most designs. Sometimes, however, you might want to write your own
+function. This advanced vignette declares a design using only custom
+functions.</p>
+<p>First, we’ll write custom functions for each of the steps in the
+design. All functions must take a data.frame and return a data.frame,
+with the exception of a population step, whose inputs can be anything
+but whose output must be a data.frame.</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># M: Model</span></span>
 <span><span class="va">custom_population</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">N</span><span class="op">)</span> <span class="op">{</span></span>
@@ -111,7 +121,8 @@
 <span><span class="va">custom_estimator</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">data</span><span class="op">)</span><span class="op">{</span></span>
 <span>  <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span>estimate <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/with.html" class="external-link">with</a></span><span class="op">(</span><span class="va">data</span>, <span class="fu"><a href="https://rdrr.io/r/base/mean.html" class="external-link">mean</a></span><span class="op">(</span><span class="va">Y</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="op">}</span></span></code></pre></div>
-<p>In order to declare the design, we pass each of the custom functions to the <code>handler</code> argument of each declaration step:</p>
+<p>In order to declare the design, we pass each of the custom functions
+to the <code>handler</code> argument of each declaration step:</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">design</span> <span class="op">&lt;-</span> </span>
 <span>  <span class="fu"><a href="../reference/declare_model.html">declare_model</a></span><span class="op">(</span>handler <span class="op">=</span> <span class="va">custom_population</span>, N <span class="op">=</span> <span class="fl">100</span><span class="op">)</span> <span class="op">+</span> </span>
@@ -137,7 +148,9 @@
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/run_design.html">run_design</a></span><span class="op">(</span><span class="va">design</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">##    inquiry inquiry.1 estimator estimate</span></span>
 <span><span class="co">## 1 medianTE      0.25 estimator     0.11</span></span></code></pre>
-<p>This example used very simple custom functions, but this framework is flexible enough to accommodate any design step that can be expressed as a function of data that returns data.</p>
+<p>This example used very simple custom functions, but this framework is
+flexible enough to accommodate any design step that can be expressed as
+a function of data that returns data.</p>
   </main>
 </div>
 
