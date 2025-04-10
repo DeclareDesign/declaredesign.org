@@ -178,7 +178,6 @@ intracluster correlation coefficient (ICC) of 0.402.</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">diagnosis</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://declaredesign.org/r/declaredesign/reference/diagnose_design.html" class="external-link">diagnose_design</a></span><span class="op">(</span><span class="va">cluster_sampling_design</span>, sims <span class="op">=</span> <span class="fl">25</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## Warning: We recommend you choose a number of simulations higher than 30.</span></span></code></pre>
-<pre><code><span><span class="co">## Warning in serializedSize(x): 'package:knitr' may not be available when loading</span></span></code></pre>
 <pre><code><span><span class="co">## Warning in fn(data, ~(Y ~ 1), clusters = ~cluster, model = ~lm_robust): The</span></span>
 <span><span class="co">## argument 'model = ' is deprecated. Please use '.method = ' instead.</span></span>
 <span><span class="co">## Warning in fn(data, ~(Y ~ 1), clusters = ~cluster, model = ~lm_robust): The</span></span>
@@ -229,7 +228,6 @@ intracluster correlation coefficient (ICC) of 0.402.</p>
 <span><span class="co">## argument 'model = ' is deprecated. Please use '.method = ' instead.</span></span>
 <span><span class="co">## Warning in fn(data, ~(Y ~ 1), clusters = ~cluster, model = ~lm_robust): The</span></span>
 <span><span class="co">## argument 'model = ' is deprecated. Please use '.method = ' instead.</span></span></code></pre>
-<pre><code><span><span class="co">## Warning in serializedSize(x): 'package:knitr' may not be available when loading</span></span></code></pre>
 <table style="width:100%;" class="table">
 <colgroup>
 <col width="27%">
@@ -278,7 +276,7 @@ intracluster correlation coefficient (ICC) of 0.402.</p>
 values of our estimand with standard errors not clustered and with
 clustered standard errors. To do this we first add an additional
 estimator to the design that does not take account of clusters.</p>
-<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">new_design</span> <span class="op">&lt;-</span> <span class="va">cluster_sampling_design</span> <span class="op">+</span> <span class="fu"><a href="https://declaredesign.org/r/declaredesign/reference/declare_estimator.html" class="external-link">declare_estimator</a></span><span class="op">(</span><span class="va">Y</span> <span class="op">~</span> <span class="fl">1</span>,</span>
 <span>                                        model <span class="op">=</span> <span class="va">lm_robust</span>,</span>
 <span>                                        inquiry <span class="op">=</span> <span class="va">estimand</span>,</span>
