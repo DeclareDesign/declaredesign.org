@@ -120,107 +120,107 @@ next passes <code>"lm_robust"</code> object as an argument to <code>linearHypoth
 <span class="r-in"><span><span class="co"># The linear hypothesis argument can be specified equivalently as:</span></span></span>
 <span class="r-in"><span><span class="fu">lh_robust</span><span class="op">(</span><span class="va">y</span> <span class="op">~</span> <span class="va">x</span> <span class="op">+</span> <span class="va">z</span>, data <span class="op">=</span> <span class="va">dat</span>, linear_hypothesis <span class="op">=</span> <span class="st">"z = 2x"</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $lm_robust</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>               Estimate Std. Error   t value     Pr(&gt;|t|)   CI Lower  CI Upper</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> (Intercept)  4.4094685  0.4557957  9.674221 1.122813e-11  3.4859387 5.3329984</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> x            0.3619881  0.3264857  1.108741 2.746970e-01 -0.2995348 1.0235109</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> z           -0.9191800  0.6702807 -1.371336 1.785304e-01 -2.2772976 0.4389376</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>             DF</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> (Intercept) 37</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> x           37</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> z           37</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                 Estimate Std. Error      t value     Pr(&gt;|t|)   CI Lower</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> (Intercept)  4.333058710  0.4694105  9.230851151 3.880146e-11  3.3819426</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> x            0.002081762  0.3186740  0.006532578 9.948229e-01 -0.6436131</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> z           -0.457422662  0.7431683 -0.615503477 5.419900e-01 -1.9632246</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>              CI Upper DF</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> (Intercept) 5.2841748 37</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> x           0.6477766 37</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> z           1.0483793 37</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $lh</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>        Estimate Std. Error t value Pr(&gt;|t|) CI Lower CI Upper DF</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> z = 2x   -1.643     0.8839  -1.859  0.07101   -3.434   0.1479 37</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> z = 2x  -0.4616     0.8228  -0.561   0.5782   -2.129    1.205 37</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-in"><span><span class="fu">lh_robust</span><span class="op">(</span><span class="va">y</span> <span class="op">~</span> <span class="va">x</span> <span class="op">+</span> <span class="va">z</span>, data <span class="op">=</span> <span class="va">dat</span>, linear_hypothesis <span class="op">=</span> <span class="st">"2*x +1*z"</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $lm_robust</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>               Estimate Std. Error   t value     Pr(&gt;|t|)   CI Lower  CI Upper</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> (Intercept)  4.4094685  0.4557957  9.674221 1.122813e-11  3.4859387 5.3329984</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> x            0.3619881  0.3264857  1.108741 2.746970e-01 -0.2995348 1.0235109</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> z           -0.9191800  0.6702807 -1.371336 1.785304e-01 -2.2772976 0.4389376</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>             DF</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> (Intercept) 37</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> x           37</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> z           37</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                 Estimate Std. Error      t value     Pr(&gt;|t|)   CI Lower</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> (Intercept)  4.333058710  0.4694105  9.230851151 3.880146e-11  3.3819426</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> x            0.002081762  0.3186740  0.006532578 9.948229e-01 -0.6436131</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> z           -0.457422662  0.7431683 -0.615503477 5.419900e-01 -1.9632246</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>              CI Upper DF</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> (Intercept) 5.2841748 37</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> x           0.6477766 37</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> z           1.0483793 37</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $lh</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>          Estimate Std. Error t value Pr(&gt;|t|) CI Lower CI Upper DF</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2*x +1*z  -0.1952     0.9849 -0.1982    0.844   -2.191      1.8 37</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2*x +1*z  -0.4533      1.114  -0.407   0.6863    -2.71    1.803 37</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-in"><span><span class="fu">lh_robust</span><span class="op">(</span><span class="va">y</span> <span class="op">~</span> <span class="va">x</span> <span class="op">+</span> <span class="va">z</span>, data <span class="op">=</span> <span class="va">dat</span>, linear_hypothesis <span class="op">=</span> <span class="st">"z + 2x = 0"</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $lm_robust</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>               Estimate Std. Error   t value     Pr(&gt;|t|)   CI Lower  CI Upper</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> (Intercept)  4.4094685  0.4557957  9.674221 1.122813e-11  3.4859387 5.3329984</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> x            0.3619881  0.3264857  1.108741 2.746970e-01 -0.2995348 1.0235109</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> z           -0.9191800  0.6702807 -1.371336 1.785304e-01 -2.2772976 0.4389376</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>             DF</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> (Intercept) 37</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> x           37</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> z           37</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                 Estimate Std. Error      t value     Pr(&gt;|t|)   CI Lower</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> (Intercept)  4.333058710  0.4694105  9.230851151 3.880146e-11  3.3819426</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> x            0.002081762  0.3186740  0.006532578 9.948229e-01 -0.6436131</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> z           -0.457422662  0.7431683 -0.615503477 5.419900e-01 -1.9632246</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>              CI Upper DF</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> (Intercept) 5.2841748 37</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> x           0.6477766 37</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> z           1.0483793 37</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $lh</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>            Estimate Std. Error t value Pr(&gt;|t|) CI Lower CI Upper DF</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> z + 2x = 0  -0.1952     0.9849 -0.1982    0.844   -2.191      1.8 37</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> z + 2x = 0  -0.4533      1.114  -0.407   0.6863    -2.71    1.803 37</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Also recovers other sorts of standard erorrs just as specified in \code{\link{lm_robust}}</span></span></span>
 <span class="r-in"><span><span class="fu">lh_robust</span><span class="op">(</span><span class="va">y</span> <span class="op">~</span> <span class="va">x</span> <span class="op">+</span> <span class="va">z</span>, data <span class="op">=</span> <span class="va">dat</span>, linear_hypothesis <span class="op">=</span> <span class="st">"z + 2x = 0"</span>, se_type <span class="op">=</span> <span class="st">"classical"</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $lm_robust</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>               Estimate Std. Error    t value     Pr(&gt;|t|)   CI Lower  CI Upper</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> (Intercept)  4.4094685  0.4426777  9.9608997 5.104664e-12  3.5125182 5.3064188</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> x            0.3619881  0.3623107  0.9991094 3.242313e-01 -0.3721232 1.0960993</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> z           -0.9191800  0.6992058 -1.3146057 1.967333e-01 -2.3359056 0.4975456</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>             DF</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> (Intercept) 37</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> x           37</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> z           37</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                 Estimate Std. Error      t value     Pr(&gt;|t|)   CI Lower</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> (Intercept)  4.333058710  0.4592151  9.435792886 2.180476e-11  3.4026005</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> x            0.002081762  0.3753277  0.005546519 9.956043e-01 -0.7584045</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> z           -0.457422662  0.7402872 -0.617898901 5.404269e-01 -1.9573871</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>             CI Upper DF</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> (Intercept) 5.263517 37</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> x           0.762568 37</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> z           1.042542 37</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $lh</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>            Estimate Std. Error t value Pr(&gt;|t|) CI Lower CI Upper DF</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> z + 2x = 0  -0.1952     0.9746 -0.2003   0.8424    -2.17     1.78 37</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> z + 2x = 0  -0.4533      1.165  -0.389   0.6995   -2.814    1.908 37</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-in"><span><span class="fu">lh_robust</span><span class="op">(</span><span class="va">y</span> <span class="op">~</span> <span class="va">x</span> <span class="op">+</span> <span class="va">z</span>, data <span class="op">=</span> <span class="va">dat</span>, linear_hypothesis <span class="op">=</span> <span class="st">"z + 2x = 0"</span>, se_type <span class="op">=</span>  <span class="st">"HC1"</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $lm_robust</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>               Estimate Std. Error   t value     Pr(&gt;|t|)   CI Lower  CI Upper</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> (Intercept)  4.4094685  0.4575107  9.637957 1.241489e-11  3.4824638 5.3364733</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> x            0.3619881  0.3218063  1.124863 2.678914e-01 -0.2900534 1.0140295</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> z           -0.9191800  0.6715469 -1.368750 1.793307e-01 -2.2798633 0.4415034</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>             DF</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> (Intercept) 37</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> x           37</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> z           37</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                 Estimate Std. Error      t value     Pr(&gt;|t|)   CI Lower</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> (Intercept)  4.333058710  0.4735142  9.150852036 4.866117e-11  3.3736277</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> x            0.002081762  0.3106024  0.006702339 9.946884e-01 -0.6272584</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> z           -0.457422662  0.7405962 -0.617641142 5.405950e-01 -1.9580130</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>             CI Upper DF</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> (Intercept) 5.292490 37</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> x           0.631422 37</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> z           1.043168 37</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $lh</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>            Estimate Std. Error t value Pr(&gt;|t|) CI Lower CI Upper DF</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> z + 2x = 0  -0.1952     0.9848 -0.1982    0.844   -2.191      1.8 37</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> z + 2x = 0  -0.4533      1.091 -0.4155   0.6802   -2.664    1.757 37</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co">#  Can tidy() main output and subcomponents in to a data.frame</span></span></span>
 <span class="r-in"><span><span class="va">lhro</span> <span class="op">&lt;-</span> <span class="fu">lh_robust</span><span class="op">(</span><span class="va">y</span> <span class="op">~</span> <span class="va">x</span> <span class="op">+</span> <span class="va">z</span>, data <span class="op">=</span> <span class="va">dat</span>, linear_hypothesis <span class="op">=</span> <span class="st">"z + 2x = 0"</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="fu"><a href="https://generics.r-lib.org/reference/tidy.html" class="external-link">tidy</a></span><span class="op">(</span><span class="va">lhro</span> <span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>          term   estimate std.error statistic      p.value   conf.low conf.high</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1 (Intercept)  4.4094685 0.4557957  9.674221 1.122813e-11  3.4859387 5.3329984</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2           x  0.3619881 0.3264857  1.108741 2.746970e-01 -0.2995348 1.0235109</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 3           z -0.9191800 0.6702807 -1.371336 1.785304e-01 -2.2772976 0.4389376</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 4  z + 2x = 0 -0.1952039 0.9848583 -0.198205 8.439697e-01 -2.1907164 1.8003086</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   df outcome</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1 37       y</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2 37       y</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 3 37       y</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 4 37       y</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>          term     estimate std.error    statistic      p.value   conf.low</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1 (Intercept)  4.333058710 0.4694105  9.230851151 3.880146e-11  3.3819426</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2           x  0.002081762 0.3186740  0.006532578 9.948229e-01 -0.6436131</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3           z -0.457422662 0.7431683 -0.615503477 5.419900e-01 -1.9632246</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 4  z + 2x = 0 -0.453259137 1.1135908 -0.407024841 6.863349e-01 -2.7096085</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   conf.high df outcome</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1 5.2841748 37       y</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2 0.6477766 37       y</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3 1.0483793 37       y</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 4 1.8030902 37       y</span>
 <span class="r-in"><span><span class="fu"><a href="https://generics.r-lib.org/reference/tidy.html" class="external-link">tidy</a></span><span class="op">(</span><span class="va">lhro</span><span class="op">$</span><span class="va">lm_robust</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>          term   estimate std.error statistic      p.value   conf.low conf.high</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1 (Intercept)  4.4094685 0.4557957  9.674221 1.122813e-11  3.4859387 5.3329984</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2           x  0.3619881 0.3264857  1.108741 2.746970e-01 -0.2995348 1.0235109</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 3           z -0.9191800 0.6702807 -1.371336 1.785304e-01 -2.2772976 0.4389376</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   df outcome</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1 37       y</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2 37       y</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 3 37       y</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>          term     estimate std.error    statistic      p.value   conf.low</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1 (Intercept)  4.333058710 0.4694105  9.230851151 3.880146e-11  3.3819426</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2           x  0.002081762 0.3186740  0.006532578 9.948229e-01 -0.6436131</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3           z -0.457422662 0.7431683 -0.615503477 5.419900e-01 -1.9632246</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   conf.high df outcome</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1 5.2841748 37       y</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2 0.6477766 37       y</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3 1.0483793 37       y</span>
 <span class="r-in"><span><span class="fu"><a href="https://generics.r-lib.org/reference/tidy.html" class="external-link">tidy</a></span><span class="op">(</span><span class="va">lhro</span><span class="op">$</span><span class="va">lh</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>         term   estimate std.error statistic   p.value  conf.low conf.high df</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1 z + 2x = 0 -0.1952039 0.9848583 -0.198205 0.8439697 -2.190716  1.800309 37</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>         term   estimate std.error  statistic   p.value  conf.low conf.high df</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1 z + 2x = 0 -0.4532591  1.113591 -0.4070248 0.6863349 -2.709609   1.80309 37</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   outcome</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 1       y</span>
 <span class="r-in"><span></span></span>
@@ -234,17 +234,17 @@ next passes <code>"lm_robust"</code> object as an argument to <code>linearHypoth
 <span class="r-out co"><span class="r-pr">#&gt;</span> Standard error type:  HC2 </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Coefficients:</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>             Estimate Std. Error t value  Pr(&gt;|t|) CI Lower CI Upper DF</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> (Intercept)   4.4095     0.4558   9.674 1.123e-11   3.4859   5.3330 37</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> x             0.3620     0.3265   1.109 2.747e-01  -0.2995   1.0235 37</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> z            -0.9192     0.6703  -1.371 1.785e-01  -2.2773   0.4389 37</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>              Estimate Std. Error   t value  Pr(&gt;|t|) CI Lower CI Upper DF</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> (Intercept)  4.333059     0.4694  9.230851 3.880e-11   3.3819   5.2842 37</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> x            0.002082     0.3187  0.006533 9.948e-01  -0.6436   0.6478 37</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> z           -0.457423     0.7432 -0.615503 5.420e-01  -1.9632   1.0484 37</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Multiple R-squared:  0.06496 ,	Adjusted R-squared:  0.01442 </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> F-statistic: 1.739 on 2 and 37 DF,  p-value: 0.1898</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Multiple R-squared:  0.01078 ,	Adjusted R-squared:  -0.04269 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> F-statistic: 0.2091 on 2 and 37 DF,  p-value: 0.8123</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $lh</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>            Estimate Std. Error t value Pr(&gt;|t|) CI Lower CI Upper DF</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> z + 2x = 0  -0.1952     0.9849 -0.1982    0.844   -2.191      1.8 37</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> z + 2x = 0  -0.4533      1.114  -0.407   0.6863    -2.71    1.803 37</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary</a></span><span class="op">(</span><span class="va">lhro</span><span class="op">$</span><span class="va">lm_robust</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
@@ -254,16 +254,16 @@ next passes <code>"lm_robust"</code> object as an argument to <code>linearHypoth
 <span class="r-out co"><span class="r-pr">#&gt;</span> Standard error type:  HC2 </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Coefficients:</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>             Estimate Std. Error t value  Pr(&gt;|t|) CI Lower CI Upper DF</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> (Intercept)   4.4095     0.4558   9.674 1.123e-11   3.4859   5.3330 37</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> x             0.3620     0.3265   1.109 2.747e-01  -0.2995   1.0235 37</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> z            -0.9192     0.6703  -1.371 1.785e-01  -2.2773   0.4389 37</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>              Estimate Std. Error   t value  Pr(&gt;|t|) CI Lower CI Upper DF</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> (Intercept)  4.333059     0.4694  9.230851 3.880e-11   3.3819   5.2842 37</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> x            0.002082     0.3187  0.006533 9.948e-01  -0.6436   0.6478 37</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> z           -0.457423     0.7432 -0.615503 5.420e-01  -1.9632   1.0484 37</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Multiple R-squared:  0.06496 ,	Adjusted R-squared:  0.01442 </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> F-statistic: 1.739 on 2 and 37 DF,  p-value: 0.1898</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Multiple R-squared:  0.01078 ,	Adjusted R-squared:  -0.04269 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> F-statistic: 0.2091 on 2 and 37 DF,  p-value: 0.8123</span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary</a></span><span class="op">(</span><span class="va">lhro</span><span class="op">$</span><span class="va">lh</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>            Estimate Std. Error t value Pr(&gt;|t|) CI Lower CI Upper DF</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> z + 2x = 0  -0.1952     0.9849 -0.1982    0.844   -2.191      1.8 37</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> z + 2x = 0  -0.4533      1.114  -0.407   0.6863    -2.71    1.803 37</span>
 <span class="r-in"><span></span></span>
 </code></pre></div>
     </div>

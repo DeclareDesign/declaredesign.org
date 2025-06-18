@@ -293,10 +293,10 @@ instruments is greater than the number of endogenous regressors), and if no weig
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Instrument for treatment `D` with encouragement `Z`</span></span></span>
 <span class="r-in"><span><span class="fu"><a href="https://generics.r-lib.org/reference/tidy.html" class="external-link">tidy</a></span><span class="op">(</span><span class="fu">iv_robust</span><span class="op">(</span><span class="va">Y</span> <span class="op">~</span> <span class="va">D</span> <span class="op">+</span> <span class="va">X</span> <span class="op">|</span> <span class="va">Z</span> <span class="op">+</span> <span class="va">X</span>, data <span class="op">=</span> <span class="va">dat</span><span class="op">)</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>          term   estimate std.error  statistic      p.value   conf.low conf.high</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1 (Intercept) 3.32899931 0.3532949 9.42272101 2.261759e-11  2.6131558 4.0448428</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2           D 0.31231384 0.6515096 0.47936952 6.344971e-01 -1.0077700 1.6323977</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 3           X 0.03953936 0.4343723 0.09102642 9.279626e-01 -0.8405826 0.9196613</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>          term   estimate std.error statistic      p.value   conf.low conf.high</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1 (Intercept) 3.11050295 0.3897573 7.9806146 1.460744e-09  2.3207796 3.9002263</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2           D 0.56185078 0.6718722 0.8362465 4.083846e-01 -0.7994916 1.9231932</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3           X 0.08507783 0.3253453 0.2615001 7.951571e-01 -0.5741343 0.7442899</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   df outcome</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 1 37       Y</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 2 37       Y</span>
@@ -304,28 +304,28 @@ instruments is greater than the number of endogenous regressors), and if no weig
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Instrument with Stata's `ivregress 2sls , small rob` HC1 variance</span></span></span>
 <span class="r-in"><span><span class="fu"><a href="https://generics.r-lib.org/reference/tidy.html" class="external-link">tidy</a></span><span class="op">(</span><span class="fu">iv_robust</span><span class="op">(</span><span class="va">Y</span> <span class="op">~</span> <span class="va">D</span> <span class="op">|</span> <span class="va">Z</span>, data <span class="op">=</span> <span class="va">dat</span>, se_type <span class="op">=</span> <span class="st">"stata"</span><span class="op">)</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>          term  estimate std.error statistic      p.value  conf.low conf.high df</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1 (Intercept) 3.3157895 0.3419679 9.6962023 7.990568e-12  2.623512  4.008067 38</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2           D 0.3184211 0.6522180 0.4882126 6.282047e-01 -1.001925  1.638767 38</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   outcome</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1       Y</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2       Y</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>          term  estimate std.error statistic      p.value   conf.low conf.high</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1 (Intercept) 3.1052632 0.3732938 8.3185511 4.372968e-10  2.3495695  3.860957</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2           D 0.5394737 0.6707058 0.8043373 4.262058e-01 -0.8182992  1.897247</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   df outcome</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1 38       Y</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2 38       Y</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># With clusters, we use CR2 errors by default</span></span></span>
 <span class="r-in"><span><span class="va">dat</span><span class="op">$</span><span class="va">cl</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep</a></span><span class="op">(</span><span class="va">letters</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">5</span><span class="op">]</span>, length.out <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/nrow.html" class="external-link">nrow</a></span><span class="op">(</span><span class="va">dat</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="fu"><a href="https://generics.r-lib.org/reference/tidy.html" class="external-link">tidy</a></span><span class="op">(</span><span class="fu">iv_robust</span><span class="op">(</span><span class="va">Y</span> <span class="op">~</span> <span class="va">D</span> <span class="op">|</span> <span class="va">Z</span>, data <span class="op">=</span> <span class="va">dat</span>, clusters <span class="op">=</span> <span class="va">cl</span><span class="op">)</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>          term  estimate std.error statistic     p.value   conf.low conf.high</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1 (Intercept) 3.3157895 0.4457303 7.4390043 0.002360625  2.0374558  4.594123</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2           D 0.3184211 0.4682124 0.6800782 0.533811304 -0.9820125  1.618855</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>          term  estimate std.error statistic     p.value  conf.low conf.high</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1 (Intercept) 3.1052632 0.5127115 6.0565501 0.004813205  1.634830  4.575696</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2           D 0.5394737 0.6397718 0.8432283 0.446613594 -1.237456  2.316404</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>         df outcome</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 1 3.698715       Y</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 2 3.996357       Y</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Again, easy to replicate Stata (again with `small` correction in Stata)</span></span></span>
 <span class="r-in"><span><span class="fu"><a href="https://generics.r-lib.org/reference/tidy.html" class="external-link">tidy</a></span><span class="op">(</span><span class="fu">iv_robust</span><span class="op">(</span><span class="va">Y</span> <span class="op">~</span> <span class="va">D</span> <span class="op">|</span> <span class="va">Z</span>, data <span class="op">=</span> <span class="va">dat</span>, clusters <span class="op">=</span> <span class="va">cl</span>, se_type <span class="op">=</span> <span class="st">"stata"</span><span class="op">)</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>          term  estimate std.error statistic     p.value   conf.low conf.high df</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1 (Intercept) 3.3157895 0.4414454 7.5112102 0.001681356  2.0901405  4.541438  4</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2           D 0.3184211 0.4634526 0.6870629 0.529805076 -0.9683296  1.605172  4</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>          term  estimate std.error statistic     p.value  conf.low conf.high df</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1 (Intercept) 3.1052632 0.5128499 6.0549161 0.003754932  1.681364  4.529163  4</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2           D 0.5394737 0.6422307 0.8399998 0.448183917 -1.243645  2.322592  4</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   outcome</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 1       Y</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 2       Y</span>
@@ -334,7 +334,7 @@ instruments is greater than the number of endogenous regressors), and if no weig
 <span class="r-in"><span><span class="co"># Speed gains with fixed effects are greatests with "stata" or "HC1" std.errors</span></span></span>
 <span class="r-in"><span><span class="fu"><a href="https://generics.r-lib.org/reference/tidy.html" class="external-link">tidy</a></span><span class="op">(</span><span class="fu">iv_robust</span><span class="op">(</span><span class="va">Y</span> <span class="op">~</span> <span class="va">D</span> <span class="op">|</span> <span class="va">Z</span>, data <span class="op">=</span> <span class="va">dat</span>, fixed_effects <span class="op">=</span> <span class="op">~</span> <span class="va">G</span>, se_type <span class="op">=</span> <span class="st">"HC1"</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   term  estimate std.error statistic   p.value  conf.low conf.high df outcome</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1    D 0.2509696 0.6728668 0.3729855 0.7114087 -1.115023  1.616962 35       Y</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1    D 0.3230081  0.673923 0.4792952 0.6347099 -1.045128  1.691144 35       Y</span>
 <span class="r-in"><span></span></span>
 </code></pre></div>
     </div>

@@ -270,10 +270,10 @@ and the
 <span class="r-in"><span><span class="va">lmlin_out</span> <span class="op">&lt;-</span> <span class="fu">lm_lin</span><span class="op">(</span><span class="va">y</span> <span class="op">~</span> <span class="va">z</span>, covariates <span class="op">=</span> <span class="op">~</span> <span class="va">x</span>, data <span class="op">=</span> <span class="va">dat</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="fu"><a href="https://generics.r-lib.org/reference/tidy.html" class="external-link">tidy</a></span><span class="op">(</span><span class="va">lmlin_out</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>          term   estimate std.error  statistic      p.value   conf.low conf.high</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1 (Intercept)  2.0074002 0.2012088  9.9767032 6.611620e-12  1.5993299 2.4154705</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2           z  0.7263528 0.3037565  2.3912337 2.214176e-02  0.1103061 1.3423996</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 3         x_c  1.0673003 0.2721532  3.9216889 3.786550e-04  0.5153480 1.6192527</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 4       z:x_c -0.2815330 0.3235071 -0.8702529 3.899283e-01 -0.9376358 0.3745698</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1 (Intercept)  2.1695249 0.2630931  8.2462256 8.203489e-10  1.6359474 2.7031024</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2           z  0.3176985 0.3660547  0.8678989 3.911985e-01 -0.4246948 1.0600918</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3         x_c  1.1158804 0.3607171  3.0935061 3.811699e-03  0.3843123 1.8474485</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 4       z:x_c -0.3759682 0.4416031 -0.8513712 4.001911e-01 -1.2715807 0.5196444</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   df outcome</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 1 36       y</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 2 36       y</span>
@@ -282,13 +282,13 @@ and the
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Works with multiple pre-treatment covariates</span></span></span>
 <span class="r-in"><span><span class="fu">lm_lin</span><span class="op">(</span><span class="va">y</span> <span class="op">~</span> <span class="va">z</span>, covariates <span class="op">=</span> <span class="op">~</span> <span class="va">x</span> <span class="op">+</span> <span class="va">x2</span>, data <span class="op">=</span> <span class="va">dat</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>               Estimate Std. Error    t value     Pr(&gt;|t|)    CI Lower  CI Upper</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> (Intercept)  2.0331904  0.2035346  9.9894110 1.198631e-11  1.61955838 2.4468224</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> z            0.6874490  0.3118326  2.2045450 3.435353e-02  0.05372891 1.3211692</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> x_c          1.1154732  0.2539604  4.3923109 1.038122e-04  0.59936348 1.6315829</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> x2_c         0.2456971  0.2805576  0.8757456 3.873136e-01 -0.32446459 0.8158588</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> z:x_c       -0.3294245  0.3067964 -1.0737561 2.904938e-01 -0.95290983 0.2940608</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> z:x2_c      -0.1146326  0.3618812 -0.3167687 7.533560e-01 -0.85006364 0.6207984</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>               Estimate Std. Error    t value     Pr(&gt;|t|)   CI Lower  CI Upper</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> (Intercept)  2.2078434  0.2527477  8.7353654 3.301533e-10  1.6941983 2.7214886</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> z            0.1305558  0.3299517  0.3956816 6.948120e-01 -0.5399867 0.8010984</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> x_c          1.1201793  0.3663516  3.0576619 4.326312e-03  0.3756633 1.8646952</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> x2_c         0.1779870  0.2543577  0.6997510 4.888432e-01 -0.3389300 0.6949040</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> z:x_c       -0.4265414  0.4143615 -1.0293942 3.105622e-01 -1.2686254 0.4155426</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> z:x2_c       0.4007569  0.3116628  1.2858668 2.071784e-01 -0.2326182 1.0341320</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>             DF</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> (Intercept) 34</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> z           34</span>
@@ -301,71 +301,71 @@ and the
 <span class="r-in"><span><span class="va">lmlin_out2</span> <span class="op">&lt;-</span> <span class="fu">lm_lin</span><span class="op">(</span><span class="va">y</span> <span class="op">~</span> <span class="va">z</span>, covariates <span class="op">=</span> <span class="op">~</span> <span class="va">x</span> <span class="op">+</span> <span class="fu"><a href="https://rdrr.io/r/base/Log.html" class="external-link">log</a></span><span class="op">(</span><span class="va">x3</span><span class="op">)</span>, data <span class="op">=</span> <span class="va">dat</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="va">lmlin_out2</span><span class="op">$</span><span class="va">scaled_center</span><span class="op">[</span><span class="st">"log(x3)"</span><span class="op">]</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>    log(x3) </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> -0.7815509 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> -0.9082314 </span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/mean.html" class="external-link">mean</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/Log.html" class="external-link">log</a></span><span class="op">(</span><span class="va">dat</span><span class="op">$</span><span class="va">x3</span><span class="op">)</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] -0.7815509</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] -0.9082314</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Works easily with clusters</span></span></span>
 <span class="r-in"><span><span class="va">dat</span><span class="op">$</span><span class="va">clusterID</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">20</span>, each <span class="op">=</span> <span class="fl">2</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="va">dat</span><span class="op">$</span><span class="va">z_clust</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://declaredesign.org/r/randomizr/reference/cluster_ra.html" class="external-link">cluster_ra</a></span><span class="op">(</span>clusters <span class="op">=</span> <span class="va">dat</span><span class="op">$</span><span class="va">clusterID</span><span class="op">)</span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="fu">lm_lin</span><span class="op">(</span><span class="va">y</span> <span class="op">~</span> <span class="va">z_clust</span>, covariates <span class="op">=</span> <span class="op">~</span> <span class="va">x</span>, data <span class="op">=</span> <span class="va">dat</span>, clusters <span class="op">=</span> <span class="va">clusterID</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>              Estimate Std. Error   t value     Pr(&gt;|t|)     CI Lower  CI Upper</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> (Intercept) 2.1869918  0.2599259 8.4139039 6.338923e-05  1.573233032 2.8007505</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> z_clust     0.1547201  0.3441864 0.4495242 6.598847e-01 -0.582978576 0.8924188</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> x_c         0.6678927  0.2632028 2.5375595 5.052778e-02 -0.002227515 1.3380129</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> z_clust:x_c 0.5497024  0.3559260 1.5444288 1.576286e-01 -0.258197236 1.3576021</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>                    DF</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> (Intercept)  7.049192</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> z_clust     14.103467</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> x_c          5.165385</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> z_clust:x_c  8.804119</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>               Estimate Std. Error   t value     Pr(&gt;|t|)    CI Lower</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> (Intercept)  1.9823963  0.2215822  8.946552 1.653459e-05  1.47357969</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> z_clust      0.6202697  0.3403026  1.822701 8.654839e-02 -0.09945087</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> x_c          1.2962678  0.2584531  5.015486 5.403446e-03  0.60917533</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> z_clust:x_c -0.7906409  0.3215639 -2.458736 3.552230e-02 -1.51492528</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                CI Upper        DF</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> (Intercept)  2.49121299  8.199197</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> z_clust      1.33999031 16.475542</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> x_c          1.98336024  4.502141</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> z_clust:x_c -0.06635648  9.263654</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Works with multi-valued treatments</span></span></span>
 <span class="r-in"><span><span class="va">dat</span><span class="op">$</span><span class="va">z_multi</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/sample.html" class="external-link">sample</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">3</span>, size <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/nrow.html" class="external-link">nrow</a></span><span class="op">(</span><span class="va">dat</span><span class="op">)</span>, replace <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="fu">lm_lin</span><span class="op">(</span><span class="va">y</span> <span class="op">~</span> <span class="va">z_multi</span>, covariates <span class="op">=</span> <span class="op">~</span> <span class="va">x</span>, data <span class="op">=</span> <span class="va">dat</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>                  Estimate Std. Error      t value     Pr(&gt;|t|)   CI Lower</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> (Intercept)   2.087111175  0.2397513  8.705318218 3.583451e-10  1.5998780</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> z_multi2      0.632076161  0.3949708  1.600311246 1.187819e-01 -0.1706010</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> z_multi3      0.225302890  0.4595353  0.490284219 6.270820e-01 -0.7085851</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> x_c           0.971855697  0.3265662  2.975983428 5.346867e-03  0.3081933</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> z_multi2:x_c -0.164498171  0.4184305 -0.393131454 6.966767e-01 -1.0148512</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> z_multi3:x_c  0.007310125  0.8138866  0.008981748 9.928862e-01 -1.6467064</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>               CI Upper DF</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> (Intercept)  2.5743444 34</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> z_multi2     1.4347533 34</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> z_multi3     1.1591909 34</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> x_c          1.6355181 34</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> z_multi2:x_c 0.6858548 34</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> z_multi3:x_c 1.6613267 34</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                Estimate Std. Error    t value     Pr(&gt;|t|)   CI Lower</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> (Intercept)   2.3242674  0.3105887  7.4834257 1.101187e-08  1.6930753</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> z_multi2      0.3326992  0.5377691  0.6186656 5.402597e-01 -0.7601790</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> z_multi3     -0.1635568  0.3589169 -0.4556956 6.515061e-01 -0.8929637</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> x_c           1.3790405  0.2723045  5.0643318 1.417632e-05  0.8256511</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> z_multi2:x_c -0.2493044  0.6072650 -0.4105365 6.839882e-01 -1.4834154</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> z_multi3:x_c -1.1250641  0.2865315 -3.9264934 3.995635e-04 -1.7073662</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                CI Upper DF</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> (Intercept)   2.9554596 34</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> z_multi2      1.4255775 34</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> z_multi3      0.5658500 34</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> x_c           1.9324298 34</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> z_multi2:x_c  0.9848065 34</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> z_multi3:x_c -0.5427620 34</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Stratified estimator with blocks</span></span></span>
 <span class="r-in"><span><span class="va">dat</span><span class="op">$</span><span class="va">blockID</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">5</span>, each <span class="op">=</span> <span class="fl">8</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="va">dat</span><span class="op">$</span><span class="va">z_block</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://declaredesign.org/r/randomizr/reference/block_ra.html" class="external-link">block_ra</a></span><span class="op">(</span>blocks <span class="op">=</span> <span class="va">dat</span><span class="op">$</span><span class="va">blockID</span><span class="op">)</span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="fu">lm_lin</span><span class="op">(</span><span class="va">y</span> <span class="op">~</span> <span class="va">z_block</span>, <span class="op">~</span> <span class="fu"><a href="https://rdrr.io/r/base/factor.html" class="external-link">factor</a></span><span class="op">(</span><span class="va">blockID</span><span class="op">)</span>, data <span class="op">=</span> <span class="va">dat</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>                                Estimate Std. Error    t value     Pr(&gt;|t|)</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> (Intercept)                   2.0704132  0.3451408  5.9987493 1.399160e-06</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> z_block                       0.5931938  0.4501499  1.3177696 1.975558e-01</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> (factor(blockID)2)_c          1.1858143  1.1686199  1.0147134 3.183567e-01</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> (factor(blockID)3)_c          1.4533957  1.1962207  1.2149896 2.338464e-01</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> (factor(blockID)4)_c          0.3103012  1.2793724  0.2425417 8.100110e-01</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> (factor(blockID)5)_c          0.6828532  1.1941371  0.5718382 5.716919e-01</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> z_block:(factor(blockID)2)_c -1.5162764  1.4447190 -1.0495303 3.023158e-01</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> z_block:(factor(blockID)3)_c -1.2130004  1.4862041 -0.8161735 4.208346e-01</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> z_block:(factor(blockID)4)_c -0.4459309  1.5448894 -0.2886491 7.748351e-01</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> z_block:(factor(blockID)5)_c -1.9553208  1.3328098 -1.4670666 1.527638e-01</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>                                CI Lower CI Upper DF</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> (Intercept)                   1.3655416 2.775285 30</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> z_block                      -0.3261349 1.512523 30</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> (factor(blockID)2)_c         -1.2008259 3.572455 30</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> (factor(blockID)3)_c         -0.9896129 3.896404 30</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> (factor(blockID)4)_c         -2.3025258 2.923128 30</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> (factor(blockID)5)_c         -1.7559001 3.121606 30</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> z_block:(factor(blockID)2)_c -4.4667862 1.434233 30</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> z_block:(factor(blockID)3)_c -4.2482341 1.822233 30</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> z_block:(factor(blockID)4)_c -3.6010159 2.709154 30</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> z_block:(factor(blockID)5)_c -4.6772816 0.766640 30</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                                 Estimate Std. Error     t value     Pr(&gt;|t|)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> (Intercept)                   2.23463020  0.2833025  7.88778950 8.385351e-09</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> z_block                       0.33866318  0.4582224  0.73908033 4.656020e-01</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> (factor(blockID)2)_c          0.58760354  1.0945574  0.53684122 5.953366e-01</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> (factor(blockID)3)_c         -0.05860625  0.7991543 -0.07333534 9.420261e-01</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> (factor(blockID)4)_c         -0.33820266  1.0002727 -0.33811045 7.376347e-01</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> (factor(blockID)5)_c         -1.04976411  0.8191669 -1.28150218 2.098342e-01</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> z_block:(factor(blockID)2)_c  0.55049472  1.4188758  0.38797950 7.007706e-01</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> z_block:(factor(blockID)3)_c  0.85255003  1.5329347  0.55615548 5.822294e-01</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> z_block:(factor(blockID)4)_c  2.03911494  1.6820765  1.21226056 2.348737e-01</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> z_block:(factor(blockID)5)_c  1.18597842  1.3124738  0.90362061 3.733957e-01</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                                CI Lower  CI Upper DF</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> (Intercept)                   1.6560494 2.8132110 30</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> z_block                      -0.5971519 1.2744782 30</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> (factor(blockID)2)_c         -1.6477809 2.8229880 30</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> (factor(blockID)3)_c         -1.6906970 1.5734845 30</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> (factor(blockID)4)_c         -2.3810321 1.7046268 30</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> (factor(blockID)5)_c         -2.7227260 0.6231978 30</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> z_block:(factor(blockID)2)_c -2.3472362 3.4482257 30</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> z_block:(factor(blockID)3)_c -2.2781202 3.9832203 30</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> z_block:(factor(blockID)4)_c -1.3961435 5.4743733 30</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> z_block:(factor(blockID)5)_c -1.4944508 3.8664076 30</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span> <span class="co"># \dontrun{</span></span></span>
 <span class="r-in"><span>  <span class="co"># Can also use 'margins' package if you have it installed to get</span></span></span>
