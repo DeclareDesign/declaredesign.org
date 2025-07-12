@@ -80,35 +80,19 @@
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># \donttest{</span></span></span>
 <span class="r-in"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va">cjoint</span><span class="op">)</span></span></span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Loading required package: sandwich</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Loading required package: lmtest</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Loading required package: zoo</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Attaching package: ‘zoo’</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> The following objects are masked from ‘package:base’:</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span>     as.Date, as.Date.numeric</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Loading required package: survey</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Loading required package: grid</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Loading required package: Matrix</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Loading required package: survival</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Attaching package: ‘survey’</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> The following object is masked from ‘package:graphics’:</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span>     dotchart</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> cjoint: AMCE Estimator for Conjoint Experiments</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Version: 2.1.1</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Authors: Soubhik Barari, Elissa Berwick, Jens Hainmueller, Daniel Hopkins, Sean Liu, Anton Strezhnev, Teppei Yamamoto</span>
+<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in library(cjoint):</span> there is no package called ‘cjoint’</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">immigrationconjoint</span><span class="op">)</span></span></span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>data set ‘immigrationconjoint’ not found</span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">immigrationdesign</span><span class="op">)</span></span></span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>data set ‘immigrationdesign’ not found</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Run AMCE estimator using all attributes in the design</span></span></span>
-<span class="r-in"><span><span class="va">results</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/cjoint/man/amce.html" class="external-link">amce</a></span><span class="op">(</span><span class="va">Chosen_Immigrant</span> <span class="op">~</span>  <span class="va">Gender</span> <span class="op">+</span> <span class="va">Education</span> <span class="op">+</span> <span class="va">`Language Skills`</span> <span class="op">+</span></span></span>
+<span class="r-in"><span><span class="va">results</span> <span class="op">&lt;-</span> <span class="fu">amce</span><span class="op">(</span><span class="va">Chosen_Immigrant</span> <span class="op">~</span>  <span class="va">Gender</span> <span class="op">+</span> <span class="va">Education</span> <span class="op">+</span> <span class="va">`Language Skills`</span> <span class="op">+</span></span></span>
 <span class="r-in"><span>                  <span class="va">`Country of Origin`</span> <span class="op">+</span> <span class="va">Job</span> <span class="op">+</span> <span class="va">`Job Experience`</span> <span class="op">+</span> <span class="va">`Job Plans`</span> <span class="op">+</span></span></span>
 <span class="r-in"><span>                  <span class="va">`Reason for Application`</span> <span class="op">+</span> <span class="va">`Prior Entry`</span>, data <span class="op">=</span> <span class="va">immigrationconjoint</span>,</span></span>
 <span class="r-in"><span>                cluster <span class="op">=</span> <span class="cn">TRUE</span>, respondent.id <span class="op">=</span> <span class="st">"CaseID"</span>, design <span class="op">=</span> <span class="va">immigrationdesign</span><span class="op">)</span></span></span>
+<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in amce(Chosen_Immigrant ~ Gender + Education + `Language Skills` +     `Country of Origin` + Job + `Job Experience` + `Job Plans` +     `Reason for Application` + `Prior Entry`, data = immigrationconjoint,     cluster = TRUE, respondent.id = "CaseID", design = immigrationdesign):</span> could not find function "amce"</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Print summary</span></span></span>
 <span class="r-in"><span><span class="co"># tidy(results)</span></span></span>
