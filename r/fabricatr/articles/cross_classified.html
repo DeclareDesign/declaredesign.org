@@ -336,7 +336,7 @@ general purpose correction to compensate for this attenuation.</em></p>
 <p>We can check the resulting correlation here:</p>
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/stats/cor.html" class="external-link">cor</a></span><span class="op">(</span><span class="va">corr_data</span><span class="op">$</span><span class="va">ps_quality</span>, <span class="va">corr_data</span><span class="op">$</span><span class="va">ss_quality</span><span class="op">)</span></span></code></pre></div>
-<p>0.48</p>
+<p>0.43</p>
 <p>It should be noted that the specified correlation exists only within
 the variables on which a join was specified: other variables from either
 data source will not be explicitly connected except through the joined
@@ -404,6 +404,7 @@ setup:</p>
 <span>      <span class="fu"><a href="https://rdrr.io/r/stats/Normal.html" class="external-link">rnorm</a></span><span class="op">(</span><span class="va">N</span>, <span class="fl">0</span>, <span class="fl">5000</span><span class="op">)</span></span>
 <span>  <span class="op">)</span></span>
 <span><span class="op">)</span></span></code></pre></div>
+<pre><code><span><span class="co">## `link_levels()` calls are faster if the `mvnfast` package is installed.</span></span></code></pre>
 <p><code>sigma</code> must be specified as a symmetric square matrix
 with a diagonal of all 1s and a feasible correlation structure.</p>
 </div>
