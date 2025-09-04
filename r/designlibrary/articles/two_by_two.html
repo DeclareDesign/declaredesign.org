@@ -192,9 +192,9 @@ term.</p>
 <span>    blocks <span class="op">=</span> <span class="va">A</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="va">reveal_Y</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://declaredesign.org/r/declaredesign/reference/declare_reveal.html" class="external-link">declare_reveal</a></span><span class="op">(</span>Y_variables <span class="op">=</span> <span class="va">Y</span>, assignment_variables <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="va">A</span>, </span>
 <span>    <span class="va">B</span><span class="op">)</span><span class="op">)</span></span>
-<span><span class="va">estimator_1</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://declaredesign.org/r/declaredesign/reference/declare_estimator.html" class="external-link">declare_estimator</a></span><span class="op">(</span><span class="va">Y</span> <span class="op">~</span> <span class="va">A</span> <span class="op">+</span> <span class="va">B</span>, model <span class="op">=</span> <span class="va">lm_robust</span>, </span>
+<span><span class="va">estimator_1</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://declaredesign.org/r/declaredesign/reference/declare_estimator.html" class="external-link">declare_estimator</a></span><span class="op">(</span><span class="va">Y</span> <span class="op">~</span> <span class="va">A</span> <span class="op">+</span> <span class="va">B</span>, .method <span class="op">=</span> <span class="va">lm_robust</span>, </span>
 <span>    term <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"A"</span>, <span class="st">"B"</span><span class="op">)</span>, inquiry <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"ate_A"</span>, <span class="st">"ate_B"</span><span class="op">)</span>, label <span class="op">=</span> <span class="st">"No_Interaction"</span><span class="op">)</span></span>
-<span><span class="va">estimator_2</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://declaredesign.org/r/declaredesign/reference/declare_estimator.html" class="external-link">declare_estimator</a></span><span class="op">(</span><span class="va">Y</span> <span class="op">~</span> <span class="va">A</span> <span class="op">+</span> <span class="va">B</span> <span class="op">+</span> <span class="va">A</span><span class="op">:</span><span class="va">B</span>, model <span class="op">=</span> <span class="va">lm_robust</span>, </span>
+<span><span class="va">estimator_2</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://declaredesign.org/r/declaredesign/reference/declare_estimator.html" class="external-link">declare_estimator</a></span><span class="op">(</span><span class="va">Y</span> <span class="op">~</span> <span class="va">A</span> <span class="op">+</span> <span class="va">B</span> <span class="op">+</span> <span class="va">A</span><span class="op">:</span><span class="va">B</span>, .method <span class="op">=</span> <span class="va">lm_robust</span>, </span>
 <span>    term <span class="op">=</span> <span class="st">"A:B"</span>, inquiry <span class="op">=</span> <span class="st">"interaction"</span>, label <span class="op">=</span> <span class="st">"Interaction"</span><span class="op">)</span></span>
 <span><span class="va">two_by_two_design</span> <span class="op">&lt;-</span> <span class="va">population</span> <span class="op">+</span> <span class="va">potential_outcomes</span> <span class="op">+</span> <span class="va">estimand_1</span> <span class="op">+</span> </span>
 <span>    <span class="va">estimand_2</span> <span class="op">+</span> <span class="va">estimand_3</span> <span class="op">+</span> <span class="va">assign_A</span> <span class="op">+</span> <span class="va">assign_B</span> <span class="op">+</span> <span class="va">reveal_Y</span> <span class="op">+</span> </span>
@@ -205,106 +205,6 @@ term.</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">diagnosis</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://declaredesign.org/r/declaredesign/reference/diagnose_design.html" class="external-link">diagnose_design</a></span><span class="op">(</span><span class="va">two_by_two_design</span>, sims <span class="op">=</span> <span class="fl">25</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## Warning: We recommend you choose a number of simulations higher than 30.</span></span></code></pre>
-<pre><code><span><span class="co">## Warning in fn(data, ~(Y ~ A + B), model = ~lm_robust, term = ~c("A", "B")): The</span></span>
-<span><span class="co">## argument 'model = ' is deprecated. Please use '.method = ' instead.</span></span></code></pre>
-<pre><code><span><span class="co">## Warning in fn(data, ~(Y ~ A + B + A:B), model = ~lm_robust, term = ~"A:B"): The</span></span>
-<span><span class="co">## argument 'model = ' is deprecated. Please use '.method = ' instead.</span></span></code></pre>
-<pre><code><span><span class="co">## Warning in fn(data, ~(Y ~ A + B), model = ~lm_robust, term = ~c("A", "B")): The</span></span>
-<span><span class="co">## argument 'model = ' is deprecated. Please use '.method = ' instead.</span></span></code></pre>
-<pre><code><span><span class="co">## Warning in fn(data, ~(Y ~ A + B + A:B), model = ~lm_robust, term = ~"A:B"): The</span></span>
-<span><span class="co">## argument 'model = ' is deprecated. Please use '.method = ' instead.</span></span></code></pre>
-<pre><code><span><span class="co">## Warning in fn(data, ~(Y ~ A + B), model = ~lm_robust, term = ~c("A", "B")): The</span></span>
-<span><span class="co">## argument 'model = ' is deprecated. Please use '.method = ' instead.</span></span></code></pre>
-<pre><code><span><span class="co">## Warning in fn(data, ~(Y ~ A + B + A:B), model = ~lm_robust, term = ~"A:B"): The</span></span>
-<span><span class="co">## argument 'model = ' is deprecated. Please use '.method = ' instead.</span></span></code></pre>
-<pre><code><span><span class="co">## Warning in fn(data, ~(Y ~ A + B), model = ~lm_robust, term = ~c("A", "B")): The</span></span>
-<span><span class="co">## argument 'model = ' is deprecated. Please use '.method = ' instead.</span></span></code></pre>
-<pre><code><span><span class="co">## Warning in fn(data, ~(Y ~ A + B + A:B), model = ~lm_robust, term = ~"A:B"): The</span></span>
-<span><span class="co">## argument 'model = ' is deprecated. Please use '.method = ' instead.</span></span></code></pre>
-<pre><code><span><span class="co">## Warning in fn(data, ~(Y ~ A + B), model = ~lm_robust, term = ~c("A", "B")): The</span></span>
-<span><span class="co">## argument 'model = ' is deprecated. Please use '.method = ' instead.</span></span></code></pre>
-<pre><code><span><span class="co">## Warning in fn(data, ~(Y ~ A + B + A:B), model = ~lm_robust, term = ~"A:B"): The</span></span>
-<span><span class="co">## argument 'model = ' is deprecated. Please use '.method = ' instead.</span></span></code></pre>
-<pre><code><span><span class="co">## Warning in fn(data, ~(Y ~ A + B), model = ~lm_robust, term = ~c("A", "B")): The</span></span>
-<span><span class="co">## argument 'model = ' is deprecated. Please use '.method = ' instead.</span></span></code></pre>
-<pre><code><span><span class="co">## Warning in fn(data, ~(Y ~ A + B + A:B), model = ~lm_robust, term = ~"A:B"): The</span></span>
-<span><span class="co">## argument 'model = ' is deprecated. Please use '.method = ' instead.</span></span></code></pre>
-<pre><code><span><span class="co">## Warning in fn(data, ~(Y ~ A + B), model = ~lm_robust, term = ~c("A", "B")): The</span></span>
-<span><span class="co">## argument 'model = ' is deprecated. Please use '.method = ' instead.</span></span></code></pre>
-<pre><code><span><span class="co">## Warning in fn(data, ~(Y ~ A + B + A:B), model = ~lm_robust, term = ~"A:B"): The</span></span>
-<span><span class="co">## argument 'model = ' is deprecated. Please use '.method = ' instead.</span></span></code></pre>
-<pre><code><span><span class="co">## Warning in fn(data, ~(Y ~ A + B), model = ~lm_robust, term = ~c("A", "B")): The</span></span>
-<span><span class="co">## argument 'model = ' is deprecated. Please use '.method = ' instead.</span></span></code></pre>
-<pre><code><span><span class="co">## Warning in fn(data, ~(Y ~ A + B + A:B), model = ~lm_robust, term = ~"A:B"): The</span></span>
-<span><span class="co">## argument 'model = ' is deprecated. Please use '.method = ' instead.</span></span></code></pre>
-<pre><code><span><span class="co">## Warning in fn(data, ~(Y ~ A + B), model = ~lm_robust, term = ~c("A", "B")): The</span></span>
-<span><span class="co">## argument 'model = ' is deprecated. Please use '.method = ' instead.</span></span></code></pre>
-<pre><code><span><span class="co">## Warning in fn(data, ~(Y ~ A + B + A:B), model = ~lm_robust, term = ~"A:B"): The</span></span>
-<span><span class="co">## argument 'model = ' is deprecated. Please use '.method = ' instead.</span></span></code></pre>
-<pre><code><span><span class="co">## Warning in fn(data, ~(Y ~ A + B), model = ~lm_robust, term = ~c("A", "B")): The</span></span>
-<span><span class="co">## argument 'model = ' is deprecated. Please use '.method = ' instead.</span></span></code></pre>
-<pre><code><span><span class="co">## Warning in fn(data, ~(Y ~ A + B + A:B), model = ~lm_robust, term = ~"A:B"): The</span></span>
-<span><span class="co">## argument 'model = ' is deprecated. Please use '.method = ' instead.</span></span></code></pre>
-<pre><code><span><span class="co">## Warning in fn(data, ~(Y ~ A + B), model = ~lm_robust, term = ~c("A", "B")): The</span></span>
-<span><span class="co">## argument 'model = ' is deprecated. Please use '.method = ' instead.</span></span></code></pre>
-<pre><code><span><span class="co">## Warning in fn(data, ~(Y ~ A + B + A:B), model = ~lm_robust, term = ~"A:B"): The</span></span>
-<span><span class="co">## argument 'model = ' is deprecated. Please use '.method = ' instead.</span></span></code></pre>
-<pre><code><span><span class="co">## Warning in fn(data, ~(Y ~ A + B), model = ~lm_robust, term = ~c("A", "B")): The</span></span>
-<span><span class="co">## argument 'model = ' is deprecated. Please use '.method = ' instead.</span></span></code></pre>
-<pre><code><span><span class="co">## Warning in fn(data, ~(Y ~ A + B + A:B), model = ~lm_robust, term = ~"A:B"): The</span></span>
-<span><span class="co">## argument 'model = ' is deprecated. Please use '.method = ' instead.</span></span></code></pre>
-<pre><code><span><span class="co">## Warning in fn(data, ~(Y ~ A + B), model = ~lm_robust, term = ~c("A", "B")): The</span></span>
-<span><span class="co">## argument 'model = ' is deprecated. Please use '.method = ' instead.</span></span></code></pre>
-<pre><code><span><span class="co">## Warning in fn(data, ~(Y ~ A + B + A:B), model = ~lm_robust, term = ~"A:B"): The</span></span>
-<span><span class="co">## argument 'model = ' is deprecated. Please use '.method = ' instead.</span></span></code></pre>
-<pre><code><span><span class="co">## Warning in fn(data, ~(Y ~ A + B), model = ~lm_robust, term = ~c("A", "B")): The</span></span>
-<span><span class="co">## argument 'model = ' is deprecated. Please use '.method = ' instead.</span></span></code></pre>
-<pre><code><span><span class="co">## Warning in fn(data, ~(Y ~ A + B + A:B), model = ~lm_robust, term = ~"A:B"): The</span></span>
-<span><span class="co">## argument 'model = ' is deprecated. Please use '.method = ' instead.</span></span></code></pre>
-<pre><code><span><span class="co">## Warning in fn(data, ~(Y ~ A + B), model = ~lm_robust, term = ~c("A", "B")): The</span></span>
-<span><span class="co">## argument 'model = ' is deprecated. Please use '.method = ' instead.</span></span></code></pre>
-<pre><code><span><span class="co">## Warning in fn(data, ~(Y ~ A + B + A:B), model = ~lm_robust, term = ~"A:B"): The</span></span>
-<span><span class="co">## argument 'model = ' is deprecated. Please use '.method = ' instead.</span></span></code></pre>
-<pre><code><span><span class="co">## Warning in fn(data, ~(Y ~ A + B), model = ~lm_robust, term = ~c("A", "B")): The</span></span>
-<span><span class="co">## argument 'model = ' is deprecated. Please use '.method = ' instead.</span></span></code></pre>
-<pre><code><span><span class="co">## Warning in fn(data, ~(Y ~ A + B + A:B), model = ~lm_robust, term = ~"A:B"): The</span></span>
-<span><span class="co">## argument 'model = ' is deprecated. Please use '.method = ' instead.</span></span></code></pre>
-<pre><code><span><span class="co">## Warning in fn(data, ~(Y ~ A + B), model = ~lm_robust, term = ~c("A", "B")): The</span></span>
-<span><span class="co">## argument 'model = ' is deprecated. Please use '.method = ' instead.</span></span></code></pre>
-<pre><code><span><span class="co">## Warning in fn(data, ~(Y ~ A + B + A:B), model = ~lm_robust, term = ~"A:B"): The</span></span>
-<span><span class="co">## argument 'model = ' is deprecated. Please use '.method = ' instead.</span></span></code></pre>
-<pre><code><span><span class="co">## Warning in fn(data, ~(Y ~ A + B), model = ~lm_robust, term = ~c("A", "B")): The</span></span>
-<span><span class="co">## argument 'model = ' is deprecated. Please use '.method = ' instead.</span></span></code></pre>
-<pre><code><span><span class="co">## Warning in fn(data, ~(Y ~ A + B + A:B), model = ~lm_robust, term = ~"A:B"): The</span></span>
-<span><span class="co">## argument 'model = ' is deprecated. Please use '.method = ' instead.</span></span></code></pre>
-<pre><code><span><span class="co">## Warning in fn(data, ~(Y ~ A + B), model = ~lm_robust, term = ~c("A", "B")): The</span></span>
-<span><span class="co">## argument 'model = ' is deprecated. Please use '.method = ' instead.</span></span></code></pre>
-<pre><code><span><span class="co">## Warning in fn(data, ~(Y ~ A + B + A:B), model = ~lm_robust, term = ~"A:B"): The</span></span>
-<span><span class="co">## argument 'model = ' is deprecated. Please use '.method = ' instead.</span></span></code></pre>
-<pre><code><span><span class="co">## Warning in fn(data, ~(Y ~ A + B), model = ~lm_robust, term = ~c("A", "B")): The</span></span>
-<span><span class="co">## argument 'model = ' is deprecated. Please use '.method = ' instead.</span></span></code></pre>
-<pre><code><span><span class="co">## Warning in fn(data, ~(Y ~ A + B + A:B), model = ~lm_robust, term = ~"A:B"): The</span></span>
-<span><span class="co">## argument 'model = ' is deprecated. Please use '.method = ' instead.</span></span></code></pre>
-<pre><code><span><span class="co">## Warning in fn(data, ~(Y ~ A + B), model = ~lm_robust, term = ~c("A", "B")): The</span></span>
-<span><span class="co">## argument 'model = ' is deprecated. Please use '.method = ' instead.</span></span></code></pre>
-<pre><code><span><span class="co">## Warning in fn(data, ~(Y ~ A + B + A:B), model = ~lm_robust, term = ~"A:B"): The</span></span>
-<span><span class="co">## argument 'model = ' is deprecated. Please use '.method = ' instead.</span></span></code></pre>
-<pre><code><span><span class="co">## Warning in fn(data, ~(Y ~ A + B), model = ~lm_robust, term = ~c("A", "B")): The</span></span>
-<span><span class="co">## argument 'model = ' is deprecated. Please use '.method = ' instead.</span></span></code></pre>
-<pre><code><span><span class="co">## Warning in fn(data, ~(Y ~ A + B + A:B), model = ~lm_robust, term = ~"A:B"): The</span></span>
-<span><span class="co">## argument 'model = ' is deprecated. Please use '.method = ' instead.</span></span></code></pre>
-<pre><code><span><span class="co">## Warning in fn(data, ~(Y ~ A + B), model = ~lm_robust, term = ~c("A", "B")): The</span></span>
-<span><span class="co">## argument 'model = ' is deprecated. Please use '.method = ' instead.</span></span></code></pre>
-<pre><code><span><span class="co">## Warning in fn(data, ~(Y ~ A + B + A:B), model = ~lm_robust, term = ~"A:B"): The</span></span>
-<span><span class="co">## argument 'model = ' is deprecated. Please use '.method = ' instead.</span></span></code></pre>
-<pre><code><span><span class="co">## Warning in fn(data, ~(Y ~ A + B), model = ~lm_robust, term = ~c("A", "B")): The</span></span>
-<span><span class="co">## argument 'model = ' is deprecated. Please use '.method = ' instead.</span></span></code></pre>
-<pre><code><span><span class="co">## Warning in fn(data, ~(Y ~ A + B + A:B), model = ~lm_robust, term = ~"A:B"): The</span></span>
-<span><span class="co">## argument 'model = ' is deprecated. Please use '.method = ' instead.</span></span></code></pre>
-<pre><code><span><span class="co">## Warning in fn(data, ~(Y ~ A + B), model = ~lm_robust, term = ~c("A", "B")): The</span></span>
-<span><span class="co">## argument 'model = ' is deprecated. Please use '.method = ' instead.</span></span></code></pre>
-<pre><code><span><span class="co">## Warning in fn(data, ~(Y ~ A + B + A:B), model = ~lm_robust, term = ~"A:B"): The</span></span>
-<span><span class="co">## argument 'model = ' is deprecated. Please use '.method = ' instead.</span></span></code></pre>
 <table style="width:100%;" class="table">
 <colgroup>
 <col width="12%">
