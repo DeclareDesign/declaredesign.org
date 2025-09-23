@@ -146,7 +146,7 @@ Imagine we have 300 matched-pairs in an experiment.</p>
 <span><span class="fu"><a href="https://rdrr.io/pkg/microbenchmark/man/microbenchmark.html" class="external-link">microbenchmark</a></span><span class="op">(</span></span>
 <span>  `base + sandwich` <span class="op">=</span> <span class="op">{</span></span>
 <span>    <span class="va">lo</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/lm.html" class="external-link">lm</a></span><span class="op">(</span><span class="va">y</span> <span class="op">~</span> <span class="va">z</span> <span class="op">+</span> <span class="fu"><a href="https://rdrr.io/r/base/factor.html" class="external-link">factor</a></span><span class="op">(</span><span class="va">blocks</span><span class="op">)</span>, <span class="va">dat</span><span class="op">)</span></span>
-<span>    <span class="fu"><a href="https://rdrr.io/pkg/lmtest/man/coeftest.html" class="external-link">coeftest</a></span><span class="op">(</span><span class="va">lo</span>, vcov <span class="op">=</span> <span class="fu"><a href="https://sandwich.R-Forge.R-project.org/reference/vcovHC.html" class="external-link">vcovHC</a></span><span class="op">(</span><span class="va">lo</span>, type <span class="op">=</span> <span class="st">"HC2"</span><span class="op">)</span><span class="op">)</span></span>
+<span>    <span class="fu"><a href="https://rdrr.io/pkg/lmtest/man/coeftest.html" class="external-link">coeftest</a></span><span class="op">(</span><span class="va">lo</span>, vcov <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/pkg/sandwich/man/vcovHC.html" class="external-link">vcovHC</a></span><span class="op">(</span><span class="va">lo</span>, type <span class="op">=</span> <span class="st">"HC2"</span><span class="op">)</span><span class="op">)</span></span>
 <span>  <span class="op">}</span>,</span>
 <span>  `lm_robust` <span class="op">=</span> <span class="fu"><a href="../reference/lm_robust.html">lm_robust</a></span><span class="op">(</span><span class="va">y</span> <span class="op">~</span> <span class="va">z</span> <span class="op">+</span> <span class="fu"><a href="https://rdrr.io/r/base/factor.html" class="external-link">factor</a></span><span class="op">(</span><span class="va">blocks</span><span class="op">)</span>, <span class="va">dat</span><span class="op">)</span>,</span>
 <span>  `lm_robust + fes` <span class="op">=</span> <span class="fu"><a href="../reference/lm_robust.html">lm_robust</a></span><span class="op">(</span><span class="va">y</span> <span class="op">~</span> <span class="va">z</span>, data <span class="op">=</span> <span class="va">dat</span>, fixed_effects <span class="op">=</span> <span class="op">~</span> <span class="va">blocks</span><span class="op">)</span>,</span>
@@ -155,10 +155,10 @@ Imagine we have 300 matched-pairs in an experiment.</p>
 <pre><code><span><span class="co">## Warning in microbenchmark(`base + sandwich` = {: less accurate nanosecond times</span></span>
 <span><span class="co">## to avoid potential integer overflows</span></span></code></pre>
 <pre><code><span><span class="co">## Unit: milliseconds</span></span>
-<span><span class="co">##             expr       min        lq      mean    median        uq      max</span></span>
-<span><span class="co">##  base + sandwich 163.76605 172.19360 196.14855 183.76635 202.83643 292.5810</span></span>
-<span><span class="co">##        lm_robust  39.19854  44.59972  55.27476  49.79065  57.81008 182.8251</span></span>
-<span><span class="co">##  lm_robust + fes  24.80365  26.94815  39.56460  29.24196  38.12393 180.7949</span></span>
+<span><span class="co">##             expr       min        lq      mean    median        uq       max</span></span>
+<span><span class="co">##  base + sandwich 144.03046 151.07717 153.25037 152.50020 153.26936 221.46105</span></span>
+<span><span class="co">##        lm_robust  35.43011  37.66744  40.17897  39.07093  39.85290 104.02651</span></span>
+<span><span class="co">##  lm_robust + fes  22.61716  23.99308  28.59733  24.19389  24.91386  94.16208</span></span>
 <span><span class="co">##  neval cld</span></span>
 <span><span class="co">##     50 a  </span></span>
 <span><span class="co">##     50  b </span></span>
@@ -173,7 +173,7 @@ errors do not require this inversion.</p>
 <span><span class="fu"><a href="https://rdrr.io/pkg/microbenchmark/man/microbenchmark.html" class="external-link">microbenchmark</a></span><span class="op">(</span></span>
 <span>  `base + sandwich` <span class="op">=</span> <span class="op">{</span></span>
 <span>    <span class="va">lo</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/lm.html" class="external-link">lm</a></span><span class="op">(</span><span class="va">y</span> <span class="op">~</span> <span class="va">z</span> <span class="op">+</span> <span class="fu"><a href="https://rdrr.io/r/base/factor.html" class="external-link">factor</a></span><span class="op">(</span><span class="va">blocks</span><span class="op">)</span>, <span class="va">dat</span><span class="op">)</span></span>
-<span>    <span class="fu"><a href="https://rdrr.io/pkg/lmtest/man/coeftest.html" class="external-link">coeftest</a></span><span class="op">(</span><span class="va">lo</span>, vcov <span class="op">=</span> <span class="fu"><a href="https://sandwich.R-Forge.R-project.org/reference/vcovHC.html" class="external-link">vcovHC</a></span><span class="op">(</span><span class="va">lo</span>, type <span class="op">=</span> <span class="st">"HC1"</span><span class="op">)</span><span class="op">)</span></span>
+<span>    <span class="fu"><a href="https://rdrr.io/pkg/lmtest/man/coeftest.html" class="external-link">coeftest</a></span><span class="op">(</span><span class="va">lo</span>, vcov <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/pkg/sandwich/man/vcovHC.html" class="external-link">vcovHC</a></span><span class="op">(</span><span class="va">lo</span>, type <span class="op">=</span> <span class="st">"HC1"</span><span class="op">)</span><span class="op">)</span></span>
 <span>  <span class="op">}</span>,</span>
 <span>  `lm_robust` <span class="op">=</span> <span class="fu"><a href="../reference/lm_robust.html">lm_robust</a></span><span class="op">(</span></span>
 <span>    <span class="va">y</span> <span class="op">~</span> <span class="va">z</span> <span class="op">+</span> <span class="fu"><a href="https://rdrr.io/r/base/factor.html" class="external-link">factor</a></span><span class="op">(</span><span class="va">blocks</span><span class="op">)</span>,</span>
@@ -189,14 +189,14 @@ errors do not require this inversion.</p>
 <span>  times <span class="op">=</span> <span class="fl">50</span></span>
 <span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## Unit: milliseconds</span></span>
-<span><span class="co">##             expr        min        lq      mean     median         uq      max</span></span>
-<span><span class="co">##  base + sandwich 188.476139 202.62635 219.09877 210.737909 232.889881 350.5839</span></span>
-<span><span class="co">##        lm_robust  33.342963  41.49528  52.17227  46.960026  53.948292 176.2855</span></span>
-<span><span class="co">##  lm_robust + fes   3.658799   4.06884  10.28787   5.292977   7.859741 197.4681</span></span>
-<span><span class="co">##  neval cld</span></span>
-<span><span class="co">##     50 a  </span></span>
-<span><span class="co">##     50  b </span></span>
-<span><span class="co">##     50   c</span></span></code></pre>
+<span><span class="co">##             expr        min         lq       mean     median         uq</span></span>
+<span><span class="co">##  base + sandwich 142.256060 146.440274 151.391555 150.652696 152.915609</span></span>
+<span><span class="co">##        lm_robust  28.202219  30.103635  33.564341  30.794096  31.879468</span></span>
+<span><span class="co">##  lm_robust + fes   2.542451   2.923095   4.634867   3.084122   3.236745</span></span>
+<span><span class="co">##        max neval cld</span></span>
+<span><span class="co">##  220.65995    50 a  </span></span>
+<span><span class="co">##  103.85517    50  b </span></span>
+<span><span class="co">##   71.92749    50   c</span></span></code></pre>
 </div>
   </main>
 </div>
