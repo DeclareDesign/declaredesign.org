@@ -7,7 +7,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">DeclareDesign</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">1.0.8</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">1.0.10</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -52,7 +52,7 @@
 <span>  diagnosands <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  sims <span class="op">=</span> <span class="fl">500</span>,</span>
 <span>  bootstrap_sims <span class="op">=</span> <span class="fl">100</span>,</span>
-<span>  future.seed <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  future.seed <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/ns-load.html" class="external-link">requireNamespace</a></span><span class="op">(</span><span class="st">"future"</span>, quietly <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>,</span>
 <span>  make_groups <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  add_grouping_variables <span class="op">=</span> <span class="cn">NULL</span></span>
 <span><span class="op">)</span></span>
@@ -62,7 +62,7 @@
 <span>  diagnosands <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  sims <span class="op">=</span> <span class="fl">500</span>,</span>
 <span>  bootstrap_sims <span class="op">=</span> <span class="fl">100</span>,</span>
-<span>  future.seed <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  future.seed <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/ns-load.html" class="external-link">requireNamespace</a></span><span class="op">(</span><span class="st">"future"</span>, quietly <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>,</span>
 <span>  make_groups <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  add_grouping_variables <span class="op">=</span> <span class="cn">NULL</span></span>
 <span><span class="op">)</span></span>
@@ -91,7 +91,7 @@
 
 
 <dt id="arg-future-seed">future.seed<a class="anchor" aria-label="anchor" href="#arg-future-seed"></a></dt>
-<dd><p>Option for parallel diagnosis via the function future_lapply. A logical or an integer (of length one or seven), or a list of length(X) with pre-generated random seeds. For details, see ?future_lapply.</p></dd>
+<dd><p>Option for parallel diagnosis via the function future_lapply. A logical or an integer (of length one or seven), or a list of length(X) with pre-generated random seeds. By default, this is set to TRUE if the <code>future</code> and <code>future.apply</code> packages are installed, and FALSE if not. For details, see ?future_lapply.</p></dd>
 
 
 <dt id="arg-make-groups">make_groups<a class="anchor" aria-label="anchor" href="#arg-make-groups"></a></dt>
@@ -147,8 +147,8 @@
 <span class="r-in"><span><span class="co"># to calculate diagnosands, and bootstrap_sims to change how</span></span></span>
 <span class="r-in"><span><span class="co"># many bootstraps are uses to calculate standard errors.</span></span></span>
 <span class="r-in"><span><span class="va">diagnosis</span> <span class="op">&lt;-</span> <span class="fu">diagnose_design</span><span class="op">(</span><span class="va">design</span>,</span></span>
-<span class="r-in"><span>                             sims <span class="op">=</span> <span class="fl">500</span>,</span></span>
-<span class="r-in"><span>                             bootstrap_sims <span class="op">=</span> <span class="fl">150</span><span class="op">)</span></span></span>
+<span class="r-in"><span>                             sims <span class="op">=</span> <span class="fl">100</span>,</span></span>
+<span class="r-in"><span>                             bootstrap_sims <span class="op">=</span> <span class="fl">100</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="fu"><a href="https://generics.r-lib.org/reference/tidy.html" class="external-link">tidy</a></span><span class="op">(</span><span class="va">diagnosis</span><span class="op">)</span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># You may also run diagnose_design in parallel using </span></span></span>
@@ -159,7 +159,7 @@
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/options.html" class="external-link">options</a></span><span class="op">(</span>parallelly.fork.enable <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span> <span class="co"># required for use in RStudio</span></span></span>
 <span class="r-in"><span><span class="fu"><a href="https://future.futureverse.org/reference/plan.html" class="external-link">plan</a></span><span class="op">(</span><span class="va">multicore</span><span class="op">)</span> <span class="co"># note other plans are possible, see future</span></span></span>
 <span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="fu">diagnose_design</span><span class="op">(</span><span class="va">design</span>, sims <span class="op">=</span> <span class="fl">500</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu">diagnose_design</span><span class="op">(</span><span class="va">design</span><span class="op">)</span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Select specific diagnosands</span></span></span>
 <span class="r-in"><span><span class="fu"><a href="reshape_diagnosis.html">reshape_diagnosis</a></span><span class="op">(</span><span class="va">diagnosis</span>, select <span class="op">=</span> <span class="st">"Power"</span><span class="op">)</span></span></span>
@@ -177,7 +177,7 @@
 <span class="r-in"><span><span class="fu"><a href="diagnosis_helpers.html">get_simulations</a></span><span class="op">(</span><span class="va">diagnosis</span><span class="op">)</span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Diagnose using an existing data frame of simulations</span></span></span>
-<span class="r-in"><span><span class="va">simulations</span> <span class="op">&lt;-</span> <span class="fu"><a href="simulate_design.html">simulate_design</a></span><span class="op">(</span><span class="va">design</span>, sims <span class="op">=</span> <span class="fl">500</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">simulations</span> <span class="op">&lt;-</span> <span class="fu"><a href="simulate_design.html">simulate_design</a></span><span class="op">(</span><span class="va">design</span>, sims <span class="op">=</span> <span class="fl">100</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="va">diagnosis</span>   <span class="op">&lt;-</span> <span class="fu">diagnose_design</span><span class="op">(</span>simulations_df <span class="op">=</span> <span class="va">simulations</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="va">diagnosis</span></span></span>
 <span class="r-in"><span></span></span>
@@ -204,7 +204,7 @@
 <span class="r-in"><span>  diagnosands <span class="op">=</span> <span class="va">default_diagnosands</span></span></span>
 <span class="r-in"><span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Research design diagnosis based on 500 simulations. Diagnosis completed in 4 secs. Diagnosand estimates with bootstrapped standard errors in parentheses (100 replicates).</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Research design diagnosis based on 500 simulations. Diagnosis completed in 3 secs. Diagnosand estimates with bootstrapped standard errors in parentheses (100 replicates).</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  Design Inquiry Estimator Outcome Term N Sims Mean Estimand Mean Estimate</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  design     ATE estimator       Y    Z    500          0.20          0.20</span>

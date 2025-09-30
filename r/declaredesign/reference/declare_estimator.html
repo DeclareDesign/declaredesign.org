@@ -9,7 +9,7 @@ Use of declare_test is identical to use of declare_estimator. Use declare_test f
 
     <a class="navbar-brand me-2" href="../index.html">DeclareDesign</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">1.0.8</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">1.0.10</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -240,71 +240,69 @@ declare_estimator(handler = label_estimator(my_fun), inquiry = "ATE")
 <span class="r-out co"><span class="r-pr">#&gt;</span> 1 -0.3443959 0.7309178 -0.3218853 0.2261769 196       Y</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 2         NA        NA         NA        NA  NA    &lt;NA&gt;</span>
 <span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="co"># Use glm from base R</span></span></span>
-<span class="r-in"><span><span class="va">design_5</span> <span class="op">&lt;-</span></span></span>
-<span class="r-in"><span>  <span class="va">design</span> <span class="op">+</span></span></span>
-<span class="r-in"><span>  <span class="fu">declare_estimator</span><span class="op">(</span><span class="va">Y</span> <span class="op">~</span> <span class="va">Z</span> <span class="op">+</span> <span class="va">gender</span>,</span></span>
-<span class="r-in"><span>                    family <span class="op">=</span> <span class="st">"gaussian"</span>,</span></span>
-<span class="r-in"><span>                    inquiry <span class="op">=</span> <span class="st">"ATE"</span>,</span></span>
-<span class="r-in"><span>                    .method <span class="op">=</span> <span class="va">glm</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="kw">if</span><span class="op">(</span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">require</a></span><span class="op">(</span><span class="st"><a href="https://broom.tidymodels.org/" class="external-link">"broom"</a></span><span class="op">)</span><span class="op">)</span> <span class="op">{</span></span></span>
 <span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="fu"><a href="run_design.html">run_design</a></span><span class="op">(</span><span class="va">design_5</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   inquiry estimand estimator term  estimate  std.error statistic     p.value</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1     ATE     0.09 estimator    Z 0.2015075 0.06809163  2.959358 0.003460777</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>     conf.low conf.high</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1 0.06805039 0.3349647</span>
+<span class="r-in"><span>  <span class="co"># Use glm from base R</span></span></span>
+<span class="r-in"><span>  <span class="va">design_5</span> <span class="op">&lt;-</span></span></span>
+<span class="r-in"><span>    <span class="va">design</span> <span class="op">+</span></span></span>
+<span class="r-in"><span>    <span class="fu">declare_estimator</span><span class="op">(</span><span class="va">Y</span> <span class="op">~</span> <span class="va">Z</span> <span class="op">+</span> <span class="va">gender</span>,</span></span>
+<span class="r-in"><span>                      family <span class="op">=</span> <span class="st">"gaussian"</span>,</span></span>
+<span class="r-in"><span>                      inquiry <span class="op">=</span> <span class="st">"ATE"</span>,</span></span>
+<span class="r-in"><span>                      .method <span class="op">=</span> <span class="va">glm</span><span class="op">)</span></span></span>
+<span class="r-in"><span>  </span></span>
+<span class="r-in"><span>  <span class="fu"><a href="run_design.html">run_design</a></span><span class="op">(</span><span class="va">design_5</span><span class="op">)</span></span></span>
+<span class="r-in"><span>  </span></span>
+<span class="r-in"><span>  <span class="co"># If we use logit, we'll need to estimate the average marginal effect with</span></span></span>
+<span class="r-in"><span>  <span class="co"># marginaleffects::avg_slopes. We wrap this up in a function we'll pass to </span></span></span>
+<span class="r-in"><span>  <span class="co"># .summary.</span></span></span>
+<span class="r-in"><span>  </span></span>
+<span class="r-in"><span>  <span class="kw">if</span><span class="op">(</span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">require</a></span><span class="op">(</span><span class="st"><a href="https://marginaleffects.com/" class="external-link">"marginaleffects"</a></span><span class="op">)</span><span class="op">)</span> <span class="op">{</span></span></span>
+<span class="r-in"><span>  </span></span>
+<span class="r-in"><span>    <span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://marginaleffects.com/" class="external-link">marginaleffects</a></span><span class="op">)</span> <span class="co"># for predictions</span></span></span>
+<span class="r-in"><span>    <span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://broom.tidymodels.org/" class="external-link">broom</a></span><span class="op">)</span> <span class="co"># for tidy</span></span></span>
+<span class="r-in"><span>    </span></span>
+<span class="r-in"><span>    <span class="va">tidy_avg_slopes</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">x</span><span class="op">)</span> <span class="op">{</span></span></span>
+<span class="r-in"><span>      <span class="fu"><a href="https://generics.r-lib.org/reference/tidy.html" class="external-link">tidy</a></span><span class="op">(</span><span class="fu">avg_slopes</span><span class="op">(</span><span class="va">x</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-in"><span>    <span class="op">}</span></span></span>
+<span class="r-in"><span>    </span></span>
+<span class="r-in"><span>    <span class="va">design_6</span> <span class="op">&lt;-</span></span></span>
+<span class="r-in"><span>      <span class="va">design</span> <span class="op">+</span></span></span>
+<span class="r-in"><span>      <span class="fu">declare_estimator</span><span class="op">(</span></span></span>
+<span class="r-in"><span>        <span class="va">Y</span> <span class="op">~</span> <span class="va">Z</span> <span class="op">+</span> <span class="va">gender</span>,</span></span>
+<span class="r-in"><span>        .method <span class="op">=</span> <span class="va">glm</span>,</span></span>
+<span class="r-in"><span>        family <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/family.html" class="external-link">binomial</a></span><span class="op">(</span><span class="st">"logit"</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>        .summary <span class="op">=</span> <span class="va">tidy_avg_slopes</span>,</span></span>
+<span class="r-in"><span>        term <span class="op">=</span> <span class="st">"Z"</span></span></span>
+<span class="r-in"><span>      <span class="op">)</span></span></span>
+<span class="r-in"><span>    </span></span>
+<span class="r-in"><span>    <span class="fu"><a href="run_design.html">run_design</a></span><span class="op">(</span><span class="va">design_6</span><span class="op">)</span></span></span>
+<span class="r-in"><span>    </span></span>
+<span class="r-in"><span>    <span class="co"># Multiple estimators for one inquiry</span></span></span>
+<span class="r-in"><span>    </span></span>
+<span class="r-in"><span>    <span class="va">design_7</span> <span class="op">&lt;-</span></span></span>
+<span class="r-in"><span>      <span class="va">design</span> <span class="op">+</span></span></span>
+<span class="r-in"><span>      <span class="fu">declare_estimator</span><span class="op">(</span><span class="va">Y</span> <span class="op">~</span> <span class="va">Z</span>,</span></span>
+<span class="r-in"><span>                        .method <span class="op">=</span> <span class="va">lm_robust</span>,</span></span>
+<span class="r-in"><span>                        inquiry <span class="op">=</span> <span class="st">"ATE"</span>,</span></span>
+<span class="r-in"><span>                        label <span class="op">=</span> <span class="st">"OLS"</span><span class="op">)</span> <span class="op">+</span></span></span>
+<span class="r-in"><span>      <span class="fu">declare_estimator</span><span class="op">(</span></span></span>
+<span class="r-in"><span>        <span class="va">Y</span> <span class="op">~</span> <span class="va">Z</span> <span class="op">+</span> <span class="va">gender</span>,</span></span>
+<span class="r-in"><span>        .method <span class="op">=</span> <span class="va">glm</span>,</span></span>
+<span class="r-in"><span>        family <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/family.html" class="external-link">binomial</a></span><span class="op">(</span><span class="st">"logit"</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>        .summary <span class="op">=</span> <span class="va">tidy_avg_slopes</span>,</span></span>
+<span class="r-in"><span>        inquiry <span class="op">=</span> <span class="st">"ATE"</span>,</span></span>
+<span class="r-in"><span>        term <span class="op">=</span> <span class="st">"Z"</span>,</span></span>
+<span class="r-in"><span>        label <span class="op">=</span> <span class="st">"logit"</span></span></span>
+<span class="r-in"><span>      <span class="op">)</span></span></span>
+<span class="r-in"><span>    </span></span>
+<span class="r-in"><span>    <span class="fu"><a href="run_design.html">run_design</a></span><span class="op">(</span><span class="va">design_7</span><span class="op">)</span></span></span>
+<span class="r-in"><span>    </span></span>
+<span class="r-in"><span>  <span class="op">}</span></span></span>
 <span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="co"># If we use logit, we'll need to estimate the average marginal effect with</span></span></span>
-<span class="r-in"><span><span class="co"># margins::margins. We wrap this up in function we'll pass to model_summary</span></span></span>
-<span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/bbolker/margins" class="external-link">margins</a></span><span class="op">)</span> <span class="co"># for margins</span></span></span>
-<span class="r-in"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://broom.tidymodels.org/" class="external-link">broom</a></span><span class="op">)</span> <span class="co"># for tidy</span></span></span>
-<span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="va">tidy_margins</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">x</span><span class="op">)</span> <span class="op">{</span></span></span>
-<span class="r-in"><span>  <span class="fu"><a href="https://generics.r-lib.org/reference/tidy.html" class="external-link">tidy</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/pkg/margins/man/margins.html" class="external-link">margins</a></span><span class="op">(</span><span class="va">x</span>, data <span class="op">=</span> <span class="va">x</span><span class="op">$</span><span class="va">data</span><span class="op">)</span>, conf.int <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="op">}</span></span></span>
-<span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="va">design_6</span> <span class="op">&lt;-</span></span></span>
-<span class="r-in"><span>  <span class="va">design</span> <span class="op">+</span></span></span>
-<span class="r-in"><span>  <span class="fu">declare_estimator</span><span class="op">(</span></span></span>
-<span class="r-in"><span>    <span class="va">Y</span> <span class="op">~</span> <span class="va">Z</span> <span class="op">+</span> <span class="va">gender</span>,</span></span>
-<span class="r-in"><span>    .method <span class="op">=</span> <span class="va">glm</span>,</span></span>
-<span class="r-in"><span>    family <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/family.html" class="external-link">binomial</a></span><span class="op">(</span><span class="st">"logit"</span><span class="op">)</span>,</span></span>
-<span class="r-in"><span>    .summary <span class="op">=</span> <span class="va">tidy_margins</span>,</span></span>
-<span class="r-in"><span>    term <span class="op">=</span> <span class="st">"Z"</span></span></span>
-<span class="r-in"><span>  <span class="op">)</span></span></span>
-<span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="fu"><a href="run_design.html">run_design</a></span><span class="op">(</span><span class="va">design_6</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   inquiry estimand estimator term   estimate  std.error statistic   p.value</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1     ATE     0.08 estimator    Z 0.08388948 0.06767764  1.239545 0.2151437</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>      conf.low conf.high</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1 -0.04875626 0.2165352</span>
-<span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="co"># Multiple estimators for one inquiry</span></span></span>
-<span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="va">design_7</span> <span class="op">&lt;-</span></span></span>
-<span class="r-in"><span>  <span class="va">design</span> <span class="op">+</span></span></span>
-<span class="r-in"><span>  <span class="fu">declare_estimator</span><span class="op">(</span><span class="va">Y</span> <span class="op">~</span> <span class="va">Z</span>,</span></span>
-<span class="r-in"><span>                    .method <span class="op">=</span> <span class="va">lm_robust</span>,</span></span>
-<span class="r-in"><span>                    inquiry <span class="op">=</span> <span class="st">"ATE"</span>,</span></span>
-<span class="r-in"><span>                    label <span class="op">=</span> <span class="st">"OLS"</span><span class="op">)</span> <span class="op">+</span></span></span>
-<span class="r-in"><span>  <span class="fu">declare_estimator</span><span class="op">(</span></span></span>
-<span class="r-in"><span>    <span class="va">Y</span> <span class="op">~</span> <span class="va">Z</span> <span class="op">+</span> <span class="va">gender</span>,</span></span>
-<span class="r-in"><span>    .method <span class="op">=</span> <span class="va">glm</span>,</span></span>
-<span class="r-in"><span>    family <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/family.html" class="external-link">binomial</a></span><span class="op">(</span><span class="st">"logit"</span><span class="op">)</span>,</span></span>
-<span class="r-in"><span>    .summary <span class="op">=</span> <span class="va">tidy_margins</span>,</span></span>
-<span class="r-in"><span>    inquiry <span class="op">=</span> <span class="st">"ATE"</span>,</span></span>
-<span class="r-in"><span>    term <span class="op">=</span> <span class="st">"Z"</span>,</span></span>
-<span class="r-in"><span>    label <span class="op">=</span> <span class="st">"logit"</span></span></span>
-<span class="r-in"><span>  <span class="op">)</span></span></span>
-<span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="fu"><a href="run_design.html">run_design</a></span><span class="op">(</span><span class="va">design_7</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   inquiry estimand estimator term   estimate  std.error  statistic   p.value</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1     ATE     0.09       OLS    Z -0.0300000 0.06877720 -0.4361911 0.6631733</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2     ATE     0.09     logit    Z -0.0342912 0.06758023 -0.5074146 0.6118639</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>     conf.low  conf.high  df outcome</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1 -0.1656298 0.10562984 198       Y</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2 -0.1667460 0.09816362  NA    &lt;NA&gt;</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Loading required package: broom</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Loading required package: marginaleffects</span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>there is no package called ‘marginaleffects’</span>
 </code></pre></div>
     </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
