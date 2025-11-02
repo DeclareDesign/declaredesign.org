@@ -155,10 +155,14 @@ Imagine we have 300 matched-pairs in an experiment.</p>
 <pre><code><span><span class="co">## Warning in microbenchmark(`base + sandwich` = {: less accurate nanosecond times</span></span>
 <span><span class="co">## to avoid potential integer overflows</span></span></code></pre>
 <pre><code><span><span class="co">## Unit: milliseconds</span></span>
-<span><span class="co">##             expr      min       lq    mean   median       uq      max neval cld</span></span>
-<span><span class="co">##  base + sandwich 39.32982 41.01476 45.0410 42.73274 44.27319 133.1732    50  a </span></span>
-<span><span class="co">##        lm_robust 33.81897 34.93507 37.8449 36.32071 37.49864 117.1393    50   b</span></span>
-<span><span class="co">##  lm_robust + fes 24.96720 25.83918 31.7025 26.48959 27.90509 110.9168    50   b</span></span></code></pre>
+<span><span class="co">##             expr      min       lq     mean   median       uq      max neval</span></span>
+<span><span class="co">##  base + sandwich 37.44764 40.69984 47.66117 42.79133 45.28011 172.8589    50</span></span>
+<span><span class="co">##        lm_robust 31.28398 34.86197 38.52660 36.27307 37.88121 107.0460    50</span></span>
+<span><span class="co">##  lm_robust + fes 23.06242 26.03779 33.24016 27.46877 29.99773 110.6348    50</span></span>
+<span><span class="co">##  cld</span></span>
+<span><span class="co">##   a </span></span>
+<span><span class="co">##    b</span></span>
+<span><span class="co">##    b</span></span></code></pre>
 <p>Speed gains are <em>considerably</em> greater with HC1 standard
 errors. This is because we need to get the hat matrix for HC2, HC3, and
 CR2 standard errors, which requires inverting that large matrix of
@@ -186,9 +190,9 @@ errors do not require this inversion.</p>
 <span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## Unit: milliseconds</span></span>
 <span><span class="co">##             expr       min        lq      mean    median        uq       max</span></span>
-<span><span class="co">##  base + sandwich 36.454289 40.110382 42.759262 41.375129 44.262739  56.92649</span></span>
-<span><span class="co">##        lm_robust 26.191333 27.152291 32.971724 29.369059 30.597767 120.12004</span></span>
-<span><span class="co">##  lm_robust + fes  3.268315  3.472044  5.866515  3.611792  4.516027  91.35755</span></span>
+<span><span class="co">##  base + sandwich 33.532998 37.936398 44.428787 40.718125 45.275234 109.12913</span></span>
+<span><span class="co">##        lm_robust 23.362497 26.692271 32.475853 27.709297 29.540213 130.00288</span></span>
+<span><span class="co">##  lm_robust + fes  2.828262  3.355891  6.103961  3.606585  4.979655  82.31759</span></span>
 <span><span class="co">##  neval cld</span></span>
 <span><span class="co">##     50 a  </span></span>
 <span><span class="co">##     50  b </span></span>
