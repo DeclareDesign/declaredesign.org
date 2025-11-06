@@ -1,0 +1,177 @@
+# fabricatr: Imagine your data before you collect it
+
+[![CRAN
+status](https://www.r-pkg.org/badges/version/fabricatr)](https://cran.r-project.org/package=fabricatr)
+[![CRAN RStudio mirror
+downloads](https://cranlogs.r-pkg.org/badges/grand-total/fabricatr?color=green)](https://r-pkg.org/pkg/fabricatr)
+[![Build
+status](https://github.com/DeclareDesign/fabricatr/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/DeclareDesign/fabricatr/actions/workflows/R-CMD-check.yaml)
+[![Codecov test
+coverage](https://codecov.io/gh/DeclareDesign/fabricatr/graph/badge.svg)](https://app.codecov.io/gh/DeclareDesign/fabricatr)
+[![Replications](https://softwarecite.com/badge/fabricatr)](https://softwarecite.com/package/fabricatr)
+
+Making decisions about research design and analysis strategies is often
+difficult before data is collected, because it is hard to imagine the
+exact form data will take. Instead, researchers typically modify
+analysis strategies to fit the data. **fabricatr** helps researchers
+imagine what data will look like before they collect it. Researchers can
+evaluate alternative analysis strategies, find the best one given how
+the data will look, and precommit before looking at the realized data.
+
+### Installing fabricatr
+
+To install the latest stable release of **fabricatr**, please ensure
+that you are running version 3.5 or later of R and run the following
+code:
+
+``` r
+install.packages("fabricatr")
+```
+
+### Getting started
+
+Once you have installed **fabricatr**, you can easily import your own
+data or generate new data. **fabricatr** is designed to help you solve
+two key problems:
+
+1.  Generating variables that look like the real thing, including Likert
+    survey responses, treatment status, demographic variables, and
+    variables correlated by group.
+2.  Generating data that are structured like the real thing, including
+    panel data, multi-level (“nested”) data or cross-classified data.
+
+**fabricatr** is easy to learn and easy to read. Consider this example
+which generates data modeling the United States House of
+Representatives:
+
+``` r
+library(fabricatr)
+
+house_members <- fabricate(
+  party_id = add_level(
+    N = 2, party_names = c("Republican", "Democrat"), party_ideology = c(0.5, -0.5),
+    in_power = c(1, 0), party_incumbents = c(241, 194)
+  ),
+  rep_id = add_level(
+    N = party_incumbents, member_ideology = rnorm(N, party_ideology, sd = 0.5),
+    terms_served = draw_count(N = N, mean = 4),
+    female = draw_binary(N = N, prob = 0.198)
+  )
+)
+```
+
+| party_names | party_ideology | in_power | member_ideology | terms_served | female |
+|:------------|---------------:|---------:|----------------:|-------------:|-------:|
+| Republican  |            0.5 |        1 |            0.43 |            3 |      0 |
+| Republican  |            0.5 |        1 |           -0.19 |            1 |      0 |
+| Republican  |            0.5 |        1 |            0.52 |            4 |      0 |
+| Republican  |            0.5 |        1 |            0.85 |            2 |      0 |
+| Republican  |            0.5 |        1 |            0.59 |            5 |      0 |
+
+### Next Steps
+
+For more information, read our [online
+tutorial](https://declaredesign.org/r/fabricatr/articles/getting_started.md)
+to get started with **fabricatr**. This tutorial will give you a brief
+overview of **fabricatr**’s main functions and direct you towards your
+next steps. You can also read our documentation inside R using the
+command
+[`?fabricate`](https://declaredesign.org/r/fabricatr/reference/fabricate.md)
+as your entry point.
+
+------------------------------------------------------------------------
+
+This project is generously supported by a grant from the [Laura and John
+Arnold Foundation](http://www.arnoldfoundation.org) and seed funding
+from [EGAP](http://egap.org).
+
+# Package index
+
+## All functions
+
+- [`correlate()`](https://declaredesign.org/r/fabricatr/reference/correlate.md)
+  : Perform generation of a correlated random variable.
+
+- [`cross_levels()`](https://declaredesign.org/r/fabricatr/reference/cross_levels.md)
+  [`link_levels()`](https://declaredesign.org/r/fabricatr/reference/cross_levels.md)
+  : Creates panel or cross-classified data
+
+- [`draw_binary_icc()`](https://declaredesign.org/r/fabricatr/reference/draw_binary_icc.md)
+  : Draw binary data with fixed intra-cluster correlation.
+
+- [`draw_binomial()`](https://declaredesign.org/r/fabricatr/reference/draw_discrete.md)
+  [`draw_categorical()`](https://declaredesign.org/r/fabricatr/reference/draw_discrete.md)
+  [`draw_ordered()`](https://declaredesign.org/r/fabricatr/reference/draw_discrete.md)
+  [`draw_count()`](https://declaredesign.org/r/fabricatr/reference/draw_discrete.md)
+  [`draw_binary()`](https://declaredesign.org/r/fabricatr/reference/draw_discrete.md)
+  [`draw_quantile()`](https://declaredesign.org/r/fabricatr/reference/draw_discrete.md)
+  : Draw discrete variables including binary, binomial count, poisson
+  count, ordered, and categorical
+
+- [`draw_likert()`](https://declaredesign.org/r/fabricatr/reference/draw_likert.md)
+  : Recode a latent variable into a Likert response variable
+
+- [`draw_multivariate()`](https://declaredesign.org/r/fabricatr/reference/draw_multivariate.md)
+  : Draw multivariate random variables
+
+- [`draw_normal_icc()`](https://declaredesign.org/r/fabricatr/reference/draw_normal_icc.md)
+  : Draw normal data with fixed intra-cluster correlation.
+
+- [`fabricate()`](https://declaredesign.org/r/fabricatr/reference/fabricate.md)
+  [`add_level()`](https://declaredesign.org/r/fabricatr/reference/fabricate.md)
+  [`modify_level()`](https://declaredesign.org/r/fabricatr/reference/fabricate.md)
+  [`nest_level()`](https://declaredesign.org/r/fabricatr/reference/fabricate.md)
+  : Fabricate data
+
+- [`fabricatr`](https://declaredesign.org/r/fabricatr/reference/fabricatr.md)
+  [`fabricatr-package`](https://declaredesign.org/r/fabricatr/reference/fabricatr.md)
+  : fabricatr package
+
+- [`join_using()`](https://declaredesign.org/r/fabricatr/reference/join_using.md)
+  :
+
+  Helper function handling specification of which variables to join a
+  cross-classified data on, and what kind of correlation structure
+  needed. Correlation structures can only be provided if the underlying
+  call is a
+  [`link_levels()`](https://declaredesign.org/r/fabricatr/reference/cross_levels.md)
+  call.
+
+- [`potential_outcomes()`](https://declaredesign.org/r/fabricatr/reference/potential_outcomes.md)
+  : Build potential outcomes variables
+
+- [`recycle()`](https://declaredesign.org/r/fabricatr/reference/recycle.md)
+  : Expands data to a given length through recycling.
+
+- [`resample_data()`](https://declaredesign.org/r/fabricatr/reference/resample_data.md)
+  : Resample data, including hierarchical data
+
+- [`reveal_outcomes()`](https://declaredesign.org/r/fabricatr/reference/reveal_outcomes.md)
+  : Reveal outcomes
+
+- [`split_quantile()`](https://declaredesign.org/r/fabricatr/reference/split_quantile.md)
+  : Split data into quantile buckets (e.g. terciles, quartiles,
+  quantiles, deciles).
+
+# Articles
+
+### All vignettes
+
+- [Advanced
+  features](https://declaredesign.org/r/fabricatr/articles/advanced_features.md):
+- [Building and Importing
+  Data](https://declaredesign.org/r/fabricatr/articles/building_importing.md):
+- [Common Social Science
+  variables](https://declaredesign.org/r/fabricatr/articles/common_social.md):
+- [Panel and Cross-classified
+  data](https://declaredesign.org/r/fabricatr/articles/cross_classified.md):
+- [Getting started with
+  fabricatr](https://declaredesign.org/r/fabricatr/articles/getting_started.md):
+- [Using other data generating packages with
+  fabricatr](https://declaredesign.org/r/fabricatr/articles/other_packages.md):
+- [Resampling data with
+  fabricatr](https://declaredesign.org/r/fabricatr/articles/resampling.md):
+- [Time series data with
+  fabricatr](https://declaredesign.org/r/fabricatr/articles/time_series.md):
+- [Generating discrete random variables with
+  fabricatr](https://declaredesign.org/r/fabricatr/articles/variable_generation.md):

@@ -191,7 +191,7 @@ latent variable, only the ordered data outcome. But we can rely on the
 latent variable to help shape our simulated data.</p>
 <p>We generate a simulated latent variable and then translate it into a
 simulated ordered variable, like so:</p>
-<p><img src="common_social_files/figure-html/unnamed-chunk-5-1.png" width="672"></p>
+<p><img src="common_social_files/figure-html/unnamed-chunk-5-1.png" class="r-plt" width="672"></p>
 <p>In the above graph, most respondents (the “density” represented by
 the height of the curve) are neutral about the mayor, and relatively few
 hold extreme opinions. We generated a “normal” latent variable for our
@@ -202,7 +202,7 @@ it is not shown in the graph above, the dashed lines which divide the
 ordered outcomes are located at -1.5, -0.5, 0.5, and 1.5.</p>
 <p>Of course it would also be possible to affect the center and spread
 of this question:</p>
-<p><img src="common_social_files/figure-html/unnamed-chunk-6-1.png" width="672"></p>
+<p><img src="common_social_files/figure-html/unnamed-chunk-6-1.png" class="r-plt" width="672"></p>
 <p>Although thinking about ordered data in this latent context may seem
 strange at first, actually generating an ordered data outcome in
 <strong>fabricatr</strong> is quite easy:</p>
@@ -260,7 +260,7 @@ do this, we’ll need to assign respondents to a political party (we’ll
 mark the mayor’s political party with “1” and the opposition political
 party with “0”) and then generate our latent variable.</p>
 <p>First, let’s visualize the latent variable:</p>
-<p><img src="common_social_files/figure-html/unnamed-chunk-9-1.png" width="672"></p>
+<p><img src="common_social_files/figure-html/unnamed-chunk-9-1.png" class="r-plt" width="672"></p>
 <p>Here, colors indicate the two parties. We see that some members of
 the red party do disagree with the mayor, but the overwhelming majority
 do not, and vice versa for the blue party. Now, let’s put our
@@ -523,7 +523,7 @@ lower than 0 are bumped up and truncated to 0. Finally, these scores are
 fed to <code>pmin</code>, along with an argument 100. Any scores that
 are higher than 100 are bumped down and truncated to 100. The result is
 that our variables display the desired effect:</p>
-<p><img src="common_social_files/figure-html/unnamed-chunk-20-1.png" width="672"></p>
+<p><img src="common_social_files/figure-html/unnamed-chunk-20-1.png" class="r-plt" width="672"></p>
 </div>
 <div class="section level2">
 <h2 id="count-outcomes-and-skewed-distributions">Count outcomes and skewed distributions<a class="anchor" aria-label="anchor" href="#count-outcomes-and-skewed-distributions"></a>
@@ -555,7 +555,7 @@ is an example of skewed data; in other words, few urban areas might have
 extremely dense radio coverage, while many rural areas might have very
 low radio coverage. We, thus, need a data distribution that looks like
 this:</p>
-<p><img src="common_social_files/figure-html/unnamed-chunk-21-1.png" width="672"></p>
+<p><img src="common_social_files/figure-html/unnamed-chunk-21-1.png" class="r-plt" width="672"></p>
 <p><code>R</code> makes available a fairly simple function for
 generating this sort of data, <code>rlnorm</code>, which generates
 log-normal data. Log-normal data is one of the key distributions used to
@@ -580,7 +580,7 @@ regions of the data and sparse in others, it is important that your
 synthetic data is as well in order to recover inferences that will be
 accurate to your future real-world inferences, and particularly your
 uncertainty about those inferences.</p>
-<p><img src="common_social_files/figure-html/unnamed-chunk-23-1.png" width="700"></p>
+<p><img src="common_social_files/figure-html/unnamed-chunk-23-1.png" class="r-plt" width="700"></p>
 <p>Observe that the uncertainty around our predictions is far wider at
 the right end of the support, which has relatively little data, than at
 the left end of the support, where most of the data lives.</p>
@@ -638,7 +638,7 @@ cross-classified data in **fabricatr*</a>.</p>
 </div>
 
 <div class="pkgdown-footer-right">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.3.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.2.0.</p>
 </div>
 
     </footer>
