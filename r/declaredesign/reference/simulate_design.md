@@ -1,0 +1,98 @@
+# Simulate a design
+
+Runs many simulations of a design and returns a simulations data.frame.
+Speed gains can be achieved by running simulate_design in parallel, see
+Examples.
+
+## Usage
+
+``` r
+simulate_design(
+  ...,
+  sims = 500,
+  future.seed = requireNamespace("future", quietly = TRUE)
+)
+
+simulate_designs(
+  ...,
+  sims = 500,
+  future.seed = requireNamespace("future", quietly = TRUE)
+)
+```
+
+## Arguments
+
+- ...:
+
+  A design created using the + operator, or a set of designs. You can
+  also provide a single list of designs, for example one created by
+  [`expand_design`](https://declaredesign.org/r/declaredesign/reference/expand_design.md).
+
+- sims:
+
+  The number of simulations, defaulting to 500. If sims is a vector of
+  the form c(10, 1, 2, 1) then different steps of a design will be
+  simulated different numbers of times.
+
+- future.seed:
+
+  Option for parallel diagnosis via the function future_lapply. A
+  logical or an integer (of length one or seven), or a list of length(X)
+  with pre-generated random seeds. By default, this is set to TRUE if
+  the `future` and `future.apply` packages are installed, and FALSE if
+  not. For details, see ?future_lapply.
+
+## Details
+
+Different steps of a design may each be simulated different a number of
+times, as specified by sims. In this case simulations are grouped into
+"fans". The nested structure of simulations is recorded in the dataset
+using a set of variables named "step_x_draw." For example if sims =
+c(2,1,1,3) is passed to simulate_design, then there will be two distinct
+draws of step 1, indicated in variable "step_1_draw" (with values 1 and
+2) and there will be three draws for step 4 within each of the step 1
+draws, recorded in "step_4_draw" (with values 1 to 6).
+
+## Examples
+
+``` r
+# Two-arm randomized experiment
+design <-
+  declare_model(
+    N = 500,
+    gender = rbinom(N, 1, 0.5),
+    X = rep(c(0, 1), each = N / 2),
+    U = rnorm(N, sd = 0.25),
+    potential_outcomes(Y ~ 0.2 * Z + X + U)
+  ) +
+  declare_inquiry(ATE = mean(Y_Z_1 - Y_Z_0)) +
+  declare_sampling(S = complete_rs(N = N, n = 200)) +
+  declare_assignment(Z = complete_ra(N = N, m = 100)) +
+  declare_measurement(Y = reveal_outcomes(Y ~ Z)) +
+  declare_estimator(Y ~ Z, inquiry = "ATE")
+
+if (FALSE) { # \dontrun{
+# Simulate design
+simulations <- simulate_design(design, sims = 100)
+simulations
+
+# Diagnose design using simulations
+diagnosis <- diagnose_design(simulations_df = simulations)
+diagnosis
+
+# Simulate one part of the design for a fixed population
+# (The 100 simulates different assignments)
+head(simulate_design(design, sims = c(1, 1, 1, 100, 1, 1)))
+
+# You may also run simulate_design in parallel using 
+#   the future package on a personal computer with multiple
+#   cores or on high performance computing clusters. 
+
+library(future)
+options(parallelly.fork.enable = TRUE) # required for use in RStudio
+plan(multicore) # note other plans are possible, see future
+
+simulate_design(design, sims = 500)
+
+} # }
+```
