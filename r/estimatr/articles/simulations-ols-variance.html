@@ -221,7 +221,7 @@ is much larger than the estimated bias, we can be reasonably certain
 that the only reason the bias is not exactly zero is due to simulation
 error. We can also see the unbiasedness visually, using a density plot
 of estimated variances with a line for the true variance.</p>
-<p><img src="simulations-ols-variance_files/figure-html/unnamed-chunk-9-1.png" width="480"></p>
+<p><img src="simulations-ols-variance_files/figure-html/unnamed-chunk-9-1.png" class="r-plt" width="480"></p>
 </div>
 <div class="section level2">
 <h2 id="heteroskedastic-errors">Heteroskedastic errors<a class="anchor" aria-label="anchor" href="#heteroskedastic-errors"></a>
@@ -250,7 +250,7 @@ specify the variance of the errors to be strongly correlated with
 <span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span><span class="va">dat</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span><span class="va">x</span>, <span class="va">noise_var</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_point.html" class="external-link">geom_point</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">ggtitle</a></span><span class="op">(</span><span class="st">"The variance of errors increases with x"</span><span class="op">)</span></span></code></pre></div>
-<p><img src="simulations-ols-variance_files/figure-html/unnamed-chunk-10-1.png" width="384"></p>
+<p><img src="simulations-ols-variance_files/figure-html/unnamed-chunk-10-1.png" class="r-plt" width="384"></p>
 <p>Note that the general form of the true variance with fixed covariates
 is:</p>
 <p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>𝕍</mi><mrow><mo stretchy="true" form="prefix">[</mo><mover><mi>β</mi><mo accent="true">̂</mo></mover><mo stretchy="true" form="postfix">]</mo></mrow><mo>=</mo><msup><mrow><mo stretchy="true" form="prefix">(</mo><msup><mi>𝐗</mi><mi>⊤</mi></msup><mi>𝐗</mi><mo stretchy="true" form="postfix">)</mo></mrow><mrow><mo>−</mo><mn>1</mn></mrow></msup><msup><mi>𝐗</mi><mi>⊤</mi></msup><mi>𝚽</mi><mi>𝐗</mi><msup><mrow><mo stretchy="true" form="prefix">(</mo><msup><mi>𝐗</mi><mi>⊤</mi></msup><mi>𝐗</mi><mo stretchy="true" form="postfix">)</mo></mrow><mrow><mo>−</mo><mn>1</mn></mrow></msup><mo>,</mo></mrow><annotation encoding="application/x-tex">
@@ -369,7 +369,7 @@ heteroskedasticity, it should converge to zero.</p>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_abline.html" class="external-link">geom_hline</a></span><span class="op">(</span>yintercept <span class="op">=</span> <span class="fl">0</span>, linetype <span class="op">=</span> <span class="fl">2</span>, color <span class="op">=</span> <span class="st">"grey"</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">labs</a></span><span class="op">(</span>color <span class="op">=</span> <span class="st">"Estimator"</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html" class="external-link">theme_bw</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
-<p><img src="simulations-ols-variance_files/figure-html/unnamed-chunk-15-1.png" width="480"></p>
+<p><img src="simulations-ols-variance_files/figure-html/unnamed-chunk-15-1.png" class="r-plt" width="480"></p>
 <p>As you can see, the HC2 variance tends to have less bias and is
 consistent, converging to the true value as the sample size increases.
 The classical standard error estimator is neither unbiased nor
@@ -387,7 +387,7 @@ exhibits greater bias than HC2 in this example.</p>
 </div>
 
 <div class="pkgdown-footer-right">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.3.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.2.0.</p>
 </div>
 
     </footer>

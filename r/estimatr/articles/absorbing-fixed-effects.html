@@ -156,13 +156,13 @@ Imagine we have 300 matched-pairs in an experiment.</p>
 <span><span class="co">## to avoid potential integer overflows</span></span></code></pre>
 <pre><code><span><span class="co">## Unit: milliseconds</span></span>
 <span><span class="co">##             expr      min       lq     mean   median       uq      max neval</span></span>
-<span><span class="co">##  base + sandwich 37.28052 39.85204 44.43864 41.59960 42.75693 118.6553    50</span></span>
-<span><span class="co">##        lm_robust 30.85205 34.27739 37.69853 35.69927 36.67118 112.8574    50</span></span>
-<span><span class="co">##  lm_robust + fes 23.43687 25.58039 31.11336 25.80489 27.34930 108.9399    50</span></span>
+<span><span class="co">##  base + sandwich 38.39999 43.92023 55.92444 50.94314 61.09799 170.5991    50</span></span>
+<span><span class="co">##        lm_robust 33.56727 38.01967 45.78920 42.10454 47.83384 132.0721    50</span></span>
+<span><span class="co">##  lm_robust + fes 24.50021 27.69890 35.85180 31.48410 37.89265 107.1203    50</span></span>
 <span><span class="co">##  cld</span></span>
-<span><span class="co">##   a </span></span>
-<span><span class="co">##   ab</span></span>
-<span><span class="co">##    b</span></span></code></pre>
+<span><span class="co">##  a  </span></span>
+<span><span class="co">##   b </span></span>
+<span><span class="co">##    c</span></span></code></pre>
 <p>Speed gains are <em>considerably</em> greater with HC1 standard
 errors. This is because we need to get the hat matrix for HC2, HC3, and
 CR2 standard errors, which requires inverting that large matrix of
@@ -189,10 +189,10 @@ errors do not require this inversion.</p>
 <span>  times <span class="op">=</span> <span class="fl">50</span></span>
 <span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## Unit: milliseconds</span></span>
-<span><span class="co">##             expr       min        lq      mean    median        uq      max</span></span>
-<span><span class="co">##  base + sandwich 37.037596 39.452414 42.056407 40.829543 42.033077 67.89608</span></span>
-<span><span class="co">##        lm_robust 25.491053 26.546229 30.479133 27.210859 28.916562 99.81081</span></span>
-<span><span class="co">##  lm_robust + fes  3.029285  3.387092  5.723189  3.584302  3.739282 82.33136</span></span>
+<span><span class="co">##             expr       min        lq     mean    median        uq      max</span></span>
+<span><span class="co">##  base + sandwich 36.949897 46.207000 60.12852 55.260312 65.722426 195.6341</span></span>
+<span><span class="co">##        lm_robust 25.541278 29.515654 40.53603 34.282539 45.250470 151.7431</span></span>
+<span><span class="co">##  lm_robust + fes  3.365772  3.894385 11.36830  4.836401  9.408803 115.9796</span></span>
 <span><span class="co">##  neval cld</span></span>
 <span><span class="co">##     50 a  </span></span>
 <span><span class="co">##     50  b </span></span>
@@ -208,7 +208,7 @@ errors do not require this inversion.</p>
 </div>
 
 <div class="pkgdown-footer-right">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.3.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.2.0.</p>
 </div>
 
     </footer>
