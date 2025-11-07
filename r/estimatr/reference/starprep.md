@@ -73,7 +73,7 @@ stargazer(lm1, lm2,
           omit.stat = "f")
 #> 
 #> % Table created by stargazer v.5.2.3 by Marek Hlavac, Social Policy Institute. E-mail: marek.hlavac at gmail.com
-#> % Date and time: Thu, Nov 06, 2025 - 23:18:34
+#> % Date and time: Fri, Nov 07, 2025 - 23:16:57
 #> \begin{table}[!htbp] \centering 
 #>   \caption{} 
 #>   \label{} 
@@ -114,7 +114,7 @@ stargazer(lm1, lm2,
           omit.stat = "f")
 #> 
 #> % Table created by stargazer v.5.2.3 by Marek Hlavac, Social Policy Institute. E-mail: marek.hlavac at gmail.com
-#> % Date and time: Thu, Nov 06, 2025 - 23:18:35
+#> % Date and time: Fri, Nov 07, 2025 - 23:16:57
 #> \begin{table}[!htbp] \centering 
 #>   \caption{} 
 #>   \label{} 
@@ -152,7 +152,7 @@ stargazer(lm1, lm2,
           omit.stat = "f")
 #> 
 #> % Table created by stargazer v.5.2.3 by Marek Hlavac, Social Policy Institute. E-mail: marek.hlavac at gmail.com
-#> % Date and time: Thu, Nov 06, 2025 - 23:18:35
+#> % Date and time: Fri, Nov 07, 2025 - 23:16:57
 #> \begin{table}[!htbp] \centering 
 #>   \caption{} 
 #>   \label{} 
