@@ -191,7 +191,7 @@ diagnose_design(
   diagnosands = default_diagnosands
 )
 #> 
-#> Research design diagnosis based on 500 simulations. Diagnosis completed in 4 secs. Diagnosand estimates with bootstrapped standard errors in parentheses (100 replicates).
+#> Research design diagnosis based on 500 simulations. Diagnosis completed in 3 secs. Diagnosand estimates with bootstrapped standard errors in parentheses (100 replicates).
 #> 
 #>  Design Inquiry Estimator Outcome Term N Sims Mean Estimand Mean Estimate
 #>  design     ATE estimator       Y    Z    500          0.20          0.20
