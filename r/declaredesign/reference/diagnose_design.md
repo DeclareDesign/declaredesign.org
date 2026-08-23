@@ -1,0 +1,303 @@
+# Diagnose the design
+
+Generates diagnosands from a design or simulations of a design. Speed
+gains can be achieved by running diagnose_design in parallel, see
+Examples.
+
+## Usage
+
+``` r
+diagnose_design(
+  ...,
+  diagnosands = NULL,
+  sims = 500,
+  bootstrap_sims = 100,
+  future.seed = requireNamespace("future", quietly = TRUE),
+  make_groups = NULL,
+  add_grouping_variables = NULL
+)
+
+diagnose_designs(
+  ...,
+  diagnosands = NULL,
+  sims = 500,
+  bootstrap_sims = 100,
+  future.seed = requireNamespace("future", quietly = TRUE),
+  make_groups = NULL,
+  add_grouping_variables = NULL
+)
+
+vars(...)
+```
+
+## Arguments
+
+- ...:
+
+  A design or set of designs typically created using the + operator, or
+  a `data.frame` of simulations, typically created by
+  [`simulate_design`](https://declaredesign.org/r/declaredesign/reference/simulate_design.md).
+
+- diagnosands:
+
+  A set of diagnosands created by
+  [`declare_diagnosands`](https://declaredesign.org/r/declaredesign/reference/declare_diagnosands.md).
+  By default, these include bias, root mean-squared error, power,
+  frequentist coverage, the mean and standard deviation of the
+  estimate(s), the "type S" error rate (Gelman and Carlin 2014), and the
+  mean of the inquiry(s).
+
+- sims:
+
+  The number of simulations, defaulting to 500. sims may also be a
+  vector indicating the number of simulations for each step in a design,
+  as described for
+  [`simulate_design`](https://declaredesign.org/r/declaredesign/reference/simulate_design.md)
+
+- bootstrap_sims:
+
+  Number of bootstrap replicates for the diagnosands to obtain the
+  standard errors of the diagnosands, defaulting to `100`. Set to FALSE
+  to turn off bootstrapping.
+
+- future.seed:
+
+  Option for parallel diagnosis via the function future_lapply. A
+  logical or an integer (of length one or seven), or a list of length(X)
+  with pre-generated random seeds. By default, this is set to TRUE if
+  the `future` and `future.apply` packages are installed, and FALSE if
+  not. For details, see ?future_lapply.
+
+- make_groups:
+
+  Add group variables within which diagnosand values will be calculated.
+  New variables can be created or variables already in the simulations
+  data frame selected. Type name-value pairs within the function `vars`,
+  i.e. `vars(significant = p.value <= 0.05)`.
+
+- add_grouping_variables:
+
+  Deprecated. Please use make_groups instead. Variables used to generate
+  groups of simulations for diagnosis. Added to default list:
+  c("design", "estimand_label", "estimator", "outcome", "term")
+
+## Value
+
+a list with a data frame of simulations, a data frame of diagnosands, a
+vector of diagnosand names, and if calculated, a data frame of bootstrap
+replicates.
+
+## Details
+
+If the diagnosand function contains a `group_by` attribute, it will be
+used to split-apply-combine diagnosands rather than the intersecting
+column names.
+
+If `sims` is named, or longer than one element, a fan-out strategy is
+created and used instead.
+
+If the packages `future` and `future.apply` are installed, you can set
+[`plan`](https://future.futureverse.org/reference/plan.html) to run
+multiple simulations in parallel.
+
+## Examples
+
+``` r
+# Two-arm randomized experiment
+n <- 500
+
+design <-
+  declare_model(
+    N = 1000,
+    gender = rbinom(N, 1, 0.5),
+    X = rep(c(0, 1), each = N / 2),
+    U = rnorm(N, sd = 0.25),
+    potential_outcomes(Y ~ 0.2 * Z + X + U)
+  ) +
+  declare_inquiry(ATE = mean(Y_Z_1 - Y_Z_0)) +
+  declare_sampling(S = complete_rs(N = N, n = n)) +
+  declare_assignment(Z = complete_ra(N = N, m = n/2)) +
+  declare_measurement(Y = reveal_outcomes(Y ~ Z)) +
+  declare_estimator(Y ~ Z, inquiry = "ATE")
+
+if (FALSE) { # \dontrun{
+# Diagnose design using default diagnosands
+diagnosis <- diagnose_design(design)
+diagnosis
+
+# Use tidy to produce data.frame with bootstrapped standard 
+# errors and confidence intervals for each diagnosand
+diagnosis_df <- tidy(diagnosis)
+diagnosis_df
+
+# Use sims argument to change the number of simulations used 
+# to calculate diagnosands, and bootstrap_sims to change how
+# many bootstraps are uses to calculate standard errors.
+diagnosis <- diagnose_design(design,
+                             sims = 100,
+                             bootstrap_sims = 100)
+tidy(diagnosis)
+
+# You may also run diagnose_design in parallel using 
+#   the future package on a personal computer with multiple
+#   cores or on high performance computing clusters. 
+
+library(future)
+options(parallelly.fork.enable = TRUE) # required for use in RStudio
+plan(multicore) # note other plans are possible, see future
+
+diagnose_design(design)
+
+# Select specific diagnosands
+reshape_diagnosis(diagnosis, select = "Power")
+
+# Use your own diagnosands
+my_diagnosands <-
+  declare_diagnosands(median_bias = median(estimate - estimand),
+                      absolute_error = mean(abs(estimate - estimand)))
+
+diagnosis <- diagnose_design(design, diagnosands = my_diagnosands)
+diagnosis
+
+get_diagnosands(diagnosis)
+
+get_simulations(diagnosis)
+
+# Diagnose using an existing data frame of simulations
+simulations <- simulate_design(design, sims = 100)
+diagnosis   <- diagnose_design(simulations_df = simulations)
+diagnosis
+
+} # }
+
+# If you do not specify diagnosands, the function default_diagnosands() is used, 
+#   which is reproduced below.
+
+alpha <- 0.05
+
+default_diagnosands <- 
+  declare_diagnosands(
+    mean_estimand = mean(estimand),
+    mean_estimate = mean(estimate),
+    bias = mean(estimate - estimand),
+    sd_estimate = sqrt(pop.var(estimate)),
+    rmse = sqrt(mean((estimate - estimand) ^ 2)),
+    power = mean(p.value <= alpha),
+    coverage = mean(estimand <= conf.high & estimand >= conf.low)
+  )
+  
+diagnose_design(
+  design, 
+  diagnosands = default_diagnosands
+)
+#> 
+#> Research design diagnosis based on 500 simulations. Diagnosis completed in 3 secs. Diagnosand estimates with bootstrapped standard errors in parentheses (100 replicates).
+#> 
+#>  Design Inquiry Estimator Outcome Term N Sims Mean Estimand Mean Estimate
+#>  design     ATE estimator       Y    Z    500          0.20          0.20
+#>                                                      (0.00)        (0.00)
+#>    Bias SD Estimate   RMSE  Power Coverage
+#>   -0.00        0.05   0.05   0.98     0.96
+#>  (0.00)      (0.00) (0.00) (0.01)   (0.01)
+
+# A longer list of useful diagnosands might include:
+
+extended_diagnosands <- 
+  declare_diagnosands(
+    mean_estimand = mean(estimand),
+    mean_estimate = mean(estimate),
+    bias = mean(estimate - estimand),
+    sd_estimate = sd(estimate),
+    rmse = sqrt(mean((estimate - estimand) ^ 2)),
+    power = mean(p.value <= alpha),
+    coverage = mean(estimand <= conf.high & estimand >= conf.low),
+    mean_se = mean(std.error),
+    type_s_rate = mean((sign(estimate) != sign(estimand))[p.value <= alpha]),
+    exaggeration_ratio = mean((estimate/estimand)[p.value <= alpha]),
+    var_estimate = pop.var(estimate),
+    mean_var_hat = mean(std.error^2),
+    prop_pos_sig = mean(estimate > 0 & p.value <= alpha),
+    mean_ci_length = mean(conf.high - conf.low)
+  )
+  
+if (FALSE) { # \dontrun{
+diagnose_design(
+  design, 
+  diagnosands = extended_diagnosands
+)
+
+# Adding a group for within group diagnosis:
+diagnosis <- diagnose_design(design, 
+                             make_groups = vars(significant = p.value <= 0.05),
+)
+diagnosis
+
+n <- 500
+design <-
+  declare_model(
+    N = 1000,
+    gender = rbinom(N, 1, 0.5),
+    X = rep(c(0, 1), each = N / 2),
+    U = rnorm(N, sd = 0.25),
+    potential_outcomes(Y ~ rnorm(1) * Z + X + U)
+  ) +
+  declare_inquiry(ATE = mean(Y_Z_1 - Y_Z_0)) +
+  declare_sampling(S = complete_rs(N = N, n = n)) +
+  declare_assignment(Z = complete_ra(N = N, m = n/2)) +
+  declare_measurement(Y = reveal_outcomes(Y ~ Z)) +
+  declare_estimator(Y ~ Z, inquiry = "ATE")
+
+diagnosis <- diagnose_design(design, 
+                             make_groups = 
+                               vars(effect_size = 
+                                      cut(estimand, quantile(estimand, (0:4)/4), 
+                                          include.lowest = TRUE)),
+)
+diagnosis
+
+# redesign can be used in conjunction with diagnose_designs
+# to optimize the design for specific diagnosands
+design_vary_N <- redesign(design, n = c(100, 500, 900))
+diagnose_designs(design_vary_N)
+
+# Calculate and plot the power of a design over a range of 
+# effect sizes
+design <-
+  declare_model(
+    N = 200,
+    U = rnorm(N),
+    potential_outcomes(Y ~ runif(1, 0.0, 0.5) * Z + U)
+  ) +
+  declare_inquiry(ATE = mean(Y_Z_1 - Y_Z_0)) +
+  declare_assignment(Z = complete_ra(N)) +
+  declare_measurement(Y = reveal_outcomes(Y ~ Z)) +
+  declare_estimator(Y ~ Z, inquiry = "ATE") 
+
+library(tidyverse)
+
+simulations_df <- 
+  diagnose_design(design) |> 
+  get_simulations() |> 
+  mutate(significant = if_else(p.value <= 0.05, 1, 0))
+
+ggplot(simulations_df) + 
+  stat_smooth(
+    aes(estimand, significant), 
+    method = 'loess', 
+    color = "#3564ED", 
+    fill = "#72B4F3", 
+    formula = 'y ~ x'
+  ) +
+  geom_hline(
+  yintercept = 0.8, color = "#C6227F", linetype = "dashed") +
+  annotate("text", x = 0, y = 0.85, 
+    label = "Conventional power threshold = 0.8", 
+    hjust = 0, color = "#C6227F") + 
+  scale_y_continuous(breaks = seq(0, 1, 0.2)) +
+  coord_cartesian(ylim = c(0, 1)) +
+  theme(legend.position = "none") +
+  labs(x = "Model parameter: true effect size",
+       y = "Diagnosand: statistical power") +
+  theme_minimal()
+} # }
+```
