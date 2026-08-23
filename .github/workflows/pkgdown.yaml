@@ -1,11 +1,18 @@
 on:
+  # Must match build-site.yaml's `name:` exactly. It read "Render, deploy site"
+  # until 2026-08-23, naming a workflow that has never existed, so this trigger
+  # had never once fired and the cron below was the only thing running this
+  # workflow. That is why disabling the cron for inactivity stopped the package
+  # sites being built at all.
   workflow_run:
-    workflows: ["Render, deploy site"]
+    workflows: ["Render and deploy site"]
     types:
       - completed
   schedule:
     # run every day at 11 PM
     - cron: '0 23 * * *'
+  # So a rebuild can be asked for without waiting for the cron.
+  workflow_dispatch:
 
 name: Build Pkgdown
 
