@@ -1,4 +1,0 @@
-# License
-
-    YEAR: 2015-2017
-    COPYRIGHT HOLDER: Graeme Blair, Jasper Cooper, Alexander Coppock, and Macartan Humphreys
