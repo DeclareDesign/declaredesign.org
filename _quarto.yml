@@ -7,6 +7,9 @@ project:
     # - "mkdir _site/static"
     # - "cp -rnv static/. _site/static/."
     - echo 'declaredesign.org' > _site/CNAME
+    # `quarto publish` wrote this onto the branch itself. build-site.yaml now
+    # renders and deploys as two steps, so it has to come from the render.
+    - touch _site/.nojekyll
 
 
 website:

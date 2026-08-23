@@ -23,9 +23,26 @@ jobs:
         with:
           cache: always
           
-      - name: Publish to GitHub Pages (and render)
-        uses: quarto-dev/quarto-actions/publish@v2
+      # Rendering and deploying are separate steps because `quarto publish
+      # gh-pages` replaces the whole branch, and the branch is not only this
+      # site: pkgdown.yaml writes each package's documentation to r/<package>
+      # there. Publishing therefore deleted all six package sites and left only
+      # the ones that happened to rebuild afterwards, which on 2026-08-23 took
+      # r/declaredesign and r/designlibrary off the site until they were
+      # restored by hand. clean-exclude keeps r/ out of the deploy's reach.
+      - name: Set up Quarto
+        uses: quarto-dev/quarto-actions/setup@v2
+
+      - name: Render site
+        uses: quarto-dev/quarto-actions/render@v2
+
+      - name: Deploy to GitHub Pages
+        if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+        uses: JamesIves/github-pages-deploy-action@v4.5.0
         with:
-          target: gh-pages
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          token: ${{ secrets.GITHUB_TOKEN }}
+          branch: gh-pages
+          folder: _site
+          clean: true
+          clean-exclude: |
+            r/**
