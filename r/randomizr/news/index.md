@@ -2,6 +2,8 @@
 
 ## randomizr 2.0.1
 
+CRAN release: 2026-08-27
+
 This release is a major internal restructuring plus one new capability,
 described here relative to randomizr 1.0.1, the version it replaces on
 CRAN. No exported function, argument, return type, S3 class, or object
