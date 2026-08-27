@@ -1,0 +1,260 @@
+# How to Write and Contribute Designers
+
+First, install the development version of **DesignLibrary** in `R`:
+
+``` r
+
+devtools::install_github("DeclareDesign/DesignLibrary", keep_source = TRUE)
+```
+
+A designer is a function that returns designs. For example,
+[`two_arm_designer()`](https://declaredesign.org/r/designlibrary/reference/two_arm_designer.md)
+generates simple two-arm designs as `DeclareDesign` objects.
+
+In addition to using our pre-made designers, you can contribute your own
+designers to the `DesignLibrary` using the following guidelines.
+
+## Essential and Optional Features
+
+At a bare minimum, your designer must:
+
+- take design parameters as arguments and return designs created with
+  `DeclareDesign`
+- return designs that [have the code that generated them as an
+  attribute](#including-code-in-design-attributes)
+- be [well-documented](#how-to-document-your-designer)
+- pass all of the tests and checks in the `DesignLibrary` package
+
+Optionally, if you want your designer to work with [our DDWizard Shiny
+App](https://eos.wzb.eu/ipi/DDWizard), then you will need to [add the
+following attributes to your
+designer](#including-code-in-design-attributes):
+
+- `description` - a brief description of the design in html code
+
+- `definitions` - a `data.frame` with the following columns:
+
+\| - `names` - names of each and every design argument \| - `tips` -
+short description of each design argument (in order of `names`) \| -
+`class` - class of argument value (e.g., “character”, “logical”,
+“integer”, “numeric”) \| - `vector` - logical vector for whether
+argument value is a vector \| - `min` - minimum possible numeric value
+of each argument (`NA` if not numeric or integer) \| - `max` - minimum
+possible numeric value of each argument (`NA` if not numeric or integer)
+\| - `inspector_min` - minimum (reasonable) value of each argument
+(these are used as preset fill-ins in the app and cannot include `Inf`
+values) \| - `inspector_step` - amount by which arguments should
+reasonably vary (this allows preset argument variations in the app)
+
+## A Minimal Example
+
+The following code creates a designer that creates a simple two-arm
+experiment of size, `N`, assigning units to treatment with probability
+`prob`. Note that the code is added to the attribute of the design using
+`construct_design_code`.
+
+``` r
+
+my_designer <- function(N = 100,
+                        prob = .5){
+  if(0 > prob | 1 < prob) stop("prob must be in [0,1]")
+  if(1 > N) stop("design must have at least two units")
+  {{{ 
+    model <- declare_model(N = N, noise = rnorm(N), potential_outcomes(Y ~ Z + noise))
+    assignment <- declare_assignment(Z = complete_ra(N, prob = prob))
+    estimand <- declare_inquiry(ATE = mean(Y_Z_1 - Y_Z_0))
+    estimator <- declare_estimator(Y ~ Z, inquiry = estimand)
+    measurement <- declare_measurement(Y = reveal_outcomes(Y ~ Z))
+    my_design <- 
+      model +
+      estimand +
+      assignment +
+      measurement +
+      estimator
+  }}}
+  attr(my_design, "code") <- DesignLibrary:::construct_design_code(designer = my_designer,
+                                                                   args =  match.call.defaults())
+  my_design
+}
+```
+
+We’ll discuss features of this designer below.
+
+## Including Code in Design Attributes
+
+We’ve devised an easy way to include code in design objects returned by
+a designer. But you can use your own method!
+
+## Our method for adding code
+
+One easy way to add code to the designs that your designer returns is to
+use our triple braces method. Any checks (such as those that look to see
+whether `prob` is between 0 and 1) come before the opening triple
+braces, ` {{{ `. Then, all the code needed to build the design goes
+between the triple braces:
+
+``` r
+
+{{{ 
+    model <- declare_model(N = N, noise = rnorm(N), potential_outcomes(Y ~ Z + noise))
+    assignment <- declare_assignment(Z = complete_ra(N, prob = prob))
+    estimand <- declare_inquiry(ATE = mean(Y_Z_1 - Y_Z_0))
+    estimator <- declare_estimator(Y ~ Z, inquiry = estimand)
+    measurement <- declare_measurement(Y = reveal_outcomes(Y ~ Z))
+    my_design <- 
+      model +
+      estimand +
+      assignment +
+      measurement +
+      estimator
+}}}
+```
+
+Our function `construct_design_code` goes into the designer and extracts
+all of the code between ` {{{ ` and ` }}} `. Then,
+[`match.call.defaults()`](https://declaredesign.org/r/designlibrary/reference/match.call.defaults.md)
+checks what arguments the user gave the function, and adds them to the
+top of the extracted code in a list that looks like this:
+
+``` r
+
+N <- 100                                                       
+prob <- 0.5  
+```
+
+Thus, the following code in the example above adds the code that
+generated it to any design made by `my_designer`:
+
+``` r
+
+attr(my_design, "code") <- construct_design_code(designer = my_designer,
+                                                 args =  match.call.defaults())
+```
+
+## An alternative method
+
+Here’s one example of an alternative way to embed the code that created
+it in a design returned by a designer:
+
+``` r
+
+my_designer <- function(N = 100,
+                        prob = .5){
+  design_code <- paste0(
+    "model <- declare_model(N = ",N,", noise = rnorm(N), potential_outcomes(Y ~ Z + noise))
+    assignment <- declare_assignment(Z = complete_ra(N, prob = ",prob,"))
+    estimand <- declare_inquiry(ATE = mean(Y_Z_1 - Y_Z_0))
+    estimator <- declare_estimator(Y ~ Z, inquiry = estimand)
+    measurement <- declare_measurement(Y = reveal_outcomes(Y ~ Z))
+    my_design <- 
+      model +
+      estimand +
+      assignment +
+      measurement +
+      estimator")
+  my_design <- eval(parse(text = design_code))
+  attr(my_design, "code") <- design_code
+  my_design
+}
+```
+
+Methods like this can be helpful when you need to build long strings of
+code on the fly (say, in a multi-arm experiment, or an study with a
+variable number of estimands).
+
+## Attributes Needed for Shiny Integration
+
+If you want your designer to work with our shiny app, there are three
+attributes you should give to your **designer** (note: these are not
+attributes in the **design** – they get added after to the designer
+function after it is defined).
+
+First, you need to provide the `shiny_arguments` – a list of
+scalar-valued vectors whose names correspond to some subset of the
+arguments in your designer. These will be the parameters that the
+DDWizard will allow inputs for:
+
+``` r
+
+attr(my_designer,"definitions") <-
+  data.frame(
+    names = c("N", "prob"),
+    tips = c("Sample size", "Probability of assignment to treatment"),
+    class = c("integer", "numeric"),
+    vector = c(FALSE, FALSE),
+    min = c(4, 0),
+    max = c(Inf, ),
+    inspector_min = c(100, .1),
+    inspector_step = c(10, .2)
+    )
+```
+
+You can add a brief description in html that will sit atop the shiny
+app.
+
+``` r
+
+attr(my_designer, "description") <- "
+<p> A design of sample size <code>N</code> and probability of assignment <code>prob</code>.
+"
+```
+
+## Contributing Designers
+
+The designer should be added to the `DesignLibrary` using a [pull
+request](http://r-pkgs.had.co.nz/git.html#git-pullreq).
+
+## How to document your designer
+
+The documentation must be written as [Roxygen
+comments](http://r-pkgs.had.co.nz/man.html#roxygen-comments) and come at
+the top of the designer code; It should begin with a title and short
+description of what your designer does. When relevant, mention key
+limitations of your designer and add notes that can help others
+understand your code better.
+
+``` r
+
+#' Create a design
+#'
+#' This designer builds a design with \code{N} units. 
+#'
+#' Key limitations: ate cannot be specified
+#' 
+#' Note: Units are assigned to treatment with probability \code{prob} using complete random assignment  
+#'
+```
+
+Next, list and describe all arguments needed in the design code
+following the syntax, `@param name Description`. You should also specify
+the output of your designer using the tag `@return` and provide an
+example that contains executable code.
+
+``` r
+
+#' @param N A integer. Sample size
+#' @param prob A number within the interval [0,1]. Probability of assigment to treatment.
+#' @return A design.
+#' @examples
+#' To make a design using default arguments:
+#' my_design <- my_designer()
+#'
+```
+
+You can also add keywords and reference other related designs and
+designers.
+
+``` r
+
+#' @concept two arm design
+#' @seealso \code{\link{my_design}} \code{\link{two_arm_designer}} 
+```
+
+Finally, give yourself credit for your work.
+
+``` r
+
+#' 
+#' @author \href{https://declaredesign.org/}{DeclareDesign Team}
+#' @export
+```

@@ -1,0 +1,68 @@
+# How to Write and Contribute Designs
+
+This guide provides instructions for contributing static design objects
+to the library at
+[DeclareDesign.org/library](https://declaredesign.org/r/designlibrary/articles/DeclareDesign.org/library).
+Please note, designs should be submitted as `.Rmd` files (vignettes),
+and will not be added to the CRAN version of the `DesignLibrary`.
+
+First, install `DeclareDesign` in `R`:
+
+``` r
+
+install.packages("DeclareDesign")
+```
+
+A design is an object of class `design`, created by concatenating a
+series of `declare_*` calls using the `+` operator in `DeclareDesign`.
+
+## Contributing designs
+
+Your design should be submitted to `DesignLibrary` as an `.Rmd` vignette
+located in the vignette subfolder of the github repository: [see
+here](https://github.com/DeclareDesign/DesignLibrary/tree/master/vignettes).
+
+You should submit your design via a pull request to
+<https://github.com/DeclareDesign/DesignLibrary/>. This will typically
+involve [forking the
+repository](https://guides.github.com/activities/forking/), creating a
+new branch, adding your design to the vignettes folder, and [then
+submitting a pull
+request](https://guides.github.com/activities/forking/) to the
+`DeclareDesign/DesignLibrary` repository.
+
+When you submit the pull request, you should see a pull request
+template, which contains a checklist. This checklist covers additional
+points addressed below.
+
+## Meta-data
+
+In order for your design to appear on the table at
+[DeclareDesign.org/library](https://declaredesign.org/r/designlibrary/articles/DeclareDesign.org/library),
+you will need to add some meta-data about your design to the
+`overview.csv` file located at
+[DesignLibrary/inst/extdata](https://github.com/DeclareDesign/DesignLibrary/tree/master/inst/extdata/overview.csv).
+
+You should add a row with:
+
+- the name of your design under `design`
+- leave `designer` blank
+- put the name of the vignette file without the `.Rmd` extension under
+  `vignette`
+- add any keywords under `keywords`, separated by commas
+- leave `shiny` blank
+- you can put your name under `author`
+- and a link to your website or twitter handle under `author_url`
+
+## External data
+
+Very often, more complicated designs will rely on external data. If your
+design requires external data to run, please make sure that it is
+sourced into your vignette through a publicly accessible URL. We will
+not accept any objects in a pull request aside from an `.Rmd` file.
+
+## If in doubt…
+
+Just [post an
+issue](https://github.com/DeclareDesign/DesignLibrary/issues) and we’ll
+get right on it.

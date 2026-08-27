@@ -7,8 +7,8 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <title>Two-Arm Experiment with Attrition • DesignLibrary</title>
 <script src="../deps/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<link href="../deps/bootstrap-5.3.1/bootstrap.min.css" rel="stylesheet">
-<script src="../deps/bootstrap-5.3.1/bootstrap.bundle.min.js"></script><link href="../deps/font-awesome-6.5.2/css/all.min.css" rel="stylesheet">
+<link href="../deps/bootstrap-5.3.8/bootstrap.min.css" rel="stylesheet">
+<script src="../deps/bootstrap-5.3.8/bootstrap.bundle.min.js"></script><link href="../deps/font-awesome-6.5.2/css/all.min.css" rel="stylesheet">
 <link href="../deps/font-awesome-6.5.2/css/v4-shims.min.css" rel="stylesheet">
 <script src="../deps/headroom-0.11.0/headroom.min.js"></script><script src="../deps/headroom-0.11.0/jQuery.headroom.min.js"></script><script src="../deps/bootstrap-toc-1.0.1/bootstrap-toc.min.js"></script><script src="../deps/clipboard.js-2.0.11/clipboard.min.js"></script><script src="../deps/search-1.0.0/autocomplete.jquery.min.js"></script><script src="../deps/search-1.0.0/fuse.min.js"></script><script src="../deps/search-1.0.0/mark.min.js"></script><!-- pkgdown --><script src="../pkgdown.js"></script><meta property="og:title" content="Two-Arm Experiment with Attrition">
 </head>
@@ -114,11 +114,11 @@ which is only observed when
 <p>We want to know the average of all units’ differences in treated and
 untreated potential outcomes – the average treatment effect on the
 outcome of interest:
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>E</mi><mrow><mo stretchy="true" form="prefix">[</mo><msub><mi>Y</mi><mi>i</mi></msub><mrow><mo stretchy="true" form="prefix">(</mo><mi>Z</mi><mo>=</mo><mn>1</mn><mo stretchy="true" form="postfix">)</mo></mrow><mo>−</mo><msub><mi>Y</mi><mi>i</mi></msub><mrow><mo stretchy="true" form="prefix">(</mo><mi>Z</mi><mo>=</mo><mn>0</mn><mo stretchy="true" form="postfix">)</mo></mrow><mo stretchy="true" form="postfix">]</mo></mrow></mrow><annotation encoding="application/x-tex">E[Y_i(Z = 1) - Y_i(Z = 0)]</annotation></semantics></math>.
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>E</mi><mo stretchy="false" form="prefix">[</mo><msub><mi>Y</mi><mi>i</mi></msub><mo stretchy="false" form="prefix">(</mo><mi>Z</mi><mo>=</mo><mn>1</mn><mo stretchy="false" form="postfix">)</mo><mo>−</mo><msub><mi>Y</mi><mi>i</mi></msub><mo stretchy="false" form="prefix">(</mo><mi>Z</mi><mo>=</mo><mn>0</mn><mo stretchy="false" form="postfix">)</mo><mo stretchy="false" form="postfix">]</mo></mrow><annotation encoding="application/x-tex">E[Y_i(Z = 1) - Y_i(Z = 0)]</annotation></semantics></math>.
 But we also want to know the average treatment effect on reporting,
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>E</mi><mrow><mo stretchy="true" form="prefix">[</mo><msub><mi>R</mi><mi>i</mi></msub><mrow><mo stretchy="true" form="prefix">(</mo><mi>Z</mi><mo>=</mo><mn>1</mn><mo stretchy="true" form="postfix">)</mo></mrow><mo>−</mo><msub><mi>R</mi><mi>i</mi></msub><mrow><mo stretchy="true" form="prefix">(</mo><mi>Z</mi><mo>=</mo><mn>0</mn><mo stretchy="true" form="postfix">)</mo></mrow><mo stretchy="true" form="postfix">]</mo></mrow></mrow><annotation encoding="application/x-tex">E[R_i(Z = 1) - R_i(Z = 0)]</annotation></semantics></math>,
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>E</mi><mo stretchy="false" form="prefix">[</mo><msub><mi>R</mi><mi>i</mi></msub><mo stretchy="false" form="prefix">(</mo><mi>Z</mi><mo>=</mo><mn>1</mn><mo stretchy="false" form="postfix">)</mo><mo>−</mo><msub><mi>R</mi><mi>i</mi></msub><mo stretchy="false" form="prefix">(</mo><mi>Z</mi><mo>=</mo><mn>0</mn><mo stretchy="false" form="postfix">)</mo><mo stretchy="false" form="postfix">]</mo></mrow><annotation encoding="application/x-tex">E[R_i(Z = 1) - R_i(Z = 0)]</annotation></semantics></math>,
 as well as the effect of the treatment among those who report,
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>E</mi><mrow><mo stretchy="true" form="prefix">[</mo><msub><mi>Y</mi><mi>i</mi></msub><mrow><mo stretchy="true" form="prefix">(</mo><mi>Z</mi><mo>=</mo><mn>1</mn><mo stretchy="true" form="postfix">)</mo></mrow><mo>−</mo><msub><mi>Y</mi><mi>i</mi></msub><mrow><mo stretchy="true" form="prefix">(</mo><mi>Z</mi><mo>=</mo><mn>0</mn><mo stretchy="true" form="postfix">)</mo></mrow><mo>∣</mo><msub><mi>R</mi><mi>i</mi></msub><mo>=</mo><mn>1</mn><mo stretchy="true" form="postfix">]</mo></mrow></mrow><annotation encoding="application/x-tex">E[Y_i(Z = 1) - Y_i(Z = 0) \mid R_i = 1]</annotation></semantics></math>.</p>
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>E</mi><mo stretchy="false" form="prefix">[</mo><msub><mi>Y</mi><mi>i</mi></msub><mo stretchy="false" form="prefix">(</mo><mi>Z</mi><mo>=</mo><mn>1</mn><mo stretchy="false" form="postfix">)</mo><mo>−</mo><msub><mi>Y</mi><mi>i</mi></msub><mo stretchy="false" form="prefix">(</mo><mi>Z</mi><mo>=</mo><mn>0</mn><mo stretchy="false" form="postfix">)</mo><mo>∣</mo><msub><mi>R</mi><mi>i</mi></msub><mo>=</mo><mn>1</mn><mo stretchy="false" form="postfix">]</mo></mrow><annotation encoding="application/x-tex">E[Y_i(Z = 1) - Y_i(Z = 0) \mid R_i = 1]</annotation></semantics></math>.</p>
 </li>
 <li>
 <p><strong>D</strong>ata strategy:</p>
@@ -178,20 +178,24 @@ effect.</p>
 <span><span class="co">## Warning: We recommend you choose a number of simulations higher than 30.</span></span>
 <span><span class="co">## Warning: We recommend you choose a number of simulations higher than 30.</span></span></code></pre>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/pkg/knitr/man/kable.html" class="external-link">kable</a></span><span class="op">(</span><span class="fu"><a href="https://declaredesign.org/r/declaredesign/reference/reshape_diagnosis.html" class="external-link">reshape_diagnosis</a></span><span class="op">(</span><span class="va">diagnoses</span>,select <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Bias"</span>,<span class="st">"Power"</span><span class="op">)</span><span class="op">)</span>, digits <span class="op">=</span> <span class="fl">2</span><span class="op">)</span></span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/pkg/knitr/man/kable.html" class="external-link">kable</a></span><span class="op">(</span><span class="fu"><a href="https://declaredesign.org/r/declaredesign/reference/reshape_diagnosis.html" class="external-link">reshape_diagnosis</a></span><span class="op">(</span><span class="va">diagnoses</span>, exclude <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Mean Estimand"</span>, <span class="st">"Mean Estimate"</span>,</span>
+<span>                                               <span class="st">"SD Estimate"</span>, <span class="st">"RMSE"</span>, <span class="st">"Coverage"</span><span class="op">)</span><span class="op">)</span>,</span>
+<span>      digits <span class="op">=</span> <span class="fl">2</span><span class="op">)</span></span></code></pre></div>
 <table class="table">
 <colgroup>
-<col width="12%">
-<col width="25%">
-<col width="17%">
+<col width="11%">
+<col width="5%">
+<col width="24%">
+<col width="16%">
 <col width="10%">
 <col width="6%">
-<col width="9%">
-<col width="9%">
-<col width="9%">
+<col width="8%">
+<col width="8%">
+<col width="8%">
 </colgroup>
 <thead><tr class="header">
 <th align="left">Design</th>
+<th align="left">rho</th>
 <th align="left">Inquiry</th>
 <th align="left">Estimator</th>
 <th align="left">Outcome</th>
@@ -203,6 +207,7 @@ effect.</p>
 <tbody>
 <tr class="odd">
 <td align="left">design_1</td>
+<td align="left">0</td>
 <td align="left">ATE on R</td>
 <td align="left">DIM on R</td>
 <td align="left">R</td>
@@ -218,11 +223,13 @@ effect.</p>
 <td align="left"></td>
 <td align="left"></td>
 <td align="left"></td>
+<td align="left"></td>
 <td align="left">(0.01)</td>
 <td align="left">(0.06)</td>
 </tr>
 <tr class="odd">
 <td align="left">design_1</td>
+<td align="left">0</td>
 <td align="left">ATE on Y</td>
 <td align="left">DIM on Y</td>
 <td align="left">Y</td>
@@ -238,11 +245,13 @@ effect.</p>
 <td align="left"></td>
 <td align="left"></td>
 <td align="left"></td>
+<td align="left"></td>
 <td align="left">(0.01)</td>
 <td align="left">(0.00)</td>
 </tr>
 <tr class="odd">
 <td align="left">design_1</td>
+<td align="left">0</td>
 <td align="left">ATE on Y</td>
 <td align="left">DIM on Y_obs</td>
 <td align="left">Y_obs</td>
@@ -258,11 +267,13 @@ effect.</p>
 <td align="left"></td>
 <td align="left"></td>
 <td align="left"></td>
+<td align="left"></td>
 <td align="left">(0.01)</td>
 <td align="left">(0.08)</td>
 </tr>
 <tr class="odd">
 <td align="left">design_1</td>
+<td align="left">0</td>
 <td align="left">ATE on Y (Given R)</td>
 <td align="left">DIM on Y</td>
 <td align="left">Y</td>
@@ -278,11 +289,13 @@ effect.</p>
 <td align="left"></td>
 <td align="left"></td>
 <td align="left"></td>
+<td align="left"></td>
 <td align="left">(0.01)</td>
 <td align="left">(0.00)</td>
 </tr>
 <tr class="odd">
 <td align="left">design_1</td>
+<td align="left">0</td>
 <td align="left">ATE on Y (Given R)</td>
 <td align="left">DIM on Y_obs</td>
 <td align="left">Y_obs</td>
@@ -298,11 +311,13 @@ effect.</p>
 <td align="left"></td>
 <td align="left"></td>
 <td align="left"></td>
+<td align="left"></td>
 <td align="left">(0.01)</td>
 <td align="left">(0.08)</td>
 </tr>
 <tr class="odd">
 <td align="left">design_2</td>
+<td align="left">0.2</td>
 <td align="left">ATE on R</td>
 <td align="left">DIM on R</td>
 <td align="left">R</td>
@@ -318,11 +333,13 @@ effect.</p>
 <td align="left"></td>
 <td align="left"></td>
 <td align="left"></td>
+<td align="left"></td>
 <td align="left">(0.01)</td>
 <td align="left">(0.00)</td>
 </tr>
 <tr class="odd">
 <td align="left">design_2</td>
+<td align="left">0.2</td>
 <td align="left">ATE on Y</td>
 <td align="left">DIM on Y</td>
 <td align="left">Y</td>
@@ -338,11 +355,13 @@ effect.</p>
 <td align="left"></td>
 <td align="left"></td>
 <td align="left"></td>
+<td align="left"></td>
 <td align="left">(0.02)</td>
 <td align="left">(0.04)</td>
 </tr>
 <tr class="odd">
 <td align="left">design_2</td>
+<td align="left">0.2</td>
 <td align="left">ATE on Y</td>
 <td align="left">DIM on Y_obs</td>
 <td align="left">Y_obs</td>
@@ -358,11 +377,13 @@ effect.</p>
 <td align="left"></td>
 <td align="left"></td>
 <td align="left"></td>
+<td align="left"></td>
 <td align="left">(0.02)</td>
 <td align="left">(0.07)</td>
 </tr>
 <tr class="odd">
 <td align="left">design_2</td>
+<td align="left">0.2</td>
 <td align="left">ATE on Y (Given R)</td>
 <td align="left">DIM on Y</td>
 <td align="left">Y</td>
@@ -378,11 +399,13 @@ effect.</p>
 <td align="left"></td>
 <td align="left"></td>
 <td align="left"></td>
+<td align="left"></td>
 <td align="left">(0.02)</td>
 <td align="left">(0.04)</td>
 </tr>
 <tr class="odd">
 <td align="left">design_2</td>
+<td align="left">0.2</td>
 <td align="left">ATE on Y (Given R)</td>
 <td align="left">DIM on Y_obs</td>
 <td align="left">Y_obs</td>
@@ -398,11 +421,13 @@ effect.</p>
 <td align="left"></td>
 <td align="left"></td>
 <td align="left"></td>
+<td align="left"></td>
 <td align="left">(0.02)</td>
 <td align="left">(0.07)</td>
 </tr>
 <tr class="odd">
 <td align="left">design_3</td>
+<td align="left">0.8</td>
 <td align="left">ATE on R</td>
 <td align="left">DIM on R</td>
 <td align="left">R</td>
@@ -418,11 +443,13 @@ effect.</p>
 <td align="left"></td>
 <td align="left"></td>
 <td align="left"></td>
+<td align="left"></td>
 <td align="left">(0.02)</td>
 <td align="left">(0.04)</td>
 </tr>
 <tr class="odd">
 <td align="left">design_3</td>
+<td align="left">0.8</td>
 <td align="left">ATE on Y</td>
 <td align="left">DIM on Y</td>
 <td align="left">Y</td>
@@ -438,11 +465,13 @@ effect.</p>
 <td align="left"></td>
 <td align="left"></td>
 <td align="left"></td>
+<td align="left"></td>
 <td align="left">(0.01)</td>
 <td align="left">(0.04)</td>
 </tr>
 <tr class="odd">
 <td align="left">design_3</td>
+<td align="left">0.8</td>
 <td align="left">ATE on Y</td>
 <td align="left">DIM on Y_obs</td>
 <td align="left">Y_obs</td>
@@ -458,11 +487,13 @@ effect.</p>
 <td align="left"></td>
 <td align="left"></td>
 <td align="left"></td>
+<td align="left"></td>
 <td align="left">(0.01)</td>
 <td align="left">(0.10)</td>
 </tr>
 <tr class="odd">
 <td align="left">design_3</td>
+<td align="left">0.8</td>
 <td align="left">ATE on Y (Given R)</td>
 <td align="left">DIM on Y</td>
 <td align="left">Y</td>
@@ -478,11 +509,13 @@ effect.</p>
 <td align="left"></td>
 <td align="left"></td>
 <td align="left"></td>
+<td align="left"></td>
 <td align="left">(0.01)</td>
 <td align="left">(0.04)</td>
 </tr>
 <tr class="odd">
 <td align="left">design_3</td>
+<td align="left">0.8</td>
 <td align="left">ATE on Y (Given R)</td>
 <td align="left">DIM on Y_obs</td>
 <td align="left">Y_obs</td>
@@ -492,6 +525,7 @@ effect.</p>
 <td align="left">0.36</td>
 </tr>
 <tr class="even">
+<td align="left"></td>
 <td align="left"></td>
 <td align="left"></td>
 <td align="left"></td>
@@ -524,7 +558,7 @@ severely jeapordize inferences.</p></li>
 </div>
 
 <div class="pkgdown-footer-right">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.3.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.2.1.</p>
 </div>
 
     </footer>
