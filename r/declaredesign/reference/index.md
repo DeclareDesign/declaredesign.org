@@ -5,7 +5,7 @@
 These functions declare research design steps
 
 - [`declare_model()`](https://declaredesign.org/r/declaredesign/reference/declare_model.md)
-  : Declare the size and features of the population
+  : Declare the size and features of the population.
 - [`declare_inquiry()`](https://declaredesign.org/r/declaredesign/reference/declare_inquiry.md)
   [`declare_inquiries()`](https://declaredesign.org/r/declaredesign/reference/declare_inquiry.md)
   [`declare_estimand()`](https://declaredesign.org/r/declaredesign/reference/declare_inquiry.md)
@@ -20,6 +20,7 @@ These functions declare research design steps
   : Declare Data Strategy: Assignment
 - [`declare_measurement()`](https://declaredesign.org/r/declaredesign/reference/declare_measurement.md)
   [`measurement_handler()`](https://declaredesign.org/r/declaredesign/reference/declare_measurement.md)
+  [`potential_outcomes_handler()`](https://declaredesign.org/r/declaredesign/reference/declare_measurement.md)
   : Declare measurement procedure
 - [`declare_estimator()`](https://declaredesign.org/r/declaredesign/reference/declare_estimator.md)
   [`declare_estimators()`](https://declaredesign.org/r/declaredesign/reference/declare_estimator.md)
@@ -78,6 +79,8 @@ These functions assist with research design diagnosis
   : Simulate a design
 - [`set_diagnosands()`](https://declaredesign.org/r/declaredesign/reference/set_diagnosands.md)
   : Set the diagnosands for a design
+- [`select_diagnosands()`](https://declaredesign.org/r/declaredesign/reference/select_diagnosands.md)
+  : Select diagnosands
 - [`reshape_diagnosis()`](https://declaredesign.org/r/declaredesign/reference/reshape_diagnosis.md)
   : Clean up a diagnosis object for printing
 - [`tidy(`*`<diagnosis>`*`)`](https://declaredesign.org/r/declaredesign/reference/tidy.diagnosis.md)

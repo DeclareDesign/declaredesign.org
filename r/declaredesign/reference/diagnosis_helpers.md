@@ -20,6 +20,7 @@ get_simulations(diagnosis)
 ## Examples
 
 ``` r
+
 # Two-arm randomized experiment
 design <-
   declare_model(

@@ -107,6 +107,7 @@ compare_design_inquiries(
 ## Examples
 
 ``` r
+
 design1 <- declare_model(N = 100, u = rnorm(N), potential_outcomes(Y ~ Z + u)) +
   declare_inquiry(ATE = mean(Y_Z_1 - Y_Z_0)) +
   declare_sampling(S = complete_rs(N, n = 75)) +

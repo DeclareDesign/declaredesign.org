@@ -35,6 +35,7 @@ A formatted text table with bootstrapped standard errors in parentheses.
 ## Examples
 
 ``` r
+
 # Two-arm randomized experiment
 design <-
   declare_model(

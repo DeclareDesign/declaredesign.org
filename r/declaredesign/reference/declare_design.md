@@ -38,9 +38,10 @@ a design
 ## Examples
 
 ``` r
+
 design <-
   declare_model(
-    N = 500, 
+    N = 500,
     U = rnorm(N),
     potential_outcomes(Y ~ Z + U)
   ) +
@@ -48,23 +49,23 @@ design <-
   declare_sampling(S = complete_rs(N, n = 250)) +
   declare_assignment(Z = complete_ra(N, m = 25)) +
   declare_measurement(Y = reveal_outcomes(Y ~ Z)) +
-  declare_estimator(Y ~ Z, inquiry = "ATE") 
+  declare_estimator(Y ~ Z, inquiry = "ATE")
 
 dat <- draw_data(design)
 head(dat)
-#>    ID          U      Y_Z_0      Y_Z_1 S Z          Y
-#> 1 001  1.6662720  1.6662720  2.6662720 1 0  1.6662720
-#> 2 002  1.9213911  1.9213911  2.9213911 1 0  1.9213911
-#> 3 003 -2.0267236 -2.0267236 -1.0267236 1 0 -2.0267236
-#> 4 004 -1.6604176 -1.6604176 -0.6604176 1 0 -1.6604176
-#> 5 006  1.8281118  1.8281118  2.8281118 1 0  1.8281118
-#> 6 007 -0.2794789 -0.2794789  0.7205211 1 0 -0.2794789
+#>    ID          U      Y_Z_0     Y_Z_1 S Z          Y
+#> 1 003  0.8567442  0.8567442 1.8567442 1 0  0.8567442
+#> 2 004 -0.6856990 -0.6856990 0.3143010 1 0 -0.6856990
+#> 3 005  0.3752808  0.3752808 1.3752808 1 0  0.3752808
+#> 4 006 -0.3716699 -0.3716699 0.6283301 1 0 -0.3716699
+#> 5 007 -0.4176228 -0.4176228 0.5823772 1 0 -0.4176228
+#> 6 009  0.3705969  0.3705969 1.3705969 1 0  0.3705969
 
 run_design(design)
-#>   inquiry estimand estimator term estimate std.error statistic      p.value
-#> 1     ATE        1 estimator    Z 1.063682 0.2007292  5.299087 2.570504e-07
-#>    conf.low conf.high  df outcome
-#> 1 0.6683302  1.459033 248       Y
+#>   inquiry estimand estimator term  estimate std.error statistic      p.value
+#> 1     ATE        1 estimator    Z 0.7431553 0.2061222  3.605411 0.0003767002
+#>   conf.low conf.high  df outcome
+#> 1 0.337182  1.149129 248       Y
 
 # You may wish to have a design with only one step:
 
@@ -73,10 +74,10 @@ design <- declare_model(N = 500, noise = rnorm(N)) + NULL
 dat <- draw_data(design)
 head(dat)
 #>    ID      noise
-#> 1 001 -0.4286493
-#> 2 002 -0.1947424
-#> 3 003 -1.6725099
-#> 4 004  0.4079182
-#> 5 005  0.3395556
-#> 6 006 -0.8388726
+#> 1 001  1.7380093
+#> 2 002 -0.2159268
+#> 3 003 -1.1699856
+#> 4 004  0.5661610
+#> 5 005 -0.8782113
+#> 6 006  1.6686682
 ```

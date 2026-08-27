@@ -32,6 +32,7 @@ A data.frame with coefficient estimates and associated statistics.
 ## Examples
 
 ``` r
+
 fit <- lm(mpg ~ hp + disp + cyl, data = mtcars)
 
 tidy_try(fit)

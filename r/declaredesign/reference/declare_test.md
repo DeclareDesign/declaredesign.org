@@ -1,6 +1,6 @@
 # Declare test
 
-Declares an test which generates a test statistic and associated
+Declares a test which generates a test statistic and associated
 inferential statistics.
 
 Use of `declare_test` is identical to use of
@@ -66,6 +66,7 @@ for documentation of the `method_handler` function.
 ## Examples
 
 ``` r
+
 # Balance test F test
 
 balance_test_design <-

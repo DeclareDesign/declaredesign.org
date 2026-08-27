@@ -38,6 +38,7 @@ values, bootstrapped standard errors and confidence intervals
 ## Examples
 
 ``` r
+
 effect_size <- 0.1
 design <-
   declare_model(
@@ -55,34 +56,34 @@ design <-
 diagnosis <- diagnose_design(design, sims = 100)
 
 tidy(diagnosis)
-#>    design inquiry  estimator outcome term    diagnosand    estimate  std.error
-#> 1  design     ATE   adjusted       Y    Z mean_estimand 0.100000000 0.00000000
-#> 2  design     ATE   adjusted       Y    Z mean_estimate 0.106847268 0.02032314
-#> 3  design     ATE   adjusted       Y    Z          bias 0.006847268 0.02032314
-#> 4  design     ATE   adjusted       Y    Z   sd_estimate 0.192082695 0.01165459
-#> 5  design     ATE   adjusted       Y    Z          rmse 0.191242488 0.01166300
-#> 6  design     ATE   adjusted       Y    Z         power 0.080000000 0.02402356
-#> 7  design     ATE   adjusted       Y    Z      coverage 0.980000000 0.01383014
-#> 8  design     ATE unadjusted       Y    Z mean_estimand 0.100000000 0.00000000
-#> 9  design     ATE unadjusted       Y    Z mean_estimate 0.123325022 0.02402709
-#> 10 design     ATE unadjusted       Y    Z          bias 0.023325022 0.02402709
-#> 11 design     ATE unadjusted       Y    Z   sd_estimate 0.246169931 0.01727510
-#> 12 design     ATE unadjusted       Y    Z          rmse 0.246044092 0.01748903
-#> 13 design     ATE unadjusted       Y    Z         power 0.040000000 0.01695955
-#> 14 design     ATE unadjusted       Y    Z      coverage 0.960000000 0.01735081
-#>       conf.low  conf.high
-#> 1   0.10000000 0.10000000
-#> 2   0.06332808 0.13999793
-#> 3  -0.03667192 0.03999793
-#> 4   0.17005939 0.21190144
-#> 5   0.17022372 0.21499107
-#> 6   0.04000000 0.13000000
-#> 7   0.95000000 1.00000000
-#> 8   0.10000000 0.10000000
-#> 9   0.07724880 0.16584713
-#> 10 -0.02275120 0.06584713
-#> 11  0.20996366 0.27563946
-#> 12  0.20948968 0.27517201
-#> 13  0.01000000 0.07000000
-#> 14  0.93000000 0.99000000
+#>    design inquiry  estimator outcome term    diagnosand     estimate
+#> 1  design     ATE   adjusted       Y    Z mean_estimand  0.100000000
+#> 2  design     ATE   adjusted       Y    Z mean_estimate  0.101733047
+#> 3  design     ATE   adjusted       Y    Z          bias  0.001733047
+#> 4  design     ATE   adjusted       Y    Z   sd_estimate  0.186361104
+#> 5  design     ATE   adjusted       Y    Z          rmse  0.185435055
+#> 6  design     ATE   adjusted       Y    Z         power  0.050000000
+#> 7  design     ATE   adjusted       Y    Z      coverage  1.000000000
+#> 8  design     ATE unadjusted       Y    Z mean_estimand  0.100000000
+#> 9  design     ATE unadjusted       Y    Z mean_estimate  0.090097200
+#> 10 design     ATE unadjusted       Y    Z          bias -0.009902800
+#> 11 design     ATE unadjusted       Y    Z   sd_estimate  0.263237190
+#> 12 design     ATE unadjusted       Y    Z          rmse  0.262104837
+#> 13 design     ATE unadjusted       Y    Z         power  0.050000000
+#> 14 design     ATE unadjusted       Y    Z      coverage  0.980000000
+#>      std.error    conf.low  conf.high
+#> 1  0.000000000  0.10000000 0.10000000
+#> 2  0.018086283  0.07023091 0.13998336
+#> 3  0.018086283 -0.02976909 0.03998336
+#> 4  0.010255730  0.16576485 0.20527442
+#> 5  0.009964692  0.16717757 0.20447557
+#> 6  0.021508749  0.01475000 0.09000000
+#> 7  0.000000000  1.00000000 1.00000000
+#> 8  0.000000000  0.10000000 0.10000000
+#> 9  0.025323990  0.03600417 0.13608792
+#> 10 0.025323990 -0.06399583 0.03608792
+#> 11 0.013593547  0.24039327 0.29207338
+#> 12 0.013468443  0.24001494 0.29073641
+#> 13 0.019928154  0.02000000 0.09525000
+#> 14 0.012872333  0.95000000 1.00000000
 ```

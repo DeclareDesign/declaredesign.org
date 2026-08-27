@@ -50,6 +50,7 @@ a design object with a citation attribute
 ## Examples
 
 ``` r
+
 # Setup for example
 design <-
   declare_model(data = sleep) +

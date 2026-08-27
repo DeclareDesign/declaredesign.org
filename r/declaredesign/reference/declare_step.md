@@ -37,15 +37,16 @@ A function that returns a data.frame.
 ## Examples
 
 ``` r
+
 population <- declare_model(N = 5, noise = rnorm(N))
 manipulate <- declare_step(fabricate, noise_squared = noise^2, zero = 0)
 
 design <- population + manipulate
 draw_data(design)
 #>   ID      noise noise_squared zero
-#> 1  1  0.1458385    0.02126886    0
-#> 2  2 -0.8385436    0.70315531    0
-#> 3  3 -1.5228416    2.31904656    0
-#> 4  4  0.6315840    0.39889838    0
-#> 5  5  0.1181995    0.01397113    0
+#> 1  1 -1.2540003     1.5725167    0
+#> 2  2 -0.6815540     0.4645159    0
+#> 3  3 -1.1139240     1.2408266    0
+#> 4  4  3.2760610    10.7325760    0
+#> 5  5 -0.7813179     0.6104577    0
 ```

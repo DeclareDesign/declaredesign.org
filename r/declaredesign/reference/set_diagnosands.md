@@ -32,6 +32,7 @@ a design object with a diagnosand attribute
 ## Examples
 
 ``` r
+
 # Two-arm randomized experiment
 design <-
   declare_model(

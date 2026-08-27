@@ -17,6 +17,7 @@ run_design(design)
 ## Examples
 
 ``` r
+
 # Two-arm randomized experiment
 design <-
   declare_model(
@@ -34,8 +35,8 @@ design <-
 
 # Use run_design to run a design object
 run_design(design)
-#>   inquiry estimand estimator term  estimate  std.error statistic      p.value
-#> 1     ATE      0.2 estimator    Z 0.3210013 0.07783232  4.124267 5.471242e-05
-#>    conf.low conf.high  df outcome
-#> 1 0.1675146  0.474488 198       Y
+#>   inquiry estimand estimator term  estimate  std.error statistic   p.value
+#> 1     ATE      0.2 estimator    Z 0.1018961 0.07861878  1.296078 0.1964572
+#>     conf.low conf.high  df outcome
+#> 1 -0.0531415 0.2569337 198       Y
 ```

@@ -12,6 +12,7 @@ exception of a population step, whose inputs can be anything but whose
 output must be a data.frame.
 
 ``` r
+
 # M: Model
 custom_population <- function(N) {
   data.frame(u = rnorm(N))
@@ -59,6 +60,7 @@ In order to declare the design, we pass each of the custom functions to
 the `handler` argument of each declaration step:
 
 ``` r
+
 design <- 
   declare_model(handler = custom_population, N = 100) + 
   declare_potential_outcomes(handler = custom_potential_outcomes) + 
@@ -74,6 +76,7 @@ design <-
     ## deprecated. Please use label_estimator() instead.
 
 ``` r
+
 head(draw_data(design))
 ```
 
@@ -86,6 +89,7 @@ head(draw_data(design))
     ## 69 0.92  1.17  0.92 1 1 1.17
 
 ``` r
+
 run_design(design)
 ```
 

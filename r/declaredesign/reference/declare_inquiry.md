@@ -1,7 +1,11 @@
 # Declare inquiry
 
-Declares inquiries, or the inferential target of interest. Conceptually
-very close to "estimand" or "quantity of interest".
+Declares inquiries. A research design typically seeks to find answers to
+questions. The questions are the inquiries and the correct answer to
+questions (in fact, or under a model) are the estimands. The answers you
+generate from data, which may or may not be correct, are the estimates.
+`declare_inquiry` is used to make research questions explicit and to
+calculate estimands. All inquiries should be answerable under the model.
 
 ## Usage
 
@@ -61,6 +65,7 @@ additional dimension for use in diagnosis.
 
 ``` r
 
+
 # Set up a design for use in examples:
 ## Two-arm randomized experiment
 design <-
@@ -74,13 +79,13 @@ design <-
   declare_measurement(Y = reveal_outcomes(Y ~ Z))
   
 head(draw_data(design))
-#>    ID X           U       Y_Z_0      Y_Z_1 Z           Y
-#> 1 001 0  0.45042799  0.45042799  0.6504280 0  0.45042799
-#> 2 002 0 -0.05733307 -0.05733307  0.1426669 0 -0.05733307
-#> 3 003 0  0.22940944  0.22940944  0.4294094 0  0.22940944
-#> 4 004 0 -0.01188688 -0.01188688  0.1881131 0 -0.01188688
-#> 5 005 0 -0.54085735 -0.54085735 -0.3408573 0 -0.54085735
-#> 6 006 0  0.51263288  0.51263288  0.7126329 1  0.71263288
+#>    ID X           U       Y_Z_0       Y_Z_1 Z           Y
+#> 1 001 0  0.39640319  0.39640319  0.59640319 0  0.39640319
+#> 2 002 0 -0.08812511 -0.08812511  0.11187489 1  0.11187489
+#> 3 003 0 -0.29843758 -0.29843758 -0.09843758 0 -0.29843758
+#> 4 004 0  0.09345702  0.09345702  0.29345702 0  0.09345702
+#> 5 005 0 -0.24366512 -0.24366512 -0.04366512 0 -0.24366512
+#> 6 006 0  0.07694047  0.07694047  0.27694047 0  0.07694047
 
 # Some common inquiries
 design +
@@ -101,6 +106,7 @@ design +
 #>  inquiry estimand
 #>      ATE      0.2
 #> 
+#> No modifiable parameters saved in design 
 
 design +
   declare_inquiry(difference_in_var = var(Y_Z_1) - var(Y_Z_0))
@@ -117,9 +123,10 @@ design +
 #> 
 #> Run of the design:
 #> 
-#>            inquiry  estimand
-#>  difference_in_var -5.55e-17
+#>            inquiry estimand
+#>  difference_in_var 5.55e-17
 #> 
+#> No modifiable parameters saved in design 
 
 design +
   declare_inquiry(mean_Y = mean(Y))
@@ -137,10 +144,11 @@ design +
 #> Run of the design:
 #> 
 #>  inquiry estimand
-#>   mean_Y    0.575
+#>   mean_Y    0.586
 #> 
+#> No modifiable parameters saved in design 
 
-# Inquiries among a subset
+# Inquiries among a subset of units
 design +
   declare_inquiry(ATT = mean(Y_Z_1 - Y_Z_0),
                   subset = (Z == 1))
@@ -160,6 +168,7 @@ design +
 #>  inquiry estimand
 #>      ATT      0.2
 #> 
+#> No modifiable parameters saved in design 
 
 design +
   declare_inquiry(CATE = mean(Y_Z_1 - Y_Z_0),
@@ -180,6 +189,7 @@ design +
 #>  inquiry estimand
 #>     CATE      0.2
 #> 
+#> No modifiable parameters saved in design 
                   
 # equivalently
 design +
@@ -200,6 +210,7 @@ design +
 #>  inquiry estimand
 #>     CATE      0.2
 #> 
+#> No modifiable parameters saved in design 
 
 # Add inquiries to a design along with estimators that
 # reference them
@@ -222,12 +233,12 @@ design_1 <-
                     label = "DIV")
 
 run_design(design_1)
-#>             inquiry estimand estimator term   estimate  std.error statistic
-#> 1               ATE      0.2       DIM    Z 0.13674750 0.04807476  2.844476
-#> 2 difference_in_var      0.0       DIV <NA> 0.01854473         NA        NA
-#>       p.value   conf.low conf.high  df outcome
-#> 1 0.004631529 0.04229315 0.2312019 498       Y
-#> 2          NA         NA        NA  NA    <NA>
+#>             inquiry estimand estimator term    estimate  std.error statistic
+#> 1               ATE      0.2       DIM    Z  0.20245339 0.04970576  4.073037
+#> 2 difference_in_var      0.0       DIV <NA> -0.05348027         NA        NA
+#>        p.value  conf.low conf.high  df outcome
+#> 1 5.397952e-05 0.1047945 0.3001122 498       Y
+#> 2           NA        NA        NA  NA    <NA>
 
 # Two inquiries using one estimator
 
@@ -238,12 +249,12 @@ design_2 <-
   declare_estimator(Y ~ Z, inquiry = c("ATE", "ATT"))
 
 run_design(design_2)
-#>   inquiry estimand estimator term  estimate  std.error statistic      p.value
-#> 1     ATE      0.2 estimator    Z 0.2897546 0.05087063  5.695911 2.100901e-08
-#> 2     ATT      0.2 estimator    Z 0.2897546 0.05087063  5.695911 2.100901e-08
+#>   inquiry estimand estimator term estimate  std.error statistic      p.value
+#> 1     ATE      0.2 estimator    Z 0.251376 0.05104363  4.924729 1.151135e-06
+#> 2     ATT      0.2 estimator    Z 0.251376 0.05104363  4.924729 1.151135e-06
 #>    conf.low conf.high  df outcome
-#> 1 0.1898071 0.3897021 498       Y
-#> 2 0.1898071 0.3897021 498       Y
+#> 1 0.1510886 0.3516634 498       Y
+#> 2 0.1510886 0.3516634 498       Y
 
 # Two inquiries using different coefficients from one estimator
 
@@ -260,11 +271,11 @@ design_3 <-
 
 run_design(design_3)
 #>     inquiry  estimand estimator        term  estimate  std.error statistic
-#> 1 intercept 0.5098828 estimator (Intercept) 0.5187536 0.03584575 14.471830
-#> 2     slope 0.2000000 estimator           Z 0.1822586 0.05012282  3.636239
+#> 1 intercept 0.4880825 estimator (Intercept) 0.5049291 0.03569795 14.144484
+#> 2     slope 0.2000000 estimator           Z 0.1663068 0.05060407  3.286431
 #>        p.value   conf.low conf.high  df outcome
-#> 1 7.140318e-40 0.44832602 0.5891811 498       Y
-#> 2 3.054480e-04 0.08378031 0.2807368 498       Y
+#> 1 2.005159e-38 0.43479191 0.5750662 498       Y
+#> 2 1.086242e-03 0.06688302 0.2657306 498       Y
 
 
 # declare_inquiries usage
@@ -282,6 +293,6 @@ run_design(design_4)
 #> 2             CATE_X0  2.000000e-01
 #> 3             CATE_X1  2.000000e-01
 #> 4 Difference_in_CATEs -5.551115e-17
-#> 5              mean_Y  6.085101e-01
+#> 5              mean_Y  6.036624e-01
 
 ```

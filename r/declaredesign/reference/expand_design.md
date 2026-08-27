@@ -38,6 +38,7 @@ parameters assigned by expand_design.
 ## Examples
 
 ``` r
+
 if (FALSE) { # \dontrun{
 
 # in conjunction with DesignLibrary

@@ -19,7 +19,9 @@ redesign(design, ..., expand = TRUE)
 - ...:
 
   Arguments to redesign e.g., `n = 100.` If redesigning multiple
-  arguments, they must be specified as a named list.
+  arguments, they must be specified as a named list. lists should also
+  be used if redesigning with respect to a dataset or with respect to a
+  vector. For instance, redesign(design, df = list(new_df)).
 
 - expand:
 
@@ -33,16 +35,13 @@ A design, or, in the case of multiple values being passed onto `...`, a
 
 ## Details
 
-Warning: `redesign` will edit any symbol in your design, but if the
-symbol you attempt to change does not exist in a step's environment no
-changes will be made and no error or warning will be issued.
-
-Please note that `redesign` functionality is experimental and may be
-changed in future versions.
+If you attempt to change a parameter that is not saved into a design you
+will receive a message but not an error.
 
 ## Examples
 
 ``` r
+
 # Two-arm randomized experiment
 n <- 500
 
@@ -124,6 +123,7 @@ draw_data(redesign(design2, X=0))
 #>   ID A
 #> 1  1 0
 draw_data(redesign(design3, X=0))
+#> Warning: You requested a change to X but X is not found in the design
 #>   ID A
 #> 1  1 6
 ```

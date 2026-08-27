@@ -24,6 +24,7 @@ that you are running version 3.5 or later of R and run the following
 code:
 
 ``` r
+
 install.packages("DeclareDesign")
 ```
 
@@ -37,6 +38,7 @@ remainder to control. The true value of the average treatment effect is
 The diagnosis shows that the study is unbiased but underpowered.
 
 ``` r
+
 library(DeclareDesign)
 
 design <-
@@ -57,6 +59,7 @@ diagnosis <- diagnose_design(design, diagnosands = diagnosands)
 ```
 
 ``` r
+
 diagnosis
 ```
 

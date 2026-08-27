@@ -43,6 +43,7 @@ draw_estimates(...)
 ## Examples
 
 ``` r
+
 # Two-arm randomized experiment
 design <-
   declare_model(
@@ -71,8 +72,8 @@ draw_estimands(design)
 
 # Use draw_estimates to extract value of estimator
 draw_estimates(design)
-#>   estimator term estimate  std.error statistic    p.value  conf.low conf.high
-#> 1 estimator    Z 0.215433 0.07854149   2.74292 0.00664826 0.0605478 0.3703182
+#>   estimator term estimate  std.error statistic      p.value  conf.low conf.high
+#> 1 estimator    Z 0.334225 0.07695986  4.342849 2.243858e-05 0.1824589 0.4859912
 #>    df outcome inquiry
 #> 1 198       Y     ATE
 ```

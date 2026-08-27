@@ -25,6 +25,7 @@ numeric scalar of the population variance
 ## Examples
 
 ``` r
+
 x <- 1:4
 var(x) # divides by (n-1)
 #> [1] 1.666667

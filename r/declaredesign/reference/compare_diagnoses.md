@@ -64,8 +64,8 @@ merge.
 ## Examples
 
 ``` r
-design_a <- 
-  declare_model(N  = 100, 
+design_a <-
+  declare_model(N  = 100,
                 U = rnorm(N),
                 Y_Z_0 = U,
                 Y_Z_1 = U + rnorm(N, mean = 2, sd = 2)) +
@@ -75,8 +75,9 @@ design_a <-
   declare_estimator(Y ~ Z, inquiry = "ATE")
 
 design_b <- replace_step(
-  design_a, step = "assignment", 
+  design_a, step = "assignment",
   declare_assignment(Z = complete_ra(N, prob = 0.3)) )
-
+if (FALSE) { # \dontrun{
 comparison <- compare_diagnoses(design_a, design_b, sims = 40)
+} # }
 ```

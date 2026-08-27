@@ -1,6 +1,8 @@
 # Declare sampling procedure
 
-Declare sampling procedure
+Add a step to a design that indicates which variables from a population
+get sampled and then passed on for estimation. Sampling is a part of the
+data strategy of a research design.
 
 ## Usage
 
@@ -60,10 +62,10 @@ design <-
   declare_estimator(Y ~ Z, inquiry = "ATE")
   
 run_design(design)
-#>   inquiry estimand estimator term  estimate  std.error statistic    p.value
-#> 1     ATE      0.2 estimator    Z 0.1371534 0.07941205   1.72711 0.08570732
-#>      conf.low conf.high  df outcome
-#> 1 -0.01944857 0.2937553 198       Y
+#>   inquiry estimand estimator term  estimate  std.error statistic      p.value
+#> 1     ATE      0.2 estimator    Z 0.2863781 0.07900873  3.624638 0.0003678948
+#>    conf.low conf.high  df outcome
+#> 1 0.1305714 0.4421847 198       Y
 
 # Set up population to sample from
 model <- declare_model(
@@ -90,12 +92,12 @@ design <- model +
   
 head(draw_data(design))
 #>    villages N_households households N_members individuals age gender S
-#> 2        01           64       0001         3        0002  86      1 1
-#> 10       01           64       0005         2        0010  65      0 1
-#> 11       01           64       0005         2        0011  85      1 1
-#> 24       01           64       0011         1        0024  73      0 1
-#> 39       01           64       0019         3        0039  43      1 1
-#> 45       01           64       0021         1        0045  62      0 1
+#> 1        01           64       0001         1        0001  23      1 1
+#> 2        01           64       0002         4        0002  76      0 1
+#> 7        01           64       0003         2        0007  23      0 1
+#> 8        01           64       0004         3        0008  23      1 1
+#> 25       01           64       0010         4        0025  40      1 1
+#> 28       01           64       0012         2        0028  46      1 1
 
 ## Cluster random sampling
 design <- model +
@@ -103,13 +105,13 @@ design <- model +
                                   n = 15))
 
 head(draw_data(design))
-#>   villages N_households households N_members individuals age gender S
-#> 1       01           65       0001         3        0001  18      1 1
-#> 2       01           65       0001         3        0002  74      1 1
-#> 3       01           65       0001         3        0003  38      1 1
-#> 4       01           65       0002         1        0004  29      0 1
-#> 5       01           65       0003         3        0005  24      0 1
-#> 6       01           65       0003         3        0006  53      0 1
+#>     villages N_households households N_members individuals age gender S
+#> 191       02           86       0075         4        0191  81      1 1
+#> 192       02           86       0075         4        0192  30      0 1
+#> 193       02           86       0075         4        0193  84      0 1
+#> 194       02           86       0075         4        0194  37      1 1
+#> 195       02           86       0076         1        0195  33      0 1
+#> 196       02           86       0077         3        0196  48      1 1
 
 ## Strata and cluster random sampling
 design <- model +
@@ -120,23 +122,23 @@ design <- model +
     
 head(draw_data(design))
 #>    villages N_households households N_members individuals age gender S
-#> 1        01           54       0001         1        0001  55      1 1
-#> 6        01           54       0004         4        0006  21      0 1
-#> 7        01           54       0004         4        0007  58      0 1
-#> 8        01           54       0004         4        0008  30      0 1
-#> 9        01           54       0004         4        0009  23      1 1
-#> 12       01           54       0006         4        0012  86      1 1
+#> 9        01           93       0004         2        0009  67      1 1
+#> 10       01           93       0004         2        0010  51      1 1
+#> 11       01           93       0005         1        0011  85      0 1
+#> 21       01           93       0009         4        0021  62      1 1
+#> 22       01           93       0009         4        0022  24      1 1
+#> 23       01           93       0009         4        0023  90      1 1
 
 ## Stratified random sampling
 design <- model +
   declare_sampling(S = strata_rs(strata = gender, n = 100))
 
 head(draw_data(design))
-#>     villages N_households households N_members individuals age gender S
-#> 44        01           53       0020         4        0044  30      1 1
-#> 56        01           53       0023         4        0056  20      0 1
-#> 70        01           53       0030         3        0070  70      0 1
-#> 103       01           53       0044         2        0103  29      1 1
-#> 129       01           53       0052         3        0129  38      1 1
-#> 150       02           96       0059         4        0150  63      1 1
+#>    villages N_households households N_members individuals age gender S
+#> 2        01           88       0001         2        0002  47      1 1
+#> 6        01           88       0003         2        0006  42      0 1
+#> 12       01           88       0005         2        0012  36      0 1
+#> 13       01           88       0005         2        0013  46      1 1
+#> 51       01           88       0020         3        0051  51      0 1
+#> 77       01           88       0031         3        0077  53      0 1
 ```

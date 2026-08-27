@@ -66,19 +66,17 @@ method_handler(
 - .method:
 
   A method function, e.g. lm or glm. By default, the method is the
-  [`lm_robust`](https://declaredesign.org/r/estimatr/reference/lm_robust.html)
-  function from the
-  [estimatr](https://declaredesign.org/r/estimatr/reference/estimatr.html)
-  package, which fits OLS regression and calculates robust and
-  cluster-robust standard errors.
+  [`estimatr::lm_robust`](https://declaredesign.org/r/estimatr/reference/lm_robust.html)
+  function from the estimatr package, which fits OLS regression and
+  calculates robust and cluster-robust standard errors.
 
 - .summary:
 
   A method-in data-out function to extract coefficient estimates or
   method summary statistics, such as
-  [`tidy`](https://generics.r-lib.org/reference/tidy.html) or
-  [`glance`](https://generics.r-lib.org/reference/glance.html). By
-  default, the `DeclareDesign` method summary function
+  [`broom::tidy`](https://generics.r-lib.org/reference/tidy.html) or
+  [`broom::glance`](https://generics.r-lib.org/reference/glance.html).
+  By default, the `DeclareDesign` method summary function
   [`tidy_try`](https://declaredesign.org/r/declaredesign/reference/tidy_try.md)
   is used, which first attempts to use the available tidy method for the
   method object sent to `method`, then if not attempts to summarize
@@ -111,7 +109,7 @@ statistics.
 parameter estimates from data.
 
 In `declare_estimator`, you can optionally provide the name of an
-inquiry or an objected created by
+inquiry or an object created by
 [`declare_inquiry`](https://declaredesign.org/r/declaredesign/reference/declare_inquiry.md)
 to connect your estimate(s) to inquiry(s).
 
@@ -144,9 +142,14 @@ a data-in-data-out function that first runs the provided estimation
 function `fn` and then appends a label for the estimator and, if an
 inquiry is provided, a label for the inquiry.
 
+## See also
+
+\[estimatr::lm_robust()\], \[broom::glance()\]
+
 ## Examples
 
 ``` r
+
 # Setup for examples
 design <-
   declare_model(
@@ -161,10 +164,10 @@ design <-
   declare_sampling(S = complete_rs(N = N, n = 200)) +
   declare_assignment(Z = complete_ra(N = N, m = 100)) +
   declare_measurement(Y = reveal_outcomes(Y ~ Z))
-  
+
 run_design(design)
 #>   inquiry estimand
-#> 1     ATE     0.04
+#> 1     ATE    0.108
 
 # default estimator is lm_robust with tidy summary
 design_0 <-
@@ -172,10 +175,10 @@ design_0 <-
   declare_estimator(Y ~ Z, inquiry = "ATE")
 
 run_design(design_0)
-#>   inquiry estimand estimator term estimate  std.error statistic    p.value
-#> 1     ATE    0.068 estimator    Z    -0.12 0.06846071  -1.75283 0.08117887
-#>     conf.low  conf.high  df outcome
-#> 1 -0.2550057 0.01500571 198       Y
+#>   inquiry estimand estimator term estimate  std.error statistic   p.value
+#> 1     ATE    0.104 estimator    Z     0.09 0.07034547    1.2794 0.2022534
+#>      conf.low conf.high  df outcome
+#> 1 -0.04872249 0.2287225 198       Y
 
 # Linear regression using lm_robust and tidy summary
 design_1 <-
@@ -190,10 +193,10 @@ design_1 <-
   )
 
 run_design(design_1)
-#>   inquiry estimand term      estimator estimate  std.error statistic
-#> 1     ATE    0.046    Z lm_no_controls     0.18 0.06813534  2.641801
-#>       p.value   conf.low conf.high  df outcome
-#> 1 0.008905506 0.04563592 0.3143641 198       Y
+#>   inquiry estimand term      estimator estimate  std.error statistic   p.value
+#> 1     ATE    0.096    Z lm_no_controls     0.08 0.06939857  1.152761 0.2503981
+#>      conf.low conf.high  df outcome
+#> 1 -0.05685519 0.2168552 198       Y
 
 # Use glance summary function to view model fit statistics
 design_2 <-
@@ -203,15 +206,20 @@ design_2 <-
                     .summary = glance)
 
 run_design(design_2)
-#>   inquiry estimand estimator   r.squared adj.r.squared statistic   p.value
-#> 1     ATE    0.036 estimator 0.005083515  5.868415e-05  1.011679 0.3157286
+#>   inquiry estimand estimator r.squared adj.r.squared statistic     p.value
+#> 1     ATE    0.038 estimator 0.0410509    0.03620773  8.476027 0.004011144
 #>   df.residual nobs se_type
 #> 1         198  200     HC2
 
-# Use declare_estimator to implement custom answer strategies
+# Custom answer strategies
+# A custom estimator should take data as an argument and return a data.frame
+# with columns such as "estimate", "std.error", "p.value", "conf.low", "conf.high"
 my_estimator <- function(data) {
   data.frame(estimate = mean(data$Y))
 }
+
+# Add a custom estimator to the design, wrapping it in `label_estimator()`
+# in order to pass label and inquiry arguments
 
 design_3 <-
   design +
@@ -222,8 +230,8 @@ design_3 <-
 
 run_design(design_3)
 #>   inquiry estimand estimator estimate
-#> 1   Y_bar    0.575      mean    0.575
-#> 2     ATE    0.088      <NA>       NA
+#> 1   Y_bar    0.570      mean     0.57
+#> 2     ATE    0.054      <NA>       NA
 
 # Use `term` to select particular coefficients
 design_4 <-
@@ -236,11 +244,11 @@ design_4 <-
                     .method = lm_robust)
 
 run_design(design_4)
-#>               inquiry   estimand     term estimator    estimate std.error
-#> 1 difference_in_cates 0.01403723 Z:gender estimator -0.04785418  0.138951
-#> 2                 ATE 0.12800000     <NA>      <NA>          NA        NA
+#>               inquiry     estimand     term estimator    estimate std.error
+#> 1 difference_in_cates 0.0008003201 Z:gender estimator -0.08878265 0.1340375
+#> 2                 ATE 0.0500000000     <NA>      <NA>          NA        NA
 #>    statistic   p.value   conf.low conf.high  df outcome
-#> 1 -0.3443959 0.7309178 -0.3218853 0.2261769 196       Y
+#> 1 -0.6623717 0.5085111 -0.3531235 0.1755582 196       Y
 #> 2         NA        NA         NA        NA  NA    <NA>
 
 if(require("broom")) {
@@ -252,22 +260,22 @@ if(require("broom")) {
                       family = "gaussian",
                       inquiry = "ATE",
                       .method = glm)
-  
+
   run_design(design_5)
-  
+
   # If we use logit, we'll need to estimate the average marginal effect with
-  # marginaleffects::avg_slopes. We wrap this up in a function we'll pass to 
+  # marginaleffects::avg_slopes. We wrap this up in a function we'll pass to
   # .summary.
-  
+
   if(require("marginaleffects")) {
-  
+
     library(marginaleffects) # for predictions
     library(broom) # for tidy
-    
+
     tidy_avg_slopes <- function(x) {
       tidy(avg_slopes(x))
     }
-    
+
     design_6 <-
       design +
       declare_estimator(
@@ -277,11 +285,11 @@ if(require("broom")) {
         .summary = tidy_avg_slopes,
         term = "Z"
       )
-    
+
     run_design(design_6)
-    
+
     # Multiple estimators for one inquiry
-    
+
     design_7 <-
       design +
       declare_estimator(Y ~ Z,
@@ -297,9 +305,9 @@ if(require("broom")) {
         term = "Z",
         label = "logit"
       )
-    
+
     run_design(design_7)
-    
+
   }
 
 }

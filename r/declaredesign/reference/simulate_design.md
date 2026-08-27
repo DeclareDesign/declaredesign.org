@@ -56,6 +56,7 @@ draws, recorded in "step_4_draw" (with values 1 to 6).
 ## Examples
 
 ``` r
+
 # Two-arm randomized experiment
 design <-
   declare_model(
