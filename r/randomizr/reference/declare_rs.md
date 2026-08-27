@@ -1,6 +1,14 @@
-# Declare a random sampling procedure.
+# Declare a Random Sampling Procedure
 
-Declare a random sampling procedure.
+`declare_rs` describes a sampling design once so that the rest of the
+package can work from it. Pass the result to
+[`draw_rs()`](https://declaredesign.org/r/randomizr/reference/draw_rs.md)
+to draw a sample, or to
+[`obtain_inclusion_probabilities()`](https://declaredesign.org/r/randomizr/reference/obtain_inclusion_probabilities.md)
+to recover each unit's probability of selection. Declaring is worth the
+extra line whenever a design is drawn more than once, since the
+probabilities are then computed from the same object that produced the
+sample rather than reconstructed by hand.
 
 ## Usage
 
@@ -24,81 +32,121 @@ declare_rs(
 
 - N:
 
-  The number of units. N must be a positive integer. (required)
+  The number of units in the sampling frame. Must be a positive integer.
+  (required)
 
 - strata:
 
-  A vector of length N that indicates which stratum each unit belongs
-  to.
+  A vector of length N indicating which stratum each unit belongs to.
+  Supply to use stratified random sampling. (optional)
 
 - clusters:
 
-  A vector of length N that indicates which cluster each unit belongs
-  to.
+  A vector of length N indicating which cluster each unit belongs to.
+  Supply to sample whole clusters. (optional)
 
 - n:
 
-  Use for a design in which n units (or clusters) are sampled. In a
-  stratified design, exactly n units in each stratum will be sampled.
+  Use for a design in which exactly `n` units (or clusters) are sampled.
+  In a stratified design, exactly `n` units in each stratum are sampled.
   (optional)
 
 - n_unit:
 
-  Under complete random sampling, must be constant across units. Under
-  stratified random sampling, must be constant within strata.
+  Of length N. Under complete random sampling, must be constant across
+  units. Under stratified random sampling, must be constant within
+  strata. (optional)
 
 - prob:
 
-  Use for a design in which either floor(N\*prob) or ceiling(N\*prob)
-  units (or clusters) are sampled. The probability of being sampled is
-  exactly prob because with probability 1-prob, floor(N\*prob) units (or
-  clusters) will be sampled and with probability prob, ceiling(N\*prob)
-  units (or clusters) will be sampled. prob must be a real number
-  between 0 and 1 inclusive. (optional)
+  Use for a design in which either `floor(N*prob)` or `ceiling(N*prob)`
+  units (or clusters) are sampled. Which of the two is used is itself
+  random: the ceiling is drawn with probability equal to the fractional
+  part of `N*prob` and the floor otherwise, which makes each unit's
+  probability of inclusion exactly `prob`. Must be a real number between
+  0 and 1 inclusive. (optional)
 
 - prob_unit:
 
-  Must of be of length N. Under simple random sampling, can be different
-  for each unit or cluster. Under complete random sampling, must be
-  constant across units. Under stratified random sampling, must be
-  constant within strata.
+  Of length N. Under simple random sampling, may differ for each unit or
+  cluster. Under complete random sampling, must be constant across
+  units. Under stratified random sampling, must be constant within
+  strata. (optional)
 
 - strata_n:
 
-  Use for a design in which strata_n describes the number of units to
-  sample within each stratum.
+  Use for a design in which `strata_n` gives the number of units to
+  sample within each stratum, in the order of `sort(unique(strata))`.
+  (optional)
 
 - strata_prob:
 
-  Use for a design in which strata_prob describes the probability of
-  being sampled within each stratum. Differs from prob in that the
-  probability of being sampled can vary across strata.
+  Use for a design in which `strata_prob` gives the probability of being
+  sampled within each stratum, in the order of `sort(unique(strata))`.
+  Differs from `prob` in that the probability of being sampled can vary
+  across strata. (optional)
 
 - simple:
 
-  logical, defaults to FALSE. If TRUE, simple random sampling is used.
-  When `simple = TRUE`, please do not specify n or strata_n. When
-  `simple = TRUE`, `prob` may vary by unit.
+  Logical, defaults to `FALSE`. If `TRUE`, simple random sampling is
+  used, so the size of the realized sample varies from draw to draw. Do
+  not specify `n` or `strata_n` when `simple = TRUE`; `prob` may then
+  vary by unit. (optional)
 
 - check_inputs:
 
-  logical. Defaults to TRUE.
+  Logical. Whether to verify before declaring that the arguments are
+  internally consistent: that counts do not exceed the frame, that
+  probabilities lie between 0 and 1, that stratum-level arguments have
+  one entry per stratum, and so on. Defaults to `TRUE`. Set to `FALSE`
+  to skip the checks when declaring many designs from arguments that
+  have already been verified. (optional)
 
 ## Value
 
-A list of class "declaration". The list has five entries: \$rs_function,
-a function that generates random samplings according to the declaration.
-\$rs_type, a string indicating the type of random sampling used
-\$probabilities_vector, A vector length N indicating the probability of
-being sampled. \$strata, the stratification variable. \$clusters, the
-clustering variable.
+An object of class `"rs_declaration"` (an environment, addressable like
+a list) with entries:
+
+- `rs_function`:
+
+  A function that draws a random sample from the declared procedure.
+
+- `rs_type`:
+
+  A string indicating the type of random sampling used.
+
+- `probabilities_vector`:
+
+  A vector of length N giving each unit's probability of being included
+  in the sample.
+
+- `strata`:
+
+  The stratification variable, if supplied.
+
+- `clusters`:
+
+  The clustering variable, if supplied.
+
+## Details
+
+`declare_rs` covers the same four designs as the sampling functions
+themselves: simple, complete, stratified, and clustered, in any
+combination. Which one it declares is inferred from the arguments given.
+
+## See also
+
+[`draw_rs()`](https://declaredesign.org/r/randomizr/reference/draw_rs.md),
+[`obtain_inclusion_probabilities()`](https://declaredesign.org/r/randomizr/reference/obtain_inclusion_probabilities.md),
+[`declare_ra()`](https://declaredesign.org/r/randomizr/reference/declare_ra.md)
 
 ## Examples
 
 ``` r
-# The declare_rs function is used in three ways:
+# A declaration is used in three ways.
 
 # 1. To obtain some basic facts about a sampling procedure:
+
 declaration <- declare_rs(N = 100, n = 30)
 declaration
 #> Random sampling procedure: Complete random sampling 
@@ -113,7 +161,7 @@ table(S)
 #>  0  1 
 #> 70 30 
 
-# 3. To obtain inclusion probabilities
+# 3. To obtain inclusion probabilities:
 
 probs <- obtain_inclusion_probabilities(declaration)
 table(probs, S)
@@ -121,16 +169,19 @@ table(probs, S)
 #> probs  0  1
 #>   0.3 70 30
 
+
 # Simple Random Sampling Declarations
 
 declare_rs(N = 100, simple = TRUE)
 #> Random sampling procedure: Simple random sampling 
 #> Number of units: 100 
 #> The inclusion probabilities are constant across units.
-declare_rs(N = 100, prob = .4, simple = TRUE)
+
+declare_rs(N = 100, prob = 0.4, simple = TRUE)
 #> Random sampling procedure: Simple random sampling 
 #> Number of units: 100 
 #> The inclusion probabilities are constant across units.
+
 
 # Complete Random Sampling Declarations
 
@@ -138,20 +189,24 @@ declare_rs(N = 100)
 #> Random sampling procedure: Complete random sampling 
 #> Number of units: 100 
 #> The inclusion probabilities are constant across units.
+
 declare_rs(N = 100, n = 30)
 #> Random sampling procedure: Complete random sampling 
 #> Number of units: 100 
 #> The inclusion probabilities are constant across units.
 
+
 # Stratified Random Sampling Declarations
 
-strata <- rep(c("A", "B","C"), times=c(50, 100, 200))
+strata <- rep(c("A", "B", "C"), times = c(50, 100, 200))
+
 declare_rs(strata = strata)
 #> Random sampling procedure: Stratified random sampling 
 #> Number of units: 350 
 #> Number of strata: 3 
 #> The inclusion probabilities are constant across units.
-declare_rs(strata = strata, prob = .5)
+
+declare_rs(strata = strata, prob = 0.5)
 #> Random sampling procedure: Stratified random sampling 
 #> Number of units: 350 
 #> Number of strata: 3 
@@ -160,54 +215,50 @@ declare_rs(strata = strata, prob = .5)
 
 # Cluster Random Sampling Declarations
 
-clusters <- rep(letters, times = 1:26)
+clusters <- rep(letters[1:10], times = 1:10)
+
 declare_rs(clusters = clusters)
 #> Random sampling procedure: Cluster random sampling 
-#> Number of units: 351 
-#> Number of clusters: 26 
+#> Number of units: 55 
+#> Number of clusters: 10 
 #> The inclusion probabilities are constant across units.
-declare_rs(clusters = clusters, n = 10)
+
+declare_rs(clusters = clusters, n = 4)
 #> Random sampling procedure: Cluster random sampling 
-#> Number of units: 351 
-#> Number of clusters: 26 
+#> Number of units: 55 
+#> Number of clusters: 10 
 #> The inclusion probabilities are constant across units.
+
 
 # Stratified and Clustered Random Sampling Declarations
 
-clusters <- rep(letters, times = 1:26)
+clusters <- rep(letters[1:12], times = 1:12)
+
 strata <- rep(NA, length(clusters))
-strata[clusters %in% letters[1:5]] <- "stratum_1"
-strata[clusters %in% letters[6:10]] <- "stratum_2"
-strata[clusters %in% letters[11:15]] <- "stratum_3"
-strata[clusters %in% letters[16:20]] <- "stratum_4"
-strata[clusters %in% letters[21:26]] <- "stratum_5"
+strata[clusters %in% letters[1:3]] <- "stratum_1"
+strata[clusters %in% letters[4:6]] <- "stratum_2"
+strata[clusters %in% letters[7:9]] <- "stratum_3"
+strata[clusters %in% letters[10:12]] <- "stratum_4"
 
 table(strata, clusters)
 #>            clusters
-#> strata       a  b  c  d  e  f  g  h  i  j  k  l  m  n  o  p  q  r  s  t  u  v
-#>   stratum_1  1  2  3  4  5  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0
-#>   stratum_2  0  0  0  0  0  6  7  8  9 10  0  0  0  0  0  0  0  0  0  0  0  0
-#>   stratum_3  0  0  0  0  0  0  0  0  0  0 11 12 13 14 15  0  0  0  0  0  0  0
-#>   stratum_4  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0 16 17 18 19 20  0  0
-#>   stratum_5  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0 21 22
-#>            clusters
-#> strata       w  x  y  z
-#>   stratum_1  0  0  0  0
-#>   stratum_2  0  0  0  0
-#>   stratum_3  0  0  0  0
-#>   stratum_4  0  0  0  0
-#>   stratum_5 23 24 25 26
+#> strata       a  b  c  d  e  f  g  h  i  j  k  l
+#>   stratum_1  1  2  3  0  0  0  0  0  0  0  0  0
+#>   stratum_2  0  0  0  4  5  6  0  0  0  0  0  0
+#>   stratum_3  0  0  0  0  0  0  7  8  9  0  0  0
+#>   stratum_4  0  0  0  0  0  0  0  0  0 10 11 12
 
 declare_rs(clusters = clusters, strata = strata)
 #> Random sampling procedure: Stratified and clustered random sampling 
-#> Number of units: 351 
-#> Number of strata: 5 
-#> Number of clusters: 26 
+#> Number of units: 78 
+#> Number of strata: 4 
+#> Number of clusters: 12 
 #> The inclusion probabilities are constant across units.
-declare_rs(clusters = clusters, strata = strata, prob = .3)
+
+declare_rs(clusters = clusters, strata = strata, prob = 0.3)
 #> Random sampling procedure: Stratified and clustered random sampling 
-#> Number of units: 351 
-#> Number of strata: 5 
-#> Number of clusters: 26 
+#> Number of units: 78 
+#> Number of strata: 4 
+#> Number of clusters: 12 
 #> The inclusion probabilities are constant across units.
 ```

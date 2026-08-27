@@ -1,29 +1,11 @@
 # Complete Random Assignment
 
-complete_ra implements a random assignment procedure in which fixed
-numbers of units are assigned to treatment conditions. The canonical
-example of complete random assignment is a procedure in which exactly m
-of N units are assigned to treatment and N-m units are assigned to
-control.  
-  
-Users can set the exact number of units to assign to each condition with
-m or m_each. Alternatively, users can specify probabilities of
-assignment with prob or prob_each and complete_ra will infer the correct
-number of units to assign to each condition. In a two-arm design,
-complete_ra will either assign floor(N\*prob) or ceiling(N\*prob) units
-to treatment, choosing between these two values to ensure that the
-overall probability of assignment is exactly prob. In a multi-arm
-design, complete_ra will first assign floor(N\*prob_each) units to their
-respective conditions, then will assign the remaining units using simple
-random assignment, choosing these second-stage probabilities so that the
-overall probabilities of assignment are exactly prob_each.  
-  
-In most cases, users should specify N and not more than one of m,
-m_each, prob, prob_each, or num_arms.  
-  
-If only N is specified, a two-arm trial in which N/2 units are assigned
-to treatment is assumed. If N is odd, either floor(N/2) units or
-ceiling(N/2) units will be assigned to treatment.
+`complete_ra` assigns exactly fixed numbers of units to each treatment
+condition. In the canonical two-arm case, exactly `m` of `N` units are
+assigned to treatment and `N-m` to control on every draw. This guarantee
+that the counts are fixed is the defining feature of complete random
+assignment, and it is what distinguishes it from simple random
+assignment (where counts vary from draw to draw).
 
 ## Usage
 
@@ -46,77 +28,106 @@ complete_ra(
 
 - N:
 
-  The number of units. N must be a positive integer. (required)
+  The number of units. Must be a positive integer. (required)
 
 - m:
 
-  Use for a two-arm design in which m units are assigned to treatment
-  and N-m units are assigned to control. (optional)
+  Use for a two-arm design: exactly `m` units are assigned to treatment
+  and `N-m` to control. (optional)
 
 - m_unit:
 
-  Use for a two-arm design in which exactly unique(m_unit) units are
-  assigned to treatment and the remainder are assigned to control.
-  m_unit must be of length N and must be the same for all units
-  (optional)
+  Use for a two-arm design. `unique(m_unit)` units are assigned to
+  treatment; must be the same for all units and of length N. (optional)
 
 - m_each:
 
-  Use for a multi-arm design in which the values of m_each determine the
-  number of units assigned to each condition. m_each must be a numeric
-  vector in which each entry is a nonnegative integer that describes how
-  many units should be assigned to the 1st, 2nd, 3rd... treatment
-  condition. m_each must sum to N. (optional)
+  Use for a multi-arm design. A numeric vector giving the exact number
+  of units assigned to each condition; must sum to N. (optional)
 
 - prob:
 
-  Use for a two-arm design in which either floor(N\*prob) or
-  ceiling(N\*prob) units are assigned to treatment. The probability of
-  assignment to treatment is exactly prob because with probability
-  1-prob, floor(N\*prob) units will be assigned to treatment and with
-  probability prob, ceiling(N\*prob) units will be assigned to
-  treatment. prob must be a real number between 0 and 1 inclusive.
-  (optional)
+  Use for a two-arm design: either `floor(N*prob)` or `ceiling(N*prob)`
+  units are assigned to treatment so that the marginal probability of
+  assignment equals exactly `prob`. Must be between 0 and 1. One edge is
+  deliberate: when `ceiling(N*prob) == N` (for instance
+  `N = 3, prob = 0.9`), exactly `floor(N*prob)` units are treated, never
+  all `N`, so the marginal probability is `floor(N*prob)/N`;
+  [`complete_ra_probabilities()`](https://declaredesign.org/r/randomizr/reference/complete_ra_probabilities.md)
+  reports the probability actually used. (optional)
 
 - prob_unit:
 
-  Use for a two-arm design. unique(prob_unit) will be passed to the prob
-  argument and must be the same for all units.
+  Use for a two-arm design. `unique(prob_unit)` will be passed to the
+  `prob` argument; must be the same for all units. (optional)
 
 - prob_each:
 
-  Use for a multi-arm design in which the values of prob_each determine
-  the probabilities of assignment to each treatment condition. prob_each
-  must be a numeric vector giving the probability of assignment to each
-  condition. All entries must be nonnegative real numbers between 0 and
-  1 inclusive and the total must sum to 1. Because of integer issues,
-  the exact number of units assigned to each condition may differ
-  (slightly) from assignment to assignment, but the overall probability
-  of assignment is exactly prob_each. (optional)
+  Use for a multi-arm design. A numeric vector giving the probability of
+  assignment to each condition; entries must be nonnegative and sum
+  to 1. Due to integer rounding the exact count assigned to each
+  condition may differ slightly from draw to draw, but the overall
+  probability of assignment is exactly `prob_each`. (optional)
 
 - num_arms:
 
-  The number of treatment arms. If unspecified, num_arms will be
-  determined from the other arguments. (optional)
+  The number of treatment arms. If unspecified, determined from the
+  other arguments. (optional)
 
 - conditions:
 
   A character vector giving the names of the treatment groups. If
-  unspecified, the treatment groups will be named 0 (for control) and 1
-  (for treatment) in a two-arm trial and T1, T2, T3, in a multi-arm
-  trial. An exception is a two-group design in which num_arms is set to
-  2, in which case the condition names are T1 and T2, as in a multi-arm
-  trial with two arms. (optional)
+  unspecified, groups will be named 0 and 1 in a two-arm trial and T1,
+  T2, T3, in a multi-arm trial. A two-group design in which `num_arms`
+  is set to 2 will use condition names T1 and T2. (optional)
 
 - check_inputs:
 
-  logical. Defaults to TRUE.
+  Logical. Whether to verify before assigning that the arguments are
+  internally consistent: that counts sum to N, that probabilities lie
+  between 0 and 1 and sum to 1, that vectors are of length N, and so on.
+  Defaults to `TRUE`. `FALSE` skips the checking only: `num_arms` and
+  `conditions` are still derived from the other arguments, so the same
+  call draws the same assignment either way. What goes is the
+  verification, and an impossible design is then no longer refused.
+  `block_m` larger than a block, for instance, quietly treats the whole
+  block. Declaring the design once with
+  [`declare_ra()`](https://declaredesign.org/r/randomizr/reference/declare_ra.md)
+  and drawing from it with
+  [`conduct_ra()`](https://declaredesign.org/r/randomizr/reference/conduct_ra.md)
+  is the usual way to avoid re-checking the same arguments in a
+  simulation. (optional)
 
 ## Value
 
-A vector of length N that indicates the treatment condition of each
-unit. Is numeric in a two-arm trial and a factor variable (ordered by
-conditions) in a multi-arm trial.
+A vector of length N indicating the treatment condition of each unit.
+Numeric in a two-arm trial; a factor (ordered by `conditions`) in a
+multi-arm trial.
+
+## Details
+
+Researchers can specify counts directly (via `m` or `m_each`) or target
+probabilities (via `prob` or `prob_each`). When probabilities are
+specified and the implied counts are not integers, `complete_ra` uses
+stochastic rounding to ensure that the overall probability of assignment
+exactly equals the target. In a two-arm design, either `floor(N*prob)`
+or `ceiling(N*prob)` units are assigned to treatment, with the draw
+between these two values chosen so that `Pr(treatment)` equals exactly
+`prob`. In a multi-arm design, the remaining units after floor
+allocation are assigned using a single round of simple random assignment
+calibrated to hit the exact target probabilities.
+
+If only `N` is specified, a balanced two-arm trial (`prob = 0.5`) is
+assumed. When `N` is odd, either `floor(N/2)` or `ceiling(N/2)` units
+are assigned to treatment.
+
+## See also
+
+[`simple_ra()`](https://declaredesign.org/r/randomizr/reference/simple_ra.md),
+[`block_ra()`](https://declaredesign.org/r/randomizr/reference/block_ra.md),
+[`cluster_ra()`](https://declaredesign.org/r/randomizr/reference/cluster_ra.md),
+[`complete_rs()`](https://declaredesign.org/r/randomizr/reference/complete_rs.md),
+[`complete_ra_probabilities()`](https://declaredesign.org/r/randomizr/reference/complete_ra_probabilities.md)
 
 ## Examples
 
@@ -134,13 +145,13 @@ table(Z)
 #>  0  1 
 #> 50 50 
 
-Z <- complete_ra(N = 100, m_unit = rep(50, 100))
+Z <- complete_ra(N = 100, m_unit = rep(30, 100))
 table(Z)
 #> Z
 #>  0  1 
-#> 50 50 
+#> 70 30 
 
-Z <- complete_ra(N = 100, prob = .111)
+Z <- complete_ra(N = 100, prob = 0.111)
 table(Z)
 #> Z
 #>  0  1 
@@ -164,7 +175,7 @@ Z <- complete_ra(N = 100, num_arms = 3)
 table(Z)
 #> Z
 #> T1 T2 T3 
-#> 34 33 33 
+#> 33 33 34 
 
 Z <- complete_ra(N = 100, m_each = c(30, 30, 40))
 table(Z)
@@ -172,7 +183,7 @@ table(Z)
 #> T1 T2 T3 
 #> 30 30 40 
 
-Z <- complete_ra(N = 100, prob_each = c(.1, .2, .7))
+Z <- complete_ra(N = 100, prob_each = c(0.1, 0.2, 0.7))
 table(Z)
 #> Z
 #> T1 T2 T3 
@@ -182,7 +193,7 @@ Z <- complete_ra(N = 100, conditions = c("control", "placebo", "treatment"))
 table(Z)
 #> Z
 #>   control   placebo treatment 
-#>        33        34        33 
+#>        33        33        34 
 
 # Special Cases
 # Two-arm trial where the conditions are by default "T1" and "T2"
@@ -192,12 +203,15 @@ table(Z)
 #> T1 T2 
 #> 50 50 
 
-# If N = m, assign with 100% probability
-complete_ra(N=2, m=2)
+# If N = m, every unit is assigned to treatment with probability 1
+complete_ra(N = 2, m = 2)
 #> [1] 1 1
 
-# Up through randomizr 0.12.0, 
-complete_ra(N=1, m=1) # assigned with 50% probability
+# The single-unit case works the same way: m = 1 out of N = 1 is treated
+# with probability 1. Up through randomizr 0.12.0 this case was instead
+# treated as a coin flip, so the unit was assigned to treatment only half of
+# the time. The change is noted here because it silently alters the
+# probabilities of assignment in code written against those versions.
+complete_ra(N = 1, m = 1)
 #> [1] 1
-# This behavior has been deprecated
 ```

@@ -1,4 +1,4 @@
 # License
 
-    YEAR: 2014-2017
+    YEAR: 2014-2026
     COPYRIGHT HOLDER: Alexander Coppock

@@ -1,7 +1,12 @@
 # Obtain the Number of Possible Permutations from a Random Assignment Declaration
 
-Obtain the Number of Possible Permutations from a Random Assignment
-Declaration
+Counts the assignments a design could have produced. The count is the
+size of the randomization distribution, so it says how much resolution a
+randomization inference p-value can have: a design with 70 possible
+assignments cannot produce a p-value below 1/70. Counting is exact and
+cheap even when the number is far too large to enumerate, which is why
+it is worth calling before
+[`obtain_permutation_matrix()`](https://declaredesign.org/r/randomizr/reference/obtain_permutation_matrix.md).
 
 ## Usage
 
@@ -14,13 +19,22 @@ obtain_num_permutations(declaration)
 - declaration:
 
   A random assignment or sampling declaration, created by
-  [`declare_ra`](https://declaredesign.org/r/randomizr/reference/declare_ra.md)
+  [`declare_ra()`](https://declaredesign.org/r/randomizr/reference/declare_ra.md)
   or
-  [`declare_rs`](https://declaredesign.org/r/randomizr/reference/declare_rs.md).
+  [`declare_rs()`](https://declaredesign.org/r/randomizr/reference/declare_rs.md).
+  (required)
 
 ## Value
 
-a scalar
+A single number: how many distinct assignments (or samples) the declared
+design can produce. It can be far larger than any matrix you would want
+to build, which is the point of counting first.
+
+## See also
+
+[`obtain_permutation_matrix()`](https://declaredesign.org/r/randomizr/reference/obtain_permutation_matrix.md),
+[`obtain_permutation_probabilities()`](https://declaredesign.org/r/randomizr/reference/obtain_permutation_probabilities.md),
+[`declare_ra()`](https://declaredesign.org/r/randomizr/reference/declare_ra.md)
 
 ## Examples
 

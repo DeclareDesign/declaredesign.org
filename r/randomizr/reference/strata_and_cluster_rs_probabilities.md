@@ -1,6 +1,8 @@
-# Inclusion Probabilities: Stratified and Clustered Random Sampling
+# Inclusion probabilities: Stratified and Clustered Random Sampling
 
-Inclusion Probabilities: Stratified and Clustered Random Sampling
+Returns each unit's probability of being sampled when clusters are drawn
+within strata. Probabilities vary across strata and are constant within
+a cluster.
 
 ## Usage
 
@@ -22,168 +24,163 @@ strata_and_cluster_rs_probabilities(
 
 - strata:
 
-  A vector of length N that indicates which stratum each unit belongs
-  to.
+  A vector of length N indicating which stratum each unit belongs to.
+  Every unit in a cluster must belong to the same stratum. (required)
 
 - clusters:
 
-  A vector of length N that indicates which cluster each unit belongs
-  to.
+  A vector of length N indicating which cluster each unit belongs to.
+  (required)
 
 - prob:
 
-  Use for a design in which either floor(N_clusters_stratum\*prob) or
-  ceiling(N_clusters_stratum\*prob) clusters are sampled within each
-  stratum. The probability of being sampled is exactly prob because with
-  probability 1-prob, floor(N_clusters_stratum\*prob) clusters will be
-  sampled and with probability prob, ceiling(N_clusters_stratum\*prob)
-  clusters will be sampled. prob must be a real number between 0 and 1
-  inclusive. (optional)
+  Use for a design in which either `floor(N_clusters_stratum*prob)` or
+  `ceiling(N_clusters_stratum*prob)` clusters are sampled within each
+  stratum. Which of the two is used is itself random: the ceiling is
+  drawn with probability equal to the fractional part of
+  `N_clusters_stratum*prob` and the floor otherwise, which makes each
+  cluster's probability of inclusion exactly `prob`. Must be a real
+  number between 0 and 1 inclusive. (optional)
 
 - prob_unit:
 
-  Must of be of length N. tapply(prob_unit, blocks, unique) will be
-  passed to `strata_prob`.
+  Must be of length N. `tapply(prob_unit, strata, unique)` will be
+  passed to `strata_prob`, so it must be constant within each stratum.
+  (optional)
 
 - n:
 
-  Use for a design in which the scalar n describes the fixed number of
-  units to sample in each stratum. This number does not vary across
-  strata.
+  Use for a design in which the scalar `n` gives the fixed number of
+  clusters to sample in every stratum. This count does not vary across
+  strata. (optional)
 
 - n_unit:
 
-  Must be of length N. tapply(m_unit, blocks, unique) will be passed to
-  `strata_n`.
+  Must be of length N. `tapply(n_unit, strata, unique)` will be passed
+  to `strata_n`, so it must be constant within each stratum. (optional)
 
 - strata_n:
 
-  Use for a design in which strata_n describes the number of units to
-  sample within each stratum.
+  Use for a design in which `strata_n` gives the number of clusters to
+  sample within each stratum. Must be as long as the number of strata,
+  in the same order as `sort(unique(strata))`. (optional)
 
 - strata_prob:
 
-  Use for a design in which strata_prob describes the probability of
-  being sampled within each stratum. Differs from prob in that the
-  probability of being sampled can vary across strata.
+  Use for a design in which `strata_prob` gives the probability of being
+  sampled within each stratum. Must be in the same order as
+  `sort(unique(strata))`. Differs from `prob` in that the probability of
+  being sampled can vary across strata. (optional)
 
 - check_inputs:
 
-  logical. Defaults to TRUE.
+  Logical. Whether to verify before sampling that the arguments are
+  internally consistent: that clusters nest within strata, that counts
+  do not exceed the number of clusters in a stratum, that probabilities
+  lie between 0 and 1, and so on. Defaults to `TRUE`. Set to `FALSE` to
+  skip the checks when drawing many samples from arguments that have
+  already been verified; declaring the design once with
+  [`declare_rs()`](https://declaredesign.org/r/randomizr/reference/declare_rs.md)
+  and drawing from it with
+  [`draw_rs()`](https://declaredesign.org/r/randomizr/reference/draw_rs.md)
+  does this for you. (optional)
 
 ## Value
 
-A vector length N indicating the probability of being sampled.
+A numeric vector of length N giving each unit's probability of being
+included in the sample. Every unit in a cluster shares one probability.
+
+## Details
+
+These are the quantities inverse-probability weights are built from:
+weight each sampled unit by the reciprocal of its inclusion probability,
+which
+[`obtain_inclusion_probabilities()`](https://declaredesign.org/r/randomizr/reference/obtain_inclusion_probabilities.md)
+extracts for you.
+
+## See also
+
+[`strata_and_cluster_rs()`](https://declaredesign.org/r/randomizr/reference/strata_and_cluster_rs.md)
 
 ## Examples
 
 ``` r
 
-clusters <- rep(letters, times = 1:26)
+# Twelve clusters, of sizes 1 through 12, nested in four strata of three
+clusters <- rep(letters[1:12], times = 1:12)
 
 strata <- rep(NA, length(clusters))
-strata[clusters %in% letters[1:5]] <- "stratum_1"
-strata[clusters %in% letters[6:10]] <- "stratum_2"
-strata[clusters %in% letters[11:15]] <- "stratum_3"
-strata[clusters %in% letters[16:20]] <- "stratum_4"
-strata[clusters %in% letters[21:26]] <- "stratum_5"
+strata[clusters %in% letters[1:3]] <- "stratum_1"
+strata[clusters %in% letters[4:6]] <- "stratum_2"
+strata[clusters %in% letters[7:9]] <- "stratum_3"
+strata[clusters %in% letters[10:12]] <- "stratum_4"
 
 table(strata, clusters)
 #>            clusters
-#> strata       a  b  c  d  e  f  g  h  i  j  k  l  m  n  o  p  q  r  s  t  u  v
-#>   stratum_1  1  2  3  4  5  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0
-#>   stratum_2  0  0  0  0  0  6  7  8  9 10  0  0  0  0  0  0  0  0  0  0  0  0
-#>   stratum_3  0  0  0  0  0  0  0  0  0  0 11 12 13 14 15  0  0  0  0  0  0  0
-#>   stratum_4  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0 16 17 18 19 20  0  0
-#>   stratum_5  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0 21 22
-#>            clusters
-#> strata       w  x  y  z
-#>   stratum_1  0  0  0  0
-#>   stratum_2  0  0  0  0
-#>   stratum_3  0  0  0  0
-#>   stratum_4  0  0  0  0
-#>   stratum_5 23 24 25 26
+#> strata       a  b  c  d  e  f  g  h  i  j  k  l
+#>   stratum_1  1  2  3  0  0  0  0  0  0  0  0  0
+#>   stratum_2  0  0  0  4  5  6  0  0  0  0  0  0
+#>   stratum_3  0  0  0  0  0  0  7  8  9  0  0  0
+#>   stratum_4  0  0  0  0  0  0  0  0  0 10 11 12
 
 probs <- strata_and_cluster_rs_probabilities(strata = strata,
                                          clusters = clusters)
 
 table(probs, strata)
 #>      strata
-#> probs stratum_1 stratum_2 stratum_3 stratum_4 stratum_5
-#>   0.5        15        40        65        90       141
+#> probs stratum_1 stratum_2 stratum_3 stratum_4
+#>   0.5         6        15        24        33
 table(probs, clusters)
 #>      clusters
-#> probs  a  b  c  d  e  f  g  h  i  j  k  l  m  n  o  p  q  r  s  t  u  v  w  x
-#>   0.5  1  2  3  4  5  6  7  8  9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24
-#>      clusters
-#> probs  y  z
-#>   0.5 25 26
+#> probs  a  b  c  d  e  f  g  h  i  j  k  l
+#>   0.5  1  2  3  4  5  6  7  8  9 10 11 12
 
 
 probs <- strata_and_cluster_rs_probabilities(clusters = clusters,
                                          strata = strata,
-                                         prob = .5)
+                                         prob = 0.5)
 
 table(probs, clusters)
 #>      clusters
-#> probs  a  b  c  d  e  f  g  h  i  j  k  l  m  n  o  p  q  r  s  t  u  v  w  x
-#>   0.5  1  2  3  4  5  6  7  8  9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24
-#>      clusters
-#> probs  y  z
-#>   0.5 25 26
+#> probs  a  b  c  d  e  f  g  h  i  j  k  l
+#>   0.5  1  2  3  4  5  6  7  8  9 10 11 12
 table(probs, strata)
 #>      strata
-#> probs stratum_1 stratum_2 stratum_3 stratum_4 stratum_5
-#>   0.5        15        40        65        90       141
+#> probs stratum_1 stratum_2 stratum_3 stratum_4
+#>   0.5         6        15        24        33
 
 probs <- strata_and_cluster_rs_probabilities(clusters = clusters,
                                          strata = strata,
-                                         strata_n = c(2, 3, 2, 3, 2))
+                                         strata_n = c(1, 2, 1, 2))
 
 table(probs, clusters)
 #>                    clusters
-#> probs                a  b  c  d  e  f  g  h  i  j  k  l  m  n  o  p  q  r  s  t
-#>   0.333333333333333  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0
-#>   0.4                1  2  3  4  5  0  0  0  0  0 11 12 13 14 15  0  0  0  0  0
-#>   0.6                0  0  0  0  0  6  7  8  9 10  0  0  0  0  0 16 17 18 19 20
-#>                    clusters
-#> probs                u  v  w  x  y  z
-#>   0.333333333333333 21 22 23 24 25 26
-#>   0.4                0  0  0  0  0  0
-#>   0.6                0  0  0  0  0  0
+#> probs                a  b  c  d  e  f  g  h  i  j  k  l
+#>   0.333333333333333  1  2  3  0  0  0  7  8  9  0  0  0
+#>   0.666666666666667  0  0  0  4  5  6  0  0  0 10 11 12
 table(probs, strata)
 #>                    strata
-#> probs               stratum_1 stratum_2 stratum_3 stratum_4 stratum_5
-#>   0.333333333333333         0         0         0         0       141
-#>   0.4                      15         0        65         0         0
-#>   0.6                       0        40         0        90         0
+#> probs               stratum_1 stratum_2 stratum_3 stratum_4
+#>   0.333333333333333         6         0        24         0
+#>   0.666666666666667         0        15         0        33
 
 probs <- strata_and_cluster_rs_probabilities(clusters = clusters,
                                          strata = strata,
-                                         strata_prob = c(.1, .2, .3, .4, .5))
+                                         strata_prob = c(0.2, 0.4, 0.6, 0.8))
 
 table(probs, clusters)
-#>      clusters
-#> probs  a  b  c  d  e  f  g  h  i  j  k  l  m  n  o  p  q  r  s  t  u  v  w  x
-#>   0.1  1  2  3  4  5  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0
-#>   0.2  0  0  0  0  0  6  7  8  9 10  0  0  0  0  0  0  0  0  0  0  0  0  0  0
-#>   0.3  0  0  0  0  0  0  0  0  0  0 11 12 13 14 15  0  0  0  0  0  0  0  0  0
-#>   0.4  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0 16 17 18 19 20  0  0  0  0
-#>   0.5  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0 21 22 23 24
-#>      clusters
-#> probs  y  z
-#>   0.1  0  0
-#>   0.2  0  0
-#>   0.3  0  0
-#>   0.4  0  0
-#>   0.5 25 26
+#>                    clusters
+#> probs                a  b  c  d  e  f  g  h  i  j  k  l
+#>   0.2                1  2  3  0  0  0  0  0  0  0  0  0
+#>   0.4                0  0  0  4  5  6  0  0  0  0  0  0
+#>   0.6                0  0  0  0  0  0  7  8  9  0  0  0
+#>   0.666666666666667  0  0  0  0  0  0  0  0  0 10 11 12
 table(probs, strata)
-#>      strata
-#> probs stratum_1 stratum_2 stratum_3 stratum_4 stratum_5
-#>   0.1        15         0         0         0         0
-#>   0.2         0        40         0         0         0
-#>   0.3         0         0        65         0         0
-#>   0.4         0         0         0        90         0
-#>   0.5         0         0         0         0       141
+#>                    strata
+#> probs               stratum_1 stratum_2 stratum_3 stratum_4
+#>   0.2                       6         0         0         0
+#>   0.4                       0        15         0         0
+#>   0.6                       0         0        24         0
+#>   0.666666666666667         0         0         0        33
 
 ```

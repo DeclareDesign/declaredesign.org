@@ -22,7 +22,7 @@
 
     <a class="navbar-brand me-2" href="index.html">randomizr</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">1.0.1</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">2.0.1</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -36,8 +36,9 @@
 <li class="nav-item dropdown">
   <button class="nav-link dropdown-toggle" type="button" id="dropdown-articles" data-bs-toggle="dropdown" aria-expanded="false" aria-haspopup="true">Articles</button>
   <ul class="dropdown-menu" aria-labelledby="dropdown-articles">
-<li><a class="dropdown-item" href="articles/randomizr_vignette.html">Getting started with randomizr</a></li>
-    <li><a class="dropdown-item" href="articles/srandomizr_vignette.html">Getting started with randomizr for Stata</a></li>
+<li><a class="dropdown-item" href="articles/randomizr_vignette.html">Design and Analysis of Experiments with randomizr</a></li>
+    <li><a class="dropdown-item" href="articles/randomizr_guarantees.html">What randomizr guarantees</a></li>
+    <li><a class="dropdown-item" href="articles/balanced_ra.html">Introduction to balanced_ra</a></li>
   </ul>
 </li>
       </ul>
@@ -66,20 +67,20 @@
 <div class="page-header"><h1 id="randomizr-tools-for-random-assignment-and-random-sampling">randomizr: Tools for random assignment and random sampling<a class="anchor" aria-label="anchor" href="#randomizr-tools-for-random-assignment-and-random-sampling"></a>
 </h1></div>
 <!-- README.md is generated from README.Rmd. Please edit that file -->
-<p><a href="https://cran.r-project.org/package=randomizr" class="external-link"><img src="https://www.r-pkg.org/badges/version/randomizr" alt="CRAN status"></a> <a href="https://r-pkg.org/pkg/randomizr" class="external-link"><img src="https://cranlogs.r-pkg.org/badges/grand-total/randomizr?color=green" alt="CRAN RStudio mirror downloads"></a> <a href="https://github.com/DeclareDesign/randomizr/actions" class="external-link"><img src="https://github.com/DeclareDesign/randomizr/workflows/R-CMD-check/badge.svg" alt="Build status"></a> <a href="https://codecov.io/gh/DeclareDesign/randomizr" class="external-link"><img src="https://codecov.io/gh/DeclareDesign/randomizr/branch/master/graph/badge.svg?token=wwi1lF13Se" alt="Code coverage"></a> <a href="https://softwarecite.com/package/randomizr" class="external-link"><img src="https://softwarecite.com/badge/randomizr" alt="Replications"></a></p>
-<p><strong>randomizr</strong> is designed to make conducting field, lab, survey, or online experiments easier by automating the random assignment process. Social and lab scientists conducting experiments need a process to assign individuals or units of observation to treatment or control wings. Common designs include simple random assignment, complete randomization, block randomization, cluster randomization, and blocked cluster randomization. <strong>randomizr</strong> automates all of these processes and assists scientists in doing transparent, replicable science. We offer <strong>randomizr</strong> for both <a href="https://declaredesign.org/r/randomizr"><code>R</code></a> and <a href="https://declaredesign.org/stata/randomizr" class="external-link"><code>Stata</code></a>.</p>
+<p><a href="https://cran.r-project.org/package=randomizr" class="external-link"><img src="https://www.r-pkg.org/badges/version/randomizr" alt="CRAN status"></a> <a href="https://r-pkg.org/pkg/randomizr" class="external-link"><img src="https://cranlogs.r-pkg.org/badges/grand-total/randomizr?color=green" alt="CRAN RStudio mirror downloads"></a> <a href="https://github.com/DeclareDesign/randomizr/actions/workflows/R-CMD-check.yaml" class="external-link"><img src="https://github.com/DeclareDesign/randomizr/actions/workflows/R-CMD-check.yaml/badge.svg" alt="Build status"></a> <a href="https://app.codecov.io/gh/DeclareDesign/randomizr" class="external-link"><img src="https://codecov.io/gh/DeclareDesign/randomizr/graph/badge.svg" alt="Codecov test coverage"></a> <a href="https://softwarecite.com/package/randomizr" class="external-link"><img src="https://softwarecite.com/badge/randomizr" alt="Replications"></a></p>
+<p><strong>randomizr</strong> generates random assignments for common experimental designs, including simple random assignment, complete random assignment, block random assignment, and cluster random assignment. A new function, <code><a href="reference/balanced_ra.html">balanced_ra()</a></code>, is experimental: it draws assignment with tight targets while keeping each unit’s probability exact.</p>
 <div class="section level3">
-<h3 id="installing-randomizr-for-r">Installing randomizr for R<a class="anchor" aria-label="anchor" href="#installing-randomizr-for-r"></a>
+<h3 id="installing-randomizr">Installing randomizr<a class="anchor" aria-label="anchor" href="#installing-randomizr"></a>
 </h3>
-<p>Installing the latest stable version of <strong>randomizr</strong> in <code>R</code>:.</p>
+<p>Use the following to install the latest CRAN release of <strong>randomizr</strong>:</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html" class="external-link">install.packages</a></span><span class="op">(</span><span class="st">"randomizr"</span><span class="op">)</span></span></code></pre></div>
 </div>
 <div class="section level3">
-<h3 id="getting-started-with-randomizr-for-r">Getting started with randomizr for R<a class="anchor" aria-label="anchor" href="#getting-started-with-randomizr-for-r"></a>
+<h3 id="getting-started-with-randomizr">Getting started with randomizr<a class="anchor" aria-label="anchor" href="#getting-started-with-randomizr"></a>
 </h3>
-<p><strong>randomizr</strong> has five main random assignment functions, corresponding to the common experimental designs listed above. You can read more about using each of these functions in our <a href="https://declaredesign.org/r/randomizr/reference/">reference library</a> or by clicking on the function names: <code><a href="reference/simple_ra.html">simple_ra()</a></code>, <code><a href="reference/complete_ra.html">complete_ra()</a></code>, <code><a href="reference/block_ra.html">block_ra()</a></code>, <code><a href="reference/cluster_ra.html">cluster_ra()</a></code>, and <code><a href="reference/block_and_cluster_ra.html">block_and_cluster_ra()</a></code>.</p>
-<p><code><a href="reference/complete_ra.html">complete_ra()</a></code> (Complete randomization) is the function that will be most appropriate for a large number of experimental situations: when you want to assign a fixed <code>m</code> units out of a population of <code>N</code> units to treatment:</p>
+<p><strong>randomizr</strong> has four main random assignment functions, corresponding to the common experimental designs listed above. You can read more about using each of these functions in our <a href="https://declaredesign.org/r/randomizr/reference/">reference library</a> or by clicking on the function names: <code><a href="reference/simple_ra.html">simple_ra()</a></code>, <code><a href="reference/complete_ra.html">complete_ra()</a></code>, <code><a href="reference/block_ra.html">block_ra()</a></code>, and <code><a href="reference/cluster_ra.html">cluster_ra()</a></code>. An additional experimental function, <code><a href="reference/balanced_ra.html">balanced_ra()</a></code>, is included from version 2.0.1; see the <a href="https://declaredesign.org/r/randomizr/articles/balanced_ra.html">introduction article</a>.</p>
+<p><code><a href="reference/complete_ra.html">complete_ra()</a></code>: Under complete random assignment, we assign a fixed <code>m</code> units out of a population of <code>N</code> units to treatment:</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://declaredesign.org/r/randomizr/">randomizr</a></span><span class="op">)</span></span>
 <span><span class="va">Z</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/complete_ra.html">complete_ra</a></span><span class="op">(</span>N <span class="op">=</span> <span class="fl">100</span>, m <span class="op">=</span> <span class="fl">50</span><span class="op">)</span></span>
@@ -94,7 +95,7 @@
 <td align="right">50</td>
 </tr></tbody>
 </table>
-<p>A more complicated design that, for example, assigns different numbers of clusters to three different treatments, makes use of <code><a href="reference/cluster_ra.html">cluster_ra()</a></code> (Cluster randomization):</p>
+<p><code><a href="reference/cluster_ra.html">cluster_ra()</a></code>: Under cluster random assignment, whole clusters of units (like all the students in a classroom or everyone living in the same household) are assigned to treatment conditions together.</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># This makes a cluster variable: one unit in cluster "a", two in "b"...</span></span>
 <span><span class="va">clust_var</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep</a></span><span class="op">(</span><span class="va">letters</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">15</span><span class="op">]</span>, times <span class="op">=</span> <span class="fl">1</span><span class="op">:</span><span class="fl">15</span><span class="op">)</span></span>
@@ -149,65 +150,135 @@
 <td align="right">0</td>
 <td align="right">0</td>
 <td align="right">0</td>
+<td align="right">5</td>
 <td align="right">0</td>
 <td align="right">0</td>
-<td align="right">0</td>
-<td align="right">0</td>
+<td align="right">8</td>
 <td align="right">9</td>
 <td align="right">0</td>
 <td align="right">0</td>
 <td align="right">0</td>
 <td align="right">0</td>
-<td align="right">14</td>
-<td align="right">15</td>
+<td align="right">0</td>
+<td align="right">0</td>
 </tr>
 <tr>
 <td align="left">placebo</td>
 <td align="right">0</td>
-<td align="right">0</td>
-<td align="right">3</td>
-<td align="right">0</td>
-<td align="right">5</td>
-<td align="right">0</td>
-<td align="right">7</td>
-<td align="right">0</td>
-<td align="right">0</td>
-<td align="right">0</td>
-<td align="right">0</td>
-<td align="right">12</td>
-<td align="right">0</td>
-<td align="right">0</td>
-<td align="right">0</td>
-</tr>
-<tr>
-<td align="left">treatment</td>
-<td align="right">0</td>
 <td align="right">2</td>
 <td align="right">0</td>
-<td align="right">4</td>
+<td align="right">0</td>
 <td align="right">0</td>
 <td align="right">6</td>
 <td align="right">0</td>
-<td align="right">8</td>
 <td align="right">0</td>
-<td align="right">10</td>
+<td align="right">0</td>
+<td align="right">0</td>
 <td align="right">11</td>
 <td align="right">0</td>
 <td align="right">13</td>
 <td align="right">0</td>
 <td align="right">0</td>
 </tr>
+<tr>
+<td align="left">treatment</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">3</td>
+<td align="right">4</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">7</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">10</td>
+<td align="right">0</td>
+<td align="right">12</td>
+<td align="right">0</td>
+<td align="right">14</td>
+<td align="right">15</td>
+</tr>
+</tbody>
+</table>
+<p><code><a href="reference/block_ra.html">block_ra()</a></code>: Under block random assignment, complete random assignment is used within blocks.</p>
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co"># This makes a cluster variable: one unit in cluster "a", two in "b"...</span></span>
+<span><span class="va">block_var</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep</a></span><span class="op">(</span><span class="va">letters</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">10</span><span class="op">]</span>, times <span class="op">=</span> <span class="fl">4</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">Z</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/block_ra.html">block_ra</a></span><span class="op">(</span></span>
+<span>  blocks <span class="op">=</span> <span class="va">block_var</span></span>
+<span>  <span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/table.html" class="external-link">table</a></span><span class="op">(</span><span class="va">Z</span>, <span class="va">block_var</span><span class="op">)</span></span></code></pre></div>
+<table class="table">
+<thead><tr>
+<th align="left"></th>
+<th align="right">a</th>
+<th align="right">b</th>
+<th align="right">c</th>
+<th align="right">d</th>
+<th align="right">e</th>
+<th align="right">f</th>
+<th align="right">g</th>
+<th align="right">h</th>
+<th align="right">i</th>
+<th align="right">j</th>
+</tr></thead>
+<tbody>
+<tr>
+<td align="left">0</td>
+<td align="right">2</td>
+<td align="right">2</td>
+<td align="right">2</td>
+<td align="right">2</td>
+<td align="right">2</td>
+<td align="right">2</td>
+<td align="right">2</td>
+<td align="right">2</td>
+<td align="right">2</td>
+<td align="right">2</td>
+</tr>
+<tr>
+<td align="left">1</td>
+<td align="right">2</td>
+<td align="right">2</td>
+<td align="right">2</td>
+<td align="right">2</td>
+<td align="right">2</td>
+<td align="right">2</td>
+<td align="right">2</td>
+<td align="right">2</td>
+<td align="right">2</td>
+<td align="right">2</td>
+</tr>
+</tbody>
+</table>
+<p><code><a href="reference/balanced_ra.html">balanced_ra()</a></code>: Under balanced assignment, units are assigned to ensure expected totals are hit tightly.</p>
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co"># This assigns exactly three of six units to treatment with either 1 assigned in block 1 and 2 in block 2 or 2 in block 1 and 1 in block 2</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/Random.html" class="external-link">set.seed</a></span><span class="op">(</span><span class="fl">1</span><span class="op">)</span></span>
+<span><span class="va">blocks</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"a"</span>, <span class="st">"a"</span>, <span class="st">"a"</span>, <span class="st">"b"</span>, <span class="st">"b"</span>, <span class="st">"b"</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/table.html" class="external-link">table</a></span><span class="op">(</span><span class="fu"><a href="reference/balanced_ra.html">balanced_ra</a></span><span class="op">(</span>blocks <span class="op">=</span> <span class="va">blocks</span><span class="op">)</span>, <span class="va">blocks</span><span class="op">)</span></span></code></pre></div>
+<table class="table">
+<thead><tr>
+<th align="left"></th>
+<th align="right">a</th>
+<th align="right">b</th>
+</tr></thead>
+<tbody>
+<tr>
+<td align="left">0</td>
+<td align="right">2</td>
+<td align="right">1</td>
+</tr>
+<tr>
+<td align="left">1</td>
+<td align="right">1</td>
+<td align="right">2</td>
+</tr>
 </tbody>
 </table>
 <p>For more information about all of <strong>randomizr</strong>’s functionality, please see our <a href="https://declaredesign.org/r/randomizr/articles/randomizr_vignette.html">online tutorial</a></p>
-</div>
-<div class="section level3">
-<h3 id="randomizr-for-stata">randomizr for Stata<a class="anchor" aria-label="anchor" href="#randomizr-for-stata"></a>
-</h3>
-<p>Installing the latest stable version of <strong>randomizr</strong> from ssc is easy:</p>
-<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" tabindex="-1"></a>ssc install randomizr</span></code></pre></div>
-<p>If you would like to install the latest development release directly from GitHub, run the following code:</p>
-<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" tabindex="-1"></a>net install randomizr, <span class="fu">from</span>(https<span class="sc">:</span><span class="er">//</span>raw.githubusercontent.com<span class="sc">/</span>DeclareDesign<span class="sc">/</span>strandomizr<span class="sc">/</span>master<span class="sc">/</span>) replace</span></code></pre></div>
 <p>Happy randomizing!</p>
 </div>
 </div>
@@ -241,6 +312,10 @@
 <h2 data-toc-skip>Developers</h2>
 <ul class="list-unstyled">
 <li>Alexander Coppock <br><small class="roles"> Author, maintainer </small> <a href="https://orcid.org/0000-0002-5733-2386" target="orcid.widget" aria-label="ORCID" class="external-link"><span class="fab fa-orcid orcid" aria-hidden="true"></span></a>  </li>
+<li>Jasper Cooper <br><small class="roles"> Contributor </small> <a href="https://orcid.org/0000-0002-8639-3188" target="orcid.widget" aria-label="ORCID" class="external-link"><span class="fab fa-orcid orcid" aria-hidden="true"></span></a>  </li>
+<li>Neal Fultz <br><small class="roles"> Contributor </small>   </li>
+<li>Graeme Blair <br><small class="roles"> Contributor </small> <a href="https://orcid.org/0000-0001-9164-2102" target="orcid.widget" aria-label="ORCID" class="external-link"><span class="fab fa-orcid orcid" aria-hidden="true"></span></a>  </li>
+<li>Macartan Humphreys <br><small class="roles"> Contributor </small> <a href="https://orcid.org/0000-0001-7029-2326" target="orcid.widget" aria-label="ORCID" class="external-link"><span class="fab fa-orcid orcid" aria-hidden="true"></span></a>  </li>
 <li><a href="authors.html">More about authors...</a></li>
 </ul>
 </div>
