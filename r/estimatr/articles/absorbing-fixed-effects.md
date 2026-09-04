@@ -88,13 +88,13 @@ microbenchmark(
 
     ## Unit: milliseconds
     ##             expr       min        lq      mean    median        uq      max
-    ##  base + sandwich 172.11890 185.16695 223.48607 209.53323 237.81414 424.0702
-    ##        lm_robust  39.37000  44.93965  59.36497  54.92793  64.68935 125.8783
-    ##  lm_robust + fes  23.96282  28.05081  43.22710  34.32415  44.43211 140.0963
+    ##  base + sandwich 156.02726 179.75470 201.54017 193.73550 216.75778 294.2258
+    ##        lm_robust  38.96599  45.50397  53.93303  51.57654  58.00401 110.5320
+    ##  lm_robust + fes  25.42320  28.35872  40.74112  30.40117  36.69049 129.5140
     ##  neval cld
-    ##     50  a 
-    ##     50   b
-    ##     50   b
+    ##     50 a  
+    ##     50  b 
+    ##     50   c
 
 Speed gains are *considerably* greater with HC1 standard errors. This is
 because we need to get the hat matrix for HC2, HC3, and CR2 standard
@@ -126,11 +126,11 @@ microbenchmark(
 ```
 
     ## Unit: milliseconds
-    ##             expr       min         lq       mean     median         uq
-    ##  base + sandwich 161.73762 189.961569 213.575249 203.617767 221.005334
-    ##        lm_robust  33.61360  40.533379  47.830420  44.917550  49.156212
-    ##  lm_robust + fes   3.42596   3.956254   5.466051   4.791342   6.857742
+    ##             expr        min         lq       mean     median         uq
+    ##  base + sandwich 178.360742 192.831487 216.577483 199.037821 218.960213
+    ##        lm_robust  34.304864  41.180072  50.167937  45.607867  49.580316
+    ##  lm_robust + fes   3.532191   3.840921   6.112571   4.600713   7.086276
     ##        max neval cld
-    ##  371.83060    50 a  
-    ##  177.28257    50  b 
-    ##   10.45664    50   c
+    ##  334.91854    50 a  
+    ##  145.04279    50  b 
+    ##   28.90951    50   c
