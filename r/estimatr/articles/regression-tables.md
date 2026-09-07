@@ -158,7 +158,7 @@ fit %>% tidy %>% xtable()
 ```
 
     ## % latex table generated in R 4.6.1 by xtable 1.8-8 package
-    ## % Sun Sep  6 23:27:28 2026
+    ## % Mon Sep  7 23:34:49 2026
     ## \begin{table}[ht]
     ## \centering
     ## \begin{tabular}{rlrrrrrrrl}
