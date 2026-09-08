@@ -87,10 +87,10 @@ microbenchmark(
     ## to avoid potential integer overflows
 
     ## Unit: milliseconds
-    ##             expr       min        lq      mean    median        uq      max
-    ##  base + sandwich 141.69690 146.30059 163.07269 152.02583 165.45575 264.8355
-    ##        lm_robust  34.96640  36.32067  40.22856  37.34169  40.14175 110.8147
-    ##  lm_robust + fes  22.28407  23.19214  33.74007  25.69529  27.37923 111.7145
+    ##             expr       min        lq      mean    median        uq       max
+    ##  base + sandwich 196.94608 229.18537 271.53662 242.25313 280.80945 1052.8217
+    ##        lm_robust  49.85444  64.83519  75.94550  70.42869  79.40974  151.6313
+    ##  lm_robust + fes  31.24220  38.14320  65.49182  45.01298  55.60699  339.8831
     ##  neval cld
     ##     50  a 
     ##     50   b
@@ -126,11 +126,11 @@ microbenchmark(
 ```
 
     ## Unit: milliseconds
-    ##             expr        min         lq       mean     median         uq
-    ##  base + sandwich 142.281726 151.064869 164.182366 157.114440 166.690707
-    ##        lm_robust  28.045681  30.210194  34.270064  32.420012  34.348406
-    ##  lm_robust + fes   2.505346   2.888737   3.516194   3.133938   3.520178
+    ##             expr       min         lq       mean     median         uq
+    ##  base + sandwich 192.41189 213.337514 229.145291 220.968885 233.338626
+    ##        lm_robust  39.64011  47.414860  59.789464  51.630132  58.562145
+    ##  lm_robust + fes   3.36938   4.424966   6.687917   6.070788   8.092785
     ##        max neval cld
-    ##  282.81853    50 a  
-    ##  100.98099    50  b 
-    ##   12.08688    50   c
+    ##  346.97685    50 a  
+    ##  219.55029    50  b 
+    ##   15.42346    50   c
