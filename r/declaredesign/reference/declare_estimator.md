@@ -313,5 +313,10 @@ if(require("broom")) {
 }
 #> Loading required package: broom
 #> Loading required package: marginaleffects
-#> Warning: there is no package called ‘marginaleffects’
+#>   inquiry estimand estimator term  estimate  std.error statistic   p.value
+#> 1     ATE    0.102       OLS    Z 0.1100000 0.06904105  1.593255 0.1126981
+#> 2     ATE    0.102     logit    Z 0.1062425 0.06746248  1.574838 0.1152938
+#>      conf.low conf.high  df outcome contrast  s.value
+#> 1 -0.02615016 0.2461502 198       Y     <NA>       NA
+#> 2 -0.02598153 0.2384665  NA    <NA>    1 - 0 3.116613
 ```
