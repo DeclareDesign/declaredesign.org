@@ -70,6 +70,15 @@ jobs:
       - name: Search for dependences in docs
         run: Rscript -e 'library(checkpoint); found_packages <- scan_project_files(".", scan_rnw_with_knitr = TRUE)$pkgs; if(length(found_packages[!found_packages%in% installed.packages()[, 1]]) > 0) install.packages(found_packages[!found_packages%in% installed.packages()[,1]], repos = "https://cran.r-project.org")'
 
+      # The site documents the cloned branch, so install that branch rather than
+      # building against the CRAN version the dependency step pulled in. Until
+      # estimatr 2.0 (2026-09-15) the two matched, and the gap never showed.
+      - name: Install the package being documented
+        run: |
+          if (!requireNamespace("remotes", quietly = TRUE)) install.packages("remotes", repos = "https://cran.r-project.org")
+          remotes::install_local("pkg", dependencies = TRUE, force = TRUE, upgrade = "never")
+        shell: Rscript {0}
+
       - name: Build site
         run: pkgdown::build_site(pkg = "pkg")
         shell: Rscript {0}
