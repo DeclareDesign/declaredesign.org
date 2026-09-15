@@ -11,8 +11,8 @@
 <script src="deps/bootstrap-5.3.8/bootstrap.bundle.min.js"></script><link href="deps/font-awesome-6.5.2/css/all.min.css" rel="stylesheet">
 <link href="deps/font-awesome-6.5.2/css/v4-shims.min.css" rel="stylesheet">
 <script src="deps/headroom-0.11.0/headroom.min.js"></script><script src="deps/headroom-0.11.0/jQuery.headroom.min.js"></script><script src="deps/bootstrap-toc-1.0.1/bootstrap-toc.min.js"></script><script src="deps/clipboard.js-2.0.11/clipboard.min.js"></script><script src="deps/search-1.0.0/autocomplete.jquery.min.js"></script><script src="deps/search-1.0.0/fuse.min.js"></script><script src="deps/search-1.0.0/mark.min.js"></script><!-- pkgdown --><script src="pkgdown.js"></script><meta property="og:title" content="Fast Estimators for Design-Based Inference">
-<meta name="description" content="Fast procedures for small set of commonly-used, design-appropriate estimators with robust standard errors and confidence intervals. Includes estimators for linear regression, instrumental variables regression, difference-in-means, Horvitz-Thompson estimation, and regression improving precision of experimental estimates by interacting treatment with centered pre-treatment covariates introduced by Lin (2013) &lt;doi:10.1214/12-AOAS583&gt;.">
-<meta property="og:description" content="Fast procedures for small set of commonly-used, design-appropriate estimators with robust standard errors and confidence intervals. Includes estimators for linear regression, instrumental variables regression, difference-in-means, Horvitz-Thompson estimation, and regression improving precision of experimental estimates by interacting treatment with centered pre-treatment covariates introduced by Lin (2013) &lt;doi:10.1214/12-AOAS583&gt;.">
+<meta name="description" content="Fast procedures for a small set of commonly-used, design-appropriate estimators with robust standard errors and confidence intervals. Includes estimators for linear regression, instrumental variables regression, difference-in-means, Horvitz-Thompson estimation, and regression improving precision of experimental estimates by interacting treatment with centered pre-treatment covariates introduced by Lin (2013) &lt;doi:10.1214/12-AOAS583&gt;. Fixed effects are absorbed by alternating projections rather than by dummy expansion, and Horvitz-Thompson variance is computed from the randomization declaration.">
+<meta property="og:description" content="Fast procedures for a small set of commonly-used, design-appropriate estimators with robust standard errors and confidence intervals. Includes estimators for linear regression, instrumental variables regression, difference-in-means, Horvitz-Thompson estimation, and regression improving precision of experimental estimates by interacting treatment with centered pre-treatment covariates introduced by Lin (2013) &lt;doi:10.1214/12-AOAS583&gt;. Fixed effects are absorbed by alternating projections rather than by dummy expansion, and Horvitz-Thompson variance is computed from the randomization declaration.">
 </head>
 <body>
     <a href="#main" class="visually-hidden-focusable">Skip to contents</a>
@@ -22,7 +22,7 @@
 
     <a class="navbar-brand me-2" href="index.html">estimatr</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">1.0.6</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">2.0.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -36,32 +36,16 @@
 <li class="nav-item dropdown">
   <button class="nav-link dropdown-toggle" type="button" id="dropdown-articles" data-bs-toggle="dropdown" aria-expanded="false" aria-haspopup="true">Articles</button>
   <ul class="dropdown-menu" aria-labelledby="dropdown-articles">
-<li><a class="dropdown-item" href="articles/getting-started.html">Getting started using estimatr</a></li>
-    <li><a class="dropdown-item" href="articles/absorbing-fixed-effects.html">Absorbing Fixed Effects with estimatr</a></li>
-    <li><a class="dropdown-item" href="articles/estimatr-in-the-tidyverse.html">estimatr in the Tidyverse</a></li>
-    <li><a class="dropdown-item" href="articles/benchmarking-estimatr.html">Benchmarking estimatr</a></li>
-    <li><a class="dropdown-item" href="articles/emmeans-examples.html">Examples with emmeans</a></li>
-    <li><a class="dropdown-item" href="articles/mathematical-notes.html">Mathematical notes for estimatr</a></li>
-    <li><a class="dropdown-item" href="articles/regression-tables.html">Regression Tables with estimatr</a></li>
-    <li><a class="dropdown-item" href="articles/simulations-debiasing-dim.html">Simulations - Debiasing Difference-in-Means</a></li>
-    <li><a class="dropdown-item" href="articles/simulations-ols-variance.html">Simulations - OLS and Variance</a></li>
-    <li><a class="dropdown-item" href="articles/stata-wls-hat.html">How Stata's hat matrix differs with weights</a></li>
+<li><a class="dropdown-item" href="articles/getting-started.html">Getting started with estimatr</a></li>
+    <li><a class="dropdown-item" href="articles/mathematical-notes.html">Mathematical notes and guarantees</a></li>
+    <li><a class="dropdown-item" href="articles/estimatr2.0.html">estimatr 2.0, what changes and why</a></li>
+    <li><a class="dropdown-item" href="articles/performance.html">Performance</a></li>
+    <li><a class="dropdown-item" href="articles/estimatr-in-the-tidyverse.html">estimatr in the tidyverse</a></li>
+    <li><a class="dropdown-item" href="articles/regression-tables.html">Regression tables with estimatr</a></li>
   </ul>
 </li>
       </ul>
 <ul class="navbar-nav">
-<li class="nav-item dropdown">
-  <button class="nav-link dropdown-toggle" type="button" id="dropdown-software" data-bs-toggle="dropdown" aria-expanded="false" aria-haspopup="true">Software</button>
-  <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdown-software">
-<li><a class="external-link dropdown-item" href="http://declaredesign.org/r/declaredesign/">DeclareDesign</a></li>
-    <li><a class="external-link dropdown-item" href="https://declaredesign.org/r/randomizr/">randomizr</a></li>
-    <li><a class="external-link dropdown-item" href="https://declaredesign.org/r/fabricatr/">fabricatr</a></li>
-    <li><a class="dropdown-item" href="https://declaredesign.org/r/estimatr/">estimatr</a></li>
-    <li><a class="external-link dropdown-item" href="https://declaredesign.org/r/rdss/">rdss</a></li>
-    <li><a class="external-link dropdown-item" href="https://declaredesign.org/r/designlibrary/">DesignLibrary</a></li>
-    <li><a class="external-link dropdown-item" href="https://eos.wzb.eu/ipi/DDWizard/">DesignWizard</a></li>
-  </ul>
-</li>
 <li class="nav-item"><a class="external-link nav-link" href="https://declaredesign.org">declaredesign.org</a></li>
       </ul>
 </div>
@@ -74,47 +58,45 @@
 <div class="page-header"><h1 id="estimatr-fast-estimators-for-design-based-inference">estimatr: Fast Estimators for Design-Based Inference<a class="anchor" aria-label="anchor" href="#estimatr-fast-estimators-for-design-based-inference"></a>
 </h1></div>
 <!-- README.md is generated from README.Rmd. Please edit that file -->
-<p><a href="https://cran.r-project.org/package=estimatr" class="external-link"><img src="https://www.r-pkg.org/badges/version/estimatr" alt="CRAN status"></a> <a href="https://r-pkg.org/pkg/estimatr" class="external-link"><img src="https://cranlogs.r-pkg.org/badges/grand-total/estimatr?color=green" alt="CRAN RStudio mirror downloads"></a> <a href="https://github.com/DeclareDesign/estimatr/actions/workflows/R-CMD-check.yaml" class="external-link"><img src="https://github.com/DeclareDesign/estimatr/actions/workflows/R-CMD-check.yaml/badge.svg" alt="Build status"></a> <a href="https://app.codecov.io/gh/DeclareDesign/estimatr" class="external-link"><img src="https://codecov.io/gh/DeclareDesign/estimatr/graph/badge.svg" alt="Codecov test coverage"></a> <a href="https://softwarecite.com/package/estimatr" class="external-link"><img src="https://softwarecite.com/badge/estimatr" alt="Replications"></a></p>
-<p><strong>estimatr</strong> is an <code>R</code> package providing a range of commonly-used linear estimators, designed for speed and for ease-of-use. Users can easily recover robust, cluster-robust, and other design appropriate estimates. We include two functions that implement means estimators, <code><a href="reference/difference_in_means.html">difference_in_means()</a></code> and <code><a href="reference/horvitz_thompson.html">horvitz_thompson()</a></code>, and three linear regression estimators, <code><a href="reference/lm_robust.html">lm_robust()</a></code>, <code><a href="reference/lm_lin.html">lm_lin()</a></code>, and <code><a href="reference/iv_robust.html">iv_robust()</a></code>. In each case, users can choose an estimator to reflect cluster-randomized, block-randomized, and block-and-cluster-randomized designs. The <a href="https://declaredesign.org/r/estimatr/articles/getting-started.html">Getting Started Guide</a> describes each estimator provided by <strong>estimatr</strong> and how it can be used in your analysis.</p>
-<p>You can also see the multiple ways you can <a href="https://declaredesign.org/r/estimatr/articles/regression-tables.html">get regression tables out of estimatr</a> using commonly used <code>R</code> packages such as <code>texreg</code> and <code>stargazer</code>. Fast estimators also enable fast simulation of research designs to learn about their properties (see <a href="https://declaredesign.org" class="external-link">DeclareDesign</a>).</p>
+<p><a href="https://cran.r-project.org/package=estimatr" class="external-link"><img src="https://www.r-pkg.org/badges/version/estimatr" alt="CRAN status"></a> <a href="https://r-pkg.org/pkg/estimatr" class="external-link"><img src="https://cranlogs.r-pkg.org/badges/grand-total/estimatr?color=green" alt="CRAN RStudio mirror downloads"></a> <a href="https://github.com/DeclareDesign/estimatr/actions/workflows/R-CMD-check.yaml" class="external-link"><img src="https://github.com/DeclareDesign/estimatr/actions/workflows/R-CMD-check.yaml/badge.svg" alt="Build status"></a> <strong>estimatr</strong> is an <code>R</code> package providing a range of commonly used linear estimators, designed for speed and for ease of use. Users can easily recover robust, cluster-robust, and other design-appropriate estimates. We include two functions that implement means estimators, <code><a href="reference/difference_in_means.html">difference_in_means()</a></code> and <code><a href="reference/horvitz_thompson.html">horvitz_thompson()</a></code>, and four linear regression estimators, <code><a href="reference/lm_robust.html">lm_robust()</a></code>, <code><a href="reference/lm_lin.html">lm_lin()</a></code>, <code><a href="reference/iv_robust.html">iv_robust()</a></code>, and <code><a href="reference/lh_robust.html">lh_robust()</a></code>. In each case, users can choose an estimator to reflect cluster-randomized, block-randomized, and block-and-cluster-randomized designs. The <a href="https://declaredesign.org/r/estimatr/articles/getting-started.html">Getting Started Guide</a> describes each estimator provided by <strong>estimatr</strong> and how it can be used in your analysis.</p>
+<p>You can also see the ways you can <a href="https://declaredesign.org/r/estimatr/articles/regression-tables.html">get regression tables out of estimatr</a> using <code>texreg</code> and <code>modelsummary</code>. Fast estimators also enable fast simulation of research designs to learn about their properties (see <a href="https://declaredesign.org" class="external-link">DeclareDesign</a>).</p>
 <div class="section level2">
 <h2 id="installing-estimatr">Installing estimatr<a class="anchor" aria-label="anchor" href="#installing-estimatr"></a>
 </h2>
-<p>To install the latest stable release of <strong>estimatr</strong>, please ensure that you are running version 3.5 or later of R and run the following code:</p>
+<p>To install the latest stable release of <strong>estimatr</strong>, please ensure that you are running version 3.6 or later of R and run the following code:</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html" class="external-link">install.packages</a></span><span class="op">(</span><span class="st">"estimatr"</span><span class="op">)</span></span></code></pre></div>
 </div>
 <div class="section level2">
 <h2 id="easy-to-use">Easy to use<a class="anchor" aria-label="anchor" href="#easy-to-use"></a>
 </h2>
-<p>Once the package is installed, getting appropriate estimates and standard errors is now both fast and easy.</p>
+<p>Once the package is installed, getting appropriate estimates and standard errors is both fast and easy.</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://declaredesign.org/r/estimatr/">estimatr</a></span><span class="op">)</span></span>
 <span></span>
-<span><span class="co"># sample data from cluster-randomized experiment</span></span>
-<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://declaredesign.org/r/fabricatr/" class="external-link">fabricatr</a></span><span class="op">)</span></span>
-<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://declaredesign.org/r/randomizr/" class="external-link">randomizr</a></span><span class="op">)</span></span>
-<span><span class="va">dat</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://declaredesign.org/r/fabricatr/reference/fabricate.html" class="external-link">fabricate</a></span><span class="op">(</span></span>
-<span>  N <span class="op">=</span> <span class="fl">100</span>,</span>
-<span>  y <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/Normal.html" class="external-link">rnorm</a></span><span class="op">(</span><span class="va">N</span><span class="op">)</span>,</span>
-<span>  clusterID <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/sample.html" class="external-link">sample</a></span><span class="op">(</span><span class="va">letters</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">10</span><span class="op">]</span>, size <span class="op">=</span> <span class="va">N</span>, replace <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>,</span>
-<span>  z <span class="op">=</span> <span class="fu"><a href="https://declaredesign.org/r/randomizr/reference/cluster_ra.html" class="external-link">cluster_ra</a></span><span class="op">(</span><span class="va">clusterID</span><span class="op">)</span></span>
+<span><span class="co"># sample data from a cluster-randomized experiment</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/Random.html" class="external-link">set.seed</a></span><span class="op">(</span><span class="fl">343</span><span class="op">)</span></span>
+<span><span class="va">clusters</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/sample.html" class="external-link">sample</a></span><span class="op">(</span><span class="va">letters</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">10</span><span class="op">]</span>, size <span class="op">=</span> <span class="fl">100</span>, replace <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
+<span><span class="va">treated_clusters</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/sample.html" class="external-link">sample</a></span><span class="op">(</span><span class="va">letters</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">10</span><span class="op">]</span>, <span class="fl">5</span><span class="op">)</span></span>
+<span><span class="va">dat</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span></span>
+<span>  y <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/Normal.html" class="external-link">rnorm</a></span><span class="op">(</span><span class="fl">100</span><span class="op">)</span>,</span>
+<span>  clusterID <span class="op">=</span> <span class="va">clusters</span>,</span>
+<span>  z <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/numeric.html" class="external-link">as.numeric</a></span><span class="op">(</span><span class="va">clusters</span> <span class="op"><a href="https://rdrr.io/r/base/match.html" class="external-link">%in%</a></span> <span class="va">treated_clusters</span><span class="op">)</span></span>
 <span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># robust standard errors</span></span>
 <span><span class="va">res_rob</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/lm_robust.html">lm_robust</a></span><span class="op">(</span><span class="va">y</span> <span class="op">~</span> <span class="va">z</span>, data <span class="op">=</span> <span class="va">dat</span><span class="op">)</span></span>
-<span><span class="co"># tidy dataframes on command!</span></span>
+<span><span class="co"># tidy data frames on command</span></span>
 <span><span class="fu"><a href="https://generics.r-lib.org/reference/tidy.html" class="external-link">tidy</a></span><span class="op">(</span><span class="va">res_rob</span><span class="op">)</span></span>
-<span><span class="co">#&gt;          term estimate std.error statistic p.value conf.low conf.high df</span></span>
-<span><span class="co">#&gt; 1 (Intercept)    0.065      0.14      0.46    0.64    -0.21      0.34 98</span></span>
-<span><span class="co">#&gt; 2           z   -0.067      0.21     -0.32    0.75    -0.48      0.35 98</span></span>
-<span><span class="co">#&gt;   outcome</span></span>
-<span><span class="co">#&gt; 1       y</span></span>
-<span><span class="co">#&gt; 2       y</span></span>
+<span><span class="co">#&gt; # A tibble: 2 × 9</span></span>
+<span><span class="co">#&gt;   term        estimate std.error statistic  p.value conf.low conf.high    df outcome</span></span>
+<span><span class="co">#&gt;   &lt;chr&gt;          &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;    &lt;dbl&gt;    &lt;dbl&gt;     &lt;dbl&gt; &lt;dbl&gt; &lt;chr&gt;  </span></span>
+<span><span class="co">#&gt; 1 (Intercept)   -0.440     0.153     -2.88 0.00490    -0.743    -0.137    98 y      </span></span>
+<span><span class="co">#&gt; 2 z              0.760     0.194      3.92 0.000166    0.375     1.15     98 y</span></span>
 <span></span>
-<span><span class="co"># cluster robust standard errors</span></span>
+<span><span class="co"># cluster-robust standard errors</span></span>
 <span><span class="va">res_cl</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/lm_robust.html">lm_robust</a></span><span class="op">(</span><span class="va">y</span> <span class="op">~</span> <span class="va">z</span>, data <span class="op">=</span> <span class="va">dat</span>, clusters <span class="op">=</span> <span class="va">clusterID</span><span class="op">)</span></span>
-<span><span class="co"># standard summary view also available</span></span>
+<span><span class="co"># the standard summary view is also available</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary</a></span><span class="op">(</span><span class="va">res_cl</span><span class="op">)</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; Call:</span></span>
@@ -123,22 +105,25 @@
 <span><span class="co">#&gt; Standard error type:  CR2 </span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; Coefficients:</span></span>
-<span><span class="co">#&gt;             Estimate Std. Error t value Pr(&gt;|t|) CI Lower CI Upper   DF</span></span>
-<span><span class="co">#&gt; (Intercept)   0.0653      0.145   0.452    0.678   -0.358    0.489 3.53</span></span>
-<span><span class="co">#&gt; z            -0.0670      0.202  -0.331    0.750   -0.544    0.410 7.05</span></span>
+<span><span class="co">#&gt;             Estimate Std. Error t value Pr(&gt;|t|) CI Lower CI Upper    DF</span></span>
+<span><span class="co">#&gt; (Intercept)  -0.4396     0.1256  -3.499 0.025593  -0.7908  -0.0885 3.935</span></span>
+<span><span class="co">#&gt; z             0.7603     0.2129   3.571 0.007739   0.2661   1.2545 7.707</span></span>
 <span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; Multiple R-squared:  0.00105 ,   Adjusted R-squared:  -0.00915 </span></span>
-<span><span class="co">#&gt; F-statistic: 0.11 on 1 and 9 DF,  p-value: 0.748</span></span>
+<span><span class="co">#&gt; Multiple R-squared:  0.1388 ,    Adjusted R-squared:   0.13 </span></span>
+<span><span class="co">#&gt; F-statistic: 12.75 on 1 and 9 DF,  p-value: 0.006011</span></span>
 <span></span>
-<span><span class="co"># matched-pair design learned from blocks argument</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">sleep</span><span class="op">)</span></span>
-<span><span class="va">res_dim</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/difference_in_means.html">difference_in_means</a></span><span class="op">(</span><span class="va">extra</span> <span class="op">~</span> <span class="va">group</span>, data <span class="op">=</span> <span class="va">sleep</span>, blocks <span class="op">=</span> <span class="va">ID</span><span class="op">)</span></span></code></pre></div>
-<p>The <a href="/r/estimatr/articles/getting-started.html">Getting Started Guide</a> has more examples and uses, as do the reference pages. The <a href="/r/estimatr/articles/mathematical-notes.html">Mathematical Notes</a> provide more information about what each estimator is doing under the hood.</p>
+<span><span class="co"># matched-pair design learned from the blocks argument</span></span>
+<span><span class="va">res_dim</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/difference_in_means.html">difference_in_means</a></span><span class="op">(</span><span class="va">extra</span> <span class="op">~</span> <span class="va">group</span>, data <span class="op">=</span> <span class="va">sleep</span>, blocks <span class="op">=</span> <span class="va">ID</span><span class="op">)</span></span>
+<span><span class="va">res_dim</span></span>
+<span><span class="co">#&gt; Design:  Matched-pair </span></span>
+<span><span class="co">#&gt;        Estimate Std. Error  t value   Pr(&gt;|t|)  CI Lower CI Upper DF</span></span>
+<span><span class="co">#&gt; group2     1.58  0.3889587 4.062128 0.00283289 0.7001142 2.459886  9</span></span></code></pre></div>
+<p>The <a href="https://declaredesign.org/r/estimatr/articles/getting-started.html">Getting Started Guide</a> has more examples and uses, as do the reference pages. The <a href="https://declaredesign.org/r/estimatr/articles/mathematical-notes.html">Mathematical Notes</a> provide more information about what each estimator is doing under the hood.</p>
 </div>
 <div class="section level2">
 <h2 id="fast-to-use">Fast to use<a class="anchor" aria-label="anchor" href="#fast-to-use"></a>
 </h2>
-<p>Getting estimates and robust standard errors is also faster than it used to be. Compare our package to using <code><a href="https://rdrr.io/r/stats/lm.html" class="external-link">lm()</a></code> and the <code>sandwich</code> package to get HC2 standard errors. More speed comparisons are available <a href="https://declaredesign.org/r/estimatr/articles/benchmarking-estimatr.html">here</a>. Furthermore, with many blocks (or fixed effects), users can use the <code>fixed_effects</code> argument of <code>lm_robust</code> with HC1 standard errors to greatly improve estimation speed. More on <a href="https://declaredesign.org/r/estimatr/articles/absorbing-fixed-effects.html">fixed effects here</a>.</p>
+<p>Getting estimates and robust standard errors is also faster than it used to be. Compare our package to using <code><a href="https://rdrr.io/r/stats/lm.html" class="external-link">lm()</a></code> and the <code>sandwich</code> package to get HC2 standard errors. More speed comparisons, including absorbed fixed effects and a head-to-head against estimatr 1.0.6, are in the <a href="https://declaredesign.org/r/estimatr/articles/performance.html">Performance</a> article.</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">dat</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span>X <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/matrix.html" class="external-link">matrix</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/Normal.html" class="external-link">rnorm</a></span><span class="op">(</span><span class="fl">2000</span><span class="op">*</span><span class="fl">50</span><span class="op">)</span>, <span class="fl">2000</span><span class="op">)</span>, y <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/Normal.html" class="external-link">rnorm</a></span><span class="op">(</span><span class="fl">2000</span><span class="op">)</span><span class="op">)</span></span>
 <span></span>
@@ -151,10 +136,7 @@
 <span>    <span class="va">lo</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/lm.html" class="external-link">lm</a></span><span class="op">(</span><span class="va">y</span> <span class="op">~</span> <span class="va">.</span>, data <span class="op">=</span> <span class="va">dat</span><span class="op">)</span></span>
 <span>    <span class="fu"><a href="https://rdrr.io/pkg/lmtest/man/coeftest.html" class="external-link">coeftest</a></span><span class="op">(</span><span class="va">lo</span>, vcov <span class="op">=</span> <span class="fu"><a href="https://zeileis.codeberg.page/sandwich/reference/vcovHC.html" class="external-link">vcovHC</a></span><span class="op">(</span><span class="va">lo</span>, type <span class="op">=</span> <span class="st">'HC2'</span><span class="op">)</span><span class="op">)</span></span>
 <span>  <span class="op">}</span></span>
-<span><span class="op">)</span></span>
-<span><span class="co">#&gt; Warning in microbenchmark(estimatr = lm_robust(y ~ ., data = dat), `lm +</span></span>
-<span><span class="co">#&gt; sandwich` = {: less accurate nanosecond times to avoid potential integer</span></span>
-<span><span class="co">#&gt; overflows</span></span></code></pre></div>
+<span><span class="op">)</span></span></code></pre></div>
 <table class="table">
 <thead><tr>
 <th align="left">estimatr</th>
@@ -163,16 +145,74 @@
 <tbody>
 <tr>
 <td align="left">estimatr</td>
-<td align="right">6</td>
+<td align="right">3</td>
 </tr>
 <tr>
 <td align="left">lm + sandwich</td>
-<td align="right">21</td>
+<td align="right">13</td>
 </tr>
 </tbody>
 </table>
+<p>Measured on an Apple M4 under R 4.6.0 with estimatr 2.0.0, 200 replications. The chunk above is not run when this README is knit, so the table is typed in rather than generated.</p>
+</div>
+<div class="section level2">
+<h2 id="estimatr-20-a-ground-up-rewrite">estimatr 2.0: a ground-up rewrite<a class="anchor" aria-label="anchor" href="#estimatr-20-a-ground-up-rewrite"></a>
+</h2>
+<p>estimatr 2.0 rewrites the package from the ground up for the DeclareDesign workflow: fit the same model thousands of times, as fast as possible, and get the same number every time. If you are coming from 1.x, read <code><a href="articles/estimatr2.0.html">vignette("estimatr2.0")</a></code> first. It covers what does not change, what changes and why, and how to port a 1.x script.</p>
+<p>Three vignettes ship with the package, and three more (performance, the tidyverse, and regression tables) live on the <a href="https://declaredesign.org/r/estimatr/">website</a> alone, because their numbers and their examples drift faster than a release cycle:</p>
+<table class="table">
+<colgroup>
+<col width="50%">
+<col width="50%">
+</colgroup>
+<thead><tr>
+<th>vignette</th>
+<th>what it is for</th>
+</tr></thead>
+<tbody>
+<tr>
+<td><code>estimatr2.0</code></td>
+<td>porting from 1.x: what changed, why, and the benchmarks</td>
+</tr>
+<tr>
+<td><code>getting-started</code></td>
+<td>the six estimators, on one worked example</td>
+</tr>
+<tr>
+<td><code>mathematical-notes</code></td>
+<td>every estimator defined, cited, and then validated against its own definition</td>
+</tr>
+</tbody>
+</table>
+<div class="section level3">
+<h3 id="what-stays-the-same">What stays the same<a class="anchor" aria-label="anchor" href="#what-stays-the-same"></a>
+</h3>
+<p>The six estimators are <code>lm_robust</code>, <code>lm_lin</code>, <code>iv_robust</code>, <code>lh_robust</code>, <code>difference_in_means</code>, and <code>horvitz_thompson</code>, now with a Pashley and Miratrix (2021) blocked-variance estimator that 1.x does not have.</p>
+<p>The six estimators keep their 1.0.6 signatures, except <code><a href="reference/horvitz_thompson.html">horvitz_thompson()</a></code>, whose five probability arguments consolidate into <code>condition_prs</code>; the removals are below. Run side by side on one machine, 2.0 and 1.0.6 return the same estimates, standard errors, and degrees of freedom to 1e-12, across every supported standard error type, weighted and unweighted, clustered and unclustered, single and multivariate outcomes. The test suite holds that claim at 695 assertions against answers recorded from an installed 1.0.6, with <code>data-raw/make_estimatr_reference.R</code> producing the recording. Those run at 1e-9 rather than 1e-12, because a fixture recorded on one platform meets a different BLAS on another, and the floor there is the linear algebra rather than this package.</p>
+</div>
+<div class="section level3">
+<h3 id="what-breaks">What breaks<a class="anchor" aria-label="anchor" href="#what-breaks"></a>
+</h3>
+<p>Two removals and one default, all deliberate, all covered in the vignette’s porting section.</p>
+<p><code><a href="reference/horvitz_thompson.html">horvitz_thompson()</a></code> takes one probability argument, <code>condition_prs</code>, in place of five. <code>blocks</code>, <code>clusters</code>, <code>simple</code>, <code>ra_declaration</code>, <code>condition_pr_mat</code>, <code>subset</code>, and <code>return_condition_pr_mat</code> are gone, along with <code>se_type = "constant"</code> and the three exported matrix builders that served them (<code>declaration_to_condition_pr_mat</code>, <code>gen_pr_matrix_cluster</code>, and <code>permutations_to_condition_pr_mat</code>). No design is lost: blocked, clustered, and custom designs reach the estimator through an <code>ra_declaration</code> passed as <code>condition_prs</code>, and that path uses exact design-aware joint probabilities rather than the conservative bound.</p>
+<p><code><a href="reference/estimatr-defunct.html">commarobust()</a></code> and <code><a href="reference/estimatr-defunct.html">starprep()</a></code> are removed. Both still exist as names that error and name their replacement, rather than failing with “could not find function”.</p>
+<p><strong>Fixed effects without clusters support HC2 and HC3 exactly, at any number of factors, and default to HC2, which is what 1.x returns for the same call</strong>, so that code ports with no change in the numbers at all. The projection decomposes exactly, so no dummy matrix is built to get there. CR2 is the exception: it is built from cluster-level blocks of the hat matrix rather than from the leverage diagonal, so it still expands the dummies, and clustered <code>fixed_effects</code> therefore defaults to CR0 where 1.x defaulted to CR2. That is the only default in the release that moves, and it warns once per session rather than moving silently. Writing <code>se_type = "CR2"</code> gets the 1.x number back exactly.</p>
+<p>A clustered block holding a single treated or single control cluster is refused rather than given a variance. That refusal is a correctness fix: 1.x returns a number there that is too small by roughly the block’s cluster count.</p>
+<p><code><a href="https://generics.r-lib.org/reference/tidy.html" class="external-link">tidy()</a></code>, <code><a href="https://generics.r-lib.org/reference/glance.html" class="external-link">glance()</a></code>, and <code><a href="https://generics.r-lib.org/reference/augment.html" class="external-link">augment()</a></code> return tibbles, as broom’s methods do, where 1.x returned plain data frames. The values are unchanged, and <code>$</code>, <code>[[</code>, and row indexing work as before. <code>tidy(fit)[, "estimate"]</code> now returns a one-column tibble rather than a vector, so write <code>tidy(fit)$estimate</code>; code that sets row names on the result should coerce with <code><a href="https://rdrr.io/r/base/as.data.frame.html" class="external-link">as.data.frame()</a></code> first.</p>
+</div>
+<div class="section level3">
+<h3 id="status">Status<a class="anchor" aria-label="anchor" href="#status"></a>
+</h3>
+<p><code>R CMD check --as-cran</code>: 0 errors, 0 warnings, 1 NOTE (the maintainer change). Test suite 5,906 assertions under <code>R CMD check</code>, 0 failures, one skip (<code>blkvar</code>, worth 12 assertions, which CRAN does not serve).</p>
+<p>Every open estimatr issue was read against this implementation: 26 are fixed here, 23 are feature requests, 7 are out of scope, 6 are not reproducible, 5 are superseded by the rewrite, and 4 remain open. <code><a href="articles/estimatr2.0.html">vignette("estimatr2.0")</a></code> names the four.</p>
+</div>
+<div class="section level3">
+<h3 id="how-this-was-written">How this was written<a class="anchor" aria-label="anchor" href="#how-this-was-written"></a>
+</h3>
+<p>estimatr 2.0.0 was written with AI. <code><a href="articles/mathematical-notes.html">vignette("mathematical-notes")</a></code> says so in full and, in the same document, states each estimator’s definition in mathematics and then, immediately underneath, measures estimatr against that definition to machine precision, computed when the vignette is built. Sixteen such checks, and the vignette refuses to build if any of them fails. That is the evidence that should decide whether you install it.</p>
 <hr>
-<p>This project is generously supported by a grant from the <a href="http://www.arnoldfoundation.org" class="external-link">Laura and John Arnold Foundation</a> and seed funding from <a href="http://egap.org" class="external-link">Evidence in Governance and Politics (EGAP)</a>.</p>
+<p>This project is generously supported by a grant from the <a href="https://www.arnoldventures.org" class="external-link">Laura and John Arnold Foundation</a> and seed funding from <a href="https://egap.org/" class="external-link">Evidence in Governance and Politics (EGAP)</a>.</p>
+</div>
 </div>
 </div>
   </main><aside class="col-md-3"><div class="links">
@@ -204,10 +244,9 @@
 <div class="developers">
 <h2 data-toc-skip>Developers</h2>
 <ul class="list-unstyled">
-<li>Graeme Blair <br><small class="roles"> Author, maintainer </small>   </li>
+<li>Alexander Coppock <br><small class="roles"> Author, maintainer </small>   </li>
+<li>Graeme Blair <br><small class="roles"> Author </small>   </li>
 <li>Jasper Cooper <br><small class="roles"> Author </small>   </li>
-<li>Alexander Coppock <br><small class="roles"> Author </small>   </li>
-<li>Macartan Humphreys <br><small class="roles"> Author </small>   </li>
 <li>Luke Sonnet <br><small class="roles"> Author </small>   </li>
 <li><a href="authors.html">More about authors...</a></li>
 </ul>
@@ -220,7 +259,7 @@
 
 
     <footer><div class="pkgdown-footer-left">
-  <p>Developed by Graeme Blair, Jasper Cooper, Alexander Coppock, Macartan Humphreys, Luke Sonnet.</p>
+  <p>Developed by Alexander Coppock, Graeme Blair, Jasper Cooper, Luke Sonnet.</p>
 </div>
 
 <div class="pkgdown-footer-right">

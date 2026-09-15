@@ -1,6 +1,14 @@
 # Predict method for `lm_robust` object
 
-Predict method for `lm_robust` object
+Produces predicted values, obtained by evaluating the regression
+function in the frame `newdata` for fits from
+[`lm_robust()`](https://declaredesign.org/r/estimatr/reference/lm_robust.md)
+and
+[`lm_lin()`](https://declaredesign.org/r/estimatr/reference/lm_lin.md).
+If `se.fit` is `TRUE`, standard errors of the predictions are
+calculated. Setting `interval` adds confidence or prediction (tolerance)
+intervals at the level set by `alpha`, sometimes called narrow and wide
+intervals respectively.
 
 ## Usage
 
@@ -23,51 +31,55 @@ predict(
 
 - object:
 
-  an object of class 'lm_robust'
+  An object of class `"lm_robust"`.
 
 - newdata:
 
-  a data frame in which to look for variables with which to predict
+  A data frame in which to look for the variables to predict from. If
+  omitted, the fitted values are returned.
 
 - se.fit:
 
-  logical. Whether standard errors are required, default = FALSE
+  Logical. Whether to return standard errors. `FALSE` by default.
 
 - interval:
 
-  type of interval calculation. Can be abbreviated, default = none
+  Type of interval calculation, which can be abbreviated. `"none"` by
+  default.
 
 - alpha:
 
-  numeric denoting the test size for confidence intervals
+  Numeric. The test size for confidence intervals.
 
 - na.action:
 
-  function determining what should be done with missing values in
-  newdata. The default is to predict NA.
+  Function determining what to do with missing values in `newdata`. The
+  default is to predict `NA`.
 
 - pred.var:
 
-  the variance(s) for future observations to be assumed for prediction
-  intervals.
+  The variance(s) to assume for future observations when building
+  prediction intervals.
 
 - weights:
 
-  variance weights for prediction. This can be a numeric vector or a
-  bare (unquoted) name of the weights variable in the supplied newdata.
+  Variance weights for prediction, either a numeric vector or the bare
+  (unquoted) name of the weights variable in `newdata`.
 
 - ...:
 
-  other arguments, unused
+  (optional) Ignored.
+
+## Value
+
+A numeric vector of predictions, or a data frame with the predictions
+and their standard errors and interval bounds when `se.fit` or
+`interval` is set.
 
 ## Details
 
-Produces predicted values, obtained by evaluating the regression
-function in the frame `newdata` for fits from `lm_robust` and `lm_lin`.
-If the logical se.fit is TRUE, standard errors of the predictions are
-calculated. Setting intervals specifies computation of confidence or
-prediction (tolerance) intervals at the specified level, sometimes
-referred to as narrow vs. wide intervals.
+Called without `newdata`, the method returns the in-sample fitted
+values, and neither `se.fit` nor `interval` is available.
 
 The equation used for the standard error of a prediction given a row of
 data \\x\\ is:
@@ -75,16 +87,21 @@ data \\x\\ is:
 \\\sqrt(x \Sigma x')\\,
 
 where \\\Sigma\\ is the estimated variance-covariance matrix from
-`lm_robust`.
+[`lm_robust()`](https://declaredesign.org/r/estimatr/reference/lm_robust.md).
 
 The prediction intervals are for a single observation at each case in
-`newdata` with error variance(s) `pred.var`. The the default is to
-assume that future observations have the same error variance as those
-used for fitting, which is gotten from the fit
-[`lm_robust`](https://declaredesign.org/r/estimatr/reference/lm_robust.md)
-object. If weights is supplied, the inverse of this is used as a scale
-factor. If the fit was weighted, the default is to assume constant
+`newdata` with error variance(s) `pred.var`. The default is to assume
+that future observations have the same error variance as those used for
+fitting, which is taken from the fitted
+[`lm_robust()`](https://declaredesign.org/r/estimatr/reference/lm_robust.md)
+object. If `weights` is supplied, the inverse of those weights scales
+the variance. If the fit was weighted, the default is to assume constant
 prediction variance, with a warning.
+
+## See also
+
+[`lm_robust()`](https://declaredesign.org/r/estimatr/reference/lm_robust.md),
+[`lm_lin()`](https://declaredesign.org/r/estimatr/reference/lm_lin.md)
 
 ## Examples
 
@@ -99,6 +116,12 @@ dat <- data.frame(y = rnorm(n), x = rnorm(n))
 
 # Fit lm
 lm_out <- lm_robust(y ~ x, data = dat)
+# In-sample fitted values
+predict(lm_out)
+#>          1          2          3          4          5          6          7 
+#> 0.26523246 0.07663413 0.78269588 0.56945196 0.54150778 0.39373130 0.57050162 
+#>          8          9         10 
+#> 1.02619980 0.98470859 0.26230416 
 # Get predicted fits
 fits <- predict(lm_out, newdata = dat)
 # With standard errors and confidence intervals
@@ -132,73 +155,21 @@ predict(lm_out, newdata = new_dat, weights = w, interval = "prediction")
 # Works for 'lm_lin' models as well
 dat$z <- sample(1:3, size = nrow(dat), replace = TRUE)
 lmlin_out1 <- lm_lin(y ~ z, covariates = ~ x, data = dat)
+#> Warning: 1 of 5 variance estimates came out negative, so those standard errors are NaN. The design is close to singular, and the sandwich estimator loses the difference between two nearly equal quantities to rounding. Drop covariates, or use `se_type = "classical"`.
+#> Warning: 3 observations have a computed leverage at or near 1, which happens when the design is close to saturated and the observation is fitted exactly or nearly so. `se_type = "HC2"` divides by (1 - leverage). An observation at or above leverage 1 is dropped from the variance rather than divided by a negative number, and one just below it contributes a term the small divisor inflates. Use `se_type = "HC1"` or `"classical"`, or drop covariates, to use every observation.
+#> Warning: Some coefficients are collinear with other regressors and were dropped, and are returned as NA: z3:x_c.
 predict(lmlin_out1, newdata = dat, interval = "prediction")
 #> $fit
-#>                fit lwr upr
-#>  [1,]  1.370958447 NaN NaN
-#>  [2,] -0.186937884 NaN NaN
-#>  [3,]  0.239186411 NaN NaN
-#>  [4,]  0.110488863 NaN NaN
-#>  [5,]  0.093623919 NaN NaN
-#>  [6,]  0.004437459 NaN NaN
-#>  [7,]  1.511521997 NaN NaN
-#>  [8,]  0.386146556 NaN NaN
-#>  [9,]  2.018423714 NaN NaN
-#> [10,] -0.074881809 NaN NaN
+#>                fit        lwr      upr
+#>  [1,]  1.370958447  0.3615444 2.380372
+#>  [2,] -0.186937884 -1.4647357 1.090860
+#>  [3,]  0.239186411 -1.0086955 1.487068
+#>  [4,]  0.110488863 -0.9949579 1.215936
+#>  [5,]  0.093623919 -1.0022995 1.189547
+#>  [6,]  0.004437459 -1.0812175 1.090092
+#>  [7,]  1.511521997  0.5021080 2.520936
+#>  [8,]  0.386146556 -1.1366369 1.908930
+#>  [9,]  2.018423714  1.0090097 3.027838
+#> [10,] -0.074881809 -1.2079017 1.058138
 #> 
-
-# Predictions from Lin models are equivalent with and without an intercept
-# and for multi-level treatments entered as numeric or factor variables
-lmlin_out2 <- lm_lin(y ~ z - 1, covariates = ~ x, data = dat)
-lmlin_out3 <- lm_lin(y ~ factor(z), covariates = ~ x, data = dat)
-lmlin_out4 <- lm_lin(y ~ factor(z) - 1, covariates = ~ x, data = dat)
-
-predict(lmlin_out2, newdata = dat, interval = "prediction")
-#> $fit
-#>                fit lwr upr
-#>  [1,]  1.370958447 NaN NaN
-#>  [2,] -0.186937884 NaN NaN
-#>  [3,]  0.239186411 NaN NaN
-#>  [4,]  0.110488863 NaN NaN
-#>  [5,]  0.093623919 NaN NaN
-#>  [6,]  0.004437459 NaN NaN
-#>  [7,]  1.511521997 NaN NaN
-#>  [8,]  0.386146556 NaN NaN
-#>  [9,]  2.018423714 NaN NaN
-#> [10,] -0.074881809 NaN NaN
-#> 
-predict(lmlin_out3, newdata = dat, interval = "prediction")
-#> $fit
-#>                fit lwr upr
-#>  [1,]  1.370958447 NaN NaN
-#>  [2,] -0.186937884 NaN NaN
-#>  [3,]  0.239186411 NaN NaN
-#>  [4,]  0.110488863 NaN NaN
-#>  [5,]  0.093623919 NaN NaN
-#>  [6,]  0.004437459 NaN NaN
-#>  [7,]  1.511521997 NaN NaN
-#>  [8,]  0.386146556 NaN NaN
-#>  [9,]  2.018423714 NaN NaN
-#> [10,] -0.074881809 NaN NaN
-#> 
-predict(lmlin_out4, newdata = dat, interval = "prediction")
-#> $fit
-#>                fit lwr upr
-#>  [1,]  1.370958447 NaN NaN
-#>  [2,] -0.186937884 NaN NaN
-#>  [3,]  0.239186411 NaN NaN
-#>  [4,]  0.110488863 NaN NaN
-#>  [5,]  0.093623919 NaN NaN
-#>  [6,]  0.004437459 NaN NaN
-#>  [7,]  1.511521997 NaN NaN
-#>  [8,]  0.386146556 NaN NaN
-#>  [9,]  2.018423714 NaN NaN
-#> [10,] -0.074881809 NaN NaN
-#> 
-
-# In Lin models, predict will stop with an error message if new
-# treatment levels are supplied in the new data
-new_dat$z <- sample(0:3, size = nrow(new_dat), replace = TRUE)
-# predict(lmlin_out, newdata = new_dat)
-
 ```

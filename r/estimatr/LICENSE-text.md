@@ -1,4 +1,4 @@
 # License
 
-    YEAR: 2015-2018
+    YEAR: 2015-2026
     COPYRIGHT HOLDER: Graeme Blair, Jasper Cooper, Alexander Coppock, Macartan Humphreys, and Luke Sonnet

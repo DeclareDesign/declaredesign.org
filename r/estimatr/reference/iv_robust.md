@@ -1,8 +1,9 @@
 # Two-Stage Least Squares Instrumental Variables Regression
 
-This formula estimates an instrumental variables regression using
-two-stage least squares with a variety of options for robust standard
-errors
+Fits a two-stage least squares instrumental variables regression and
+returns heteroskedasticity-robust or cluster-robust standard errors,
+with optional weak-instrument, Wu-Hausman, and overidentification
+diagnostics.
 
 ## Usage
 
@@ -27,316 +28,186 @@ iv_robust(
 
 - formula:
 
-  an object of class formula of the regression and the instruments. For
-  example, the formula `y ~ x1 + x2 | z1 + z2` specifies `x1` and `x2`
-  as endogenous regressors and `z1` and `z2` as their respective
-  instruments.
+  (required) An object of class formula with regressors and instruments,
+  e.g. `y ~ x1 + x2 | z1 + z2`.
 
 - data:
 
-  A `data.frame`
+  (optional) A `data.frame`
 
 - weights:
 
-  the bare (unquoted) names of the weights variable in the supplied
-  data.
+  (optional) The bare (unquoted) name of the weights variable
 
 - subset:
 
-  An optional bare (unquoted) expression specifying a subset of
-  observations to be used.
+  (optional) A bare (unquoted) expression specifying a subset
 
 - clusters:
 
-  An optional bare (unquoted) name of the variable that corresponds to
-  the clusters in the data.
+  (optional) A bare (unquoted) name of the cluster variable
 
 - fixed_effects:
 
-  An optional right-sided formula containing the fixed effects that will
-  be projected out of the data, such as `~ blockID`. Do not pass
-  multiple-fixed effects with intersecting groups. Speed gains are
-  greatest for variables with large numbers of groups and when using
-  "HC1" or "stata" standard errors. See 'Details'.
+  (optional) A one-sided formula of fixed effects to absorb, such as
+  `~ blockID`. Uses FWL demeaning (see
+  [`lm_robust()`](https://declaredesign.org/r/estimatr/reference/lm_robust.md)
+  for details and SE type restrictions). Diagnostics are not available
+  with `fixed_effects`.
 
 - se_type:
 
-  The sort of standard error sought. If `clusters` is not specified the
-  options are "HC0", "HC1" (or "stata", the equivalent), "HC2"
-  (default), "HC3", or "classical". If `clusters` is specified the
-  options are "CR0", "CR2" (default), or "stata". Can also specify
-  "none", which may speed up estimation of the coefficients.
+  (optional) The standard error type. `"HC2"` and `"HC3"` work with
+  `fixed_effects` at any number of factors: the second stage runs on
+  fitted regressors, but those are demeaned by the same fixed effects,
+  so the leverage decomposition
+  [`lm_robust()`](https://declaredesign.org/r/estimatr/reference/lm_robust.md)
+  describes applies unchanged. `"CR2"` with `fixed_effects` expands the
+  dummies, as in estimatr 1.0.6. Defaults: `"HC2"` (no clusters, with or
+  without FE), `"CR2"` (clusters, no FE), `"CR0"` (clusters, with FE).
 
 - ci:
 
-  logical. Whether to compute and return p-values and confidence
-  intervals, TRUE by default.
+  (optional) Logical. Whether to compute p-values and confidence
+  intervals.
 
 - alpha:
 
-  The significance level, 0.05 by default.
+  (optional) The significance level, 0.05 by default.
 
 - diagnostics:
 
-  logical. Whether to compute and return instrumental variable
-  diagnostic statistics and tests.
+  (optional) Logical. Whether to compute IV diagnostic statistics: the
+  first-stage F test of the excluded instruments for each endogenous
+  regressor, a regression-based Wu-Hausman test of endogeneity, and,
+  when the model is overidentified, a test of the overidentifying
+  restrictions. That test is Sargan's with `se_type = "classical"` and
+  Wooldridge's (1995) robust score test otherwise, with the score's
+  variance summed within clusters when `clusters` is given. With
+  `weights`, each test is the one on the model with every row multiplied
+  by the square root of its weight. The first-stage F and Wu-Hausman
+  tests are Wald tests under the fit's own `se_type`, so a classical one
+  is valid exactly when the classical weighted standard errors are and a
+  robust one exactly when the robust ones are. The robust score test
+  uses the score's HC0 or CR0 sandwich under every robust `se_type`, as
+  Wooldridge (1995) and Stata define it; the HC1, HC2, HC3, CR2, and
+  `"stata"` refinements correct a coefficient covariance and have no
+  counterpart in a score test. The overidentification test is `NA`, with
+  a warning, for a clustered fit with no more clusters than
+  restrictions. All three reproduce Stata's `estat firststage`,
+  `estat endogenous`, and `estat overid` on every row of the test
+  suite's Stata fixture that Stata answers, except the robust score test
+  after aweights under `forceweights`, where Stata computes the
+  frequency-weight statistic instead.
 
 - return_vcov:
 
-  logical. Whether to return the variance-covariance matrix for later
-  usage, TRUE by default.
+  (optional) Logical. Whether to return the vcov matrix.
 
 - try_cholesky:
 
-  logical. Whether to try using a Cholesky decomposition to solve least
-  squares instead of a QR decomposition, FALSE by default. Using a
-  Cholesky decomposition may result in speed gains, but should only be
-  used if users are sure their model is full-rank (i.e., there is no
-  perfect multi-collinearity)
+  (optional) Logical. Whether to solve by Cholesky decomposition of
+  `X'X` rather than by the default pivoted QR. `FALSE` by default, and
+  worth turning on in most applied settings: about 1.4 times faster at n
+  = 100,000 with two regressors, and 1.7 times faster at n = 200,000
+  with 60 regressors, where it is 0.15s against 0.25s. The saving is per
+  fit, so it is worth most in a simulation that fits the same design
+  thousands of times.
+
+  Rank deficiency is caught on either path. Redundant columns come back
+  as `NA` exactly as they do from
+  [`lm()`](https://rdrr.io/r/stats/lm.html) whichever path ran, and a
+  design that is rank deficient falls back to the QR.
+
+  Whether it is safe turns on one question, whether two regressors are
+  nearly the same variable. Forming `X'X` squares the condition number,
+  so the Cholesky path has about twice the rounding error of the QR, and
+  only near-collinearity makes that visible. Differences of scale do
+  not, because the columns are normalized before either decomposition,
+  so a covariate in dollars beside one in years costs nothing. For a
+  treatment indicator, a few covariates, block or cluster dummies, the
+  centered interactions
+  [`lm_lin()`](https://declaredesign.org/r/estimatr/reference/lm_lin.md)
+  builds, or a factorial, the two paths agree to at least 10 significant
+  digits, which is why
+  [`difference_in_means()`](https://declaredesign.org/r/estimatr/reference/difference_in_means.md)
+  sets it to `TRUE` internally. Agreement falls to about 3 digits as the
+  scaled condition index reaches `1e6`, and the QR fallback takes over
+  above roughly `1e8`. Nothing interpretable lives in that range: a
+  design at `1e6` returns a coefficient of 4.8e4 with a standard error
+  of 4.6e4 on a regressor whose true effect is zero. To check a design
+  directly, scale the columns first, since the unscaled condition number
+  of a design in mixed units is large for a reason that does not affect
+  the fit: `kappa(sweep(X, 2, sqrt(colSums(X^2)), "/"), exact = TRUE)`.
 
 ## Value
 
-An object of class `"iv_robust"`.
+An object of class `"iv_robust"`, a list holding the estimate table in
+`coefficients`, `std.error`, `df`, `statistic`, `p.value`, `conf.low`,
+`conf.high`, `term`, and `outcome`; the fit in `fitted.values`,
+`residuals`, `vcov`, `nobs`, `k`, `rank`, `df.residual`, and `res_var`;
+the summary statistics `r.squared`, `adj.r.squared`, `tss`, and
+`fstatistic`; and `se_type`, `weighted`, `clustered`, `fes`, `alpha`,
+`terms`, `xlevels`, and `call`.
 
-The post-estimation commands functions `summary` and
-[`tidy`](https://generics.r-lib.org/reference/tidy.html) return results
-in a `data.frame`. To get useful data out of the return, you can use
-these data frames, you can use the resulting list directly, or you can
-use the generic accessor functions `coef`, `vcov`, `confint`, and
-`predict`.
-
-An object of class `"iv_robust"` is a list containing at least the
-following components:
-
-- coefficients:
-
-  the estimated coefficients
-
-- std.error:
-
-  the estimated standard errors
-
-- statistic:
-
-  the t-statistic
-
-- df:
-
-  the estimated degrees of freedom
-
-- p.value:
-
-  the p-values from a two-sided t-test using `coefficients`,
-  `std.error`, and `df`
-
-- conf.low:
-
-  the lower bound of the `1 - alpha` percent confidence interval
-
-- conf.high:
-
-  the upper bound of the `1 - alpha` percent confidence interval
-
-- term:
-
-  a character vector of coefficient names
-
-- alpha:
-
-  the significance level specified by the user
-
-- se_type:
-
-  the standard error type specified by the user
-
-- res_var:
-
-  the residual variance
-
-- nobs:
-
-  the number of observations used
-
-- k:
-
-  the number of columns in the design matrix (includes linearly
-  dependent columns!)
-
-- rank:
-
-  the rank of the fitted model
-
-- vcov:
-
-  the fitted variance covariance matrix
-
-- r.squared:
-
-  the \\R^2\\ of the second stage regression
-
-- adj.r.squared:
-
-  the \\R^2\\ of the second stage regression, but penalized for having
-  more parameters, `rank`
-
-- fstatistic:
-
-  a vector with the value of the second stage F-statistic with the
-  numerator and denominator degrees of freedom
-
-- firststage_fstatistic:
-
-  a vector with the value of the first stage F-statistic with the
-  numerator and denominator degrees of freedom, useful for a test for
-  weak instruments
-
-- weighted:
-
-  whether or not weights were applied
-
-- call:
-
-  the original function call
-
-- fitted.values:
-
-  the matrix of predicted means
-
-We also return `terms` with the second stage terms and
-`terms_regressors` with the first stage terms, both of which used by
-`predict`. If `fixed_effects` are specified, then we return
-`proj_fstatistic`, `proj_r.squared`, and `proj_adj.r.squared`, which are
-model fit statistics that are computed on the projected model (after
-demeaning the fixed effects).
-
-We also return various diagnostics when `` `diagnostics` == TRUE ``.
-These are stored in `diagnostic_first_stage_fstatistic`,
-`diagnostic_endogeneity_test`, and `diagnostic_overid_test`. They have
-the test statistic, relevant degrees of freedom, and p.value in a named
-vector. See 'Details' for more. These are printed in a formatted table
-when the model object is passed to
-[`summary()`](https://rdrr.io/r/base/summary.html).
-
-## Details
-
-This function performs two-stage least squares estimation to fit
-instrumental variables regression. The syntax is similar to that in
-`ivreg` from the `AER` package. Regressors and instruments should be
-specified in a two-part formula, such as `y ~ x1 + x2 | z1 + z2 + z3`,
-where `x1` and `x2` are regressors and `z1`, `z2`, and `z3` are
-instruments. Unlike `ivreg`, you must explicitly specify all exogenous
-regressors on both sides of the bar.
-
-The default variance estimators are the same as in
-[`lm_robust`](https://declaredesign.org/r/estimatr/reference/lm_robust.md).
-Without clusters, we default to `HC2` standard errors, and with clusters
-we default to `CR2` standard errors. 2SLS variance estimates are
-computed using the same estimators as in
-[`lm_robust`](https://declaredesign.org/r/estimatr/reference/lm_robust.md),
-however the design matrix used are the second-stage regressors, which
-includes the estimated endogenous regressors, and the residuals used are
-the difference between the outcome and a fit produced by the
-second-stage coefficients and the first-stage (endogenous) regressors.
-More notes on this can be found at [the mathematical
-appendix](https://declaredesign.org/r/estimatr/articles/mathematical-notes.html).
-
-If `fixed_effects` are specified, both the outcome, regressors, and
-instruments are centered using the method of alternating projections
-(Halperin 1962; Gaure 2013). Specifying fixed effects in this way will
-result in large speed gains with standard error estimators that do not
-need to invert the matrix of fixed effects. This means using
-"classical", "HC0", "HC1", "CR0", or "stata" standard errors will be
-faster than other standard error estimators. Be wary when specifying
-fixed effects that may result in perfect fits for some observations or
-if there are intersecting groups across multiple fixed effect variables
-(e.g. if you specify both "year" and "country" fixed effects with an
-unbalanced panel where one year you only have data for one country).
-
-If `diagnostics` are requested, we compute and return three sets of
-diagnostics. First, we return tests for weak instruments using
-first-stage F-statistics (`diagnostic_first_stage_fstatistic`).
-Specifically, the F-statistics reported compare the model regressing
-each endogeneous variable on both the included exogenous variables and
-the instruments to a model where each endogenous variable is regressed
-only on the included exogenous variables (without the instruments). A
-significant F-test for weak instruments provides evidence against the
-null hypothesis that the instruments are weak. Second, we return tests
-for the endogeneity of the endogenous variables, often called the
-Wu-Hausman test (`diagnostic_endogeneity_test`). We implement the
-regression test from Hausman (1978), which allows for robust variance
-estimation. A significant endogeneity test provides evidence against the
-null that all the variables are exogenous. Third, we return a test for
-the correlation between the instruments and the error term
-(`diagnostic_overid_test`). We implement the Wooldridge (1995) robust
-score test, which is identical to Sargan's (1958) test with classical
-standard errors. This test is only reported if the model is
-overidentified (i.e. the number of instruments is greater than the
-number of endogenous regressors), and if no weights are specified.
-
-## References
-
-Gaure, Simon. 2013. "OLS with multiple high dimensional category
-variables." Computational Statistics & Data Analysis 66: 8-1.
-[doi:10.1016/j.csda.2013.03.024](https://doi.org/10.1016/j.csda.2013.03.024)
-
-Halperin, I. 1962. "The product of projection operators." Acta
-Scientiarum Mathematicarum (Szeged) 23(1-2): 96-99.
+`residuals` are the structural residuals, `y - X beta`, rather than the
+second-stage ones. `ei.iv`, `terms_regressors`, and `formula` record the
+two-stage structure. With `diagnostics = TRUE` the object also holds
+`diagnostic_first_stage_fstatistic`, `diagnostic_endogeneity_test`, and
+`diagnostic_overid_test`.
 
 ## Examples
 
 ``` r
-library(fabricatr)
-dat <- fabricate(
-  N = 40,
-  Y = rpois(N, lambda = 4),
-  Z = rbinom(N, 1, prob = 0.4),
-  D  = Z * rbinom(N, 1, prob = 0.8),
-  X = rnorm(N),
-  G = sample(letters[1:4], N, replace = TRUE)
-)
+set.seed(25)
+n <- 200
+dat <- data.frame(z = rbinom(n, 1, 0.5), cl = rep(1:20, each = 10))
+dat$x <- dat$z * rbinom(n, 1, 0.7)
+dat$y <- dat$x + rnorm(n)
 
-# Instrument for treatment `D` with encouragement `Z`
-tidy(iv_robust(Y ~ D + X | Z + X, data = dat))
-#>          term   estimate std.error  statistic      p.value   conf.low conf.high
-#> 1 (Intercept) 3.32899931 0.3532949 9.42272101 2.261759e-11  2.6131558 4.0448428
-#> 2           D 0.31231384 0.6515096 0.47936952 6.344971e-01 -1.0077700 1.6323977
-#> 3           X 0.03953936 0.4343723 0.09102642 9.279626e-01 -0.8405826 0.9196613
-#>   df outcome
-#> 1 37       Y
-#> 2 37       Y
-#> 3 37       Y
+# Endogenous regressor on the left of the bar, instrument on the right
+fit <- iv_robust(y ~ x | z, data = dat)
+tidy(fit)
+#> # A tibble: 2 × 9
+#>   term     estimate std.error statistic p.value conf.low conf.high    df outcome
+#>   <chr>       <dbl>     <dbl>     <dbl>   <dbl>    <dbl>     <dbl> <dbl> <chr>  
+#> 1 (Interc…    0.137    0.0957      1.43 0.153    -0.0514     0.326   198 y      
+#> 2 x           0.625    0.210       2.97 0.00334   0.210      1.04    198 y      
 
-# Instrument with Stata's `ivregress 2sls , small rob` HC1 variance
-tidy(iv_robust(Y ~ D | Z, data = dat, se_type = "stata"))
-#>          term  estimate std.error statistic      p.value  conf.low conf.high df
-#> 1 (Intercept) 3.3157895 0.3419679 9.6962023 7.990568e-12  2.623512  4.008067 38
-#> 2           D 0.3184211 0.6522180 0.4882126 6.282047e-01 -1.001925  1.638767 38
-#>   outcome
-#> 1       Y
-#> 2       Y
+# The same variance menu as lm_robust()
+iv_robust(y ~ x | z, data = dat, se_type = "classical")
+#>              Estimate Std. Error  t value    Pr(>|t|)    CI Lower  CI Upper  DF
+#> (Intercept) 0.1373582 0.09435025 1.455833 0.147022480 -0.04870211 0.3234186 198
+#> x           0.6251925 0.21094522 2.963767 0.003411742  0.20920489 1.0411802 198
+iv_robust(y ~ x | z, data = dat, clusters = cl)
+#>              Estimate Std. Error  t value   Pr(>|t|)     CI Lower  CI Upper
+#> (Intercept) 0.1373582 0.06811342 2.016610 0.05907724 -0.005856096 0.2805725
+#> x           0.6251925 0.17196811 3.635514 0.00176444  0.265215125 0.9851700
+#>                   DF
+#> (Intercept) 17.80343
+#> x           18.96572
 
-# With clusters, we use CR2 errors by default
-dat$cl <- rep(letters[1:5], length.out = nrow(dat))
-tidy(iv_robust(Y ~ D | Z, data = dat, clusters = cl))
-#>          term  estimate std.error statistic     p.value   conf.low conf.high
-#> 1 (Intercept) 3.3157895 0.4457303 7.4390043 0.002360625  2.0374558  4.594123
-#> 2           D 0.3184211 0.4682124 0.6800782 0.533811304 -0.9820125  1.618855
-#>         df outcome
-#> 1 3.698715       Y
-#> 2 3.996357       Y
-
-# Again, easy to replicate Stata (again with `small` correction in Stata)
-tidy(iv_robust(Y ~ D | Z, data = dat, clusters = cl, se_type = "stata"))
-#>          term  estimate std.error statistic     p.value   conf.low conf.high df
-#> 1 (Intercept) 3.3157895 0.4414454 7.5112102 0.001681356  2.0901405  4.541438  4
-#> 2           D 0.3184211 0.4634526 0.6870629 0.529805076 -0.9683296  1.605172  4
-#>   outcome
-#> 1       Y
-#> 2       Y
-
-# We can also specify fixed effects, that will be taken as exogenous regressors
-# Speed gains with fixed effects are greatests with "stata" or "HC1" std.errors
-tidy(iv_robust(Y ~ D | Z, data = dat, fixed_effects = ~ G, se_type = "HC1"))
-#>   term  estimate std.error statistic   p.value  conf.low conf.high df outcome
-#> 1    D 0.2509696 0.6728668 0.3729855 0.7114087 -1.115023  1.616962 35       Y
+# Weak-instrument, endogeneity, and overidentification tests
+summary(iv_robust(y ~ x | z, data = dat, diagnostics = TRUE))
+#> 
+#> Call:
+#> iv_robust(formula = y ~ x | z, data = dat, diagnostics = TRUE)
+#> 
+#> Standard error type:  HC2 
+#> 
+#> Coefficients:
+#>             Estimate Std. Error t value Pr(>|t|) CI Lower CI Upper  DF
+#> (Intercept)   0.1374    0.09573   1.435 0.152908 -0.05142   0.3261 198
+#> x             0.6252    0.21047   2.970 0.003342  0.21013   1.0403 198
+#> 
+#> Multiple R-squared:  0.124 , Adjusted R-squared:  0.1195 
+#> F-statistic: 8.823 on 1 and 198 DF,  p-value: 0.003342
+#> 
+#> Diagnostics:
+#>                    value     Df1 Df2 p.value    
+#> Weak instruments 175.375   1.000 198  <2e-16 ***
+#> Wu-Hausman         2.178   1.000 197   0.142    
+#> Score (robust)        NA   0.000  NA      NA    
+#> ---
+#> Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
 ```

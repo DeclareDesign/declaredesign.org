@@ -7,7 +7,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">estimatr</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">1.0.6</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">2.0.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -19,28 +19,14 @@
 <li class="nav-item"><a class="nav-link" href="../reference/index.html">Reference</a></li>
 <li class="nav-item dropdown">
   <button class="nav-link dropdown-toggle" type="button" id="dropdown-articles" data-bs-toggle="dropdown" aria-expanded="false" aria-haspopup="true">Articles</button>
-  <ul class="dropdown-menu" aria-labelledby="dropdown-articles"><li><a class="dropdown-item" href="../articles/getting-started.html">Getting started using estimatr</a></li>
-    <li><a class="dropdown-item" href="../articles/absorbing-fixed-effects.html">Absorbing Fixed Effects with estimatr</a></li>
-    <li><a class="dropdown-item" href="../articles/estimatr-in-the-tidyverse.html">estimatr in the Tidyverse</a></li>
-    <li><a class="dropdown-item" href="../articles/benchmarking-estimatr.html">Benchmarking estimatr</a></li>
-    <li><a class="dropdown-item" href="../articles/emmeans-examples.html">Examples with emmeans</a></li>
-    <li><a class="dropdown-item" href="../articles/mathematical-notes.html">Mathematical notes for estimatr</a></li>
-    <li><a class="dropdown-item" href="../articles/regression-tables.html">Regression Tables with estimatr</a></li>
-    <li><a class="dropdown-item" href="../articles/simulations-debiasing-dim.html">Simulations - Debiasing Difference-in-Means</a></li>
-    <li><a class="dropdown-item" href="../articles/simulations-ols-variance.html">Simulations - OLS and Variance</a></li>
-    <li><a class="dropdown-item" href="../articles/stata-wls-hat.html">How Stata's hat matrix differs with weights</a></li>
+  <ul class="dropdown-menu" aria-labelledby="dropdown-articles"><li><a class="dropdown-item" href="../articles/getting-started.html">Getting started with estimatr</a></li>
+    <li><a class="dropdown-item" href="../articles/mathematical-notes.html">Mathematical notes and guarantees</a></li>
+    <li><a class="dropdown-item" href="../articles/estimatr2.0.html">estimatr 2.0, what changes and why</a></li>
+    <li><a class="dropdown-item" href="../articles/performance.html">Performance</a></li>
+    <li><a class="dropdown-item" href="../articles/estimatr-in-the-tidyverse.html">estimatr in the tidyverse</a></li>
+    <li><a class="dropdown-item" href="../articles/regression-tables.html">Regression tables with estimatr</a></li>
   </ul></li>
-      </ul><ul class="navbar-nav"><li class="nav-item dropdown">
-  <button class="nav-link dropdown-toggle" type="button" id="dropdown-software" data-bs-toggle="dropdown" aria-expanded="false" aria-haspopup="true">Software</button>
-  <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdown-software"><li><a class="external-link dropdown-item" href="http://declaredesign.org/r/declaredesign/">DeclareDesign</a></li>
-    <li><a class="external-link dropdown-item" href="https://declaredesign.org/r/randomizr/">randomizr</a></li>
-    <li><a class="external-link dropdown-item" href="https://declaredesign.org/r/fabricatr/">fabricatr</a></li>
-    <li><a class="dropdown-item" href="https://declaredesign.org/r/estimatr/">estimatr</a></li>
-    <li><a class="external-link dropdown-item" href="https://declaredesign.org/r/rdss/">rdss</a></li>
-    <li><a class="external-link dropdown-item" href="https://declaredesign.org/r/designlibrary/">DesignLibrary</a></li>
-    <li><a class="external-link dropdown-item" href="https://eos.wzb.eu/ipi/DDWizard/">DesignWizard</a></li>
-  </ul></li>
-<li class="nav-item"><a class="external-link nav-link" href="https://declaredesign.org">declaredesign.org</a></li>
+      </ul><ul class="navbar-nav"><li class="nav-item"><a class="external-link nav-link" href="https://declaredesign.org">declaredesign.org</a></li>
       </ul></div>
 
 
@@ -54,175 +40,399 @@
     </div>
 
     <div class="section level2">
-<h2 class="pkg-version" data-toc-text="1.0.6" id="estimatr-106">estimatr 1.0.6<a class="anchor" aria-label="anchor" href="#estimatr-106"></a></h2><p class="text-muted">CRAN release: 2025-02-28</p>
-<ul><li>Allows for prediction with lm_lin() when treatment is a factor and/or multi-valued.</li>
-<li>Adds saved treatment_levels to the returned lm_lin model object.</li>
-<li>Stops prediction for lm_lin if the treatment values in new data are not a subset of treatment_levels.</li>
-<li>Standardizes model fit for lm_lin() models with no intercept.</li>
-<li>Adds tests to ensure identical predictions from lm_lin() models where treatment is either numeric or factorial, and fit with/without an intercept.</li>
-<li>Adds relevant examples to predict and lm_robust and lm_lin documentation.</li>
-<li>Adds Molly Offer-Westort as a contributor.</li>
-<li>Remove functionality for using <code>lh_robust</code> with multiple hypotheses.</li>
-<li>Restricted functionality for using <code>lh_robust</code> with clustered standard errors to CR0 standard errors.</li>
-</ul></div>
-    <div class="section level2">
-<h2 class="pkg-version" data-toc-text="1.0.4" id="estimatr-104">estimatr 1.0.4<a class="anchor" aria-label="anchor" href="#estimatr-104"></a></h2><p class="text-muted">CRAN release: 2024-03-31</p>
-<ul><li>Test suite changes for M1 mac stay current on CRAN.</li>
-</ul></div>
-    <div class="section level2">
-<h2 class="pkg-version" data-toc-text="1.0.2" id="estimatr-102">estimatr 1.0.2<a class="anchor" aria-label="anchor" href="#estimatr-102"></a></h2><p class="text-muted">CRAN release: 2024-01-17</p>
-<ul><li>Minor documentation changes to stay current on CRAN.</li>
-</ul></div>
-    <div class="section level2">
-<h2 class="pkg-version" data-toc-text="1.0.0" id="estimatr-100">estimatr 1.0.0<a class="anchor" aria-label="anchor" href="#estimatr-100"></a></h2><p class="text-muted">CRAN release: 2022-07-04</p>
-<ul><li>Version bump to coincide with DeclareDesign package version 1.0.0</li>
-<li>Tests edited</li>
-</ul></div>
-    <div class="section level2">
-<h2 class="pkg-version" data-toc-text="0.30.6" id="estimatr-0306">estimatr 0.30.6<a class="anchor" aria-label="anchor" href="#estimatr-0306"></a></h2><p class="text-muted">CRAN release: 2022-01-31</p>
-<ul><li>Fix tests to address CRAN failures</li>
-</ul></div>
-    <div class="section level2">
-<h2 class="pkg-version" data-toc-text="0.30.4" id="estimatr-0304">estimatr 0.30.4<a class="anchor" aria-label="anchor" href="#estimatr-0304"></a></h2><p class="text-muted">CRAN release: 2021-11-07</p>
-<ul><li>Bug fix of tidy handling of conf.level</li>
-<li>Bug fix of lh_robust tidy</li>
-</ul></div>
-    <div class="section level2">
-<h2 class="pkg-version" data-toc-text="0.30.2" id="estimatr-0302">estimatr 0.30.2<a class="anchor" aria-label="anchor" href="#estimatr-0302"></a></h2><p class="text-muted">CRAN release: 2021-01-17</p>
-<ul><li>Remove lfe from tests</li>
-</ul></div>
-    <div class="section level2">
-<h2 class="pkg-version" data-toc-text="0.30.0" id="estimatr-0300">estimatr 0.30.0<a class="anchor" aria-label="anchor" href="#estimatr-0300"></a></h2><p class="text-muted">CRAN release: 2021-01-07</p>
-<ul><li>Test suite changes (skip if not installed for checking against other packages)</li>
-</ul></div>
-    <div class="section level2">
-<h2 class="pkg-version" data-toc-text="0.28.0" id="estimatr-0280">estimatr 0.28.0<a class="anchor" aria-label="anchor" href="#estimatr-0280"></a></h2><p class="text-muted">CRAN release: 2020-11-19</p>
-<ul><li>Test suite changes</li>
-</ul></div>
-    <div class="section level2">
-<h2 class="pkg-version" data-toc-text="0.26.0" id="estimatr-0260">estimatr 0.26.0<a class="anchor" aria-label="anchor" href="#estimatr-0260"></a></h2><p class="text-muted">CRAN release: 2020-09-07</p>
-<ul><li>Test suite changes</li>
-</ul></div>
-    <div class="section level2">
-<h2 class="pkg-version" data-toc-text="0.24.0" id="estimatr-0240">estimatr 0.24.0<a class="anchor" aria-label="anchor" href="#estimatr-0240"></a></h2><p class="text-muted">CRAN release: 2020-09-02</p>
-<ul><li>tidy: rename nobs, nclusters, nblocks</li>
-<li>tidy: new arguments conf.int, conf.level</li>
-<li>Added <code>update.iv_robust()</code>
-</li>
-<li>Bug fix regarding fixed effects with large numbers</li>
-</ul></div>
-    <div class="section level2">
-<h2 class="pkg-version" data-toc-text="0.22.0" id="estimatr-0220">estimatr 0.22.0<a class="anchor" aria-label="anchor" href="#estimatr-0220"></a></h2><p class="text-muted">CRAN release: 2020-03-19</p>
-<ul><li>Bug fixes</li>
-</ul></div>
-    <div class="section level2">
-<h2 class="pkg-version" data-toc-text="0.20.0" id="estimatr-0200">estimatr 0.20.0<a class="anchor" aria-label="anchor" href="#estimatr-0200"></a></h2><p class="text-muted">CRAN release: 2019-09-09</p>
-<ul><li>Added support for <code>emmeans</code> (thanks <a href="https://github.com/rvlenth" class="external-link">@rvlenth</a>)!</li>
-<li>Fixed bug when estimating <code>diagnostics</code> in <code><a href="../reference/iv_robust.html">iv_robust()</a></code> without explicitly specifying <code>se_type</code> (issue <a href="https://github.com/DeclareDesign/estimatr/issues/310" class="external-link">#310</a>)</li>
-<li>Support for <code>rlang</code> 0.4.0</li>
-</ul></div>
-    <div class="section level2">
-<h2 class="pkg-version" data-toc-text="0.18.0" id="estimatr-0180">estimatr 0.18.0<a class="anchor" aria-label="anchor" href="#estimatr-0180"></a></h2><p class="text-muted">CRAN release: 2019-05-26</p>
-<ul><li>Fixed bug where collinear covariates caused fixed effects estimator to crash (issue <a href="https://github.com/DeclareDesign/estimatr/issues/294" class="external-link">#294</a>)</li>
-<li>Added <code><a href="../reference/estimatr_glancers.html">glance.lh_robust()</a></code> and fixed some issues with printing and summarizing <code><a href="../reference/lh_robust.html">lh_robust()</a></code> objects (issues <a href="https://github.com/DeclareDesign/estimatr/issues/295" class="external-link">#295</a> and <a href="https://github.com/DeclareDesign/estimatr/issues/296" class="external-link">#296</a>)</li>
-<li>Fixes CRAN errors in testing with new <code>clubSandwich</code> package</li>
-</ul></div>
-    <div class="section level2">
-<h2 class="pkg-version" data-toc-text="0.16.0" id="estimatr-0160">estimatr 0.16.0<a class="anchor" aria-label="anchor" href="#estimatr-0160"></a></h2>
-<ul><li>Add <code>diagnostics</code> to <code><a href="../reference/iv_robust.html">iv_robust()</a></code>
-</li>
-<li>Add <code><a href="https://generics.r-lib.org/reference/glance.html" class="external-link">glance()</a></code> methods for all estimators</li>
-<li>Add <code><a href="../reference/lh_robust.html">lh_robust()</a></code> for easy interface to <code><a href="https://rdrr.io/pkg/car/man/linearHypothesis.html" class="external-link">car::linearHypothesis()</a></code>
-</li>
-<li>Fixed minor bug with a formula such as <code>is.na(var)</code> in the <code>covariates</code> formula in <code><a href="../reference/lm_lin.html">lm_lin()</a></code> (issue <a href="https://github.com/DeclareDesign/estimatr/issues/283" class="external-link">#283</a>)</li>
-</ul></div>
-    <div class="section level2">
-<h2 class="pkg-version" data-toc-text="0.14.0" id="estimatr-0140">estimatr 0.14.0<a class="anchor" aria-label="anchor" href="#estimatr-0140"></a></h2>
-<ul><li>Removes <code>broom</code> hack for <code>tidy</code> method and instead relies on importing <code>generics</code>
-</li>
-</ul></div>
-    <div class="section level2">
-<h2 class="pkg-version" data-toc-text="0.12.0" id="estimatr-0120">estimatr 0.12.0<a class="anchor" aria-label="anchor" href="#estimatr-0120"></a></h2>
-<ul><li>Fixed ambiguity about how interacted covariates were centered in <code>lm_lin</code>
-</li>
-<li>A series of fixes for bugs that occurred with multiple outcomes (multivariate regression):
-<ul><li>Fixed bug pointed out by James Pustejovsky via the <code>sandwich</code> version 2.5-0 and off-diagonal blocks of multivariate regression vcov matrices</li>
-<li>Fixed bugs in <code>lm_lin</code> preventing multivariate regression</li>
-<li>Fixed bug that truncated degrees of freedom with “CR2” standard errors</li>
-<li>Fixed bug that returned incorrect R-squared for the second or later outcomes</li>
-</ul></li>
-<li>Fixed bug preventing integration with latest version of <code>margins</code>
-</li>
-<li>Fixed bug with <code>difference_in_means</code> when using <code>condition1</code> and <code>condition2</code> to subset a treatment vector with more than two treatment conditions. Previous estimates and standard errors were incorrect.</li>
-</ul></div>
-    <div class="section level2">
-<h2 class="pkg-version" data-toc-text="0.10.0" id="estimatr-0100">estimatr 0.10.0<a class="anchor" aria-label="anchor" href="#estimatr-0100"></a></h2><p class="text-muted">CRAN release: 2018-07-12</p>
-<ul><li>Changed names of confidence interval columns in tidied data from <code>ci.lower</code> and <code>ci.upper</code> to <code>conf.low</code> and <code>conf.high</code> to be in line with other tidy methods</li>
-<li>Added support for <code>fixed_effects</code> that are just one block</li>
-<li>Added support for specifing <code>condition_prs</code> in <code><a href="../reference/horvitz_thompson.html">horvitz_thompson()</a></code> as a single number</li>
-<li>Added t- and z-statistics to output</li>
-<li>Limit unnecessary messaging in <code><a href="../reference/horvitz_thompson.html">horvitz_thompson()</a></code>
-</li>
-</ul></div>
-    <div class="section level2">
-<h2 class="pkg-version" data-toc-text="0.8.0" id="estimatr-080">estimatr 0.8.0<a class="anchor" aria-label="anchor" href="#estimatr-080"></a></h2><p class="text-muted">CRAN release: 2018-06-02</p>
-<ul><li>Added support for absorbing fixed effects in <code>lm_robust</code> and <code>iv_robust</code>
-</li>
-<li>Added <code>commarobust</code> and <code>starprep</code> for stargazer integration</li>
-<li>Added <code>texreg</code> support for 2SLS IV models</li>
-<li>Fixed bugs for incorrect F-statistics with robust standard errors</li>
-<li>Refactor of main fitting engine for linear models</li>
-</ul></div>
-    <div class="section level2">
-<h2 class="pkg-version" data-toc-text="0.6.0" id="estimatr-060">estimatr 0.6.0<a class="anchor" aria-label="anchor" href="#estimatr-060"></a></h2><p class="text-muted">CRAN release: 2018-03-28</p>
-<ul><li>Added support for multivariate linear models</li>
-<li>Added support for instrumental variables regression</li>
-<li>Major change to name of object output elements to mostly match with <code><a href="https://generics.r-lib.org/reference/tidy.html" class="external-link">broom::tidy</a></code>
-<ul><li>old -&gt; new</li>
+<h2 class="pkg-version" data-toc-text="2.0.0" id="estimatr-200">estimatr 2.0.0<a class="anchor" aria-label="anchor" href="#estimatr-200"></a></h2>
+<p>estimatr 2.0.0 is a ground-up rewrite aimed at the DeclareDesign use case: OLS, Lin-adjusted OLS, 2SLS IV, difference-in-means, Horvitz-Thompson, and linear hypothesis tests with heteroskedasticity- and cluster-robust standard errors. It fixes several long-standing correctness bugs, improves performance on the critical path, adds feols-style fixed effects absorption, and replaces the O(N²) Horvitz-Thompson variance with a design-aware O(1) computation. The six estimators keep their signatures, with one exception: <code><a href="../reference/horvitz_thompson.html">horvitz_thompson()</a></code>, whose five probability arguments consolidate into <code>condition_prs</code>. Removals are listed under What is dropped. Run side by side on one machine, the numbers agree to 1e-12 wherever both versions answer.</p>
+<p>See <code><a href="../articles/estimatr2.0.html">vignette("estimatr2.0")</a></code> for a user-facing tour of what changes and what does not.</p>
+<hr><div class="section level3">
+<h3 id="maintainer-and-authorship-2-0-0">Maintainer and authorship<a class="anchor" aria-label="anchor" href="#maintainer-and-authorship-2-0-0"></a></h3>
+<p>The maintainer changes with this release, from Graeme Blair to Alexander Coppock. Graeme Blair remains an author. Macartan Humphreys, an author of the 1.x releases, has asked to be listed as a contributor instead, and his role in <code>Authors@R</code> moves from <code>aut</code> to <code>ctb</code>. Nothing else about the authorship changes.</p>
+</div>
+<div class="section level3">
+<h3 id="how-this-version-was-written-and-how-to-check-it-2-0-0">How this version was written, and how to check it<a class="anchor" aria-label="anchor" href="#how-this-version-was-written-and-how-to-check-it-2-0-0"></a></h3>
+<p>estimatr 2.0.0 was written with AI. <code><a href="../articles/mathematical-notes.html">vignette("mathematical-notes")</a></code> says so in full and, in the same document, gives every estimator its mathematical definition and then measures estimatr against that definition when the vignette is built, to machine precision, immediately underneath. What that guarantee is, and what it deliberately is not, is set out there rather than here.</p>
+<p>The evidence behind the release, the counts and the two checking layers, is in that vignette and in <code><a href="../articles/estimatr2.0.html">vignette("estimatr2.0")</a></code> under “How this was checked”. Wherever one of those counts appears it comes from <code>data-raw/count_assertions.R</code>, which measures it rather than remembering it. That script exists because the counts were four remembered numbers and drifted twice.</p>
+</div>
+<div class="section level3">
+<h3 id="where-a-divergence-is-real-it-is-asserted-from-both-sides-2-0-0">Where a divergence is real, it is asserted from both sides<a class="anchor" aria-label="anchor" href="#where-a-divergence-is-real-it-is-asserted-from-both-sides-2-0-0"></a></h3>
+<p>The weighted HC2 comparison against Stata is pinned twice, as equal to the R reference to machine precision and as different from Stata by a bounded amount. The same is done for weighted 2SLS root MSE. The <code>iv_robust</code> HC2 leverage convention is pinned the other way round: estimatr matches <code><a href="https://zeileis.codeberg.page/sandwich/reference/vcovHC.html" class="external-link">sandwich::vcovHC()</a></code> on an <code><a href="https://zeileis.github.io/ivreg/reference/ivreg.html" class="external-link">ivreg::ivreg()</a></code> fit exactly, and differs from <code><a href="https://rdrr.io/pkg/AER/man/ivreg.html" class="external-link">AER::ivreg()</a></code>, whose <code><a href="https://rdrr.io/r/stats/influence.measures.html" class="external-link">hatvalues()</a></code> method predates the <code>ivreg</code> package and returns a quantity <code>ivreg</code>’s own authors decline to treat as leverage. See <code><a href="../articles/estimatr2.0.html">vignette("estimatr2.0")</a></code>. A comparison that is quietly excluded because it disagrees is indistinguishable, on a green run, from one that was never written.</p>
+<hr></div>
+<div class="section level3">
+<h3 id="found-by-revdepcheck-and-fixed-here-2-0-0">Found by <code>revdepcheck</code>, and fixed here<a class="anchor" aria-label="anchor" href="#found-by-revdepcheck-and-fixed-here-2-0-0"></a></h3>
+<p>Running the 35 CRAN reverse dependencies turned up six fields that had gone missing from fitted objects, and one that was returned with a wrong value. None of it was visible to a NAMESPACE diff, since no export changed, nor to the estimator comparisons, which name the fields they check, nor to a grep of the reverse dependencies’ sources, since the calls are unchanged. It surfaced because <code>eventstudyr</code> reads <code>felevels</code> on a fixed-effects fit and got <code>NULL</code>.</p>
+<p>Restored: <code>felevels</code> and the unprojected <code>tss</code> on every fixed-effects fit; <code>fixed_effects</code> (the absorbed group effects) and <code>proj_fstatistic</code> on <code><a href="../reference/iv_robust.html">iv_robust()</a></code> fixed-effects fits; <code>treatment_levels</code> on <code><a href="../reference/lm_lin.html">lm_lin()</a></code> fits, which holds every level including the baseline and is not the same thing as the <code>treatment_vals</code> this version added; and <code>nclusters</code>, reported as <code>0</code>, on an unclustered blocked <code><a href="../reference/difference_in_means.html">difference_in_means()</a></code>.</p>
+<p><strong><code>proj_fstatistic</code> was wrong, not merely missing.</strong> With absorbed fixed effects the intercept is already out of the design, and the numerator degrees of freedom subtracted one anyway, so the statistic tested a hypothesis one restriction short of the intended one. A two-regressor fixed-effects model reported F on 1 numerator degree of freedom rather than 2, with a correspondingly wrong value. A single-regressor fixed-effects model took the count to zero and dropped the statistic altogether, which is how <code><a href="../reference/iv_robust.html">iv_robust()</a></code> came to have no <code>proj_fstatistic</code> at all.</p>
+<p><code>felevels</code> also came back in the wrong order. The fixed-effects matrix is coerced to character before demeaning, which re-derives the levels by string sort, so a factor with levels 1 to 30 reported them as 1, 10, 11. The names are now taken before that coercion.</p>
+<p><strong><code>felevels</code> also had to keep listing the levels that are in the fit rather than the levels that are in the data.</strong> The first attempt at the ordering fix above read the level names off the model frame before rows were dropped for missingness, which counted levels that no observation survives into. That is not cosmetic: downstream code sizes a degrees-of-freedom correction off <code>length(fit$felevels[[term]])</code>. On <code>eventstudyr</code>’s example data, 1,700 complete rows of 2,000 leave 34 of 40 time periods in the estimation sample, and counting all 40 moved its standard errors in the fourth significant figure. <code>felevels</code> now carries the estimation-sample levels, in the order the data gave them.</p>
+<p>One difference from 1.0.6 does remain, and it moves no estimate. 1.0.6 named each element after its term, <code>~ get(idvar)</code> giving <code>felevels[["get(idvar)"]]</code>, except with a single fixed-effect factor on a model fitted with missing data, where it fell back to <code>V1</code>. 2.0 names it consistently. Code that reads <code>felevels$V1</code> will need the term name instead.</p>
+<div class="section level4">
+<h4 id="a-note-on-the-comparison-tolerance-2-0-0">A note on the comparison tolerance<a class="anchor" aria-label="anchor" href="#a-note-on-the-comparison-tolerance-2-0-0"></a></h4>
+<p>The suite compares against a fixture of answers recorded from an installed 1.0.6 rather than calling that version live, which is what lets the package carry its own name. One consequence was not obvious until CI ran: <strong>the recording is a fixed set of numbers made on one machine, so comparing it to values computed on another machine has a floor set by BLAS and LAPACK rather than by this package.</strong> Before the freeze both sides were computed in the same process, so several comparisons could reasonably ask for exact equality; they cannot any more. The first CI run after the rename failed 11 assertions on Ubuntu and Windows and none on macOS, where the fixture was recorded, and every difference was too small for waldo to render.</p>
+<p>Recorded comparisons therefore run at <code>REF_TOL = 1e-9</code>, set from the worst case rather than by taste: the tightest recorded quantity is the weighted <code>adj.r.squared</code> at -7.1e-4, whose one ulp is a relative difference of 3.1e-13, leaving about 3,200 ulps of headroom, and nothing else in the fixture comes within 100 ulps of the tolerance. Comparisons between two things computed in the same session keep their tight tolerances, since those have no platform floor.</p>
+<p><code>tests/testthat/test_return_surface.R</code> now pins the whole returned surface of sixteen fit types against answers recorded from 1.0.6, so a field cannot go missing again without a test failing. A missing field is the failure mode worth guarding: <code>fit$felevels</code> returns <code>NULL</code> rather than erroring, so the reader gets a wrong answer instead of a stop.</p>
+<hr></div>
+</div>
+<div class="section level3">
+<h3 id="two-capabilities-that-had-been-dropped-and-are-now-restored-2-0-0">Two capabilities that had been dropped, and are now restored<a class="anchor" aria-label="anchor" href="#two-capabilities-that-had-been-dropped-and-are-now-restored-2-0-0"></a></h3>
+<p>Both were removed on the understanding that 1.x had restricted them too. It had not: 1.0.6 answered every one of these calls, and answered them correctly. The reverse-dependency run is what surfaced the mistake.</p>
+<p><strong>HC2, HC3 and CR2 work with <code>fixed_effects</code> again.</strong> 1.0.6 built the full dummy matrix and took the hat values off the <code>[X | FE dummies]</code> design whenever the requested <code>se_type</code> needed them. HC2 and HC3 now reach the same numbers without building it, at any number of factors, through the leverage decomposition below. CR2 is the exception and still expands, because its adjustment is built from cluster-level blocks of the hat matrix rather than from <code>h_ii</code>. Every case is exact and equal to the explicit-dummy fit, and equal to 1.0.6, which the fixture now records. The one combination 1.0.6 also refused, weighted CR2 with <code>fixed_effects</code>, is still refused.</p>
+<p><strong>A bare grouping vector passed to <code>fixed_effects</code> warns instead of erroring.</strong> 1.x accepted a bare column name or an already-evaluated vector. Issue <a href="https://github.com/DeclareDesign/estimatr/issues/304" class="external-link">#304</a> asked for the formula to be enforced; a warning that names the argument and shows the expected form does that without breaking working code, so the vector is still accepted and still names the term the way 1.0.6 named it. Anything that is neither a formula nor a grouping vector is an error, as before.</p>
+<div class="section level4">
+<h4 id="one-default-that-moves-and-says-so-2-0-0">One default that moves, and says so<a class="anchor" aria-label="anchor" href="#one-default-that-moves-and-says-so-2-0-0"></a></h4>
+<p><code>fixed_effects</code> with <code>clusters</code> defaults to <code>"CR0"</code>; 1.0.6 defaulted to <code>"CR2"</code>. CR2 is the one estimator here still built from cluster-level blocks of the hat matrix rather than from <code>h_ii</code>, so it is the one case that still has to expand the dummies, and a default that quietly costs O(g^3) in the number of levels would undo the reason for absorbing fixed effects at all. The warning fires <strong>once per session</strong>, since absorbed fixed effects are usually fitted in a loop or a simulation and a per-call warning would be noise. Writing <code>se_type = "CR0"</code> accepts the default and removes the warning; writing <code>se_type = "CR2"</code> returns the 1.0.6 number exactly, also without warning.</p>
+<p><strong>Unclustered <code>fixed_effects</code> keeps the <code>"HC2"</code> default at any number of factors</strong>, which is what 1.0.6 returned. An earlier draft of 2.0 fell back to <code>"HC1"</code> for two or more factors and warned, on the understanding that HC2 there meant expanding the dummies. It does not; see below.</p>
+</div>
+<div class="section level4">
+<h4 id="what-the-reverse-dependency-run-leaves-broken-2-0-0">What the reverse-dependency run leaves broken<a class="anchor" aria-label="anchor" href="#what-the-reverse-dependency-run-leaves-broken-2-0-0"></a></h4>
+<p>Of estimatr’s 35 CRAN reverse dependencies, 34 check clean against 2.0.0. (<code>hbal</code> at first would not install on the test machine at all, for a local gfortran path problem unrelated to this package; corrected, it checks clean too.)</p>
+<p><code>clubSandwich</code>, <code>RCT</code> and <code>statuser</code> were broken by the two removals above and now check clean.</p>
+<p>One remains:</p>
+<ul><li>
+<strong><code>eventstudyr</code></strong> has three assertions that read <code>felevels$V1</code> on a one-way fixed-effects fit and want the 1.0.6 fallback name, in <code>test-EventStudyFHS.R</code> and <code>test-EventStudyOLS.R</code>. Nothing else in its suite changes and no estimate moves: its one-way branches size their degrees-of-freedom correction as <code>1 + rank</code> without consulting <code>felevels</code>, and its comparisons against recorded Stata output all hold.</li>
+</ul><hr></div>
+</div>
+<div class="section level3">
+<h3 id="what-is-kept-2-0-0">What is kept<a class="anchor" aria-label="anchor" href="#what-is-kept-2-0-0"></a></h3>
+<p>All public functions from 1.x that are relevant to the DeclareDesign workflow are present with identical interfaces:</p>
+<ul><li>
+<code><a href="../reference/lm_robust.html">lm_robust()</a></code>: OLS with HC0/HC1/HC2/HC3/CR0/CR2/stata SEs</li>
 <li>
-<code>coefficient_names</code> -&gt; <code>term</code>
-</li>
+<code><a href="../reference/lm_lin.html">lm_lin()</a></code>: Lin (2013) covariate-adjusted estimator</li>
 <li>
-<code>se</code> -&gt; <code>std.error</code>
-</li>
+<code><a href="../reference/iv_robust.html">iv_robust()</a></code>: two-stage least squares with the same SE menu</li>
 <li>
-<code>p</code> -&gt; <code>p.values</code>
-</li>
+<code><a href="../reference/difference_in_means.html">difference_in_means()</a></code>: Neyman variance, paired, blocked, and clustered designs</li>
 <li>
-<code>ci_lower</code> -&gt; <code>ci.lower</code>
-</li>
+<code><a href="../reference/horvitz_thompson.html">horvitz_thompson()</a></code>: inverse probability weighting with Young’s inequality variance</li>
 <li>
-<code>ci_upper</code> -&gt; <code>ci.upper</code>
+<code><a href="../reference/lh_robust.html">lh_robust()</a></code>: linear hypothesis tests via <code><a href="https://rdrr.io/pkg/car/man/linearHypothesis.html" class="external-link">car::linearHypothesis</a></code> with robust variance</li>
+<li>S3 methods: <code>tidy</code>, <code>glance</code>, <code>summary</code>, <code>print</code>, <code>predict</code>, <code>coef</code>, <code>confint</code>, <code>vcov</code>, <code>nobs</code>, <code>update</code>
 </li>
-<li>All of the above changes are also made to the column names on the output of <code>tidy</code>; furthermore for <code>tidy</code> objects one further name change from <code>coefficients</code> -&gt; <code>estimate</code> has been made</li>
-</ul></li>
-<li>Fixed bug that caused variances, standard errors, and p-values to be wrong for weighted “CR2” variance estimation</li>
-<li>Fixed incorrect estimates when both weights and blocks were passed to <code>difference_in_means</code>
-</li>
-<li>Rewrite NSE handling to be done by <code>rlang</code>
-</li>
-<li>Rewrite <code>na.omit</code> handler in R</li>
-<li>Major refactor of C++ underlying regression estimators</li>
+</ul><p>Return objects are structurally compatible with estimatr 1.0.6: field names, classes, and method dispatch are unchanged. Cross-version identity tests confirm coefficient and standard error agreement across all supported SE types, to 1e-12 when both versions are run on the same machine and to 1e-9 against the recorded fixture the suite ships.</p>
+<p><code><a href="../reference/horvitz_thompson.html">horvitz_thompson()</a></code> fits now carry the same post-estimation methods as every other estimator here. <code><a href="https://rdrr.io/r/stats/vcov.html" class="external-link">vcov()</a></code>, <code><a href="https://rdrr.io/r/stats/confint.html" class="external-link">confint()</a></code>, <code><a href="https://generics.r-lib.org/reference/glance.html" class="external-link">glance()</a></code>, <code><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary()</a></code> and <code><a href="https://rdrr.io/r/stats/nobs.html" class="external-link">nobs()</a></code> were missing, so the first three errored and the last two fell through to the base defaults and returned something that resembled output without being the estimate. All five now agree with estimatr 1.0.6 exactly, including <code>confint(level = )</code> at a non-default level, where the interval is normal rather than t because the estimator has no degrees of freedom to spend. The <code><a href="https://generics.r-lib.org/reference/glance.html" class="external-link">glance()</a></code> gap was the one worth finding: without it <code><a href="https://modelsummary.com/man/modelsummary.html" class="external-link">modelsummary()</a></code> did not fail, it silently dropped the goodness-of-fit rows and printed a coefficient table that looked complete.</p>
+<hr></div>
+<div class="section level3">
+<h3 id="hc2-and-hc3-with-fixed-effects-2-0-0">HC2 and HC3 with fixed effects<a class="anchor" aria-label="anchor" href="#hc2-and-hc3-with-fixed-effects-2-0-0"></a></h3>
+<p>Absorbed fixed effects used to refuse <code>se_type = "HC2"</code> and <code>"HC3"</code>, on the grounds that they need hat values from the full <code>[dummies | X]</code> design while absorption leaves only the demeaned ones. The hat values in fact decompose exactly, for any number of FE factors, and the decomposition is written out below.</p>
+<p>Verified to machine precision against writing the dummies out, weighted and unweighted, balanced and unbalanced, from one factor to five, and against 1.x. At n = 40,000 with 2,000 groups, one-way HC2 takes about 4 ms here against 41.0 s in 1.0.6. At n = 50,000 across 1,000 x 30 groups, two-way HC2 takes 7 ms against 12.5 s before, and the R process peaks at 292 MB against 1,564 MB, of which 265 MB is an empty session with the package loaded.</p>
+<p><strong>The default with fixed effects therefore returns to <code>"HC2"</code></strong>, at any number of factors, which is the package default everywhere else and is what 1.x returns for the same call. An earlier draft of 2.0 fell back to <code>"HC1"</code> for two or more factors, on the understanding that HC2 there meant expanding the dummies. It does not.</p>
+<p>The identity generalises to any number of factors. What fails beyond one factor is the <em>sum of each factor’s own within-group share</em>, which ignores the cross terms and is wrong in the third decimal place; that is what an earlier draft tested and rejected. The projection itself decomposes exactly:</p>
+<pre><code>P_[X | D] = P_D + P_{M_D X}</code></pre>
+<p>so <code>h_ii</code> is the demeaned-X hat value plus <code>diag(P_D)</code>, whatever the number of factors. Writing the FE design with its widest factor in full dummies and the rest contrast-coded makes <code>D'WD</code> block-diagonal in its leading block, so <code>diag(P_D)</code> costs a factorisation of order <code>sum_{k&gt;1}(g_k - 1)</code>, as small as the design allows, rather than an n-by-g dummy hat matrix. Inverting that block through its eigendecomposition rather than a solve means a <strong>disconnected or nested</strong> design, where <code>D</code> is rank deficient, gets the pseudo-inverse and the right projection anyway.</p>
+<p><code><a href="../reference/iv_robust.html">iv_robust()</a></code> gets the same treatment: its second stage runs on fitted regressors, but those are demeaned by the same fixed effects, so the decomposition applies unchanged. It never used the shortcut before, even for one factor.</p>
+<p><code>"CR2"</code> is the exception. Its adjustment is built from cluster-level <em>blocks</em> of the hat matrix rather than from <code>h_ii</code>, and blocks do not decompose the way the diagonal does, so CR2 with <code>fixed_effects</code> still expands the dummies exactly as 1.0.6 did. It is available and exact; it simply costs what 1.0.6 charged for it.</p>
+<p><strong>What this is worth.</strong> On 50,000 observations across 1,000 x 30 groups, <code>se_type = "HC2"</code> with two-way <code>fixed_effects</code> took 12.5 seconds in an R process peaking at 1,564 MB; it now takes 7 milliseconds in one peaking at 292 MB, and 265 MB of that is an empty session with the package loaded. The dummy matrix is never built, so the memory that used to make wide fixed effects impractical is simply not allocated. It is built in C++ rather than in R, which is why <code><a href="https://rdrr.io/r/base/gc.html" class="external-link">gc()</a></code> never reported it and only the process’s resident size does.</p>
+<p><strong>A rank-deficiency bug, fixed.</strong> When one FE factor is spanned by the others (a nested factor, or a disconnected design), the FE design is rank deficient, and the nominal count <code>sum(levels) - K + 1</code> overstates its rank. 1.0.6 used that nominal count for the residual degrees of freedom, and for HC2 and HC3 it expanded the dummies, let a pivoted QR drop the redundant columns, and then read the hat values off the padded design. Its absorbed answer therefore disagreed with its own explicit-dummy fit, and disagreed differently depending on the <code>se_type</code>.</p>
+<p>2.0 takes the exact rank from the same eigendecomposition that produces the leverage, and uses it for <strong>every</strong> <code>se_type</code>, so an absorbed fit and the same fit with the dummies written out now agree exactly on standard errors, degrees of freedom, p-values and intervals however degenerate the design is. Absorbing fixed effects is a computational choice and should not move the answer.</p>
+<p>This is a deliberate departure from 1.0.6, and it only bites where the FE design is genuinely rank deficient; on a design of full rank the nominal and exact counts agree and nothing moves. Canvassed against the ecosystem on a nested-factor design and a disconnected two-way design: base <code><a href="https://rdrr.io/r/stats/lm.html" class="external-link">lm()</a></code> with explicit dummies and <code>plm</code> (twoways within) both report the exact rank, and estimatr now matches them. <code><a href="https://lrberge.github.io/fixest/reference/feols.html" class="external-link">fixest::feols</a></code> reports the nominal one and issues no note, so it differs from its own dummy regression on both designs; that difference is <code>fixest</code>’s to make, and is recorded here only so the discrepancy is not mistaken for a bug in either package.</p>
+<p>Fixing this exposed a latent crash: <code>r_fe</code> was left at <code>r + fe_rank</code> when the meat falls back to the plain <code>XtX_inv</code>, so <code>X.leftCols(r_fe)</code> overran and aborted inside Eigen. Unreachable while HC2 was refused with fixed effects, reachable now.</p>
+<hr></div>
+<div class="section level3">
+<h3 id="what-is-dropped-2-0-0">What is dropped<a class="anchor" aria-label="anchor" href="#what-is-dropped-2-0-0"></a></h3>
+<p><strong>Horvitz-Thompson auxiliary arguments.</strong> <code><a href="../reference/horvitz_thompson.html">horvitz_thompson()</a></code> is included, but the probability specification is consolidated into the single <code>condition_prs</code> argument. The <code>blocks</code>, <code>clusters</code>, <code>simple</code>, <code>condition_pr_mat</code>, <code>subset</code>, and <code>return_condition_pr_mat</code> arguments and <code>se_type = "constant"</code> are dropped. An <code>ra_declaration</code> already carries the block structure, cluster structure, per-unit probabilities, and simple-versus-complete flag, so the separate arguments restated information the declaration holds, and gave the estimator two sources of truth that could disagree. Fully custom designs go through <code>declare_ra(permutation_matrix = perm)</code>, which replaces <code>condition_pr_mat</code>.</p>
+<p><strong><code><a href="https://generics.r-lib.org/reference/tidy.html" class="external-link">tidy()</a></code>, <code><a href="https://generics.r-lib.org/reference/glance.html" class="external-link">glance()</a></code>, and <code><a href="https://generics.r-lib.org/reference/augment.html" class="external-link">augment()</a></code> return tibbles</strong>, as broom’s methods do; 1.x returned plain data frames. <code>$</code>, <code>[[</code>, and row indexing work as before. The one construction that changes is <code>tidy(fit)[, "estimate"]</code>, which now returns a one-column tibble rather than a vector; write <code>tidy(fit)$estimate</code>. tibble moves from Suggests to Imports.</p>
+<p><strong><code><a href="../reference/estimatr-defunct.html">starprep()</a></code> and <code><a href="../reference/estimatr-defunct.html">commarobust()</a></code>.</strong> Both are removed, but they remain as names that error with a pointer to the replacement rather than being deleted, so a script written against 1.x reports what happened instead of failing with <code>could not find function</code>. <code><a href="../reference/estimatr-defunct.html">commarobust()</a></code> recomputed robust standard errors on a fitted <code>lm</code>, which is what <code><a href="../reference/lm_robust.html">lm_robust()</a></code> does. <code><a href="../reference/estimatr-defunct.html">starprep()</a></code> prepared fits for stargazer, which has not been maintained in years; table building now goes through modelsummary, which reads <code><a href="https://generics.r-lib.org/reference/tidy.html" class="external-link">tidy()</a></code> and <code><a href="https://generics.r-lib.org/reference/glance.html" class="external-link">glance()</a></code> and therefore works on every estimator here with no adapter.</p>
+<p>The condition-probability-matrix helpers <code>declaration_to_condition_pr_mat()</code>, <code>gen_pr_matrix_cluster()</code>, and <code>permutations_to_condition_pr_mat()</code> go with the Horvitz-Thompson arguments above: the new variance computation does not build that matrix.</p>
+<p><strong><code><a href="../reference/extract.lm_robust.html">extract.lm_robust()</a></code> and <code><a href="../reference/extract.lm_robust.html">extract.iv_robust()</a></code> are kept</strong>, for , which is their only consumer. They are exported as plain functions rather than registered as S3 methods because texreg looks them up by name.</p>
+<p><strong>The <code>alo_star_men</code> dataset.</strong> <code>data/alo_star_men.rda</code> and its documentation are removed, so <code>data(alo_star_men)</code> errors. It was an example dataset for the vignettes, and those go too.</p>
+<p><strong>The nine 1.0.6 vignettes</strong>, including the widely cited <code>mathematical-notes</code>. <code><a href="../articles/estimatr2.0.html">vignette("estimatr2.0")</a></code> is the one that ships. The 1.0.6 versions remain on the frozen 1.0.6 pkgdown site.</p>
+<p><strong>HAC (Newey-West) standard errors.</strong> Not implemented.</p>
+<p><strong>CR3 standard errors.</strong> Not implemented.</p>
+<hr></div>
+<div class="section level3">
+<h3 id="errors-in-and-whether-one-could-have-reached-a-published-result-2-0-0">Errors in 1.0.6, and whether one could have reached a published result<a class="anchor" aria-label="anchor" href="#errors-in-and-whether-one-could-have-reached-a-published-result-2-0-0"></a></h3>
+<p>Every item below was reproduced against an installed estimatr 1.0.6, not inferred from the rewrite’s own code. Each says which direction it moves a result, because that decides whether it costs a finding or manufactures one. Anything in this section is worth re-checking in existing work; anything not in it, including everything in the sections above about the rewrite’s internals, was never in a released version.</p>
+<p><strong>HC3 returns a silently inflated standard error, and HC2 returns <code>NaN</code>, on a near-saturated design.</strong> On <code>Y ~ Z * factor(x)</code> with 25 levels of <code>x</code> in 40 rows, 1.0.6 gives <code>se(Z) = 39.5</code> against a classical standard error of <code>1.42</code>, with no warning of any kind, and roughly 39.5 on nearly every other coefficient in the table. HC2 gives <code>NaN</code> for all of them. <strong>The direction is upward, so the cost is a finding lost rather than one invented</strong>, but the magnitude is large enough that a real effect disappears. Saturated specifications and treatment-by-stratum interactions produce this readily. See the <a href="https://github.com/DeclareDesign/estimatr/issues/395" class="external-link">#395</a> entry below for the mechanism.</p>
+<p><strong>Horvitz-Thompson with a <code>permutation_matrix</code> design is anti-conservative.</strong> Enumerating all ten assignments of a 5-cluster, m = 2 design, 1.0.6’s mean estimated variance is <strong>0.838 of the true sampling variance</strong>, and it returns <code>NA</code> on one of the ten. Pairs of units that can never appear together contribute a term no design of that shape identifies, and 1.0.6 left them out rather than bounding them. <strong>The direction is downward: intervals too narrow, over-rejection.</strong> 2.0 applies the Aronow and Samii (2013) bound instead, so the standard error is larger on purpose.</p>
+<p><strong>Zero weights are counted as observations.</strong> <code>nobs</code> and <code>df.residual</code> counted rows whose weight is 0, so <code>classical</code> standard errors come back too small by an amount that grows with the share of rows zeroed:</p>
+<table class="table"><thead><tr><th>rows with weight 0</th>
+<th>1.0.6</th>
+<th>correct</th>
+<th>understated by</th>
+</tr></thead><tbody><tr><td>5%</td>
+<td>0.075644</td>
+<td>0.077630</td>
+<td>2.6%</td>
+</tr><tr><td>25%</td>
+<td>0.070667</td>
+<td>0.081737</td>
+<td>13.5%</td>
+</tr><tr><td>50%</td>
+<td>0.066432</td>
+<td>0.094427</td>
+<td>29.6%</td>
+</tr><tr><td>75%</td>
+<td>0.072028</td>
+<td>0.146289</td>
+<td>50.8%</td>
+</tr></tbody></table><p><strong>The direction is downward.</strong> Two things limit the blast: <code>HC0</code>, <code>HC2</code> and <code>HC3</code> are untouched to within 0.1%, so the package default was mostly safe, and only <code>classical</code>, <code>HC1</code> and <code>stata</code> move materially. Trimming an inverse-probability weight to zero, or using 0/1 weights to subset, is the way into it.</p>
+<p>The same count reached further than <code>nobs</code>. A cluster whose every row has weight 0 was still a cluster: <code>nclusters</code> counted it, the CR0 and stata degrees of freedom were one too many, the stata scale factor used it, and the F statistic’s denominator degrees of freedom did. A zero-weight row left inside a cluster’s CR2 block moved the weighted CR2 standard errors by about 8e-4 relative to the fit without it, where clubSandwich’s CR2 does not move. A fixed-effect group whose every row has weight 0 was still a level, so the absorbed rank was one too many. <code>adj.r.squared</code> used the row count where <code>df.residual</code> used the observation count. <code><a href="../reference/difference_in_means.html">difference_in_means()</a></code> reported <code>nobs</code> as the row count under weights. 2.0 counts a zero-weight row as absent from every one of these: the fit with zero weights equals the fit on the rows with positive weight, field for field, for every estimator and every <code>se_type</code> (<code>test_equivalence.R</code>). Under two or more absorbed factors a zero-weight group’s empty sum reached the eigendecomposition as <code>NaN</code>; 1.0.6 returned <code>NA</code> standard errors there, and 2.0 answers.</p>
+<p><strong>A <code>clusters</code> variable with one level gives CR2 standard errors of about <code>1.5e-17</code></strong>, with no warning. CR2’s degrees of freedom are Satterthwaite, so the <code>J - 1 = 0</code> guard that catches the other cluster-robust estimators never fires. One level is usually the symptom of a cluster variable that collapsed upstream, so the failure converts a data-handling mistake into an apparently infinitely precise estimate. 2.0 errors.</p>
+<p><strong><code><a href="https://rdrr.io/r/stats/offset.html" class="external-link">offset()</a></code> in a formula is silently ignored.</strong> Not a standard error problem: the coefficient itself is the one from the model without the offset. On a probe where the offset model gives <code>0.953607</code>, 1.0.6 returns <code>0.904333</code>, which is <code><a href="https://rdrr.io/r/stats/lm.html" class="external-link">lm()</a></code> with the term deleted. 2.0 errors and names the rewrite (<code>y - &lt;offset&gt; ~ x</code>).</p>
+<p><strong><code><a href="https://generics.r-lib.org/reference/glance.html" class="external-link">glance()</a></code> reports the first coefficient’s degrees of freedom in a column named <code>df.residual</code>.</strong> Under CR2 that is a Satterthwaite quantity: <code>4.83</code> on a fit whose residual degrees of freedom are 98. No estimate moves; a reported table is wrong.</p>
+<p><strong><code><a href="https://rvlenth.github.io/emmeans/reference/emmeans.html" class="external-link">emmeans::emmeans()</a></code> on an <code>lm_robust</code> fit fails unless emmeans happens to be attached</strong>, with “Perhaps a ‘data’ or ‘params’ argument is needed”. An error rather than a wrong number.</p>
+<p><strong>An underidentified <code><a href="../reference/iv_robust.html">iv_robust()</a></code> model returns estimates.</strong> With fewer excluded instruments than endogenous regressors, 1.0.6 fits the second stage anyway, drops whichever regressor the instruments cannot reproduce, and reports the rest with standard errors. On <code>mpg ~ hp + cyl | am</code> it drops the intercept and returns coefficients on <code>hp</code> and <code>cyl</code>, under a warning that there are more regressors than instruments. When the count is sufficient but an instrument is a copy of an exogenous regressor, as in <code>y ~ en + x1 | x1 + dup</code> with <code>dup</code> equal to <code>x1</code>, it drops <code>en</code>, the endogenous regressor, and warns about nothing. <strong>The direction is unknown, which is the problem: what comes back is not a 2SLS estimate of anything, and it looks like one.</strong> 2.0 errors, comparing the rank of the first-stage fitted values with the rank of the regressors, which catches both cases and does not fire on regressors that are merely collinear among themselves.</p>
+<p><strong>A clustered <code><a href="../reference/iv_robust.html">iv_robust()</a></code> fit reported an overidentification test that ignores the clustering.</strong> With <code>diagnostics = TRUE</code> and <code>clusters</code>, 1.0.6 returns Wooldridge’s heteroskedasticity-robust score statistic, the same number the model gives unclustered. Where the instruments and the errors both vary at the cluster level, that variance is too small and the statistic too large: in 1,000 draws of 50 clusters of 10 with valid instruments, the test rejects at the 5% level 36.1% of the time, and the median statistic is 2.7 times the correct one. <strong>The direction is toward rejection, so valid instruments are declared invalid.</strong> 2.0 sums the score’s variance within clusters, which rejects 4.0% of the time on the same draws, and returns <code>NA</code> with a warning when there are no more clusters than restrictions. Stata’s <code>estat overid</code> computes nothing after <code>vce(cluster)</code>. A weighted over-identified fit, where 1.0.6 returned <code>NA</code> for this test without saying so, now gets the robust score test under any robust <code>se_type</code>, built on the weighted fit’s sandwich variance. On <code>mtcars</code>, with 2SLS of <code>mpg</code> on <code>hp</code> and <code>gear</code> instrumented by <code>wt</code>, <code>am</code>, and <code>gear</code> and weighted by <code>drat / 5</code>, that gives 1.702. Stata’s <code>forceweights</code> value of 1.845 is a different statistic rather than a competing answer: it is the frequency-weight score test, equal to the unweighted test on the data with each row repeated as often as its weight and rescaled to N rows, which is right only when a weight counts identical, independent copies of a row. Under <code>se_type = "classical"</code> with weights it gets Sargan’s statistic on the weighted model, which matches Stata’s <code>forceweights</code> value to its printed precision. With weights, every diagnostic is now the test on the model with each row multiplied by the square root of its weight. The first-stage F and Wu-Hausman tests are Wald tests under the fit’s own <code>se_type</code>, so each is valid under exactly the conditions the matching standard errors are: a classical test when the weights are inverse error variances, a robust test under heteroskedasticity. The robust score test uses the score’s HC0 or CR0 sandwich under every robust <code>se_type</code>, as Wooldridge (1995) and Stata define it; the HC1, HC2, HC3, CR2, and <code>"stata"</code> refinements correct a coefficient covariance and have no counterpart in a score test. Stata declines <code>estat endogenous</code> and <code>estat overid</code> after aweights unless forced, since it cannot tell precision weights from sampling weights, and computes the first-stage F regardless.</p>
+<hr></div>
+<div class="section level3">
+<h3 id="bug-fixes-2-0-0">Bug fixes<a class="anchor" aria-label="anchor" href="#bug-fixes-2-0-0"></a></h3>
+<div class="section level4">
+<h4 id="weighted-r²-formula-investigated-no-change-affects-lm_robust-lm_lin-iv_robust-2-0-0">Weighted R² formula: investigated, no change (affects <code>lm_robust</code>, <code>lm_lin</code>, <code>iv_robust</code>)<a class="anchor" aria-label="anchor" href="#weighted-r%C2%B2-formula-investigated-no-change-affects-lm_robust-lm_lin-iv_robust-2-0-0"></a></h4>
+<p>An early version of 2.0 “corrected” the weighted TSS from <code>weights_internal²</code> to <code>weights_internal</code>. That change was wrong and was reverted. estimatr 1.x’s weighted R² formula is correct, and 2.0 reproduces it exactly. The reasoning is recorded here so it is not re-litigated.</p>
+<p>The standard weighted TSS is:</p>
+<pre><code>TSS = Σᵢ wᵢ (yᵢ - ȳ_w)²</code></pre>
+<p>where ȳ_w is the standard weighted mean (weights wᵢ). Inside <code>lm_robust_fit</code>, raw weights are rescaled to <code>weights_internal = sqrt(w / μ_w)</code>, so <code>weights_internal² = w / μ_w</code>. Using <code>weights_internal²</code> in the TSS formula recovers the correct standard weighted mean as the centering point. Using <code>weights_internal</code> instead (with sqrt-weights) centers on ȳ_{sqrt(w)} ≠ ȳ_w, which breaks the WLS guarantee that RSS ≤ TSS and allows R² &lt; 0.</p>
+<p>2.0 uses <code>weights_internal²</code> throughout, matching estimatr 1.x’s formula exactly. For an intercept-only WLS model, R² = 0 exactly. For any WLS model, R² ∈ [0, 1].</p>
+</div>
+<div class="section level4">
+<h4 id="iv_robust-diagnostic-tests-affects-iv_robust-with-diagnostics--true-2-0-0">iv_robust diagnostic tests (affects <code>iv_robust</code> with <code>diagnostics = TRUE</code>)<a class="anchor" aria-label="anchor" href="#iv_robust-diagnostic-tests-affects-iv_robust-with-diagnostics--true-2-0-0"></a></h4>
+<p>Two bugs in the diagnostic computations were identified and fixed:</p>
+<p><strong>First-stage F-test missing p-value.</strong> The returned vector from <code>first_stage_ftest()</code> lacked a <code>p.value</code> entry, causing <code><a href="https://generics.r-lib.org/reference/glance.html" class="external-link">glance()</a></code> on <code>iv_robust</code> objects with diagnostics to silently drop the p-value or error downstream.</p>
+<p><strong>Wu-Hausman endogeneity test wrong numerator df.</strong> <code>wu_hausman_reg_ftest()</code> computed <code>numdf</code> as the number of columns in the first-stage residual matrix, which over-counted by one. <code>numdf</code> is now <code>lm_resids$rank - lm_noresids$rank</code>, the actual rank increase from adding the residuals.</p>
+<p>The auxiliary regression was also being handed a first-stage residual for every regressor rather than for the endogenous ones only. An exogenous regressor appears in the instrument matrix, so its first-stage residual is zero up to rounding, and the correct count survived only because rank detection dropped that column of noise. It is not safe to rely on: both <code><a href="https://rdrr.io/r/stats/lm.html" class="external-link">stats::lm()</a></code> and a pivoted QR at <code>tol = 1e-7</code> keep such a column, and the scale-invariant rank detection described below does too, which adds a spurious degree of freedom to the numerator. <code><a href="../reference/iv_robust.html">iv_robust()</a></code> now builds the auxiliary design from the endogenous residuals alone, so the test no longer depends on how rank is determined.</p>
+<p><strong>Which regressors are endogenous is now decided by the column space, not by name.</strong> The fix above still took the endogenous regressors to be the ones whose names do not appear in the instrument formula. An exogenous regressor that the instruments span without naming it, as in <code>y ~ en + x1 | v1 + v2 + v3</code> with <code>v3 = x1 + inst</code>, was therefore counted as endogenous: its first-stage residual is rounding error, the auxiliary regression carried that column, and the test returned 0.144 on 2 degrees of freedom where <code>y ~ en + x1 | inst + inst2 + x1</code>, the same model, returns 0.109 on 1. <code><a href="https://rdrr.io/pkg/AER/man/ivreg.html" class="external-link">AER::ivreg()</a></code> and estimatr 1.0.6 return 0.109 on 1 for both spellings, so this was a regression in the rewrite and never shipped. A regressor now counts as exogenous when the instruments reproduce it, its first-stage residual having norm at most <code>1e-7</code> of its own, and the weak-instrument F and the overidentification test are computed on a basis for the excluded instruments rather than on whichever columns happen to be named. All three diagnostics now depend only on the model, which <code>test_invariance.R</code> checks by writing the instruments three ways. Where the instrument formula names every exogenous regressor, no number moves beyond rounding. In the unnamed spelling the first-stage F now reports <code>en</code> alone, where <code><a href="https://rdrr.io/pkg/AER/man/ivreg.html" class="external-link">AER::ivreg()</a></code> also reports a row for <code>x1</code> with a statistic of 2.7e32.</p>
+</div>
+<div class="section level4">
+<h4 id="multi-way-fixed-effects-demeaning-stopped-early-on-an-outcome-in-small-units-2-0-0">Multi-way fixed-effects demeaning stopped early on an outcome in small units<a class="anchor" aria-label="anchor" href="#multi-way-fixed-effects-demeaning-stopped-early-on-an-outcome-in-small-units-2-0-0"></a></h4>
+<p>With two or more <code>fixed_effects</code> factors the demeaning iterates, and it stopped once a sweep changed nothing by more than <code>1e-8 * (1 + max|value|)</code>. The <code>1</code> made that test absolute whenever the values are small, and the outcome is demeaned on its own. An outcome measured in units of <code>1e-6</code> stopped after half the sweeps a unit-scale one takes. On a two-way design the coefficients were right, and the residuals came back wrong by <code>4.4e-4</code>, the fitted values by <code>3.2e-3</code>, and the standard errors by <code>7.1e-7</code>, relative to the same fit in unit scale; in units of <code>1e-9</code> the residuals were meaningless. The test is now relative to the values’ own magnitude, with a floor for a column the fixed effects absorb entirely, and outcome scales from <code>1e-9</code> to <code>1e6</code> agree to <code>3e-14</code>. On the benchmark design the number of sweeps and the time are unchanged. estimatr 1.0.6 has a milder form of the same failure, with standard errors off by <code>1.4e-5</code> at <code>1e-9</code>. Found by <code>test_invariance.R</code>, which rescales the outcome of every estimator.</p>
+</div>
+<div class="section level4">
+<h4 id="ordered-factor-cluster-variable-crashes-2-0-0">Ordered factor cluster variable crashes (<a href="https://github.com/DeclareDesign/estimatr/issues/421" class="external-link">#421</a>)<a class="anchor" aria-label="anchor" href="#ordered-factor-cluster-variable-crashes-2-0-0"></a></h4>
+<p>Passing an ordered factor as the <code>clusters</code> argument caused the error <code>'length = 2' in coercion to 'logical(1)'</code>. The class check <code>class(x) %in% c("factor", "integer")</code> returns a length-2 logical vector for ordered factors (whose class is <code>c("ordered", "factor")</code>), which R’s <code>if()</code> rejects. Fixed by replacing the class check with <code><a href="https://rdrr.io/r/base/factor.html" class="external-link">is.factor()</a></code> and <code><a href="https://rdrr.io/r/base/integer.html" class="external-link">is.integer()</a></code>.</p>
+</div>
+<div class="section level4">
+<h4 id="formula-object-passed-to-fixed_effects-crashes-2-0-0">
+<code>formula()</code> object passed to <code>fixed_effects</code> crashes (<a href="https://github.com/DeclareDesign/estimatr/issues/348" class="external-link">#348</a>)<a class="anchor" aria-label="anchor" href="#formula-object-passed-to-fixed_effects-crashes-2-0-0"></a></h4>
+<p>When a pre-built formula object is stored in a variable and passed as <code>fixed_effects = fe_formula</code>, the rlang quosure captures the variable name (a symbol), not the formula value. Passing the raw quosure to <code><a href="https://rdrr.io/r/stats/model.frame.html" class="external-link">stats::model.frame.default()</a></code> produced the error <code>invalid type (language)</code>. Fixed by calling <code>eval_tidy()</code> on the quosure before handing it to <code><a href="https://rdrr.io/r/stats/model.frame.html" class="external-link">model.frame.default()</a></code>.</p>
+</div>
+<div class="section level4">
+<h4 id="intercept-only-model-with-fixed-effects-crashes-2-0-0">Intercept-only model with fixed effects crashes (<a href="https://github.com/DeclareDesign/estimatr/issues/303" class="external-link">#303</a>)<a class="anchor" aria-label="anchor" href="#intercept-only-model-with-fixed-effects-crashes-2-0-0"></a></h4>
+<p><code>lm_robust(y ~ 1, fixed_effects = ~block)</code> crashed with <code>length of 'dimnames' [2] not equal to array extent</code>. After FE demeaning the intercept column is dropped, leaving a zero-column design matrix. The alternating-projections loop in <code>demean_fes()</code> ran 50 iterations on the empty matrix (the convergence check <code>max(abs(empty_matrix))</code> returns <code>-Inf</code>, which never satisfies the criterion), accumulating 50+ warnings before a downstream dimension error.</p>
+<p>The fix has two parts. First, <code>demean_fes()</code> skips the demeaning loop entirely when there are no non-intercept columns. Second, <code><a href="../reference/lm_robust.html">lm_robust()</a></code> detects the zero-column case after demeaning and returns a well-formed result directly: empty coefficient vector, correct <code>df.residual = n - fe_rank</code>, full-model R², and fitted values equal to the within-group means.</p>
+</div>
+<div class="section level4">
+<h4 id="lh_robust-cis-inconsistent-with-lm_robust-when-clusters-present-2-0-0">
+<code>lh_robust</code> CIs inconsistent with <code>lm_robust</code> when clusters present (<a href="https://github.com/DeclareDesign/estimatr/issues/405" class="external-link">#405</a>)<a class="anchor" aria-label="anchor" href="#lh_robust-cis-inconsistent-with-lm_robust-when-clusters-present-2-0-0"></a></h4>
+<p>The individual hypothesis CIs and p-values from <code><a href="../reference/lh_robust.html">lh_robust()</a></code> did not match those from <code><a href="../reference/lm_robust.html">lm_robust()</a></code> when clusters were specified. The root cause: <code><a href="../reference/lh_robust.html">lh_robust()</a></code> used <code>lmr$df.residual</code> (= n − k, e.g., 97 for n = 100, k = 3) as the degrees of freedom for t-tests and confidence intervals. For clustered models, the correct df is the cluster-adjusted value stored per-coefficient in <code>lmr$df</code> (e.g., 9 for a CR2 model with 10 clusters, or 8–9 via Satterthwaite approximation).</p>
+<p>Using the residual df of 97 instead of the cluster df of ~9 produces confidence intervals that are far too narrow. The fix parses the hypothesis expression (e.g., <code>"x=0"</code>) to extract the coefficient name (<code>"x"</code>), looks up <code>lmr$df["x"]</code>, and uses that as the df. For composite hypotheses involving multiple coefficients (e.g., <code>"x - z=0"</code>), the conservative minimum over all per-coefficient dfs is used.</p>
+</div>
+<div class="section level4">
+<h4 id="lh_robust-joint-hypothesis-test-absent-2-0-0">
+<code>lh_robust</code> joint hypothesis test absent (<a href="https://github.com/DeclareDesign/estimatr/issues/320" class="external-link">#320</a>)<a class="anchor" aria-label="anchor" href="#lh_robust-joint-hypothesis-test-absent-2-0-0"></a></h4>
+<p><code><a href="../reference/lh_robust.html">lh_robust()</a></code> returned only individual hypothesis tests with no joint F-test. The fix adds a <code>joint_hypothesis</code> element to the return object containing a Wald F-statistic:</p>
+<pre><code>F = (Lβ̂)ᵀ (L Vcov Lᵀ)⁻¹ (Lβ̂) / m</code></pre>
+<p>where m is the number of restrictions, tested against F(m, df) using the same cluster-adjusted df as the individual tests. The vcov matrix <code>L Vcov Lᵀ</code> is obtained directly from <code><a href="https://rdrr.io/pkg/car/man/linearHypothesis.html" class="external-link">car::linearHypothesis()</a></code> via the <code>vcov</code> attribute of its return value, so the cluster-robust variance is correctly propagated.</p>
+<p>The same work closes <a href="https://github.com/DeclareDesign/estimatr/issues/390" class="external-link">#390</a>, where <code>lh_robust(Y ~ X1 + X2 + X3, linear_hypothesis = c("X1", "X2"))</code> should return one joint test and 1.x instead errors: “lh_robust currently implements tests for hypotheses involving linear combinations of variables but not joint hypotheses.”</p>
+</div>
+<div class="section level4">
+<h4 id="residuals-are-returned-2-0-0">Residuals are returned (<a href="https://github.com/DeclareDesign/estimatr/issues/345" class="external-link">#345</a>)<a class="anchor" aria-label="anchor" href="#residuals-are-returned-2-0-0"></a></h4>
+<p>Neither <code><a href="../reference/lm_robust.html">lm_robust()</a></code> nor <code><a href="../reference/iv_robust.html">iv_robust()</a></code> nor <code><a href="../reference/lm_lin.html">lm_lin()</a></code> returned residuals: <code>residuals(fit)</code> was <code>NULL</code>, and <code>fit$residuals</code> did not exist, though <code>fitted.values</code> did. <code>lm_return()</code> dropped the field.</p>
+<p>2.0 returns <code>residuals</code> on the scale of the data. Weighted fits return the unweighted residuals, so <code>residuals + fitted.values</code> recovers the outcome. Clustered fits are returned in the original row order, undoing the internal sort by cluster. Fixed-effects models return full-model residuals, which by Frisch-Waugh-Lovell equal the residuals of the demeaned regression. <code><a href="../reference/iv_robust.html">iv_robust()</a></code> returns structural residuals, y − Xβ̂ on the original endogenous regressors rather than their first-stage projections. Because <code>residuals.default()</code> reads <code>object$residuals</code>, <code>residuals(fit)</code> now works with no new method.</p>
+</div>
+<div class="section level4">
+<h4 id="dropped-collinear-regressors-warn-2-0-0">Dropped collinear regressors warn (<a href="https://github.com/DeclareDesign/estimatr/issues/411" class="external-link">#411</a>)<a class="anchor" aria-label="anchor" href="#dropped-collinear-regressors-warn-2-0-0"></a></h4>
+<p>A regressor collinear with the others is dropped and returned as an NA coefficient, silently. The reporting user compared <code><a href="https://rdrr.io/r/stats/lm.html" class="external-link">lm()</a></code> and <code><a href="../reference/lm_robust.html">lm_robust()</a></code> output, found coefficients that differed, and had no way to see that a term had been dropped and the rest were therefore conditional on a different set of regressors.</p>
+<p>2.0 warns once, naming the dropped terms. An under-identified <code><a href="../reference/iv_robust.html">iv_robust()</a></code> call no longer reaches this warning: it is refused, for the reason given under “Errors in 1.0.6”.</p>
+</div>
+<div class="section level4">
+<h4 id="augment-for-use-with-broom-aware-packages-2-0-0">
+<code>augment()</code> for use with broom-aware packages (<a href="https://github.com/DeclareDesign/estimatr/issues/377" class="external-link">#377</a>)<a class="anchor" aria-label="anchor" href="#augment-for-use-with-broom-aware-packages-2-0-0"></a></h4>
+<p><code><a href="https://generics.r-lib.org/reference/augment.html" class="external-link">augment()</a></code> returns the model frame with <code>.fitted</code> and <code>.resid</code> appended, which is what downstream packages expect before they will accept a model object. It was not implementable before this release, since no estimator returned residuals (<a href="https://github.com/DeclareDesign/estimatr/issues/345" class="external-link">#345</a>). <code>augment(newdata = )</code> predicts on new data instead. Multivariate outcomes are refused. Methods are provided for <code>lm_robust</code> (covering <code>lm_lin</code>) and <code>iv_robust</code>.</p>
+</div>
+<div class="section level4">
+<h4 id="closed-by-the-rewrite-rather-than-by-a-fix-2-0-0">Closed by the rewrite rather than by a fix<a class="anchor" aria-label="anchor" href="#closed-by-the-rewrite-rather-than-by-a-fix-2-0-0"></a></h4>
+<ul><li>
+<strong>#233, Horvitz-Thompson messages.</strong> estimatr 1.x prints <code>`simple` = FALSE, using complete cluster randomization</code> and <code>`condition_prs` not found, estimating probability of treatment to be constant...</code> on every call, which in a simulation means every iteration. 2.0 requires <code>condition_prs</code>, so it never guesses a probability and never prints either message.</li>
+<li>
+<strong>#334, faster fixed effects.</strong> The issue asks for <code>fixest</code>’s algorithm. 2.0 uses it: alternating projections in C++, 4x to 10,000x faster on the designs measured above, the range widening with the number of levels.</li>
+<li>
+<strong>#365, replace AER tests with ivreg</strong>, and <strong>#402, skip tests relying on suggested packages.</strong> Both are true by construction here: the suite never used AER, and every test needing <code>randomizr</code>, <code>carData</code> or <code>blkvar</code> is guarded with <code>skip_if_not_installed()</code>. The comparisons against 1.0.6 need no guard at all, because they read recorded answers rather than calling the older version.</li>
+<li>
+<strong>#260, bad defaulting to matched pairs.</strong> The reporter has 17 blocks, one of which holds a single treated and single control unit, and estimatr 1.x collapses the whole design to matched pairs on 16 degrees of freedom. With two or more such blocks 2.0 now estimates the design properly; with exactly one, as here, it errors naming the block, because one small block leaves nothing to estimate its contribution against.</li>
+</ul><p><code>R CMD check --as-cran</code> runs with 0 errors, 0 warnings and 1 NOTE, the maintainer change.</p>
+</div>
+<div class="section level4">
+<h4 id="blocked-designs-with-blocks-of-different-sizes-2-0-0">Blocked designs with blocks of different sizes (<a href="https://github.com/DeclareDesign/estimatr/issues/336" class="external-link">#336</a>)<a class="anchor" aria-label="anchor" href="#blocked-designs-with-blocks-of-different-sizes-2-0-0"></a></h4>
+<p>1.x handles two kinds of blocked design and refuses everything between them. If every block has at least two treated and two control units, each block carries its own Neyman variance. If every block is a matched pair, the variance comes from the variation across pairs. A design with both, or with a block holding one treated and three control units, either errors (“every block must have at least two treated and control units”) or silently applies the matched-pairs estimator to every block, big ones included, after a warning. Such designs are not exotic: coarsened exact matching, full matching, and multisite trials with one or two sites per stratum all produce them.</p>
+<p>2.0 implements the estimators of Pashley and Miratrix (2021). Blocks are classified by how many units each <strong>arm</strong> holds, not by how large the block is, which is the substantive correction: a block of eight units with one of them treated has no more estimable within-block variance than a matched pair does.</p>
+<ul><li>Blocks with at least two treated and two control units contribute their own Neyman variance, their equation 4.</li>
+<li>Blocks with a singleton treated or control unit contribute through the variation across such blocks, their equation 8, the “unified” estimator that requires no two blocks to share a size. With equal sizes this reduces to the usual matched-pairs estimator, their equation 5, which is used directly because equation 8 is undefined at two equal-sized blocks.</li>
+<li>A design with both kinds combines the parts by squared share of the sample, their section 3.3.</li>
+</ul><p>Degrees of freedom are not treated in the paper. 2.0 combines the two components by Welch-Satterthwaite, which reduces to <code>n - 2K</code> for an all-big design and to <code>K - 1</code> for an all-small one, matching what each literature uses on its own.</p>
+<p>The <code>design</code> element now reports <code>"Blocked"</code>, <code>"Matched-pair"</code>, <code>"Small blocks"</code>, or <code>"Hybrid blocked"</code>. Standard errors agree to 1e-10 with <code>blkvar::block_estimator(method = "hybrid_p")</code>, the authors’ own implementation, across all-big, all-small, matched-pair, and hybrid designs.</p>
+<p>Two designs are refused, because the variance genuinely cannot be estimated rather than because the software is unwilling: exactly one block with a singleton arm, which leaves nothing to compare it against and would contribute a variance of zero, and a set of different-sized such blocks in which one holds half or more of their units, which is the condition equation 8 needs to stay defined and conservative.</p>
+<p>Unchanged: all-big designs and matched pairs return exactly what they did before.</p>
+</div>
+<div class="section level4">
+<h4 id="blocks-of-clusters-with-a-singleton-cluster-in-an-arm-are-now-refused-2-0-0">Blocks of clusters with a singleton cluster in an arm are now refused<a class="anchor" aria-label="anchor" href="#blocks-of-clusters-with-a-singleton-cluster-in-an-arm-are-now-refused-2-0-0"></a></h4>
+<p>Pashley and Miratrix cover treatment assigned within blocks, not blocks of clusters: clusters appear once in their paper, to be set aside (“we are focusing on treatment assigned within cluster”, section 2). The hybrid above therefore does not extend to cluster-randomized blocks, and blocked designs with <code>clusters</code> keep the previous estimators.</p>
+<p>Checking that boundary turned up a separate defect, present in 1.x too. A block with one treated or one control <strong>cluster</strong> has no estimable within-block variance, because the singleton arm contributes nothing to the between-cluster variability, yet both packages returned a number for it with no warning. Exhaustive enumeration of every assignment, with cluster-level potential outcomes held fixed:</p>
+<table class="table"><thead><tr><th>block</th>
+<th align="right">ratio of mean estimated variance to true variance</th>
+</tr></thead><tbody><tr><td>6 clusters, 3 treated</td>
+<td align="right">1.00</td>
+</tr><tr><td>6 clusters, 2 treated</td>
+<td align="right">1.00</td>
+</tr><tr><td>4 clusters, 2 treated</td>
+<td align="right">1.00</td>
+</tr><tr><td>4 clusters, 1 treated</td>
+<td align="right">0.25</td>
+</tr><tr><td>6 clusters, 1 treated</td>
+<td align="right">0.17</td>
+</tr><tr><td>8 clusters, 1 treated</td>
+<td align="right">0.12</td>
+</tr></tbody></table><p>With two or more clusters per arm the estimator is exact. With one it is too small by roughly the block’s cluster count, and it worsens as the block grows. End to end, blocks of 6, 6, 6, and 4 clusters where the last has a single treated cluster gave 88% coverage of a nominal 95% interval.</p>
+<p>2.0 now errors, naming the offending blocks and suggesting either merging them so every block has two clusters per arm, or <code><a href="../reference/lm_robust.html">lm_robust()</a></code> with block fixed effects and <code>clusters</code>. Matched-pair clustered designs are exempt, since every block there has a singleton arm by construction and the variance is estimated across blocks rather than within them.</p>
+</div>
+<div class="section level4">
+<h4 id="rank-detection-matches-lm-2-0-0">Rank detection matches <code>lm()</code> (<a href="https://github.com/DeclareDesign/estimatr/issues/351" class="external-link">#351</a>, <a href="https://github.com/DeclareDesign/estimatr/issues/395" class="external-link">#395</a>)<a class="anchor" aria-label="anchor" href="#rank-detection-matches-lm-2-0-0"></a></h4>
+<p><code>lm_robust(y ~ x)</code> with <code>x</code> constant returned coefficients of order 1e11 instead of NA. The design matrix is exactly rank deficient, but Eigen’s default <code>ColPivHouseholderQR</code> threshold is roughly <code>epsilon * ncol</code> relative to the largest pivot, tight enough that the collinear column survives as a pivot of order 1e-14. <code><a href="https://rdrr.io/r/stats/lm.html" class="external-link">stats::lm()</a></code> uses LINPACK <code>dqrdc2</code> with <code>tol = 1e-7</code>, and 2.0 sets the same threshold.</p>
+<p>The threshold alone is not the whole of what <code>dqrdc2</code> does, and setting only the threshold introduced a second failure in the opposite direction, caught before release. Eigen compares every pivot against the largest pivot in the matrix, while <code>dqrdc2</code> compares each column’s remaining norm against its own original norm. The second test is scale invariant and the first is not, so a single regressor measured in large units pushed the others below <code>1e-7</code> times the largest pivot and they were dropped as collinear on a design of full rank. Three independent normals and an intercept, with one column multiplied by <code>1e9</code>, lost three coefficients to <code>NA</code>; the effect begins at a condition number of about <code>1e7</code>, and it reached <code><a href="../reference/lm_robust.html">lm_robust()</a></code> and <code><a href="../reference/iv_robust.html">iv_robust()</a></code> alike, since <code>try_cholesky</code> defaults to <code>FALSE</code>. A polynomial regression discontinuity in an unscaled running variable is the ordinary case that hits it.</p>
+<p>2.0 therefore normalizes the columns of the design to unit norm before the rank-revealing QR and undoes the scaling afterwards, at both the coefficient path and the <code>getMeatXtX()</code> path the hat values are read off. The criterion is then per column, which is what <code>dqrdc2</code> does and what the <code>1e-7</code> threshold was meant to reproduce. Exactly collinear columns are still dropped, and a full-rank design now returns the same coefficients whatever units its columns are measured in. <code>test_invariance.R</code> asserts that property directly, sweeping a column through twelve orders of magnitude and requiring every coefficient and standard error to come back unchanged.</p>
+<p><strong>The same normalization fixed a third failure, on the <code>try_cholesky = TRUE</code> path, and this one is a difference from 1.0.6 rather than a pre-release catch.</strong> <code>lm_robust(try_cholesky = TRUE)</code> solves through a Cholesky decomposition of <code>X'X</code> instead of the pivoted QR, and it was returning a coefficient for every column of a rank-deficient design, splitting arbitrarily between collinear ones, where the QR path and <code><a href="https://rdrr.io/r/stats/lm.html" class="external-link">stats::lm()</a></code> return <code>NA</code>. It warned about the resulting <code>NaN</code> standard error and never about the collinearity. The guard that was supposed to prevent it tested <code>llt.info()</code>, which cannot catch the case: Eigen’s LLT reports success on a numerically singular Gram matrix. With the columns normalized, each diagonal entry of the Cholesky factor is the norm of that column’s residual after the earlier columns are projected out, measured against its own original norm, which is <code>dqrdc2</code>’s criterion again; the path now falls back to the QR below the same <code>1e-7</code>. A design that is merely ill conditioned falls back too and pays the QR’s cost rather than returning a bad answer. <strong><code>try_cholesky</code> is off by default, so a user reaches this only by asking for it, and estimatr 1.0.6 has the behaviour still.</strong> The two paths now agree to <code>3e-17</code>, and the argument no longer changes the answer, only the speed.</p>
+<p>A near-saturated design also produces observations that the fit reproduces exactly, whose leverage is 1. That case costs nothing in the answer: the residual is exactly 0, HC2’s contribution is a 0/0 that resolves to 0, and the standard error comes back finite, though built from fewer rows than the fit used. The failure is leverage computed marginally <em>above</em> 1, which rounding produces on the same designs and which no projection diagonal can actually take. <code>1 - h</code> is then a small negative number, and the two estimators failed differently: HC2 divided by it and took the square root of a negative meat, so every standard error in the fit was <code>NaN</code> however small the offending term, while HC3 squared the denominator, which cancels the sign, and returned a finite number carrying a large spurious term without warning. The silent one was the worse failure.</p>
+<p>Both failures are 1.0.6’s as well as the rewrite’s, confirmed by running it: on the probe design 1.0.6 returns <code>NaN</code> for HC2 and <code>39.5</code> for HC3 against a classical <code>1.42</code>, silently. 2.0 sets the denominator to 0 wherever <code>1 - h &lt;= 0</code>, so both estimators drop those observations from the variance instead, and warns with a count of how many sat at or near leverage 1 and which <code>se_type</code> read it. The count is a tolerance, <code>h &gt; 1 - sqrt(.Machine$double.eps)</code>, which is <code><a href="https://zeileis.codeberg.page/sandwich/reference/vcovHC.html" class="external-link">sandwich::vcovHC()</a></code>’s criterion on the same quantity, rather than a test on the sign of <code>1 - h</code>. The reason is that on an exactly saturated design the standard error is the same whichever side of 1 the rounding puts the hat value, so a sign test would have left the warning to a single unit in the last place: the solver used here returns <code>1 + 2.2e-16</code> on such a design where <code><a href="https://rdrr.io/r/base/qr.html" class="external-link">qr()</a></code> and <code><a href="https://rdrr.io/r/stats/influence.measures.html" class="external-link">stats::hatvalues()</a></code> return exactly 1. A hat value is dimensionless and bounded by 1, so a fixed tolerance on it means the same thing in every design. <code>CR2</code> never forms <code>1 - h</code> and needs no guard: it eigendecomposes a per-cluster matrix and keeps only directions above <code>1e-12</code>, so a cluster that is fitted exactly already contributes 0. One consequence is worth naming: on a design with a singleton fixed-effect group, the absorbed fit and the same model with explicit dummies used to disagree, the first finite and the second <code>NaN</code>. They now agree, in the warning as well as in the number.</p>
+</div>
+<div class="section level4">
+<h4 id="predict-with-fixed-effects-2-0-0">
+<code>predict()</code> with fixed effects (<a href="https://github.com/DeclareDesign/estimatr/issues/403" class="external-link">#403</a>, <a href="https://github.com/DeclareDesign/estimatr/issues/404" class="external-link">#404</a>)<a class="anchor" aria-label="anchor" href="#predict-with-fixed-effects-2-0-0"></a></h4>
+<p>Three separate failures. <code><a href="https://rdrr.io/r/stats/predict.html" class="external-link">predict()</a></code> with no <code>newdata</code> errored instead of returning the in-sample fit. <code><a href="https://rdrr.io/r/stats/predict.html" class="external-link">predict()</a></code> on a fixed-effects model with a factor regressor failed with “non-conformable arguments”, because the terms object still carries the intercept that fixed-effects absorption removed from the coefficients. And 2.0 did not store the absorbed group effects at all, so no fixed-effects prediction was possible.</p>
+<p><code><a href="../reference/lm_robust.html">lm_robust()</a></code> now stores the absorbed group effects for a single-outcome model with one set of fixed effects, and <code><a href="https://rdrr.io/r/stats/predict.html" class="external-link">predict()</a></code> adds them back, reproducing the dummy-variable regression exactly. New levels in <code>newdata</code> and multi-way fixed effects both error with an explanation: with several sets of fixed effects the absorbed effects are identified in sum but not separately, so a new observation cannot be assigned its share.</p>
+</div>
+<div class="section level4">
+<h4 id="glance-on-iv_robust-with-several-endogenous-regressors-2-0-0">
+<code>glance()</code> on <code>iv_robust</code> with several endogenous regressors (<a href="https://github.com/DeclareDesign/estimatr/issues/389" class="external-link">#389</a>)<a class="anchor" aria-label="anchor" href="#glance-on-iv_robust-with-several-endogenous-regressors-2-0-0"></a></h4>
+<p>The first-stage F test carries one entry per endogenous regressor, named <code>"&lt;var&gt;:value"</code> once there is more than one, so indexing it by <code>"value"</code> produced an NA with an NA name and the <code><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame()</a></code> call failed on the row name. <code><a href="https://generics.r-lib.org/reference/glance.html" class="external-link">glance()</a></code> must return one row, so it now reports the weakest of the per-regressor first stages, which is the quantity a weak-instrument diagnostic asks about. The per-regressor tests remain in <code>diagnostic_first_stage_fstatistic</code>.</p>
+</div>
+<div class="section level4">
+<h4 id="modelframe-on-iv_robust-2-0-0">
+<code>model.frame()</code> on <code>iv_robust</code> (<a href="https://github.com/DeclareDesign/estimatr/issues/397" class="external-link">#397</a>)<a class="anchor" aria-label="anchor" href="#modelframe-on-iv_robust-2-0-0"></a></h4>
+<p><code><a href="https://rdrr.io/r/stats/model.frame.html" class="external-link">model.frame()</a></code> returned a two-column frame whose second column was named <code>"x + hp | am + hp"</code>, because <code><a href="https://rdrr.io/r/stats/model.frame.html" class="external-link">model.frame.default()</a></code> reads the <code>|</code> of a two-part formula as a logical operator. A <code>model.frame.iv_robust()</code> method now rebuilds a one-part formula naming every variable and defers to the default method.</p>
+</div>
+<div class="section level4">
+<h4 id="smaller-fixes-2-0-0">Smaller fixes<a class="anchor" aria-label="anchor" href="#smaller-fixes-2-0-0"></a></h4>
+<ul><li>
+<strong><code><a href="../reference/lm_robust_fit.html">lm_robust_fit()</a></code> with an unnamed or integer matrix (<a href="https://github.com/DeclareDesign/estimatr/issues/269" class="external-link">#269</a>).</strong> The exported fitting function failed on an integer design matrix (“Wrong R type for mapped matrix”) and produced an object <code><a href="https://generics.r-lib.org/reference/tidy.html" class="external-link">tidy()</a></code> could not handle when <code>y</code> had no column names. Both inputs are now coerced and named.</li>
+<li>
+<strong><code><a href="https://rdrr.io/r/stats/case.names.html" class="external-link">variable.names()</a></code> (<a href="https://github.com/DeclareDesign/estimatr/issues/123" class="external-link">#123</a>).</strong> Added for <code>lm_robust</code> and <code>iv_robust</code>.</li>
+<li>
+<strong><code>fixed_effects</code> given a bare column name (<a href="https://github.com/DeclareDesign/estimatr/issues/304" class="external-link">#304</a>).</strong> It produced “invalid formula” from deep inside <code>model.frame</code>. It now warns, names the argument, shows the expected form, and goes on to fit the model the way 1.x did.</li>
+<li>
+<strong><code><a href="../reference/iv_robust.html">iv_robust()</a></code> with multiple outcomes and <code>diagnostics = TRUE</code> died</strong> in the score test with “dims do not match the length of object”, in 1.0.6 as well. The diagnostic fields hold one statistic each, so the fit now warns that diagnostics are not available with multiple outcomes and skips them, as it does under <code>fixed_effects</code>.</li>
+<li>
+<strong><code><a href="../reference/horvitz_thompson.html">horvitz_thompson()</a></code> with a <code><a href="https://rdrr.io/r/base/cbind.html" class="external-link">cbind()</a></code> outcome answered for the first outcome alone</strong>, silently: the matrix response was flattened and the first n values read as the outcome. 1.0.6 errored on the length mismatch. It now refuses and says to fit one model per outcome.</li>
+<li>
+<strong><code><a href="../reference/lh_robust.html">lh_robust()</a></code> with multiple outcomes (<a href="https://github.com/DeclareDesign/estimatr/issues/297" class="external-link">#297</a>).</strong> Coefficients of a multivariate fit are named <code>"&lt;outcome&gt;:&lt;term&gt;"</code>, which a hypothesis such as <code>"cyl = 2"</code> cannot refer to, and <code><a href="https://rdrr.io/pkg/car/man/linearHypothesis.html" class="external-link">car::linearHypothesis()</a></code> reported it as malformed. 2.0 errors with that explanation and tells the user to fit one outcome at a time.</li>
+<li>
+<strong>No observations left to fit.</strong> When missing values or <code>subset</code> leave no rows, 1.0.6’s <code><a href="../reference/lm_robust.html">lm_robust()</a></code>, <code><a href="../reference/iv_robust.html">iv_robust()</a></code> and <code><a href="../reference/lm_lin.html">lm_lin()</a></code> returned every coefficient as <code>NA</code>, and an earlier 2.0 added a warning calling them collinear, which was false; <code><a href="../reference/difference_in_means.html">difference_in_means()</a></code> said both treatment conditions were needed “within each block”. All four now say that no observations are left, as <code><a href="https://rdrr.io/r/stats/lm.html" class="external-link">lm()</a></code> does.</li>
+<li>
+<strong><code>tidy(conf.level =)</code> on a multivariate fit ignored the level.</strong> Intervals were matched to rows by name, and a multivariate fit’s are named <code>"&lt;outcome&gt;:&lt;term&gt;"</code>, so nothing matched and the fit’s own 95% intervals came back under a request for 90%, silently, in 1.0.6 as well. They are now matched by position, which is how <code><a href="https://rdrr.io/r/stats/confint.html" class="external-link">confint()</a></code> builds them.</li>
+<li>
+<strong><code><a href="https://rdrr.io/r/stats/confint.html" class="external-link">confint()</a></code> on an <code>lh_robust</code> fit always errored</strong>, “numbers of columns of arguments do not match”, in 1.0.6 as well, and <strong><code><a href="https://rdrr.io/r/stats/nobs.html" class="external-link">nobs()</a></code> on one returned <code>NULL</code></strong>. Both now answer, and <code>parm</code> can name the hypothesis.</li>
+<li>
+<strong><code><a href="https://rdrr.io/r/stats/predict.html" class="external-link">predict()</a></code> on an <code><a href="../reference/iv_robust.html">iv_robust()</a></code> fit with <code>fixed_effects</code> failed</strong> with “non-conformable arguments”, where 1.0.6 returned predictions. It now drops the absorbed intercept and adds the group effects back, as <code><a href="https://rdrr.io/r/stats/predict.html" class="external-link">predict()</a></code> on <code><a href="../reference/lm_robust.html">lm_robust()</a></code> does, and reproduces the fitted values in sample.</li>
+<li>
+<strong><code><a href="../reference/lh_robust.html">lh_robust()</a></code> under CR2 gave a combination of coefficients the wrong degrees of freedom.</strong> 1.0.6 refused CR2 in <code><a href="../reference/lh_robust.html">lh_robust()</a></code>. The rewrite allowed it, and gave any hypothesis that was not a single coefficient the smallest of the coefficients’ Satterthwaite degrees of freedom, on the stated grounds that this was conservative. It is not a bound: on the test data it was 16.10 where the combination’s own is 15.75, which narrows the interval. Each hypothesis now gets its own Satterthwaite degrees of freedom, computed from the same CR2 components as the coefficients’, and matches <code><a href="http://jepusto.github.io/clubSandwich/reference/linear_contrast.html" class="external-link">clubSandwich::linear_contrast()</a></code> unweighted, weighted, and with absorbed fixed effects. The joint test’s denominator takes the smallest of them.</li>
+<li>
+<strong>Horvitz-Thompson probabilities that cannot be probabilities.</strong> <code><a href="../reference/horvitz_thompson.html">horvitz_thompson()</a></code> accepted probabilities outside [0, 1] and returned an ordinary-looking estimate and standard error from them, and a probability of 0 for a condition a unit was observed in returned <code>NaN</code> or <code>Inf</code> without a word. Both are now refused, the second naming the condition and how many units it affects; the check runs after every <code>condition_prs</code> format has been turned into per-unit probabilities, so it covers them all.</li>
+<li>
+<strong>Infinite weights, and weights that are all zero.</strong> Both returned every coefficient as <code>NA</code> under a warning calling the regressors collinear, in 1.0.6 as well, where <code><a href="https://rdrr.io/r/stats/lm.html" class="external-link">lm()</a></code> refuses an infinite weight. Both are now refused with a message saying which. A missing weight is still a dropped row.</li>
+<li>
+<strong>Two refusals named the wrong problem.</strong> <code><a href="../reference/difference_in_means.html">difference_in_means()</a></code> given a <code>condition1</code> and <code>condition2</code> that are not values of the treatment filtered the data down to nothing and then said both conditions were needed “within each block”; it now says the conditions must be values found in the treatment. <code><a href="../reference/horvitz_thompson.html">horvitz_thompson()</a></code> given a named probability vector whose names miss a condition called it an “Unrecognised <code>condition_prs</code> format”; it now names the vector’s names and the conditions it was looking for.</li>
+<li>
+<strong>A single unit in a treatment arm of an unblocked <code><a href="../reference/difference_in_means.html">difference_in_means()</a></code>.</strong> The refusal is right, since that arm’s variance cannot be estimated, but its message said every block needed two treated and two control units, on a design with no blocks, in 1.0.6 as well. It now says what is needed without assuming blocks.</li>
 </ul></div>
-    <div class="section level2">
-<h2 class="pkg-version" data-toc-text="0.4.0" id="estimatr-040">estimatr 0.4.0<a class="anchor" aria-label="anchor" href="#estimatr-040"></a></h2><p class="text-muted">CRAN release: 2018-02-15</p>
-<ul><li>Changed suffix added to centered variables in <code><a href="../reference/lm_lin.html">lm_lin()</a></code> from <code>_bar</code> to <code>_c</code>
-</li>
-<li>Added all vignettes to <code>.Rbuildignore</code>, only available on website now</li>
-<li>Fixed <code>lm_robust_helper.cpp</code> algorithm to not catch own exception and to deal with <code>valgrind</code> memory errors</li>
-<li>Bugfix where passing a formula as an object within a function would fail</li>
-<li>Simplified some tests for various CRAN test platforms</li>
-</ul></div>
-    <div class="section level2">
-<h2 class="pkg-version" data-toc-text="0.2.0" id="estimatr-020">estimatr 0.2.0<a class="anchor" aria-label="anchor" href="#estimatr-020"></a></h2><p class="text-muted">CRAN release: 2018-01-29</p>
-<ul><li>First <strong>CRAN</strong> upload</li>
-</ul></div>
+<div class="section level4">
+<h4 id="a-single-fixed-effects-factor-lost-its-name-when-rows-were-dropped-2-0-0">A single fixed-effects factor lost its name when rows were dropped<a class="anchor" aria-label="anchor" href="#a-single-fixed-effects-factor-lost-its-name-when-rows-were-dropped-2-0-0"></a></h4>
+<p>With one factor in <code>fixed_effects</code> and any observation dropped for missingness, the model frame’s one-column matrix of factor codes degrades to a vector, and rebuilding it as a matrix leaves it without a column name. Three things read that name, and all three failed. <code>se_type = "CR2"</code> errored outright with “‘.’ in formula and no ‘data’ argument”, because CR2 is the one estimator that still expands the fixed effects and it does so through <code>model.matrix(~ 0 + .)</code> on a data frame that had no names to expand. The absorbed group effects in <code>fixed_effects</code> came back labelled <code>1</code>, <code>2</code>, <code>3</code> instead of <code>g1</code>, <code>g2</code>, <code>g3</code>. And <code><a href="https://rdrr.io/r/stats/predict.html" class="external-link">predict()</a></code> rejected its own data as containing new levels, since the levels it was matching against had lost the term.</p>
+<p>estimatr 1.0.6 lost the name in the same place and fell back to <code>V1</code>, so it returned <code>V11</code>, <code>V12</code>, <code>V13</code> and its <code><a href="https://rdrr.io/r/stats/predict.html" class="external-link">predict()</a></code> failed too, but it did answer the CR2 call. The name is now taken from the level names captured before the model frame is built, which are the same ones <code>felevels</code> reports, so the two cannot disagree and complete and incomplete data give the same labels. The restored CR2 fit agrees with 1.0.6 and with the explicit-dummy fit to twelve digits.</p>
+<p>Every fixed-effects test until now used complete data, which is why nothing reported this.</p>
+</div>
+<div class="section level4">
+<h4 id="res_var-and-weights-were-named-by-accident-on-weighted-fixed-effects-fits-2-0-0">
+<code>res_var</code> and <code>weights</code> were named by accident on weighted fixed-effects fits<a class="anchor" aria-label="anchor" href="#res_var-and-weights-were-named-by-accident-on-weighted-fixed-effects-fits-2-0-0"></a></h4>
+<p>Both fields took whatever dimnames survived <code>data[["y"]] - fitted.values</code>, and R resolves that in favour of the first operand carrying any. The outcome was carrying the model frame’s row names, except on the fixed-effects path, where it has been demeaned into a fresh matrix. So a weighted fixed-effects fit disagreed with a weighted fit without fixed effects, and with 1.0.6, in two fields at once: <code>res_var</code> (and the <code>proj_</code> R-squareds derived from it) came back named after the outcome column when 1.0.6 leaves it unnamed, and <code>weights</code> came back unnamed when 1.0.6 names it. Now that the row names are carried explicitly rather than inherited, all three cases agree with 1.0.6. Verified against an installed 1.0.6 and pinned in <code>test_return_surface.R</code>.</p>
+</div>
+<div class="section level4">
+<h4 id="all-missing-outcome-with-weights-2-0-0">All-missing outcome with weights (<a href="https://github.com/DeclareDesign/estimatr/issues/370" class="external-link">#370</a>)<a class="anchor" aria-label="anchor" href="#all-missing-outcome-with-weights-2-0-0"></a></h4>
+<p><code>lm_robust(X ~ 1, weights = w, data = df)</code> where <code>X</code> is entirely <code>NA</code> errors in estimatr 1.x with “‘x’ must be an array of at least two dimensions”, while the same model without weights returns an NA coefficient. The asymmetry matters when one model is fitted across many subgroups and some subgroup has no observed outcome. 2.0 returns the NA coefficient in both cases.</p>
+<hr></div>
+</div>
+<div class="section level3">
+<h3 id="performance-improvements-2-0-0">Performance improvements<a class="anchor" aria-label="anchor" href="#performance-improvements-2-0-0"></a></h3>
+<div class="section level4">
+<h4 id="cr2-degrees-of-freedom-computation-oj²--or²j-2-0-0">CR2 degrees-of-freedom computation: O(J²) → O(r²·J)<a class="anchor" aria-label="anchor" href="#cr2-degrees-of-freedom-computation-oj%C2%B2--or%C2%B2j-2-0-0"></a></h4>
+<p>CR2 standard errors require, for each cluster j, a scalar adjustment derived from the hat matrix block H_jj. The original 1.x implementation formed a J×J matrix <code>P_array</code> and computed a trace and Frobenius norm over it, which is O(J²) memory and compute when J is large.</p>
+<p>2.0 uses an algebraic identity to reduce this to five r×r Gram matrix products, where r is the number of model parameters (typically ≪ J). For a model with 3 parameters and 500 clusters the allocation drops from a 500×500 matrix to five 3×3 matrices. Measured speedup on a 1,000-observation / 100-cluster CR2 model: approximately 2× end-to-end.</p>
+</div>
+<div class="section level4">
+<h4 id="formula-parsing-bypass-for-non-iv-calls-2-0-0">Formula parsing bypass for non-IV calls<a class="anchor" aria-label="anchor" href="#formula-parsing-bypass-for-non-iv-calls-2-0-0"></a></h4>
+<p><code><a href="../reference/iv_robust.html">iv_robust()</a></code> requires <code><a href="https://rdrr.io/pkg/Formula/man/Formula.html" class="external-link">Formula::as.Formula()</a></code> to parse the two-sided formula <code>y ~ x | z</code>. <code><a href="../reference/lm_robust.html">lm_robust()</a></code> and <code><a href="../reference/lm_lin.html">lm_lin()</a></code> do not, but the original code called <code>as.Formula()</code> unconditionally in <code>clean_model_data()</code>. This path is now skipped for non-IV calls, saving approximately 80 µs per <code><a href="../reference/lm_robust.html">lm_robust()</a></code> invocation, which is meaningful in simulations that call it thousands of times.</p>
+</div>
+<div class="section level4">
+<h4 id="horvitz-thompson-variance-on²--o1-2-0-0">Horvitz-Thompson variance: O(N²) → O(1)<a class="anchor" aria-label="anchor" href="#horvitz-thompson-variance-on%C2%B2--o1-2-0-0"></a></h4>
+<p>1.x constructs the full 2N×2N joint inclusion probability matrix for every Horvitz-Thompson call. The Young’s inequality variance for any complete-randomization design (including within blocks, and at the cluster level for clustered designs) reduces to six scalar sufficient statistics per block, so the matrix is never needed. The custom-design pathway, where an explicit permutation matrix is the only description of the design, is the one case that still forms a matrix, and does so in one <code><a href="https://rdrr.io/r/base/crossprod.html" class="external-link">tcrossprod()</a></code> call in place of 1.x’s 538-line <code>helper_condition_pr_matrix.R</code>.</p>
+<p>Measured against 1.x on complete randomization: 10× at N = 200, 73× at N = 1,000, 837× at N = 3,000. Standard errors are identical to floating-point precision for simple, complete, blocked, clustered, and blocked-and-clustered designs.</p>
+</div>
+<div class="section level4">
+<h4 id="multi-arm-horvitz-thompson-2-0-0">Multi-arm Horvitz-Thompson<a class="anchor" aria-label="anchor" href="#multi-arm-horvitz-thompson-2-0-0"></a></h4>
+<p>estimatr 1.x refuses an <code>ra_declaration</code> with more than two arms. 2.0 supports the contrast between any two arms of a multi-arm design: <code>condition1</code> and <code>condition2</code> pick the contrast, the estimand stays the average treatment effect over all N units, and the variance uses the joint assignment probabilities implied by the arm sizes.</p>
+<p>Two generalizations were needed. The denominator of the estimator is N, the size of the design, and not the number of units landing in the two selected conditions; those coincide only when the design has two arms. The Young’s inequality coefficients come from the pairwise joint probabilities <code>m2(m2-1)/(n(n-1))</code>, <code>m1(m1-1)/(n(n-1))</code>, and <code>m2 m1/(n(n-1))</code>, which do not assume <code>m1 = n - m2</code>. The cross coefficient collapses to <code>1/n</code> for every complete design. Two-arm contrasts continue to run through 1.x’s <code>gen_joint_pr_complete</code> path, including its floor/ceiling mixture for non-integer implied counts, so every two-arm result is numerically unchanged.</p>
+<p>Tested by exhaustive enumeration: over all 90 assignments of six units to three arms of two, the average estimate equals the true ATE exactly, and the closed-form variance equals the one computed from the exact joint probability matrix of the same 90 permutations.</p>
+<p>Because probabilities are matched to units by row position, <code>data</code> must contain one row per unit of the declaration. Passing a declaration whose size does not match <code>nrow(data)</code> is now an error rather than a silent misalignment.</p>
+</div>
+<div class="section level4">
+<h4 id="tss-computation-vectorized-2-0-0">TSS computation vectorized<a class="anchor" aria-label="anchor" href="#tss-computation-vectorized-2-0-0"></a></h4>
+<p>The total sum of squares calculation replaced an <code>apply(y, 1, '-', colMeans(y))</code> column-mean sweep with direct centring and <code><a href="https://rdrr.io/r/base/colSums.html" class="external-link">colSums()</a></code>. 1.x ran an R-level loop over rows; an intermediate version of 2.0 used <code><a href="https://rdrr.io/r/base/sweep.html" class="external-link">sweep()</a></code>, which builds its subtrahend with <code><a href="https://rdrr.io/r/base/array.html" class="external-link">array()</a></code> and then transposes it with <code><a href="https://rdrr.io/r/base/aperm.html" class="external-link">aperm()</a></code>, so it materialised two extra n-by-k copies to do what recycling does in one. Speedup on a 1,000-observation multivariate model: approximately 280 µs, and two fewer allocations the size of the outcome on every fit.</p>
+</div>
+<div class="section level4">
+<h4 id="front-end-overhead-2-0-0">Front-end overhead<a class="anchor" aria-label="anchor" href="#front-end-overhead-2-0-0"></a></h4>
+<p>At n = 100,000 the numerical core of a fit is a small fraction of the call. Most of the rest was the model frame’s row names.</p>
+<p><code><a href="https://rdrr.io/r/stats/model.frame.html" class="external-link">stats::model.frame()</a></code> turns a data frame’s compact automatic row names into a character vector as long as the data, and from there every object derived from the design matrix carries them: the fitted values from <code>X %*% beta</code>, the residuals formed from those, the row subset the cluster sort takes, and the <code><a href="https://rdrr.io/r/base/drop.html" class="external-link">drop()</a></code> that turns each n-by-1 matrix into a vector. Only <code>fitted.values</code> keeps them in the returned object; estimatr returns residuals unnamed, as 1.0.6 did, so on that branch they were built only to be discarded.</p>
+<p>They are now taken off the design matrix and the outcome once, in <code>clean_model_data()</code>, where both are still unshared and stripping them is free, and put back on <code>fitted.values</code> once in <code>lm_return()</code>. Nothing in between has to carry them. <code>weights</code> is named to match, as before.</p>
+<p>The rest are local. Gaps in fixed-effect codes are detected with <code><a href="https://rdrr.io/r/base/tabulate.html" class="external-link">tabulate()</a></code> rather than by hashing every observation with <code>sort(unique())</code>. Unweighted group sizes in the leverage computation are <code><a href="https://rdrr.io/r/base/tabulate.html" class="external-link">tabulate()</a></code> rather than <code><a href="https://rdrr.io/r/base/rowsum.html" class="external-link">rowsum()</a></code>, which rediscovers the groups it was already given, and the unit weight vector is no longer materialised on the one-way path that does not index it. The sums of squares behind the R-squared of a fixed-effects fit go through <code><a href="https://rdrr.io/r/base/crossprod.html" class="external-link">crossprod()</a></code> instead of squaring the vector first. The absorbed group effects find a representative row per group by scatter assignment over the codes rather than by hashing all n of them. <code><a href="https://rdrr.io/r/base/sweep.html" class="external-link">sweep()</a></code> is gone from the total sum of squares, and the design matrix is no longer copied to itself when no column was dropped for collinearity.</p>
+</div>
+<div class="section level4">
+<h4 id="the-fixed-effects-kernels-2-0-0">The fixed-effects kernels<a class="anchor" aria-label="anchor" href="#the-fixed-effects-kernels-2-0-0"></a></h4>
+<p>Two things dominated a multi-way fixed-effects fit, and both were doing work they already had the answer to.</p>
+<p><code>fe_leverage()</code> cross-tabulates each pair of factors. It built a composite index and handed it to <code><a href="https://rdrr.io/r/base/rowsum.html" class="external-link">rowsum()</a></code>, which hashes all n observations to rediscover groups that are known to run 1..g, and then labels its result rows with those group values as strings, so the caller converted them back with <code>as.integer(rownames(.))</code>. At n = 100,000 over 1,000 by 30 groups that pair cost 7.3 ms, against 0.04 ms for a single counting pass, and there is one per factor pair. A dense weighted cross-tabulation in C++ (<code>xtab_cpp</code>) replaces it and serves the weighted case too, so the unit weight vector is no longer built for an unweighted fit. The masks and column offsets the leverage vector needs are now built only when a leverage vector is wanted, which is HC2 and HC3; every other <code>se_type</code> returns the rank without them.</p>
+<p><code>demean_cpp()</code> rebuilt the group weight sums on every sweep of the alternating projections, though they depend only on the codes and the weights and are identical each time, and then made a second full pass over the matrix to find its largest absolute value for the convergence test. The sums are now computed once, the maximum is accumulated by the subtraction pass that already touches every cell, and an unweighted fit no longer multiplies each element by a 1.0 it had just read out of a vector of ones. Every result is bit-identical; there is simply less of it.</p>
+<p>Measured at n = 100,000 with two regressors, against 2.0.0 before this work: a plain fit 15.8 to 3.2 ms, a clustered fit 18.5 to 5.1 ms, a one-way fixed-effects fit 14.7 to 5.8 ms, a two-way fixed-effects fit 32.7 to 9.3 ms. On the cases that carry the most fixed-effects machinery: two-way HC2 36.7 to 12.8 ms, two-way weighted 35.0 to 12.6 ms.</p>
+<p>All of it is in <code>clean_model_data()</code>, <code><a href="../reference/lm_robust_fit.html">lm_robust_fit()</a></code>, <code>lm_return()</code> and the fixed-effects helpers, so <code><a href="../reference/iv_robust.html">iv_robust()</a></code> and <code><a href="../reference/lm_lin.html">lm_lin()</a></code> get it for nothing: 2SLS 20.0 to 5.5 ms, clustered 2SLS 30.0 to 7.6 ms, 2SLS with two-way fixed effects 37.8 to 14.4 ms, <code><a href="../reference/lm_lin.html">lm_lin()</a></code> 26.0 to 6.1 ms.</p>
+<p>Every returned value is unchanged. Across 56 specifications covering each <code>se_type</code>, weights, clusters, multivariate outcomes, IV, and one to two fixed-effect factors, the largest relative difference from the previous version is 9e-15, and the names on every field are identical apart from the three naming bugs fixed below.</p>
+<hr></div>
+</div>
+<div class="section level3">
+<h3 id="fixed-effects-2-0-0">Fixed effects<a class="anchor" aria-label="anchor" href="#fixed-effects-2-0-0"></a></h3>
+<p>Fixed effects absorption is implemented using the Frisch-Waugh-Lovell theorem with alternating projections (the algorithm used by <code><a href="https://lrberge.github.io/fixest/reference/feols.html" class="external-link">fixest::feols</a></code>). All FE variables are demeaned out of both the outcome and the design matrix before estimation; the intercept is absorbed into the group means and dropped.</p>
+<p><strong>SE types with fixed effects.</strong> With a <strong>single</strong> FE factor there is no restriction and no cost: the hat value of the full <code>[dummies | X]</code> design splits as <code>h_ii = h_ii(demeaned X) + w_i / sum(w over i's group)</code>, so HC2 and HC3 are exact from the demeaned fit plus one vector. The default is therefore <code>"HC2"</code>, the same as with no FE, and the same as 1.x returns.</p>
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/lm_robust.html">lm_robust</a></span><span class="op">(</span><span class="va">y</span> <span class="op">~</span> <span class="va">z</span>, data <span class="op">=</span> <span class="va">dat</span>, fixed_effects <span class="op">=</span> <span class="op">~</span><span class="va">block</span><span class="op">)</span></span>
+<span><span class="co"># se_type = "HC2", bit-identical to 1.x, 4.1 ms where 1.0.6 takes 41.0 s</span></span>
+<span><span class="co"># at n = 40,000 with 2,000 blocks</span></span>
+<span></span>
+<span><span class="fu"><a href="../reference/lm_robust.html">lm_robust</a></span><span class="op">(</span><span class="va">y</span> <span class="op">~</span> <span class="va">z</span>, data <span class="op">=</span> <span class="va">dat</span>, fixed_effects <span class="op">=</span> <span class="op">~</span><span class="va">block</span>, clusters <span class="op">=</span> <span class="va">cl</span><span class="op">)</span></span>
+<span><span class="co"># se_type = "CR0", with a warning: 1.0.6 defaulted to "CR2" here</span></span>
+<span></span>
+<span><span class="fu"><a href="../reference/lm_robust.html">lm_robust</a></span><span class="op">(</span><span class="va">y</span> <span class="op">~</span> <span class="va">z</span>, data <span class="op">=</span> <span class="va">dat</span>, fixed_effects <span class="op">=</span> <span class="op">~</span> <span class="va">block</span> <span class="op">+</span> <span class="va">year</span><span class="op">)</span></span>
+<span><span class="co"># se_type = "HC2", as in 1.0.6, and no warning: the identity covers any</span></span>
+<span><span class="co"># number of factors, so there is nothing to trade away</span></span>
+<span></span>
+<span><span class="fu"><a href="../reference/lm_robust.html">lm_robust</a></span><span class="op">(</span><span class="va">y</span> <span class="op">~</span> <span class="va">z</span>, data <span class="op">=</span> <span class="va">dat</span>, fixed_effects <span class="op">=</span> <span class="op">~</span> <span class="va">block</span> <span class="op">+</span> <span class="va">year</span>, se_type <span class="op">=</span> <span class="st">"CR2"</span>,</span>
+<span>          clusters <span class="op">=</span> <span class="va">cl</span><span class="op">)</span></span>
+<span><span class="co"># se_type = "CR2", exact, by expanding the dummies. No warning: you asked.</span></span></code></pre></div>
+<p>With <strong>two or more</strong> FE factors the naive version of the identity fails, by roughly 3e-3 rather than by rounding: summing each factor’s own within-group share drops the cross terms. The projection decomposition <code>P_[X | D] = P_D + P_{M_D X}</code> is exact for any number of factors, and that is what is used. Only <code>"CR2"</code> with <code>fixed_effects</code> still expands the dummies, its adjustment being built from cluster-level blocks of the hat matrix rather than from <code>h_ii</code>. Every answer equals the explicit-dummy fit and equals 1.0.6; that equivalence is tested and recorded in the fixture.</p>
+<p>What changes is only what a <strong>default</strong> will reach for, and only in the clustered case. Expanding the dummies is roughly O(g^3) in the number of levels, so no default expands them; <code>"CR2"</code> is the only estimator that still needs the expansion, so <code>fixed_effects</code> with <code>clusters</code> defaults to <code>"CR0"</code> with a warning, shown once per session, that names what 1.0.6 returned and names the <code>se_type</code> that accepts the new default. Writing <code>se_type = "CR0"</code> removes it. Unclustered fits keep the <code>"HC2"</code> default at any number of factors, as in 1.0.6.</p>
+<p><strong>Multi-way FE.</strong> Two-way (and higher) FE are supported via alternating projections that iterate to convergence (tolerance 1e-8, maximum 100 sweeps, after which it warns).</p>
+<p><strong>Return object additions.</strong> FE models add: - <code>fes</code>: logical flag indicating whether fixed effects were used - <code>proj_r.squared</code>: within-group R² from the demeaned regression - <code>r.squared</code>: full-model R² using the original (un-demeaned) outcome - <code>fitted.values</code>: reconstructed to the original scale via FWL (projected residuals equal full residuals)</p>
+<p><strong>Degrees of freedom.</strong> For a model with one FE variable having B levels, <code>fe_rank = B</code> degrees of freedom are consumed (B − 1 dummy contrasts plus the absorbed intercept), so <code>df.residual = n − k − B</code> where k is the number of non-FE regressors.</p>
+</div>
+</div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
     </nav></aside></div>
 
 
     <footer><div class="pkgdown-footer-left">
-  <p>Developed by Graeme Blair, Jasper Cooper, Alexander Coppock, Macartan Humphreys, Luke Sonnet.</p>
+  <p>Developed by Alexander Coppock, Graeme Blair, Jasper Cooper, Luke Sonnet.</p>
 </div>
 
 <div class="pkgdown-footer-right">

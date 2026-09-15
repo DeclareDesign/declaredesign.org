@@ -1,594 +1,1216 @@
-# Mathematical notes for estimatr
+# Mathematical notes and guarantees for estimatr
 
-This document provides the mathematical notes for each of the estimators
-in `estimatr`. The most up-to-date version of this can be found on the
-[DeclareDesign website
-here](https://declaredesign.org/r/estimatr/articles/mathematical-notes.md).
+### Written with AI, and checked accordingly
 
-## Estimators
+estimatr 2.0.0 was written by Alexander Coppock working with Claude
+(Anthropic), across design, implementation, tests, benchmarks and
+documentation.
 
-The current estimators we provide are:
+While the code base has been reviewed, it was not written by hand. The
+guarantee offered here is therefore not that every line has been vouched
+for. It is narrower and it is checkable: **estimatr implements these
+estimators correctly**, and the way that is shown is validation to
+machine precision against the definitions themselves.
 
-- [`lm_robust`](#lm_robust-notes) - for fitting linear models with
-  heteroskedasticity/cluster-robust standard errors
-- [`lm_lin`](#lm_lin-notes) - a wrapper for
-  [`lm_robust()`](https://declaredesign.org/r/estimatr/reference/lm_robust.md)
-  to simplify interacting centered pre-treatment covariates with a
-  treatment variable
-- [`iv_robust`](#iv_robust-notes) - two stage least squares estimation
-  of instrumental variables regression
-- [`difference_in_means`](#difference_in_means-notes) - for estimating
-  differences in means with appropriate standard errors for
-  unit-randomized, cluster-randomized, block-randomized, matched-pair
-  randomized, and matched-pair clustered designs
-- [`horvitz_thompson`](#horvitz_thompson-notes) - for estimating average
-  treatment effects taking into consideration treatment probabilities or
-  sampling probabilities for simple and cluster randomized designs
+Which is what this document is. Every estimator gets its definition,
+stated in mathematics with the paper it comes from, and then,
+immediately underneath, the same quantity computed twice: once by
+calling estimatr, and once from the definition transcribed into a few
+lines of base R.
 
-### `lm_robust` notes
+Two further layers are checked outside this document. Every estimator
+reproduces estimatr 1.0.6’s numbers wherever both versions answer,
+checked in `tests/testthat/test_vs_estimatr.R` against 695 values
+recorded from an installed 1.0.6. A further 808 assertions compare
+against implementations that share no lineage with this one: `sandwich`,
+`clubSandwich`, `ivreg`, Stata, `fixest`, `plm` and `blkvar`, in the
+five `tests/testthat/test_vs_*.R` files.
+[`vignette("estimatr2.0")`](https://declaredesign.org/r/estimatr/articles/estimatr2.0.md)
+sets out both layers under “How this was checked”; the suite holds 5,635
+assertions in total.
 
-The [`lm_robust`](#lm_robust) method uses the C++ library
-[Eigen](https://eigen.tuxfamily.org/), via the
-[`RcppEigen`](https://github.com/RcppCore/RcppEigen) package, to
-estimate the coefficients, variance-covariance matrix, and, in some
-cases, the degrees of freedom of linear models.
+### How the checking works
 
-The default estimators have been selected for efficiency in large
-samples and low bias in small samples as well as for their similarities
-to design-based randomization estimators ([Samii and Aronow
-2012](#ref-samiiaronow2012)). This section outlines the various kinds of
-variance estimators one can employ within `lm_robust`.
+**An identity holds to machine precision or it is broken.** Nothing
+below is random and nothing is replicated, so there is no sampling error
+to allow for and no tolerance to argue about. The two quantities being
+compared are the same number, and what gets reported is the largest
+relative gap between them, expected to sit near the floor of
+double-precision arithmetic.
 
-#### Coefficient estimates
+The reference side is written in this document rather than borrowed from
+another package, on purpose. A comparison against `sandwich` shows that
+two implementations agree. A comparison against the formula shows what
+the estimator is, which is the question a reader of mathematical notes
+is actually asking. It also leaves the document depending on nothing but
+estimatr, so no check can vanish because a suggested package is missing.
 
-``` math
-\widehat{\beta} =(\mathbf{X}^{\top}\mathbf{X})^{-1}\mathbf{X}^{\top}\mathbf{y}
+``` r
+
+CHECKS <- list()
+
+check <- function(label, ours, theirs, tol = 1e-10) {
+  gap <- max(abs(ours - theirs) / pmax(abs(theirs), 1))
+  # Two jobs: record the gap in the running list for the final table, and
+  # return a one-row data frame so the calling chunk prints its own result.
+  CHECKS[[label]] <<- gap
+  data.frame(gap = sprintf("%.1e", gap), holds = gap < tol)
+}
 ```
 
-Our algorithm solves the least squares problem using a rank-revealing
-column-pivoting QR factorization that eliminates the need to invert
-$`(\mathbf{X}^{\top}\mathbf{X})^{-1}`$ explicitly and behaves much like
-the default `lm` function in R. However, when $`\mathbf{X}`$ is rank
-deficient, there are certain conditions under which the QR factorization
-algorithm we use, from the Eigen C++ library, drops different
-coefficients from the output than the default `lm` function. In general,
-users should avoid specifying models with rank-deficiencies. In fact, if
-users are certain their data are not rank deficient, they can improve
-the speed of `lm_robust` by setting `try_cholesky = TRUE`. This replaces
-the QR factorization with a Cholesky factorization that is only
-guaranteed to work $`\mathbf{X}`$ is of full rank.
+Each section calls `check()` once, prints its own result, and adds it to
+a running list. [Every promise in one
+table](#every-promise-in-one-table) collects them at the end and the
+document refuses to build if any of them fails.
 
-##### Weights
+### Notation
 
-If weights are included, we transform the data as below and then proceed
-as normal, following advice from Romano and Wolf
-([2017](#ref-romanowolf2017)) that this weighted estimator has
-attractive properties. We do so by first scaling all of the weights so
-that they sum to one. Then we multiply each row of the design matrix
-$`\mathbf{X}`$ by the square root each unit’s weight,
-$`\mathbf{x}_i \sqrt{w_i}`$, and then do the same to the outcome,
-$`\mathbf{y}_i \sqrt{w_i}`$. This results in our coefficients being
-estimated as follows, where $`\mathbf{W}`$ is a diagonal matrix with the
-scaled weights on the diagonal.
+Throughout, $`\mathbf{X}`$ is the $`N \times K`$ design matrix,
+$`\mathbf{y}`$ the outcome,
+$`\mathbf{e} = \mathbf{y} - \mathbf{X}\widehat{\beta}`$ the residuals,
+and $`\mathbf{x}_i`$ the $`i`$th row of $`\mathbf{X}`$. $`\mathbf{W}`$
+is a diagonal matrix of weights scaled to sum to one, and
+$`\mathrm{diag}[\cdot]`$ builds a diagonal matrix from a vector. For
+clustered designs, $`S`$ is the number of clusters and $`\mathbf{X}_s`$
+and $`\mathbf{e}_s`$ are the rows belonging to cluster $`s`$. For
+blocked designs, $`J`$ is the number of blocks and $`N_j`$ the size of
+block $`j`$.
 
-Weighted:
-``` math
-\widehat{\beta} =(\mathbf{X}^{\top}\mathbf{W}\mathbf{X})^{-1}\mathbf{X}^{\top}\mathbf{W}\mathbf{y}
+### The data used throughout
+
+One hundred units, a binary treatment, a covariate, weights, ten groups
+for the fixed-effects section, twenty clusters, and an instrument with
+the endogenous regressor it shifts. Drawn once, at a fixed seed, and
+reused by every check below.
+
+``` r
+
+set.seed(20260826)
+N <- 100
+
+d <- data.frame(
+  z  = rbinom(N, 1, 0.5),
+  x  = rnorm(N),
+  w  = runif(N, 0.5, 2),
+  g  = rep(1:10, each = 10),
+  cl = rep(1:20, each = 5),
+  inst = rnorm(N)
+)
+d$en <- d$inst + rnorm(N, 0, 0.5)
+d$y <- 1 + 0.5 * d$z + 2 * d$x + d$en + rnorm(N)
 ```
 
-The transformed data are then used in the analysis below, where
-$`(\mathbf{X}^{\top}\mathbf{X})^{-1}`$ is now
-$`(\mathbf{X}^{\top}\mathbf{W}\mathbf{X})^{-1}`$ and $`\mathbf{X}`$ is
-now $`\mathbf{X} \mathrm{sqrt}[W]`$, where $`\mathrm{sqrt}[.]`$ is an
-operator that applies a square root to the coefficients of some matrix.
+## `lm_robust`
 
-We should note that this transformation yields the same standard errors
-as specifying weights using `aweight` in Stata for the “classical”,
-“HC0”, and “HC1” (“stata”) variance estimators. Furthermore, in the
-clustered case, our weighted estimator for the “stata” cluster-robust
-variance also matches Stata. Thus Stata’s main robust standard error
-estimators, “HC1” and their clustered estimator, match our package when
-weights are applied. Nonetheless, Stata uses a slightly different Hat
-matrix and thus “HC2” and “HC3” estimates in Stata when weights are
-specified may differ from our estimates—[more on that
-here](https://declaredesign.org/r/estimatr/articles/stata-wls-hat.md).
-
-#### Variance
-
-In addition to solving for OLS coefficients faster than `lm`, we provide
-a variety of robust variance estimators. Below we outline them for the
-non-clustered and clustered cases. You can see some simulations about
-the unbiasedness of the classical variance estimators with
-homoskedasticity and the consistency of the HC2 estimators with
-heteroskedasticity in [these
-simulations](https://declaredesign.org/r/estimatr/articles/simulations-ols-variance.md).
-
-##### Heteroskedasticity-Robust Variance and Degrees of Freedom
-
-The default variance estimator without clusters is the HC2 variance,
-first proposed by MacKinnon and White ([1985](#ref-mackinnonwhite1985)).
-This estimator has the advantage of being equivalent to a conservative
-randomization-based “Neyman” estimator of the variance ([Samii and
-Aronow 2012](#ref-samiiaronow2012)). Furthermore, while it is somewhat
-less efficient than the HC1 variance estimator, the default in Stata, it
-tends to perform better in small samples (evidence for that can be found
-in our simulations
-[here](https://declaredesign.org/r/estimatr/articles/simulations-ols-variance.html#hc1-and-hc2-in-small-samples)).
-
-| `se_type =` | Variance Estimator ($`\widehat{\mathbb{V}}[\widehat{\beta}]`$) | Degrees of Freedom | Notes |
-|----|----|----|----|
-| `"classical"` | $`\frac{\mathbf{e}^\top\mathbf{e}}{N-K} (\mathbf{X}^{\top}\mathbf{X})^{-1}`$ | N - K |  |
-| `"HC0"` | $`(\mathbf{X}^{\top}\mathbf{X})^{-1}\mathbf{X}^{\top}\mathrm{diag}\left[e_i^2\right]\mathbf{X}(\mathbf{X}^{\top}\mathbf{X})^{-1}`$ | N - K |  |
-| `"HC1"`, `"stata"` | $`\frac{N}{N-K}(\mathbf{X}^{\top}\mathbf{X})^{-1}\mathbf{X}^{\top}\mathrm{diag}\left[e_i^2\right]\mathbf{X}(\mathbf{X}^{\top}\mathbf{X})^{-1}`$ | N - K | Often called the Eicker-Huber-White variance (or similar) |
-| `"HC2"` (default) | $`(\mathbf{X}^{\top}\mathbf{X})^{-1}\mathbf{X}^{\top}\mathrm{diag}\left[\frac{e_i^2}{1-h_{ii}}\right]\mathbf{X}(\mathbf{X}^{\top}\mathbf{X})^{-1}`$ | N - K |  |
-| `"HC3"` | $`(\mathbf{X}^{\top}\mathbf{X})^{-1}\mathbf{X}{\top}\mathrm{diag}\left[\frac{e_i^2}{(1-h_{ii})^2}\right]\mathbf{X}(\mathbf{X}^{\top}\mathbf{X})^{-1}`$ | N - K |  |
-
-- $`\mathbf{x}_i`$ is the $`i`$th row of $`\mathbf{X}`$.
-- $`h_{ii} = \mathbf{x}_i(\mathbf{X}^{\top}\mathbf{X})^{-1}\mathbf{x}^{\top}_i`$
-- $`e_i = y_i - \mathbf{x}_i\widehat{\beta}`$
-- $`\mathrm{diag}[.]`$ is an operator that creates a diagonal matrix
-  from a vector
-- $`N`$ is the number of observations
-- $`K`$ is the number of elements in $`\beta`$.
-
-##### Cluster-Robust Variance and Degrees of Freedom
-
-For cluster-robust inference, we provide several estimators that are
-essentially analogs of the heteroskedastic-consistent variance
-estimators for the clustered case. Our default is the CR2 variance
-estimator, analogous to HC2 standard errors, and perform quite well in
-small samples without sacrificing much in the way of efficiency in
-larger samples. This estimator was originally proposed in Bell and
-McCaffrey ([2002](#ref-bellmccaffrey2002)), although we implement a
-generalized version of the algorithm outlined in Pustejovsky and Tipton
-([2018](#ref-pustejovskytipton2016)); these authors provide an R package
-for CR2 variance estimation,
-[clubSandwich](https://github.com/jepusto/clubSandwich), that applies
-these standard errors to a wide variety of models. For a good overview
-of the different cluster-robust variance estimators and simulations of
-their accuracy in small samples, again users can see Imbens and Kolesar
-([2016](#ref-imbenskolesar2016)). For an overview of when to use
-cluster-robust estimators, especially in an experimental setting, see
-Abadie et al. ([2017](#ref-abadieetal2017)).
-
-| `se_type =` | Variance Estimator ($`\widehat{\mathbb{V}}[\widehat{\beta}]`$) | Degrees of Freedom | Notes |
-|----|----|----|----|
-| `"CR0"` | $`(\mathbf{X}^{\top}\mathbf{X})^{-1} \sum^S_{s=1} \left[\mathbf{X}^\top_s \mathbf{e}_s\mathbf{e}^\top_s \mathbf{X}_s \right] (\mathbf{X}^{\top}\mathbf{X})^{-1}`$ | $`S - 1`$ |  |
-| `"stata"` | $`\frac{N-1}{N-K}\frac{S}{S-1} (\mathbf{X}^{\top}\mathbf{X})^{-1} \sum^S_{s=1} \left[\mathbf{X}^\top_s \mathbf{e}_s\mathbf{e}^\top_s \mathbf{X}_s \right] (\mathbf{X}^{\top}\mathbf{X})^{-1}`$ | $`S - 1`$ | The Stata variance estimator is the same as the CR0 estimate but with a special finite-sample correction. |
-| `"CR2"` (default) | $`(\mathbf{X}^{\top}\mathbf{X})^{-1} \sum^S_{s=1} \left[\mathbf{X}^\top_s \mathbf{A}_s \mathbf{e}_s\mathbf{e}^\top_s \mathbf{A}^\top_s \mathbf{X}_s \right] (\mathbf{X}^{\top}\mathbf{X})^{-1}`$ | $`\frac{\left(\sum^S_{i = 1} \mathbf{p}^\top_i \mathbf{p}_i \right)^2}{\sum^S_{i=1}\sum^S_{j=1} \left(\mathbf{p}^\top_i \mathbf{p}_j \right)^2}`$ | These estimates of the variance and degrees of freedom come from Pustejovsky and Tipton ([2018](#ref-pustejovskytipton2016)), which is an extension to certain models with a particular set of dummy variables of the method proposed by Bell and McCaffrey ([2002](#ref-bellmccaffrey2002)). Note that the degrees of freedom can vary for each coefficient. See below for more complete notation. |
-
-- $`S`$ is the number of clusters
-- $`\mathbf{X}_s`$ is the rows of $`\mathbf{X}`$ that belong to cluster
-  $`s`$
-- $`I_n`$ is an identity matrix of size $`n\times n`$
-- $`\mathbf{e}_s`$ is the elements of the residual matrix $`\mathbf{e}`$
-  in cluster $`s`$, or
-  $`\mathbf{e}_s = \mathbf{y}_s - \mathbf{X}_s \widehat{\beta}`$
-- $`\mathbf{A}_s`$ and $`\mathbf{p}`$ are defined in the notes below
-
-**Further notes on CR2:** The variance estimator we implement is shown
-in equations (4) and (5) in Pustejovsky and Tipton
-([2018](#ref-pustejovskytipton2016)) and equation (11), where we set
-$`\mathbf{\Phi}`$ to be $`I`$, following Bell and McCaffrey
-([2002](#ref-bellmccaffrey2002)). Further note that the Pustejovsky and
-Tipton ([2018](#ref-pustejovskytipton2016)) CR2 estimator and the Bell
-and McCaffrey ([2002](#ref-bellmccaffrey2002)) estimator are identical
-when $`\mathbf{B_s}`$ is full rank. It could be rank-deficient if there
-were dummy variables, or fixed effects, that were also your clusters. In
-this case, the original Bell and McCaffrey
-([2002](#ref-bellmccaffrey2002)) estimator could not be computed. You
-can see the simpler Bell and McCaffrey ([2002](#ref-bellmccaffrey2002))
-estimator written up plainly on page 709 of Imbens and Kolesar
-([2016](#ref-imbenskolesar2016)) along with the degrees of freedom
-denoted as $`K_{BM}`$.
-
-In the CR2 variance calculation, we get $`\mathbf{A}_s`$ as follows:
+### Coefficients
 
 ``` math
-\begin{aligned}
-\mathbf{H} &= \mathbf{X}(\mathbf{X}^{\top}\mathbf{X})^{-1}\mathbf{X}^\top \\\\\\
-\mathbf{B}_s &= (I_{N} - \mathbf{H})_s (I_{N} - \mathbf{H})^\top_s \\\\\\
-\mathbf{A}_s &= \mathbf{B}^{+1/2}_s
-\end{aligned}
+\widehat{\beta} = (\mathbf{X}^{\top}\mathbf{X})^{-1}\mathbf{X}^{\top}\mathbf{y}
 ```
 
-where $`\mathbf{B}^{+1/2}_s`$ is the symmetric square root of the
-Moore–Penrose inverse of $`\mathbf{B}_s`$ and $`(I - \mathbf{H})_s`$ are
-the $`N_s`$ columns that correspond to cluster $`s`$. To get the
-corresponding degrees of freedom, note that
+The solver is a rank-revealing column-pivoting QR factorization from the
+Eigen C++ library, reached through `RcppEigen`, so
+$`(\mathbf{X}^{\top}\mathbf{X})^{-1}`$ is never formed explicitly. On a
+rank-deficient design the pivoting can drop a different column than
+[`lm()`](https://rdrr.io/r/stats/lm.html) drops; the fitted values and
+the variance are the same either way, but which coefficient comes back
+`NA` may differ. Unlike 1.x, estimatr names the dropped terms in a
+warning rather than leaving them to be noticed in the output. Setting
+`try_cholesky = TRUE` substitutes a Cholesky factorization, which is
+faster and is guaranteed only when $`\mathbf{X}`$ has full rank.
+
+**The promise: the point estimates are least squares.**
+[`lm()`](https://rdrr.io/r/stats/lm.html) is the reference, since it
+solves the same problem by a different factorization.
+
+``` r
+
+check("lm_robust()",
+      coef(lm_robust(y ~ z + x, data = d)),
+      coef(lm(y ~ z + x, data = d)))
+#>       gap holds
+#> 1 7.8e-16  TRUE
+```
+
+### Weights
+
+Weights are scaled to sum to one, then each row of the design matrix and
+each outcome are multiplied by $`\sqrt{w_i}`$. Estimation proceeds on
+the transformed data, which gives
 
 ``` math
-\mathbf{p}_s = (I_N - \mathbf{H})^\top_s \mathbf{A}_s \mathbf{X}_s (\mathbf{X}^{\top}\mathbf{X})^{-1} \mathbf{z}_{k}
-```
-where $`\mathbf{z}_{k}`$ is a vector of length $`K`$, the number of
-coefficients, where the $`k`$th element is 1 and all other elements are
-0. The $`k`$ signifies the coefficient for which we are computing the
-degrees of freedom.
-
-#### Confidence intervals and hypothesis testing
-
-If $`\widehat{\mathbb{V}}_k`$ is the $`k`$th diagonal element of
-$`\widehat{\mathbb{V}}`$, we build confidence intervals using the user
-specified $`\alpha`$ as:
-
-``` math
-\mathrm{CI}^{1-\alpha} = \left(\widehat{\beta_k} + t^{df}_{\alpha/2} \sqrt{\widehat{\mathbb{V}}_k}, \widehat{\beta_k} + t^{df}_{1 - \alpha/2} \sqrt{\widehat{\mathbb{V}}_k}\right)
+\widehat{\beta} = (\mathbf{X}^{\top}\mathbf{W}\mathbf{X})^{-1}\mathbf{X}^{\top}\mathbf{W}\mathbf{y}.
 ```
 
-We also provide two-sided p-values using a t-distribution with the
-aforementioned significance level $`\alpha`$ and degrees of freedom
-$`df`$.
+Romano and Wolf ([2017](#ref-romanowolf2017)) set out the properties
+that recommend the estimator. Everything below applies to the
+transformed data, so $`(\mathbf{X}^{\top}\mathbf{X})^{-1}`$ should be
+read as $`(\mathbf{X}^{\top}\mathbf{W}\mathbf{X})^{-1}`$ and
+$`\mathbf{X}`$ as $`\mathbf{W}^{1/2}\mathbf{X}`$ wherever weights are in
+play.
 
-### `lm_lin` notes
+A row with weight zero contributes nothing to the fit and is not counted
+as an observation in the residual degrees of freedom or in the HC1 and
+`"stata"` scale factors, which is how
+[`lm()`](https://rdrr.io/r/stats/lm.html) counts it too. The row is
+still returned in `residuals` and `fitted.values`.
 
-The [`lm_lin`](#lm_lin) estimator is a data pre-processor for
-`lm_robust` that implements the regression method for covariate
-adjustment suggested by Lin ([2013](#ref-lin2013)).
+**The promise: the weighted fit is weighted least squares.**
 
-This estimator works by taking the outcome and treatment variable as the
-main formula (`formula`) and takes a right-sided formula of all
-pre-treatment covariates (`covariates`). These pre-treatment covariates
-are then centered to be mean zero and interacted with the treatment
-variable before being added to the formula and passed to `lm_robust`. In
-other words, instead of fitting a simple model adjusting for
-pre-treatment covariates such as
+``` r
 
-``` math
-y_i = \tau z_i + \mathbf{\beta}^\top \mathbf{x}_i + \epsilon_i
+check("lm_robust(weights = )",
+      coef(lm_robust(y ~ z + x, data = d, weights = w)),
+      coef(lm(y ~ z + x, data = d, weights = w)))
+#>       gap holds
+#> 1 1.2e-15  TRUE
 ```
 
-with the following model
+### Heteroskedasticity-robust variance
 
-``` math
-y_i = \tau z_i + \mathbf{\beta}^\top \mathbf{x}^c_i  + \mathbf{\gamma}^\top \mathbf{x}^c_i z_i + \epsilon_i
-```
+The default is HC2, from MacKinnon and White
+([1985](#ref-mackinnonwhite1985)). It is the choice that lines up with
+design-based inference: under complete randomization the HC2 variance of
+a treatment coefficient equals the conservative Neyman estimator ([Samii
+and Aronow 2012](#ref-samiiaronow2012)). Against the HC1 variance that
+Stata defaults to it gives up a little efficiency in large samples and
+is better behaved in small ones, which is the reason for the default.
 
-where $`\mathbf{x}^c_i`$ is a vector of pre-treatment covariates for
-unit $`i`$ that have been centered to have mean zero and $`z_i`$ is an
-indicator for the treatment group. Lin ([2013](#ref-lin2013)) proposed
-this estimator in response to the critique by Freedman
-([2008](#ref-freedman2008)) that using regression to adjust for
-pre-treatment covariates could bias estimates of treatment effects.
-
-The estimator `lm_lin` also works for multi-valued treatments by
-creating a full set of dummies for each treatment level and interacting
-each with the centered pre-treatment covariates. The rest of the options
-for the function and corresponding estimation is identical to
-[`lm_robust`](#lm_robust).
-
-### `iv_robust` notes
-
-Our [`iv_robust`](#iv_robust) estimator uses a two-stage least squares
-estimation.
-
-#### Coefficient estimates
-
-``` math
-\widehat{\beta}_{2SLS} =(\mathbf{X}^{\top}\mathbf{P_z}\mathbf{X})^{-1}\mathbf{X}^{\top}\mathbf{P_z}\mathbf{y},
-```
-
-where $`\mathbf{X}`$ are the endogenous regressors,
-$`\mathbf{P_Z} = \mathbf{Z}(\mathbf{Z}^{\top}\mathbf{Z})^{-1}\mathbf{Z}^\top`$,
-and $`\mathbf{Z}`$ are the instruments. This is equivalent to estimating
-the first stage regression,
-
-``` math
-\mathbf{X} = \mathbf{Z}\beta_{FS} + \mathbf{\zeta},
-```
-
-and using the first stage predicted values in the second stage
-regression,
-
-``` math
-\begin{aligned}
-\widehat{\mathbf{X}} &= \mathbf{Z}\widehat{\beta}_{FS} \\
-\mathbf{y} &= \widehat{\mathbf{X}}\beta_{2SLS} + \mathbf{\epsilon}.
-\end{aligned}
-```
-
-##### Weighting
-
-When weights are applied, we use the same estimation strategy as in
-`lm_robust` where we first transform the data by the square root of the
-weights and proceed with estimation as usual.
-
-#### Variance
-
-The variances estimates for `iv_robust` are the same as the estimates
-for `lm_robust` although two changes are made. First, we replace
-$`\mathbf{X}`$ with the second stage regressors,
-$`\widehat{\mathbf{X}}`$, and we replace the residuals, $`e_i`$, with
-$`\mathbf{y} - \mathbf{X} \beta_{2SLS}`$. That is, we use the residuals
-from the final coefficients and the endogenous, uninstrumented
-regressors $`\mathbf{X}`$.
-
-Because Stata does not default to using finite sample corrections and
-tests with its `ivregress 2sls` estimator, the correspondence between
-our instrumental variables estimator and theirs can be a bit unclear.
-The following table shows the options in Stata that correspond to our
-estimators.
-
-| `estimatr` | Stata | Notes |
+| `se_type` | $`\widehat{\mathbb{V}}[\widehat{\beta}]`$ | Degrees of freedom |
 |----|----|----|
-| N/A | `ivregress 2sls y (x = z)` | Stata’s default has no finite sample correction (i.e., $`\widehat{\sigma}^2 = \mathbf{e}^\top \mathbf{e}`$). Stata here also uses z-tests. |
-| `iv_robust(y ~ x | z, se_type = "classical")` | `ivregress 2sls y (x = z), small` | $`\widehat{\sigma}^2 = \frac{\mathbf{e}^\top \mathbf{e}}{N - k}`$. |
-| `iv_robust(y ~ x | z, se_type = "HC0")` | `ivregress 2sls y (x = z), rob` | Stata uses z-tests here. |
-| `iv_robust(y ~ x | z, se_type = "HC1")` | `ivregress 2sls y (x = z), rob small` |  |
-| `iv_robust(y ~ x | z, se_type = "HC2")` (default) | N/A |  |
-| `iv_robust(y ~ x | z, se_type = "HC3")` | N/A |  |
-| `iv_robust(y ~ x | z, clusters = clust,` `se_type = "CR0")` | `ivregress 2sls y (x = z), vce(cl clust)` | Stata uses z-tests here. |
-| `iv_robust(y ~ x | z, clusters = clust,` `se_type = "stata")` | `ivregress 2sls y (x = z), vce(cl clust) small` |  |
-| `iv_robust(y ~ x | z, clusters = clust,` `se_type = "CR2")` (default) | N/A |  |
+| `"classical"` | $`\frac{\mathbf{e}^\top\mathbf{e}}{N-K}(\mathbf{X}^{\top}\mathbf{X})^{-1}`$ | $`N-K`$ |
+| `"HC0"` | $`(\mathbf{X}^{\top}\mathbf{X})^{-1}\mathbf{X}^{\top}\mathrm{diag}\left[e_i^2\right]\mathbf{X}(\mathbf{X}^{\top}\mathbf{X})^{-1}`$ | $`N-K`$ |
+| `"HC1"`, `"stata"` | $`\frac{N}{N-K}(\mathbf{X}^{\top}\mathbf{X})^{-1}\mathbf{X}^{\top}\mathrm{diag}\left[e_i^2\right]\mathbf{X}(\mathbf{X}^{\top}\mathbf{X})^{-1}`$ | $`N-K`$ |
+| `"HC2"` (default) | $`(\mathbf{X}^{\top}\mathbf{X})^{-1}\mathbf{X}^{\top}\mathrm{diag}\left[\frac{e_i^2}{1-h_{ii}}\right]\mathbf{X}(\mathbf{X}^{\top}\mathbf{X})^{-1}`$ | $`N-K`$ |
+| `"HC3"` | $`(\mathbf{X}^{\top}\mathbf{X})^{-1}\mathbf{X}^{\top}\mathrm{diag}\left[\frac{e_i^2}{(1-h_{ii})^2}\right]\mathbf{X}(\mathbf{X}^{\top}\mathbf{X})^{-1}`$ | $`N-K`$ |
 
-#### Confidence intervals and hypothesis testing
+where
+$`h_{ii} = \mathbf{x}_i(\mathbf{X}^{\top}\mathbf{X})^{-1}\mathbf{x}_i^{\top}`$
+is the $`i`$th leverage value. Long and Ervin
+([2000](#ref-longervin2000)) review the family and its small-sample
+behaviour.
 
-If $`\widehat{\mathbb{V}}_k`$ is the $`k`$th diagonal element of
-$`\widehat{\mathbb{V}}`$, we build confidence intervals using the user
-specified $`\alpha`$ as:
+Transcribed, the four robust members of that column are one function.
+`bread` is $`(\mathbf{X}^{\top}\mathbf{X})^{-1}`$, `h` the leverage
+diagonal, and `adj` the bracketed term that distinguishes them.
 
-``` math
-\mathrm{CI}^{1-\alpha} = \left(\widehat{\beta_{2SLS, k}} + t^{df}_{\alpha/2} \sqrt{\widehat{\mathbb{V}}_k}, \widehat{\beta_{2SLS, k}} + t^{df}_{1 - \alpha/2} \sqrt{\widehat{\mathbb{V}}_k}\right)
+``` r
+
+hc_vcov <- function(fit, type) {
+  X <- model.matrix(fit)
+  e <- residuals(fit)
+  bread <- solve(crossprod(X))
+  h <- rowSums((X %*% bread) * X)
+  n <- nrow(X)
+  k <- ncol(X)
+  adj <- switch(type,
+    HC0 = e^2,
+    HC1 = e^2 * n / (n - k),
+    HC2 = e^2 / (1 - h),
+    HC3 = e^2 / (1 - h)^2
+  )
+  bread %*% crossprod(X * sqrt(adj)) %*% bread
+}
 ```
 
-We also provide two-sided p-values using a t-distribution with the
-aforementioned significance level $`\alpha`$ and degrees of freedom
-$`df`$, which come from the second-stage regression. As mentioned in the
-table above, these results will be different from Stata in certain cases
-as Stata uses z-tests when `small` is not specified.
+**The promise: the classical variance is the textbook one, and each
+robust variance is its own row of that table.**
 
-### `difference_in_means` notes
+``` r
 
-There are six kinds of experimental designs for which our
-[`difference_in_means`](#difference_in_means) estimator can estimate
-treatment effects, standard errors, confidence intervals, and provide
-p-values. We list the different designs here along with how the software
-learns the design:
+fit_lm <- lm(y ~ z + x, data = d)
 
-- Simple (both `clusters` and `blocks` are unused)
-- Clustered (`clusters` is specified while `blocks` is not)
-- Blocked (`blocks` is specified while `clusters` is not)
-- Blocked and clustered (both are specified)
+check("lm_robust(se_type = 'classical')",
+      lm_robust(y ~ z + x, data = d, se_type = "classical")$vcov,
+      vcov(fit_lm))
+#>       gap holds
+#> 1 6.9e-17  TRUE
 
-There are two subsets of blocked designs that we also consider:
-
-- Matched-pairs (only `blocks` is specified and all blocks are size two)
-- Matched-pair clustered design (both names are specified and each block
-  only has two clusters)
-
-Note: if there are blocks of size two and blocks greater than size two,
-we default to the matched-pairs estimators described below.
-
-For each design, our estimator is informed by the recent statistical
-literature on the analysis of experimental data.
-
-#### Estimates
-
-**Any unblocked design**
-``` math
-\widehat{\tau} = \frac{1}{N} \sum^N_{i=1} z_i y_i - (1 - z_i) y_i
-```
-where $`z_i`$ is the treatment variable, $`y_i`$ is the outcome, and
-$`N`$ is the total number of units.
-
-**Blocked design (including matched-pairs designs)**
-``` math
-\widehat{\tau} = \sum^J_{j=1} \frac{N_j}{N} \widehat{\tau_j}
-```
-where $`J`$ is the number of blocks, $`N_j`$ is the size of those
-blocks, and $`\widehat{\tau_j}`$ is the estimated difference-in-means in
-block $`j`$.
-
-##### Weighting
-
-If the user specifies weights, treatment effects (or block-level
-treatment effects) and their standard errors are estimated by
-`lm_robust`. There are three exceptions. First, we still compute the
-degrees of freedom as in the below table. Second, if the design is
-blocked, a weighted treatment effect and variance estimate are computed
-within each block using `lm_robust` and then combined as below. Third,
-specifying weights with a matched-pairs estimator in
-`difference_in_means` is not supported at the moment.
-
-#### Variance and Degrees of Freedom
-
-| Design type | Variance $`\widehat{\mathbb{V}}[\widehat{\tau}]`$ | Degrees of Freedom | Notes |
-|----|----|----|----|
-| No blocks or clusters (standard) | $`\frac{\widehat{\mathbb{V}}[y_{i,0}]}{N_0} + \frac{\widehat{\mathbb{V}}[y_{i,1}]}{N_1}`$ | $`\widehat{\mathbb{V}}[\widehat{\tau}]^2 \left(\frac{(\widehat{\mathbb{V}}[y_{i,1}]/ N_1)^2}{N_1 - 1} + \frac{(\widehat{\mathbb{V}}[y_{i,0}]/ N_0)^2}{N_0 - 1}\right)`$ | Where $`\widehat{\mathbb{V}}[y_{i,k}]`$ is the Bessel-corrected variance of all units where $`z_i = k`$ and $`N_k`$ is the number of units in condition $`k`$. This is equivalent to the variance and Welch–Satterthwaite approximation of the degrees of freedom used by R’s `t.test`. |
-| Blocked | $`\sum^J_{j=1} \left(\frac{N_j}{N}\right)^2 \widehat{\mathbb{V}}[\widehat{\tau_j}]`$ | $`N - 2 * J`$ | Where $`\widehat{\mathbb{V}}[\widehat{\tau_j}]`$ is the variance of the estimated difference-in-means in block $`j`$. See footnote 17 on page 74 of ([Gerber and Green 2012](#ref-gerbergreen2012)) for a reference. The degrees of freedom are equivalent to a regression with a full set of block specific treatment effects. |
-| Clusters | Same as `lm_robust` CR2 estimator | Same as `lm_robust` CR2 estimator | This variance is the same as that recommended by Gerber and Green ([2012](#ref-gerbergreen2012)) in equation 3.23 on page 83 when the clusters are even sizes. |
-| Blocked and clustered | $`\sum^J_{j=1} \left(\frac{N_j}{N}\right)^2 \widehat{\mathbb{V}}[\widehat{\tau_j}]`$ | $`S - 2 * J`$ | Where $`\widehat{\mathbb{V}}[\widehat{\tau_j}]`$ is the variance of the estimated difference-in-means in block $`j`$ and S is the number of clusters. See footnote 17 on page 74 of Gerber and Green ([2012](#ref-gerbergreen2012)) for a reference. The degrees of freedom are equivalent to a regression on data collapsed by cluster with a full set of block specific treatment effects. |
-| Matched pairs | $`\frac{1}{J(J-1)} \sum^J_{j=1} \left(\widehat{\tau_j} - \widehat{\tau}\right)^2`$ | $`J - 1`$ | See equation 3.16 on page 77 of Gerber and Green ([2012](#ref-gerbergreen2012)) for a reference. |
-| Matched pair cluster randomized | $`\frac{J}{(J-1)N^2} \sum^J_{j=1} \left(N_j \widehat{\tau_j} - \frac{N \widehat{\tau}}{J}\right)^2`$ | $`J - 1`$ | See the variance for the SATE defined in equation 6 on page 36 of ([Imai et al. 2009](#ref-imaietal2009)) and the suggested degrees of freedom on page 37. |
-
-#### Confidence intervals and hypothesis testing
-
-We build confidence intervals using the user specified $`\alpha`$ as:
-
-``` math
-\mathrm{CI}^{1-\alpha} = \left(\widehat{\tau} + t^{df}_{\alpha/2} \sqrt{\widehat{\mathbb{V}}[\widehat{\tau}]},\widehat{\tau}] + t^{df}_{1 - \alpha/2} \sqrt{\widehat{\mathbb{V}}[\widehat{\tau}]}\right)
+do.call(rbind, lapply(c("HC0", "HC1", "HC2", "HC3"), function(ty) {
+  cbind(se_type = ty,
+        check(paste0("lm_robust(se_type = '", ty, "')"),
+              lm_robust(y ~ z + x, data = d, se_type = ty)$vcov,
+              hc_vcov(fit_lm, ty)))
+}))
+#>   se_type     gap holds
+#> 1     HC0 5.6e-17  TRUE
+#> 2     HC1 9.7e-17  TRUE
+#> 3     HC2 8.3e-17  TRUE
+#> 4     HC3 6.9e-17  TRUE
 ```
 
-We also provide two-sided p-values using a t-distribution with the
-aforementioned significance level $`\alpha`$ and degrees of freedom
-$`df`$.
+#### Leverage at and above one
 
-### `horvitz_thompson` notes
+HC2 and HC3 divide by $`1 - h_{ii}`$, so a leverage value at or above
+one is a special case rather than an ordinary one.
 
-We provide Horvitz-Thompson estimators for two-armed trials and can be
-used to estimate unbiased treatment effects when the randomization is
-known. Horvitz-Thompson estimators require information about the
-probability each unit is in treatment and control, as well as the joint
-probability each unit is in the treatment, in the control, and in
-opposite treatment conditions.
+Leverage exactly equal to one is benign. The residual is exactly zero,
+the contribution is a $`0/0`$ that resolves to zero, and the standard
+error is finite. Leverage marginally above one is not benign, and it
+happens: a near-saturated design can compute $`h_{ii} = 1 + 10^{-16}`$,
+at which point $`1 - h_{ii}`$ is negative. Under HC3 that row
+contributes a negative term to a variance. Under HC2 the implementation
+takes a square root of it, so a single such row turns *every* standard
+error in the fit into `NaN`, however small the offending quantity.
 
-The estimator we implement here,
-[`horvitz_thompson()`](https://declaredesign.org/r/estimatr/reference/horvitz_thompson.md),
-can be told the design of an experiment in several ways, and the
-reference page is a good place to see some of those examples. Users can
-see a description of the estimator and its properties in Aronow and
-Middleton ([2013](#ref-aronowmiddleton2013)), Middleton and Aronow
-([2015](#ref-middletonaronow2015)), and Aronow and Samii
-([2017](#ref-aronowsamii2017)).
+estimatr 2.0 sets the contribution of any row with $`1 - h_{ii} \le 0`$
+to zero and warns, naming how many rows were affected. estimatr 1.0.6
+returned `NaN` for HC2 and a silently inflated number for HC3 on the
+same designs. The CR2 estimator below has no analogous hole: it never
+forms $`1 - h_{ii}`$, and the eigenvalue clamp described there covers
+the degenerate case.
 
-Some definitions used below:
+Note what the check above does and does not cover. `d` is well
+conditioned, with a hundred observations and three parameters, so no
+leverage in it comes near one. The degenerate designs are checked in the
+suite, not here, which is a limit this document shares with any table
+built on [`rnorm()`](https://rdrr.io/r/stats/Normal.html).
 
-- $`\pi_{zi}`$ is the marginal probability of being in condition
-  $`z \in \{0, 1\}`$ for unit i
-- $`\pi_{ziwj}`$ is the joint probability of unit $`i`$ being in
-  condition $`z`$ and unit $`j`$ being in condition $`w \in \{0, 1\}`$
-- $`\epsilon_{ziwj}`$ is the indicator function
-  $`\mathbb{1}\left(\pi_{ziwj} = 0\right)`$
+### Cluster-robust variance
 
-#### Estimates
+The cluster-robust estimators are the analogues of the
+heteroskedasticity-consistent ones. The default is CR2, from Bell and
+McCaffrey ([2002](#ref-bellmccaffrey2002)), in the generalized form of
+Pustejovsky and Tipton ([2018](#ref-pustejovskytipton2018)), whose
+`clubSandwich` package applies the same correction across a wider range
+of models. Imbens and Kolesár ([2016](#ref-imbenskolesar2016)) compare
+the alternatives in small samples.
 
-**Simple, complete, clustered**
+| `se_type` | $`\widehat{\mathbb{V}}[\widehat{\beta}]`$ | Degrees of freedom |
+|----|----|----|
+| `"CR0"` | $`(\mathbf{X}^{\top}\mathbf{X})^{-1}\sum_{s=1}^{S}\left[\mathbf{X}_s^\top\mathbf{e}_s\mathbf{e}_s^\top\mathbf{X}_s\right](\mathbf{X}^{\top}\mathbf{X})^{-1}`$ | $`S-1`$ |
+| `"stata"` | $`\frac{N-1}{N-K}\frac{S}{S-1}\times`$ the CR0 expression | $`S-1`$ |
+| `"CR2"` (default) | $`(\mathbf{X}^{\top}\mathbf{X})^{-1}\sum_{s=1}^{S}\left[\mathbf{X}_s^\top\mathbf{A}_s\mathbf{e}_s\mathbf{e}_s^\top\mathbf{A}_s^\top\mathbf{X}_s\right](\mathbf{X}^{\top}\mathbf{X})^{-1}`$ | Satterthwaite, below |
 
-``` math
-\widehat{\tau} = \frac{1}{N} \sum^N_{i=1} z_i \frac{y_i}{\pi_{1i}} - (1 - z_i) \frac{y_i}{\pi_{0i}}
+Transcribed, CR0 is the same bread with the meat summed over clusters
+instead of over observations, and `"stata"` is CR0 times two
+finite-sample corrections.
+
+``` r
+
+cr_vcov <- function(fit, cluster, stata = FALSE) {
+  X <- model.matrix(fit)
+  e <- residuals(fit)
+  bread <- solve(crossprod(X))
+  meat <- Reduce(`+`, lapply(split(seq_len(nrow(X)), cluster), function(i) {
+    tcrossprod(crossprod(X[i, , drop = FALSE], e[i]))
+  }))
+  v <- bread %*% meat %*% bread
+  if (!stata) return(v)
+  S <- length(unique(cluster))
+  v * (S / (S - 1)) * ((nrow(X) - 1) / (nrow(X) - ncol(X)))
+}
 ```
 
-**Blocked**
+**The promise: CR0 is the cluster sandwich, and `"stata"` is CR0 times
+Stata’s two corrections.**
 
-``` math
-\widehat{\tau} = \sum^J_{j=1} \frac{N_j}{N} \widehat{\tau_j}
+``` r
+
+check("lm_robust(clusters = )",
+      lm_robust(y ~ z + x, data = d, clusters = cl, se_type = "CR0")$vcov,
+      cr_vcov(fit_lm, d$cl))
+#>       gap holds
+#> 1 1.2e-16  TRUE
+
+check("lm_robust(se_type = 'stata')",
+      lm_robust(y ~ z + x, data = d, clusters = cl, se_type = "stata")$vcov,
+      cr_vcov(fit_lm, d$cl, stata = TRUE))
+#>       gap holds
+#> 1 1.1e-16  TRUE
 ```
-where $`J`$ is the number of blocks, $`N_j`$ is the size of those
-blocks, and $`\widehat{\tau_j}`$ is the Horvitz-Thompson estimate in
-block $`j`$.
 
-#### Variance
-
-Currently we provide variance estimates that rely on two separate
-assumptions:
-
-- `"youngs"` which implements a conservative variance estimate using
-  Young’s inequality, described in equation 35 on page 147 of Aronow and
-  Middleton ([2013](#ref-aronowmiddleton2013)) and in Aronow and Samii
-  ([2017](#ref-aronowsamii2017)) on pages 11-15.
-- `"constant"` which assumes constant treatment effects across all units
-  but is less conservative. We only provide this estimator for simple
-  randomized experiments.
-
-**Young’s inequality**
-
-For designs that that are not clustered we use the following variance:
+CR2 is the one member of the family whose reference is not a few lines
+of base R, so it is checked in the suite against `clubSandwich` instead,
+live and at $`10^{-10}`$. The adjustment matrices come from
 
 ``` math
 \begin{aligned}
-  \widehat{\mathbb{V}}_{Y}[\widehat{\tau}] = \frac{1}{N^2} \sum^N_{i=1} \Bigg[& z_i \left(\frac{y_i}{\pi_{1i}}\right)^2 + (1 - z_i) \left(\frac{y_i}{\pi_{0i}}\right)^2 + \sum_{j \neq i} \bigg(\frac{z_i z_j}{\pi_{1i1j} + \epsilon_{1i1j}}(\pi_{1i1j} - \pi_{1i}\pi_{1j})\frac{y_i}{\pi_{1i}}\frac{y_j}{\pi_{1j}} \\\\\\
-  & + \frac{(1-z_i) (1-z_j)}{\pi_{0i0j} + \epsilon_{0i0j}}(\pi_{0i0j} - \pi_{0i}\pi_{0j})\frac{y_i}{\pi_{0i}}\frac{y_j}{\pi_{0j}} - 2 \frac{z_i (1-z_j)}{\pi_{1i0j} + \epsilon_{1i0j}}(\pi_{1i0j} - \pi_{1i}\pi_{0j})\frac{y_i}{\pi_{1i}}\frac{y_j}{\pi_{0j}} \\\\\\
-  & + \sum_{\forall j \colon \pi_{1i1j} = 0} \left( z_i \frac{y^2_i}{2\pi_{1i}} + z_j \frac{y^2_j}{\pi_{1j}}\right) + \sum_{\forall j \colon \pi_{0i0j} = 0} \left( (1-z_i) \frac{y^2_i}{2\pi_{0i}} + (1-z_j) \frac{y^2_j}{\pi_{0j}}\right)
-  \Bigg]
+\mathbf{H} &= \mathbf{X}(\mathbf{X}^{\top}\mathbf{X})^{-1}\mathbf{X}^\top \\
+\mathbf{B}_s &= (\mathbf{I}_N - \mathbf{H})_s (\mathbf{I}_N - \mathbf{H})_s^\top \\
+\mathbf{A}_s &= \mathbf{B}_s^{+1/2}
 \end{aligned}
 ```
 
-There are some simplifications of the above for simpler designs that
-follow algebraically from the above. For example, if there are no two
-units for which the joint probability of being in either condition is 0,
-which is the case for most experiments that are not matched-pair
-experiments, then we get:
+where $`(\mathbf{I}_N - \mathbf{H})_s`$ are the $`N_s`$ columns
+belonging to cluster $`s`$ and $`\mathbf{B}_s^{+1/2}`$ is the symmetric
+square root of the Moore-Penrose inverse. estimatr reaches that inverse
+through an eigendecomposition with eigenvalues clamped below
+$`10^{-12}`$, which is what lets a rank-deficient cluster (fixed effects
+that coincide with the clusters, for instance) return an answer where
+the Bell and McCaffrey ([2002](#ref-bellmccaffrey2002)) form could not
+be computed at all. The two forms agree whenever $`\mathbf{B}_s`$ has
+full rank.
+
+The degrees of freedom are computed per coefficient:
 
 ``` math
-\begin{aligned}
-  \widehat{\mathbb{V}}_{Y}[\widehat{\tau}] = \frac{1}{N^2} \sum^N_{i=1} \Bigg[& z_i \left(\frac{y_i}{\pi_{1i}}\right)^2 + (1 - z_i) \left(\frac{y_i}{\pi_{0i}}\right)^2 + \sum_{j \neq i} \bigg(\frac{z_i z_j}{\pi_{1i1j}}(\pi_{1i1j} - \pi_{1i}\pi_{1j})\frac{y_i}{\pi_{1i}}\frac{y_j}{\pi_{1j}} \\\\\\
-  & + \frac{(1-z_i) (1-z_j)}{\pi_{0i0j}}(\pi_{0i0j} - \pi_{0i}\pi_{0j})\frac{y_i}{\pi_{0i}}\frac{y_j}{\pi_{0j}} - 2 \frac{z_i (1-z_j)}{\pi_{1i0j}}(\pi_{1i0j} - \pi_{1i}\pi_{0j})\frac{y_i}{\pi_{1i}}\frac{y_j}{\pi_{0j}}
-  \Bigg]
-\end{aligned}
+\mathrm{df}_k = \frac{\left(\sum_{s=1}^{S}\mathbf{p}_s^\top\mathbf{p}_s\right)^2}{\sum_{s=1}^{S}\sum_{t=1}^{S}\left(\mathbf{p}_s^\top\mathbf{p}_t\right)^2},
+\qquad
+\mathbf{p}_s = (\mathbf{I}_N - \mathbf{H})_s^\top\mathbf{A}_s\mathbf{X}_s(\mathbf{X}^{\top}\mathbf{X})^{-1}\mathbf{z}_k
 ```
 
-If we further simplify to the case where there is simple random
-assignment, and there is absolutely no dependence among units (i.e.,
-$`\pi_{ziwj} = \pi_{zi}\pi_{wj} \;\;\forall\;\;z,w,i,j`$), we get:
+with $`\mathbf{z}_k`$ the $`k`$th standard basis vector. Different
+coefficients in one fit can therefore carry different degrees of
+freedom.
+
+**Under weights, CR2 and HC2 follow different conventions, and the
+difference is invisible at the call site.** CR2’s small-sample
+adjustment is built against a working model with identity covariance,
+$`\mathbf{\Phi} = \mathbf{I}`$, where the weighted HC2 adjustment is
+built against precision weights. In `clubSandwich`’s terms the weighted
+CR2 here is `vcovCR(..., inverse_var = FALSE)` and the weighted HC2 is
+`inverse_var = TRUE`. Each is internally consistent; they are not the
+same convention as one another, and the choice is inherited from
+estimatr 1.0.6 rather than made here. Both halves are pinned explicitly
+in `tests/testthat/test_vs_clubsandwich.R`, with `inverse_var` named on
+each side so that a change in `clubSandwich`’s default fails the test
+rather than quietly asserting the other convention.
+
+**One cluster is refused.** A cluster-robust variance needs variation
+across clusters. Given a single cluster, estimatr 1.0.6 returned a
+standard error of about $`6 \times 10^{-17}`$ and a confidence interval
+of zero width, in silence. estimatr 2.0 raises an error.
+
+### Absorbed fixed effects
+
+`fixed_effects = ~ g` partials the dummies for `g` out of the outcome
+and the covariates rather than adding them as columns. Point estimates
+are identical to the dummy regression by the Frisch-Waugh-Lovell
+theorem. The variance is where the work is, because HC2 and HC3 are
+built from the leverage values of the *full* design, the one with every
+dummy in it, which absorbing is precisely the decision not to build.
+
+The way out is an identity. Write $`\mathbf{D}`$ for the matrix of
+fixed-effect dummies and $`\mathbf{M_D} = \mathbf{I} - \mathbf{P_D}`$
+for the residual-maker that demeans. The projection onto the full design
+splits exactly:
 
 ``` math
-\begin{aligned}
-  \widehat{\mathbb{V}}_{Y}[\widehat{\tau}] = \frac{1}{N^2} \sum^N_{i=1} \Bigg[& z_i \left(\frac{y_i}{\pi_{1i}}\right)^2 + (1 - z_i) \left(\frac{y_i}{\pi_{0i}}\right)^2\Bigg]
-\end{aligned}
+\mathbf{P}_{[\mathbf{X}\,|\,\mathbf{D}]} = \mathbf{P_D} + \mathbf{P}_{\mathbf{M_D}\mathbf{X}}
 ```
 
-**Clustered designs**
+so each leverage value of the full design is the leverage value of the
+*demeaned* covariates, which the fitter already has, plus the $`i`$th
+diagonal element of $`\mathbf{P_D}`$, which is cheap:
 
-For clustered designs, we use the following collapsed estimator by
-setting `collapsed = TRUE`. Here, $`M`$ is the total number of clusters,
-$`y_k`$ is the total of the outcomes $`y_i`$ for all $`i`$ units in
-cluster $`k`$, $`\pi_zk`$ is the marginal probability of cluster $`k`$
-being in condition $`z \in \{0, 1\}`$, and $`z_k`$ and $`\pi_{zkwl}`$
-are defined analogously. Warning! If one passes `condition_pr_mat` to
-`horvitz_thompson` for a clustered design, but not `clusters`, the
-function will not use the collapsed estimator the the variance estimate
-will be inaccurate.
+- **One factor.** $`\mathbf{P_D}`$ is diagonal and the term is the
+  unit’s share of its own group’s weight,
+  $`w_i / \sum_{j \in g(i)} w_j`$. Unweighted, that is one over the
+  group’s size.
+- **Several factors.** Write $`\mathbf{D}`$ with the widest factor in
+  full dummies and the rest contrast-coded. The leading block of
+  $`\mathbf{D}^\top\mathbf{W}\mathbf{D}`$ is then diagonal, so block
+  inversion needs only the Schur complement, a matrix of side
+  $`\sum_{k>1}(g_k - 1)`$: the design’s narrowest dimension rather than
+  its widest. No dummy matrix is built at any number of factors.
+
+The identity holds for any number of factors, so HC2 and HC3 carry no
+restriction under `fixed_effects`. CR2 is the exception: its correction
+comes from cluster-level *blocks* of the hat matrix rather than from the
+diagonal, and blocks do not decompose this way, so CR2 still expands the
+dummies. That cost, roughly cubic in the number of levels, is why
+`fixed_effects` combined with `clusters` defaults to CR0 in 2.0 where
+1.x defaulted to CR2. It is the only default that moved in the release,
+it warns once per session, and naming `se_type = "CR2"` still gets the
+1.x number exactly.
+
+**The promise: absorbing a factor changes the speed, not the answer.**
+The reference is the dummy regression the absorption is supposed to
+reproduce, coefficients and standard errors alike.
+
+``` r
+
+absorbed <- lm_robust(y ~ z + x, data = d, fixed_effects = ~ g)
+dummies  <- lm_robust(y ~ z + x + factor(g), data = d)
+keep <- c("z", "x")
+
+check("lm_robust(fixed_effects = )",
+      c(coef(absorbed)[keep], absorbed$std.error[keep]),
+      c(coef(dummies)[keep], dummies$std.error[keep]))
+#>       gap holds
+#> 1 3.4e-16  TRUE
+```
+
+#### Rank
+
+The Schur complement is inverted through its eigendecomposition rather
+than a solve, which does two things at once. A disconnected or nested
+fixed-effect design makes $`\mathbf{D}`$ rank deficient, and the
+pseudo-inverse returns the right projection anyway. The eigenvalues also
+give the *exact* rank of the fixed-effect design for free,
 
 ``` math
-\begin{aligned}
-  \widehat{\mathbb{V}}_{Y}[\widehat{\tau}] = \frac{1}{N^2} \sum^M_{k=1} \Bigg[& z_k \left(\frac{y_k}{\pi_{1k}}\right)^2 + (1 - z_k) \left(\frac{y_k}{\pi_{0k}}\right)^2 + \sum_{l \neq k} \bigg(\frac{z_k z_l}{\pi_{1k1l} + \epsilon_{1k1l}}(\pi_{1k1l} - \pi_{1k}\pi_{1l})\frac{y_k}{\pi_{1k}}\frac{y_l}{\pi_{1l}} \\\\\\
-  & + \frac{(1-z_k) (1-z_l)}{\pi_{0k0l} + \epsilon_{0k0l}}(\pi_{0k0l} - \pi_{0k}\pi_{0l})\frac{y_k}{\pi_{0k}}\frac{y_l}{\pi_{0l}} - 2 \frac{z_k (1-z_l)}{\pi_{1k0l} + \epsilon_{1k0l}}(\pi_{1k0l} - \pi_{1k}\pi_{0l})\frac{y_k}{\pi_{1k}}\frac{y_l}{\pi_{0l}} \\\\\\
-  & + \sum_{\forall l \colon \pi_{1k1l} = 0} \left( z_k \frac{y^2_k}{2\pi_{1k}} + z_l \frac{y^2_l}{\pi_{1l}}\right) + \sum_{\forall l \colon \pi_{0k0l} = 0} \left( (1-z_k) \frac{y^2_k}{2\pi_{0k}} + (1-z_l) \frac{y^2_l}{\pi_{0l}}\right)
-  \Bigg]
-\end{aligned}
+\mathrm{rank}(\mathbf{D}) = g_1 + \mathrm{rank}(\mathbf{S}),
 ```
 
-**Constant effects**
+which is what estimatr uses for the residual degrees of freedom. The
+nominal count $`\sum_k g_k - K + 1`$ overstates the rank whenever one
+factor is partly spanned by the others, and 1.x used the nominal count,
+so its absorbed fit disagreed with its own explicit-dummy fit on such
+designs. [`lm()`](https://rdrr.io/r/stats/lm.html) and `plm` report the
+exact rank; `fixest` reports the nominal one unless asked for
+`ssc(K.exact = TRUE)`.
 
-Alternatively, one can assume constant treatment effects and, under that
-assumption, estimate the variance that is consistent under that
-assumption but less conservative. Again, this estimator is only
-implemented for the simple randomized case.
+### Weights and the hat matrix: where Stata differs
 
-- $`y_{zi}`$ is the potential outcome for condition $`z`$ for unit
-  $`i`$. This is either observed if $`z_i = z`$ or estimated using the
-  constant effects assumption if $`z_i \neq z`$, where $`z_i`$ is the
-  condition for unit $`i`$. To be precise
-  $`y_{1i} = z_i y_{i} + (1 - z_i) (y_{i} + \widehat{\tau})`$ and
-  $`y_{0i} = z_i (y_{i} - \widehat{\tau}) + (1 - z_i) y_{i}`$, where
-  $`\widehat{\tau}`$ is the estimated treatment effect.
+With weights,
+[`lm_robust()`](https://declaredesign.org/r/estimatr/reference/lm_robust.md)’s
+HC2 and HC3 standard errors do not match Stata’s `vce(hc2)` and
+`vce(hc3)`. The cause is a difference in how the hat matrix is defined,
+and the choice is a convention rather than an error on either side. It
+is the one place in this document where a definition is contested, so
+there is no identity to check and the section reports a disagreement
+instead.
+
+Stata uses
 
 ``` math
-\begin{aligned}
-    \widehat{\mathbb{V}}_{C}[\widehat{\tau}] = \frac{1}{N^2} \sum^N_{i=1} \Bigg[& (1 - \pi_{0i}) \pi_{0i} \left(\frac{y_{0i}}{\pi_{0i}}\right)^2 + (1 - \pi_{1i}) \pi_{1i} \left(\frac{y_{1i}}{\pi_{1i}}\right)^2 - 2 y_{1i} y_{0i} \\\\\\
-    & + \sum_{j \neq i} \Big( (\pi_{0i0j} - \pi_{0i} \pi_{0j}) \frac{y_{0i}}{\pi_{0i}} \frac{y_{0j}}{\pi_{0j}} + (\pi_{1i1j} - \pi_{1i} \pi_{1j}) \frac{y_{1i}}{\pi_{1i}} \frac{y_{1j}}{\pi_{1j}} \\\\\\
-    &- 2 (\pi_{1i0j} - \pi_{1i} \pi_{0j}) \frac{y_{1i}}{\pi_{1i}} \frac{y_{0j}}{\pi_{0j}}
-  \Big)\Bigg]
-\end{aligned}
+\mathbf{H}_{\text{Stata}} = \mathbf{X}(\mathbf{X}^{\top}\mathbf{W}\mathbf{X})^{-1}\mathbf{X}^\top
 ```
 
-#### Confidence intervals and hypothesis testing
+while estimatr, `sandwich`, and Python’s `statsmodels` all use
 
-Theory on hypothesis testing with the Horvitz-Thompson estimator is yet
-to be developed. We rely on a normal approximation and construct
-confidence intervals in the following way:
 ``` math
-\mathrm{CI}^{1-\alpha} = \left(\widehat{\tau} + z_{\alpha/2} \sqrt{\widehat{\mathbb{V}}[\widehat{\tau}]}, \widehat{\tau} + z_{1 - \alpha/2} \sqrt{\widehat{\mathbb{V}}[\widehat{\tau}]}\right)
+\mathbf{H}_{R} = \mathbf{X}(\mathbf{X}^{\top}\mathbf{W}\mathbf{X})^{-1}\mathbf{X}^\top\mathbf{W}.
 ```
 
-The associated p-values for a two-sided null hypothesis test are
-computed using a normal distribution and the aforementioned significance
-level $`\alpha`$.
+Only HC2 and HC3 depend on the hat matrix, so the divergence is confined
+to those two. Weighted classical, HC0, HC1 and the clustered `"stata"`
+estimator all agree with Stata exactly, and the test suite pins both
+facts: the weighted HC2 and HC3 variances differ from Stata’s by a
+bounded amount, under 2 percent on the reference fits, while the
+weighted HC1 and clustered fits match to the precision Stata printed.
+
+Two arguments favour $`\mathbf{H}_R`$. It is what you get by rescaling
+the data by $`\sqrt{w_i}`$ and running ordinary least squares, so it
+follows if you regard the weighted model as a rescaling of the
+unweighted one. Its diagonal elements are also the weighted leverages in
+the sense of Li and Valliant ([2009](#ref-livalliant2009)), where
+$`\mathbf{H}_{\text{Stata}}`$ would have to be weighted a second time to
+recover them. Against that, Stata’s convention has the weight of Stata
+behind it, and the differences are small. The choice is genuinely open,
+which is why estimatr pins it from both sides in the suite rather than
+treating either answer as the error.
+
+``` r
+
+lm_robust(mpg ~ hp, data = mtcars, weights = wt, se_type = "HC2")$std.error
+#> (Intercept)          hp 
+#>     2.16282     0.01446
+```
+
+Stata 13 reports 0.0143083 on `hp` for the same fit, about one percent
+below the number above. Python’s `statsmodels` returns estimatr’s.
+Change `se_type` to `"HC1"` and Stata and estimatr agree exactly.
+
+### Confidence intervals and testing
+
+With $`\widehat{\mathbb{V}}_k`$ the $`k`$th diagonal element of
+$`\widehat{\mathbb{V}}`$,
+
+``` math
+\mathrm{CI}^{1-\alpha} = \left(\widehat{\beta}_k + t^{\mathrm{df}}_{\alpha/2}\sqrt{\widehat{\mathbb{V}}_k},\;
+\widehat{\beta}_k + t^{\mathrm{df}}_{1-\alpha/2}\sqrt{\widehat{\mathbb{V}}_k}\right)
+```
+
+and two-sided p-values come from the same $`t`$ distribution. Under CR2
+the degrees of freedom vary by coefficient, so the multiplier does too.
+
+## `lm_lin`
+
+[`lm_lin()`](https://declaredesign.org/r/estimatr/reference/lm_lin.md)
+is a pre-processor for
+[`lm_robust()`](https://declaredesign.org/r/estimatr/reference/lm_robust.md)
+implementing the covariate adjustment of Lin ([2013](#ref-lin2013)),
+which answers Freedman ([2008](#ref-freedman2008))’s demonstration that
+regression adjustment can reduce precision. Rather than
+
+``` math
+y_i = \tau z_i + \mathbf{\beta}^\top\mathbf{x}_i + \epsilon_i,
+```
+
+it centers every covariate at its sample mean and interacts the centered
+covariates with treatment:
+
+``` math
+y_i = \tau z_i + \mathbf{\beta}^\top\mathbf{x}^c_i + \mathbf{\gamma}^\top\mathbf{x}^c_i z_i + \epsilon_i.
+```
+
+Centering is what makes $`\tau`$ the estimate of the average treatment
+effect: at $`\mathbf{x}^c = \mathbf{0}`$ the interaction terms drop out.
+Centering happens after any function in the `covariates` formula is
+evaluated, so `~ log(x)` centers $`\log(x)`$ rather than the log of the
+centered $`x`$. The centers are returned in `scaled_center`.
+
+Multi-valued treatments are handled by building a full set of dummies
+and interacting each with the centered covariates. Everything else,
+weights, clusters, `se_type`, is
+[`lm_robust()`](https://declaredesign.org/r/estimatr/reference/lm_robust.md)’s.
+
+**The promise: it is the Lin specification a user could write by hand.**
+The reference is that specification, written by hand.
+
+``` r
+
+dd <- d
+dd$x_c <- dd$x - mean(dd$x)
+lin  <- lm_lin(y ~ z, covariates = ~ x, data = d)
+byhand <- lm_robust(y ~ z * x_c, data = dd)
+
+check("lm_lin()",
+      c(coef(lin)[["z"]], lin$std.error[["z"]]),
+      c(coef(byhand)[["z"]], byhand$std.error[["z"]]))
+#>       gap holds
+#> 1 3.3e-16  TRUE
+```
+
+## `iv_robust`
+
+### Coefficients
+
+``` math
+\widehat{\beta}_{2SLS} = (\mathbf{X}^{\top}\mathbf{P_Z}\mathbf{X})^{-1}\mathbf{X}^{\top}\mathbf{P_Z}\mathbf{y},
+\qquad
+\mathbf{P_Z} = \mathbf{Z}(\mathbf{Z}^{\top}\mathbf{Z})^{-1}\mathbf{Z}^\top
+```
+
+with $`\mathbf{X}`$ the regressors, endogenous ones included, and
+$`\mathbf{Z}`$ the instruments. Equivalently: regress $`\mathbf{X}`$ on
+$`\mathbf{Z}`$ to get
+$`\widehat{\mathbf{X}} = \mathbf{Z}\widehat{\beta}_{FS}`$, then regress
+$`\mathbf{y}`$ on $`\widehat{\mathbf{X}}`$. Weights are handled as in
+[`lm_robust()`](https://declaredesign.org/r/estimatr/reference/lm_robust.md),
+by rescaling before estimation.
+
+**The promise: the point estimates are two-stage least squares.** The
+reference is the two stages, run as two stages.
+
+``` r
+
+tsls_coef <- function(y, X, Z) {
+  xhat <- Z %*% solve(crossprod(Z), crossprod(Z, X))
+  as.vector(solve(crossprod(xhat), crossprod(xhat, y)))
+}
+
+check("iv_robust()",
+      unname(coef(iv_robust(y ~ en + x | inst + x, data = d))),
+      tsls_coef(d$y, model.matrix(~ en + x, d), model.matrix(~ inst + x, d)))
+#>       gap holds
+#> 1 1.3e-15  TRUE
+```
+
+### Variance
+
+The variance estimators are
+[`lm_robust()`](https://declaredesign.org/r/estimatr/reference/lm_robust.md)’s
+with two substitutions. The second-stage regressors
+$`\widehat{\mathbf{X}}`$ replace $`\mathbf{X}`$, and the residuals are
+$`\mathbf{y} - \mathbf{X}\widehat{\beta}_{2SLS}`$, formed from the
+*endogenous, uninstrumented* regressors rather than from the fitted
+ones. [`residuals()`](https://rdrr.io/r/stats/residuals.html) returns
+those structural residuals, not the first-stage ones.
+
+#### Which leverage
+
+HC2 and HC3 need leverage values, and 2SLS admits two candidates.
+estimatr uses the second-stage hat values,
+
+``` math
+h_i = \widehat{\mathbf{x}}_i(\widehat{\mathbf{X}}^{\top}\widehat{\mathbf{X}})^{-1}\widehat{\mathbf{x}}_i^{\top},
+```
+
+the diagonal of an orthogonal projection. The alternative is the
+diagonal of $`\mathbf{H}^{*}`$, the matrix carrying $`\mathbf{y}`$ to
+its fitted values. Belsley et al. ([1980](#ref-belsleykuhwelsch1980))
+considered it, observed that $`\mathbf{H}^{*}`$ is idempotent but not
+symmetric, and recommended the second-stage hat values on the ground
+that the diagonal of an asymmetric matrix is not a leverage.
+
+The choice has consequences. A projection diagonal lies in $`[0,1]`$, so
+HC2 is always defined. The diagonal of $`\mathbf{H}^{*}`$ is already
+negative for one row of `mtcars`, and across 3,000 weak-first-stage
+designs it exceeded one in 10.8 percent of them, reaching 309.
+
+The `ivreg` package makes the second-stage convention its default, and
+[`sandwich::vcovHC()`](https://zeileis.codeberg.page/sandwich/reference/vcovHC.html)
+applied to an
+[`ivreg::ivreg()`](https://zeileis.github.io/ivreg/reference/ivreg.html)
+fit returns estimatr’s standard errors to machine precision. `sandwich`
+has no leverage convention of its own; it calls
+[`hatvalues()`](https://rdrr.io/r/stats/influence.measures.html) on
+whatever fit it is given.
+[`AER::ivreg()`](https://rdrr.io/pkg/AER/man/ivreg.html)’s `hatvalues`
+method predates `ivreg` and returns $`\mathrm{diag}(\mathbf{H}^{*})`$,
+so estimatr differs from AER, by up to 8.6 percent at HC2 and 18.5
+percent at HC3 on `mtcars`, and agrees with the successor package that
+deprecates AER’s method. The numbers are bit-identical to estimatr
+1.0.6.
+
+### Correspondence with Stata
+
+Stata’s `ivregress 2sls` applies no finite-sample correction and uses
+z-tests unless told otherwise.
+
+| estimatr | Stata |
+|----|----|
+| no equivalent | `ivregress 2sls y (x = z)` |
+| `se_type = "classical"` | `ivregress 2sls y (x = z), small` |
+| `se_type = "HC0"` | `ivregress 2sls y (x = z), rob` |
+| `se_type = "HC1"` | `ivregress 2sls y (x = z), rob small` |
+| `clusters = cl, se_type = "CR0"` | `ivregress 2sls y (x = z), vce(cl cl)` |
+| `clusters = cl, se_type = "stata"` | `ivregress 2sls y (x = z), vce(cl cl) small` |
+| `se_type = "HC2"` (default), `"HC3"`, `"CR2"` | no equivalent |
+
+## `lh_robust`
+
+[`lh_robust()`](https://declaredesign.org/r/estimatr/reference/lh_robust.md)
+fits a model with
+[`lm_robust()`](https://declaredesign.org/r/estimatr/reference/lm_robust.md)
+and then tests linear restrictions on it through
+[`car::linearHypothesis()`](https://rdrr.io/pkg/car/man/linearHypothesis.html),
+keeping the robust variance and the degrees of freedom of the fit rather
+than recomputing them classically.
+
+For a restriction vector $`\mathbf{a}`$, the estimate and its standard
+error are the delta method applied to a linear function of the
+coefficients:
+
+``` math
+\widehat{\theta} = \mathbf{a}^\top\widehat{\beta},
+\qquad
+\mathrm{se}(\widehat{\theta}) = \sqrt{\mathbf{a}^\top\widehat{\mathbb{V}}\mathbf{a}}
+```
+
+with $`\widehat{\mathbb{V}}`$ whichever variance the fit was asked for.
+Several restrictions at once, stacked into a matrix $`\mathbf{R}`$
+against targets $`\mathbf{q}`$, additionally give a Wald statistic
+
+``` math
+F = \frac{(\mathbf{R}\widehat{\beta} - \mathbf{q})^\top\left[\mathbf{R}\widehat{\mathbb{V}}\mathbf{R}^\top\right]^{-1}(\mathbf{R}\widehat{\beta} - \mathbf{q})}{\mathrm{rank}(\mathbf{R})}
+```
+
+on $`\mathrm{rank}(\mathbf{R})`$ and the fit’s residual degrees of
+freedom, returned in the `joint_hypothesis` element. estimatr 1.x
+declines to compute it.
+
+**The promise: a linear hypothesis is the delta method on the fit.**
+
+``` r
+
+fit <- lm_robust(y ~ z + x, data = d)
+lh <- lh_robust(y ~ z + x, data = d, linear_hypothesis = "z + x = 0")
+a <- c(0, 1, 1)
+
+check("lh_robust()",
+      c(lh$lh$coefficients[[1]], lh$lh$std.error[[1]]),
+      c(sum(a * coef(fit)), sqrt(drop(t(a) %*% fit$vcov %*% a))))
+#>       gap holds
+#> 1 0.0e+00  TRUE
+```
+
+## `difference_in_means`
+
+[`difference_in_means()`](https://declaredesign.org/r/estimatr/reference/difference_in_means.md)
+picks the point estimate, variance, and degrees of freedom that match
+the design, and reports which one it used in the `design` element of the
+fitted object. The design is inferred from which of `blocks` and
+`clusters` are supplied, and from the shape of the blocks.
+
+### Estimates
+
+**Unblocked.**
+
+``` math
+\widehat{\tau} = \frac{1}{N_1}\sum_{i: z_i = 1} y_i \;-\; \frac{1}{N_0}\sum_{i: z_i = 0} y_i
+```
+
+**Blocked.** The sample-weighted average of the within-block estimates,
+
+``` math
+\widehat{\tau} = \sum_{j=1}^{J}\frac{N_j}{N}\widehat{\tau}_j.
+```
+
+With weights, the estimate and its variance are handed to
+[`lm_robust()`](https://declaredesign.org/r/estimatr/reference/lm_robust.md)
+with HC2 standard errors, within each block if the design is blocked.
+
+### Variance for unblocked and clustered designs
+
+| Design | $`\widehat{\mathbb{V}}[\widehat{\tau}]`$ | Degrees of freedom |
+|----|----|----|
+| No blocks, no clusters | $`\frac{\widehat{\mathbb{V}}[y_{i,0}]}{N_0} + \frac{\widehat{\mathbb{V}}[y_{i,1}]}{N_1}`$ | Welch-Satterthwaite |
+| Clusters, no blocks | the CR2 estimator of [`lm_robust()`](https://declaredesign.org/r/estimatr/reference/lm_robust.md) | as CR2 |
+| Blocked and clustered | $`\sum_j \left(\frac{N_j}{N}\right)^2\widehat{\mathbb{V}}[\widehat{\tau}_j]`$ | $`S - 2J`$ |
+| Matched-pair clustered | $`\frac{J}{(J-1)N^2}\sum_j\left(N_j\widehat{\tau}_j - \frac{N\widehat{\tau}}{J}\right)^2`$ | $`J-1`$ |
+
+The unblocked variance and its degrees of freedom are what R’s
+[`t.test()`](https://rdrr.io/r/stats/t.test.html) computes. The
+clustered variance is the one Gerber and Green
+([2012](#ref-gerbergreen2012)) recommend in their equation 3.23 when
+clusters are of even size. The matched-pair clustered variance is the
+SATE variance of Imai et al. ([2009](#ref-imaietal2009)), their equation
+6, with the degrees of freedom they suggest.
+
+That first row has a second description: the Neyman variance of a
+two-arm experiment is exactly what HC2 returns on a regression of the
+outcome on the treatment indicator, which is Samii and Aronow
+([2012](#ref-samiiaronow2012))’s equivalence and the reason HC2 is the
+package default.
+
+**The promise: for a two-arm design it is
+[`lm_robust()`](https://declaredesign.org/r/estimatr/reference/lm_robust.md)
+at HC2.**
+
+``` r
+
+dim_fit <- difference_in_means(y ~ z, data = d)
+ols <- lm_robust(y ~ z, data = d, se_type = "HC2")
+
+check("difference_in_means()",
+      c(dim_fit$coefficients[["z"]], dim_fit$std.error[["z"]]),
+      c(ols$coefficients[["z"]], ols$std.error[["z"]]))
+#>       gap holds
+#> 1 4.9e-16  TRUE
+```
+
+### Variance for blocked designs
+
+Blocked designs are where estimatr 2.0 departs most from 1.x, and the
+estimators come from Pashley and Miratrix
+([2021](#ref-pashleymiratrix2021)).
+
+The classification is by *arm counts*, not by block size. A block with
+at least two treated and at least two control units has an estimable
+within-block variance and carries its own Neyman variance. A block with
+a singleton arm, one treated unit or one control unit, does not: with a
+single observation in an arm there is nothing to take a variance of. The
+variation *across* such blocks stands in for the variance they cannot
+each supply, which is the logic that makes the matched-pairs estimator
+work.
+
+Write $`\mathcal{B}`$ for the blocks with both arms of size two or more,
+$`\mathcal{S}`$ for the blocks with a singleton arm,
+$`n_{\mathcal{B}} = \sum_{j \in \mathcal{B}} N_j`$ and
+$`n_{\mathcal{S}} = \sum_{j \in \mathcal{S}} N_j`$.
+
+**The estimable part** is the usual blocked variance over
+$`\mathcal{B}`$ alone (their equation 4):
+
+``` math
+\widehat{\mathbb{V}}_{\mathcal{B}} = \frac{1}{n_{\mathcal{B}}^2}\sum_{j \in \mathcal{B}} N_j^2\,\widehat{\mathbb{V}}[\widehat{\tau}_j],
+\qquad \mathrm{df}_{\mathcal{B}} = n_{\mathcal{B}} - 2|\mathcal{B}|.
+```
+
+**The singleton part** is estimated across blocks. If every block in
+$`\mathcal{S}`$ is the same size, the estimator is the familiar
+matched-pairs one (their equation 5),
+
+``` math
+\widehat{\mathbb{V}}_{\mathcal{S}} = \frac{1}{|\mathcal{S}|(|\mathcal{S}|-1)}\sum_{j \in \mathcal{S}}\left(\widehat{\tau}_j - \bar{\tau}_{\mathcal{S}}\right)^2 ,
+```
+
+with
+$`\bar{\tau}_{\mathcal{S}} = \sum_{j \in \mathcal{S}} N_j\widehat{\tau}_j / n_{\mathcal{S}}`$.
+If the blocks differ in size, their equation 8 handles it without
+requiring any two blocks to match:
+
+``` math
+\widehat{\mathbb{V}}_{\mathcal{S}} = \frac{\sum_{j \in \mathcal{S}} \omega_j \left(\widehat{\tau}_j - \bar{\tau}_{\mathcal{S}}\right)^2}{n_{\mathcal{S}} + \sum_{j \in \mathcal{S}}\omega_j},
+\qquad
+\omega_j = \frac{N_j^2}{n_{\mathcal{S}} - 2N_j},
+```
+
+with $`\mathrm{df}_{\mathcal{S}} = |\mathcal{S}| - 1`$ in both cases.
+The equal-size form is kept separate because equation 8 is undefined at
+two equal-sized blocks.
+
+**Combining.** A design holding both kinds of block is the hybrid of
+their section 3.3, and the two parts combine by squared share of the
+sample:
+
+``` math
+\widehat{\mathbb{V}}[\widehat{\tau}] = \left(\frac{n_{\mathcal{B}}}{N}\right)^2\widehat{\mathbb{V}}_{\mathcal{B}} + \left(\frac{n_{\mathcal{S}}}{N}\right)^2\widehat{\mathbb{V}}_{\mathcal{S}}.
+```
+
+The paper stops at the variance. estimatr combines the two
+degrees-of-freedom components by Welch-Satterthwaite, which reduces to
+$`N - 2J`$ when every block is estimable and to $`J - 1`$ when every
+block has a singleton arm, matching what each literature uses on its
+own.
+
+`design` reports which case applied.
+
+``` r
+
+blocked <- data.frame(bl = rep(1:10, each = 10),
+                      z = rep(rep(0:1, each = 5), times = 10))
+blocked$y <- rnorm(100) + 0.3 * blocked$z
+difference_in_means(y ~ z, data = blocked, blocks = bl)$design
+#> [1] "Blocked"
+
+pairs <- data.frame(bl = rep(1:50, each = 2), z = rep(c(0, 1), 50))
+pairs$y <- rnorm(100) + 0.3 * pairs$z
+difference_in_means(y ~ z, data = pairs, blocks = bl)$design
+#> [1] "Matched-pair"
+
+# Both kinds of block in one design: 1.x applied the matched-pairs estimator
+# to all of it, after a warning.
+hybrid <- rbind(blocked, transform(pairs, bl = bl + 100))
+difference_in_means(y ~ z, data = hybrid, blocks = bl)$design
+#> [1] "Hybrid blocked"
+```
+
+### What is refused
+
+Two blocked designs are errors rather than estimates, because the
+variance genuinely cannot be estimated.
+
+**Exactly one block with a singleton arm.** The variation across such
+blocks is what stands in for their within-block variance, and one block
+has no variation to offer.
+
+**Singleton-arm blocks of different sizes where one holds half or more
+of their units.** Equation 8’s weights
+$`\omega_j = N_j^2/(n_{\mathcal{S}} - 2N_j)`$ require
+$`N_j < n_{\mathcal{S}}/2`$, which is what keeps them positive and the
+estimator conservative.
+
+Both errors suggest merging blocks or using
+[`lm_robust()`](https://declaredesign.org/r/estimatr/reference/lm_robust.md)
+with block fixed effects.
+
+**Blocks of clusters are separate.** Pashley and Miratrix
+([2021](#ref-pashleymiratrix2021)) treat treatment assigned to units
+within blocks, not to clusters within blocks, so blocked designs that
+also specify `clusters` use the earlier estimators, and every block must
+hold at least two treated and two control clusters unless the design is
+matched-pair clustered. A block with a single treated or control cluster
+is refused: its within-block variance is not estimable, and estimating
+it anyway understates the standard error by roughly the block’s cluster
+count.
+
+## `horvitz_thompson`
+
+[`horvitz_thompson()`](https://declaredesign.org/r/estimatr/reference/horvitz_thompson.md)
+estimates the average treatment effect by inverse probability weighting,
+which is unbiased when the assignment probabilities are known. Aronow
+and Middleton ([2013](#ref-aronowmiddleton2013)), Middleton and Aronow
+([2015](#ref-middletonaronow2015)) and Aronow and Samii
+([2017](#ref-aronowsamii2017)) develop the estimator and its variance.
+
+Let $`\pi_{zi}`$ be the marginal probability that unit $`i`$ is assigned
+to condition $`z`$, and $`\pi_{zi,wj}`$ the joint probability that unit
+$`i`$ is in condition $`z`$ and unit $`j`$ in condition $`w`$. Write
+
+``` math
+\widetilde{Y}_{zi} = \frac{y_i}{\pi_{zi}}
+```
+
+for the inverse-probability-weighted outcome of a unit observed in
+condition $`z`$.
+
+### Estimates
+
+``` math
+\widehat{\tau} = \frac{1}{N}\left(\sum_{i: z_i = 1}\widetilde{Y}_{1i} - \sum_{i: z_i = 0}\widetilde{Y}_{0i}\right)
+```
+
+$`N`$ is the number of units the *design* covers, which matters with
+more than two arms. `condition1` and `condition2` select the contrast,
+but the estimand remains the average treatment effect over every unit of
+the design, so the estimator divides by $`N`$ rather than by the number
+of units landing in the two selected conditions, and `data` must carry
+one row per unit including the arms outside the contrast. A declaration
+whose size does not match `nrow(data)` is an error rather than a silent
+misalignment.
+
+**The promise: the estimate is the Horvitz-Thompson estimator.** Two
+lines is the whole definition.
+
+``` r
+
+ht_estimate <- function(y, z, pr) {
+  mean(y * z / pr) - mean(y * (1 - z) / (1 - pr))
+}
+
+pr <- rep(0.5, N)
+check("horvitz_thompson()",
+      horvitz_thompson(y ~ z, data = d, condition_prs = pr)$coefficients[[1]],
+      ht_estimate(d$y, d$z, pr))
+#>       gap holds
+#> 1 2.5e-16  TRUE
+```
+
+### Variance
+
+The variance estimator is the conservative bound of Aronow and Middleton
+([2013](#ref-aronowmiddleton2013)), built from Young’s inequality. In
+its general form,
+
+``` math
+\widehat{\mathbb{V}}[\widehat{\tau}] = \frac{1}{N^2}\left[
+\sum_{i: z_i = 1}\widetilde{Y}_{1i}^2 + \sum_{i: z_i = 0}\widetilde{Y}_{0i}^2
++ \sum_{i \neq j} A_{ij}\,\widetilde{Y}_i\widetilde{Y}_j
+\right]
+```
+
+where the cross terms enter with a minus sign when $`i`$ and $`j`$ are
+in opposite conditions, and
+
+``` math
+A_{ij} = 1 - \frac{\pi_i\pi_j}{\pi_{ij}}.
+```
+
+Everything below is that expression with $`A_{ij}`$ worked out for a
+particular design.
+
+**Simple (Bernoulli) randomization.** Assignments are independent, so
+$`\pi_{ij} = \pi_i\pi_j`$, every $`A_{ij}`$ is zero, and the bound
+collapses to
+
+``` math
+\widehat{\mathbb{V}}[\widehat{\tau}] = \frac{1}{N^2}\left[\sum_{i: z_i = 1}\widetilde{Y}_{1i}^2 + \sum_{i: z_i = 0}\widetilde{Y}_{0i}^2\right].
+```
+
+Which is short enough to check directly, and it is the variance the
+estimate above was reported with, since a bare probability vector says
+nothing about dependence between units.
+
+``` r
+
+Y1 <- d$y[d$z == 1] / 0.5
+Y0 <- d$y[d$z == 0] / 0.5
+
+check("horvitz_thompson() variance, simple randomization",
+      horvitz_thompson(y ~ z, data = d, condition_prs = pr)$std.error[[1]],
+      sqrt((sum(Y1^2) + sum(Y0^2)) / N^2))
+#>       gap holds
+#> 1 0.0e+00  TRUE
+```
+
+**Complete randomization.** With $`n`$ units of which $`m_1`$ go to
+condition 1 and $`m_0`$ to condition 0, exchangeability gives the joint
+probabilities in closed form, $`\pi_{11} = m_1(m_1-1)/(n(n-1))`$ and so
+on, so $`A_{ij}`$ takes only three values:
+
+``` math
+A^{11} = 1 - \frac{m_1(n-1)}{n(m_1-1)},
+\qquad
+A^{00} = 1 - \frac{m_0(n-1)}{n(m_0-1)},
+\qquad
+A^{10} = \frac{1}{n}.
+```
+
+The cross coefficient collapses to $`1/n`$ for *any* complete design.
+Because the three coefficients are constant within pair type, the double
+sum needs no matrix:
+$`\sum_{i \neq j}\widetilde{Y}_{1i}\widetilde{Y}_{1j}`$ is
+$`\left(\sum_i \widetilde{Y}_{1i}\right)^2 - \sum_i \widetilde{Y}_{1i}^2`$.
+The whole variance is therefore four sums over the data (the total and
+the sum of squares of the weighted outcomes, in each condition) plus the
+design’s $`n`$ and $`m_1`$. Where 1.x built an $`N \times N`$ matrix of
+joint probabilities, 2.0 evaluates a scalar formula.
+
+When the design implies a non-integer $`m_1 = \pi_1 n`$, the realized
+count is $`\lfloor m_1 \rfloor`$ or $`\lfloor m_1 \rfloor + 1`$, and the
+joint probabilities average over that mixture.
+
+**Blocked.** Randomization is complete and independent within each
+block, so the contributions add:
+
+``` math
+\widehat{\mathbb{V}}[\widehat{\tau}] = \frac{1}{N^2}\sum_{j=1}^{J} C_j
+```
+
+with $`C_j`$ the complete-randomization expression evaluated on block
+$`j`$’s units, at that block’s $`N_j`$ and $`m_{1j}`$.
+
+**Clustered.** Assignment is at the cluster level, so the weighted
+outcomes are summed within cluster first, and the same expression is
+applied to the $`S`$ cluster totals: complete randomization at the
+cluster level if the clusters were completely randomized, the simple
+form if they were not. Blocked and clustered designs aggregate within
+cluster and then sum over blocks.
+
+**Arbitrary designs.** Given a permutation matrix, the joint
+probabilities come from one
+[`tcrossprod()`](https://rdrr.io/r/base/crossprod.html) and $`A_{ij}`$
+is evaluated directly, at $`O(n^2)`$. A pair of units that can never
+appear together in the observed conditions has $`\pi_{ij} = 0`$, and its
+term is not identified at any sample size. Those terms are dropped and
+replaced by the Young’s inequality bound: the unidentified quantity is
+at most $`(y_i^2 + y_j^2)/2`$ within a condition and $`y_i^2 + y_j^2`$
+across conditions, and $`y_i^2`$ is estimated from the single
+observation of it. Left as $`1 - x/0`$, as in an earlier implementation,
+the whole variance became $`-\infty`$ and then a silent `NA`.
+
+### What the declaration buys
+
+`condition_prs` takes an `ra_declaration` from `randomizr`, a named
+vector of marginal probabilities, or a matrix of per-unit probabilities.
+The choice is visible at the call site and it determines which variance
+you get.
+
+A declaration carries the block structure, the cluster structure, the
+per-unit marginals, and whether the randomization was simple or
+complete, which is exactly what the design-aware expressions above need.
+A bare probability vector carries only the marginals, so estimatr falls
+back to the simple-randomization bound, which is valid for any design
+and exact only for Bernoulli assignment. For a complete or blocked
+design it overstates the uncertainty.
+
+In 1.x the same distinction existed but was buried in which combination
+of five arguments happened to be supplied.
+
+``` r
+
+library(randomizr)
+set.seed(2)
+decl <- declare_ra(blocks = rep(c("a", "b", "c", "d"), each = 50), prob = 0.4)
+Z <- conduct_ra(decl)
+dat_ht <- data.frame(Y = rnorm(200) + 0.5 * Z, Z = Z)
+
+# The design-aware variance
+horvitz_thompson(Y ~ Z, data = dat_ht, condition_prs = decl)$std.error
+#>      1 
+#> 0.1414
+
+# The conservative bound, from the marginals alone
+horvitz_thompson(Y ~ Z, data = dat_ht,
+                 condition_prs = c("0" = 0.6, "1" = 0.4))$std.error
+#>      1 
+#> 0.1506
+```
+
+### Confidence intervals and testing
+
+Inference for the Horvitz-Thompson estimator rests on a normal
+approximation:
+
+``` math
+\mathrm{CI}^{1-\alpha} = \left(\widehat{\tau} + z_{\alpha/2}\sqrt{\widehat{\mathbb{V}}[\widehat{\tau}]},\;
+\widehat{\tau} + z_{1-\alpha/2}\sqrt{\widehat{\mathbb{V}}[\widehat{\tau}]}\right)
+```
+
+with two-sided p-values from the same distribution.
+
+## Every promise in one table
+
+| Promise | Largest relative gap | Holds |
+|:---|:---|:---|
+| lm_robust() | 7.8e-16 | TRUE |
+| lm_robust(weights = ) | 1.2e-15 | TRUE |
+| lm_robust(se_type = ‘classical’) | 6.9e-17 | TRUE |
+| lm_robust(se_type = ‘HC0’) | 5.6e-17 | TRUE |
+| lm_robust(se_type = ‘HC1’) | 9.7e-17 | TRUE |
+| lm_robust(se_type = ‘HC2’) | 8.3e-17 | TRUE |
+| lm_robust(se_type = ‘HC3’) | 6.9e-17 | TRUE |
+| lm_robust(clusters = ) | 1.2e-16 | TRUE |
+| lm_robust(se_type = ‘stata’) | 1.1e-16 | TRUE |
+| lm_robust(fixed_effects = ) | 3.4e-16 | TRUE |
+| lm_lin() | 3.3e-16 | TRUE |
+| iv_robust() | 1.3e-15 | TRUE |
+| lh_robust() | 0.0e+00 | TRUE |
+| difference_in_means() | 4.9e-16 | TRUE |
+| horvitz_thompson() | 2.5e-16 | TRUE |
+| horvitz_thompson() variance, simple randomization | 0.0e+00 | TRUE |
+
+``` r
+
+stopifnot(all(unlist(CHECKS) < 1e-10))
+```
+
+Every promise above is met. The numbers are computed when the vignette
+is built, so they are what your installed copy produces rather than
+values recorded from a run somewhere else.
+
+That last line is [`stopifnot()`](https://rdrr.io/r/base/stopifnot.html)
+rather than a printed `TRUE` on purpose. A vignette that computes its
+own table can report `FALSE` in a cell and still build, which would
+leave a broken promise sitting inside a clean `R CMD check`. Written
+this way the document refuses to build, so the check fails and the table
+cannot quietly disagree with the sentences above it. The margin is wide
+enough for that to be safe: the gaps sit at 1e-15 or below against a
+tolerance of 1e-10, so the linear algebra library on your machine would
+have to be five orders of magnitude worse than the one this was written
+on before the build broke.
+
+## What this does not cover
+
+The checks above are a demonstration, not a proof, and they are
+deliberately a small set.
+
+**They say nothing about what these estimators are good for.** That
+[`difference_in_means()`](https://declaredesign.org/r/estimatr/reference/difference_in_means.md)
+computes the difference in means is a fact about this package. Whether
+that quantity is unbiased for your estimand, whether its interval
+covers, whether covariate adjustment helps you: none of that is
+estimatr’s to guarantee, and none of it is checked here. The papers
+cited throughout are where those questions are answered. The guarantee
+is implementation, and the demonstration is arithmetic.
+
+**Each promise is checked in one configuration.** The test suite checks
+many: the same identities across weighted and unweighted fits, single
+and multivariate outcomes, one and two absorbed factors, instrumental
+variables with and without clusters, and the rank-deficient and
+near-saturated designs that have caused bugs. That is where a guarantee
+is enforced. What this document adds is that the promises are stated in
+words a reader can disagree with, next to the mathematics they are
+supposed to implement, and measured where a reader can watch.
+
+**Agreement with a formula written here is not agreement with the
+literature.** Transcribing HC2 into this document and matching it shows
+estimatr computes what it says. It cannot show that the definition is
+the one the field settled on, which is why every definition above
+carries its citation, and why the suite compares against `sandwich`,
+`clubSandwich`, `ivreg`, Stata’s `regress`, `areg` and `ivregress`,
+`fixest`, `plm` and `blkvar`, none of which shares any lineage with this
+package. Two known divergences are pinned from both sides there rather
+than dropped: weighted HC2 and HC3 differ from Stata by a bounded
+amount, and
+[`iv_robust()`](https://declaredesign.org/r/estimatr/reference/iv_robust.md)
+uses second-stage leverage, which agrees with `ivreg` exactly and
+departs from [`AER::ivreg()`](https://rdrr.io/pkg/AER/man/ivreg.html)’s
+deprecated
+[`hatvalues()`](https://rdrr.io/r/stats/influence.measures.html) method
+by up to 18.5 percent.
+
+**The data here are well conditioned.** Every fit above is full rank
+with far more observations than parameters. Leverage exactly equal to
+one is benign; leverage marginally above one is not, and HC2 and HC3 are
+guarded there rather than answered, warning and contributing zero for
+the offending rows. A cluster-robust variance on a single cluster is
+refused outright, where 1.0.6 returned a standard error of 5.9e-17 and a
+zero-width interval in silence. Those are documented in `NEWS.md`, and
+none of them is visible in a table built on
+[`rnorm()`](https://rdrr.io/r/stats/Normal.html).
 
 ## References
 
-Abadie, Alberto, Susan Athey, Guido W Imbens, and Jeffrey Wooldridge.
-2017. “A Class of Unbiased Estimators of the Average Treatment Effect in
-Randomized Experiments.” *arXiv Pre-Print*.
-<https://arxiv.org/abs/1710.02926v2>.
-
-Aronow, Peter M, and Joel A Middleton. 2013. “A Class of Unbiased
+Aronow, Peter M., and Joel A. Middleton. 2013. “A Class of Unbiased
 Estimators of the Average Treatment Effect in Randomized Experiments.”
 *Journal of Causal Inference* 1 (1): 135–54.
 <https://doi.org/10.1515/jci-2012-0009>.
 
-Aronow, Peter M, and Cyrus Samii. 2017. “Estimating Average Causal
-Effects Under Interference Between Units.” *Annals of Applied
-Statistics*, forthcoming. <https://arxiv.org/abs/1305.6156v3>.
+Aronow, Peter M., and Cyrus Samii. 2017. “Estimating Average Causal
+Effects Under General Interference, with Application to a Social Network
+Experiment.” *The Annals of Applied Statistics* 11 (4).
+<https://doi.org/10.1214/16-AOAS1005>.
 
-Bell, Robert M, and Daniel F McCaffrey. 2002. “Bias Reduction in
+Bell, Robert M., and Daniel F. McCaffrey. 2002. “Bias Reduction in
 Standard Errors for Linear Regression with Multi-Stage Samples.” *Survey
 Methodology* 28 (2): 169–82.
 
+Belsley, David A., Edwin Kuh, and Roy E. Welsch. 1980. *Regression
+Diagnostics: Identifying Influential Data and Sources of Collinearity*.
+John Wiley & Sons. <https://doi.org/10.1002/0471725153>.
+
 Freedman, David A. 2008. “On Regression Adjustments in Experiments with
-Several Treatments.” *The Annals of Applied Statistics*, 176–96.
+Several Treatments.” *The Annals of Applied Statistics* 2 (1): 176–96.
 <https://doi.org/10.1214/07-AOAS143>.
 
-Gerber, Alan S, and Donald P Green. 2012. *Field Experiments: Design,
+Gerber, Alan S., and Donald P. Green. 2012. *Field Experiments: Design,
 Analysis, and Interpretation*. W.W. Norton.
 
 Imai, Kosuke, Gary King, and Clayton Nall. 2009. “The Essential Role of
@@ -596,35 +1218,48 @@ Pair Matching in Cluster-Randomized Experiments, with Application to the
 Mexican Universal Health Insurance Evaluation.” *Statistical Science* 24
 (1): 29–53. <https://doi.org/10.1214/08-STS274>.
 
-Imbens, Guido W, and Michal Kolesar. 2016. “Robust Standard Errors in
+Imbens, Guido W., and Michal Kolesár. 2016. “Robust Standard Errors in
 Small Samples: Some Practical Advice.” *Review of Economics and
 Statistics* 98 (4): 701–12. <https://doi.org/10.1162/REST_a_00552>.
+
+Li, Jianzhu, and Richard Valliant. 2009. “Survey Weighted Hat Matrix and
+Leverages.” *Survey Methodology* 35 (1): 15–24.
 
 Lin, Winston. 2013. “Agnostic Notes on Regression Adjustments to
 Experimental Data: Reexamining Freedman’s Critique.” *The Annals of
 Applied Statistics* 7 (1): 295–318.
 <https://doi.org/10.1214/12-AOAS583>.
 
-MacKinnon, James, and Halbert White. 1985. “Some
+Long, J. Scott, and Laurie H. Ervin. 2000. “Using Heteroscedasticity
+Consistent Standard Errors in the Linear Regression Model.” *The
+American Statistician* 54 (3): 217–24.
+<https://doi.org/10.1080/00031305.2000.10474549>.
+
+MacKinnon, James G., and Halbert White. 1985. “Some
 Heteroskedasticity-Consistent Covariance Matrix Estimators with Improved
 Finite Sample Properties.” *Journal of Econometrics* 29 (3): 305–25.
 <https://doi.org/10.1016/0304-4076(85)90158-7>.
 
-Middleton, Joel A, and Peter M Aronow. 2015. “Unbiased Estimation of the
-Average Treatment Effect in Cluster-Randomized Experiments.”
+Middleton, Joel A., and Peter M. Aronow. 2015. “Unbiased Estimation of
+the Average Treatment Effect in Cluster-Randomized Experiments.”
 *Statistics, Politics and Policy* 6 (1-2): 39–75.
 <https://doi.org/10.1515/spp-2013-0002>.
 
-Pustejovsky, James E, and Elizabeth Tipton. 2018. “Small-Sample Methods
-for Cluster-Robust Variance Estimation and Hypothesis Testing in Fixed
-Effects Models.” *Journal of Business & Economic Statistics* 36 (4).
-<https://doi.org/10.1080/07350015.2016.1247004>.
+Pashley, Nicole E., and Luke W. Miratrix. 2021. “Insights on Variance
+Estimation for Blocked and Matched Pairs Designs.” *Journal of
+Educational and Behavioral Statistics* 46 (3): 271–96.
+<https://doi.org/10.3102/1076998620946272>.
 
-Romano, Joseph P, and Michael Wolf. 2017. “Resurrecting Weighted Least
+Pustejovsky, James E., and Elizabeth Tipton. 2018. “Small-Sample Methods
+for Cluster-Robust Variance Estimation and Hypothesis Testing in Fixed
+Effects Models.” *Journal of Business & Economic Statistics* 36 (4):
+672–83. <https://doi.org/10.1080/07350015.2016.1247004>.
+
+Romano, Joseph P., and Michael Wolf. 2017. “Resurrecting Weighted Least
 Squares.” *Journal of Econometrics* 197 (1): 1–19.
 <https://doi.org/10.1016/j.jeconom.2016.10.003>.
 
-Samii, Cyrus, and Peter M Aronow. 2012. “On Equivalencies Between
+Samii, Cyrus, and Peter M. Aronow. 2012. “On Equivalencies Between
 Design-Based and Regression-Based Variance Estimators for Randomized
-Experiments.” *Statistics and Probability Letters* 82 (2).
+Experiments.” *Statistics & Probability Letters* 82 (2): 365–70.
 <https://doi.org/10.1016/j.spl.2011.10.024>.

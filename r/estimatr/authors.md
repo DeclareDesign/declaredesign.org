@@ -2,15 +2,15 @@
 
 ## Authors
 
-- **Graeme Blair**. Author, maintainer.
+- **Alexander Coppock**. Author, maintainer.
+
+- **Graeme Blair**. Author.
 
 - **Jasper Cooper**. Author.
 
-- **Alexander Coppock**. Author.
-
-- **Macartan Humphreys**. Author.
-
 - **Luke Sonnet**. Author.
+
+- **Macartan Humphreys**. Contributor.
 
 - **Neal Fultz**. Contributor.
 
@@ -25,16 +25,14 @@
 Source:
 [`DESCRIPTION`](https://github.com/DeclareDesign/estimatr/blob/main/DESCRIPTION)
 
-Blair G, Cooper J, Coppock A, Humphreys M, Sonnet L (2025). *estimatr:
-Fast Estimators for Design-Based Inference*.
-[doi:10.32614/CRAN.package.estimatr](https://doi.org/10.32614/CRAN.package.estimatr).
-R package version 1.0.6, <https://CRAN.R-project.org/package=estimatr>.
+Coppock A, Blair G, Cooper J, Sonnet L (2026). *estimatr: Fast
+Estimators for Design-Based Inference*. R package version 2.0.0,
+<https://declaredesign.org/r/estimatr/>.
 
     @Manual{,
       title = {estimatr: Fast Estimators for Design-Based Inference},
-      author = {Graeme Blair and Jasper Cooper and Alexander Coppock and Macartan Humphreys and Luke Sonnet},
-      year = {2025},
-      note = {R package version 1.0.6},
-      url = {https://CRAN.R-project.org/package=estimatr},
-      doi = {10.32614/CRAN.package.estimatr},
+      author = {Alexander Coppock and Graeme Blair and Jasper Cooper and Luke Sonnet},
+      year = {2026},
+      note = {R package version 2.0.0},
+      url = {https://declaredesign.org/r/estimatr/},
     }
