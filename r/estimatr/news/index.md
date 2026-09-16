@@ -2,6 +2,8 @@
 
 ## estimatr 2.0.0
 
+CRAN release: 2026-09-16
+
 estimatr 2.0.0 is a ground-up rewrite aimed at the DeclareDesign use
 case: OLS, Lin-adjusted OLS, 2SLS IV, difference-in-means,
 Horvitz-Thompson, and linear hypothesis tests with heteroskedasticity-
