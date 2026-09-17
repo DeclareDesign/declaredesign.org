@@ -660,11 +660,13 @@ same shape (#336) now use the Pashley and Miratrix (2021) estimators,
 where 1.x either errors or applies the matched-pairs estimator to every
 block; this is the largest single addition.
 [`residuals()`](https://rdrr.io/r/stats/residuals.html) returns
-something (#345). Rank detection matches
-[`lm()`](https://rdrr.io/r/stats/lm.html), so a constant regressor comes
-back as NA rather than as a coefficient of 1e11 (#351, \#395).
-[`predict()`](https://rdrr.io/r/stats/predict.html) works with fixed
-effects, with factors, and with no `newdata` (#403, \#404).
+something (#345). Rank detection uses
+[`lm()`](https://rdrr.io/r/stats/lm.html)’s tolerance, so a constant
+regressor comes back as NA rather than as a coefficient of 1e11 (#351,
+\#395); when regressors are collinear, the one dropped can differ from
+the one [`lm()`](https://rdrr.io/r/stats/lm.html) drops, with identical
+fitted values. [`predict()`](https://rdrr.io/r/stats/predict.html) works
+with fixed effects, with factors, and with no `newdata` (#403, \#404).
 [`lh_robust()`](https://declaredesign.org/r/estimatr/reference/lh_robust.md)
 uses cluster-adjusted degrees of freedom and returns a joint test (#405,
 \#320, \#390). Dropped collinear terms are named rather than silently
