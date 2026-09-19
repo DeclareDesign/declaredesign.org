@@ -80,12 +80,12 @@ design <-
   
 head(draw_data(design))
 #>    ID X           U       Y_Z_0        Y_Z_1 Z           Y
-#> 1 001 0 -0.29843758 -0.29843758 -0.098437577 0 -0.29843758
-#> 2 002 0  0.09345702  0.09345702  0.293457023 0  0.09345702
-#> 3 003 0 -0.24366512 -0.24366512 -0.043665123 1 -0.04366512
-#> 4 004 0  0.07694047  0.07694047  0.276940465 0  0.07694047
-#> 5 005 0 -0.19294591 -0.19294591  0.007054088 0 -0.19294591
-#> 6 006 0  0.05678780  0.05678780  0.256787799 0  0.05678780
+#> 1 001 0 -0.16601842 -0.16601842  0.033981580 0 -0.16601842
+#> 2 002 0 -0.20805937 -0.20805937 -0.008059372 0 -0.20805937
+#> 3 003 0 -0.03428783 -0.03428783  0.165712173 0 -0.03428783
+#> 4 004 0  0.14535070  0.14535070  0.345350696 1  0.34535070
+#> 5 005 0  0.12997107  0.12997107  0.329971072 0  0.12997107
+#> 6 006 0 -0.49900969 -0.49900969 -0.299009687 0 -0.49900969
 
 # Some common inquiries
 design +
@@ -124,7 +124,7 @@ design +
 #> Run of the design:
 #> 
 #>            inquiry estimand
-#>  difference_in_var 5.55e-17
+#>  difference_in_var        0
 #> 
 #> No modifiable parameters saved in design 
 
@@ -234,10 +234,10 @@ design_1 <-
 
 run_design(design_1)
 #>             inquiry estimand estimator term    estimate  std.error statistic
-#> 1               ATE      0.2       DIM    Z  0.20245339 0.04970576  4.073037
-#> 2 difference_in_var      0.0       DIV <NA> -0.05348027         NA        NA
+#> 1               ATE      0.2       DIM    Z 0.203292275 0.05010024   4.05771
+#> 2 difference_in_var      0.0       DIV <NA> 0.004292863         NA        NA
 #>        p.value  conf.low conf.high  df outcome
-#> 1 5.397952e-05 0.1047945 0.3001122 498       Y
+#> 1 5.752397e-05 0.1048584 0.3017262 498       Y
 #> 2           NA        NA        NA  NA    <NA>
 
 # Two inquiries using one estimator
@@ -249,12 +249,12 @@ design_2 <-
   declare_estimator(Y ~ Z, inquiry = c("ATE", "ATT"))
 
 run_design(design_2)
-#>   inquiry estimand estimator term estimate  std.error statistic      p.value
-#> 1     ATE      0.2 estimator    Z 0.251376 0.05104363  4.924729 1.151135e-06
-#> 2     ATT      0.2 estimator    Z 0.251376 0.05104363  4.924729 1.151135e-06
+#>   inquiry estimand estimator term  estimate  std.error statistic      p.value
+#> 1     ATE      0.2 estimator    Z 0.2107943 0.05032361  4.188775 3.317654e-05
+#> 2     ATT      0.2 estimator    Z 0.2107943 0.05032361  4.188775 3.317654e-05
 #>    conf.low conf.high  df outcome
-#> 1 0.1510886 0.3516634 498       Y
-#> 2 0.1510886 0.3516634 498       Y
+#> 1 0.1119215  0.309667 498       Y
+#> 2 0.1119215  0.309667 498       Y
 
 # Two inquiries using different coefficients from one estimator
 
@@ -271,11 +271,11 @@ design_3 <-
 
 run_design(design_3)
 #>     inquiry  estimand estimator        term  estimate  std.error statistic
-#> 1 intercept 0.4880825 estimator (Intercept) 0.5049291 0.03569795 14.144484
-#> 2     slope 0.2000000 estimator           Z 0.1663068 0.05060407  3.286431
+#> 1 intercept 0.5002088 estimator (Intercept) 0.5189382 0.03477431  14.92304
+#> 2     slope 0.2000000 estimator           Z 0.1625411 0.04972728   3.26865
 #>        p.value   conf.low conf.high  df outcome
-#> 1 2.005159e-38 0.43479191 0.5750662 498       Y
-#> 2 1.086242e-03 0.06688302 0.2657306 498       Y
+#> 1 6.853128e-42 0.45061580 0.5872607 498       Y
+#> 2 1.155306e-03 0.06483995 0.2602422 498       Y
 
 
 # declare_inquiries usage
@@ -293,6 +293,6 @@ run_design(design_4)
 #> 2             CATE_X0  2.000000e-01
 #> 3             CATE_X1  2.000000e-01
 #> 4 Difference_in_CATEs -5.551115e-17
-#> 5              mean_Y  6.036624e-01
+#> 5              mean_Y  5.888150e-01
 
 ```

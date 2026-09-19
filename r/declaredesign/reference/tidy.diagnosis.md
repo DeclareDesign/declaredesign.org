@@ -56,34 +56,34 @@ design <-
 diagnosis <- diagnose_design(design, sims = 100)
 
 tidy(diagnosis)
-#>    design inquiry  estimator outcome term    diagnosand     estimate
-#> 1  design     ATE   adjusted       Y    Z mean_estimand  0.100000000
-#> 2  design     ATE   adjusted       Y    Z mean_estimate  0.101733047
-#> 3  design     ATE   adjusted       Y    Z          bias  0.001733047
-#> 4  design     ATE   adjusted       Y    Z   sd_estimate  0.186361104
-#> 5  design     ATE   adjusted       Y    Z          rmse  0.185435055
-#> 6  design     ATE   adjusted       Y    Z         power  0.050000000
-#> 7  design     ATE   adjusted       Y    Z      coverage  1.000000000
-#> 8  design     ATE unadjusted       Y    Z mean_estimand  0.100000000
-#> 9  design     ATE unadjusted       Y    Z mean_estimate  0.090097200
-#> 10 design     ATE unadjusted       Y    Z          bias -0.009902800
-#> 11 design     ATE unadjusted       Y    Z   sd_estimate  0.263237190
-#> 12 design     ATE unadjusted       Y    Z          rmse  0.262104837
-#> 13 design     ATE unadjusted       Y    Z         power  0.050000000
-#> 14 design     ATE unadjusted       Y    Z      coverage  0.980000000
-#>      std.error    conf.low  conf.high
-#> 1  0.000000000  0.10000000 0.10000000
-#> 2  0.018086283  0.07023091 0.13998336
-#> 3  0.018086283 -0.02976909 0.03998336
-#> 4  0.010255730  0.16576485 0.20527442
-#> 5  0.009964692  0.16717757 0.20447557
-#> 6  0.021508749  0.01475000 0.09000000
-#> 7  0.000000000  1.00000000 1.00000000
-#> 8  0.000000000  0.10000000 0.10000000
-#> 9  0.025323990  0.03600417 0.13608792
-#> 10 0.025323990 -0.06399583 0.03608792
-#> 11 0.013593547  0.24039327 0.29207338
-#> 12 0.013468443  0.24001494 0.29073641
-#> 13 0.019928154  0.02000000 0.09525000
-#> 14 0.012872333  0.95000000 1.00000000
+#>    design inquiry  estimator outcome term    diagnosand    estimate  std.error
+#> 1  design     ATE   adjusted       Y    Z mean_estimand 0.100000000 0.00000000
+#> 2  design     ATE   adjusted       Y    Z mean_estimate 0.103982049 0.01877121
+#> 3  design     ATE   adjusted       Y    Z          bias 0.003982049 0.01877121
+#> 4  design     ATE   adjusted       Y    Z   sd_estimate 0.199804329 0.01289401
+#> 5  design     ATE   adjusted       Y    Z          rmse 0.198842674 0.01279584
+#> 6  design     ATE   adjusted       Y    Z         power 0.090000000 0.03034798
+#> 7  design     ATE   adjusted       Y    Z      coverage 0.950000000 0.02326483
+#> 8  design     ATE unadjusted       Y    Z mean_estimand 0.100000000 0.00000000
+#> 9  design     ATE unadjusted       Y    Z mean_estimate 0.150848272 0.02447191
+#> 10 design     ATE unadjusted       Y    Z          bias 0.050848272 0.02447191
+#> 11 design     ATE unadjusted       Y    Z   sd_estimate 0.268687220 0.01491275
+#> 12 design     ATE unadjusted       Y    Z          rmse 0.272133130 0.01501576
+#> 13 design     ATE unadjusted       Y    Z         power 0.100000000 0.02927473
+#> 14 design     ATE unadjusted       Y    Z      coverage 0.970000000 0.01567472
+#>         conf.low  conf.high
+#> 1   0.1000000000 0.10000000
+#> 2   0.0669666790 0.14072546
+#> 3  -0.0330333210 0.04072546
+#> 4   0.1749610721 0.22205651
+#> 5   0.1746681345 0.22243013
+#> 6   0.0400000000 0.16000000
+#> 7   0.8947500000 0.98000000
+#> 8   0.1000000000 0.10000000
+#> 9   0.1006271142 0.19493708
+#> 10  0.0006271142 0.09493708
+#> 11  0.2377792115 0.29307036
+#> 12  0.2405725992 0.29616441
+#> 13  0.0400000000 0.15525000
+#> 14  0.9347500000 1.00000000
 ```

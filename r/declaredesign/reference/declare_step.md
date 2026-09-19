@@ -43,10 +43,10 @@ manipulate <- declare_step(fabricate, noise_squared = noise^2, zero = 0)
 
 design <- population + manipulate
 draw_data(design)
-#>   ID      noise noise_squared zero
-#> 1  1 -1.2540003     1.5725167    0
-#> 2  2 -0.6815540     0.4645159    0
-#> 3  3 -1.1139240     1.2408266    0
-#> 4  4  3.2760610    10.7325760    0
-#> 5  5 -0.7813179     0.6104577    0
+#>   ID       noise noise_squared zero
+#> 1  1 -0.07051319   0.004972111    0
+#> 2  2  1.35951702   1.848286534    0
+#> 3  3  1.45801543   2.125808985    0
+#> 4  4  0.06262103   0.003921393    0
+#> 5  5 -1.30734563   1.709152583    0
 ```

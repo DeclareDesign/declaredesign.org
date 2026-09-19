@@ -63,9 +63,9 @@ design <-
   
 run_design(design)
 #>   inquiry estimand estimator term  estimate  std.error statistic      p.value
-#> 1     ATE      0.2 estimator    Z 0.2863781 0.07900873  3.624638 0.0003678948
+#> 1     ATE      0.2 estimator    Z 0.3447803 0.07842908  4.396078 1.796759e-05
 #>    conf.low conf.high  df outcome
-#> 1 0.1305714 0.4421847 198       Y
+#> 1 0.1901168 0.4994438 198       Y
 
 # Set up population to sample from
 model <- declare_model(
@@ -92,12 +92,12 @@ design <- model +
   
 head(draw_data(design))
 #>    villages N_households households N_members individuals age gender S
-#> 1        01           64       0001         1        0001  23      1 1
-#> 2        01           64       0002         4        0002  76      0 1
-#> 7        01           64       0003         2        0007  23      0 1
-#> 8        01           64       0004         3        0008  23      1 1
-#> 25       01           64       0010         4        0025  40      1 1
-#> 28       01           64       0012         2        0028  46      1 1
+#> 1        01           72       0001         2        0001  25      1 1
+#> 8        01           72       0003         3        0008  88      0 1
+#> 9        01           72       0004         1        0009  71      1 1
+#> 12       01           72       0006         2        0012  21      0 1
+#> 29       01           72       0016         2        0029  28      0 1
+#> 33       01           72       0017         4        0033  50      1 1
 
 ## Cluster random sampling
 design <- model +
@@ -106,12 +106,12 @@ design <- model +
 
 head(draw_data(design))
 #>     villages N_households households N_members individuals age gender S
-#> 191       02           86       0075         4        0191  81      1 1
-#> 192       02           86       0075         4        0192  30      0 1
-#> 193       02           86       0075         4        0193  84      0 1
-#> 194       02           86       0075         4        0194  37      1 1
-#> 195       02           86       0076         1        0195  33      0 1
-#> 196       02           86       0077         3        0196  48      1 1
+#> 318       03           53       0132         1        0318  70      1 1
+#> 319       03           53       0133         4        0319  41      0 1
+#> 320       03           53       0133         4        0320  67      0 1
+#> 321       03           53       0133         4        0321  72      1 1
+#> 322       03           53       0133         4        0322  83      1 1
+#> 323       03           53       0134         4        0323  26      0 1
 
 ## Strata and cluster random sampling
 design <- model +
@@ -122,23 +122,23 @@ design <- model +
     
 head(draw_data(design))
 #>    villages N_households households N_members individuals age gender S
-#> 9        01           93       0004         2        0009  67      1 1
-#> 10       01           93       0004         2        0010  51      1 1
-#> 11       01           93       0005         1        0011  85      0 1
-#> 21       01           93       0009         4        0021  62      1 1
-#> 22       01           93       0009         4        0022  24      1 1
-#> 23       01           93       0009         4        0023  90      1 1
+#> 9        01           62       0003         4        0009  87      0 1
+#> 10       01           62       0003         4        0010  70      0 1
+#> 11       01           62       0003         4        0011  55      1 1
+#> 12       01           62       0003         4        0012  35      1 1
+#> 18       01           62       0007         3        0018  20      0 1
+#> 19       01           62       0007         3        0019  89      1 1
 
 ## Stratified random sampling
 design <- model +
   declare_sampling(S = strata_rs(strata = gender, n = 100))
 
 head(draw_data(design))
-#>    villages N_households households N_members individuals age gender S
-#> 2        01           88       0001         2        0002  47      1 1
-#> 6        01           88       0003         2        0006  42      0 1
-#> 12       01           88       0005         2        0012  36      0 1
-#> 13       01           88       0005         2        0013  46      1 1
-#> 51       01           88       0020         3        0051  51      0 1
-#> 77       01           88       0031         3        0077  53      0 1
+#>     villages N_households households N_members individuals age gender S
+#> 50        01           61       0020         2        0050  55      0 1
+#> 51        01           61       0021         1        0051  70      0 1
+#> 68        01           61       0028         4        0068  38      1 1
+#> 84        01           61       0034         4        0084  90      0 1
+#> 100       01           61       0041         4        0100  29      1 1
+#> 121       01           61       0049         2        0121  56      0 1
 ```
