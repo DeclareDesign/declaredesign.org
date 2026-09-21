@@ -1558,9 +1558,9 @@ for (r in 1:1000) {
 }
 rbind(unweighted = c(mean = mean(unweighted), bias = mean(unweighted) - tau),
       weighted   = c(mean = mean(weighted),   bias = mean(weighted)   - tau))
-#>             mean     bias
-#> unweighted 1.423  0.42322
-#> weighted   0.997 -0.00259
+#>            mean   bias
+#> unweighted 1.43 0.4286
+#> weighted   1.00 0.0039
 ```
 
 ✓ The weighted estimator recovers the true effect; the unweighted one
@@ -1588,8 +1588,8 @@ mean_pair_cor <- function(S) { C <- cor(t(S)); mean(C[upper.tri(C)]) }
 rbind(balanced = c(var_treated = var(colSums(Zb)), pair_cor = mean_pair_cor(Zb)),
       simple   = c(var_treated = var(colSums(Zs)), pair_cor = mean_pair_cor(Zs)))
 #>          var_treated pair_cor
-#> balanced        0.00   -0.198
-#> simple          1.32    0.001
+#> balanced         0.0 -0.19800
+#> simple           1.3 -0.00125
 ```
 
 That dependence is a reason to ask whether the usual standard errors
@@ -1611,8 +1611,8 @@ rbind(
                                          check_inputs = FALSE), p4, y0, tau)
 )
 #>          true_sd mean_se ratio coverage
-#> balanced   0.187   0.192 1.029    0.955
-#> simple     0.193   0.193 0.999    0.949
+#> balanced   0.192   0.192 1.001    0.948
+#> simple     0.195   0.193 0.987    0.946
 ```
 
 The two rows are barely distinguishable. Both ratios sit close to 1 and
@@ -1642,8 +1642,8 @@ rbind(
                           p_half, y0_x, tau)
 )
 #>              true_sd mean_se ratio coverage
-#> balanced ~ x   0.150   0.426 2.837    1.000
-#> complete       0.432   0.425 0.984    0.948
+#> balanced ~ x   0.154   0.428  2.77    1.000
+#> complete       0.426   0.427  1.00    0.956
 ```
 
 Read the first two columns together. Under
@@ -1672,8 +1672,8 @@ rbind(
                                     p_half, y0_x, tau, x = x4)
 )
 #>                        true_sd mean_se ratio coverage
-#> balanced ~ x, adjusted   0.143   0.137 0.962    0.938
-#> complete, adjusted       0.136   0.137 1.012    0.950
+#> balanced ~ x, adjusted   0.133   0.143 1.073    0.964
+#> complete, adjusted       0.144   0.143 0.998    0.940
 ```
 
 That repair lasts only as long as the adjustment model is right. Make
@@ -1692,8 +1692,8 @@ rbind(
                       p_half, y0_q, tau, x = x4)
 )
 #>            true_sd mean_se ratio coverage
-#> unadjusted   0.216   0.558  2.59        1
-#> adjusted     0.214   0.568  2.65        1
+#> unadjusted   0.258   0.618  2.39        1
+#> adjusted     0.233   0.611  2.62        1
 ```
 
 Three cautions on the above. These are the designs that were drawn and

@@ -2140,9 +2140,9 @@ and the true effect is 1.</p>
 <span><span class="op">}</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/cbind.html" class="external-link">rbind</a></span><span class="op">(</span>unweighted <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span>mean <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/mean.html" class="external-link">mean</a></span><span class="op">(</span><span class="va">unweighted</span><span class="op">)</span>, bias <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/mean.html" class="external-link">mean</a></span><span class="op">(</span><span class="va">unweighted</span><span class="op">)</span> <span class="op">-</span> <span class="va">tau</span><span class="op">)</span>,</span>
 <span>      weighted   <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span>mean <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/mean.html" class="external-link">mean</a></span><span class="op">(</span><span class="va">weighted</span><span class="op">)</span>,   bias <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/mean.html" class="external-link">mean</a></span><span class="op">(</span><span class="va">weighted</span><span class="op">)</span>   <span class="op">-</span> <span class="va">tau</span><span class="op">)</span><span class="op">)</span></span>
-<span><span class="co">#&gt;             mean     bias</span></span>
-<span><span class="co">#&gt; unweighted 1.423  0.42322</span></span>
-<span><span class="co">#&gt; weighted   0.997 -0.00259</span></span></code></pre></div>
+<span><span class="co">#&gt;            mean   bias</span></span>
+<span><span class="co">#&gt; unweighted 1.43 0.4286</span></span>
+<span><span class="co">#&gt; weighted   1.00 0.0039</span></span></code></pre></div>
 <p>
 <span style="color:#2e7d32;font-weight:bold;">✓</span> The weighted
 estimator recovers the true effect; the unweighted one does not.
@@ -2166,8 +2166,8 @@ and <code><a href="../reference/block_ra.html">block_ra()</a></code>.</p>
 <span><span class="fu"><a href="https://rdrr.io/r/base/cbind.html" class="external-link">rbind</a></span><span class="op">(</span>balanced <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span>var_treated <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/cor.html" class="external-link">var</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/colSums.html" class="external-link">colSums</a></span><span class="op">(</span><span class="va">Zb</span><span class="op">)</span><span class="op">)</span>, pair_cor <span class="op">=</span> <span class="fu">mean_pair_cor</span><span class="op">(</span><span class="va">Zb</span><span class="op">)</span><span class="op">)</span>,</span>
 <span>      simple   <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span>var_treated <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/cor.html" class="external-link">var</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/colSums.html" class="external-link">colSums</a></span><span class="op">(</span><span class="va">Zs</span><span class="op">)</span><span class="op">)</span>, pair_cor <span class="op">=</span> <span class="fu">mean_pair_cor</span><span class="op">(</span><span class="va">Zs</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="co">#&gt;          var_treated pair_cor</span></span>
-<span><span class="co">#&gt; balanced        0.00   -0.198</span></span>
-<span><span class="co">#&gt; simple          1.32    0.001</span></span></code></pre></div>
+<span><span class="co">#&gt; balanced         0.0 -0.19800</span></span>
+<span><span class="co">#&gt; simple           1.3 -0.00125</span></span></code></pre></div>
 <p>That dependence is a reason to ask whether the usual standard errors
 still work, since they are built on a model in which units are
 independent. For the count-tight designs the answer appears to be yes.
@@ -2183,8 +2183,8 @@ by the estimator’s true standard deviation, so 1 is what we want.</p>
 <span>                                         check_inputs <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span>, <span class="va">p4</span>, <span class="va">y0</span>, <span class="va">tau</span><span class="op">)</span></span>
 <span><span class="op">)</span></span>
 <span><span class="co">#&gt;          true_sd mean_se ratio coverage</span></span>
-<span><span class="co">#&gt; balanced   0.187   0.192 1.029    0.955</span></span>
-<span><span class="co">#&gt; simple     0.193   0.193 0.999    0.949</span></span></code></pre></div>
+<span><span class="co">#&gt; balanced   0.192   0.192 1.001    0.948</span></span>
+<span><span class="co">#&gt; simple     0.195   0.193 0.987    0.946</span></span></code></pre></div>
 <p>The two rows are barely distinguishable. Both ratios sit close to 1
 and both coverage rates close to 95 percent, and the small differences
 between them are within Monte Carlo error of each other. Holding the
@@ -2215,8 +2215,8 @@ variance that <code><a href="../reference/complete_ra.html">complete_ra()</a></c
 <span>                          <span class="va">p_half</span>, <span class="va">y0_x</span>, <span class="va">tau</span><span class="op">)</span></span>
 <span><span class="op">)</span></span>
 <span><span class="co">#&gt;              true_sd mean_se ratio coverage</span></span>
-<span><span class="co">#&gt; balanced ~ x   0.150   0.426 2.837    1.000</span></span>
-<span><span class="co">#&gt; complete       0.432   0.425 0.984    0.948</span></span></code></pre></div>
+<span><span class="co">#&gt; balanced ~ x   0.154   0.428  2.77    1.000</span></span>
+<span><span class="co">#&gt; complete       0.426   0.427  1.00    0.956</span></span></code></pre></div>
 <p>Read the first two columns together. Under <code><a href="../reference/complete_ra.html">complete_ra()</a></code>
 the reported standard error and the true one agree, and coverage is near
 95 percent. Under <code>~ x</code> the estimator is far more precise,
@@ -2242,8 +2242,8 @@ assignment.</p>
 <span>                                    <span class="va">p_half</span>, <span class="va">y0_x</span>, <span class="va">tau</span>, x <span class="op">=</span> <span class="va">x4</span><span class="op">)</span></span>
 <span><span class="op">)</span></span>
 <span><span class="co">#&gt;                        true_sd mean_se ratio coverage</span></span>
-<span><span class="co">#&gt; balanced ~ x, adjusted   0.143   0.137 0.962    0.938</span></span>
-<span><span class="co">#&gt; complete, adjusted       0.136   0.137 1.012    0.950</span></span></code></pre></div>
+<span><span class="co">#&gt; balanced ~ x, adjusted   0.133   0.143 1.073    0.964</span></span>
+<span><span class="co">#&gt; complete, adjusted       0.144   0.143 0.998    0.940</span></span></code></pre></div>
 <p>That repair lasts only as long as the adjustment model is right. Make
 the outcome quadratic in
 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>x</mi><annotation encoding="application/x-tex">x</annotation></semantics></math>
@@ -2260,8 +2260,8 @@ or not you adjust.</p>
 <span>                      <span class="va">p_half</span>, <span class="va">y0_q</span>, <span class="va">tau</span>, x <span class="op">=</span> <span class="va">x4</span><span class="op">)</span></span>
 <span><span class="op">)</span></span>
 <span><span class="co">#&gt;            true_sd mean_se ratio coverage</span></span>
-<span><span class="co">#&gt; unadjusted   0.216   0.558  2.59        1</span></span>
-<span><span class="co">#&gt; adjusted     0.214   0.568  2.65        1</span></span></code></pre></div>
+<span><span class="co">#&gt; unadjusted   0.258   0.618  2.39        1</span></span>
+<span><span class="co">#&gt; adjusted     0.233   0.611  2.62        1</span></span></code></pre></div>
 <p>Three cautions on the above. These are the designs that were drawn
 and nothing more: the count-tight results cover two-arm designs with
 varying probabilities and their independent counterpart, and the
