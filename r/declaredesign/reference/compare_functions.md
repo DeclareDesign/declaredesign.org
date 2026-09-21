@@ -77,19 +77,22 @@ compare_design_inquiries(
 
 - format:
 
-  Format (in console or HTML) options from `diffobj::diffChr`
+  Format (in console or HTML) options from
+  [`diffobj::diffChr`](https://rdrr.io/pkg/diffobj/man/diffChr.html)
 
 - pager:
 
-  Pager option from `diffobj::diffChr`
+  Pager option from
+  [`diffobj::diffChr`](https://rdrr.io/pkg/diffobj/man/diffChr.html)
 
 - context:
 
-  Context option from `diffobj::diffChr` which sets the number of lines
-  around differences that are printed. By default, all lines of the two
-  objects are shown. To show only the lines that are different, set
-  `context = 0`; to get one line around differences for context, set to
-  1.
+  Context option from
+  [`diffobj::diffChr`](https://rdrr.io/pkg/diffobj/man/diffChr.html)
+  which sets the number of lines around differences that are printed. By
+  default, all lines of the two objects are shown. To show only the
+  lines that are different, set `context = 0`; to get one line around
+  differences for context, set to 1.
 
 - rmd:
 
@@ -98,7 +101,8 @@ compare_design_inquiries(
 
 - mode:
 
-  Mode options from `diffobj::diffChr`
+  Mode options from
+  [`diffobj::diffChr`](https://rdrr.io/pkg/diffobj/man/diffChr.html)
 
 ## Examples
 
@@ -130,5 +134,8 @@ design1 <- declare_model(N = 100, u = rnorm(N), potential_outcomes(Y ~ Z + u)) +
  
  }
 #> Loading required package: diffobj
-#> Warning: there is no package called ‘diffobj’
+#> < design1             > design2           
+#> @@ 1,2 @@             @@ 1,2 @@           
+#>     inquiry estimand      inquiry estimand
+#> < 1     ATE        1  > 1     ATE      0.5
 ```

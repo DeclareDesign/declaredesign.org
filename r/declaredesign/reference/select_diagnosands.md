@@ -89,9 +89,9 @@ diagnose_design(design,
                 diagnosands = select_diagnosands("sd_estimate", "mean_se"),
                 sims = 100)
 #> 
-#> Research design diagnosis based on 100 simulations. Diagnosis completed in 2 secs. Diagnosand estimates with bootstrapped standard errors in parentheses (100 replicates).
+#> Research design diagnosis based on 100 simulations. Diagnosis completed in 1 secs. Diagnosand estimates with bootstrapped standard errors in parentheses (100 replicates).
 #> 
 #>  Design Inquiry Estimator Outcome Term N Sims SD Estimate Mean Se
-#>  design     ATE estimator       Y    Z    100        0.13    0.14
+#>  design     ATE estimator       Y    Z    100        0.15    0.14
 #>                                                    (0.01)  (0.00)
 ```

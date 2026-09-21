@@ -35,8 +35,8 @@ design <-
 
 # Use run_design to run a design object
 run_design(design)
-#>   inquiry estimand estimator term  estimate std.error statistic     p.value
-#> 1     ATE      0.2 estimator    Z 0.2143174 0.0796503   2.69073 0.007738906
+#>   inquiry estimand estimator term  estimate  std.error statistic   p.value
+#> 1     ATE      0.2 estimator    Z 0.1018961 0.07861878  1.296078 0.1964572
 #>     conf.low conf.high  df outcome
-#> 1 0.05724567 0.3713892 198       Y
+#> 1 -0.0531415 0.2569337 198       Y
 ```

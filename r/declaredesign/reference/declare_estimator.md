@@ -167,7 +167,7 @@ design <-
 
 run_design(design)
 #>   inquiry estimand
-#> 1     ATE    0.088
+#> 1     ATE    0.108
 
 # default estimator is lm_robust with tidy summary
 design_0 <-
@@ -176,9 +176,9 @@ design_0 <-
 
 run_design(design_0)
 #>   inquiry estimand estimator term estimate  std.error statistic   p.value
-#> 1     ATE    0.076 estimator    Z     0.07 0.07086051 0.9878563 0.3244287
+#> 1     ATE    0.104 estimator    Z     0.09 0.07034547    1.2794 0.2022534
 #>      conf.low conf.high  df outcome
-#> 1 -0.06973817 0.2097382 198       Y
+#> 1 -0.04872249 0.2287225 198       Y
 
 # Linear regression using lm_robust and tidy summary
 design_1 <-
@@ -193,10 +193,10 @@ design_1 <-
   )
 
 run_design(design_1)
-#>   inquiry estimand term      estimator estimate  std.error statistic    p.value
-#> 1     ATE    0.082    Z lm_no_controls     0.15 0.06759206  2.219195 0.02760874
-#>     conf.low conf.high  df outcome
-#> 1 0.01670727 0.2832927 198       Y
+#>   inquiry estimand term      estimator estimate  std.error statistic   p.value
+#> 1     ATE    0.096    Z lm_no_controls     0.08 0.06939857  1.152761 0.2503981
+#>      conf.low conf.high  df outcome
+#> 1 -0.05685519 0.2168552 198       Y
 
 # Use glance summary function to view model fit statistics
 design_2 <-
@@ -206,8 +206,8 @@ design_2 <-
                     .summary = glance)
 
 run_design(design_2)
-#>   inquiry estimand estimator r.squared adj.r.squared statistic    p.value
-#> 1     ATE    0.126 estimator     0.015    0.01002525  3.015228 0.08404123
+#>   inquiry estimand estimator r.squared adj.r.squared statistic     p.value
+#> 1     ATE    0.038 estimator 0.0410509    0.03620773  8.476027 0.004011144
 #>   df.residual nobs se_type
 #> 1         198  200     HC2
 
@@ -230,8 +230,8 @@ design_3 <-
 
 run_design(design_3)
 #>   inquiry estimand estimator estimate
-#> 1   Y_bar    0.625      mean    0.625
-#> 2     ATE    0.080      <NA>       NA
+#> 1   Y_bar    0.570      mean     0.57
+#> 2     ATE    0.054      <NA>       NA
 
 # Use `term` to select particular coefficients
 design_4 <-
@@ -244,12 +244,12 @@ design_4 <-
                     .method = lm_robust)
 
 run_design(design_4)
-#>               inquiry  estimand     term estimator  estimate std.error
-#> 1 difference_in_cates 0.1313283 Z:gender estimator 0.3411113 0.1378737
-#> 2                 ATE 0.0880000     <NA>      <NA>        NA        NA
-#>   statistic    p.value conf.low conf.high  df outcome
-#> 1  2.474086 0.01420772 0.069205 0.6130177 196       Y
-#> 2        NA         NA       NA        NA  NA    <NA>
+#>               inquiry     estimand     term estimator    estimate std.error
+#> 1 difference_in_cates 0.0008003201 Z:gender estimator -0.08878265 0.1340375
+#> 2                 ATE 0.0500000000     <NA>      <NA>          NA        NA
+#>    statistic   p.value   conf.low conf.high  df outcome
+#> 1 -0.6623717 0.5085111 -0.3531235 0.1755582 196       Y
+#> 2         NA        NA         NA        NA  NA    <NA>
 
 if(require("broom")) {
 
@@ -313,6 +313,10 @@ if(require("broom")) {
 }
 #> Loading required package: broom
 #> Loading required package: marginaleffects
-#> Error: Error in step 6 (estimator):
-#>  Error: Unable to extract the data from model of class `glm`. This can happen in a variety of cases, such as when a `marginaleffects` package function is called from inside a user-defined function, or using an `*apply()`-style operation on a list. Please supply a data frame explicitly via the `newdata` argument.
+#>   inquiry estimand estimator term  estimate  std.error statistic   p.value
+#> 1     ATE    0.102       OLS    Z 0.1100000 0.06904105  1.593255 0.1126981
+#> 2     ATE    0.102     logit    Z 0.1062425 0.06746248  1.574838 0.1152938
+#>      conf.low conf.high  df outcome contrast  s.value
+#> 1 -0.02615016 0.2461502 198       Y     <NA>       NA
+#> 2 -0.02598153 0.2384665  NA    <NA>    1 - 0 3.116613
 ```

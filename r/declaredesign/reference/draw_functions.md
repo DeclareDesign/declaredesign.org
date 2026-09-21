@@ -72,8 +72,8 @@ draw_estimands(design)
 
 # Use draw_estimates to extract value of estimator
 draw_estimates(design)
-#>   estimator term  estimate  std.error statistic    p.value   conf.low conf.high
-#> 1 estimator    Z 0.2112022 0.08159448  2.588437 0.01035623 0.05029642 0.3721079
+#>   estimator term estimate  std.error statistic      p.value  conf.low conf.high
+#> 1 estimator    Z 0.334225 0.07695986  4.342849 2.243858e-05 0.1824589 0.4859912
 #>    df outcome inquiry
 #> 1 198       Y     ATE
 ```
