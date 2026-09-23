@@ -589,7 +589,7 @@ declaration_lin <-
 set.seed(343)
 diagnose_design(declaration_lin, sims = 500)
 #> 
-#> Research design diagnosis based on 500 simulations. Diagnosis completed in 4 secs. Diagnosand estimates with bootstrapped standard errors in parentheses (100 replicates).
+#> Research design diagnosis based on 500 simulations. Diagnosis completed in 3 secs. Diagnosand estimates with bootstrapped standard errors in parentheses (100 replicates).
 #> 
 #>           Design Inquiry Estimator Outcome Term N Sims Mean Estimand Mean Estimate   Bias
 #>  declaration_lin     ATE estimator       Y    Z    500          0.35          0.35  -0.00
