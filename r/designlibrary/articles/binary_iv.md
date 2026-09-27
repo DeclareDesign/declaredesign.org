@@ -173,8 +173,6 @@ diagnoses <- diagnose_designs(iv_nonrelevant, iv_nonrandom,
 
     ## Some coefficients are collinear with other regressors and were dropped, and are returned as NA: X.
 
-    ## 1 coefficient not defined because the design matrix is rank deficient
-
 We highlight a few takeaways. Firstly, our estimates are unbiased when
 all assumption hold. We show that violating any of the first three
 assumptions yields biased estimates.
