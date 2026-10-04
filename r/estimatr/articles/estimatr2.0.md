@@ -595,7 +595,7 @@ it, since `sandwich` has no leverage convention of its own: it calls
 fit. estimatr uses the leverage of the second-stage regression,
 `h = xhat'(Xhat'Xhat)^-1 xhat`, the diagonal of an orthogonal
 projection. So does the `ivreg` package, and
-[`sandwich::vcovHC()`](https://zeileis.codeberg.page/sandwich/reference/vcovHC.html)
+[`sandwich::vcovHC()`](https://rdrr.io/pkg/sandwich/man/vcovHC.html)
 applied to an
 [`ivreg::ivreg()`](https://zeileis.github.io/ivreg/reference/ivreg.html)
 fit returns estimatr’s standard errors to machine precision, HC2 and HC3

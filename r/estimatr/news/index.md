@@ -56,8 +56,8 @@ the R reference to machine precision and as different from Stata by a
 bounded amount. The same is done for weighted 2SLS root MSE. The
 `iv_robust` HC2 leverage convention is pinned the other way round:
 estimatr matches
-[`sandwich::vcovHC()`](https://zeileis.codeberg.page/sandwich/reference/vcovHC.html)
-on an
+[`sandwich::vcovHC()`](https://rdrr.io/pkg/sandwich/man/vcovHC.html) on
+an
 [`ivreg::ivreg()`](https://zeileis.github.io/ivreg/reference/ivreg.html)
 fit exactly, and differs from
 [`AER::ivreg()`](https://rdrr.io/pkg/AER/man/ivreg.html), whose
@@ -1023,7 +1023,7 @@ wherever `1 - h <= 0`, so both estimators drop those observations from
 the variance instead, and warns with a count of how many sat at or near
 leverage 1 and which `se_type` read it. The count is a tolerance,
 `h > 1 - sqrt(.Machine$double.eps)`, which is
-[`sandwich::vcovHC()`](https://zeileis.codeberg.page/sandwich/reference/vcovHC.html)’s
+[`sandwich::vcovHC()`](https://rdrr.io/pkg/sandwich/man/vcovHC.html)’s
 criterion on the same quantity, rather than a test on the sign of
 `1 - h`. The reason is that on an exactly saturated design the standard
 error is the same whichever side of 1 the rounding puts the hat value,
