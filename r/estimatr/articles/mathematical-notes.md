@@ -633,7 +633,7 @@ negative for one row of `mtcars`, and across 3,000 weak-first-stage
 designs it exceeded one in 10.8 percent of them, reaching 309.
 
 The `ivreg` package makes the second-stage convention its default, and
-[`sandwich::vcovHC()`](https://rdrr.io/pkg/sandwich/man/vcovHC.html)
+[`sandwich::vcovHC()`](https://zeileis.codeberg.page/sandwich/reference/vcovHC.html)
 applied to an
 [`ivreg::ivreg()`](https://zeileis.github.io/ivreg/reference/ivreg.html)
 fit returns estimatr’s standard errors to machine precision. `sandwich`
