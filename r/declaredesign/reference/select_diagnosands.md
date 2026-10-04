@@ -157,7 +157,7 @@ diagnose_design(design,
 #> The standard error is NA for (Intercept): every observation that identifies that coefficient is fitted exactly, so the variance is built from residuals that are all numerically zero. Reported as a number it would be zero or rounding error, and its t statistic would put p at 0.
 #> The standard error is NA for (Intercept): every observation that identifies that coefficient is fitted exactly, so the variance is built from residuals that are all numerically zero. Reported as a number it would be zero or rounding error, and its t statistic would put p at 0.
 #> 
-#> Research design diagnosis based on 100 simulations. Diagnosis completed in 2 secs. Diagnosand estimates with bootstrapped standard errors in parentheses (100 replicates).
+#> Research design diagnosis based on 100 simulations. Diagnosis completed in 1 secs. Diagnosand estimates with bootstrapped standard errors in parentheses (100 replicates).
 #> 
 #>  Design Inquiry Estimator Outcome Term N Sims SD Estimate Mean Se
 #>  design     ATE estimator       Y    Z    100        0.15    0.14
