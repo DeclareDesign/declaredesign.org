@@ -1,5 +1,498 @@
 # Changelog
 
+## estimatr 2.0.1
+
+CRAN release: 2026-10-10
+
+### A rank-deficient fit is reported once
+
+The fit messages that a column was dropped, naming it;
+[`tidy()`](https://generics.r-lib.org/reference/tidy.html) and
+[`summary()`](https://rdrr.io/r/base/summary.html) then messaged again
+with the count, so a rank-deficient fit inside a
+[`tidy()`](https://generics.r-lib.org/reference/tidy.html) pipeline
+announced itself twice for one event.
+[`stats::lm()`](https://rdrr.io/r/stats/lm.html) says it once, in the
+printed summary. The
+[`tidy()`](https://generics.r-lib.org/reference/tidy.html) and
+[`summary()`](https://rdrr.io/r/base/summary.html) message is gone; the
+named message at the fit and the count in the printed summary stay.
+
+The message also says what the dropped column was collinear with, which
+the name alone does not. In four-person cells of
+`Y ~ Z + X_woman + X_income` a covariate was sometimes constant, aliased
+with the intercept and leaving the treatment coefficient meaning what it
+did, and sometimes equal to the treatment indicator, which makes the two
+inseparable; both printed the same sentence. The spanning set is a
+regression of the dropped column on the kept ones, reported as constant,
+identical to a named column, or a linear combination of named columns,
+for up to three dropped columns.
+
+### One rule for a full-leverage observation under `HC2` and `HC3`
+
+Before this release, an observation at or near leverage 1 was handled by
+three sets that had each been right when written and had come to
+disagree. The variance discarded an observation at `1 - h <= 0`; the
+count that decided whether the fit warned, and the rule that returned
+`NA` for a coefficient such observations alone identify, both used
+`sandwich`’s tolerant `h > 1 - sqrt(eps)`. An observation at
+`h = 1 - 5e-9` was therefore counted and made its coefficient `NA`,
+under a message saying it had been dropped, while its term stayed in the
+meat inflated by about 2e8. The discard now uses the same tolerance as
+the count and the `NA` rule, so the three are one set and the message is
+true of it.
+
+The warning also fired on every absorbed fixed-effects fit with a
+singleton group, which is the most common fixed-effects structure there
+is, and told the user to change estimator on a fit that was correct as
+it stood: a singleton’s demeaned row is zero, so it carries no share of
+any reported coefficient’s variance and every standard error is the one
+the design without it gives, to machine precision. The fit now warns if
+and only if some standard error is `NA` because the discarded
+observations alone identified its coefficient. Where none is, the count
+is reported as a message, as `fixest` does, and it is stored on the fit
+as `n_leverage_near_one` either way. A second warning behind the first,
+raised for a `NaN` standard error with no observation near leverage 1,
+diagnosed it as a leverage problem; every `NaN` source in the variance
+code other than a negative variance diagonal is now trapped, and that
+case already warns with the right reason, so the second warning is gone.
+
+### A standard error of numerically zero is reported as `NA`
+
+A variance computed as `6e-17` is rounding error, and reported as a
+number it carries a t statistic of `1e16` and a p-value of 0. Three
+shapes reach it and the entry above catches none of them, because none
+of them needs an observation at leverage 1. An outcome the regressors
+reproduce exactly, with residual degrees of freedom left over, returns
+that number for every coefficient; a constant outcome returns exactly 0.
+A factor level confined to one arm of a treatment returns it for that
+arm’s contrast alone, with three stars on an estimate of `2e-17`, while
+the rest of the fit is ordinary: on a covariate balance test over 88
+studies this printed a significant imbalance on levels holding one or
+two observations. A cluster-robust fit reaches the same number by a
+third route, where the within-cluster sums of scores cancel although no
+residual is near zero: a paired conjoint whose outcome sums to 1 within
+respondent returns it for every respondent-level covariate, with
+residuals running to plus and minus 0.5.
+
+A coefficient’s standard error is now `NA` when its variance is below
+`.Machine$double.eps` times the classical variance it would carry if the
+regressors explained nothing, `tss/df` times `XtX_inv(j,j)`. The ratio
+is dimensionless, so it is comparable across columns of unlike scale,
+and it is about `1 - R^2` for a classical fit, so a fit has to reproduce
+its outcome to the last bit to be caught: a design with an R-squared of
+`1 - 1e-9` is untouched. The rule applies under every `se_type`. Where
+the outcome is reproduced exactly, a classical fit returns the same
+`6e-17`, so the rule is not about robust variances; where the fit is
+clustered, the residuals can be ordinary and it is their within-cluster
+sums that vanish, which `se_type = "HC2"` on the same data does not see.
+The fit messages once, saying whether the outcome is reproduced exactly,
+and otherwise naming the coefficients and which of the two mechanisms
+holds.
+
+[`lm()`](https://rdrr.io/r/stats/lm.html) reports these designs
+silently, as 1.0.6 did.
+
+### The F statistic is `NA` where the variance of the coefficients it tests cannot be inverted
+
+The model F is a quadratic form in the inverse of the tested
+coefficients’ variance block, guarded until now by
+[`chol()`](https://rdrr.io/r/base/chol.html) raising an error. A block
+at a reciprocal condition number of `1e-32` does not raise one: the
+factorization succeeds and the inverse is assembled out of cancellation.
+On the balance test above,
+[`glance()`](https://generics.r-lib.org/reference/glance.html) returned
+F = 389 on `p = 1e-146` for a contrast with no variance at all, and F =
+1275 for another. The statistic is now `NA` when
+[`rcond()`](https://rdrr.io/r/base/kappa.html) of that block is below
+the double precision floor, and when any coefficient under test has the
+`NA` standard error of the entry above. The classical branch reaches the
+same place through an R-squared of exactly 1 and is covered by the same
+rule.
+
+Reporting `NA` for a coefficient’s own standard error while returning a
+number for the joint test over the same coefficients was the
+inconsistency this removes.
+
+### A factor `clusters` no longer loses the Horvitz-Thompson standard error
+
+[`horvitz_thompson()`](https://declaredesign.org/r/estimatr/reference/horvitz_thompson.md)
+with a clustered or blocked-and-clustered declaration returned `NA` for
+the standard error, on every draw, whenever the declaration’s `clusters`
+was a factor. The estimate was right; only the variance was lost. The
+cluster-level aggregation is
+[`tapply()`](https://rdrr.io/r/base/tapply.html), which groups by a
+factor’s levels rather than by the values present, so every cluster
+absent from an arm summed to `NA`. Under two-arm randomization every
+control cluster is absent from the treated arm, so the failure needed
+nothing unusual: an ordinary factor cluster column was enough.
+
+It was also reported in the wrong direction. The `NA` reached the guard
+that reports an unestimable variance bound, whose message tells the user
+their declaration is the problem and suggests replacing it with one
+carrying the design’s block and cluster structure, which is what they
+had already supplied.
+
+1.0.6 answers these designs and never had this bug, so it is a 2.0.0
+regression. The fix restores 1.0.6’s answer to fifteen digits, and a
+factor, character, and integer coding of the same clusters now give the
+same standard error.
+
+### `lm_lin()` says what a dropped treatment interaction costs
+
+A rank-deficient fit already names the columns it returned as `NA`. In
+[`lm_lin()`](https://declaredesign.org/r/estimatr/reference/lm_lin.md)
+that is not enough, because the treatment coefficient is the effect at
+the covariate means only while every covariate is interacted with the
+treatment, and the name of a dropped column does not say that the number
+the reader takes for the effect has changed meaning.
+
+The two ways a Lin design goes rank deficient are not the same event. A
+duplicated or constant covariate takes its own main effect down with its
+interaction, and the fit that remains is
+[`lm_lin()`](https://declaredesign.org/r/estimatr/reference/lm_lin.md)
+on the covariates that are left. A covariate that is constant within one
+treatment arm keeps its main effect and loses only its interaction:
+centering happens before interacting, so `x_c - Z * x_c` equals
+`-mean(x) * (1 - Z)`, and the intercept, the treatment indicator, the
+centered covariate, and its interaction are an exact four-column
+dependency. Which of the four is dropped is then an answer rather than a
+naming question. On the subgroup cells of one published replication the
+fitted values and `r.squared` agree to twelve printed digits under
+either drop while the treatment coefficient moves from -1.56 to -2.00,
+so nothing in the fit’s own goodness of fit reveals it. The effect at
+the covariate means is not identified in that cell under any version of
+this package or any other.
+
+The message now adds a sentence in the second case only, naming the
+treatment coefficient the drop affects and saying that it is no longer
+the effect at the covariate means. It stays a message rather than a
+warning for the reasons in the entry below:
+[`stats::lm()`](https://rdrr.io/r/stats/lm.html) signals nothing here,
+and a warning raised inside nested grouped `dplyr` verbs, which is how a
+subgroup analysis reaches this code, crashes `dplyr` 1.2.1.
+
+A dropped treatment indicator is different again, and is now a warning.
+The other two cases leave a treatment coefficient that means something
+narrower than the caller asked for; this one leaves no treatment
+coefficient at all, printed as an `NA` under a name that is still there.
+A treatment indicator can be collinear with the rest of a Lin design
+only where its arm is empty or where the covariates reproduce it
+exactly, so there is no reading of such a fit that recovers an effect.
+Reaching it takes a constant treatment column under the order-preserving
+drop rule, since the only column ahead of the treatment is the
+intercept; 2.0’s norm-ranked pivot reached it on 6 of 30 rank-deficient
+fits of one published replication, which is the pairing that makes the
+warning worth having.
+
+### Which collinear column is dropped now follows `stats::lm()`
+
+A rank-deficient design has no unique fit, so an estimator must choose
+which columns to drop. [`stats::lm()`](https://rdrr.io/r/stats/lm.html)
+makes that choice with LINPACK’s `dqrdc2`, which is order preserving: it
+walks the columns left to right and compares each column’s residual
+norm, after the columns already kept are projected out, against that
+column’s own original norm, moving a failing column to the end. The
+later column of a collinear set is therefore the one dropped, and the
+ordering the modeller wrote is respected. 2.0 detected rank with Eigen’s
+`ColPivHouseholderQR`, which pivots by largest remaining norm and reads
+nothing but the numbers, so it could drop a column written first and
+keep one written last. 2.0 had reproduced `dqrdc2`’s threshold criterion
+without its ordering.
+
+The consequence is that 2.0 silently changed which coefficient comes
+back `NA` on every rank-deficient fit, relative to both 1.0.6 and
+[`lm()`](https://rdrr.io/r/stats/lm.html). On a published replication
+whose subgroup models fit ten covariates in cells of 29 to 370
+observations, 30 of 56 fits are rank deficient;
+[`lm()`](https://rdrr.io/r/stats/lm.html) drops the treatment column in
+0 of those 30, and 2.0 drops it in 6. Over 300 random rank-deficient
+designs, 2.0’s drop set matched
+[`lm()`](https://rdrr.io/r/stats/lm.html)’s on 57 of 300, and 2.0.1’s
+matches on 300 of 300 with the surviving coefficients equal to
+[`lm()`](https://rdrr.io/r/stats/lm.html)’s.
+
+`lm_solver()` and the `HC2`, `HC3`, and `CR2` meat share the rule, so
+the variance is read off the same columns the coefficients were fitted
+at.
+
+None of this makes an unidentified coefficient identified. Where a
+regressor lies in the span of the others no unique coefficient exists,
+the reported number still moves when the columns are reordered, and
+[`lm()`](https://rdrr.io/r/stats/lm.html) reports such numbers with no
+indication that they are arbitrary. What changes is that the choice is
+now predictable and follows the order the model was written in.
+
+### `try_cholesky = TRUE` could return a full set of coefficients at a rank-deficient design
+
+`try_cholesky = TRUE` asks for the faster arithmetic, and it is meant to
+select the arithmetic rather than the answer. That path tests rank by
+reading the diagonal of the Cholesky factor of the normalised Gram
+matrix, where each entry stands for one column’s residual after the
+earlier columns are projected out, and it falls back to the QR when an
+entry is small. A Gram matrix carries about half the digits of the
+residual its factor describes, so an exactly dependent column, whose
+residual share is `1e-16`, comes back with a diagonal entry of order
+`1e-8` to `1e-6` depending on how the cancellation falls, and the test
+was against `dqrdc2`’s own `1e-7`. Whether the fallback fired was
+therefore decided by rounding. On `y ~ a1 + a2 + a3 + b1 + b2 + b3` at
+200 observations, with `a2` equal to `a1` plus 5% noise, `a3 = a1 - a2`,
+and `b1`, `b2`, and `b3` built the same way, the smallest entry lands at
+`2.4e-7`, no fallback fired, and the fit returned seven finite
+coefficients at a design of rank five, where
+[`lm()`](https://rdrr.io/r/stats/lm.html) and the QR path both return
+two `NA`.
+
+The threshold is now the Cholesky’s own resolution rather than
+`dqrdc2`’s, so a design whose factor cannot separate the columns goes to
+the QR, which makes the rank decision at `1e-7` in full precision. No
+design above the threshold changes, since the fallback selects the path
+and not the answer. The near-dependencies that reach this code elsewhere
+are built as `a + eps * noise`, which does not cancel and so lands below
+`1e-7`, which is why the gap survived a test that walks a design from
+full rank to singular in twelve steps and compares both paths against
+[`lm()`](https://rdrr.io/r/stats/lm.html) at each one.
+
+### `HC2` and `HC3` return `NA` for a coefficient that a full-leverage observation alone identifies
+
+An observation the fit reproduces exactly has leverage 1 and residual 0,
+so HC2’s contribution for it is a 0/0. 2.0 resolved that by setting the
+denominator to 0 wherever `1 - h <= 0`, dropping those observations from
+the variance. Dropping them is free for every coefficient the
+observation carries no information about, and by Frisch-Waugh-Lovell a
+singleton dummy’s neighbours are exactly that: they keep the standard
+error of the design with the singleton’s row and column removed. It is
+not free for the coefficient those observations alone identify. On a
+50-row design with a one-member factor level, 2.0 returns `0.2303` for
+the singleton’s coefficient against a classical `0.8501`, which is 0.271
+of it, and that number is assembled entirely from rows that say nothing
+about the coefficient it describes. Its standard error is now `NA`, and
+the other four on that design are unchanged to machine precision.
+
+Which coefficients those are is computed rather than assumed.
+Observation `i` contributes `a_ij^2 * sigma_i^2` to `Var(beta_j)`, where
+`a_i = (X'X)^-1 x_i`, so discarding it is right exactly when `a_ij` is 0
+and wrong otherwise. The criterion coincides with the partial leverage
+of Kranz (2024), `h_ki = xtilde_ki^2 / sum_j xtilde_kj^2` with
+`xtilde_k` the residual from regressing `x_k` on the other regressors,
+which is positive on the same set of coefficients. The set depends on
+the parametrisation, as it should, since it is a claim about
+coefficients as written: under treatment coding one singleton level
+makes one coefficient non-estimable, and under sum coding the same data
+makes five, the intercept among them.
+
+The result is narrower than
+[`sandwich::vcovHC()`](https://zeileis.codeberg.page/sandwich/reference/vcovHC.html),
+not wider. A single `NaN` in the meat propagates through
+`bread %*% meat %*% bread`, so `sandwich` returns `NaN` for every
+coefficient on the design above, where estimatr returns four finite
+standard errors and one `NA`. Only `HC2` and `HC3` are affected. `HC0`,
+`HC1`, `stata`, `CR0` and `CR2` never form `1 - h`, return a finite
+number here, and are left alone: what they report at full leverage is a
+property of those estimators rather than a computational artefact.
+
+### A dropped collinear regressor is a message, not a warning
+
+2.0 added a warning naming the coefficients a rank-deficient fit returns
+as `NA` ([\#411](https://github.com/DeclareDesign/estimatr/issues/411)),
+because a user comparing [`lm()`](https://rdrr.io/r/stats/lm.html) and
+[`lm_robust()`](https://declaredesign.org/r/estimatr/reference/lm_robust.md)
+output had no way to see that a term had been dropped.
+[`stats::lm()`](https://rdrr.io/r/stats/lm.html) signals nothing at all
+in that situation, at the fit, at
+[`summary()`](https://rdrr.io/r/base/summary.html), at
+[`predict()`](https://rdrr.io/r/stats/predict.html), or through
+[`broom::tidy()`](https://generics.r-lib.org/reference/tidy.html): it
+prints `Coefficients: (1 not defined because of singularities)` in the
+summary and raises no condition. The notice is now a message, which
+keeps the information and matches
+[`lm()`](https://rdrr.io/r/stats/lm.html) on the one axis a caller can
+intercept.
+
+A caller who wrapped a rank-deficient fit in
+[`suppressWarnings()`](https://rdrr.io/r/base/warning.html) to silence
+the 2.0 notice will now see it printed;
+[`suppressMessages()`](https://rdrr.io/r/base/message.html) silences it
+instead.
+
+The warning also reached code no one was looking at. A warning raised
+inside a grouped dplyr verb that is itself nested inside another grouped
+verb crashes dplyr 1.2.1: `cur_group_label()` formats the group key with
+`map_chr(keys, pillar::format_glimpse)`, one key formats to length zero,
+and `vapply` rejects it. The shape is ordinary,
+`group_by() |> nest() |> mutate(map(data, f))` where `f` fits a model
+inside its own `group_by() |> reframe()`, and it is how the 2026-09-23
+corpus sweep found a published archive script that ran clean under 1.0.6
+and died under 2.0. A message never enters that machinery.
+
+### An underidentified `iv_robust()` model returns `NA` rather than an error
+
+A first stage that does not reproduce every regressor stopped
+[`iv_robust()`](https://declaredesign.org/r/estimatr/reference/iv_robust.md).
+The two neighbours it should match do not stop:
+[`lm_robust()`](https://declaredesign.org/r/estimatr/reference/lm_robust.md)
+on a rank-deficient design and
+[`AER::ivreg()`](https://rdrr.io/pkg/AER/man/ivreg.html) on the same
+model each drop a column, return its coefficient as `NA`, and report the
+rest.
+[`iv_robust()`](https://declaredesign.org/r/estimatr/reference/iv_robust.md)
+now does the same. Of the two parts of the change, which column is
+dropped is the substantive one.
+
+The second stage regresses the outcome on the first-stage fitted values,
+and `lm_solver()`’s pivoted QR then ranked columns by norm rather than
+by position. On `y ~ x | z` with a flat first stage it dropped the
+intercept and returned the intercept’s own value as the coefficient on
+`x`, which is the number a reader takes for the LATE. The drop set is
+now chosen before the fit: the intercept and the exogenous regressors
+are kept, since the first stage reproduces them exactly, and the
+endogenous regressors the instruments cannot reproduce come back as
+`NA`, in reverse formula order, as
+[`stats::lm()`](https://rdrr.io/r/stats/lm.html) drops a collinear
+column. The surviving coefficients, standard errors, and degrees of
+freedom are the reduced model’s to 2e-15.
+
+Formula order alone would not choose the drop set. In
+`y ~ x + w | z + w` the endogenous regressor precedes the exogenous one,
+and in `y ~ en + x1 | x1 + dup` with `dup` equal to `x1` it is `en` that
+has no instrument.
+[`AER::ivreg()`](https://rdrr.io/pkg/AER/man/ivreg.html) drops by
+position and so keeps `en` there, reporting a coefficient of -11.9 whose
+fitted values lie in the span of the intercept and `x1` to 6e-16, and
+forming its residuals from `en` rather than from what was fitted.
+estimatr returns `NA` for `en` and the ordinary least squares fit on the
+intercept and `x1`, which is the only fit the instruments support. On
+`mpg ~ hp + cyl | am` and on `y ~ x + w | z + w` the two packages agree.
+
+The message is the one
+[`lm_robust()`](https://declaredesign.org/r/estimatr/reference/lm_robust.md)
+already gives for a dropped collinear regressor, naming the coefficients
+returned as `NA`.
+
+### A rank-deficient fit reported its F statistic as `NA` unless the dropped column was last
+
+Under every robust `se_type`,
+[`summary()`](https://rdrr.io/r/base/summary.html) on a fit with a
+column dropped for collinearity reported the F statistic as `NA`
+whenever that column was not the last one. On `y ~ x1 + mid + en` with
+`mid` collinear, [`lm()`](https://rdrr.io/r/stats/lm.html) and
+estimatr’s own classical branch both returned the statistic and every
+robust type returned `NA`. The coefficient vector carries an `NA` where
+the column went, while the statistic’s indices and its variance matrix
+both count positions in the kept set, so the two agreed only when the
+gap fell at the end. The statistic is now the reduced model’s under
+every `se_type`, which is what it already was when the dropped column
+happened to be last.
+[`lm_robust()`](https://declaredesign.org/r/estimatr/reference/lm_robust.md),
+[`lm_lin()`](https://declaredesign.org/r/estimatr/reference/lm_lin.md),
+and
+[`iv_robust()`](https://declaredesign.org/r/estimatr/reference/iv_robust.md)
+are all affected, and
+[`iv_robust()`](https://declaredesign.org/r/estimatr/reference/iv_robust.md)
+reaches the case more often now that an underidentified regressor
+returns `NA` in place.
+
+### Absorbed fixed-effect estimates were all `NA` on a rank-deficient fit
+
+`lm_robust(..., fixed_effects = ~ g)` returned every entry of
+`fixed_effects` as `NA` whenever any regressor was dropped for
+collinearity, although the coefficients, standard errors, and degrees of
+freedom were all correct. Each group effect is formed as the fitted
+value at a representative row minus that row’s regressors times the
+coefficient vector, and the coefficient vector carries an `NA` wherever
+a column went, so the product was `NA` for every group. A dropped column
+contributes nothing to the fitted values, so both sides now drop it.
+Unlike the F statistic above, this did not depend on where in the
+formula the dropped column sat.
+
+The case is reachable whenever an absorbed factor also appears among the
+regressors, for example a group-level covariate alongside
+`fixed_effects = ~ g`.
+
+### A fit no longer draws from the random number stream
+
+`clean_model_data()` in 1.0.6 named the hidden variables it writes into
+the model frame with
+`sprintf(".__%s%%%d__", da, sample.int(.Machine$integer.max, 1))`: one
+draw for every argument evaluated there, `weights`, `clusters` and
+`condition_prs` among them, and one more for `fixed_effects`. Every such
+call advanced the caller’s random number stream, while a fit carrying
+only a formula and data drew nothing. 2.0.0 numbers those names with a
+counter, which is as unlikely to collide with a user’s own variables and
+draws nothing at all.
+
+No estimate changes. What changes is every random number a script draws
+after its first such fit, so a seeded simulation whose loop contains one
+gets a different sequence of draws under 2.0 and will not reproduce a
+result recorded under 1.x. Drawing one
+`sample.int(.Machine$integer.max, 1)` per such argument in a wrapper
+around the fit restores the old stream exactly, which is worth doing
+once to identify what moved a number rather than keeping in a maintained
+script.
+
+The 2026-09-23 maintained-corpus sweep gives the size of it.
+Offer-Westort, Coppock and Green (2021) builds its
+randomization-inference p-values from simulations that fit a weighted or
+clustered model on every draw, and its footnote 15 from twenty clustered
+fits taken before ten million draws. Six of those p-values moved: 0.429
+to 0.417, 0.199 to 0.189, 0.027 to 0.021, 0.011 to 0.015, 0.008 to
+0.012, and, from a simulated null at ten million draws, 0.017851 to
+0.017795. An appendix figure of simulated comparisons moved by as much
+as a factor of 3.6 on a coefficient. Emulating the 1.0.6 draws under
+2.0.0 returns all of them to the values the reproduction repository
+records, which are the published ones. The repository’s other 27 output
+files are identical or differ in their last two digits, and across five
+seeds under 2.0 the first of those p-values runs from 0.417 to 0.437, so
+what moved is which draws the null distribution contains rather than any
+estimate.
+
+### `lh_robust()` honours `ci = FALSE`, and refuses `se_type = "none"` in its own terms
+
+`lh_robust(ci = FALSE)` returned a p-value and a confidence interval
+anyway, and raised “no non-missing arguments to min; returning Inf” on
+the way. The fit with no intervals carries no degrees of freedom, and
+the combination took the smallest of them, so the minimum was over an
+empty set and the hypothesis got an infinite df. The flag is now
+honoured as every other estimator honours it: the estimate, its standard
+error, and the test statistic are returned, and the p-value, the
+interval, and the df are `NA`. 1.0.6 errored on the same call, so
+neither version did what was asked.
+
+`lh_robust(se_type = "none")` stopped with “Object must have vcov
+matrix. Try setting `return_vcov = TRUE` in the estimator function”,
+which names an argument no estimator here takes and not the one the
+caller set. A fit with no variance gives a linear combination no
+standard error, and the refusal now says that.
+
+### `difference_in_means()` refuses a multivariate outcome, and `update()` refits one
+
+`difference_in_means(cbind(y1, y2) ~ z)` was refused with “Must have
+units with both treatment conditions within each block”, which describes
+a different problem and sends the reader to look at a blocking variable
+they may not have. It now says that the estimator takes one outcome at a
+time.
+
+[`update()`](https://rdrr.io/r/stats/update.html) on a
+`difference_in_means` fit stopped with “need an object with call
+component”. The fit stored no `call`, where
+[`horvitz_thompson()`](https://declaredesign.org/r/estimatr/reference/horvitz_thompson.md)
+and the regression fits all store one. It does now, so
+[`update()`](https://rdrr.io/r/stats/update.html) refits as it does
+elsewhere.
+
+------------------------------------------------------------------------
+
+### `emmeans()` on a fit no longer depends on emmeans’ handling of a missing model frame
+
+The emmeans method borrowed emmeans’ own method for `lm`, which reads
+the fit’s stored model frame. An `lm_robust` fit stores none, and the
+development emmeans 2.0.5 builds a formula from that frame’s names, so
+every `emmeans()` call on a fit errored with “Perhaps a ‘data’ or
+‘params’ argument is needed”. The method now recovers the data from the
+call and the terms directly, as emmeans’ `lm` method does once the frame
+is set aside, and gives the same answers under emmeans 2.0.4 and both
+versions of 2.0.5.
+
 ## estimatr 2.0.0
 
 CRAN release: 2026-09-16
@@ -388,10 +881,18 @@ truth that could disagree. Fully custom designs go through
 [`glance()`](https://generics.r-lib.org/reference/glance.html), and
 [`augment()`](https://generics.r-lib.org/reference/augment.html) return
 tibbles**, as broom’s methods do; 1.x returned plain data frames. `$`,
-`[[`, and row indexing work as before. The one construction that changes
-is `tidy(fit)[, "estimate"]`, which now returns a one-column tibble
-rather than a vector; write `tidy(fit)$estimate`. tibble moves from
-Suggests to Imports.
+`[[`, and row indexing work as before. The constructions that change are
+the ones that index by position and relied on a data frame dropping to a
+vector or a scalar: `tidy(fit)[, "estimate"]` now returns a one-column
+tibble rather than a vector, and `tidy(fit)[2, 2]` a one-by-one tibble
+rather than a number. Write `tidy(fit)$estimate` and
+`tidy(fit)$estimate[2]`. The two-index form is the one that travels
+furthest before it fails, since
+[`abs()`](https://rdrr.io/r/base/MathFun.html) and `/` both accept a
+one-by-one tibble in silence and
+[`pnorm()`](https://rdrr.io/r/stats/Normal.html) is where it stops, with
+“Non-numeric argument to mathematical function” two calls away from the
+indexing that caused it. tibble moves from Suggests to Imports.
 
 **[`starprep()`](https://declaredesign.org/r/estimatr/reference/estimatr-defunct.md)
 and
@@ -548,7 +1049,9 @@ unknown, which is the problem: what comes back is not a 2SLS estimate of
 anything, and it looks like one.** 2.0 errors, comparing the rank of the
 first-stage fitted values with the rank of the regressors, which catches
 both cases and does not fire on regressors that are merely collinear
-among themselves.
+among themselves. 2.0.1 returns `NA` for the unidentified regressor
+instead of erroring, choosing which regressor that is rather than
+leaving it to the pivot; see the 2.0.1 notes above.
 
 **A clustered
 [`iv_robust()`](https://declaredesign.org/r/estimatr/reference/iv_robust.md)

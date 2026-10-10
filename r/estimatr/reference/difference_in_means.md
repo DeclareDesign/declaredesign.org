@@ -77,10 +77,10 @@ difference_in_means(
 An object of class `"difference_in_means"`, a list holding
 `coefficients`, `std.error`, `df`, `statistic`, `p.value`, `conf.low`,
 `conf.high`, `term`, `outcome`, `condition1`, `condition2`, `vcov`,
-`nobs`, `alpha`, and `design`, a string naming the case that applied:
-`"Standard"`, `"Blocked"`, `"Small blocks"`, `"Hybrid blocked"`,
-`"Matched-pair"`, `"Clustered"`, `"Block-clustered"`, or
-`"Matched-pair clustered"`.
+`nobs`, `alpha`, `call`, and `design`, a string naming the case that
+applied: `"Standard"`, `"Blocked"`, `"Small blocks"`,
+`"Hybrid blocked"`, `"Matched-pair"`, `"Clustered"`,
+`"Block-clustered"`, or `"Matched-pair clustered"`.
 
 ## Details
 

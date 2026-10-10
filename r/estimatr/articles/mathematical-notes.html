@@ -20,7 +20,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">estimatr</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">2.0.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">2.0.1</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -87,13 +87,14 @@ lines of base R.</p>
 <p>Two further layers are checked outside this document. Every estimator
 reproduces estimatr 1.0.6’s numbers wherever both versions answer,
 checked in <code>tests/testthat/test_vs_estimatr.R</code> against 695
-values recorded from an installed 1.0.6. A further 808 assertions
+values recorded from an installed 1.0.6. A further 820 assertions
 compare against implementations that share no lineage with this one:
 <code>sandwich</code>, <code>clubSandwich</code>, <code>ivreg</code>,
 Stata, <code>fixest</code>, <code>plm</code> and <code>blkvar</code>, in
 the five <code>tests/testthat/test_vs_*.R</code> files.
 <code><a href="../articles/estimatr2.0.html">vignette("estimatr2.0")</a></code> sets out both layers under “How
-this was checked”; the suite holds 5,635 assertions in total.</p>
+this was checked”; the suite holds 7,238 assertions in total under
+<code>R CMD check</code>.</p>
 </div>
 <div class="section level3">
 <h3 id="how-the-checking-works">How the checking works<a class="anchor" aria-label="anchor" href="#how-the-checking-works"></a>
@@ -200,7 +201,7 @@ is never formed explicitly. On a rank-deficient design the pivoting can
 drop a different column than <code><a href="https://rdrr.io/r/stats/lm.html" class="external-link">lm()</a></code> drops; the fitted values
 and the variance are the same either way, but which coefficient comes
 back <code>NA</code> may differ. Unlike 1.x, estimatr names the dropped
-terms in a warning rather than leaving them to be noticed in the output.
+terms in a message rather than leaving them to be noticed in the output.
 Setting <code>try_cholesky = TRUE</code> substitutes a Cholesky
 factorization, which is faster and is guaranteed only when
 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>𝐗</mi><annotation encoding="application/x-tex">\mathbf{X}</annotation></semantics></math>
@@ -213,7 +214,7 @@ a different factorization.</p>
 <span>      <span class="fu"><a href="https://rdrr.io/r/stats/coef.html" class="external-link">coef</a></span><span class="op">(</span><span class="fu"><a href="../reference/lm_robust.html">lm_robust</a></span><span class="op">(</span><span class="va">y</span> <span class="op">~</span> <span class="va">z</span> <span class="op">+</span> <span class="va">x</span>, data <span class="op">=</span> <span class="va">d</span><span class="op">)</span><span class="op">)</span>,</span>
 <span>      <span class="fu"><a href="https://rdrr.io/r/stats/coef.html" class="external-link">coef</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/lm.html" class="external-link">lm</a></span><span class="op">(</span><span class="va">y</span> <span class="op">~</span> <span class="va">z</span> <span class="op">+</span> <span class="va">x</span>, data <span class="op">=</span> <span class="va">d</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="co">#&gt;       gap holds</span></span>
-<span><span class="co">#&gt; 1 7.8e-16  TRUE</span></span></code></pre></div>
+<span><span class="co">#&gt; 1 8.9e-16  TRUE</span></span></code></pre></div>
 </div>
 <div class="section level3">
 <h3 id="weights">Weights<a class="anchor" aria-label="anchor" href="#weights"></a>
@@ -248,7 +249,7 @@ squares.</strong></p>
 <span>      <span class="fu"><a href="https://rdrr.io/r/stats/coef.html" class="external-link">coef</a></span><span class="op">(</span><span class="fu"><a href="../reference/lm_robust.html">lm_robust</a></span><span class="op">(</span><span class="va">y</span> <span class="op">~</span> <span class="va">z</span> <span class="op">+</span> <span class="va">x</span>, data <span class="op">=</span> <span class="va">d</span>, weights <span class="op">=</span> <span class="va">w</span><span class="op">)</span><span class="op">)</span>,</span>
 <span>      <span class="fu"><a href="https://rdrr.io/r/stats/coef.html" class="external-link">coef</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/lm.html" class="external-link">lm</a></span><span class="op">(</span><span class="va">y</span> <span class="op">~</span> <span class="va">z</span> <span class="op">+</span> <span class="va">x</span>, data <span class="op">=</span> <span class="va">d</span>, weights <span class="op">=</span> <span class="va">w</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="co">#&gt;       gap holds</span></span>
-<span><span class="co">#&gt; 1 1.2e-15  TRUE</span></span></code></pre></div>
+<span><span class="co">#&gt; 1 1.5e-15  TRUE</span></span></code></pre></div>
 </div>
 <div class="section level3">
 <h3 id="heteroskedasticity-robust-variance">Heteroskedasticity-robust variance<a class="anchor" aria-label="anchor" href="#heteroskedasticity-robust-variance"></a>
@@ -339,7 +340,7 @@ each robust variance is its own row of that table.</strong></p>
 <span>      <span class="fu"><a href="../reference/lm_robust.html">lm_robust</a></span><span class="op">(</span><span class="va">y</span> <span class="op">~</span> <span class="va">z</span> <span class="op">+</span> <span class="va">x</span>, data <span class="op">=</span> <span class="va">d</span>, se_type <span class="op">=</span> <span class="st">"classical"</span><span class="op">)</span><span class="op">$</span><span class="va">vcov</span>,</span>
 <span>      <span class="fu"><a href="https://rdrr.io/r/stats/vcov.html" class="external-link">vcov</a></span><span class="op">(</span><span class="va">fit_lm</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="co">#&gt;       gap holds</span></span>
-<span><span class="co">#&gt; 1 6.9e-17  TRUE</span></span>
+<span><span class="co">#&gt; 1 1.9e-16  TRUE</span></span>
 <span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/do.call.html" class="external-link">do.call</a></span><span class="op">(</span><span class="va">rbind</span>, <span class="fu"><a href="https://rdrr.io/r/base/lapply.html" class="external-link">lapply</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"HC0"</span>, <span class="st">"HC1"</span>, <span class="st">"HC2"</span>, <span class="st">"HC3"</span><span class="op">)</span>, <span class="kw">function</span><span class="op">(</span><span class="va">ty</span><span class="op">)</span> <span class="op">{</span></span>
 <span>  <span class="fu"><a href="https://rdrr.io/r/base/cbind.html" class="external-link">cbind</a></span><span class="op">(</span>se_type <span class="op">=</span> <span class="va">ty</span>,</span>
@@ -348,10 +349,10 @@ each robust variance is its own row of that table.</strong></p>
 <span>              <span class="fu">hc_vcov</span><span class="op">(</span><span class="va">fit_lm</span>, <span class="va">ty</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="op">}</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="co">#&gt;   se_type     gap holds</span></span>
-<span><span class="co">#&gt; 1     HC0 5.6e-17  TRUE</span></span>
-<span><span class="co">#&gt; 2     HC1 9.7e-17  TRUE</span></span>
-<span><span class="co">#&gt; 3     HC2 8.3e-17  TRUE</span></span>
-<span><span class="co">#&gt; 4     HC3 6.9e-17  TRUE</span></span></code></pre></div>
+<span><span class="co">#&gt; 1     HC0 1.8e-16  TRUE</span></span>
+<span><span class="co">#&gt; 2     HC1 1.2e-16  TRUE</span></span>
+<span><span class="co">#&gt; 3     HC2 1.5e-16  TRUE</span></span>
+<span><span class="co">#&gt; 4     HC3 1.2e-16  TRUE</span></span></code></pre></div>
 <div class="section level4">
 <h4 id="leverage-at-and-above-one">Leverage at and above one<a class="anchor" aria-label="anchor" href="#leverage-at-and-above-one"></a>
 </h4>
@@ -374,12 +375,27 @@ single such row turns <em>every</em> standard error in the fit into
 <code>NaN</code>, however small the offending quantity.</p>
 <p>estimatr 2.0 sets the contribution of any row with
 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>1</mn><mo>−</mo><msub><mi>h</mi><mrow><mi>i</mi><mi>i</mi></mrow></msub><mo>≤</mo><mn>0</mn></mrow><annotation encoding="application/x-tex">1 - h_{ii} \le 0</annotation></semantics></math>
-to zero and warns, naming how many rows were affected. estimatr 1.0.6
-returned <code>NaN</code> for HC2 and a silently inflated number for HC3
-on the same designs. The CR2 estimator below has no analogous hole: it
-never forms
+to zero, returns <code>NA</code> for any coefficient those rows alone
+identify (the dummy for a one-member factor level is the common case),
+and warns when it does so; where no coefficient is lost it reports the
+count as a message. estimatr 1.0.6 returned <code>NaN</code> for HC2 and
+a silently inflated number for HC3 on the same designs. The CR2
+estimator below has no analogous hole: it never forms
 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>1</mn><mo>−</mo><msub><mi>h</mi><mrow><mi>i</mi><mi>i</mi></mrow></msub></mrow><annotation encoding="application/x-tex">1 - h_{ii}</annotation></semantics></math>,
-and the eigenvalue clamp described there covers the degenerate case.</p>
+and the eigenvalue clamp described there covers the degenerate case. The
+clamp also settles what CR2 reports for the dummy of a one-member
+cluster, the clustered counterpart of that full-leverage observation.
+The cluster’s
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false" form="prefix">(</mo><mi>𝐈</mi><mo>−</mo><mi>𝐇</mi><msub><mo stretchy="false" form="postfix">)</mo><mi>s</mi></msub></mrow><annotation encoding="application/x-tex">(\mathbf{I} - \mathbf{H})_s</annotation></semantics></math>
+block is singular, the pseudo-inverse drops that direction, and the
+dummy’s standard error comes out finite, assembled from clusters that
+say nothing about it. That number is the estimator as published rather
+than a property of this implementation:
+<code>clubSandwich::vcovCR(type = "CR2")</code> takes the same
+pseudo-inverse and returns the same standard error and Satterthwaite
+degrees of freedom on that design, to six decimals, which the suite
+pins. CR2 answers there where HC2 declines to, and both are on
+purpose.</p>
 <p>Note what the check above does and does not cover. <code>d</code> is
 well conditioned, with a hundred observations and three parameters, so
 no leverage in it comes near one. The degenerate designs are checked in
@@ -451,13 +467,13 @@ finite-sample corrections.</p>
 <span>      <span class="fu"><a href="../reference/lm_robust.html">lm_robust</a></span><span class="op">(</span><span class="va">y</span> <span class="op">~</span> <span class="va">z</span> <span class="op">+</span> <span class="va">x</span>, data <span class="op">=</span> <span class="va">d</span>, clusters <span class="op">=</span> <span class="va">cl</span>, se_type <span class="op">=</span> <span class="st">"CR0"</span><span class="op">)</span><span class="op">$</span><span class="va">vcov</span>,</span>
 <span>      <span class="fu">cr_vcov</span><span class="op">(</span><span class="va">fit_lm</span>, <span class="va">d</span><span class="op">$</span><span class="va">cl</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="co">#&gt;       gap holds</span></span>
-<span><span class="co">#&gt; 1 1.2e-16  TRUE</span></span>
+<span><span class="co">#&gt; 1 2.5e-16  TRUE</span></span>
 <span></span>
 <span><span class="fu">check</span><span class="op">(</span><span class="st">"lm_robust(se_type = 'stata')"</span>,</span>
 <span>      <span class="fu"><a href="../reference/lm_robust.html">lm_robust</a></span><span class="op">(</span><span class="va">y</span> <span class="op">~</span> <span class="va">z</span> <span class="op">+</span> <span class="va">x</span>, data <span class="op">=</span> <span class="va">d</span>, clusters <span class="op">=</span> <span class="va">cl</span>, se_type <span class="op">=</span> <span class="st">"stata"</span><span class="op">)</span><span class="op">$</span><span class="va">vcov</span>,</span>
 <span>      <span class="fu">cr_vcov</span><span class="op">(</span><span class="va">fit_lm</span>, <span class="va">d</span><span class="op">$</span><span class="va">cl</span>, stata <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="co">#&gt;       gap holds</span></span>
-<span><span class="co">#&gt; 1 1.1e-16  TRUE</span></span></code></pre></div>
+<span><span class="co">#&gt; 1 2.8e-16  TRUE</span></span></code></pre></div>
 <p>CR2 is the one member of the family whose reference is not a few
 lines of base R, so it is checked in the suite against
 <code>clubSandwich</code> instead, live and at
@@ -587,7 +603,7 @@ supposed to reproduce, coefficients and standard errors alike.</p>
 <span>      <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/coef.html" class="external-link">coef</a></span><span class="op">(</span><span class="va">absorbed</span><span class="op">)</span><span class="op">[</span><span class="va">keep</span><span class="op">]</span>, <span class="va">absorbed</span><span class="op">$</span><span class="va">std.error</span><span class="op">[</span><span class="va">keep</span><span class="op">]</span><span class="op">)</span>,</span>
 <span>      <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/coef.html" class="external-link">coef</a></span><span class="op">(</span><span class="va">dummies</span><span class="op">)</span><span class="op">[</span><span class="va">keep</span><span class="op">]</span>, <span class="va">dummies</span><span class="op">$</span><span class="va">std.error</span><span class="op">[</span><span class="va">keep</span><span class="op">]</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="co">#&gt;       gap holds</span></span>
-<span><span class="co">#&gt; 1 3.4e-16  TRUE</span></span></code></pre></div>
+<span><span class="co">#&gt; 1 6.9e-16  TRUE</span></span></code></pre></div>
 <div class="section level4">
 <h4 id="rank">Rank<a class="anchor" aria-label="anchor" href="#rank"></a>
 </h4>
@@ -720,7 +736,7 @@ hand.</p>
 <span>      <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/coef.html" class="external-link">coef</a></span><span class="op">(</span><span class="va">lin</span><span class="op">)</span><span class="op">[[</span><span class="st">"z"</span><span class="op">]</span><span class="op">]</span>, <span class="va">lin</span><span class="op">$</span><span class="va">std.error</span><span class="op">[[</span><span class="st">"z"</span><span class="op">]</span><span class="op">]</span><span class="op">)</span>,</span>
 <span>      <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/coef.html" class="external-link">coef</a></span><span class="op">(</span><span class="va">byhand</span><span class="op">)</span><span class="op">[[</span><span class="st">"z"</span><span class="op">]</span><span class="op">]</span>, <span class="va">byhand</span><span class="op">$</span><span class="va">std.error</span><span class="op">[[</span><span class="st">"z"</span><span class="op">]</span><span class="op">]</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="co">#&gt;       gap holds</span></span>
-<span><span class="co">#&gt; 1 3.3e-16  TRUE</span></span></code></pre></div>
+<span><span class="co">#&gt; 1 1.1e-16  TRUE</span></span></code></pre></div>
 </div>
 <div class="section level2">
 <h2 id="iv_robust">
@@ -1362,57 +1378,57 @@ approximation:</p>
 <tbody>
 <tr class="odd">
 <td align="left">lm_robust()</td>
-<td align="left">7.8e-16</td>
+<td align="left">8.9e-16</td>
 <td align="left">TRUE</td>
 </tr>
 <tr class="even">
 <td align="left">lm_robust(weights = )</td>
-<td align="left">1.2e-15</td>
+<td align="left">1.5e-15</td>
 <td align="left">TRUE</td>
 </tr>
 <tr class="odd">
 <td align="left">lm_robust(se_type = ‘classical’)</td>
-<td align="left">6.9e-17</td>
+<td align="left">1.9e-16</td>
 <td align="left">TRUE</td>
 </tr>
 <tr class="even">
 <td align="left">lm_robust(se_type = ‘HC0’)</td>
-<td align="left">5.6e-17</td>
+<td align="left">1.8e-16</td>
 <td align="left">TRUE</td>
 </tr>
 <tr class="odd">
 <td align="left">lm_robust(se_type = ‘HC1’)</td>
-<td align="left">9.7e-17</td>
+<td align="left">1.2e-16</td>
 <td align="left">TRUE</td>
 </tr>
 <tr class="even">
 <td align="left">lm_robust(se_type = ‘HC2’)</td>
-<td align="left">8.3e-17</td>
+<td align="left">1.5e-16</td>
 <td align="left">TRUE</td>
 </tr>
 <tr class="odd">
 <td align="left">lm_robust(se_type = ‘HC3’)</td>
-<td align="left">6.9e-17</td>
+<td align="left">1.2e-16</td>
 <td align="left">TRUE</td>
 </tr>
 <tr class="even">
 <td align="left">lm_robust(clusters = )</td>
-<td align="left">1.2e-16</td>
+<td align="left">2.5e-16</td>
 <td align="left">TRUE</td>
 </tr>
 <tr class="odd">
 <td align="left">lm_robust(se_type = ‘stata’)</td>
-<td align="left">1.1e-16</td>
+<td align="left">2.8e-16</td>
 <td align="left">TRUE</td>
 </tr>
 <tr class="even">
 <td align="left">lm_robust(fixed_effects = )</td>
-<td align="left">3.4e-16</td>
+<td align="left">6.9e-16</td>
 <td align="left">TRUE</td>
 </tr>
 <tr class="odd">
 <td align="left">lm_lin()</td>
-<td align="left">3.3e-16</td>
+<td align="left">1.1e-16</td>
 <td align="left">TRUE</td>
 </tr>
 <tr class="even">

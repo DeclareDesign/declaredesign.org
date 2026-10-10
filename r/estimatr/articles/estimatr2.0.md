@@ -6,9 +6,9 @@ estimatr 2.0 is a ground-up rewrite, with the main goals of speed and
 improved code robustness. Almost everything from 1.x runs unchanged and
 returns identical estimates, identical standard errors, identical
 confidence intervals, and identical objects. That claim is underpinned
-by 5,635 test assertions, 695 of which compare against answers recorded
+by 7,238 test assertions, 695 of which compare against answers recorded
 from an installed estimatr 1.0.6, coefficient by coefficient and
-standard error by standard error, and a further 808 of which compare
+standard error by standard error, and a further 820 of which compare
 against implementations that share no lineage with estimatr at all. See
 [How this was checked](#how-this-was-checked). No call is slower, with
 gains concentrated where the algorithms changed. See [Speed](#speed).
@@ -370,7 +370,7 @@ first-stage for
 [`iv_robust()`](https://declaredesign.org/r/estimatr/reference/iv_robust.md).
 In 1.x the slot was `NULL` for every estimator.
 
-**A warning when a regressor is dropped.** Collinear terms come back as
+**A message when a regressor is dropped.** Collinear terms come back as
 NA coefficients in both versions; only one of them tells you which terms
 it dropped.
 
@@ -553,7 +553,7 @@ site changed either.
 
 **The second layer asks whether the answer is right, which the first
 cannot.** Anything estimatr inherited from 1.0.6, error included, passes
-a comparison against 1.0.6 in silence. So 808 further assertions compare
+a comparison against 1.0.6 in silence. So 820 further assertions compare
 against implementations built independently of this one:
 
 | checked against | what it covers | how |
@@ -563,7 +563,7 @@ against implementations built independently of this one:
 | `ivreg` | 2SLS HC2 and HC3, via `sandwich` on an `ivreg` fit | live, same session, 1e-10 |
 | Stata `regress`, `areg`, `ivregress` | `se_type = "stata"`, with and without absorbed fixed effects; the first-stage, endogeneity, and robust over-identification tests, via `estat` | frozen output, tolerance per value |
 | `fixest`, `plm` | absorption, by two independent routes | recorded fixture, versions recorded |
-| `blkvar` | the blocked-design variance, from the authors of the estimator | live |
+| `blkvar` | the blocked-design variance, from the authors of the estimator | recorded fixture, with a live check that it has not gone stale |
 | a hand-built Lin specification | `lm_lin`, including its weighted paths | live, all 36 cells |
 
 estimatr matches `sandwich`, `clubSandwich` and `ivreg` to machine
@@ -696,11 +696,10 @@ than within them.
 
 ### Current status
 
-The test suite is 5,906 assertions with none failing,
-`R CMD check --as-cran` gives 0 errors, 0 warnings and 1 NOTE for the
-maintainer change, and the numerical comparisons against 1.0.6 run
-across 50 seeds per design type for every Horvitz-Thompson design
-family.
+The test suite is 7,238 assertions under `R CMD check` with none
+failing, `R CMD check --as-cran` gives 0 errors, 0 warnings and 0 notes,
+and the numerical comparisons against 1.0.6 run across 50 seeds per
+design type for every Horvitz-Thompson design family.
 
 What follows is the list of places where 2.0 deliberately departs from
 1.x: a different number, or a refusal where 1.x answered. In each one
@@ -764,18 +763,17 @@ else in this release changes an answer.
     ```
 
 8.  **A collinear regressor was dropped silently.** The dropped term
-    comes back as an NA coefficient with no warning, which is what made
-    an [`lm()`](https://rdrr.io/r/stats/lm.html) user open the issue
-    after finding coefficients that disagreed between the two functions.
-    2.0 warns and names the terms it dropped. (Issue \#411.)
+    comes back as an NA coefficient with no notice at all, which is what
+    made an [`lm()`](https://rdrr.io/r/stats/lm.html) user open the
+    issue after finding coefficients that disagreed between the two
+    functions. 2.0 names the terms it dropped, in a message. (Issue
+    \#411.)
 
     ``` r
 
     dat$x_copy <- dat$x
     fit <- lm_robust(y ~ x + x_copy, data = dat)
-    #> Warning in lm_return(return_list, model_data = model_data, formula = formula):
-    #> Some coefficients are collinear with other regressors and were dropped, and are
-    #> returned as NA: x_copy.
+    #> Some coefficients are collinear with other regressors and were dropped, and are returned as NA: x_copy. x_copy is identical to x.
     ```
 
 9.  **A joint hypothesis test errored.**

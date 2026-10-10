@@ -21,13 +21,13 @@ lines of base R.
 Two further layers are checked outside this document. Every estimator
 reproduces estimatr 1.0.6’s numbers wherever both versions answer,
 checked in `tests/testthat/test_vs_estimatr.R` against 695 values
-recorded from an installed 1.0.6. A further 808 assertions compare
+recorded from an installed 1.0.6. A further 820 assertions compare
 against implementations that share no lineage with this one: `sandwich`,
 `clubSandwich`, `ivreg`, Stata, `fixest`, `plm` and `blkvar`, in the
 five `tests/testthat/test_vs_*.R` files.
 [`vignette("estimatr2.0")`](https://declaredesign.org/r/estimatr/articles/estimatr2.0.md)
-sets out both layers under “How this was checked”; the suite holds 5,635
-assertions in total.
+sets out both layers under “How this was checked”; the suite holds 7,238
+assertions in total under `R CMD check`.
 
 ### How the checking works
 
@@ -115,7 +115,7 @@ rank-deficient design the pivoting can drop a different column than
 [`lm()`](https://rdrr.io/r/stats/lm.html) drops; the fitted values and
 the variance are the same either way, but which coefficient comes back
 `NA` may differ. Unlike 1.x, estimatr names the dropped terms in a
-warning rather than leaving them to be noticed in the output. Setting
+message rather than leaving them to be noticed in the output. Setting
 `try_cholesky = TRUE` substitutes a Cholesky factorization, which is
 faster and is guaranteed only when $`\mathbf{X}`$ has full rank.
 
@@ -129,7 +129,7 @@ check("lm_robust()",
       coef(lm_robust(y ~ z + x, data = d)),
       coef(lm(y ~ z + x, data = d)))
 #>       gap holds
-#> 1 7.8e-16  TRUE
+#> 1 8.9e-16  TRUE
 ```
 
 ### Weights
@@ -163,7 +163,7 @@ check("lm_robust(weights = )",
       coef(lm_robust(y ~ z + x, data = d, weights = w)),
       coef(lm(y ~ z + x, data = d, weights = w)))
 #>       gap holds
-#> 1 1.2e-15  TRUE
+#> 1 1.5e-15  TRUE
 ```
 
 ### Heteroskedasticity-robust variance
@@ -224,7 +224,7 @@ check("lm_robust(se_type = 'classical')",
       lm_robust(y ~ z + x, data = d, se_type = "classical")$vcov,
       vcov(fit_lm))
 #>       gap holds
-#> 1 6.9e-17  TRUE
+#> 1 1.9e-16  TRUE
 
 do.call(rbind, lapply(c("HC0", "HC1", "HC2", "HC3"), function(ty) {
   cbind(se_type = ty,
@@ -233,10 +233,10 @@ do.call(rbind, lapply(c("HC0", "HC1", "HC2", "HC3"), function(ty) {
               hc_vcov(fit_lm, ty)))
 }))
 #>   se_type     gap holds
-#> 1     HC0 5.6e-17  TRUE
-#> 2     HC1 9.7e-17  TRUE
-#> 3     HC2 8.3e-17  TRUE
-#> 4     HC3 6.9e-17  TRUE
+#> 1     HC0 1.8e-16  TRUE
+#> 2     HC1 1.2e-16  TRUE
+#> 3     HC2 1.5e-16  TRUE
+#> 4     HC3 1.2e-16  TRUE
 ```
 
 #### Leverage at and above one
@@ -254,11 +254,23 @@ takes a square root of it, so a single such row turns *every* standard
 error in the fit into `NaN`, however small the offending quantity.
 
 estimatr 2.0 sets the contribution of any row with $`1 - h_{ii} \le 0`$
-to zero and warns, naming how many rows were affected. estimatr 1.0.6
-returned `NaN` for HC2 and a silently inflated number for HC3 on the
-same designs. The CR2 estimator below has no analogous hole: it never
-forms $`1 - h_{ii}`$, and the eigenvalue clamp described there covers
-the degenerate case.
+to zero, returns `NA` for any coefficient those rows alone identify (the
+dummy for a one-member factor level is the common case), and warns when
+it does so; where no coefficient is lost it reports the count as a
+message. estimatr 1.0.6 returned `NaN` for HC2 and a silently inflated
+number for HC3 on the same designs. The CR2 estimator below has no
+analogous hole: it never forms $`1 - h_{ii}`$, and the eigenvalue clamp
+described there covers the degenerate case. The clamp also settles what
+CR2 reports for the dummy of a one-member cluster, the clustered
+counterpart of that full-leverage observation. The cluster’s
+$`(\mathbf{I} - \mathbf{H})_s`$ block is singular, the pseudo-inverse
+drops that direction, and the dummy’s standard error comes out finite,
+assembled from clusters that say nothing about it. That number is the
+estimator as published rather than a property of this implementation:
+`clubSandwich::vcovCR(type = "CR2")` takes the same pseudo-inverse and
+returns the same standard error and Satterthwaite degrees of freedom on
+that design, to six decimals, which the suite pins. CR2 answers there
+where HC2 declines to, and both are on purpose.
 
 Note what the check above does and does not cover. `d` is well
 conditioned, with a hundred observations and three parameters, so no
@@ -311,13 +323,13 @@ check("lm_robust(clusters = )",
       lm_robust(y ~ z + x, data = d, clusters = cl, se_type = "CR0")$vcov,
       cr_vcov(fit_lm, d$cl))
 #>       gap holds
-#> 1 1.2e-16  TRUE
+#> 1 2.5e-16  TRUE
 
 check("lm_robust(se_type = 'stata')",
       lm_robust(y ~ z + x, data = d, clusters = cl, se_type = "stata")$vcov,
       cr_vcov(fit_lm, d$cl, stata = TRUE))
 #>       gap holds
-#> 1 1.1e-16  TRUE
+#> 1 2.8e-16  TRUE
 ```
 
 CR2 is the one member of the family whose reference is not a few lines
@@ -429,7 +441,7 @@ check("lm_robust(fixed_effects = )",
       c(coef(absorbed)[keep], absorbed$std.error[keep]),
       c(coef(dummies)[keep], dummies$std.error[keep]))
 #>       gap holds
-#> 1 3.4e-16  TRUE
+#> 1 6.9e-16  TRUE
 ```
 
 #### Rank
@@ -562,7 +574,7 @@ check("lm_lin()",
       c(coef(lin)[["z"]], lin$std.error[["z"]]),
       c(coef(byhand)[["z"]], byhand$std.error[["z"]]))
 #>       gap holds
-#> 1 3.3e-16  TRUE
+#> 1 1.1e-16  TRUE
 ```
 
 ## `iv_robust`
@@ -1099,17 +1111,17 @@ with two-sided p-values from the same distribution.
 
 | Promise | Largest relative gap | Holds |
 |:---|:---|:---|
-| lm_robust() | 7.8e-16 | TRUE |
-| lm_robust(weights = ) | 1.2e-15 | TRUE |
-| lm_robust(se_type = ‘classical’) | 6.9e-17 | TRUE |
-| lm_robust(se_type = ‘HC0’) | 5.6e-17 | TRUE |
-| lm_robust(se_type = ‘HC1’) | 9.7e-17 | TRUE |
-| lm_robust(se_type = ‘HC2’) | 8.3e-17 | TRUE |
-| lm_robust(se_type = ‘HC3’) | 6.9e-17 | TRUE |
-| lm_robust(clusters = ) | 1.2e-16 | TRUE |
-| lm_robust(se_type = ‘stata’) | 1.1e-16 | TRUE |
-| lm_robust(fixed_effects = ) | 3.4e-16 | TRUE |
-| lm_lin() | 3.3e-16 | TRUE |
+| lm_robust() | 8.9e-16 | TRUE |
+| lm_robust(weights = ) | 1.5e-15 | TRUE |
+| lm_robust(se_type = ‘classical’) | 1.9e-16 | TRUE |
+| lm_robust(se_type = ‘HC0’) | 1.8e-16 | TRUE |
+| lm_robust(se_type = ‘HC1’) | 1.2e-16 | TRUE |
+| lm_robust(se_type = ‘HC2’) | 1.5e-16 | TRUE |
+| lm_robust(se_type = ‘HC3’) | 1.2e-16 | TRUE |
+| lm_robust(clusters = ) | 2.5e-16 | TRUE |
+| lm_robust(se_type = ‘stata’) | 2.8e-16 | TRUE |
+| lm_robust(fixed_effects = ) | 6.9e-16 | TRUE |
+| lm_lin() | 1.1e-16 | TRUE |
 | iv_robust() | 1.3e-15 | TRUE |
 | lh_robust() | 0.0e+00 | TRUE |
 | difference_in_means() | 4.9e-16 | TRUE |

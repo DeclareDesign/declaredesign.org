@@ -26,13 +26,13 @@ Source:
 [`DESCRIPTION`](https://github.com/DeclareDesign/estimatr/blob/main/DESCRIPTION)
 
 Coppock A, Blair G, Cooper J, Sonnet L (2026). *estimatr: Fast
-Estimators for Design-Based Inference*. R package version 2.0.0,
+Estimators for Design-Based Inference*. R package version 2.0.1,
 <https://declaredesign.org/r/estimatr/>.
 
     @Manual{,
       title = {estimatr: Fast Estimators for Design-Based Inference},
       author = {Alexander Coppock and Graeme Blair and Jasper Cooper and Luke Sonnet},
       year = {2026},
-      note = {R package version 2.0.0},
+      note = {R package version 2.0.1},
       url = {https://declaredesign.org/r/estimatr/},
     }
