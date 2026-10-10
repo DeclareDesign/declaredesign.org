@@ -12,15 +12,15 @@ rma_helper(data, yi, sei, method = "REML", ...)
 
 - data:
 
-  a data.frame
+  A data frame with one row per study.
 
 - yi:
 
-  unquoted variable name of estimates used in meta-analysis
+  The bare column name of the study estimates.
 
 - sei:
 
-  unquoted variable name of standard errors used in meta-analysis
+  The bare column name of their standard errors.
 
 - method:
 
@@ -33,12 +33,52 @@ rma_helper(data, yi, sei, method = "REML", ...)
 
 - ...:
 
-  Further options to be passed to rma
+  Further arguments to
+  [`metafor::rma()`](https://wviechtb.github.io/metafor/reference/rma.uni.html).
 
 ## Value
 
-a data.frame of estimates
+An `rma.uni` fit; pass it to
+[`rma_mu_tau()`](https://declaredesign.org/r/rdss/reference/rma_mu_tau.md)
+to tidy it.
 
 ## Details
 
-See ?rma for further details
+Fits
+[`metafor::rma()`](https://wviechtb.github.io/metafor/reference/rma.uni.html)
+to study-level estimates and standard errors. If the fit fails, it
+returns the error as an object
+[`rma_mu_tau()`](https://declaredesign.org/r/rdss/reference/rma_mu_tau.md)
+recognizes, so one failed simulation does not stop a diagnosis.
+
+## Examples
+
+``` r
+
+set.seed(343)
+studies <- data.frame(
+  est = rnorm(10, mean = 0.2, sd = 0.1),
+  se = runif(10, min = 0.05, max = 0.15)
+)
+fit <- rma_helper(studies, yi = est, sei = se)
+fit
+#> 
+#> Random-Effects Model (k = 10; tau^2 estimator: REML)
+#> 
+#> tau^2 (estimated amount of total heterogeneity): 0.0013 (SE = 0.0035)
+#> tau (square root of estimated tau^2 value):      0.0367
+#> I^2 (total heterogeneity / total variability):   17.27%
+#> H^2 (total variability / sampling variability):  1.21
+#> 
+#> Test for Heterogeneity:
+#> Q(df = 9) = 9.7435, p-val = 0.3716
+#> 
+#> Model Results:
+#> 
+#> estimate      se    zval    pval   ci.lb   ci.ub      
+#>   0.1384  0.0281  4.9166  <.0001  0.0832  0.1936  *** 
+#> 
+#> ---
+#> Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+#> 
+```
