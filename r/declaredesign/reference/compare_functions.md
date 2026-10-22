@@ -134,6 +134,8 @@ design1 <- declare_model(N = 100, u = rnorm(N), potential_outcomes(Y ~ Z + u)) +
  
  }
 #> Loading required package: diffobj
+#> Warning: `target` or `current` contained ANSI CSI SGR when rendered; these were stripped.  Use `strip.sgr=FALSE` to preserve them in the diffs.
+#> Warning: `target` or `current` contained ANSI CSI SGR when rendered; these were stripped.  Use `strip.sgr=FALSE` to preserve them in the diffs.
 #> < design1             > design2           
 #> @@ 1,2 @@             @@ 1,2 @@           
 #>     inquiry estimand      inquiry estimand

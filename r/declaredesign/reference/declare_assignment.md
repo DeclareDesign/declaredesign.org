@@ -59,10 +59,10 @@ design <-
   declare_estimator(Y ~ Z, inquiry = "ATE")
   
 run_design(design)
-#>   inquiry estimand estimator term   estimate  std.error statistic   p.value
-#> 1     ATE      0.2 estimator    Z 0.09450127 0.07783236  1.214164 0.2261312
+#>   inquiry estimand estimator term  estimate  std.error statistic    p.value
+#> 1     ATE      0.2 estimator    Z 0.1671411 0.08082312  2.067986 0.03994111
 #>      conf.low conf.high  df outcome
-#> 1 -0.05898551 0.2479881 198       Y
+#> 1 0.007756481 0.3265257 198       Y
 
 # Set up population to assign
 model <- declare_model(
@@ -89,13 +89,15 @@ design <-
   declare_assignment(Z = complete_ra(N = N, m = 1000))
   
 head(draw_data(design))
-#>   villages N_households households N_members individuals age gender Z
-#> 1       01           83       0001         2        0001  66      0 0
-#> 2       01           83       0001         2        0002  47      1 0
-#> 3       01           83       0002         2        0003  36      1 1
-#> 4       01           83       0002         2        0004  72      1 0
-#> 5       01           83       0003         1        0005  64      1 0
-#> 6       01           83       0004         1        0006  73      1 0
+#> # A tibble: 6 × 8
+#>   villages N_households households N_members individuals   age gender     Z
+#>   <chr>           <int> <chr>          <dbl> <chr>       <int>  <int> <int>
+#> 1 01                 71 0001               2 0001           80      0     0
+#> 2 01                 71 0001               2 0002           79      0     0
+#> 3 01                 71 0002               2 0003           29      1     0
+#> 4 01                 71 0002               2 0004           37      1     0
+#> 5 01                 71 0003               2 0005           33      1     0
+#> 6 01                 71 0003               2 0006           73      0     1
 
 ## Cluster random assignment
 design <-
@@ -104,13 +106,15 @@ design <-
                                     n = 15))
                                     
 head(draw_data(design))
-#>   villages N_households households N_members individuals age gender  Z
-#> 1       01           76       0001         1        0001  74      0 T7
-#> 2       01           76       0002         4        0002  33      0 T7
-#> 3       01           76       0002         4        0003  52      0 T7
-#> 4       01           76       0002         4        0004  72      0 T7
-#> 5       01           76       0002         4        0005  72      0 T7
-#> 6       01           76       0003         4        0006  49      0 T7
+#> # A tibble: 6 × 8
+#>   villages N_households households N_members individuals   age gender Z    
+#>   <chr>           <int> <chr>          <dbl> <chr>       <int>  <int> <fct>
+#> 1 01                 92 0001               2 0001           74      0 T5   
+#> 2 01                 92 0001               2 0002           28      0 T5   
+#> 3 01                 92 0002               1 0003           27      1 T5   
+#> 4 01                 92 0003               3 0004           44      0 T5   
+#> 5 01                 92 0003               3 0005           25      1 T5   
+#> 6 01                 92 0003               3 0006           71      1 T5   
 
 ## Block and cluster random assignment
 design <-
@@ -122,13 +126,15 @@ design <-
   ))
 
 head(draw_data(design))
-#>   villages N_households households N_members individuals age gender Z
-#> 1       01           90       0001         4        0001  88      0 0
-#> 2       01           90       0001         4        0002  61      0 0
-#> 3       01           90       0001         4        0003  77      0 0
-#> 4       01           90       0001         4        0004  26      0 0
-#> 5       01           90       0002         4        0005  50      1 0
-#> 6       01           90       0002         4        0006  56      0 0
+#> # A tibble: 6 × 8
+#>   villages N_households households N_members individuals   age gender     Z
+#>   <chr>           <int> <chr>          <dbl> <chr>       <int>  <int> <int>
+#> 1 01                 67 0001               4 0001           42      1     0
+#> 2 01                 67 0001               4 0002           67      1     0
+#> 3 01                 67 0001               4 0003           54      1     0
+#> 4 01                 67 0001               4 0004           21      0     0
+#> 5 01                 67 0002               2 0005           90      0     0
+#> 6 01                 67 0002               2 0006           89      0     0
 
 ## Block random assignment
 design <-
@@ -136,13 +142,15 @@ design <-
   declare_assignment(Z = block_ra(blocks = gender, m = 100))
   
 head(draw_data(design))
-#>   villages N_households households N_members individuals age gender Z
-#> 1       01           54       0001         3        0001  67      0 0
-#> 2       01           54       0001         3        0002  25      1 0
-#> 3       01           54       0001         3        0003  74      1 0
-#> 4       01           54       0002         1        0004  35      0 0
-#> 5       01           54       0003         2        0005  55      1 0
-#> 6       01           54       0003         2        0006  34      0 0
+#> # A tibble: 6 × 8
+#>   villages N_households households N_members individuals   age gender     Z
+#>   <chr>           <int> <chr>          <dbl> <chr>       <int>  <int> <int>
+#> 1 01                 61 0001               1 0001           43      1     0
+#> 2 01                 61 0002               2 0002           45      0     0
+#> 3 01                 61 0002               2 0003           75      1     0
+#> 4 01                 61 0003               3 0004           31      0     0
+#> 5 01                 61 0003               3 0005           20      1     0
+#> 6 01                 61 0003               3 0006           18      1     0
 
 ## Block random assignment using probabilities
 design <-
@@ -151,13 +159,15 @@ design <-
                                   block_prob = c(1 / 3, 2 / 3)))
 
 head(draw_data(design))
-#>   villages N_households households N_members individuals age gender Z
-#> 1       01           73       0001         2        0001  40      0 0
-#> 2       01           73       0001         2        0002  37      1 0
-#> 3       01           73       0002         3        0003  28      0 1
-#> 4       01           73       0002         3        0004  33      0 1
-#> 5       01           73       0002         3        0005  63      0 0
-#> 6       01           73       0003         4        0006  30      0 1
+#> # A tibble: 6 × 8
+#>   villages N_households households N_members individuals   age gender     Z
+#>   <chr>           <int> <chr>          <dbl> <chr>       <int>  <int> <int>
+#> 1 01                 73 0001               3 0001           79      0     0
+#> 2 01                 73 0001               3 0002           80      0     0
+#> 3 01                 73 0001               3 0003           19      0     0
+#> 4 01                 73 0002               4 0004           28      1     1
+#> 5 01                 73 0002               4 0005           48      1     1
+#> 6 01                 73 0002               4 0006           52      1     1
 
 ## Factorial assignment
 design <-
@@ -166,13 +176,16 @@ design <-
                      Z2 = block_ra(blocks = Z1))
 
 head(draw_data(design))
-#>   villages N_households households N_members individuals age gender Z1 Z2
-#> 1       01           56       0001         2        0001  55      1  0  1
-#> 2       01           56       0001         2        0002  24      1  0  0
-#> 3       01           56       0002         2        0003  83      1  0  0
-#> 4       01           56       0002         2        0004  36      1  0  1
-#> 5       01           56       0003         1        0005  43      1  0  0
-#> 6       01           56       0004         4        0006  50      0  0  1
+#> # A tibble: 6 × 9
+#>   villages N_households households N_members individuals   age gender    Z1
+#>   <chr>           <int> <chr>          <dbl> <chr>       <int>  <int> <int>
+#> 1 01                 54 0001               2 0001           32      1     0
+#> 2 01                 54 0001               2 0002           89      1     0
+#> 3 01                 54 0002               3 0003           90      0     0
+#> 4 01                 54 0002               3 0004           65      0     0
+#> 5 01                 54 0002               3 0005           60      0     0
+#> 6 01                 54 0003               4 0006           42      1     0
+#> # ℹ 1 more variable: Z2 <int>
 
 ## Assignment using functions outside of randomizr
 design <-
@@ -180,11 +193,13 @@ design <-
   declare_assignment(Z = rbinom(n = N, size = 1, prob = 0.35))
 
 head(draw_data(design))
-#>   villages N_households households N_members individuals age gender Z
-#> 1       01           73       0001         3        0001  72      0 0
-#> 2       01           73       0001         3        0002  22      0 0
-#> 3       01           73       0001         3        0003  45      1 0
-#> 4       01           73       0002         4        0004  72      1 1
-#> 5       01           73       0002         4        0005  42      1 0
-#> 6       01           73       0002         4        0006  27      1 0
+#> # A tibble: 6 × 8
+#>   villages N_households households N_members individuals   age gender     Z
+#>   <chr>           <int> <chr>          <dbl> <chr>       <int>  <int> <int>
+#> 1 01                 81 0001               4 0001           67      0     1
+#> 2 01                 81 0001               4 0002           86      0     0
+#> 3 01                 81 0001               4 0003           49      0     0
+#> 4 01                 81 0001               4 0004           51      0     0
+#> 5 01                 81 0002               4 0005           22      1     0
+#> 6 01                 81 0002               4 0006           53      1     0
 ```

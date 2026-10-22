@@ -62,10 +62,10 @@ design <-
   declare_estimator(Y ~ Z, inquiry = "ATE")
   
 run_design(design)
-#>   inquiry estimand estimator term  estimate  std.error statistic      p.value
-#> 1     ATE      0.2 estimator    Z 0.2863781 0.07900873  3.624638 0.0003678948
-#>    conf.low conf.high  df outcome
-#> 1 0.1305714 0.4421847 198       Y
+#>   inquiry estimand estimator term  estimate  std.error statistic   p.value
+#> 1     ATE      0.2 estimator    Z 0.1215871 0.08132779  1.495025 0.1365001
+#>      conf.low conf.high  df outcome
+#> 1 -0.03879277 0.2819669 198       Y
 
 # Set up population to sample from
 model <- declare_model(
@@ -91,13 +91,15 @@ design <- model +
   declare_sampling(S = complete_rs(N = N, n = 1000))
   
 head(draw_data(design))
-#>    villages N_households households N_members individuals age gender S
-#> 1        01           64       0001         1        0001  23      1 1
-#> 2        01           64       0002         4        0002  76      0 1
-#> 7        01           64       0003         2        0007  23      0 1
-#> 8        01           64       0004         3        0008  23      1 1
-#> 25       01           64       0010         4        0025  40      1 1
-#> 28       01           64       0012         2        0028  46      1 1
+#> # A tibble: 6 × 8
+#>   villages N_households households N_members individuals   age gender     S
+#>   <chr>           <int> <chr>          <dbl> <chr>       <int>  <int> <dbl>
+#> 1 01                 54 0001               2 0001           64      0     1
+#> 2 01                 54 0005               3 0015           41      1     1
+#> 3 01                 54 0005               3 0016           57      0     1
+#> 4 01                 54 0005               3 0017           30      1     1
+#> 5 01                 54 0006               4 0018           77      1     1
+#> 6 01                 54 0009               3 0025           39      0     1
 
 ## Cluster random sampling
 design <- model +
@@ -105,13 +107,15 @@ design <- model +
                                   n = 15))
 
 head(draw_data(design))
-#>     villages N_households households N_members individuals age gender S
-#> 191       02           86       0075         4        0191  81      1 1
-#> 192       02           86       0075         4        0192  30      0 1
-#> 193       02           86       0075         4        0193  84      0 1
-#> 194       02           86       0075         4        0194  37      1 1
-#> 195       02           86       0076         1        0195  33      0 1
-#> 196       02           86       0077         3        0196  48      1 1
+#> # A tibble: 6 × 8
+#>   villages N_households households N_members individuals   age gender     S
+#>   <chr>           <int> <chr>          <dbl> <chr>       <int>  <int> <dbl>
+#> 1 04                 81 0217               2 0546           81      0     1
+#> 2 04                 81 0217               2 0547           18      1     1
+#> 3 04                 81 0218               3 0548           73      0     1
+#> 4 04                 81 0218               3 0549           60      1     1
+#> 5 04                 81 0218               3 0550           49      1     1
+#> 6 04                 81 0219               4 0551           80      1     1
 
 ## Strata and cluster random sampling
 design <- model +
@@ -121,24 +125,28 @@ design <- model +
     strata_n = rep(20, 30)))
     
 head(draw_data(design))
-#>    villages N_households households N_members individuals age gender S
-#> 9        01           93       0004         2        0009  67      1 1
-#> 10       01           93       0004         2        0010  51      1 1
-#> 11       01           93       0005         1        0011  85      0 1
-#> 21       01           93       0009         4        0021  62      1 1
-#> 22       01           93       0009         4        0022  24      1 1
-#> 23       01           93       0009         4        0023  90      1 1
+#> # A tibble: 6 × 8
+#>   villages N_households households N_members individuals   age gender     S
+#>   <chr>           <int> <chr>          <dbl> <chr>       <int>  <int> <dbl>
+#> 1 01                 85 0003               4 0008           59      1     1
+#> 2 01                 85 0003               4 0009           79      0     1
+#> 3 01                 85 0003               4 0010           79      0     1
+#> 4 01                 85 0003               4 0011           80      0     1
+#> 5 01                 85 0004               1 0012           66      1     1
+#> 6 01                 85 0007               3 0020           76      1     1
 
 ## Stratified random sampling
 design <- model +
   declare_sampling(S = strata_rs(strata = gender, n = 100))
 
 head(draw_data(design))
-#>    villages N_households households N_members individuals age gender S
-#> 2        01           88       0001         2        0002  47      1 1
-#> 6        01           88       0003         2        0006  42      0 1
-#> 12       01           88       0005         2        0012  36      0 1
-#> 13       01           88       0005         2        0013  46      1 1
-#> 51       01           88       0020         3        0051  51      0 1
-#> 77       01           88       0031         3        0077  53      0 1
+#> # A tibble: 6 × 8
+#>   villages N_households households N_members individuals   age gender     S
+#>   <chr>           <int> <chr>          <dbl> <chr>       <int>  <int> <dbl>
+#> 1 01                 77 0001               2 0002           37      0     1
+#> 2 01                 77 0009               3 0021           22      0     1
+#> 3 01                 77 0011               4 0029           40      0     1
+#> 4 01                 77 0026               4 0066           58      0     1
+#> 5 01                 77 0032               4 0083           81      0     1
+#> 6 01                 77 0033               2 0085           38      1     1
 ```

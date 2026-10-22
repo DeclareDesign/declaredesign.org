@@ -32,8 +32,10 @@ b <- 1
 d <- declare_model(N = n, Y = rnorm(N, b)) + declare_inquiry(Q = b)
 d2 <- redesign(d, n = 3, b = 0.2)
 draw_data(d2)
-#>   ID          Y
-#> 1  1 1.03764855
-#> 2  2 0.03435161
-#> 3  3 0.76054149
+#> # A tibble: 3 × 2
+#>   ID         Y
+#>   <chr>  <dbl>
+#> 1 1      0.876
+#> 2 2      0.263
+#> 3 3     -1.28 
 ```

@@ -99,23 +99,23 @@
 <span class="r-in"><span>  <span class="fu"><a href="declare_estimator.html">declare_estimator</a></span><span class="op">(</span><span class="va">Y</span> <span class="op">~</span> <span class="va">Z</span>, inquiry <span class="op">=</span> <span class="st">"ATE"</span><span class="op">)</span></span></span>
 <span class="r-in"><span>  </span></span>
 <span class="r-in"><span><span class="fu"><a href="run_design.html">run_design</a></span><span class="op">(</span><span class="va">design</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   inquiry estimand estimator term   estimate  std.error statistic   p.value</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1     ATE      0.2 estimator    Z 0.09450127 0.07783236  1.214164 0.2261312</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   inquiry estimand estimator term  estimate  std.error statistic    p.value</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1     ATE      0.2 estimator    Z 0.1671411 0.08082312  2.067986 0.03994111</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>      conf.low conf.high  df outcome</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1 -0.05898551 0.2479881 198       Y</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1 0.007756481 0.3265257 198       Y</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Set up population to assign</span></span></span>
 <span class="r-in"><span><span class="va">model</span> <span class="op">&lt;-</span> <span class="fu"><a href="declare_model.html">declare_model</a></span><span class="op">(</span></span></span>
-<span class="r-in"><span>  villages <span class="op">=</span> <span class="fu"><a href="https://declaredesign.org/r/fabricatr/reference/fabricate.html" class="external-link">add_level</a></span><span class="op">(</span></span></span>
+<span class="r-in"><span>  villages <span class="op">=</span> <span class="fu"><a href="https://declaredesign.org/r/fabricatr/reference/add_level.html" class="external-link">add_level</a></span><span class="op">(</span></span></span>
 <span class="r-in"><span>    N <span class="op">=</span> <span class="fl">30</span>, </span></span>
 <span class="r-in"><span>    N_households <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/sample.html" class="external-link">sample</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">50</span><span class="op">:</span><span class="fl">100</span><span class="op">)</span>, <span class="va">N</span>, replace <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></span>
 <span class="r-in"><span>  <span class="op">)</span>,</span></span>
-<span class="r-in"><span>  households <span class="op">=</span> <span class="fu"><a href="https://declaredesign.org/r/fabricatr/reference/fabricate.html" class="external-link">add_level</a></span><span class="op">(</span></span></span>
+<span class="r-in"><span>  households <span class="op">=</span> <span class="fu"><a href="https://declaredesign.org/r/fabricatr/reference/add_level.html" class="external-link">add_level</a></span><span class="op">(</span></span></span>
 <span class="r-in"><span>    N <span class="op">=</span> <span class="va">N_households</span>, </span></span>
 <span class="r-in"><span>    N_members <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/sample.html" class="external-link">sample</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">2</span>, <span class="fl">3</span>, <span class="fl">4</span><span class="op">)</span>, <span class="va">N</span>, </span></span>
 <span class="r-in"><span>                       prob <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0.2</span>, <span class="fl">0.3</span>, <span class="fl">0.25</span>, <span class="fl">0.25</span><span class="op">)</span>, replace <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></span>
 <span class="r-in"><span>  <span class="op">)</span>,</span></span>
-<span class="r-in"><span>  individuals <span class="op">=</span> <span class="fu"><a href="https://declaredesign.org/r/fabricatr/reference/fabricate.html" class="external-link">add_level</a></span><span class="op">(</span></span></span>
+<span class="r-in"><span>  individuals <span class="op">=</span> <span class="fu"><a href="https://declaredesign.org/r/fabricatr/reference/add_level.html" class="external-link">add_level</a></span><span class="op">(</span></span></span>
 <span class="r-in"><span>    N <span class="op">=</span> <span class="va">N_members</span>, </span></span>
 <span class="r-in"><span>    age <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/sample.html" class="external-link">sample</a></span><span class="op">(</span><span class="fl">18</span><span class="op">:</span><span class="fl">90</span>, <span class="va">N</span>, replace <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>,</span></span>
 <span class="r-in"><span>    gender <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/Binomial.html" class="external-link">rbinom</a></span><span class="op">(</span>n <span class="op">=</span> <span class="va">N</span>, size <span class="op">=</span> <span class="fl">1</span>, prob <span class="op">=</span> <span class="fl">.5</span><span class="op">)</span></span></span>
@@ -129,13 +129,15 @@
 <span class="r-in"><span>  <span class="fu">declare_assignment</span><span class="op">(</span>Z <span class="op">=</span> <span class="fu"><a href="https://declaredesign.org/r/randomizr/reference/complete_ra.html" class="external-link">complete_ra</a></span><span class="op">(</span>N <span class="op">=</span> <span class="va">N</span>, m <span class="op">=</span> <span class="fl">1000</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-in"><span>  </span></span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="fu"><a href="draw_functions.html">draw_data</a></span><span class="op">(</span><span class="va">design</span><span class="op">)</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   villages N_households households N_members individuals age gender Z</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1       01           83       0001         2        0001  66      0 0</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2       01           83       0001         2        0002  47      1 0</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 3       01           83       0002         2        0003  36      1 1</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 4       01           83       0002         2        0004  72      1 0</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 5       01           83       0003         1        0005  64      1 0</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 6       01           83       0004         1        0006  73      1 0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 6 × 8</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   villages N_households households N_members individuals   age gender     Z</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>           <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>          <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;int&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;int&gt;</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span> 01                 71 0001               2 0001           80      0     0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">2</span> 01                 71 0001               2 0002           79      0     0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">3</span> 01                 71 0002               2 0003           29      1     0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">4</span> 01                 71 0002               2 0004           37      1     0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">5</span> 01                 71 0003               2 0005           33      1     0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">6</span> 01                 71 0003               2 0006           73      0     1</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co">## Cluster random assignment</span></span></span>
 <span class="r-in"><span><span class="va">design</span> <span class="op">&lt;-</span></span></span>
@@ -144,13 +146,15 @@
 <span class="r-in"><span>                                    n <span class="op">=</span> <span class="fl">15</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-in"><span>                                    </span></span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="fu"><a href="draw_functions.html">draw_data</a></span><span class="op">(</span><span class="va">design</span><span class="op">)</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   villages N_households households N_members individuals age gender  Z</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1       01           76       0001         1        0001  74      0 T7</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2       01           76       0002         4        0002  33      0 T7</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 3       01           76       0002         4        0003  52      0 T7</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 4       01           76       0002         4        0004  72      0 T7</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 5       01           76       0002         4        0005  72      0 T7</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 6       01           76       0003         4        0006  49      0 T7</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 6 × 8</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   villages N_households households N_members individuals   age gender Z    </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>           <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>          <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;int&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;fct&gt;</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span> 01                 92 0001               2 0001           74      0 T5   </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">2</span> 01                 92 0001               2 0002           28      0 T5   </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">3</span> 01                 92 0002               1 0003           27      1 T5   </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">4</span> 01                 92 0003               3 0004           44      0 T5   </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">5</span> 01                 92 0003               3 0005           25      1 T5   </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">6</span> 01                 92 0003               3 0006           71      1 T5   </span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co">## Block and cluster random assignment</span></span></span>
 <span class="r-in"><span><span class="va">design</span> <span class="op">&lt;-</span></span></span>
@@ -162,13 +166,15 @@
 <span class="r-in"><span>  <span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="fu"><a href="draw_functions.html">draw_data</a></span><span class="op">(</span><span class="va">design</span><span class="op">)</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   villages N_households households N_members individuals age gender Z</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1       01           90       0001         4        0001  88      0 0</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2       01           90       0001         4        0002  61      0 0</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 3       01           90       0001         4        0003  77      0 0</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 4       01           90       0001         4        0004  26      0 0</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 5       01           90       0002         4        0005  50      1 0</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 6       01           90       0002         4        0006  56      0 0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 6 × 8</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   villages N_households households N_members individuals   age gender     Z</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>           <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>          <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;int&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;int&gt;</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span> 01                 67 0001               4 0001           42      1     0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">2</span> 01                 67 0001               4 0002           67      1     0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">3</span> 01                 67 0001               4 0003           54      1     0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">4</span> 01                 67 0001               4 0004           21      0     0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">5</span> 01                 67 0002               2 0005           90      0     0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">6</span> 01                 67 0002               2 0006           89      0     0</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co">## Block random assignment</span></span></span>
 <span class="r-in"><span><span class="va">design</span> <span class="op">&lt;-</span></span></span>
@@ -176,13 +182,15 @@
 <span class="r-in"><span>  <span class="fu">declare_assignment</span><span class="op">(</span>Z <span class="op">=</span> <span class="fu"><a href="https://declaredesign.org/r/randomizr/reference/block_ra.html" class="external-link">block_ra</a></span><span class="op">(</span>blocks <span class="op">=</span> <span class="va">gender</span>, m <span class="op">=</span> <span class="fl">100</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-in"><span>  </span></span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="fu"><a href="draw_functions.html">draw_data</a></span><span class="op">(</span><span class="va">design</span><span class="op">)</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   villages N_households households N_members individuals age gender Z</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1       01           54       0001         3        0001  67      0 0</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2       01           54       0001         3        0002  25      1 0</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 3       01           54       0001         3        0003  74      1 0</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 4       01           54       0002         1        0004  35      0 0</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 5       01           54       0003         2        0005  55      1 0</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 6       01           54       0003         2        0006  34      0 0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 6 × 8</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   villages N_households households N_members individuals   age gender     Z</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>           <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>          <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;int&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;int&gt;</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span> 01                 61 0001               1 0001           43      1     0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">2</span> 01                 61 0002               2 0002           45      0     0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">3</span> 01                 61 0002               2 0003           75      1     0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">4</span> 01                 61 0003               3 0004           31      0     0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">5</span> 01                 61 0003               3 0005           20      1     0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">6</span> 01                 61 0003               3 0006           18      1     0</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co">## Block random assignment using probabilities</span></span></span>
 <span class="r-in"><span><span class="va">design</span> <span class="op">&lt;-</span></span></span>
@@ -191,13 +199,15 @@
 <span class="r-in"><span>                                  block_prob <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span> <span class="op">/</span> <span class="fl">3</span>, <span class="fl">2</span> <span class="op">/</span> <span class="fl">3</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="fu"><a href="draw_functions.html">draw_data</a></span><span class="op">(</span><span class="va">design</span><span class="op">)</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   villages N_households households N_members individuals age gender Z</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1       01           73       0001         2        0001  40      0 0</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2       01           73       0001         2        0002  37      1 0</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 3       01           73       0002         3        0003  28      0 1</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 4       01           73       0002         3        0004  33      0 1</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 5       01           73       0002         3        0005  63      0 0</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 6       01           73       0003         4        0006  30      0 1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 6 × 8</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   villages N_households households N_members individuals   age gender     Z</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>           <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>          <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;int&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;int&gt;</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span> 01                 73 0001               3 0001           79      0     0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">2</span> 01                 73 0001               3 0002           80      0     0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">3</span> 01                 73 0001               3 0003           19      0     0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">4</span> 01                 73 0002               4 0004           28      1     1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">5</span> 01                 73 0002               4 0005           48      1     1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">6</span> 01                 73 0002               4 0006           52      1     1</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co">## Factorial assignment</span></span></span>
 <span class="r-in"><span><span class="va">design</span> <span class="op">&lt;-</span></span></span>
@@ -206,13 +216,16 @@
 <span class="r-in"><span>                     Z2 <span class="op">=</span> <span class="fu"><a href="https://declaredesign.org/r/randomizr/reference/block_ra.html" class="external-link">block_ra</a></span><span class="op">(</span>blocks <span class="op">=</span> <span class="va">Z1</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="fu"><a href="draw_functions.html">draw_data</a></span><span class="op">(</span><span class="va">design</span><span class="op">)</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   villages N_households households N_members individuals age gender Z1 Z2</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1       01           56       0001         2        0001  55      1  0  1</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2       01           56       0001         2        0002  24      1  0  0</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 3       01           56       0002         2        0003  83      1  0  0</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 4       01           56       0002         2        0004  36      1  0  1</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 5       01           56       0003         1        0005  43      1  0  0</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 6       01           56       0004         4        0006  50      0  0  1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 6 × 9</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   villages N_households households N_members individuals   age gender    Z1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>           <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>          <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;int&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;int&gt;</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span> 01                 54 0001               2 0001           32      1     0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">2</span> 01                 54 0001               2 0002           89      1     0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">3</span> 01                 54 0002               3 0003           90      0     0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">4</span> 01                 54 0002               3 0004           65      0     0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">5</span> 01                 54 0002               3 0005           60      0     0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">6</span> 01                 54 0003               4 0006           42      1     0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># ℹ 1 more variable: Z2 &lt;int&gt;</span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co">## Assignment using functions outside of randomizr</span></span></span>
 <span class="r-in"><span><span class="va">design</span> <span class="op">&lt;-</span></span></span>
@@ -220,13 +233,15 @@
 <span class="r-in"><span>  <span class="fu">declare_assignment</span><span class="op">(</span>Z <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/Binomial.html" class="external-link">rbinom</a></span><span class="op">(</span>n <span class="op">=</span> <span class="va">N</span>, size <span class="op">=</span> <span class="fl">1</span>, prob <span class="op">=</span> <span class="fl">0.35</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="fu"><a href="draw_functions.html">draw_data</a></span><span class="op">(</span><span class="va">design</span><span class="op">)</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   villages N_households households N_members individuals age gender Z</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1       01           73       0001         3        0001  72      0 0</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2       01           73       0001         3        0002  22      0 0</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 3       01           73       0001         3        0003  45      1 0</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 4       01           73       0002         4        0004  72      1 1</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 5       01           73       0002         4        0005  42      1 0</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 6       01           73       0002         4        0006  27      1 0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 6 × 8</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   villages N_households households N_members individuals   age gender     Z</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>           <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>          <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;int&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;int&gt;</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span> 01                 81 0001               4 0001           67      0     1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">2</span> 01                 81 0001               4 0002           86      0     0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">3</span> 01                 81 0001               4 0003           49      0     0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">4</span> 01                 81 0001               4 0004           51      0     0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">5</span> 01                 81 0002               4 0005           22      1     0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">6</span> 01                 81 0002               4 0006           53      1     0</span>
 <span class="r-in"><span></span></span>
 </code></pre></div>
     </div>

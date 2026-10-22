@@ -136,13 +136,15 @@ an additional dimension for use in diagnosis.</p>
 <span class="r-in"><span>  <span class="fu"><a href="declare_measurement.html">declare_measurement</a></span><span class="op">(</span>Y <span class="op">=</span> <span class="fu"><a href="https://declaredesign.org/r/fabricatr/reference/reveal_outcomes.html" class="external-link">reveal_outcomes</a></span><span class="op">(</span><span class="va">Y</span> <span class="op">~</span> <span class="va">Z</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-in"><span>  </span></span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="fu"><a href="draw_functions.html">draw_data</a></span><span class="op">(</span><span class="va">design</span><span class="op">)</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>    ID X           U       Y_Z_0        Y_Z_1 Z           Y</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1 001 0 -0.29843758 -0.29843758 -0.098437577 0 -0.29843758</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2 002 0  0.09345702  0.09345702  0.293457023 0  0.09345702</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 3 003 0 -0.24366512 -0.24366512 -0.043665123 1 -0.04366512</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 4 004 0  0.07694047  0.07694047  0.276940465 0  0.07694047</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 5 005 0 -0.19294591 -0.19294591  0.007054088 0 -0.19294591</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 6 006 0  0.05678780  0.05678780  0.256787799 0  0.05678780</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 6 × 7</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   ID        X      U  Y_Z_0 Y_Z_1     Z      Y</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;int&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span> 001       0 0.373  0.373  0.573     0 0.373 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">2</span> 002       0 0.194  0.194  0.394     0 0.194 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">3</span> 003       0 0.123  0.123  0.323     1 0.323 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">4</span> 004       0 0.042<span style="text-decoration: underline;">2</span> 0.042<span style="text-decoration: underline;">2</span> 0.242     0 0.042<span style="text-decoration: underline;">2</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">5</span> 005       0 0.046<span style="text-decoration: underline;">5</span> 0.046<span style="text-decoration: underline;">5</span> 0.247     1 0.247 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">6</span> 006       0 0.088<span style="text-decoration: underline;">7</span> 0.088<span style="text-decoration: underline;">7</span> 0.289     0 0.088<span style="text-decoration: underline;">7</span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Some common inquiries</span></span></span>
 <span class="r-in"><span><span class="va">design</span> <span class="op">+</span></span></span>
@@ -180,8 +182,8 @@ an additional dimension for use in diagnosis.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Run of the design:</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>            inquiry estimand</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  difference_in_var 5.55e-17</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>            inquiry  estimand</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  difference_in_var -1.11e-16</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> No modifiable parameters saved in design </span>
 <span class="r-in"><span></span></span>
@@ -201,7 +203,7 @@ an additional dimension for use in diagnosis.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Run of the design:</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  inquiry estimand</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   mean_Y    0.586</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   mean_Y    0.574</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> No modifiable parameters saved in design </span>
 <span class="r-in"><span></span></span>
@@ -291,10 +293,10 @@ an additional dimension for use in diagnosis.</p>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="fu"><a href="run_design.html">run_design</a></span><span class="op">(</span><span class="va">design_1</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>             inquiry estimand estimator term    estimate  std.error statistic</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1               ATE      0.2       DIM    Z  0.20245339 0.04970576  4.073037</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2 difference_in_var      0.0       DIV &lt;NA&gt; -0.05348027         NA        NA</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1               ATE      0.2       DIM    Z 0.256676309 0.05184455  4.950884</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2 difference_in_var      0.0       DIV &lt;NA&gt; 0.003802573         NA        NA</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>        p.value  conf.low conf.high  df outcome</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1 5.397952e-05 0.1047945 0.3001122 498       Y</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1 1.013028e-06 0.1548153 0.3585373 498       Y</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 2           NA        NA        NA  NA    &lt;NA&gt;</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Two inquiries using one estimator</span></span></span>
@@ -306,12 +308,12 @@ an additional dimension for use in diagnosis.</p>
 <span class="r-in"><span>  <span class="fu"><a href="declare_estimator.html">declare_estimator</a></span><span class="op">(</span><span class="va">Y</span> <span class="op">~</span> <span class="va">Z</span>, inquiry <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"ATE"</span>, <span class="st">"ATT"</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="fu"><a href="run_design.html">run_design</a></span><span class="op">(</span><span class="va">design_2</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   inquiry estimand estimator term estimate  std.error statistic      p.value</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1     ATE      0.2 estimator    Z 0.251376 0.05104363  4.924729 1.151135e-06</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2     ATT      0.2 estimator    Z 0.251376 0.05104363  4.924729 1.151135e-06</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   inquiry estimand estimator term estimate  std.error statistic     p.value</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1     ATE      0.2 estimator    Z 0.235006 0.04985585  4.713709 3.16158e-06</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2     ATT      0.2 estimator    Z 0.235006 0.04985585  4.713709 3.16158e-06</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>    conf.low conf.high  df outcome</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1 0.1510886 0.3516634 498       Y</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2 0.1510886 0.3516634 498       Y</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1 0.1370522 0.3329597 498       Y</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2 0.1370522 0.3329597 498       Y</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Two inquiries using different coefficients from one estimator</span></span></span>
 <span class="r-in"><span></span></span>
@@ -327,12 +329,12 @@ an additional dimension for use in diagnosis.</p>
 <span class="r-in"><span>  <span class="op">)</span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="fu"><a href="run_design.html">run_design</a></span><span class="op">(</span><span class="va">design_3</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>     inquiry  estimand estimator        term  estimate  std.error statistic</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1 intercept 0.4880825 estimator (Intercept) 0.5049291 0.03569795 14.144484</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2     slope 0.2000000 estimator           Z 0.1663068 0.05060407  3.286431</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>        p.value   conf.low conf.high  df outcome</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1 2.005159e-38 0.43479191 0.5750662 498       Y</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2 1.086242e-03 0.06688302 0.2657306 498       Y</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>     inquiry estimand estimator        term  estimate  std.error statistic</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1 intercept 0.503523 estimator (Intercept) 0.4713810 0.03539390 13.318141</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2     slope 0.200000 estimator           Z 0.2642841 0.04989076  5.297255</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>        p.value  conf.low conf.high  df outcome</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1 7.848288e-35 0.4018412 0.5409207 498       Y</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2 1.767927e-07 0.1662617 0.3623064 498       Y</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># declare_inquiries usage</span></span></span>
@@ -350,7 +352,7 @@ an additional dimension for use in diagnosis.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 2             CATE_X0  2.000000e-01</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 3             CATE_X1  2.000000e-01</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 4 Difference_in_CATEs -5.551115e-17</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 5              mean_Y  6.036624e-01</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 5              mean_Y  6.107573e-01</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span></span></span>
 </code></pre></div>

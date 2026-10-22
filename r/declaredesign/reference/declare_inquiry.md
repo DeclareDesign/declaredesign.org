@@ -79,13 +79,15 @@ design <-
   declare_measurement(Y = reveal_outcomes(Y ~ Z))
   
 head(draw_data(design))
-#>    ID X           U       Y_Z_0        Y_Z_1 Z           Y
-#> 1 001 0 -0.29843758 -0.29843758 -0.098437577 0 -0.29843758
-#> 2 002 0  0.09345702  0.09345702  0.293457023 0  0.09345702
-#> 3 003 0 -0.24366512 -0.24366512 -0.043665123 1 -0.04366512
-#> 4 004 0  0.07694047  0.07694047  0.276940465 0  0.07694047
-#> 5 005 0 -0.19294591 -0.19294591  0.007054088 0 -0.19294591
-#> 6 006 0  0.05678780  0.05678780  0.256787799 0  0.05678780
+#> # A tibble: 6 × 7
+#>   ID        X      U  Y_Z_0 Y_Z_1     Z      Y
+#>   <chr> <dbl>  <dbl>  <dbl> <dbl> <int>  <dbl>
+#> 1 001       0 0.373  0.373  0.573     0 0.373 
+#> 2 002       0 0.194  0.194  0.394     0 0.194 
+#> 3 003       0 0.123  0.123  0.323     1 0.323 
+#> 4 004       0 0.0422 0.0422 0.242     0 0.0422
+#> 5 005       0 0.0465 0.0465 0.247     1 0.247 
+#> 6 006       0 0.0887 0.0887 0.289     0 0.0887
 
 # Some common inquiries
 design +
@@ -123,8 +125,8 @@ design +
 #> 
 #> Run of the design:
 #> 
-#>            inquiry estimand
-#>  difference_in_var 5.55e-17
+#>            inquiry  estimand
+#>  difference_in_var -1.11e-16
 #> 
 #> No modifiable parameters saved in design 
 
@@ -144,7 +146,7 @@ design +
 #> Run of the design:
 #> 
 #>  inquiry estimand
-#>   mean_Y    0.586
+#>   mean_Y    0.574
 #> 
 #> No modifiable parameters saved in design 
 
@@ -234,10 +236,10 @@ design_1 <-
 
 run_design(design_1)
 #>             inquiry estimand estimator term    estimate  std.error statistic
-#> 1               ATE      0.2       DIM    Z  0.20245339 0.04970576  4.073037
-#> 2 difference_in_var      0.0       DIV <NA> -0.05348027         NA        NA
+#> 1               ATE      0.2       DIM    Z 0.256676309 0.05184455  4.950884
+#> 2 difference_in_var      0.0       DIV <NA> 0.003802573         NA        NA
 #>        p.value  conf.low conf.high  df outcome
-#> 1 5.397952e-05 0.1047945 0.3001122 498       Y
+#> 1 1.013028e-06 0.1548153 0.3585373 498       Y
 #> 2           NA        NA        NA  NA    <NA>
 
 # Two inquiries using one estimator
@@ -249,12 +251,12 @@ design_2 <-
   declare_estimator(Y ~ Z, inquiry = c("ATE", "ATT"))
 
 run_design(design_2)
-#>   inquiry estimand estimator term estimate  std.error statistic      p.value
-#> 1     ATE      0.2 estimator    Z 0.251376 0.05104363  4.924729 1.151135e-06
-#> 2     ATT      0.2 estimator    Z 0.251376 0.05104363  4.924729 1.151135e-06
+#>   inquiry estimand estimator term estimate  std.error statistic     p.value
+#> 1     ATE      0.2 estimator    Z 0.235006 0.04985585  4.713709 3.16158e-06
+#> 2     ATT      0.2 estimator    Z 0.235006 0.04985585  4.713709 3.16158e-06
 #>    conf.low conf.high  df outcome
-#> 1 0.1510886 0.3516634 498       Y
-#> 2 0.1510886 0.3516634 498       Y
+#> 1 0.1370522 0.3329597 498       Y
+#> 2 0.1370522 0.3329597 498       Y
 
 # Two inquiries using different coefficients from one estimator
 
@@ -270,12 +272,12 @@ design_3 <-
   )
 
 run_design(design_3)
-#>     inquiry  estimand estimator        term  estimate  std.error statistic
-#> 1 intercept 0.4880825 estimator (Intercept) 0.5049291 0.03569795 14.144484
-#> 2     slope 0.2000000 estimator           Z 0.1663068 0.05060407  3.286431
-#>        p.value   conf.low conf.high  df outcome
-#> 1 2.005159e-38 0.43479191 0.5750662 498       Y
-#> 2 1.086242e-03 0.06688302 0.2657306 498       Y
+#>     inquiry estimand estimator        term  estimate  std.error statistic
+#> 1 intercept 0.503523 estimator (Intercept) 0.4713810 0.03539390 13.318141
+#> 2     slope 0.200000 estimator           Z 0.2642841 0.04989076  5.297255
+#>        p.value  conf.low conf.high  df outcome
+#> 1 7.848288e-35 0.4018412 0.5409207 498       Y
+#> 2 1.767927e-07 0.1662617 0.3623064 498       Y
 
 
 # declare_inquiries usage
@@ -293,6 +295,6 @@ run_design(design_4)
 #> 2             CATE_X0  2.000000e-01
 #> 3             CATE_X1  2.000000e-01
 #> 4 Difference_in_CATEs -5.551115e-17
-#> 5              mean_Y  6.036624e-01
+#> 5              mean_Y  6.107573e-01
 
 ```

@@ -53,19 +53,21 @@ design <-
 
 dat <- draw_data(design)
 head(dat)
-#>    ID          U      Y_Z_0     Y_Z_1 S Z          Y
-#> 1 003  0.8567442  0.8567442 1.8567442 1 0  0.8567442
-#> 2 004 -0.6856990 -0.6856990 0.3143010 1 0 -0.6856990
-#> 3 005  0.3752808  0.3752808 1.3752808 1 0  0.3752808
-#> 4 006 -0.3716699 -0.3716699 0.6283301 1 0 -0.3716699
-#> 5 007 -0.4176228 -0.4176228 0.5823772 1 0 -0.4176228
-#> 6 009  0.3705969  0.3705969 1.3705969 1 0  0.3705969
+#> # A tibble: 6 × 7
+#>   ID         U  Y_Z_0  Y_Z_1     S     Z      Y
+#>   <chr>  <dbl>  <dbl>  <dbl> <dbl> <int>  <dbl>
+#> 1 003   -1.80  -1.80  -0.796     1     0 -1.80 
+#> 2 004    1.72   1.72   2.72      1     0  1.72 
+#> 3 006   -0.500 -0.500  0.500     1     0 -0.500
+#> 4 007    2.22   2.22   3.22      1     0  2.22 
+#> 5 008    0.853  0.853  1.85      1     0  0.853
+#> 6 010    0.166  0.166  1.17      1     0  0.166
 
 run_design(design)
-#>   inquiry estimand estimator term  estimate std.error statistic      p.value
-#> 1     ATE        1 estimator    Z 0.7431553 0.2061222  3.605411 0.0003767002
-#>   conf.low conf.high  df outcome
-#> 1 0.337182  1.149129 248       Y
+#>   inquiry estimand estimator term estimate std.error statistic      p.value
+#> 1     ATE        1 estimator    Z 1.249662 0.2243794  5.569417 6.635727e-08
+#>    conf.low conf.high  df outcome
+#> 1 0.8077302  1.691595 248       Y
 
 # You may wish to have a design with only one step:
 
@@ -73,11 +75,13 @@ design <- declare_model(N = 500, noise = rnorm(N)) + NULL
 
 dat <- draw_data(design)
 head(dat)
-#>    ID      noise
-#> 1 001  1.7380093
-#> 2 002 -0.2159268
-#> 3 003 -1.1699856
-#> 4 004  0.5661610
-#> 5 005 -0.8782113
-#> 6 006  1.6686682
+#> # A tibble: 6 × 2
+#>   ID      noise
+#>   <chr>   <dbl>
+#> 1 001    0.423 
+#> 2 002   -1.99  
+#> 3 003   -1.08  
+#> 4 004    0.580 
+#> 5 005   -1.49  
+#> 6 006    0.0381
 ```

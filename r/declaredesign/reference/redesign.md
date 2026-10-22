@@ -107,23 +107,35 @@ design2 <- declare_model(N = 1, A = f(2, X)) + NULL
 design3 <- declare_model(N = 1, A = g(2))    + NULL
 
 draw_data(design1)
-#>   ID A
-#> 1  1 3
+#> # A tibble: 1 × 2
+#>   ID        A
+#>   <chr> <dbl>
+#> 1 1         3
 draw_data(design2)
-#>   ID A
-#> 1  1 6
+#> # A tibble: 1 × 2
+#>   ID        A
+#>   <chr> <dbl>
+#> 1 1         6
 draw_data(design3)
-#>   ID A
-#> 1  1 6
+#> # A tibble: 1 × 2
+#>   ID        A
+#>   <chr> <dbl>
+#> 1 1         6
 
 draw_data(redesign(design1, X=0))
-#>   ID A
-#> 1  1 0
+#> # A tibble: 1 × 2
+#>   ID        A
+#>   <chr> <dbl>
+#> 1 1         0
 draw_data(redesign(design2, X=0))
-#>   ID A
-#> 1  1 0
+#> # A tibble: 1 × 2
+#>   ID        A
+#>   <chr> <dbl>
+#> 1 1         0
 draw_data(redesign(design3, X=0))
 #> Warning: You requested a change to X but X is not found in the design
-#>   ID A
-#> 1  1 6
+#> # A tibble: 1 × 2
+#>   ID        A
+#>   <chr> <dbl>
+#> 1 1         6
 ```

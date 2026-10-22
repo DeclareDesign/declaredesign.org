@@ -167,7 +167,7 @@ design <-
 
 run_design(design)
 #>   inquiry estimand
-#> 1     ATE    0.108
+#> 1     ATE    0.084
 
 # default estimator is lm_robust with tidy summary
 design_0 <-
@@ -176,9 +176,9 @@ design_0 <-
 
 run_design(design_0)
 #>   inquiry estimand estimator term estimate  std.error statistic   p.value
-#> 1     ATE    0.104 estimator    Z     0.09 0.07034547    1.2794 0.2022534
+#> 1     ATE     0.12 estimator    Z     0.11 0.07020173  1.566913 0.1187318
 #>      conf.low conf.high  df outcome
-#> 1 -0.04872249 0.2287225 198       Y
+#> 1 -0.02843904  0.248439 198       Y
 
 # Linear regression using lm_robust and tidy summary
 design_1 <-
@@ -193,10 +193,10 @@ design_1 <-
   )
 
 run_design(design_1)
-#>   inquiry estimand term      estimator estimate  std.error statistic   p.value
-#> 1     ATE    0.096    Z lm_no_controls     0.08 0.06939857  1.152761 0.2503981
-#>      conf.low conf.high  df outcome
-#> 1 -0.05685519 0.2168552 198       Y
+#>   inquiry estimand term      estimator estimate std.error statistic     p.value
+#> 1     ATE    0.142    Z lm_no_controls      0.2 0.0662868  3.017192 0.002886257
+#>     conf.low conf.high  df outcome
+#> 1 0.06928128 0.3307187 198       Y
 
 # Use glance summary function to view model fit statistics
 design_2 <-
@@ -206,8 +206,8 @@ design_2 <-
                     .summary = glance)
 
 run_design(design_2)
-#>   inquiry estimand estimator r.squared adj.r.squared statistic     p.value
-#> 1     ATE    0.038 estimator 0.0410509    0.03620773  8.476027 0.004011144
+#>   inquiry estimand estimator   r.squared adj.r.squared  statistic   p.value
+#> 1     ATE    0.106 estimator 0.000410509  -0.004637923 0.08131417 0.7758224
 #>   df.residual nobs se_type
 #> 1         198  200     HC2
 
@@ -230,8 +230,8 @@ design_3 <-
 
 run_design(design_3)
 #>   inquiry estimand estimator estimate
-#> 1   Y_bar    0.570      mean     0.57
-#> 2     ATE    0.054      <NA>       NA
+#> 1   Y_bar    0.565      mean    0.565
+#> 2     ATE    0.122      <NA>       NA
 
 # Use `term` to select particular coefficients
 design_4 <-
@@ -244,12 +244,12 @@ design_4 <-
                     .method = lm_robust)
 
 run_design(design_4)
-#>               inquiry     estimand     term estimator    estimate std.error
-#> 1 difference_in_cates 0.0008003201 Z:gender estimator -0.08878265 0.1340375
-#> 2                 ATE 0.0500000000     <NA>      <NA>          NA        NA
-#>    statistic   p.value   conf.low conf.high  df outcome
-#> 1 -0.6623717 0.5085111 -0.3531235 0.1755582 196       Y
-#> 2         NA        NA         NA        NA  NA    <NA>
+#>               inquiry    estimand     term estimator    estimate std.error
+#> 1 difference_in_cates -0.08790879 Z:gender estimator -0.02504079 0.1420168
+#> 2                 ATE  0.09200000     <NA>      <NA>          NA        NA
+#>    statistic   p.value  conf.low conf.high  df outcome
+#> 1 -0.1763227 0.8602225 -0.305118 0.2550364 196       Y
+#> 2         NA        NA        NA        NA  NA    <NA>
 
 if(require("broom")) {
 
@@ -313,10 +313,10 @@ if(require("broom")) {
 }
 #> Loading required package: broom
 #> Loading required package: marginaleffects
-#>   inquiry estimand estimator term  estimate  std.error statistic   p.value
-#> 1     ATE    0.102       OLS    Z 0.1100000 0.06904105  1.593255 0.1126981
-#> 2     ATE    0.102     logit    Z 0.1062425 0.06746248  1.574838 0.1152938
-#>      conf.low conf.high  df outcome contrast  s.value
-#> 1 -0.02615016 0.2461502 198       Y     <NA>       NA
-#> 2 -0.02598153 0.2384665  NA    <NA>    1 - 0 3.116613
+#>   inquiry estimand estimator term  estimate  std.error statistic    p.value
+#> 1     ATE    0.104       OLS    Z 0.1500000 0.07008653  2.140212 0.03356105
+#> 2     ATE    0.104     logit    Z 0.1556988 0.07013760  2.219905 0.02642519
+#>     conf.low conf.high  df outcome contrast  s.value
+#> 1 0.01178814 0.2882119 198       Y     <NA>       NA
+#> 2 0.01823166 0.2931660  NA    <NA>    1 - 0 5.241942
 ```
