@@ -1,8 +1,9 @@
-# Expands data to a given length through recycling.
+# Recycle a vector to the length of the level being built
 
-This function is a helper function designed call `rep_len` to expand the
-length of a data vector, but which can dynamically retrieve N from the
-surrounding level call for use in fabricatr.
+fabricatr 1.x's helper for filling a level with a short vector. 2.0
+recycles automatically whenever the vector's length divides the level
+evenly, so this is only ever a no-op made explicit, and is kept so
+designs written for 1.x run unchanged.
 
 ## Usage
 
@@ -14,39 +15,36 @@ recycle(x, .N = NULL)
 
 - x:
 
-  Data to recycle into length `N`
+  A vector.
 
 - .N:
 
-  the length to recycle the data to, typically provided implicitly by a
-  or fabricate call wrapped around the function call.
+  Length to recycle to. Left off inside a level.
 
 ## Value
 
-A vector of data padded to length `N`
+\`x\`, recycled to length \`.N\`.
+
+## Details
+
+Left off, \`.N\` is the \`N\` of the level being built. 1.x found it by
+walking the call stack; a 2.0 column expression is evaluated against a
+data mask instead, so \`N\` is read out of the calling frame, which is
+that mask.
 
 ## Examples
 
 ``` r
-
-fabricate(
-  N = 15,
-  month = recycle(month.abb)
-)
-#>    ID month
-#> 1  01   Jan
-#> 2  02   Feb
-#> 3  03   Mar
-#> 4  04   Apr
-#> 5  05   May
-#> 6  06   Jun
-#> 7  07   Jul
-#> 8  08   Aug
-#> 9  09   Sep
-#> 10 10   Oct
-#> 11 11   Nov
-#> 12 12   Dec
-#> 13 13   Jan
-#> 14 14   Feb
-#> 15 15   Mar
+fabricate(villages = add_level(N = 6, arm = recycle(c("a", "b", "c"))))
+#> # A tibble: 6 × 2
+#>   villages arm  
+#>   <chr>    <chr>
+#> 1 1        a    
+#> 2 2        b    
+#> 3 3        c    
+#> 4 4        a    
+#> 5 5        b    
+#> 6 6        c    
+recycle(c("a", "b"), .N = 6)
+#> [1] "a" "b" "a" "b" "a" "b"
 ```

@@ -1,79 +1,81 @@
-# Reveal outcomes
+# Reveal observed outcomes from potential outcomes columns
 
-Implements a generalized switching equation. Reveals observed outcomes
-from multiple potential outcomes variables and an assignment variable.
+Implements the switching equation: for each unit, selects the potential
+outcome column corresponding to that unit's realized assignment.
 
 ## Usage
 
 ``` r
-reveal_outcomes(x)
+reveal_outcomes(x, sep = "_")
 ```
 
 ## Arguments
 
 - x:
 
-  A formula with the outcome name on the left hand side and assignment
-  variables on the right hand side (e.g., `Y ~ Z`).
+  A formula of the form `outcome ~ assignment` or `outcome ~ Z1 + Z2`
+  for factorial assignments. The outcome name and assignment variable(s)
+  must match columns already in the data (typically created by
+  `potential_outcomes`).
+
+- sep:
+
+  Column-name separator. Default `"_"`. It must match the `sep` given to
+  [`potential_outcomes()`](https://declaredesign.org/r/fabricatr/reference/potential_outcomes.md).
+
+## Value
+
+A vector with one element per row, holding each unit's outcome under the
+assignment it actually received, and carrying the type of the potential
+outcome columns it reads. A factor reveals as a factor, keeping its
+levels and their order, and a `Date` as a `Date`. Where the conditions
+do not agree on one set of factor levels there are none to keep, so the
+result is `character` and a warning says so.
 
 ## Examples
 
 ``` r
-
 dat <- fabricate(
-  N = 10,
-  U = rnorm(N),
-  potential_outcomes(Y ~ 0.1 * Z + U)
+  N = 10, U = rnorm(N),
+  potential_outcomes(Y ~ 0.5 * Z + U)
 )
-
 fabricate(
   data = dat,
-  Z = rbinom(N, 1, prob = 0.5),
+  Z = rbinom(N, 1, 0.5),
   Y = reveal_outcomes(Y ~ Z)
 )
-#>    ID           U       Y_Z_0        Y_Z_1 Z           Y
-#> 1  01  1.39086434  1.39086434  1.490864343 0  1.39086434
-#> 2  02 -0.13750193 -0.13750193 -0.037501933 0 -0.13750193
-#> 3  03  0.67033759  0.67033759  0.770337589 1  0.77033759
-#> 4  04 -0.38786411 -0.38786411 -0.287864112 0 -0.38786411
-#> 5  05 -0.09679926 -0.09679926  0.003200736 0 -0.09679926
-#> 6  06 -1.01883212 -1.01883212 -0.918832124 1 -0.91883212
-#> 7  07 -1.64976624 -1.64976624 -1.549766235 1 -1.54976624
-#> 8  08  1.39843365  1.39843365  1.498433648 1  1.49843365
-#> 9  09 -0.39910974 -0.39910974 -0.299109742 0 -0.39910974
-#> 10 10 -0.32915564 -0.32915564 -0.229155635 1 -0.22915564
+#> # A tibble: 10 × 6
+#>    ID          U   Y_Z_0  Y_Z_1     Z       Y
+#>    <chr>   <dbl>   <dbl>  <dbl> <int>   <dbl>
+#>  1 01     0.143   0.143   0.643     1  0.643 
+#>  2 02     1.02    1.02    1.52      0  1.02  
+#>  3 03    -2.40   -2.40   -1.90      1 -1.90  
+#>  4 04     0.218   0.218   0.718     0  0.218 
+#>  5 05    -0.396  -0.396   0.104     0 -0.396 
+#>  6 06     3.13    3.13    3.63      1  3.63  
+#>  7 07    -0.0268 -0.0268  0.473     0 -0.0268
+#>  8 08    -0.753  -0.753  -0.253     1 -0.253 
+#>  9 09     0.0182  0.0182  0.518     1  0.518 
+#> 10 10    -0.742  -0.742  -0.242     0 -0.742 
 
+# A separator other than "_" is given to both
 fabricate(
-  N = 10,
-  U = rnorm(N),
-  potential_outcomes(Y ~ 0.1 * Z1 + 0.3 * Z2 + 0.5 * Z1 * Z2 + U,
-                     conditions = list(Z1 = c(0, 1),
-                                       Z2 = c(0, 1))),
-  Z1 = rbinom(N, 1, prob = 0.5),
-  Z2 = rbinom(N, 1, prob = 0.5),
-  Y = reveal_outcomes(Y ~ Z1 + Z2)
+  N = 10, U = rnorm(N),
+  potential_outcomes(Y ~ 0.5 * Z + U, sep = "."),
+  Z = rbinom(N, 1, 0.5),
+  Y = reveal_outcomes(Y ~ Z, sep = ".")
 )
-#>    ID           U Y_Z1_0_Z2_0 Y_Z1_1_Z2_0  Y_Z1_0_Z2_1  Y_Z1_1_Z2_1 Z1 Z2
-#> 1  01 -1.03747679 -1.03747679 -0.93747679 -0.737476793 -0.137476793  1  1
-#> 2  02 -0.33526269 -0.33526269 -0.23526269 -0.035262690  0.564737310  0  1
-#> 3  03 -0.07960838 -0.07960838  0.02039162  0.220391615  0.820391615  0  1
-#> 4  04 -0.30783934 -0.30783934 -0.20783934 -0.007839345  0.592160655  1  0
-#> 5  05  0.42157073  0.42157073  0.52157073  0.721570730  1.321570730  1  1
-#> 6  06 -0.21227139 -0.21227139 -0.11227139  0.087728611  0.687728611  0  1
-#> 7  07 -2.29019919 -2.29019919 -2.19019919 -1.990199189 -1.390199189  1  0
-#> 8  08 -0.90782256 -0.90782256 -0.80782256 -0.607822561 -0.007822561  1  1
-#> 9  09  0.85824078  0.85824078  0.95824078  1.158240781  1.758240781  0  1
-#> 10 10 -1.24086120 -1.24086120 -1.14086120 -0.940861195 -0.340861195  1  1
-#>               Y
-#> 1  -0.137476793
-#> 2  -0.035262690
-#> 3   0.220391615
-#> 4  -0.207839345
-#> 5   1.321570730
-#> 6   0.087728611
-#> 7  -2.190199189
-#> 8  -0.007822561
-#> 9   1.158240781
-#> 10 -0.340861195
-
+#> # A tibble: 10 × 6
+#>    ID         U  Y.Z.0  Y.Z.1     Z      Y
+#>    <chr>  <dbl>  <dbl>  <dbl> <int>  <dbl>
+#>  1 01    -0.220 -0.220  0.280     0 -0.220
+#>  2 02    -0.774 -0.774 -0.274     0 -0.774
+#>  3 03     2.32   2.32   2.82      0  2.32 
+#>  4 04     1.53   1.53   2.03      1  2.03 
+#>  5 05     0.635  0.635  1.13      1  1.13 
+#>  6 06    -0.149 -0.149  0.351     0 -0.149
+#>  7 07    -0.240 -0.240  0.260     0 -0.240
+#>  8 08    -1.51  -1.51  -1.01      0 -1.51 
+#>  9 09     1.02   1.02   1.52      1  1.52 
+#> 10 10    -1.04  -1.04  -0.541     0 -1.04 
 ```

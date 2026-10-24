@@ -1,173 +1,144 @@
-# Fabricate data
+# Fabricate a data frame
 
-`fabricate` helps you simulate a dataset before you collect it. You can
-either start with your own data and add simulated variables to it (by
-passing `data` to `fabricate()`) or start from scratch by defining `N`.
-Create hierarchical data with multiple levels of data such as citizens
-within cities within states using `add_level()` or modify existing
-hierarchical data using `modify_level()`. You can use any R function to
-create each variable. Use
-[`cross_levels()`](https://declaredesign.org/r/fabricatr/reference/cross_levels.md)
-and
-[`link_levels()`](https://declaredesign.org/r/fabricatr/reference/cross_levels.md)
-to make more complex designs such as panel or cross-classified data.
+The main entry point for fabricatr. Builds a data frame column by
+column, supporting hierarchical levels, multi-column outputs, and
+starting from existing data.
 
 ## Usage
 
 ``` r
-fabricate(..., data = NULL, N = NULL, ID_label = NULL)
-
-add_level(N = NULL, ..., nest = TRUE)
-
-modify_level(..., by = NULL)
-
-nest_level(N = NULL, ...)
+fabricate(..., N = NULL, ID_label = "ID", data = NULL)
 ```
 
 ## Arguments
 
 - ...:
 
-  Variable or level-generating arguments, such as `my_var = rnorm(N)`.
-  For `fabricate`, you may also pass `add_level()` or `modify_level()`
-  arguments, which define a level of a multi-level dataset. See
-  examples.
-
-- data:
-
-  (optional) user-provided data that forms the basis of the fabrication,
-  e.g. you can add variables to existing data. Provide either `N` or
-  `data` (`N` is the number of rows of the data if `data` is provided).
-  If `data` and `N` are not provided, fabricatr will try to interpret
-  the first un-named argument as either `data` or `N` based on type.
+  Column definitions or level calls (`add_level`, `nest_level`,
+  `declare_level`, `import_level`, `cross_levels`, `link_levels`,
+  `modify_level`, `potential_outcomes`, `draw_multivariate`). `N` must
+  be supplied by name.
 
 - N:
 
-  (optional) number of units to draw. If provided as `fabricate(N = 5)`,
-  this determines the number of units in the single-level data. If
-  provided in `add_level`, e.g. `fabricate(cities = add_level(N = 5))`,
-  `N` determines the number of units in a specific level of a
-  hierarchical dataset.
+  Number of rows. Made available as a scalar integer `N` inside all
+  column expressions; it does not appear as a column in the output
+  unless you write it explicitly (e.g. `n_obs = N`).
 
 - ID_label:
 
-  (optional) variable name for ID variable, e.g. citizen_ID. Set to NA
-  to suppress the creation of an ID variable.
+  Name of the unit ID column created alongside `N`. Defaults to `"ID"`;
+  set to `NA` to suppress it. Ignored when `data` is supplied or when
+  the data frame is built from levels (each level's ID column is named
+  after the level).
 
-- nest:
+- data:
 
-  (Default TRUE) Boolean determining whether data in an `add_level()`
-  call will be nested under the current working data frame or create a
-  separate hierarchy of levels. See our vignette for cross-classified,
-  non-nested data for details.
-
-- by:
-
-  (optional) quoted name of variable `modify_level` uses to
-  split-modify-combine data by.
+  Optional existing data frame to start from.
 
 ## Value
 
-data.frame
+A tibble with one row per unit of the lowest level and columns in the
+order they were declared. Each level contributes an ID column named
+after the argument it was assigned to, placed before that level's own
+columns; a flat call contributes one named by `ID_label`, and
+`ID_label = NA` suppresses it. A call that starts from `data` adds no ID
+column at all. A nested level's IDs are unique across the whole frame
+rather than restarting inside each parent, so nesting 2 citizens in each
+of 3 villages numbers the citizens `"1"` through `"6"`.
 
-## Details
+## ID column type
 
-We also provide several built-in options to easily create variables,
-including
-[`draw_binary`](https://declaredesign.org/r/fabricatr/reference/draw_discrete.md),
-[`draw_count`](https://declaredesign.org/r/fabricatr/reference/draw_discrete.md),
-[`draw_likert`](https://declaredesign.org/r/fabricatr/reference/draw_likert.md),
-and intra-cluster correlated variables
-[`draw_binary_icc`](https://declaredesign.org/r/fabricatr/reference/draw_binary_icc.md)
-and
-[`draw_normal_icc`](https://declaredesign.org/r/fabricatr/reference/draw_normal_icc.md)
+ID columns are zero-padded character strings, as in fabricatr 1.x, so
+that an ID is a label rather than a quantity. The padding keeps
+character sort order matching numeric order, and the character type
+keeps a cluster ID from being read as a linear term by a model formula.
+The padding width is set by the number of units at that level, so a
+frame can hold `clusters` running `"1"` to `"4"` alongside `units`
+running `"01"` to `"12"`.
 
-## See also
+## Counting the rows a level is building
 
-[`link_levels`](https://declaredesign.org/r/fabricatr/reference/cross_levels.md)
+`N` names the number of rows the current level is building, so
+`rnorm(N)` draws one value per row. `n()` answers the same question as a
+function call and is available in every declaration. Two things make it
+worth reaching for. It cannot be confused with a parameter of the
+design: `N` is a name, so a design that also has an `N` in the workspace
+can leave a reader unsure which one an expression reads, and
+`redesign()` rebinds names, where `n()` always means the rows in hand.
+And a data set carrying a column called `n` keeps it: `sum(n)` reads the
+column and `n()` reads the count.
 
 ## Examples
 
 ``` r
+# Flat fabrication
+fabricate(N = 100, Y = rnorm(N), X = rbinom(N, 1, 0.5))
+#> # A tibble: 100 × 3
+#>    ID          Y     X
+#>    <chr>   <dbl> <int>
+#>  1 001    0.290      1
+#>  2 002    1.79       0
+#>  3 003    0.341      1
+#>  4 004   -0.242      1
+#>  5 005    0.613      1
+#>  6 006    0.0774     1
+#>  7 007    1.78       0
+#>  8 008    1.15       0
+#>  9 009    0.732      1
+#> 10 010   -0.642      1
+#> # ℹ 90 more rows
 
+# n() is the number of rows the level is building
+fabricate(N = 10, Y = rnorm(n()))
+#> # A tibble: 10 × 2
+#>    ID          Y
+#>    <chr>   <dbl>
+#>  1 01    -0.941 
+#>  2 02    -0.768 
+#>  3 03    -0.0274
+#>  4 04     0.103 
+#>  5 05    -0.0119
+#>  6 06     0.0767
+#>  7 07     0.369 
+#>  8 08    -0.205 
+#>  9 09    -0.479 
+#> 10 10     1.28  
 
-# Draw a single-level dataset with a covariate
-building_df <- fabricate(
-  N = 100,
-  height_ft = runif(N, 300, 800)
-)
-head(building_df)
-#>    ID height_ft
-#> 1 001  640.3523
-#> 2 002  776.1245
-#> 3 003  392.9777
-#> 4 004  440.5836
-#> 5 005  550.4447
-#> 6 006  318.7363
-
-# Start with existing data instead
-building_modified <- fabricate(
-  data = building_df,
-  rent = rnorm(N, mean = height_ft * 100, sd = height_ft * 30)
-)
-
-# Draw a two-level hierarchical dataset
-# containing cities within regions
-multi_level_df <- fabricate(
- regions = add_level(N = 5),
- cities = add_level(N = 2, pollution = rnorm(N, mean = 5)))
-head(multi_level_df)
-#>   regions cities pollution
-#> 1       1     01  4.862222
-#> 2       1     02  4.402063
-#> 3       2     03  4.277927
-#> 4       2     04  5.072762
-#> 5       3     05  6.473363
-#> 6       3     06  4.683794
-
-# Start with existing data and add a nested level:
-company_df <- fabricate(
- data = building_df,
- company_id = add_level(N=10, is_headquarters = sample(c(0, 1), N, replace=TRUE))
-)
-
-# Start with existing data and add variables to hierarchical data
-# at levels which are already present in the existing data.
-# Note: do not provide N when adding variables to an existing level
+# Hierarchical: 20 villages, 5 citizens each
 fabricate(
-  data = multi_level_df,
-  regions = modify_level(watershed = sample(c(0, 1), N, replace = TRUE)),
-  cities = modify_level(runoff = rnorm(N))
+  villages = add_level(N = 20, v_income = rnorm(N)),
+  citizens = nest_level(N = 5, income = v_income + rnorm(N))
 )
-#>    regions cities pollution watershed     runoff
-#> 1        1     01  4.862222         1 -0.4299057
-#> 2        1     02  4.402063         0 -0.6519163
-#> 3        2     03  4.277927         1 -1.3227553
-#> 4        2     04  5.072762         0 -0.6110024
-#> 5        3     05  6.473363         1 -0.4334848
-#> 6        3     06  4.683794         0  0.2211316
-#> 7        4     07  3.585279         0  0.4146353
-#> 8        4     08  3.013821         0  1.0035196
-#> 9        5     09  5.705734         1 -2.6260422
-#> 10       5     10  4.209572         0 -0.8735349
+#> # A tibble: 100 × 4
+#>    villages v_income citizens  income
+#>    <chr>       <dbl> <chr>      <dbl>
+#>  1 01          1.07  001       2.37  
+#>  2 01          1.07  002       1.45  
+#>  3 01          1.07  003       2.01  
+#>  4 01          1.07  004       0.0224
+#>  5 01          1.07  005       1.79  
+#>  6 02          0.356 006      -2.25  
+#>  7 02          0.356 007      -0.0328
+#>  8 02          0.356 008      -0.276 
+#>  9 02          0.356 009      -0.0298
+#> 10 02          0.356 010       1.08  
+#> # ℹ 90 more rows
 
-# fabricatr can add variables that are higher-level summaries of lower-level
-# variables via a split-modify-combine logic and the \code{by} argument
-
-multi_level_df <-
- fabricate(
-   regions = add_level(N = 5, elevation = rnorm(N)),
-   cities = add_level(N = 2, pollution = rnorm(N, mean = 5)),
-   cities = modify_level(by = "regions", regional_pollution = mean(pollution))
- )
-
-# fabricatr can also make panel or cross-classified data. For more
-# information about syntax for this functionality please read our vignette
-# or check documentation for \code{link_levels}:
-cross_classified <- fabricate(
-  primary_schools = add_level(N = 50, ps_quality = runif(N, 0, 10)),
-  secondary_schools = add_level(N = 100, ss_quality = runif(N, 0, 10), nest=FALSE),
-  students = link_levels(N = 2000,
-                          by = join_using(ps_quality, ss_quality, rho = 0.5),
-                          student_quality = ps_quality + 3*ss_quality + rnorm(N)))
+# Starting from existing data
+df <- data.frame(x = 1:10)
+fabricate(data = df, y = x ^ 2)
+#> # A tibble: 10 × 2
+#>        x     y
+#>    <int> <dbl>
+#>  1     1     1
+#>  2     2     4
+#>  3     3     9
+#>  4     4    16
+#>  5     5    25
+#>  6     6    36
+#>  7     7    49
+#>  8     8    64
+#>  9     9    81
+#> 10    10   100
 ```

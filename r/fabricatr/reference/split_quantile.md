@@ -1,39 +1,40 @@
-# Split data into quantile buckets (e.g. terciles, quartiles, quantiles, deciles).
+# Split data into quantile buckets
 
-Survey data is often presented in aggregated, depersonalized form, which
-can involve binning underlying data into quantile buckets; for example,
-rather than reporting underlying income, a survey might report income by
-decile. `split_quantile` can automatically produce this split using any
-data `x` and any number of splits \`type.
+Cuts a numeric vector you already have into `type` equally sized buckets
+at its sample quantiles, so bucket `1` holds the lowest values. To draw
+new bucket assignments without a variable to cut, use
+[`draw_quantile`](https://declaredesign.org/r/fabricatr/reference/draw_quantile.md).
 
 ## Usage
 
 ``` r
-split_quantile(x = NULL, type = NULL)
+split_quantile(x, type)
 ```
 
 ## Arguments
 
 - x:
 
-  A vector of any type that can be ordered – i.e. numeric or factor
-  where factor levels are ordered.
+  Numeric vector.
 
 - type:
 
-  The number of buckets to split data into. For a median split, enter 2;
-  for terciles, enter 3; for quartiles, enter 4; for quintiles, 5; for
-  deciles, 10.
+  Number of buckets (2 = median split, 3 = terciles, etc.).
+
+## Value
+
+A factor with levels `1` through `type`, one per element of `x`. It is
+deliberately *unordered*, as in fabricatr 1.x: an ordered factor would
+make `lm` fit polynomial contrasts (`q.L`, `q.Q`, `q.C`) where the same
+script under 1.x gets treatment contrasts (`q2`, `q3`, `q4`), and report
+different coefficients without saying why.
 
 ## Examples
 
 ``` r
-
-# Divide this arbitrary data set in 3.
-data_input <- rnorm(n = 100)
-split_quantile(x = data_input, type = 3)
-#>   [1] 1 1 2 1 1 3 1 3 2 2 2 3 3 2 2 2 2 3 3 1 1 3 2 3 3 2 1 2 3 1 2 2 1 1 3 1 2
-#>  [38] 1 3 2 3 1 1 1 3 3 3 2 3 2 2 3 2 2 3 2 1 2 3 1 2 1 2 3 1 1 2 1 3 3 1 3 1 3
-#>  [75] 1 3 3 3 2 2 3 2 1 3 1 3 3 2 3 2 1 1 2 1 1 2 1 1 2 1
-#> Levels: 1 2 3
+split_quantile(rnorm(100), type = 4)
+#>   [1] 2 3 3 2 1 1 2 3 2 3 2 2 1 4 2 3 4 4 2 3 1 4 4 1 2 1 3 1 4 2 3 1 2 1 3 4 4
+#>  [38] 4 1 4 2 1 4 1 3 1 3 3 2 1 3 4 4 1 2 3 3 1 2 3 2 1 1 1 1 1 3 4 1 2 2 2 1 4
+#>  [75] 4 3 3 4 3 2 3 2 2 4 3 2 4 2 3 4 3 1 4 4 4 2 3 1 4 4
+#> Levels: 1 2 3 4
 ```

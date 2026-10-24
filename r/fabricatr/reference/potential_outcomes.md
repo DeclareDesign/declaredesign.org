@@ -1,7 +1,9 @@
-# Build potential outcomes variables
+# Build potential outcomes columns
 
-Function to draw multiple potential outcomes, one for each condition
-that an assignment variable can be set to.
+For each combination of condition values, evaluates the RHS of `x` with
+the assignment variable(s) set to those values, producing one column per
+condition. The column names follow the pattern
+`<outcome>_<var>_<value>`.
 
 ## Usage
 
@@ -13,98 +15,98 @@ potential_outcomes(x, conditions = list(Z = c(0, 1)), sep = "_")
 
 - x:
 
-  Formula describing the potential outcomes with the outcome name on the
-  left hand side and the expression describing the potential outcomes on
-  the right hand side, e.g. `Y ~ 0.1 * Z + rnorm(N)` (this would draw
-  two potential outcomes columns by default, named Y_Z_0 and Y_Z_1).
+  A two-sided formula. LHS: outcome variable name. RHS: expression for
+  the potential outcome (may reference the assignment variable and other
+  columns).
 
 - conditions:
 
-  A list of conditions for each assignment variable. Defaults to
-  `list(Z = c(0, 1))`.
+  Named list mapping assignment variable name(s) to their possible
+  values. Default `list(Z = c(0, 1))`.
 
 - sep:
 
-  Separator inserted between the outcome name and the assignment
-  variable name used to construct the potential outcome variable names,
-  defaults to "\_".
+  Column-name separator. Default `"_"`. Give
+  [`reveal_outcomes()`](https://declaredesign.org/r/fabricatr/reference/reveal_outcomes.md)
+  the same `sep`.
+
+## Value
+
+A data frame with one column per combination of the values in
+`conditions`, named `<outcome><sep><var><sep><value>` and, with more
+than one assignment variable, carrying one such pair per variable:
+`Y_Z1_0_Z2_0`, `Y_Z1_1_Z2_0`, `Y_Z1_0_Z2_1`, `Y_Z1_1_Z2_1`, the first
+variable varying fastest. The names are kept as written even where they
+are not syntactic R names, so a negative condition gives `Y_Z_-1` and a
+condition `"b c"` gives `Y_Z_b c`; refer to such a column with backticks
+or `.data`. Called inside
+[`fabricate()`](https://declaredesign.org/r/fabricatr/reference/fabricate.md)
+without a name, these columns are appended to the frame.
+
+## Details
+
+When called inside
+[`fabricate()`](https://declaredesign.org/r/fabricatr/reference/fabricate.md)
+without a left-hand name (i.e. as an unnamed argument), the resulting
+columns are appended automatically.
 
 ## Examples
 
 ``` r
-
 fabricate(
-  N = 10,
-  U = rnorm(N),
-  potential_outcomes(Y ~ 0.1 * Z + U)
+  N = 10, U = rnorm(N),
+  potential_outcomes(Y ~ 0.5 * Z + U)
 )
-#>    ID            U        Y_Z_0       Y_Z_1
-#> 1  01 -0.330008991 -0.330008991 -0.23000899
-#> 2  02  0.780017893  0.780017893  0.88001789
-#> 3  03  0.246418030  0.246418030  0.34641803
-#> 4  04 -0.171430937 -0.171430937 -0.07143094
-#> 5  05  1.130348708  1.130348708  1.23034871
-#> 6  06  0.470111747  0.470111747  0.57011175
-#> 7  07  0.908487107  0.908487107  1.00848711
-#> 8  08 -0.003946898 -0.003946898  0.09605310
-#> 9  09 -0.626360877 -0.626360877 -0.52636088
-#> 10 10 -0.695494396 -0.695494396 -0.59549440
+#> # A tibble: 10 × 4
+#>    ID         U  Y_Z_0  Y_Z_1
+#>    <chr>  <dbl>  <dbl>  <dbl>
+#>  1 01     0.369  0.369  0.869
+#>  2 02    -0.399 -0.399  0.101
+#>  3 03    -0.760 -0.760 -0.260
+#>  4 04     0.261  0.261  0.761
+#>  5 05    -0.731 -0.731 -0.231
+#>  6 06     1.64   1.64   2.14 
+#>  7 07    -1.11  -1.11  -0.613
+#>  8 08     1.22   1.22   1.72 
+#>  9 09     0.348  0.348  0.848
+#> 10 10    -0.315 -0.315  0.185
 
-# equivalently,
-
+# Three conditions
 fabricate(
-  N = 10,
-  U = rnorm(N),
-  potential_outcomes(Y ~ 0.1 * Z + U,
-                     conditions = list(Z = c(0, 1)))
+  N = 10, U = rnorm(N),
+  potential_outcomes(Y ~ Z * 0.5 + U, conditions = list(Z = 0:2))
 )
-#>    ID           U       Y_Z_0      Y_Z_1
-#> 1  01  1.72874460  1.72874460  1.8287446
-#> 2  02 -0.34098278 -0.34098278 -0.2409828
-#> 3  03  0.17407167  0.17407167  0.2740717
-#> 4  04 -0.41202291 -0.41202291 -0.3120229
-#> 5  05  0.08215034  0.08215034  0.1821503
-#> 6  06  0.53497996  0.53497996  0.6349800
-#> 7  07  0.03362362  0.03362362  0.1336236
-#> 8  08 -0.67648623 -0.67648623 -0.5764862
-#> 9  09 -0.48070807 -0.48070807 -0.3807081
-#> 10 10 -0.65355094 -0.65355094 -0.5535509
+#> # A tibble: 10 × 5
+#>    ID          U   Y_Z_0   Y_Z_1  Y_Z_2
+#>    <chr>   <dbl>   <dbl>   <dbl>  <dbl>
+#>  1 01     0.692   0.692   1.19    1.69 
+#>  2 02     0.333   0.333   0.833   1.33 
+#>  3 03    -0.0614 -0.0614  0.439   0.939
+#>  4 04    -1.43   -1.43   -0.933  -0.433
+#>  5 05     1.01    1.01    1.51    2.01 
+#>  6 06    -0.584  -0.584  -0.0841  0.416
+#>  7 07     0.752   0.752   1.25    1.75 
+#>  8 08     0.523   0.523   1.02    1.52 
+#>  9 09    -1.67   -1.67   -1.17   -0.673
+#> 10 10     0.654   0.654   1.15    1.65 
 
+# Multi-arm factorial
 fabricate(
-  N = 10,
-  U = rnorm(N),
-  potential_outcomes(Y ~ 0.1 * Z + U,
-                     conditions = list(Z = c(1, 2, 3)))
+  N = 10, U = rnorm(N),
+  potential_outcomes(Y ~ 0.3 * Z1 + 0.5 * Z2 + U,
+                     conditions = list(Z1 = 0:1, Z2 = 0:1))
 )
-#>    ID          U      Y_Z_1      Y_Z_2      Y_Z_3
-#> 1  01 -0.6837585 -0.5837585 -0.4837585 -0.3837585
-#> 2  02  0.6372287  0.7372287  0.8372287  0.9372287
-#> 3  03 -1.8956964 -1.7956964 -1.6956964 -1.5956964
-#> 4  04  0.9875404  1.0875404  1.1875404  1.2875404
-#> 5  05  1.3082691  1.4082691  1.5082691  1.6082691
-#> 6  06 -0.4993503 -0.3993503 -0.2993503 -0.1993503
-#> 7  07  0.7563782  0.8563782  0.9563782  1.0563782
-#> 8  08 -0.5482245 -0.4482245 -0.3482245 -0.2482245
-#> 9  09 -0.6847399 -0.5847399 -0.4847399 -0.3847399
-#> 10 10  1.0310071  1.1310071  1.2310071  1.3310071
-
-fabricate(
-  N = 10,
-  U = rnorm(N),
-  potential_outcomes(Y ~ 0.1 * Z1 + 0.3 * Z2 + 0.5 * Z1 * Z2 + U,
-                     conditions = list(Z1 = c(0, 1),
-                                       Z2 = c(0, 1)))
-)
-#>    ID          U Y_Z1_0_Z2_0 Y_Z1_1_Z2_0 Y_Z1_0_Z2_1 Y_Z1_1_Z2_1
-#> 1  01 -0.5810295  -0.5810295  -0.4810295  -0.2810295   0.3189705
-#> 2  02  1.5482073   1.5482073   1.6482073   1.8482073   2.4482073
-#> 3  03 -1.9621767  -1.9621767  -1.8621767  -1.6621767  -1.0621767
-#> 4  04  0.4582724   0.4582724   0.5582724   0.7582724   1.3582724
-#> 5  05 -1.1409825  -1.1409825  -1.0409825  -0.8409825  -0.2409825
-#> 6  06  0.7079541   0.7079541   0.8079541   1.0079541   1.6079541
-#> 7  07  1.4018953   1.4018953   1.5018953   1.7018953   2.3018953
-#> 8  08  0.4797217   0.4797217   0.5797217   0.7797217   1.3797217
-#> 9  09 -1.7046055  -1.7046055  -1.6046055  -1.4046055  -0.8046055
-#> 10 10  0.6456383   0.6456383   0.7456383   0.9456383   1.5456383
-
+#> # A tibble: 10 × 6
+#>    ID         U Y_Z1_0_Z2_0 Y_Z1_1_Z2_0 Y_Z1_0_Z2_1 Y_Z1_1_Z2_1
+#>    <chr>  <dbl>       <dbl>       <dbl>       <dbl>       <dbl>
+#>  1 01    -0.908      -0.908     -0.608       -0.408     -0.108 
+#>  2 02     0.595       0.595      0.895        1.10       1.40  
+#>  3 03    -1.04       -1.04      -0.741       -0.541     -0.241 
+#>  4 04     1.23        1.23       1.53         1.73       2.03  
+#>  5 05     0.339       0.339      0.639        0.839      1.14  
+#>  6 06    -0.865      -0.865     -0.565       -0.365     -0.0651
+#>  7 07    -1.75       -1.75      -1.45        -1.25      -0.947 
+#>  8 08     0.937       0.937      1.24         1.44       1.74  
+#>  9 09    -0.288      -0.288      0.0120       0.212      0.512 
+#> 10 10    -0.628      -0.628     -0.328       -0.128      0.172 
 ```

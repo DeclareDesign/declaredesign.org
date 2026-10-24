@@ -1,84 +1,54 @@
-# Creates panel or cross-classified data
+# Create a full Cartesian product of declared levels
 
-This function allows the user to create data structures that are paneled
-or cross-classified: where one level of observation draws simultaneously
-from two or many source levels. Common examples of panels include
-country-year data which have country-level and year-level
-characteristics.
+Produces all combinations of the specified levels (equivalent to SQL
+CROSS JOIN). Use `link_levels` to sample N rows from the product with an
+optional correlation structure.
 
 ## Usage
 
 ``` r
-cross_levels(by = NULL, ...)
-
-link_levels(N = NULL, by = NULL, ...)
+cross_levels(.by, ...)
 ```
 
 ## Arguments
 
-- by:
+- .by:
 
-  The result of a call to
-  [`join_using()`](https://declaredesign.org/r/fabricatr/reference/join_using.md)
-  which specifies how the cross-classified data will be created
+  Character vector of level names to cross (must have been created by
+  `add_level` or `declare_level` in the same `fabricate` call).
 
 - ...:
 
-  A variable or series of variables to add to the resulting data frame
-  after the cross-classified data is created.
-
-- N:
-
-  The number of observations in the resulting data frame. If `N` is NULL
-  or not provided, the join_using will be an "outer product" – merging
-  each row of each provided data frame with each other data frame to
-  make a full panel.
+  Additional column expressions evaluated after crossing.
 
 ## Value
 
-data.frame
-
-## Details
-
-By specifying the appropriate arguments in
-[`join_using()`](https://declaredesign.org/r/fabricatr/reference/join_using.md)
-within the function call, it is possible to induce correlation in
-cross-classified data.
+A `fabricatr_level` object, meaningful only as a named argument to
+`fabricate`. It contributes one row per combination of the levels named
+in `.by`, so the frame has as many rows as their sizes multiplied
+together, carrying every column of those levels plus an ID column of its
+own. The first level in `.by` varies fastest.
 
 ## Examples
 
 ``` r
-
-# Generate full panel data
-panel <- fabricate(
- countries = add_level(N = 20, country_shock = runif(N, 1, 10)),
- years = add_level(N = 20, year_shock = runif(N, 1, 10), nest=FALSE),
- obs = cross_levels(by = join_using(countries, years), GDP_it = country_shock + year_shock)
+fabricate(
+  countries = declare_level(N = 10, gdp = runif(N, 1, 10)),
+  years     = declare_level(N = 5, shock = runif(N, 0, 1)),
+  obs       = cross_levels(.by = c("countries", "years"), Y = gdp + shock)
 )
-
-# Include an "N" argument to allow for cross-classified
-# data.
-students <- fabricate(
- primary_school = add_level(N = 20, ps_quality = runif(N, 1, 10)),
- secondary_school = add_level(N = 15, ss_quality = runif(N, 1, 10), nest=FALSE),
- students = link_levels(N = 500, by = join_using(primary_school, secondary_school))
-)
-head(students)
-#>   primary_school ps_quality secondary_school ss_quality students
-#> 1             15   9.265041               09   6.544130      001
-#> 2             06   6.860068               08   9.282482      002
-#> 3             11   1.629510               05   8.978955      003
-#> 4             09   9.849402               12   7.921122      004
-#> 5             07   5.758383               14   5.847698      005
-#> 6             07   5.758383               06   6.400336      006
-
-# Induce a correlation structure in cross-classified data by providing
-# rho.
-students <- fabricate(
- primary_school = add_level(N = 20, ps_quality = runif(N, 1, 10)),
- secondary_school = add_level(N = 15, ss_quality = runif(N, 1, 10), nest=FALSE),
- students = link_levels(N = 500, by = join_using(ps_quality, ss_quality, rho = 0.5))
-)
-cor(students$ps_quality, students$ss_quality)
-#> [1] 0.4551475
+#> # A tibble: 50 × 6
+#>    countries   gdp years shock obs       Y
+#>    <chr>     <dbl> <chr> <dbl> <chr> <dbl>
+#>  1 01         8.88 1     0.546 01     9.42
+#>  2 02         3.64 1     0.546 02     4.19
+#>  3 03         3.02 1     0.546 03     3.57
+#>  4 04         7.22 1     0.546 04     7.76
+#>  5 05         3.81 1     0.546 05     4.36
+#>  6 06         5.35 1     0.546 06     5.90
+#>  7 07         2.10 1     0.546 07     2.64
+#>  8 08         7.21 1     0.546 08     7.76
+#>  9 09         3.84 1     0.546 09     4.39
+#> 10 10         8.35 1     0.546 10     8.89
+#> # ℹ 40 more rows
 ```

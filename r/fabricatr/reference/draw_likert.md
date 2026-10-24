@@ -1,6 +1,7 @@
-# Recode a latent variable into a Likert response variable
+# Recode a latent variable into a Likert response
 
-Recode a latent variable into a Likert response variable
+A convenience wrapper around `draw_ordered` that constructs equally
+spaced breaks between `min` and `max`.
 
 ## Usage
 
@@ -19,44 +20,53 @@ draw_likert(
 
 - x:
 
-  a numeric variable considered to be "latent"
+  Latent numeric variable.
 
-- min:
+- min, max:
 
-  the minimum value of the latent variable
-
-- max:
-
-  the maximum value of the latent variable
+  Range the latent variable is cut on, rather than a filter applied to
+  it: a value outside `[min, max]` joins the outermost bin. For 1.0.2's
+  behaviour, where such a value became `NA`, call
+  `draw_ordered(x, breaks = seq(min, max, length.out = bins + 1), strict = TRUE)`.
 
 - bins:
 
-  the number of Likert scale values. The latent variable will be cut
-  into equally sized bins as in seq(min, max, length.out = bins + 1)
+  Number of Likert categories.
 
 - breaks:
 
-  A vector of breaks. This option is useful for settings in which
-  equally-sized breaks are inappropriate
+  Manual interior cut-points, read as
+  [`draw_ordered()`](https://declaredesign.org/r/fabricatr/reference/draw_ordered.md)
+  reads them, so `length(breaks) + 1` categories. An alternative to
+  `min`, `max`, and `bins`. 1.0.2 read the same vector as the full set
+  of bin boundaries; the `strict = TRUE` call above returns that answer.
 
 - labels:
 
-  An optional vector of labels. If labels are provided, the resulting
-  output will be a factor.
+  Optional category labels.
+
+## Value
+
+An integer vector of category indices, one per element of `x`, or an
+ordered factor with those `labels` when they are supplied.
 
 ## Examples
 
 ``` r
-
-x <- 1:100
-
-draw_likert(x, min = 0, max = 100, bins = 7)
-#>   [1] 1 1 1 1 1 1 1 1 1 1 1 1 1 1 2 2 2 2 2 2 2 2 2 2 2 2 2 2 3 3 3 3 3 3 3 3 3
-#>  [38] 3 3 3 3 3 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 5 5 5 5 5 5 5 5 5 5 5 5 5 5 6 6 6
-#>  [75] 6 6 6 6 6 6 6 6 6 6 6 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7
-draw_likert(x, breaks = c(-1, 10, 100))
-#>   [1] 1 1 1 1 1 1 1 1 1 1 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2
-#>  [38] 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2
-#>  [75] 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2
-
+fabricate(N = 100, x = rnorm(N),
+          likert = draw_likert(x, min = -3, max = 3, bins = 5))
+#> # A tibble: 100 × 3
+#>    ID         x likert
+#>    <chr>  <dbl>  <int>
+#>  1 001    0.347      3
+#>  2 002   -0.918      2
+#>  3 003    1.34       4
+#>  4 004   -1.08       2
+#>  5 005    1.07       4
+#>  6 006    0.529      3
+#>  7 007   -1.66       2
+#>  8 008    0.678      4
+#>  9 009   -1.07       2
+#> 10 010   -0.341      3
+#> # ℹ 90 more rows
 ```

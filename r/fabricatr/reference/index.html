@@ -7,7 +7,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">fabricatr</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">1.0.2</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">2.0.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -15,20 +15,9 @@
     </button>
 
     <div id="navbar" class="collapse navbar-collapse ms-3">
-      <ul class="navbar-nav me-auto"><li class="nav-item"><a class="nav-link" href="../articles/getting_started.html">Getting started</a></li>
+      <ul class="navbar-nav me-auto"><li class="nav-item"><a class="nav-link" href="../articles/getting-started.html">Getting started</a></li>
 <li class="active nav-item"><a class="nav-link" href="../reference/index.html">Reference</a></li>
-<li class="nav-item dropdown">
-  <button class="nav-link dropdown-toggle" type="button" id="dropdown-articles" data-bs-toggle="dropdown" aria-expanded="false" aria-haspopup="true">Articles</button>
-  <ul class="dropdown-menu" aria-labelledby="dropdown-articles"><li><a class="dropdown-item" href="../articles/getting_started.html">Getting started with fabricatr</a></li>
-    <li><a class="dropdown-item" href="../articles/building_importing.html">Building and Importing Data</a></li>
-    <li><a class="dropdown-item" href="../articles/common_social.html">Common Social Science variables</a></li>
-    <li><a class="dropdown-item" href="../articles/cross_classified.html">Panel and Cross-classified data</a></li>
-    <li><a class="dropdown-item" href="../articles/resampling.html">Resampling data with fabricatr</a></li>
-    <li><a class="dropdown-item" href="../articles/time_series.html">Time series data with fabricatr</a></li>
-    <li><a class="dropdown-item" href="../articles/variable_generation.html">Generating discrete random variables with fabricatr</a></li>
-    <li><a class="dropdown-item" href="../articles/other_packages.html">Using other data generating packages with fabricatr</a></li>
-    <li><a class="dropdown-item" href="../articles/advanced_features.html">Advanced features</a></li>
-  </ul></li>
+<li class="nav-item"><a class="nav-link" href="../articles/fabricatr2.0.html">What changed in 2.0</a></li>
       </ul><ul class="navbar-nav"><li class="nav-item dropdown">
   <button class="nav-link dropdown-toggle" type="button" id="dropdown-software" data-bs-toggle="dropdown" aria-expanded="false" aria-haspopup="true">Software</button>
   <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdown-software"><li><a class="external-link dropdown-item" href="https://declaredesign.org/r/declaredesign/">DeclareDesign</a></li>
@@ -52,9 +41,9 @@
     </div>
 
     <div class="section level2">
-      <h2 id="all-functions">All functions<a class="anchor" aria-label="anchor" href="#all-functions"></a></h2>
+      <h2 id="fabricating-data">Fabricating data<a class="anchor" aria-label="anchor" href="#fabricating-data"></a></h2>
 
-
+      <div class="section-desc"><p>The entry point. Everything else is called from inside it.</p></div>
 
       <dl></dl></div><div class="section level2">
 
@@ -63,40 +52,197 @@
 
       <dl><dt>
 
-          <code><a href="correlate.html">correlate()</a></code>
+          <code><a href="fabricate.html">fabricate()</a></code>
 
         </dt>
-        <dd>Perform generation of a correlated random variable.</dd>
+        <dd>Fabricate a data frame</dd>
+      </dl></div><div class="section level2">
+      <h2 id="levels">Levels<a class="anchor" aria-label="anchor" href="#levels"></a></h2>
+
+      <div class="section-desc"><p>Give the data a shape: units inside clusters, a panel of countries and years, or a second population linked to the first.</p></div>
+
+      <dl></dl></div><div class="section level2">
+
+
+
+
+      <dl><dt>
+
+          <code><a href="add_level.html">add_level()</a></code>
+
+        </dt>
+        <dd>Add a level, nested in the one before it if there is one</dd>
 
         <dt>
 
-          <code><a href="cross_levels.html">cross_levels()</a></code> <code><a href="cross_levels.html">link_levels()</a></code>
+          <code><a href="nest_level.html">nest_level()</a></code>
 
         </dt>
-        <dd>Creates panel or cross-classified data</dd>
+        <dd>Nest a level in the one before it (same as a later add_level())</dd>
 
         <dt>
 
-          <code><a href="draw_binary_icc.html">draw_binary_icc()</a></code>
+          <code><a href="declare_level.html">declare_level()</a></code>
 
         </dt>
-        <dd>Draw binary data with fixed intra-cluster correlation.</dd>
+        <dd>Declare an independent level for cross-classification</dd>
 
         <dt>
 
-          <code><a href="draw_discrete.html">draw_binomial()</a></code> <code><a href="draw_discrete.html">draw_categorical()</a></code> <code><a href="draw_discrete.html">draw_ordered()</a></code> <code><a href="draw_discrete.html">draw_count()</a></code> <code><a href="draw_discrete.html">draw_binary()</a></code> <code><a href="draw_discrete.html">draw_quantile()</a></code>
+          <code><a href="import_level.html">import_level()</a></code>
 
         </dt>
-        <dd>Draw discrete variables including binary, binomial count, poisson count, ordered, and categorical</dd>
+        <dd>Import an existing data frame as a level</dd>
+
+        <dt>
+
+          <code><a href="cross_levels.html">cross_levels()</a></code>
+
+        </dt>
+        <dd>Create a full Cartesian product of declared levels</dd>
+
+        <dt>
+
+          <code><a href="link_levels.html">link_levels()</a></code>
+
+        </dt>
+        <dd>Sample N rows from a Cartesian product with optional correlation</dd>
+
+        <dt>
+
+          <code><a href="modify_level.html">modify_level()</a></code>
+
+        </dt>
+        <dd>Modify columns of an existing level, or of the rows in hand</dd>
+      </dl></div><div class="section level2">
+      <h2 id="potential-outcomes">Potential outcomes<a class="anchor" aria-label="anchor" href="#potential-outcomes"></a></h2>
+
+      <div class="section-desc"><p>An outcome under each condition, and the one a unit actually shows.</p></div>
+
+      <dl></dl></div><div class="section level2">
+
+
+
+
+      <dl><dt>
+
+          <code><a href="potential_outcomes.html">potential_outcomes()</a></code>
+
+        </dt>
+        <dd>Build potential outcomes columns</dd>
+
+        <dt>
+
+          <code><a href="reveal_outcomes.html">reveal_outcomes()</a></code>
+
+        </dt>
+        <dd>Reveal observed outcomes from potential outcomes columns</dd>
+      </dl></div><div class="section level2">
+      <h2 id="drawing-discrete-variables">Drawing discrete variables<a class="anchor" aria-label="anchor" href="#drawing-discrete-variables"></a></h2>
+
+      <div class="section-desc"><p>Turn a latent variable into the kind of measurement a survey returns.</p></div>
+
+      <dl></dl></div><div class="section level2">
+
+
+
+
+      <dl><dt>
+
+          <code><a href="draw_binary.html">draw_binary()</a></code>
+
+        </dt>
+        <dd>Draw binary (0/1) outcomes</dd>
+
+        <dt>
+
+          <code><a href="draw_binomial.html">draw_binomial()</a></code>
+
+        </dt>
+        <dd>Draw binomial counts</dd>
+
+        <dt>
+
+          <code><a href="draw_count.html">draw_count()</a></code>
+
+        </dt>
+        <dd>Draw Poisson count data</dd>
+
+        <dt>
+
+          <code><a href="draw_categorical.html">draw_categorical()</a></code>
+
+        </dt>
+        <dd>Draw categorical outcomes</dd>
+
+        <dt>
+
+          <code><a href="draw_ordered.html">draw_ordered()</a></code>
+
+        </dt>
+        <dd>Draw ordered categorical outcomes from a latent variable</dd>
 
         <dt>
 
           <code><a href="draw_likert.html">draw_likert()</a></code>
 
         </dt>
-        <dd>Recode a latent variable into a Likert response variable</dd>
+        <dd>Recode a latent variable into a Likert response</dd>
 
         <dt>
+
+          <code><a href="split_quantile.html">split_quantile()</a></code>
+
+        </dt>
+        <dd>Split data into quantile buckets</dd>
+
+        <dt>
+
+          <code><a href="draw_quantile.html">draw_quantile()</a></code>
+
+        </dt>
+        <dd>Draw quantile bucket assignments</dd>
+      </dl></div><div class="section level2">
+      <h2 id="drawing-clustered-variables">Drawing clustered variables<a class="anchor" aria-label="anchor" href="#drawing-clustered-variables"></a></h2>
+
+      <div class="section-desc"><p>Draws with a target intra-cluster correlation, or serial correlation within a unit over time.</p></div>
+
+      <dl></dl></div><div class="section level2">
+
+
+
+
+      <dl><dt>
+
+          <code><a href="draw_normal_icc.html">draw_normal_icc()</a></code>
+
+        </dt>
+        <dd>Draw normally distributed data with a target intra-cluster correlation</dd>
+
+        <dt>
+
+          <code><a href="draw_binary_icc.html">draw_binary_icc()</a></code>
+
+        </dt>
+        <dd>Draw binary data with a target intra-cluster correlation</dd>
+
+        <dt>
+
+          <code><a href="draw_normal_ar.html">draw_normal_ar()</a></code>
+
+        </dt>
+        <dd>Draw normally distributed data with serial correlation within clusters</dd>
+      </dl></div><div class="section level2">
+      <h2 id="drawing-correlated-variables">Drawing correlated variables<a class="anchor" aria-label="anchor" href="#drawing-correlated-variables"></a></h2>
+
+      <div class="section-desc"><p>Several variables at once, or one correlated with a variable you have.</p></div>
+
+      <dl></dl></div><div class="section level2">
+
+
+
+
+      <dl><dt>
 
           <code><a href="draw_multivariate.html">draw_multivariate()</a></code>
 
@@ -105,72 +251,79 @@
 
         <dt>
 
-          <code><a href="draw_normal_icc.html">draw_normal_icc()</a></code>
+          <code><a href="correlate.html">correlate()</a></code>
 
         </dt>
-        <dd>Draw normal data with fixed intra-cluster correlation.</dd>
+        <dd>Generate a variable correlated with an existing variable</dd>
+      </dl></div><div class="section level2">
+      <h2 id="resampling">Resampling<a class="anchor" aria-label="anchor" href="#resampling"></a></h2>
+
+      <div class="section-desc"><p>Bootstrap a data frame, respecting the levels it was built with.</p></div>
+
+      <dl></dl></div><div class="section level2">
+
+
+
+
+      <dl><dt>
+
+          <code><a href="resample_data.html">resample_data()</a></code>
+
+        </dt>
+        <dd>Resample a data frame, with optional hierarchical cluster resampling</dd>
 
         <dt>
 
-          <code><a href="fabricate.html">fabricate()</a></code> <code><a href="fabricate.html">add_level()</a></code> <code><a href="fabricate.html">modify_level()</a></code> <code><a href="fabricate.html">nest_level()</a></code>
+          <code><a href="ALL.html">ALL</a></code>
 
         </dt>
-        <dd>Fabricate data</dd>
+        <dd>Keep every unit at a resampling level</dd>
+      </dl></div><div class="section level2">
+      <h2 id="calling-fabricatr-from-a-package">Calling fabricatr from a package<a class="anchor" aria-label="anchor" href="#calling-fabricatr-from-a-package"></a></h2>
 
-        <dt>
+      <div class="section-desc"><p>For a caller that captures the expressions itself, as DeclareDesign’s declaration verbs do.</p></div>
 
-          <code><a href="fabricatr.html">fabricatr</a></code> <code><a href="fabricatr.html">fabricatr-package</a></code>
+      <dl></dl></div><div class="section level2">
+
+
+
+
+      <dl><dt>
+
+          <code><a href="fabricate_with_dots.html">fabricate_with_dots()</a></code>
 
         </dt>
-        <dd>fabricatr package</dd>
+        <dd>Fabricate from a list of quosures</dd>
+      </dl></div><div class="section level2">
+      <h2 id="fabricatr-x-spellings">fabricatr 1.x spellings<a class="anchor" aria-label="anchor" href="#fabricatr-x-spellings"></a></h2>
 
-        <dt>
+      <div class="section-desc"><p>Kept so that scripts written for fabricatr 1.x run unchanged. Each is accepted and warns once with the call to write instead.</p></div>
+
+      <dl></dl></div><div class="section level2">
+
+
+
+
+      <dl><dt>
 
           <code><a href="join_using.html">join_using()</a></code>
 
         </dt>
-        <dd>Helper function handling specification of which variables to join a cross-classified data on, and what kind of correlation structure needed. Correlation structures can only be provided if the underlying call is a <code><a href="../reference/cross_levels.html">link_levels()</a></code> call.</dd>
-
-        <dt>
-
-          <code><a href="potential_outcomes.html">potential_outcomes()</a></code>
-
-        </dt>
-        <dd>Build potential outcomes variables</dd>
+        <dd>Name the levels to cross or link</dd>
 
         <dt>
 
           <code><a href="recycle.html">recycle()</a></code>
 
         </dt>
-        <dd>Expands data to a given length through recycling.</dd>
-
-        <dt>
-
-          <code><a href="resample_data.html">resample_data()</a></code>
-
-        </dt>
-        <dd>Resample data, including hierarchical data</dd>
-
-        <dt>
-
-          <code><a href="reveal_outcomes.html">reveal_outcomes()</a></code>
-
-        </dt>
-        <dd>Reveal outcomes</dd>
-
-        <dt>
-
-          <code><a href="split_quantile.html">split_quantile()</a></code>
-
-        </dt>
-        <dd>Split data into quantile buckets (e.g. terciles, quartiles, quantiles, deciles).</dd>
+        <dd>Recycle a vector to the length of the level being built</dd>
       </dl></div>
-  </main></div>
+  </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
+    </nav></aside></div>
 
 
     <footer><div class="pkgdown-footer-left">
-  <p>Developed by Graeme Blair, Jasper Cooper, Alexander Coppock, Macartan Humphreys, Aaron Rudkin, Neal Fultz.</p>
+  <p>Developed by Alexander Coppock, Graeme Blair, Jasper Cooper, Macartan Humphreys, Aaron Rudkin, Neal Fultz.</p>
 </div>
 
 <div class="pkgdown-footer-right">

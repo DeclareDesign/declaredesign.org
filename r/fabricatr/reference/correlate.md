@@ -1,8 +1,9 @@
-# Perform generation of a correlated random variable.
+# Generate a variable correlated with an existing variable
 
-This function is EXPERIMENTAL, and we cannot guarantee its properties
-for all data structures. Be sure to diagnose your design and assess the
-distribution of your variables.
+Uses a Gaussian copula to produce a draw from `draw_handler` whose rank
+correlation with `given` is approximately `rho`. Works with any `draw_*`
+function that accepts a `quantile_y` argument, and with base R
+random-number generators (e.g. `rnorm`, `rpois`).
 
 ## Usage
 
@@ -14,44 +15,47 @@ correlate(draw_handler, ..., given, rho)
 
 - draw_handler:
 
-  The unquoted name of a function to generate data. Currently,
-  `draw_binary`, `draw_binomial`, and `draw_count` are supported.
+  Unquoted function name. Either one of the three `draw_*` functions
+  that take a `quantile_y` argument (`draw_binary`, `draw_binomial`,
+  `draw_count`) or a base R `r*` generator with a `q*` counterpart
+  (`rnorm`, `rpois`, `rbinom`, and the rest of the stats family).
+  `draw_ordered`, `draw_likert`, `draw_categorical`, `draw_quantile`,
+  and the two ICC draws take no quantile argument and are refused with a
+  message saying so.
 
 - ...:
 
-  The arguments to draw_handler (e.g. `prob`, `mean`, etc.)
+  Arguments forwarded to `draw_handler` (e.g. `prob`, `mean`).
 
 - given:
 
-  A vector that can be ordered; the reference distribution X that Y will
-  be correlated with.
+  Reference vector; the new variable will be rank-correlated with this.
 
 - rho:
 
-  A rank correlation coefficient between -1 and 1.
+  Correlation of the Gaussian copula, in \\\[-1, 1\]\\. It is not the
+  realized Spearman correlation, which is smaller by the copula's own
+  relation, \\(6/\pi)\arcsin(\rho/2)\\: `rho = 0.7` lands at 0.68 and
+  `rho = 0.3` at 0.288. The realized Pearson correlation is `rho`.
+  fabricatr 1.x behaves identically.
 
-## Details
+## Value
 
-In order to generate a random variable of a specific distribution based
-on another variable of any distribution and a correlation coefficient
-`rho`, we map the first, known variable into the standard normal space
-via affine transformation, generate the conditional distribution of the
-resulting variable as a standard normal, and then map that standard
-normal back to the target distribution. The result should ensure, in
-expectation, a rank-order correlation of `rho`.
+A double vector of length `length(given)`. Note that the type is double
+whatever `draw_handler` is: `draw_binary`, `draw_binomial`, and
+`draw_count` each return an integer vector when called directly and a
+double one when routed through here, because the copula reaches them
+through a quantile function. The values are unaffected. An `NA` in
+`given` yields an `NA` in the result at that position.
 
 ## Examples
 
 ``` r
+score  <- rnorm(100, mean = 75, sd = 10)
+offers <- correlate(draw_count, mean = 3, given = score, rho = 0.6)
+cor(score, offers, method = "spearman")
+#> [1] 0.6068749
 
-# Generate a variable of interest
-exam_score <- pmin(100, rnorm(n = 100, mean = 80, sd = 10))
-
-# Generate a correlated variable using fabricatr variable generation
-scholarship_offers <- correlate(given = exam_score, rho = 0.7,
-                                draw_count, mean = 3)
-
-# Generate a correlated variable using base R distributions
-final_grade <- pmax(100, correlate(given = exam_score, rho = 0.7,
-                                   rnorm, mean = 80, sd = 10))
+# Works with base R generators too
+y2 <- correlate(rnorm, mean = 0, sd = 1, given = score, rho = -0.5)
 ```
