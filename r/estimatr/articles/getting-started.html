@@ -756,14 +756,15 @@ experiment and reports how the estimator does against the truth.</p>
 <span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/Random.html" class="external-link">set.seed</a></span><span class="op">(</span><span class="fl">343</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://declaredesign.org/r/declaredesign/reference/diagnose_design.html" class="external-link">diagnose_design</a></span><span class="op">(</span><span class="va">declaration_lin</span>, sims <span class="op">=</span> <span class="fl">500</span><span class="op">)</span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; Research design diagnosis based on 500 simulations. Diagnosis completed in 3 secs. Diagnosand estimates with bootstrapped standard errors in parentheses (100 replicates).</span></span>
+<span><span class="co">#&gt; Research design diagnosis</span></span>
+<span><span class="co">#&gt;   500 simulations</span></span>
+<span><span class="co">#&gt;   bootstrap standard errors in parentheses (100 replicates)</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt;           Design Inquiry Estimator Outcome Term N Sims Mean Estimand Mean Estimate   Bias</span></span>
-<span><span class="co">#&gt;  declaration_lin     ATE estimator       Y    Z    500          0.35          0.36   0.01</span></span>
+<span><span class="co">#&gt;  declaration_lin     ATE estimator       Y    Z    500          0.35          0.35  -0.00</span></span>
 <span><span class="co">#&gt;                                                               (0.00)        (0.01) (0.01)</span></span>
 <span><span class="co">#&gt;  SD Estimate   RMSE  Power Coverage</span></span>
-<span><span class="co">#&gt;         0.20   0.20   0.44     0.96</span></span>
+<span><span class="co">#&gt;         0.20   0.20   0.42     0.95</span></span>
 <span><span class="co">#&gt;       (0.01) (0.01) (0.02)   (0.01)</span></span></code></pre></div>
 <p>Adding a second <code><a href="https://declaredesign.org/r/declaredesign/reference/declare_estimator.html" class="external-link">declare_estimator()</a></code> step, say
 <code>declare_estimator(Y ~ Z, .method = lm_robust, inquiry = "ATE", label = "unadjusted")</code>,
