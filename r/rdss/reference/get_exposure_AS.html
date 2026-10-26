@@ -42,7 +42,7 @@
     </div>
 
     <div class="ref-description section level2">
-    <p>Converts the exposure map from <code><a href="https://rdrr.io/pkg/interference/man/make_exposure_map_AS.html" class="external-link">interference::make_exposure_map_AS()</a></code>, a 0/1 matrix with one row per unit and one column per exposure condition, into a vector naming each unit's condition (e.g. <code>"dir_ind1"</code> or <code>"no"</code>).</p>
+    <p>Converts the exposure map from <code>interference::make_exposure_map_AS()</code>, a 0/1 matrix with one row per unit and one column per exposure condition, into a vector naming each unit's condition (e.g. <code>"dir_ind1"</code> or <code>"no"</code>).</p>
     </div>
 
     <div class="section level2">
@@ -55,7 +55,7 @@
 
 
 <dl><dt id="arg-obs-exposure">obs_exposure<a class="anchor" aria-label="anchor" href="#arg-obs-exposure"></a></dt>
-<dd><p>An exposure map, as returned by <code><a href="https://rdrr.io/pkg/interference/man/make_exposure_map_AS.html" class="external-link">interference::make_exposure_map_AS()</a></code>.</p></dd>
+<dd><p>An exposure map, as returned by <code>interference::make_exposure_map_AS()</code>.</p></dd>
 
 </dl></div>
     <div class="section level2">
@@ -69,7 +69,8 @@
 
     <div class="section level2">
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span></span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span> <span class="co"># requireNamespace("interference", quietly = TRUE)</span></span></span>
+<span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/Random.html" class="external-link">set.seed</a></span><span class="op">(</span><span class="fl">343</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="co"># A ring of 20 units, each adjacent to the units on either side of it</span></span></span>
 <span class="r-in"><span><span class="va">N</span> <span class="op">&lt;-</span> <span class="fl">20</span></span></span>
@@ -78,14 +79,11 @@
 <span class="r-in"><span><span class="va">adjacency</span> <span class="op">&lt;-</span> <span class="va">adjacency</span> <span class="op">+</span> <span class="fu"><a href="https://rdrr.io/r/base/t.html" class="external-link">t</a></span><span class="op">(</span><span class="va">adjacency</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="va">Z</span> <span class="op">&lt;-</span> <span class="fu">randomizr</span><span class="fu">::</span><span class="fu"><a href="https://declaredesign.org/r/randomizr/reference/complete_ra.html" class="external-link">complete_ra</a></span><span class="op">(</span><span class="va">N</span><span class="op">)</span></span></span>
 <span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="va">exposure</span> <span class="op">&lt;-</span> <span class="fu">interference</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/interference/man/make_exposure_map_AS.html" class="external-link">make_exposure_map_AS</a></span><span class="op">(</span></span></span>
+<span class="r-in"><span><span class="va">exposure</span> <span class="op">&lt;-</span> <span class="fu">interference</span><span class="fu">::</span><span class="fu">make_exposure_map_AS</span><span class="op">(</span></span></span>
 <span class="r-in"><span>  adj_matrix <span class="op">=</span> <span class="va">adjacency</span>, tr_vector <span class="op">=</span> <span class="va">Z</span>, hop <span class="op">=</span> <span class="fl">1</span></span></span>
 <span class="r-in"><span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="fu">get_exposure_AS</span><span class="op">(</span><span class="va">exposure</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [1] "dir_ind1" "dir_ind1" "ind1"     "isol_dir" "ind1"     "isol_dir"</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [7] "ind1"     "no"       "no"       "ind1"     "dir_ind1" "dir_ind1"</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [13] "dir_ind1" "ind1"     "ind1"     "isol_dir" "ind1"     "ind1"    </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [19] "dir_ind1" "dir_ind1"</span>
+<span class="r-in"><span><span class="op">}</span></span></span>
 </code></pre></div>
     </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>

@@ -1,10 +1,9 @@
 # Helper function to obtain the observed exposure for the Aronow and Samii estimator
 
-Converts the exposure map from
-[`interference::make_exposure_map_AS()`](https://rdrr.io/pkg/interference/man/make_exposure_map_AS.html),
-a 0/1 matrix with one row per unit and one column per exposure
-condition, into a vector naming each unit's condition (e.g. `"dir_ind1"`
-or `"no"`).
+Converts the exposure map from `interference::make_exposure_map_AS()`, a
+0/1 matrix with one row per unit and one column per exposure condition,
+into a vector naming each unit's condition (e.g. `"dir_ind1"` or
+`"no"`).
 
 ## Usage
 
@@ -17,7 +16,7 @@ get_exposure_AS(obs_exposure)
 - obs_exposure:
 
   An exposure map, as returned by
-  [`interference::make_exposure_map_AS()`](https://rdrr.io/pkg/interference/man/make_exposure_map_AS.html).
+  `interference::make_exposure_map_AS()`.
 
 ## Value
 
@@ -31,6 +30,7 @@ https://book.declaredesign.org/experimental-causal.html#experiments-over-network
 ## Examples
 
 ``` r
+if (FALSE) { # requireNamespace("interference", quietly = TRUE)
 
 set.seed(343)
 # A ring of 20 units, each adjacent to the units on either side of it
@@ -44,8 +44,5 @@ exposure <- interference::make_exposure_map_AS(
   adj_matrix = adjacency, tr_vector = Z, hop = 1
 )
 get_exposure_AS(exposure)
-#>  [1] "dir_ind1" "dir_ind1" "ind1"     "isol_dir" "ind1"     "isol_dir"
-#>  [7] "ind1"     "no"       "no"       "ind1"     "dir_ind1" "dir_ind1"
-#> [13] "dir_ind1" "ind1"     "ind1"     "isol_dir" "ind1"     "ind1"    
-#> [19] "dir_ind1" "dir_ind1"
+}
 ```

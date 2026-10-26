@@ -2,19 +2,19 @@
 
 ## rdss 1.0.16
 
+CRAN release: 2026-10-26
+
 - In the GitHub version,
   [`estimator_AS_tidy()`](https://declaredesign.org/r/rdss/reference/estimator_AS_tidy.md)
   returns standard errors, p-values, and 95 percent confidence
-  intervals.
-  [`interference::estimates()`](https://rdrr.io/pkg/interference/man/estimates.html)
-  computes effect variances only when told which condition is control,
-  and rdss had never passed `control_condition`, so the variances were
-  always empty. The Horvitz-Thompson rows use Aronow and Samii’s
-  conservative variance, the larger of the Horvitz-Thompson and
-  constant-effects variances, since the plain Horvitz-Thompson variance
-  of a difference can be negative. Intervals for an effect whose
-  exposure condition is rare can undercover; the documentation gives the
-  simulated rates.
+  intervals. `interference::estimates()` computes effect variances only
+  when told which condition is control, and rdss had never passed
+  `control_condition`, so the variances were always empty. The
+  Horvitz-Thompson rows use Aronow and Samii’s conservative variance,
+  the larger of the Horvitz-Thompson and constant-effects variances,
+  since the plain Horvitz-Thompson variance of a difference can be
+  negative. Intervals for an effect whose exposure condition is rare can
+  undercover; the documentation gives the simulated rates.
 
 - On CRAN,
   [`estimator_AS_tidy()`](https://declaredesign.org/r/rdss/reference/estimator_AS_tidy.md)
