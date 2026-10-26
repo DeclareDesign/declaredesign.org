@@ -1,80 +1,68 @@
-# Declare a design via a designer
+# Build a family of designs from a designer function (deprecated)
 
-`expand_design` easily generates a set of design from a designer
-function.
+Deprecated in 2.0. Call the designer once and
+[`redesign()`](https://declaredesign.org/r/declaredesign/reference/redesign.md)
+the result: `redesign(designer(), N = c(100, 200))` does what
+`expand_design(designer, N = c(100, 200))` did, and reaches the same
+names, since a designer's argument is a name the design reads.
+`expand_design()` still works and warns once per session.
 
 ## Usage
 
 ``` r
-expand_design(designer, ..., expand = TRUE, prefix = "design")
+expand_design(.designer, ..., .expand = TRUE)
 ```
 
 ## Arguments
 
-- designer:
+- .designer:
 
-  a function which yields a design
+  (required) A function returning a `design`.
 
 - ...:
 
-  Options sent to the designer
+  (optional) Named parameter values to vary, passed to `.designer` as
+  its arguments.
 
-- expand:
+- .expand:
 
-  boolean - if true, form the crossproduct of the ..., otherwise recycle
-  them
-
-- prefix:
-
-  prefix for the names of the designs, i.e. if you create two designs
-  they would be named prefix_1, prefix_2
+  (optional) If `TRUE` (the default), expand the grid; if `FALSE`, zip
+  parallel vectors.
 
 ## Value
 
-if set of designs is size one, the design, otherwise a \`by\`-list of
-designs. Designs are given a parameters attribute with the values of
-parameters assigned by expand_design.
+A `design` or a named list of designs, as
+[`redesign()`](https://declaredesign.org/r/declaredesign/reference/redesign.md)
+returns.
+
+## Details
+
+The one thing it did that
+[`redesign()`](https://declaredesign.org/r/declaredesign/reference/redesign.md)
+cannot is rebuild a design whose *shape* depends on an argument, such as
+a designer that adds a step when `blocked = TRUE`. For that, call the
+designer with each value.
+
+## See also
+
+Other modifying a design:
+[`delete_step()`](https://declaredesign.org/r/declaredesign/reference/delete_step.md),
+[`design_notes()`](https://declaredesign.org/r/declaredesign/reference/design_notes.md),
+[`design_parameters()`](https://declaredesign.org/r/declaredesign/reference/design_parameters.md),
+[`insert_step()`](https://declaredesign.org/r/declaredesign/reference/insert_step.md),
+[`redesign()`](https://declaredesign.org/r/declaredesign/reference/redesign.md),
+[`replace_step()`](https://declaredesign.org/r/declaredesign/reference/replace_step.md)
 
 ## Examples
 
 ``` r
-
-if (FALSE) { # \dontrun{
-
-# in conjunction with DesignLibrary
-
-library(DesignLibrary)
-
-designs <- expand_design(multi_arm_designer, outcome_means = list(c(3,2,4), c(1,4,1)))
-
-diagnose_design(designs)
-
-# with a custom designer function
-
-designer <- function(N) {
-  design <- 
-    declare_model(
-      N = N, 
-      U = rnorm(N),
-      potential_outcomes(Y ~ 0.20 * Z + U)
-    ) + 
-    declare_inquiry(ATE = mean(Y_Z_1 - Y_Z_0)) + 
-    declare_assignment(Z = complete_ra(N, m = N/2)) + 
-    declare_measurement(Y = reveal_outcomes(Y ~ Z)) + 
-    declare_estimator(Y ~ Z, inquiry = "ATE")
-  return(design)
+designer <- function(N = 50) {
+  declare_model(N = N, Y = rnorm(N)) + declare_inquiry(mu = mean(Y))
 }
-
-# returns list of eight designs
-designs <- expand_design(designer, N = seq(30, 100, 10))
-
-# diagnose a list of designs created by expand_design or redesign
-diagnosis <- diagnose_design(designs, sims = 50)
-
-# returns a single design
-large_design <- expand_design(designer, N = 200)
-
-diagnose_large_design <- diagnose_design(large_design, sims = 50)
-
-} # }
+# deprecated
+designs <- suppressWarnings(expand_design(designer, N = c(10, 20)))
+# instead
+designs <- redesign(designer(), N = c(10, 20))
+length(designs)
+#> [1] 2
 ```

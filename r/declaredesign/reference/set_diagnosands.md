@@ -1,117 +1,69 @@
-# Set the diagnosands for a design
+# Attach diagnosands to a design (deprecated)
 
-A researcher often has a set of diagnosands in mind to appropriately
-assess the quality of a design. `set_diagnosands` sets the default
-diagnosands for a design, so that later readers can assess the design on
-the same terms as the original author. Readers can also use
-`diagnose_design` to diagnose the design using any other set of
-diagnosands.
+Deprecated in 2.0. Stores `diagnosands` as an attribute on `design`,
+which
+[`diagnose_design()`](https://declaredesign.org/r/declaredesign/reference/diagnose_design.md)
+uses in place of the defaults when present. Pass the diagnosands to the
+diagnosis instead: `diagnose_design(design, diagnosands = ...)`.
 
 ## Usage
 
 ``` r
-set_diagnosands(x, diagnosands = default_diagnosands)
+set_diagnosands(design, diagnosands = default_diagnosands())
 ```
 
 ## Arguments
 
-- x:
+- design:
 
-  A design typically created using the + operator, or a simulations
-  data.frame created by `simulate_design`.
+  (required) A `design`.
 
 - diagnosands:
 
-  A set of diagnosands created by
-  [`declare_diagnosands`](https://declaredesign.org/r/declaredesign/reference/declare_diagnosands.md)
+  (optional) A diagnosands `design_step`. Defaults to
+  [`default_diagnosands()`](https://declaredesign.org/r/declaredesign/reference/default_diagnosands.md).
 
 ## Value
 
-a design object with a diagnosand attribute
+`design`, with `diagnosands` stored in its `diagnosands` attribute.
+
+## Details
+
+Two reasons, beyond diagnosis not being a feature of a design. The
+attribute does not survive
+[`redesign()`](https://declaredesign.org/r/declaredesign/reference/redesign.md),
+so anything attached this way is silently gone the first time a
+parameter moves, and the defaults that replace it may not be computable
+from the estimator's output. And a diagnosands object replaces the
+default set rather than adding to it, so declaring one diagnosand drops
+the other six without saying so.
+
+## See also
+
+Other diagnosands:
+[`declare_diagnosands()`](https://declaredesign.org/r/declaredesign/reference/declare_diagnosands.md),
+[`default_diagnosands()`](https://declaredesign.org/r/declaredesign/reference/default_diagnosands.md),
+[`format.diagnosis()`](https://declaredesign.org/r/declaredesign/reference/format.diagnosis.md),
+[`select_diagnosands()`](https://declaredesign.org/r/declaredesign/reference/select_diagnosands.md)
 
 ## Examples
 
 ``` r
-
-# Two-arm randomized experiment
 design <-
-  declare_model(
-    N = 500,
-    gender = rbinom(N, 1, 0.5),
-    X = rep(c(0, 1), each = N / 2),
-    U = rnorm(N, sd = 0.25),
-    potential_outcomes(Y ~ 0.2 * Z + X + U)
-  ) +
-  declare_inquiry(ATE = mean(Y_Z_1 - Y_Z_0)) +
-  declare_sampling(S = complete_rs(N = N, n = 200)) +
-  declare_assignment(Z = complete_ra(N = N, m = 100)) +
-  declare_measurement(Y = reveal_outcomes(Y ~ Z)) +
-  declare_estimator(Y ~ Z, inquiry = "ATE")
+  declare_model(N = 30, Y = rnorm(N)) +
+  declare_inquiry(mu = mean(Y)) +
+  declare_estimator(Y ~ 1, .method = lm, term = "(Intercept)", inquiry = "mu")
 
-# You can choose your own diagnosands instead of the defaults:
-
-my_diagnosands <-
-  declare_diagnosands(median_bias = median(estimate - estimand))
-
-if (FALSE) { # \dontrun{
-## You can set diagnosands with set_diagnosands 
-design <- set_diagnosands(design, diagnosands = my_diagnosands)
-diagnosis <- diagnose_design(design)
-diagnosis
-
-## Using set_diagnosands to diagnose simulated data
-simulations_df <- simulate_design(design)
-
-simulations_df <- set_diagnosands(simulations_df, my_diagnosands)
-
-diagnose_design(simulations_df)
-
-# If you do not specify diagnosands in diagnose_design, 
-#   the function default_diagnosands() is used, 
-#   which is reproduced below.
-
-alpha <- 0.05
-
-default_diagnosands <- 
-  declare_diagnosands(
-    mean_estimand = mean(estimand),
-    mean_estimate = mean(estimate),
-    bias = mean(estimate - estimand),
-    sd_estimate = sqrt(pop.var(estimate)),
-    rmse = sqrt(mean((estimate - estimand) ^ 2)),
-    power = mean(p.value <= alpha),
-    coverage = mean(estimand <= conf.high & estimand >= conf.low)
-  )
-  
+# instead of set_diagnosands(design, ...)
 diagnose_design(
-  simulations_df,
-  diagnosands = default_diagnosands
+  design,
+  diagnosands = declare_diagnosands(mean_estimate = mean(estimate, na.rm = TRUE)),
+  sims = 5,
+  bootstrap_sims = 0
 )
-
-# A longer list of potentially useful diagnosands might include:
-
-extended_diagnosands <- 
-  declare_diagnosands(
-    mean_estimand = mean(estimand),
-    mean_estimate = mean(estimate),
-    bias = mean(estimate - estimand),
-    sd_estimate = sd(estimate),
-    rmse = sqrt(mean((estimate - estimand) ^ 2)),
-    power = mean(p.value <= alpha),
-    coverage = mean(estimand <= conf.high & estimand >= conf.low),
-    mean_se = mean(std.error),
-    type_s_rate = mean((sign(estimate) != sign(estimand))[p.value <= alpha]),
-    exaggeration_ratio = mean((estimate/estimand)[p.value <= alpha]),
-    var_estimate = pop.var(estimate),
-    mean_var_hat = mean(std.error^2),
-    prop_pos_sig = mean(estimate > 0 & p.value <= alpha),
-    mean_ci_length = mean(conf.high - conf.low)
-  )
-  
-diagnose_design(
-  simulations_df,
-  diagnosands = extended_diagnosands
-)
-
-} # }
+#> Research design diagnosis
+#>   5 simulations
+#> 
+#>  Design Inquiry Estimator        Term N Sims Mean Estimate
+#>  design      mu estimator (Intercept)      5         -0.06
 ```

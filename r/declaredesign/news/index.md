@@ -1,205 +1,235 @@
 # Changelog
 
-## DeclareDesign 1.1.1
+## DeclareDesign 2.0.0
 
-CRAN release: 2026-04-28
+CRAN release: 2026-10-25
 
-- Bug fix: replaced unexported rlang internal `quo_get_env()` with the
-  exported `get_env()` in `aaa.R` and `declare_potential_outcomes.R`.
-  The unexported function caused test failures on CRAN when rlang
-  updated its export list.
-- Bug fix: replaced
-  [`enquo()`](https://rlang.r-lib.org/reference/enquo.html) with
-  [`substitute()`](https://rdrr.io/r/base/substitute.html) in `+.dd` to
-  correctly capture step expressions under the new rlang C API. Thanks
-  to Lionel Henry ([@lionel-](https://github.com/lionel-)) for the fix.
-- Added `CausalQueries`, `rdrobust`, and `rdss` to `Suggests` to satisfy
-  CRAN dependency checks for tests that use those packages.
-- Made top-level test setup use soft package loads so checks pass when
-  suggested packages are not locally installed.
-- Improved
-  [`print.design()`](https://declaredesign.org/r/declaredesign/reference/post_design.md)
-  output: clearer labels, deduplication of parameter names across
-  environments, and truncation of long values in the printed parameter
-  table.
-- Added example to
+DeclareDesign 2.0 is a ground-up reimplementation on tidyverse
+primitives. The declaration syntax is unchanged; the changes below are
+at the edges.
+[`vignette("declaredesign2.0")`](https://declaredesign.org/r/declaredesign/articles/declaredesign2.0.md)
+gives the reasoning for each and a grep table for porting a script.
+
+### Breaking changes
+
+- [`redesign()`](https://declaredesign.org/r/declaredesign/reference/redesign.md)
+  reaches a name the design reads (a value named above the design, a
+  designer function’s argument, or a
+  [`declare_parameters()`](https://declaredesign.org/r/declaredesign/reference/declare_parameters.md)
+  entry) and no longer a number written inside a step.
+  `redesign(design, N = 1000)` over `declare_model(N = 500)` errors with
+  the two ways to name the value; in 1.x it warned and returned the
+  design unchanged.
+- `declare_estimator(inquiry = )` takes the inquiry’s label as a string.
+  Passing the inquiry step object is an error; in 1.x it linked the
+  estimator to an inquiry called `"inquiry"` and returned `NA`
+  estimands.
+- [`diagnose_design()`](https://declaredesign.org/r/declaredesign/reference/diagnose_design.md)
+  and
+  [`simulate_design()`](https://declaredesign.org/r/declaredesign/reference/simulate_design.md)
+  drop `make_groups`, `add_grouping_variables`, and `future.seed`, each
+  with an error naming the replacement. Group with
+  `simulate_design() |> group_by() |> diagnose_design()`; seed with
+  [`set.seed()`](https://rdrr.io/r/base/Random.html) before the call.
+- [`redesign()`](https://declaredesign.org/r/declaredesign/reference/redesign.md)’s
+  first argument is `.design` and
+  [`expand_design()`](https://declaredesign.org/r/declaredesign/reference/expand_design.md)’s
+  is `.designer`, and both take `.expand` after the dots, so a parameter
+  named `expand`, or `d` or any other prefix of `design`, is no longer
+  swallowed by partial matching.
+  [`expand_design()`](https://declaredesign.org/r/declaredesign/reference/expand_design.md)
+  drops `prefix`, which named the designs it returned `design_1`,
+  `design_2`, and so on; designs are now named by the values that
+  distinguish them.
+- [`draw_data()`](https://declaredesign.org/r/declaredesign/reference/draw_data.md)
+  no longer runs part of a design on supplied data; `data`, `start`, and
+  `end` are gone, and passing them stops with an error naming the
+  replacement unless the design reads a parameter by that name. Use
+  `get_estimates(design, data)` to run estimators on supplied data and
+  `design[i:j]` for a slice.
+- `label_estimator(fn = )` and `label_test(fn = )` are `.method =`;
+  `set_diagnosands(x = )` is `design =`;
+  [`reshape_diagnosis()`](https://declaredesign.org/r/declaredesign/reference/format.diagnosis.md)
+  drops `select` and `exclude`.
+- [`compare_designs()`](https://declaredesign.org/r/declaredesign/reference/compare_designs.md),
+  [`compare_design_code()`](https://declaredesign.org/r/declaredesign/reference/compare_designs.md),
+  [`compare_design_summaries()`](https://declaredesign.org/r/declaredesign/reference/compare_designs.md),
+  [`compare_design_estimates()`](https://declaredesign.org/r/declaredesign/reference/compare_designs.md),
+  [`compare_design_inquiries()`](https://declaredesign.org/r/declaredesign/reference/compare_designs.md),
+  [`compare_design_data()`](https://declaredesign.org/r/declaredesign/reference/compare_designs.md),
+  and
+  [`print_code()`](https://declaredesign.org/r/declaredesign/reference/compare_designs.md)
+  are defunct and say so.
+  [`compare_diagnoses()`](https://declaredesign.org/r/declaredesign/reference/compare_diagnoses.md)
+  stays.
+- [`declare_potential_outcomes()`](https://declaredesign.org/r/declaredesign/reference/declare-defunct.md)
+  and
+  [`declare_reveal()`](https://declaredesign.org/r/declaredesign/reference/declare-defunct.md)
+  are defunct; `declare_estimators()` is gone.
+- Every table of estimates carries an `estimand` column and puts
+  `estimator`, `inquiry`, and `estimand` after the tidied statistics.
+  Two estimators with one label are renamed apart with a message rather
+  than an error.
+
+### Deprecations
+
+- [`expand_design()`](https://declaredesign.org/r/declaredesign/reference/expand_design.md)
+  warns once per session; call the designer and
+  [`redesign()`](https://declaredesign.org/r/declaredesign/reference/redesign.md)
+  the result: `redesign(designer(), N = c(100, 200))`.
+- [`set_diagnosands()`](https://declaredesign.org/r/declaredesign/reference/set_diagnosands.md)
+  warns once per session; pass the diagnosands to the diagnosis instead,
+  `diagnose_design(design, diagnosands = ...)`. An attached set replaces
+  the defaults rather than adding to them, and does not survive
+  [`redesign()`](https://declaredesign.org/r/declaredesign/reference/redesign.md),
+  which now warns when it drops one.
+- [`insert_step()`](https://declaredesign.org/r/declaredesign/reference/insert_step.md),
+  [`delete_step()`](https://declaredesign.org/r/declaredesign/reference/delete_step.md),
+  and
+  [`replace_step()`](https://declaredesign.org/r/declaredesign/reference/replace_step.md)
+  warn once per session; rebuild the design with
+  `design[1:2] + new_step + design[4:5]` instead.
+- [`declare_population()`](https://declaredesign.org/r/declaredesign/reference/declare_population.md),
+  [`model_handler()`](https://declaredesign.org/r/declaredesign/reference/model_handler.md),
+  and
+  [`tidy_estimator()`](https://declaredesign.org/r/declaredesign/reference/model_handler.md)
+  warn once per session.
+- `declare_estimator(model = )` is read as `.method =` with a warning.
+
+### New
+
+- [`declare_parameters()`](https://declaredesign.org/r/declaredesign/reference/declare_parameters.md)
+  names the values a design can be redesigned over, and
+  [`declare_notes()`](https://declaredesign.org/r/declaredesign/reference/declare_notes.md)
+  names the quantities it works out along the way;
+  [`design_parameters()`](https://declaredesign.org/r/declaredesign/reference/design_parameters.md)
+  and
+  [`design_notes()`](https://declaredesign.org/r/declaredesign/reference/design_notes.md)
+  list them. A declared parameter is bound for every step after it,
+  including a helper function that reads it.
+- [`run_design()`](https://declaredesign.org/r/declaredesign/reference/run_design.md),
+  [`draw_data()`](https://declaredesign.org/r/declaredesign/reference/draw_data.md),
+  [`draw_estimands()`](https://declaredesign.org/r/declaredesign/reference/draw_estimands.md),
+  and
+  [`draw_estimates()`](https://declaredesign.org/r/declaredesign/reference/draw_estimates.md)
+  take named parameter values, so `draw_data(design, theta = 0.5)` draws
+  from a declaration that leaves `theta` free (closes
+  [\#497](https://github.com/DeclareDesign/DeclareDesign/issues/497)).
+  The values go through
+  [`redesign()`](https://declaredesign.org/r/declaredesign/reference/redesign.md),
+  so the rules about which names a design accepts are stated in one
+  place, and supplying several values is refused rather than narrowed:
+  sweep with
+  [`redesign()`](https://declaredesign.org/r/declaredesign/reference/redesign.md)
+  and draw from each.
+- A design is a value: it carries the objects its expressions read, so
+  it survives [`saveRDS()`](https://rdrr.io/r/base/readRDS.html),
+  reaches a parallel worker, and does not change meaning when a
+  workspace variable is edited (closes
+  [\#293](https://github.com/DeclareDesign/DeclareDesign/issues/293)).
+- Step-level `draws` fan a step out and hold everything upstream fixed;
+  the diagnosis of such a design carries a `variance_decomposition`
+  attributing the variance of each per-simulation quantity to the step
+  that generated it.
+- An estimator that errors on a draw under
+  [`simulate_design()`](https://declaredesign.org/r/declaredesign/reference/simulate_design.md)
+  is recorded as a row with `error = TRUE`, one warning per run gives
+  the counts, and diagnosands use the draws that succeeded (closes
+  [\#385](https://github.com/DeclareDesign/DeclareDesign/issues/385)).
+  [`run_design()`](https://declaredesign.org/r/declaredesign/reference/run_design.md)
+  and
+  [`draw_estimates()`](https://declaredesign.org/r/declaredesign/reference/draw_estimates.md)
+  still stop.
+- Every simulation draw runs on its own L’Ecuyer-CMRG stream under any
+  [`future::plan()`](https://future.futureverse.org/reference/plan.html),
+  so a seeded run gives the same table sequentially and in parallel, and
+  the caller’s own generator is left in the same place either way: one
+  draw on, whichever plan is active (closes
+  [\#445](https://github.com/DeclareDesign/DeclareDesign/issues/445)).
+  `furrr` draws a value from the caller’s stream whenever it is handed a
+  seed, so a parallel run used to leave it one uniform further on than a
+  sequential one.
+- `progress = TRUE` on
+  [`simulate_design()`](https://declaredesign.org/r/declaredesign/reference/simulate_design.md)
+  and
+  [`diagnose_design()`](https://declaredesign.org/r/declaredesign/reference/diagnose_design.md),
+  or `progressr::handlers(global = TRUE)` once per session, reports
+  progress through progressr, from parallel workers too.
+- `print(design)` shows the calls that declared the steps, as 1.x did,
+  and the parameters
+  [`redesign()`](https://declaredesign.org/r/declaredesign/reference/redesign.md)
+  can reach. `summary(design)` runs the design once and says under each
+  step what it did to the data (rows kept, columns added, dropped or
+  changed, the estimand, the estimate), returning the pieces as a
+  `summary.design` object; `run = FALSE` skips the run.
+- [`diagnose_design()`](https://declaredesign.org/r/declaredesign/reference/diagnose_design.md)
+  accepts a simulations data frame in place of a design and honours its
+  grouping.
+  [`diagnose_simulations()`](https://declaredesign.org/r/declaredesign/reference/diagnose_simulations.md)
+  does the same thing under a name that says what the argument is.
+- [`default_diagnosands()`](https://declaredesign.org/r/declaredesign/reference/default_diagnosands.md)
+  and
   [`select_diagnosands()`](https://declaredesign.org/r/declaredesign/reference/select_diagnosands.md)
-  documentation showing use of the `alpha` argument.
+  build a diagnosands set from names;
+  [`tidy()`](https://generics.r-lib.org/reference/tidy.html) works on a
+  diagnosis.
+- Estimator and step arguments pass to `.method` or the handler as
+  written, so methods that do their own non-standard evaluation work
+  (closes
+  [\#463](https://github.com/DeclareDesign/DeclareDesign/issues/463);
+  also
+  [\#456](https://github.com/DeclareDesign/DeclareDesign/issues/456),
+  [\#457](https://github.com/DeclareDesign/DeclareDesign/issues/457),
+  [\#482](https://github.com/DeclareDesign/DeclareDesign/issues/482),
+  [\#509](https://github.com/DeclareDesign/DeclareDesign/issues/509)).
 
-## DeclareDesign 1.1.0
+### Failures that are now reported
 
-CRAN release: 2025-10-15
-
-- Added global variable capture for design steps to improve
-  serialization and portability of declared designs.
-- Swapped margins for marginaleffects.
-- Changes to tests and examples to not depend on suggested packages.
-
-## DeclareDesign 1.0.10
-
-CRAN release: 2024-04-21
-
-- Swapped margins for marginaleffects.
-- Changes to tests and examples to not depend on suggested packages.
-
-## DeclareDesign 1.0.8
-
-CRAN release: 2024-03-07
-
-- Bug fix of parallel processing that caused in rare cases simulations
-  to be identical across multiple calls to simulate_design or
-  diagnose_design.
-
-## DeclareDesign 1.0.6
-
-CRAN release: 2024-01-17
-
-- Documentation update to stay current on CRAN.
-
-## DeclareDesign 1.0.4
-
-CRAN release: 2023-08-08
-
-- Documentation improvements.
-- Citation updates.
-
-## DeclareDesign 1.0.2
-
-CRAN release: 2023-01-10
-
-- Bug fixes.
-
-## DeclareDesign 1.0.0
-
-CRAN release: 2022-06-20
-
-- Allow diagnoses to group by outcomes.
-- Simplify print(design).
-- Launch version 1.
-
-## DeclareDesign 0.30.0
-
-CRAN release: 2022-01-28
-
-- New tidy(diagnosis) function to construct a tidy data frame of
-  diagnosand estimates and summary statistics including bootstrapped
-  standard error and confidence intervals.
-- Remove draw_assignment and draw_sample function.
-- Added diagnosis duration to summary function.
-- Bug fixes.
-
-## DeclareDesign 0.28.0
-
-CRAN release: 2021-08-21
-
-- To simplify output of diagnoses, we changed the names of the variables
-  from design_label to design, inquiry_label to inquiry, and
-  estimator_label to estimator.
-- declare_assignment() and declare_sampling() have the default values
-  for legacy set to FALSE. You can still use the legacy versions of
-  these functions by manually setting legacy = TRUE for some time, but
-  this functionality will later be removed.
-
-## DeclareDesign 0.26.0
-
-CRAN release: 2021-02-14
-
-- Rapid development phase is beginning to prepare for DeclareDesign 1.0.
-- Add new step `declare_model` for defining the model of the world
-  including sample size, levels of the data, and variables.
-- Add new step `declare_inquiry` to replace `declare_estimand`.
-  `declare_estimand` is still available but deprecated.
-- Soft-introduce new syntax for declare_assignment and declare_sampling.
-  Old syntax is still available with legacy = TRUE, the current default.
-  To use the new syntax, set legacy = FALSE. In future versions of
-  DeclareDesign, the default will be set to FALSE.
-- `reveal_outcomes`, created in 0.24.0, has been removed as a step.
-- Change labels produced in diagnoses and `run_design` output to be
-  `inquiry_label` rather than `estimand_label`.
-- Allow estimands to be functions of other estimands.
-
-## DeclareDesign 0.24.0
-
-CRAN release: 2020-11-14
-
-- Add new step `declare_measurement` for measuring outcome variables.
-- Add `declare_test` to enable hypothesis testing where no estimand is
-  targeted. For example, `declare_test` could be used for a K-S test of
-  distributional equality and `declare_estimator` for a
-  difference-in-means estimate of an average treatment effect.
-- Add `model_summary` option to `declare_estimator`, to enable
-  specifying a model and then a separate post-estimation function to
-  extract coefficient estimates (e.g., estimate of a treatment effect)
-  or model summary statistics (e.g., R^2 or the result of an F-test from
-  a regression).
-- Simplify `declare_diagnosands` functionality.
-  [`diagnose_design()`](https://declaredesign.org/r/declaredesign/reference/diagnose_design.md)
-  by default runs an internal function with a set of default
-  diagnosands, including power, RMSE, bias, type S rate, coverage, mean
-  estimate, and mean estimand.
-- Improve compatibility with dplyr verbs as handlers. `filter` now
-  works.
-- Rename `declare_reveal` to `reveal_outcomes`. Both continue to work.
-
-## DeclareDesign 0.22.0
-
-CRAN release: 2020-03-24
-
-- Fix ability to set `sampling_variable` in `declare_sampling`.
-- Add ability to retain nonsampled data after sampling via
-  `drop_nonsampled` flag in `declare_sampling`.
-
-## DeclareDesign 0.20.0
-
-CRAN release: 2019-09-10
-
-- Add `compare_diagnoses` function to compare two designs on the basis
-  of their design diagnoses.
-- Compatibility with `rlang` 0.4.0
-- Bug fixes
-
-## DeclareDesign 0.18.0
-
-CRAN release: 2019-04-30
-
-- Add `compare_designs` functions to compare the code and output of
-  designs side-by-side.
-- Bug fixes
-
-## DeclareDesign 0.16.0
-
-CRAN release: 2019-01-26
-
-- Add `draw_assignment` function to draw an assignment vector(s) given
-  data
-- Add `draw_sample` function to draw a sample or multiple sequential
-  samples from data
-- Rewrite `draw_data` to optionally take a data argument. `draw_data`
-  now can be used to draw data for the full design, or for subsets of
-  it. `start` and `end` flags are added to select which portions of the
-  design to run
-- Bug fixes
-
-## DeclareDesign 0.14.0
-
-CRAN release: 2019-01-07
-
-- Improved generics interoperability
-- Bug fixes
-
-## DeclareDesign 0.12.0
-
-CRAN release: 2018-11-09
-
-- Add ability to use `get_estimates` with data, useful for example for
-  getting estimates after data is collected for a study. To draw
-  estimates or estimands from simulated data, now use renamed
-  `draw_estimates` and `draw_estimands` functions.
-- Documentation improvements
-- Bug fixes
-
-## DeclareDesign 0.10.0
-
-CRAN release: 2018-07-29
-
-- First CRAN version
+- A
+  [`declare_measurement()`](https://declaredesign.org/r/declaredesign/reference/declare_measurement.md),
+  [`declare_assignment()`](https://declaredesign.org/r/declaredesign/reference/declare_assignment.md),
+  or
+  [`declare_sampling()`](https://declaredesign.org/r/declaredesign/reference/declare_sampling.md)
+  step that supplies its own rows, rather than receiving them from the
+  model, no longer appends a row id column. 1.x asked for this at every
+  call site but never passed the flag on to
+  [`fabricate()`](https://declaredesign.org/r/fabricatr/reference/fabricate.html),
+  so the steps avoided a stray `ID` column only because they normally
+  run with data already in hand, and a declaration that spelled out
+  `handler = fabricate` got the `ID` anyway. The rule now belongs to the
+  verb, whichever handler is named.
+- An inquiry that no estimator targets keeps its own row in a diagnosis,
+  with an NA estimator and its `mean_estimand`, as in 1.x; the join had
+  dropped it.
+- The warning that estimates and inquiries were matched ambiguously
+  fires only when the match was ambiguous (closes
+  [\#479](https://github.com/DeclareDesign/DeclareDesign/issues/479)).
+  Two estimators both naming `ATE`, with other inquiries declared beside
+  it, produce more rows than either table had, because the unanswered
+  inquiries keep their own rows; the old test was that row count alone,
+  so it reported a multiplication that had not happened and advised
+  naming an inquiry the estimators had already named. A shared-column
+  match now warns only where one key value carries more than one row on
+  both sides, and says which key. A match on no shared column warns as
+  before.
+- `declare_sampling(handler = )` takes a custom sampling function, as
+  the other data verbs do.
+- An estimator naming an inquiry no step produced warns once, naming the
+  labels that exist.
+- A sampling step that produces no `S` column and has no `filter` warns
+  once that every row was kept.
+- An error inside a step names the step and its verb, with the original
+  error as the cause.
+- A redesign of a name the design does not use warns; a bare vector
+  handed to a vector-valued parameter warns that it is being read as
+  several designs.
+- [`redesign()`](https://declaredesign.org/r/declaredesign/reference/redesign.md)
+  names the list it returns by the values that distinguish each design
+  (closes
+  [\#472](https://github.com/DeclareDesign/DeclareDesign/issues/472)).
+  `redesign(design, N = c(10, 20))` gives `N = 10` and `N = 20`, so a
+  simulation’s `design` column and `bind_rows(.id = "design")` carry the
+  values that vary; 1.x named them `design_1`, `design_2`, which is what
+  a reader already knew from the position. A parameter whose value
+  cannot be written down, such as a function or a data frame, leaves the
+  whole list positional.

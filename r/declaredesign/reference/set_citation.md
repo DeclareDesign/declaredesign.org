@@ -1,6 +1,10 @@
-# Set the citation of a design
+# Attach a citation to a design
 
-Set the citation of a design
+Records how the design should be cited, as a
+[`utils::bibentry()`](https://rdrr.io/r/utils/bibentry.html) built from
+the fields given, or as the text in `citation`.
+[`cite_design()`](https://declaredesign.org/r/declaredesign/reference/cite_design.md)
+returns it.
 
 ## Usage
 
@@ -19,58 +23,46 @@ set_citation(
 
 - design:
 
-  A design typically created using the + operator
+  (required) A `design`.
 
 - title:
 
-  The title of the design, as a character string.
+  (optional) Title of the design.
 
 - author:
 
-  The author(s) of the design, as a character string.
+  (optional) Author or authors, as a string or a
+  [`utils::person()`](https://rdrr.io/r/utils/person.html).
 
 - year:
 
-  The year of the design, as a character string.
+  (optional) Year.
 
 - description:
 
-  A description of the design in words, as a character string.
+  (optional) Note on the entry. Defaults to
+  `"Unpublished research design declaration"`.
 
 - citation:
 
-  (optional) The preferred citation for the design, as a character
-  string, in which case title, author, year, and description may be left
-  unspecified.
+  (optional) A ready-made citation, as a string or a `bibentry`, used in
+  place of the fields above.
 
 ## Value
 
-a design object with a citation attribute
+`design`, with the citation stored in its `citation` attribute.
+
+## See also
+
+Other citing a design:
+[`cite_design()`](https://declaredesign.org/r/declaredesign/reference/cite_design.md)
 
 ## Examples
 
 ``` r
-
-# Setup for example
-design <-
-  declare_model(data = sleep) +
-  declare_sampling(S = complete_rs(N, n = 10))
-
-# Set citation using set_citation
-design <-
-  set_citation(design,
-               author = "Lovelace, Ada",
-               title = "Notes",
-               year = 1953,
-               description = 
-                 "This is a text description of a design")
-
-# View citation information using cite_design
+design <- declare_model(N = 10, Y = rnorm(N))
+design <- set_citation(design, title = "Example", author = "Coppock",
+                       year = 2026)
 cite_design(design)
-#> @Unpublished{,
-#>   title = {Notes},
-#>   author = {{Lovelace} and {Ada}},
-#>   note = {This is a text description of a design},
-#>   year = {1953},
-#> }
+#> Coppock (2026). “Example.” Unpublished research design declaration.
 ```

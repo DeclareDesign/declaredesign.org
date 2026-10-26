@@ -7,7 +7,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">DeclareDesign</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">1.1.1</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">2.0.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -15,8 +15,10 @@
     </button>
 
     <div id="navbar" class="collapse navbar-collapse ms-3">
-      <ul class="navbar-nav me-auto"><li class="nav-item"><a class="external-link nav-link" href="https://declaredesign.org/getting-started/">Getting started</a></li>
+      <ul class="navbar-nav me-auto"><li class="nav-item"><a class="nav-link" href="../articles/getting-started.html">Getting started</a></li>
 <li class="nav-item"><a class="nav-link" href="../reference/index.html">Reference</a></li>
+<li class="nav-item"><a class="nav-link" href="../articles/declaredesign2.0.html">What changed in 2.0</a></li>
+<li class="active nav-item"><a class="nav-link" href="../news/index.html">News</a></li>
       </ul><ul class="navbar-nav"><li class="nav-item dropdown">
   <button class="nav-link dropdown-toggle" type="button" id="dropdown-software" data-bs-toggle="dropdown" aria-expanded="false" aria-haspopup="true">Software</button>
   <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdown-software"><li><a class="dropdown-item" href="https://declaredesign.org/r/declaredesign/">DeclareDesign</a></li>
@@ -41,124 +43,82 @@
     </div>
 
     <div class="section level2">
-<h2 class="pkg-version" data-toc-text="1.1.1" id="declaredesign-111">DeclareDesign 1.1.1<a class="anchor" aria-label="anchor" href="#declaredesign-111"></a></h2><p class="text-muted">CRAN release: 2026-04-28</p>
-<ul><li>Bug fix: replaced unexported rlang internal <code>quo_get_env()</code> with the exported <code>get_env()</code> in <code>aaa.R</code> and <code>declare_potential_outcomes.R</code>. The unexported function caused test failures on CRAN when rlang updated its export list.</li>
-<li>Bug fix: replaced <code><a href="https://rlang.r-lib.org/reference/enquo.html" class="external-link">enquo()</a></code> with <code><a href="https://rdrr.io/r/base/substitute.html" class="external-link">substitute()</a></code> in <code>+.dd</code> to correctly capture step expressions under the new rlang C API. Thanks to Lionel Henry (<a href="https://github.com/lionel-" class="external-link">@lionel-</a>) for the fix.</li>
-<li>Added <code>CausalQueries</code>, <code>rdrobust</code>, and <code>rdss</code> to <code>Suggests</code> to satisfy CRAN dependency checks for tests that use those packages.</li>
-<li>Made top-level test setup use soft package loads so checks pass when suggested packages are not locally installed.</li>
-<li>Improved <code><a href="../reference/post_design.html">print.design()</a></code> output: clearer labels, deduplication of parameter names across environments, and truncation of long values in the printed parameter table.</li>
-<li>Added example to <code><a href="../reference/select_diagnosands.html">select_diagnosands()</a></code> documentation showing use of the <code>alpha</code> argument.</li>
-</ul></div>
-    <div class="section level2">
-<h2 class="pkg-version" data-toc-text="1.1.0" id="declaredesign-110">DeclareDesign 1.1.0<a class="anchor" aria-label="anchor" href="#declaredesign-110"></a></h2><p class="text-muted">CRAN release: 2025-10-15</p>
-<ul><li>Added global variable capture for design steps to improve serialization and portability of declared designs.</li>
-<li>Swapped margins for marginaleffects.</li>
-<li>Changes to tests and examples to not depend on suggested packages.</li>
-</ul></div>
-    <div class="section level2">
-<h2 class="pkg-version" data-toc-text="1.0.10" id="declaredesign-1010">DeclareDesign 1.0.10<a class="anchor" aria-label="anchor" href="#declaredesign-1010"></a></h2><p class="text-muted">CRAN release: 2024-04-21</p>
-<ul><li>Swapped margins for marginaleffects.</li>
-<li>Changes to tests and examples to not depend on suggested packages.</li>
-</ul></div>
-    <div class="section level2">
-<h2 class="pkg-version" data-toc-text="1.0.8" id="declaredesign-108">DeclareDesign 1.0.8<a class="anchor" aria-label="anchor" href="#declaredesign-108"></a></h2><p class="text-muted">CRAN release: 2024-03-07</p>
-<ul><li>Bug fix of parallel processing that caused in rare cases simulations to be identical across multiple calls to simulate_design or diagnose_design.</li>
-</ul></div>
-    <div class="section level2">
-<h2 class="pkg-version" data-toc-text="1.0.6" id="declaredesign-106">DeclareDesign 1.0.6<a class="anchor" aria-label="anchor" href="#declaredesign-106"></a></h2><p class="text-muted">CRAN release: 2024-01-17</p>
-<ul><li>Documentation update to stay current on CRAN.</li>
-</ul></div>
-    <div class="section level2">
-<h2 class="pkg-version" data-toc-text="1.0.4" id="declaredesign-104">DeclareDesign 1.0.4<a class="anchor" aria-label="anchor" href="#declaredesign-104"></a></h2><p class="text-muted">CRAN release: 2023-08-08</p>
-<ul><li>Documentation improvements.</li>
-<li>Citation updates.</li>
-</ul></div>
-    <div class="section level2">
-<h2 class="pkg-version" data-toc-text="1.0.2" id="declaredesign-102">DeclareDesign 1.0.2<a class="anchor" aria-label="anchor" href="#declaredesign-102"></a></h2><p class="text-muted">CRAN release: 2023-01-10</p>
-<ul><li>Bug fixes.</li>
-</ul></div>
-    <div class="section level2">
-<h2 class="pkg-version" data-toc-text="1.0.0" id="declaredesign-100">DeclareDesign 1.0.0<a class="anchor" aria-label="anchor" href="#declaredesign-100"></a></h2><p class="text-muted">CRAN release: 2022-06-20</p>
-<ul><li>Allow diagnoses to group by outcomes.</li>
-<li>Simplify print(design).</li>
-<li>Launch version 1.</li>
-</ul></div>
-    <div class="section level2">
-<h2 class="pkg-version" data-toc-text="0.30.0" id="declaredesign-0300">DeclareDesign 0.30.0<a class="anchor" aria-label="anchor" href="#declaredesign-0300"></a></h2><p class="text-muted">CRAN release: 2022-01-28</p>
-<ul><li>New tidy(diagnosis) function to construct a tidy data frame of diagnosand estimates and summary statistics including bootstrapped standard error and confidence intervals.</li>
-<li>Remove draw_assignment and draw_sample function.</li>
-<li>Added diagnosis duration to summary function.</li>
-<li>Bug fixes.</li>
-</ul></div>
-    <div class="section level2">
-<h2 class="pkg-version" data-toc-text="0.28.0" id="declaredesign-0280">DeclareDesign 0.28.0<a class="anchor" aria-label="anchor" href="#declaredesign-0280"></a></h2><p class="text-muted">CRAN release: 2021-08-21</p>
-<ul><li>To simplify output of diagnoses, we changed the names of the variables from design_label to design, inquiry_label to inquiry, and estimator_label to estimator.</li>
-<li>declare_assignment() and declare_sampling() have the default values for legacy set to FALSE. You can still use the legacy versions of these functions by manually setting legacy = TRUE for some time, but this functionality will later be removed.</li>
-</ul></div>
-    <div class="section level2">
-<h2 class="pkg-version" data-toc-text="0.26.0" id="declaredesign-0260">DeclareDesign 0.26.0<a class="anchor" aria-label="anchor" href="#declaredesign-0260"></a></h2><p class="text-muted">CRAN release: 2021-02-14</p>
-<ul><li>Rapid development phase is beginning to prepare for DeclareDesign 1.0.</li>
-<li>Add new step <code>declare_model</code> for defining the model of the world including sample size, levels of the data, and variables.</li>
-<li>Add new step <code>declare_inquiry</code> to replace <code>declare_estimand</code>. <code>declare_estimand</code> is still available but deprecated.</li>
-<li>Soft-introduce new syntax for declare_assignment and declare_sampling. Old syntax is still available with legacy = TRUE, the current default. To use the new syntax, set legacy = FALSE. In future versions of DeclareDesign, the default will be set to FALSE.</li>
+<h2 class="pkg-version" data-toc-text="2.0.0" id="declaredesign-200">DeclareDesign 2.0.0<a class="anchor" aria-label="anchor" href="#declaredesign-200"></a></h2><p class="text-muted">CRAN release: 2026-10-25</p>
+<p>DeclareDesign 2.0 is a ground-up reimplementation on tidyverse primitives. The declaration syntax is unchanged; the changes below are at the edges. <code><a href="../articles/declaredesign2.0.html">vignette("declaredesign2.0")</a></code> gives the reasoning for each and a grep table for porting a script.</p>
+<div class="section level3">
+<h3 id="breaking-changes-2-0-0">Breaking changes<a class="anchor" aria-label="anchor" href="#breaking-changes-2-0-0"></a></h3>
+<ul><li>
+<code><a href="../reference/redesign.html">redesign()</a></code> reaches a name the design reads (a value named above the design, a designer function’s argument, or a <code><a href="../reference/declare_parameters.html">declare_parameters()</a></code> entry) and no longer a number written inside a step. <code>redesign(design, N = 1000)</code> over <code>declare_model(N = 500)</code> errors with the two ways to name the value; in 1.x it warned and returned the design unchanged.</li>
 <li>
-<code>reveal_outcomes</code>, created in 0.24.0, has been removed as a step.</li>
-<li>Change labels produced in diagnoses and <code>run_design</code> output to be <code>inquiry_label</code> rather than <code>estimand_label</code>.</li>
-<li>Allow estimands to be functions of other estimands.</li>
+<code>declare_estimator(inquiry = )</code> takes the inquiry’s label as a string. Passing the inquiry step object is an error; in 1.x it linked the estimator to an inquiry called <code>"inquiry"</code> and returned <code>NA</code> estimands.</li>
+<li>
+<code><a href="../reference/diagnose_design.html">diagnose_design()</a></code> and <code><a href="../reference/simulate_design.html">simulate_design()</a></code> drop <code>make_groups</code>, <code>add_grouping_variables</code>, and <code>future.seed</code>, each with an error naming the replacement. Group with <code>simulate_design() |&gt; group_by() |&gt; diagnose_design()</code>; seed with <code><a href="https://rdrr.io/r/base/Random.html" class="external-link">set.seed()</a></code> before the call.</li>
+<li>
+<code><a href="../reference/redesign.html">redesign()</a></code>’s first argument is <code>.design</code> and <code><a href="../reference/expand_design.html">expand_design()</a></code>’s is <code>.designer</code>, and both take <code>.expand</code> after the dots, so a parameter named <code>expand</code>, or <code>d</code> or any other prefix of <code>design</code>, is no longer swallowed by partial matching. <code><a href="../reference/expand_design.html">expand_design()</a></code> drops <code>prefix</code>, which named the designs it returned <code>design_1</code>, <code>design_2</code>, and so on; designs are now named by the values that distinguish them.</li>
+<li>
+<code><a href="../reference/draw_data.html">draw_data()</a></code> no longer runs part of a design on supplied data; <code>data</code>, <code>start</code>, and <code>end</code> are gone, and passing them stops with an error naming the replacement unless the design reads a parameter by that name. Use <code>get_estimates(design, data)</code> to run estimators on supplied data and <code>design[i:j]</code> for a slice.</li>
+<li>
+<code>label_estimator(fn = )</code> and <code>label_test(fn = )</code> are <code>.method =</code>; <code>set_diagnosands(x = )</code> is <code>design =</code>; <code><a href="../reference/format.diagnosis.html">reshape_diagnosis()</a></code> drops <code>select</code> and <code>exclude</code>.</li>
+<li>
+<code><a href="../reference/compare_designs.html">compare_designs()</a></code>, <code><a href="../reference/compare_designs.html">compare_design_code()</a></code>, <code><a href="../reference/compare_designs.html">compare_design_summaries()</a></code>, <code><a href="../reference/compare_designs.html">compare_design_estimates()</a></code>, <code><a href="../reference/compare_designs.html">compare_design_inquiries()</a></code>, <code><a href="../reference/compare_designs.html">compare_design_data()</a></code>, and <code><a href="../reference/compare_designs.html">print_code()</a></code> are defunct and say so. <code><a href="../reference/compare_diagnoses.html">compare_diagnoses()</a></code> stays.</li>
+<li>
+<code><a href="../reference/declare-defunct.html">declare_potential_outcomes()</a></code> and <code><a href="../reference/declare-defunct.html">declare_reveal()</a></code> are defunct; <code>declare_estimators()</code> is gone.</li>
+<li>Every table of estimates carries an <code>estimand</code> column and puts <code>estimator</code>, <code>inquiry</code>, and <code>estimand</code> after the tidied statistics. Two estimators with one label are renamed apart with a message rather than an error.</li>
 </ul></div>
-    <div class="section level2">
-<h2 class="pkg-version" data-toc-text="0.24.0" id="declaredesign-0240">DeclareDesign 0.24.0<a class="anchor" aria-label="anchor" href="#declaredesign-0240"></a></h2><p class="text-muted">CRAN release: 2020-11-14</p>
-<ul><li>Add new step <code>declare_measurement</code> for measuring outcome variables.</li>
-<li>Add <code>declare_test</code> to enable hypothesis testing where no estimand is targeted. For example, <code>declare_test</code> could be used for a K-S test of distributional equality and <code>declare_estimator</code> for a difference-in-means estimate of an average treatment effect.</li>
-<li>Add <code>model_summary</code> option to <code>declare_estimator</code>, to enable specifying a model and then a separate post-estimation function to extract coefficient estimates (e.g., estimate of a treatment effect) or model summary statistics (e.g., R^2 or the result of an F-test from a regression).</li>
-<li>Simplify <code>declare_diagnosands</code> functionality. <code><a href="../reference/diagnose_design.html">diagnose_design()</a></code> by default runs an internal function with a set of default diagnosands, including power, RMSE, bias, type S rate, coverage, mean estimate, and mean estimand.</li>
-<li>Improve compatibility with dplyr verbs as handlers. <code>filter</code> now works.</li>
-<li>Rename <code>declare_reveal</code> to <code>reveal_outcomes</code>. Both continue to work.</li>
+<div class="section level3">
+<h3 id="deprecations-2-0-0">Deprecations<a class="anchor" aria-label="anchor" href="#deprecations-2-0-0"></a></h3>
+<ul><li>
+<code><a href="../reference/expand_design.html">expand_design()</a></code> warns once per session; call the designer and <code><a href="../reference/redesign.html">redesign()</a></code> the result: <code>redesign(designer(), N = c(100, 200))</code>.</li>
+<li>
+<code><a href="../reference/set_diagnosands.html">set_diagnosands()</a></code> warns once per session; pass the diagnosands to the diagnosis instead, <code>diagnose_design(design, diagnosands = ...)</code>. An attached set replaces the defaults rather than adding to them, and does not survive <code><a href="../reference/redesign.html">redesign()</a></code>, which now warns when it drops one.</li>
+<li>
+<code><a href="../reference/insert_step.html">insert_step()</a></code>, <code><a href="../reference/delete_step.html">delete_step()</a></code>, and <code><a href="../reference/replace_step.html">replace_step()</a></code> warn once per session; rebuild the design with <code>design[1:2] + new_step + design[4:5]</code> instead.</li>
+<li>
+<code><a href="../reference/declare_population.html">declare_population()</a></code>, <code><a href="../reference/model_handler.html">model_handler()</a></code>, and <code><a href="../reference/model_handler.html">tidy_estimator()</a></code> warn once per session.</li>
+<li>
+<code>declare_estimator(model = )</code> is read as <code>.method =</code> with a warning.</li>
 </ul></div>
-    <div class="section level2">
-<h2 class="pkg-version" data-toc-text="0.22.0" id="declaredesign-0220">DeclareDesign 0.22.0<a class="anchor" aria-label="anchor" href="#declaredesign-0220"></a></h2><p class="text-muted">CRAN release: 2020-03-24</p>
-<ul><li>Fix ability to set <code>sampling_variable</code> in <code>declare_sampling</code>.</li>
-<li>Add ability to retain nonsampled data after sampling via <code>drop_nonsampled</code> flag in <code>declare_sampling</code>.</li>
+<div class="section level3">
+<h3 id="new-2-0-0">New<a class="anchor" aria-label="anchor" href="#new-2-0-0"></a></h3>
+<ul><li>
+<code><a href="../reference/declare_parameters.html">declare_parameters()</a></code> names the values a design can be redesigned over, and <code><a href="../reference/declare_notes.html">declare_notes()</a></code> names the quantities it works out along the way; <code><a href="../reference/design_parameters.html">design_parameters()</a></code> and <code><a href="../reference/design_notes.html">design_notes()</a></code> list them. A declared parameter is bound for every step after it, including a helper function that reads it.</li>
+<li>
+<code><a href="../reference/run_design.html">run_design()</a></code>, <code><a href="../reference/draw_data.html">draw_data()</a></code>, <code><a href="../reference/draw_estimands.html">draw_estimands()</a></code>, and <code><a href="../reference/draw_estimates.html">draw_estimates()</a></code> take named parameter values, so <code>draw_data(design, theta = 0.5)</code> draws from a declaration that leaves <code>theta</code> free (closes <a href="https://github.com/DeclareDesign/DeclareDesign/issues/497" class="external-link">#497</a>). The values go through <code><a href="../reference/redesign.html">redesign()</a></code>, so the rules about which names a design accepts are stated in one place, and supplying several values is refused rather than narrowed: sweep with <code><a href="../reference/redesign.html">redesign()</a></code> and draw from each.</li>
+<li>A design is a value: it carries the objects its expressions read, so it survives <code><a href="https://rdrr.io/r/base/readRDS.html" class="external-link">saveRDS()</a></code>, reaches a parallel worker, and does not change meaning when a workspace variable is edited (closes <a href="https://github.com/DeclareDesign/DeclareDesign/issues/293" class="external-link">#293</a>).</li>
+<li>Step-level <code>draws</code> fan a step out and hold everything upstream fixed; the diagnosis of such a design carries a <code>variance_decomposition</code> attributing the variance of each per-simulation quantity to the step that generated it.</li>
+<li>An estimator that errors on a draw under <code><a href="../reference/simulate_design.html">simulate_design()</a></code> is recorded as a row with <code>error = TRUE</code>, one warning per run gives the counts, and diagnosands use the draws that succeeded (closes <a href="https://github.com/DeclareDesign/DeclareDesign/issues/385" class="external-link">#385</a>). <code><a href="../reference/run_design.html">run_design()</a></code> and <code><a href="../reference/draw_estimates.html">draw_estimates()</a></code> still stop.</li>
+<li>Every simulation draw runs on its own L’Ecuyer-CMRG stream under any <code><a href="https://future.futureverse.org/reference/plan.html" class="external-link">future::plan()</a></code>, so a seeded run gives the same table sequentially and in parallel, and the caller’s own generator is left in the same place either way: one draw on, whichever plan is active (closes <a href="https://github.com/DeclareDesign/DeclareDesign/issues/445" class="external-link">#445</a>). <code>furrr</code> draws a value from the caller’s stream whenever it is handed a seed, so a parallel run used to leave it one uniform further on than a sequential one.</li>
+<li>
+<code>progress = TRUE</code> on <code><a href="../reference/simulate_design.html">simulate_design()</a></code> and <code><a href="../reference/diagnose_design.html">diagnose_design()</a></code>, or <code>progressr::handlers(global = TRUE)</code> once per session, reports progress through progressr, from parallel workers too.</li>
+<li>
+<code>print(design)</code> shows the calls that declared the steps, as 1.x did, and the parameters <code><a href="../reference/redesign.html">redesign()</a></code> can reach. <code>summary(design)</code> runs the design once and says under each step what it did to the data (rows kept, columns added, dropped or changed, the estimand, the estimate), returning the pieces as a <code>summary.design</code> object; <code>run = FALSE</code> skips the run.</li>
+<li>
+<code><a href="../reference/diagnose_design.html">diagnose_design()</a></code> accepts a simulations data frame in place of a design and honours its grouping. <code><a href="../reference/diagnose_simulations.html">diagnose_simulations()</a></code> does the same thing under a name that says what the argument is.</li>
+<li>
+<code><a href="../reference/default_diagnosands.html">default_diagnosands()</a></code> and <code><a href="../reference/select_diagnosands.html">select_diagnosands()</a></code> build a diagnosands set from names; <code><a href="https://generics.r-lib.org/reference/tidy.html" class="external-link">tidy()</a></code> works on a diagnosis.</li>
+<li>Estimator and step arguments pass to <code>.method</code> or the handler as written, so methods that do their own non-standard evaluation work (closes <a href="https://github.com/DeclareDesign/DeclareDesign/issues/463" class="external-link">#463</a>; also <a href="https://github.com/DeclareDesign/DeclareDesign/issues/456" class="external-link">#456</a>, <a href="https://github.com/DeclareDesign/DeclareDesign/issues/457" class="external-link">#457</a>, <a href="https://github.com/DeclareDesign/DeclareDesign/issues/482" class="external-link">#482</a>, <a href="https://github.com/DeclareDesign/DeclareDesign/issues/509" class="external-link">#509</a>).</li>
 </ul></div>
-    <div class="section level2">
-<h2 class="pkg-version" data-toc-text="0.20.0" id="declaredesign-0200">DeclareDesign 0.20.0<a class="anchor" aria-label="anchor" href="#declaredesign-0200"></a></h2><p class="text-muted">CRAN release: 2019-09-10</p>
-<ul><li>Add <code>compare_diagnoses</code> function to compare two designs on the basis of their design diagnoses.</li>
-<li>Compatibility with <code>rlang</code> 0.4.0</li>
-<li>Bug fixes</li>
+<div class="section level3">
+<h3 id="failures-that-are-now-reported-2-0-0">Failures that are now reported<a class="anchor" aria-label="anchor" href="#failures-that-are-now-reported-2-0-0"></a></h3>
+<ul><li>A <code><a href="../reference/declare_measurement.html">declare_measurement()</a></code>, <code><a href="../reference/declare_assignment.html">declare_assignment()</a></code>, or <code><a href="../reference/declare_sampling.html">declare_sampling()</a></code> step that supplies its own rows, rather than receiving them from the model, no longer appends a row id column. 1.x asked for this at every call site but never passed the flag on to <code><a href="https://declaredesign.org/r/fabricatr/reference/fabricate.html" class="external-link">fabricate()</a></code>, so the steps avoided a stray <code>ID</code> column only because they normally run with data already in hand, and a declaration that spelled out <code>handler = fabricate</code> got the <code>ID</code> anyway. The rule now belongs to the verb, whichever handler is named.</li>
+<li>An inquiry that no estimator targets keeps its own row in a diagnosis, with an NA estimator and its <code>mean_estimand</code>, as in 1.x; the join had dropped it.</li>
+<li>The warning that estimates and inquiries were matched ambiguously fires only when the match was ambiguous (closes <a href="https://github.com/DeclareDesign/DeclareDesign/issues/479" class="external-link">#479</a>). Two estimators both naming <code>ATE</code>, with other inquiries declared beside it, produce more rows than either table had, because the unanswered inquiries keep their own rows; the old test was that row count alone, so it reported a multiplication that had not happened and advised naming an inquiry the estimators had already named. A shared-column match now warns only where one key value carries more than one row on both sides, and says which key. A match on no shared column warns as before.</li>
+<li>
+<code>declare_sampling(handler = )</code> takes a custom sampling function, as the other data verbs do.</li>
+<li>An estimator naming an inquiry no step produced warns once, naming the labels that exist.</li>
+<li>A sampling step that produces no <code>S</code> column and has no <code>filter</code> warns once that every row was kept.</li>
+<li>An error inside a step names the step and its verb, with the original error as the cause.</li>
+<li>A redesign of a name the design does not use warns; a bare vector handed to a vector-valued parameter warns that it is being read as several designs.</li>
+<li>
+<code><a href="../reference/redesign.html">redesign()</a></code> names the list it returns by the values that distinguish each design (closes <a href="https://github.com/DeclareDesign/DeclareDesign/issues/472" class="external-link">#472</a>). <code>redesign(design, N = c(10, 20))</code> gives <code>N = 10</code> and <code>N = 20</code>, so a simulation’s <code>design</code> column and <code>bind_rows(.id = "design")</code> carry the values that vary; 1.x named them <code>design_1</code>, <code>design_2</code>, which is what a reader already knew from the position. A parameter whose value cannot be written down, such as a function or a data frame, leaves the whole list positional.</li>
 </ul></div>
-    <div class="section level2">
-<h2 class="pkg-version" data-toc-text="0.18.0" id="declaredesign-0180">DeclareDesign 0.18.0<a class="anchor" aria-label="anchor" href="#declaredesign-0180"></a></h2><p class="text-muted">CRAN release: 2019-04-30</p>
-<ul><li>Add <code>compare_designs</code> functions to compare the code and output of designs side-by-side.</li>
-<li>Bug fixes</li>
-</ul></div>
-    <div class="section level2">
-<h2 class="pkg-version" data-toc-text="0.16.0" id="declaredesign-0160">DeclareDesign 0.16.0<a class="anchor" aria-label="anchor" href="#declaredesign-0160"></a></h2><p class="text-muted">CRAN release: 2019-01-26</p>
-<ul><li>Add <code>draw_assignment</code> function to draw an assignment vector(s) given data</li>
-<li>Add <code>draw_sample</code> function to draw a sample or multiple sequential samples from data</li>
-<li>Rewrite <code>draw_data</code> to optionally take a data argument. <code>draw_data</code> now can be used to draw data for the full design, or for subsets of it. <code>start</code> and <code>end</code> flags are added to select which portions of the design to run</li>
-<li>Bug fixes</li>
-</ul></div>
-    <div class="section level2">
-<h2 class="pkg-version" data-toc-text="0.14.0" id="declaredesign-0140">DeclareDesign 0.14.0<a class="anchor" aria-label="anchor" href="#declaredesign-0140"></a></h2><p class="text-muted">CRAN release: 2019-01-07</p>
-<ul><li>Improved generics interoperability</li>
-<li>Bug fixes</li>
-</ul></div>
-    <div class="section level2">
-<h2 class="pkg-version" data-toc-text="0.12.0" id="declaredesign-0120">DeclareDesign 0.12.0<a class="anchor" aria-label="anchor" href="#declaredesign-0120"></a></h2><p class="text-muted">CRAN release: 2018-11-09</p>
-<ul><li>Add ability to use <code>get_estimates</code> with data, useful for example for getting estimates after data is collected for a study. To draw estimates or estimands from simulated data, now use renamed <code>draw_estimates</code> and <code>draw_estimands</code> functions.</li>
-<li>Documentation improvements</li>
-<li>Bug fixes</li>
-</ul></div>
-    <div class="section level2">
-<h2 class="pkg-version" data-toc-text="0.10.0" id="declaredesign-0100">DeclareDesign 0.10.0<a class="anchor" aria-label="anchor" href="#declaredesign-0100"></a></h2><p class="text-muted">CRAN release: 2018-07-29</p>
-<ul><li>First CRAN version</li>
-</ul></div>
+</div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
     </nav></aside></div>
 
 
     <footer><div class="pkgdown-footer-left">
-  <p>Developed by Graeme Blair, Jasper Cooper, Alexander Coppock, Macartan Humphreys, Neal Fultz.</p>
+  <p>Developed by Alexander Coppock, Graeme Blair, Jasper Cooper, Macartan Humphreys, Neal Fultz.</p>
 </div>
 
 <div class="pkgdown-footer-right">

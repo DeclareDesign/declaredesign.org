@@ -1,40 +1,21 @@
-# Declare estimator
+# Declare an estimator
 
-Declares an estimator which generates estimates and associated
-statistics.
-
-Use of `declare_test` is identical to use of `declare_estimator`. Use
-`declare_test` for hypothesis testing with no specific inquiry in mind;
-use `declare_estimator` for hypothesis testing when you can link each
-estimate to an inquiry. For example, `declare_test` could be used for a
-K-S test of distributional equality and `declare_estimator` for a
-difference-in-means estimate of an average treatment effect.
+Declares the answer strategy: a function that produces an estimate of an
+inquiry from the observed data. The estimate is tidied to one row per
+term and joined to its estimand by the `inquiry` label during diagnosis.
 
 ## Usage
 
 ``` r
 declare_estimator(
   ...,
-  handler = label_estimator(method_handler),
-  label = "estimator"
-)
-
-declare_estimators(
-  ...,
-  handler = label_estimator(method_handler),
-  label = "estimator"
-)
-
-label_estimator(fn)
-
-method_handler(
-  data,
-  ...,
-  .method = estimatr::lm_robust,
+  .method = NULL,
   .summary = tidy_try,
-  model,
-  model_summary,
-  term = FALSE
+  inquiry = NULL,
+  term = NULL,
+  label = "estimator",
+  handler = NULL,
+  draws = 1L
 )
 ```
 
@@ -42,281 +23,91 @@ method_handler(
 
 - ...:
 
-  arguments to be captured, and later passed to the handler
-
-- handler:
-
-  a tidy-in, tidy-out function
-
-- label:
-
-  a string describing the step
-
-- fn:
-
-  A function that takes a data.frame as an argument and returns a
-  data.frame with the estimates, summary statistics (i.e., standard
-  error, p-value, and confidence interval), and a term column for
-  labeling coefficient estimates.
-
-- data:
-
-  a data.frame
+  (optional) Arguments forwarded, as written, to `.method` (or to
+  `handler`), which evaluates them itself with the data as `data`.
+  Typically the formula appears first (e.g., `Y ~ Z`); without a
+  `handler`, these must include whatever `.method` needs. A legacy
+  `model =` argument is read as `.method` with a deprecation warning
+  rather than forwarded.
 
 - .method:
 
-  A method function, e.g. lm or glm. By default, the method is the
-  [`estimatr::lm_robust`](https://declaredesign.org/r/estimatr/reference/lm_robust.html)
-  function from the estimatr package, which fits OLS regression and
-  calculates robust and cluster-robust standard errors.
+  (optional) The model-fitting function. Defaults to
+  [`estimatr::lm_robust()`](https://declaredesign.org/r/estimatr/reference/lm_robust.html).
 
 - .summary:
 
-  A method-in data-out function to extract coefficient estimates or
-  method summary statistics, such as
-  [`broom::tidy`](https://generics.r-lib.org/reference/tidy.html) or
-  [`broom::glance`](https://generics.r-lib.org/reference/glance.html).
-  By default, the `DeclareDesign` method summary function
-  [`tidy_try`](https://declaredesign.org/r/declaredesign/reference/tidy_try.md)
-  is used, which first attempts to use the available tidy method for the
-  method object sent to `method`, then if not attempts to summarize
-  coefficients using the `coef(summary())` and `confint` methods. If
-  these do not exist for the method object, it fails.
+  (optional) Function used to tidy `.method`'s output. Defaults to
+  [`tidy_try()`](https://declaredesign.org/r/declaredesign/reference/tidy_try.md).
 
-- model:
+- inquiry:
 
-  Deprecated argument. Use `.method` instead.
-
-- model_summary:
-
-  Deprecated argument. Use `.summary` instead.
+  (optional) The label of the inquiry this estimator targets, as a
+  string (`inquiry = "ATE"`), or a character vector of labels. Passing
+  the inquiry step object is an error. The label joins the estimate to
+  its estimand in every table of estimates and in the diagnosis.
 
 - term:
 
-  Symbols or literal character vector of term that represent quantities
-  of interest, i.e. Z. If FALSE, return the first non-intercept term; if
-  TRUE return all term. To escape non-standard-evaluation use `!!`.
+  (optional) Which model terms to report. A character vector keeps
+  exactly those terms, in that order, and errors if any is absent from
+  the tidied output; `TRUE` keeps every term including the intercept.
+  When left unset (or `FALSE`), only the first non-intercept term is
+  reported, so `declare_estimator(Y ~ Z + X)` returns the `Z` row alone;
+  a `handler`'s table is kept whole unless `term` names terms. Evaluated
+  on every draw, so it may name a design parameter.
+
+- label:
+
+  (optional) Step label. Defaults to `"estimator"`. When two estimator
+  or test steps in one design share a label, `+` relabels them from
+  their formulas, with a message.
+
+- handler:
+
+  (optional) A function. When supplied, the estimator bypasses `.method`
+  and `.summary` and instead calls `handler(data, ...)` with the dots as
+  written, not evaluated; it must return a tidy table.
+
+- draws:
+
+  (optional) Number of nested draws for this step. Defaults to `1`. When
+  `> 1`, the step is re-executed `draws` times for each upstream draw
+  during nested simulation.
 
 ## Value
 
-A function that accepts a data.frame as an argument and returns a
-data.frame containing the value of the estimator and associated
-statistics.
-
-## Details
-
-`declare_estimator` is designed to handle two main ways of generating
-parameter estimates from data.
-
-In `declare_estimator`, you can optionally provide the name of an
-inquiry or an object created by
-[`declare_inquiry`](https://declaredesign.org/r/declaredesign/reference/declare_inquiry.md)
-to connect your estimate(s) to inquiry(s).
-
-The first is through `label_estimator(method_handler)`, which is the
-default value of the `handler` argument. Users can use standard method
-functions like lm, glm, or iv_robust. The methods are summarized using
-the function passed to the `summary` argument. This will usually be a
-"tidier" like
-[`broom::tidy`](https://generics.r-lib.org/reference/tidy.html). The
-default `summary` function is `tidy_try`, which applies a tidy method if
-available, and if not, tries to make one on the fly.
-
-An example of this approach is:
-
-`declare_estimator(Y ~ Z + X, .method = lm_robust, .summary = tidy, term = "Z", inquiry = "ATE")`
-
-The second approach is using a custom data-in, data-out function,
-usually first passed to `label_estimator`. The reason to pass the custom
-function to `label_estimator` first is to enable clean labeling and
-linking to inquiries.
-
-An example of this approach is:
-
-` my_fun <- function(data){ with(data, median(Y[Z == 1]) - median(Y[Z == 0])) } `
-
-` declare_estimator(handler = label_estimator(my_fun), inquiry = "ATE") `
-
-`label_estimator` takes a data-in-data out function to `fn`, and returns
-a data-in-data-out function that first runs the provided estimation
-function `fn` and then appends a label for the estimator and, if an
-inquiry is provided, a label for the inquiry.
+A `design_step` (class `c("design_step", "dd", "function")`): a function
+that takes a data frame and returns a tibble of estimates, one row per
+reported term, with `estimator` and, when `inquiry` is set, `inquiry`
+columns. A draw on which `.method` errors returns a row with
+`error = TRUE` and the message rather than stopping the run. Add it to a
+design with `+`.
 
 ## See also
 
-\[estimatr::lm_robust()\], \[broom::glance()\]
+Other design declarations:
+[`declare_assignment()`](https://declaredesign.org/r/declaredesign/reference/declare_assignment.md),
+[`declare_inquiry()`](https://declaredesign.org/r/declaredesign/reference/declare_inquiry.md),
+[`declare_measurement()`](https://declaredesign.org/r/declaredesign/reference/declare_measurement.md),
+[`declare_model()`](https://declaredesign.org/r/declaredesign/reference/declare_model.md),
+[`declare_notes()`](https://declaredesign.org/r/declaredesign/reference/declare_notes.md),
+[`declare_parameters()`](https://declaredesign.org/r/declaredesign/reference/declare_parameters.md),
+[`declare_sampling()`](https://declaredesign.org/r/declaredesign/reference/declare_sampling.md),
+[`declare_step()`](https://declaredesign.org/r/declaredesign/reference/declare_step.md),
+[`declare_test()`](https://declaredesign.org/r/declaredesign/reference/declare_test.md)
 
 ## Examples
 
 ``` r
-
-# Setup for examples
-design <-
-  declare_model(
-    N = 500,
-    gender = rbinom(N, 1, 0.5),
-    U = rnorm(N, sd = 0.25),
-    potential_outcomes(Y ~ rbinom(
-      N, 1, prob = pnorm(0.2 * Z + 0.2 * gender + 0.1 * Z * gender + U)
-    ))
-  ) +
-  declare_inquiry(ATE = mean(Y_Z_1 - Y_Z_0)) +
-  declare_sampling(S = complete_rs(N = N, n = 200)) +
-  declare_assignment(Z = complete_ra(N = N, m = 100)) +
-  declare_measurement(Y = reveal_outcomes(Y ~ Z))
-
-run_design(design)
-#>   inquiry estimand
-#> 1     ATE    0.084
-
-# default estimator is lm_robust with tidy summary
-design_0 <-
-  design +
-  declare_estimator(Y ~ Z, inquiry = "ATE")
-
-run_design(design_0)
-#>   inquiry estimand estimator term estimate  std.error statistic   p.value
-#> 1     ATE     0.12 estimator    Z     0.11 0.07020173  1.566913 0.1187318
-#>      conf.low conf.high  df outcome
-#> 1 -0.02843904  0.248439 198       Y
-
-# Linear regression using lm_robust and tidy summary
-design_1 <-
-  design +
-  declare_estimator(
-    formula = Y ~ Z,
-    .method = lm_robust,
-    .summary = tidy,
-    term = "Z",
-    inquiry = "ATE",
-    label = "lm_no_controls"
-  )
-
-run_design(design_1)
-#>   inquiry estimand term      estimator estimate std.error statistic     p.value
-#> 1     ATE    0.142    Z lm_no_controls      0.2 0.0662868  3.017192 0.002886257
-#>     conf.low conf.high  df outcome
-#> 1 0.06928128 0.3307187 198       Y
-
-# Use glance summary function to view model fit statistics
-design_2 <-
-  design +
-  declare_estimator(.method = lm_robust,
-                    formula = Y ~ Z,
-                    .summary = glance)
-
-run_design(design_2)
-#>   inquiry estimand estimator   r.squared adj.r.squared  statistic   p.value
-#> 1     ATE    0.106 estimator 0.000410509  -0.004637923 0.08131417 0.7758224
-#>   df.residual nobs se_type
-#> 1         198  200     HC2
-
-# Custom answer strategies
-# A custom estimator should take data as an argument and return a data.frame
-# with columns such as "estimate", "std.error", "p.value", "conf.low", "conf.high"
-my_estimator <- function(data) {
-  data.frame(estimate = mean(data$Y))
-}
-
-# Add a custom estimator to the design, wrapping it in `label_estimator()`
-# in order to pass label and inquiry arguments
-
-design_3 <-
-  design +
-  declare_inquiry(Y_bar = mean(Y)) +
-  declare_estimator(handler = label_estimator(my_estimator),
-                    label = "mean",
-                    inquiry = "Y_bar")
-
-run_design(design_3)
-#>   inquiry estimand estimator estimate
-#> 1   Y_bar    0.565      mean    0.565
-#> 2     ATE    0.122      <NA>       NA
-
-# Use `term` to select particular coefficients
-design_4 <-
-  design +
-  declare_inquiry(difference_in_cates = mean(Y_Z_1[gender == 1] - Y_Z_0[gender == 1]) -
-                    mean(Y_Z_1[gender == 0] - Y_Z_0[gender == 0])) +
-  declare_estimator(Y ~ Z * gender,
-                    term = "Z:gender",
-                    inquiry = "difference_in_cates",
-                    .method = lm_robust)
-
-run_design(design_4)
-#>               inquiry    estimand     term estimator    estimate std.error
-#> 1 difference_in_cates -0.08790879 Z:gender estimator -0.02504079 0.1420168
-#> 2                 ATE  0.09200000     <NA>      <NA>          NA        NA
-#>    statistic   p.value  conf.low conf.high  df outcome
-#> 1 -0.1763227 0.8602225 -0.305118 0.2550364 196       Y
-#> 2         NA        NA        NA        NA  NA    <NA>
-
-if(require("broom")) {
-
-  # Use glm from base R
-  design_5 <-
-    design +
-    declare_estimator(Y ~ Z + gender,
-                      family = "gaussian",
-                      inquiry = "ATE",
-                      .method = glm)
-
-  run_design(design_5)
-
-  # If we use logit, we'll need to estimate the average marginal effect with
-  # marginaleffects::avg_slopes. We wrap this up in a function we'll pass to
-  # .summary.
-
-  if(require("marginaleffects")) {
-
-    library(marginaleffects) # for predictions
-    library(broom) # for tidy
-
-    tidy_avg_slopes <- function(x) {
-      tidy(avg_slopes(x))
-    }
-
-    design_6 <-
-      design +
-      declare_estimator(
-        Y ~ Z + gender,
-        .method = glm,
-        family = binomial("logit"),
-        .summary = tidy_avg_slopes,
-        term = "Z"
-      )
-
-    run_design(design_6)
-
-    # Multiple estimators for one inquiry
-
-    design_7 <-
-      design +
-      declare_estimator(Y ~ Z,
-                        .method = lm_robust,
-                        inquiry = "ATE",
-                        label = "OLS") +
-      declare_estimator(
-        Y ~ Z + gender,
-        .method = glm,
-        family = binomial("logit"),
-        .summary = tidy_avg_slopes,
-        inquiry = "ATE",
-        term = "Z",
-        label = "logit"
-      )
-
-    run_design(design_7)
-
-  }
-
-}
-#> Loading required package: broom
-#> Loading required package: marginaleffects
-#>   inquiry estimand estimator term  estimate  std.error statistic    p.value
-#> 1     ATE    0.104       OLS    Z 0.1500000 0.07008653  2.140212 0.03356105
-#> 2     ATE    0.104     logit    Z 0.1556988 0.07013760  2.219905 0.02642519
-#>     conf.low conf.high  df outcome contrast  s.value
-#> 1 0.01178814 0.2882119 198       Y     <NA>       NA
-#> 2 0.01823166 0.2931660  NA    <NA>    1 - 0 5.241942
+design <- declare_model(N = 50, U = rnorm(N), Y = U) +
+  declare_inquiry(mu = mean(Y)) +
+  declare_estimator(Y ~ 1, .method = lm, term = "(Intercept)",
+                    inquiry = "mu", label = "ols")
+draw_estimates(design)
+#> # A tibble: 1 × 10
+#>   term        estimate std.error statistic p.value conf.low conf.high estimator
+#>   <chr>          <dbl>     <dbl>     <dbl>   <dbl>    <dbl>     <dbl> <chr>    
+#> 1 (Intercept)  -0.0953     0.129    -0.741   0.462   -0.354     0.163 ols      
+#> # ℹ 2 more variables: inquiry <chr>, estimand <dbl>
 ```

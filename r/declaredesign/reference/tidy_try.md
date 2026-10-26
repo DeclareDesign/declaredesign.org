@@ -1,46 +1,44 @@
-# Tidy Model Results and Filter to Relevant Coefficients
+# Tidy a model fit, with a fallback
 
-Tidy function that returns a tidy data.frame of model results and allows
-filtering to relevant coefficients. The function will attempt to tidy
-model objects even when they do not have a tidy method available. For
-best results, first load the broom package via
-[`library(broom)`](https://broom.tidymodels.org/).
+Tries [`broom::tidy()`](https://generics.r-lib.org/reference/tidy.html)
+with confidence intervals; if that fails (because the model class has no
+[`tidy()`](https://generics.r-lib.org/reference/tidy.html) method),
+assembles a minimal tidy table from the coefficient summary.
 
 ## Usage
 
 ``` r
-tidy_try(fit, term = FALSE)
+tidy_try(fit, ...)
 ```
 
 ## Arguments
 
 - fit:
 
-  A model fit, as returned by a modeling function like lm, glm, or
-  estimatr::lm_robust.
+  (required) A fitted model. A data frame is returned as a tibble
+  unchanged.
 
-- term:
+- ...:
 
-  A character vector of the terms that represent quantities of interest,
-  i.e., "Z". If FALSE, return the first non-intercept term; if TRUE
-  return all terms.
+  (optional) Passed to
+  [`broom::tidy()`](https://generics.r-lib.org/reference/tidy.html).
 
 ## Value
 
-A data.frame with coefficient estimates and associated statistics.
+A tibble with one row per term and columns including `term`, `estimate`,
+`std.error`, `statistic`, `p.value`, `conf.low`, and `conf.high`. When
+neither
+[`broom::tidy()`](https://generics.r-lib.org/reference/tidy.html) nor
+`coef(summary(fit))` works, a tibble with those columns and no rows.
 
 ## Examples
 
 ``` r
-
-fit <- lm(mpg ~ hp + disp + cyl, data = mtcars)
-
+fit <- lm(mpg ~ wt, data = mtcars)
 tidy_try(fit)
-#> # A tibble: 4 × 7
+#> # A tibble: 2 × 7
 #>   term        estimate std.error statistic  p.value conf.low conf.high
 #>   <chr>          <dbl>     <dbl>     <dbl>    <dbl>    <dbl>     <dbl>
-#> 1 (Intercept)  34.2       2.59       13.2  1.54e-13  28.9     39.5    
-#> 2 hp           -0.0147    0.0147     -1.00 3.25e- 1  -0.0447   0.0153 
-#> 3 disp         -0.0188    0.0104     -1.81 8.09e- 2  -0.0401   0.00247
-#> 4 cyl          -1.23      0.797      -1.54 1.35e- 1  -2.86     0.406  
+#> 1 (Intercept)    37.3      1.88      19.9  8.24e-19    33.5      41.1 
+#> 2 wt             -5.34     0.559     -9.56 1.29e-10    -6.49     -4.20
 ```

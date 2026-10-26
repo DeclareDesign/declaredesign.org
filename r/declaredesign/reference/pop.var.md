@@ -1,35 +1,29 @@
-# Population variance function
+# Population variance
 
-Population variance function
+Computes the (uncorrected) variance: the mean squared deviation from the
+mean. Useful for design-based standard errors. Missing values are
+dropped.
 
 ## Usage
 
 ``` r
-pop.var(x, na.rm = FALSE)
+pop.var(x)
 ```
 
 ## Arguments
 
 - x:
 
-  a numeric vector, matrix or data frame.
-
-- na.rm:
-
-  logical. Should missing values be removed?
+  (required) A numeric vector.
 
 ## Value
 
-numeric scalar of the population variance
+A numeric scalar: the mean of `(x - mean(x))^2` over the non-missing
+values of `x`.
 
 ## Examples
 
 ``` r
-
-x <- 1:4
-var(x) # divides by (n-1)
-#> [1] 1.666667
-pop.var(x) # divides by n
-#> [1] 1.25
-
+pop.var(c(1, 2, 3, 4, 5))
+#> [1] 2
 ```

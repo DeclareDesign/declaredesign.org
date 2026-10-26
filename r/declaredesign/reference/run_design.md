@@ -1,42 +1,68 @@
-# Run a design one time
+# Execute a design end-to-end
 
-Run a design one time
+Runs the design once and returns one row per estimate, with the realized
+estimands joined on. This is one simulation: `simulate_design(sims = 1)`
+without the `sim_ID` column.
 
 ## Usage
 
 ``` r
-run_design(design)
+run_design(design, ...)
 ```
 
 ## Arguments
 
 - design:
 
-  a DeclareDesign object
+  (required) A `design`.
+
+- ...:
+
+  (optional) Named parameter values, as in
+  [`redesign()`](https://declaredesign.org/r/declaredesign/reference/redesign.md).
+  Each supplies one value: use
+  [`redesign()`](https://declaredesign.org/r/declaredesign/reference/redesign.md)
+  itself to sweep over several. A parameter named `design`, or any
+  prefix of it, cannot be supplied this way and needs the
+  [`redesign()`](https://declaredesign.org/r/declaredesign/reference/redesign.md)
+  route.
+
+## Value
+
+The result of one run: a tibble with one row per estimate: the tidied
+columns (`term`, `estimate`, `std.error`, `p.value`, `conf.low`,
+`conf.high`, and so on), `estimator`, and, where an estimator names an
+inquiry, `inquiry` and the realized `estimand`. A design with no
+estimator returns its estimands instead, as
+[`draw_estimands()`](https://declaredesign.org/r/declaredesign/reference/draw_estimands.md)
+does.
+
+## Details
+
+Use
+[`draw_data()`](https://declaredesign.org/r/declaredesign/reference/draw_data.md)
+for the realized data frame,
+[`draw_estimands()`](https://declaredesign.org/r/declaredesign/reference/draw_estimands.md)
+for the inquiries alone, and
+[`draw_estimates()`](https://declaredesign.org/r/declaredesign/reference/draw_estimates.md)
+for the estimates alone.
+
+## See also
+
+Other drawing from a design:
+[`draw_data()`](https://declaredesign.org/r/declaredesign/reference/draw_data.md),
+[`draw_estimands()`](https://declaredesign.org/r/declaredesign/reference/draw_estimands.md),
+[`draw_estimates()`](https://declaredesign.org/r/declaredesign/reference/draw_estimates.md),
+[`get_estimates()`](https://declaredesign.org/r/declaredesign/reference/get_estimates.md)
 
 ## Examples
 
 ``` r
-
-# Two-arm randomized experiment
-design <-
-  declare_model(
-    N = 500,
-    gender = rbinom(N, 1, 0.5),
-    X = rep(c(0, 1), each = N / 2),
-    U = rnorm(N, sd = 0.25),
-    potential_outcomes(Y ~ 0.2 * Z + X + U)
-  ) +
-  declare_inquiry(ATE = mean(Y_Z_1 - Y_Z_0)) +
-  declare_sampling(S = complete_rs(N = N, n = 200)) +
-  declare_assignment(Z = complete_ra(N = N, m = 100)) +
-  declare_measurement(Y = reveal_outcomes(Y ~ Z)) +
-  declare_estimator(Y ~ Z, inquiry = "ATE")
-
-# Use run_design to run a design object
+design <- declare_model(N = 30, U = rnorm(N), Y = U) +
+  declare_inquiry(mu = mean(Y))
 run_design(design)
-#>   inquiry estimand estimator term  estimate  std.error statistic    p.value
-#> 1     ATE      0.2 estimator    Z 0.1655796 0.07700559  2.150228 0.03274964
-#>     conf.low conf.high  df outcome
-#> 1 0.01372319 0.3174359 198       Y
+#> # A tibble: 1 × 2
+#>   inquiry estimand
+#>   <chr>      <dbl>
+#> 1 mu         0.309
 ```

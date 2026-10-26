@@ -1,152 +1,103 @@
-# Declare test
+# Declare a hypothesis test
 
-Declares a test which generates a test statistic and associated
-inferential statistics.
-
-Use of `declare_test` is identical to use of
-[`declare_estimator`](https://declaredesign.org/r/declaredesign/reference/declare_estimator.md).
-Use `declare_test` for hypothesis testing with no specific inquiry in
-mind; use `declare_estimator` for hypothesis testing when you can link
-each estimate to an inquiry. For example, `declare_test` could be used
-for a K-S test of distributional equality and `declare_estimator` for a
-difference-in-means estimate of an average treatment effect.
-
-See
-[`declare_estimator`](https://declaredesign.org/r/declaredesign/reference/declare_estimator.md)
-help for an explanation of how to use `method_handler`, which is used
-identically in both `declare_estimator` and `declare_test`. The main
-difference between `declare_estimator` and `declare_test` is that
-`declare_test` does not link with an explicit inquiry.
+Like
+[`declare_estimator()`](https://declaredesign.org/r/declaredesign/reference/declare_estimator.md)
+but the result table does not gain an `inquiry` column; intended for
+tests not tied to an estimand.
 
 ## Usage
 
 ``` r
-declare_test(..., handler = label_test(method_handler), label = "test")
-
-label_test(fn)
+declare_test(
+  ...,
+  .method = NULL,
+  .summary = tidy_try,
+  term = NULL,
+  label = "test",
+  handler = NULL,
+  draws = 1L
+)
 ```
 
 ## Arguments
 
 - ...:
 
-  arguments to be captured, and later passed to the handler
+  (optional) Arguments forwarded, as written, to `.method` (or to
+  `handler`), which evaluates them itself with the data as `data`.
+  Typically the formula appears first (e.g., `Y ~ Z`); without a
+  `handler`, these must include whatever `.method` needs. A legacy
+  `model =` argument is read as `.method` with a deprecation warning
+  rather than forwarded.
 
-- handler:
+- .method:
 
-  a tidy-in, tidy-out function
+  (optional) The model-fitting function. Defaults to
+  [`estimatr::lm_robust()`](https://declaredesign.org/r/estimatr/reference/lm_robust.html),
+  as in
+  [`declare_estimator()`](https://declaredesign.org/r/declaredesign/reference/declare_estimator.md).
+
+- .summary:
+
+  (optional) Function used to tidy `.method`'s output. Defaults to
+  [`tidy_try()`](https://declaredesign.org/r/declaredesign/reference/tidy_try.md).
+
+- term:
+
+  (optional) Which model terms to report. A character vector keeps
+  exactly those terms, in that order, and errors if any is absent from
+  the tidied output; `TRUE` keeps every term including the intercept.
+  When left unset (or `FALSE`), only the first non-intercept term is
+  reported, so `declare_estimator(Y ~ Z + X)` returns the `Z` row alone;
+  a `handler`'s table is kept whole unless `term` names terms. Evaluated
+  on every draw, so it may name a design parameter.
 
 - label:
 
-  a string describing the step
+  (optional) Step label. Defaults to `"test"`. When two estimator or
+  test steps in one design share a label, `+` relabels them from their
+  formulas, with a message.
 
-- fn:
+- handler:
 
-  A function that takes a data.frame as an argument and returns a
-  data.frame with test statistics as columns.
+  (optional) A function. When supplied, the test bypasses `.method` and
+  `.summary` and instead calls `handler(data, ...)` with the dots as
+  written, not evaluated; it must return a tidy table.
+
+- draws:
+
+  (optional) Number of nested draws for this step. Defaults to `1`. When
+  `> 1`, the step is re-executed `draws` times for each upstream draw
+  during nested simulation.
 
 ## Value
 
-A function that accepts a data.frame as an argument and returns a
-data.frame containing the value of the test statistic and other
-inferential statistics.
-
-## Details
-
-`label_test` takes a data-in-data out function to `fn`, and returns a
-data-in-data-out function that first runs the provided test function
-`fn` and then appends a label for the test.
+A `design_step`, as
+[`declare_estimator()`](https://declaredesign.org/r/declaredesign/reference/declare_estimator.md)
+returns, whose estimates carry no `inquiry` column.
 
 ## See also
 
-See
-[`declare_estimator`](https://declaredesign.org/r/declaredesign/reference/declare_estimator.md)
-for documentation of the `method_handler` function.
+Other design declarations:
+[`declare_assignment()`](https://declaredesign.org/r/declaredesign/reference/declare_assignment.md),
+[`declare_estimator()`](https://declaredesign.org/r/declaredesign/reference/declare_estimator.md),
+[`declare_inquiry()`](https://declaredesign.org/r/declaredesign/reference/declare_inquiry.md),
+[`declare_measurement()`](https://declaredesign.org/r/declaredesign/reference/declare_measurement.md),
+[`declare_model()`](https://declaredesign.org/r/declaredesign/reference/declare_model.md),
+[`declare_notes()`](https://declaredesign.org/r/declaredesign/reference/declare_notes.md),
+[`declare_parameters()`](https://declaredesign.org/r/declaredesign/reference/declare_parameters.md),
+[`declare_sampling()`](https://declaredesign.org/r/declaredesign/reference/declare_sampling.md),
+[`declare_step()`](https://declaredesign.org/r/declaredesign/reference/declare_step.md)
 
 ## Examples
 
 ``` r
-
-# Balance test F test
-
-balance_test_design <-
-  declare_model(
-    N = 100, 
-    cov1 = rnorm(N), 
-    cov2 = rnorm(N), 
-    cov3 = rnorm(N)
-  ) +
-  declare_assignment(Z = complete_ra(N, prob = 0.2)) +
-  declare_test(Z ~ cov1 + cov2 + cov3, .method = lm_robust, .summary = glance)
-  
-if (FALSE) { # \dontrun{
-diagnosis <- diagnose_design(
-  design = balance_test_design,
-  diagnosands = declare_diagnosands(
-  false_positive_rate = mean(p.value <= 0.05))
-)
-} # }
-
-# K-S test of distributional equality
-
-ks_test <- function(data) {
-  test <- with(data, ks.test(x = Y[Z == 1], y = Y[Z == 0]))
-  data.frame(statistic = test$statistic, p.value = test$p.value)
-}
-
-distributional_equality_design <-
-  declare_model(
-    N = 100, 
-    Y_Z_1 = rnorm(N), 
-    Y_Z_0 = rnorm(N, sd = 1.5)
-  ) + 
-  declare_assignment(Z = complete_ra(N, prob = 0.5)) + 
-  declare_measurement(Y = reveal_outcomes(Y ~ Z)) + 
-  declare_test(handler = label_test(ks_test), label = "ks-test")
-  
-if (FALSE) { # \dontrun{
-diagnosis <- diagnose_design(
-  design = distributional_equality_design,
-  diagnosands = declare_diagnosands(power = mean(p.value <= 0.05))
-) 
-} # }
-
-# Thanks to Jake Bowers for this example
-
-if(require("coin")) {
-
-  library(coin) 
-  
-  our_ttest <- function(data) {
-    res <- coin::oneway_test(
-      outcome ~ factor(Xclus),
-      data = data,
-      distribution = "asymptotic"
-    )
-    data.frame(p.value = pvalue(res)[[1]])
-  }
-  
-  ttest_design <- 
-    declare_model(
-      N = 100, 
-      Xclus = rbinom(n = N, size = 1, prob = 0.2), 
-      outcome = 3 + rnorm(N)) +
-    declare_test(handler = label_test(our_ttest), label = "t-test")
-    
-  if (FALSE) { # \dontrun{
-  diagnosis <- diagnose_design(
-    design = ttest_design,
-    diagnosands = declare_diagnosands(
-      false_positive_rate = mean(p.value <= 0.05))
-  )
-  } # }
-  
-}
-#> Loading required package: coin
-#> Loading required package: survival
-#> 
-#> Attaching package: ‘survival’
-#> The following object is masked from ‘package:future’:
-#> 
-#>     cluster
+design <- declare_model(N = 30, Z = rep(0:1, 15), Y = Z + rnorm(N)) +
+  declare_test(Y ~ Z, term = "Z", label = "diff")
+draw_estimates(design)
+#> # A tibble: 1 × 10
+#>   term  estimate std.error statistic p.value conf.low conf.high    df outcome
+#>   <chr>    <dbl>     <dbl>     <dbl>   <dbl>    <dbl>     <dbl> <dbl> <chr>  
+#> 1 Z         1.09     0.389      2.79 0.00940    0.288      1.88    28 Y      
+#> # ℹ 1 more variable: estimator <chr>
 ```

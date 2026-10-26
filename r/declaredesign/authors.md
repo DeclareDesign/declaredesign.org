@@ -2,12 +2,12 @@
 
 ## Authors
 
+- **Alexander Coppock**. Author, maintainer.
+  [](https://orcid.org/0000-0002-5733-2386)
+
 - **Graeme Blair**. Author. [](https://orcid.org/0000-0001-9164-2102)
 
 - **Jasper Cooper**. Author. [](https://orcid.org/0000-0002-8639-3188)
-
-- **Alexander Coppock**. Author, maintainer.
-  [](https://orcid.org/0000-0002-5733-2386)
 
 - **Macartan Humphreys**. Author.
   [](https://orcid.org/0000-0001-7029-2326)
@@ -18,6 +18,19 @@
 
 Source:
 [`inst/CITATION`](https://github.com/DeclareDesign/DeclareDesign/blob/main/inst/CITATION)
+
+Coppock A, Blair G, Cooper J, Humphreys M, Fultz N (2026).
+*DeclareDesign: A Tidyverse-First Research Design Declaration and
+Diagnosis Tool*. R package version 2.0.0,
+<https://declaredesign.org/r/declaredesign/>.
+
+    @Manual{DeclareDesign,
+      title = {DeclareDesign: A Tidyverse-First Research Design Declaration and Diagnosis Tool},
+      author = {Alexander Coppock and Graeme Blair and Jasper Cooper and Macartan Humphreys and Neal Fultz},
+      year = {2026},
+      note = {R package version 2.0.0},
+      url = {https://declaredesign.org/r/declaredesign/},
+    }
 
 Graeme Blair, Alexander Coppock, and Macartan Humphreys (2023). Research
 Design in the Social Sciences: Declaration, Diagnosis, and Redesign.

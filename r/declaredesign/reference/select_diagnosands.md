@@ -1,6 +1,7 @@
-# Select diagnosands
+# Build a diagnosands step from a set of named diagnosands
 
-Helper to select (and adjust) a set of named diagnosands
+Two ways to call this, told apart by whether the first argument is a
+`design_step`.
 
 ## Usage
 
@@ -12,147 +13,74 @@ select_diagnosands(..., alpha = 0.05, subset = NULL, na.rm = FALSE)
 
 - ...:
 
-  Requested diagnosands from the extended diagnosand list
+  (required) Diagnosand names to keep, as strings, optionally preceded
+  by a diagnosands `design_step` to subset.
 
 - alpha:
 
-  Significance level, passed to declare_diagnosands
+  (optional) Significance level used by `power`, `type_s_rate`,
+  `exaggeration_ratio`, and `prop_pos_sig`. Defaults to `0.05`.
 
 - subset:
 
-  Subset indicator, passed to declare_diagnosands
+  (optional) An expression evaluated on the simulations table; only the
+  rows for which it is `TRUE` enter the diagnosands. `NULL` (the
+  default) keeps every simulation.
 
 - na.rm:
 
-  Logical for handling NAs when calculating diagnosands
+  (optional) Passed to the library diagnosands. Defaults to `FALSE`.
+
+## Value
+
+A diagnosands `design_step`, as
+[`declare_diagnosands()`](https://declaredesign.org/r/declaredesign/reference/declare_diagnosands.md)
+returns, holding the named diagnosands in the order given.
 
 ## Details
 
-The diagnosands available from the extended diagnosand list are:
+Given names only, `select_diagnosands("bias", "power")` builds a fresh
+diagnosands step out of the built-in library, which is what
+DeclareDesign does. `alpha`, `subset`, and `na.rm` shape the expressions
+it writes.
 
+Given a diagnosands step first,
+`select_diagnosands(my_diagnosands, "bias")` keeps those entries of that
+step and nothing else. The expressions are yours and are copied
+unchanged, so `alpha`, `subset`, and `na.rm` have nothing to act on and
+are refused rather than ignored: set them on the
+[`declare_diagnosands()`](https://declaredesign.org/r/declaredesign/reference/declare_diagnosands.md)
+call that made the set.
 
+A consequence worth knowing: the same name can mean different things in
+the two forms. `select_diagnosands("bias")` writes
+`mean(estimate - estimand, na.rm = FALSE)`, following DeclareDesign's
+default, while `select_diagnosands(default_diagnosands(), "bias")`
+returns the `na.rm = TRUE` version
+[`default_diagnosands()`](https://declaredesign.org/r/declaredesign/reference/default_diagnosands.md)
+declares.
 
-    | Diagnosand        | Meaning                                          | Formula                                                     |
-    |-------------------|--------------------------------------------------|-------------------------------------------------------------|
-    | mean_estimand     | Expected value of the estimand                   | `mean(estimand)`                                            |
-    | mean_estimate     | Expected value of the estimate                   | `mean(estimate)`                                            |
-    | bias              | (Expected) bias                                  | `mean(estimate - estimand)`                                 |
-    | sd_estimate       | The s.d. of the estimate ('true' standard error) | `sd(estimate)`                                              |
-    | rmse              | The root mean squared error                      | `sqrt(mean((estimate - estimand) ^ 2))`                     |
-    | power             | Power: probability of rejecting a null of zero   | `mean(p.value <= alpha)`                                    |
-    | coverage          | Coverage: prob the CI will cover the truth       | `mean(estimand <= conf.high & estimand >= conf.low)`        |
-    | mean_se           | The expected standard error                      | `mean(std.error)`                                           |
-    | type_s_rate       | Prob a significant estimate has wrong sign       | `mean((sign(estimate) != sign(estimand))[p.value <= alpha])`|
-    | exaggeration_ratio| The expected exaggeration (given significance)   | `mean((estimate/estimand)[p.value <= alpha])`               |
-    | var_estimate      | The variance of the estimate                     | `pop.var(estimate)`                                         |
-    | mean_var_hat      | Expected estimate of the 'true' var of estimate  | `mean(std.error^2)`                                         |
-    | prop_pos_sig      | Probability of a positive estimate given sig.    | `mean(estimate > 0 & p.value <= alpha)`                     |
-    | mean_ci_length    | The expected length of the confidence interval   | `mean(conf.high - conf.low)`                                |
+The library is a superset of
+[`default_diagnosands()`](https://declaredesign.org/r/declaredesign/reference/default_diagnosands.md):
+`mean_estimand`, `mean_estimate`, `bias`, `sd_estimate`, `rmse`,
+`power`, `coverage`, `mean_se`, `type_s_rate`, `exaggeration_ratio`,
+`var_estimate`, `mean_var_hat`, `prop_pos_sig`, and `mean_ci_length`.
 
-The alpha argument can be used to adjust significance levels, and the
-subset argument can be used for further conditioning. The output is a
-function that can be applied directly to a simulations dataframe.
+## See also
+
+Other diagnosands:
+[`declare_diagnosands()`](https://declaredesign.org/r/declaredesign/reference/declare_diagnosands.md),
+[`default_diagnosands()`](https://declaredesign.org/r/declaredesign/reference/default_diagnosands.md),
+[`format.diagnosis()`](https://declaredesign.org/r/declaredesign/reference/format.diagnosis.md),
+[`set_diagnosands()`](https://declaredesign.org/r/declaredesign/reference/set_diagnosands.md)
 
 ## Examples
 
 ``` r
-select_diagnosands("bias")
-#> declare_diagnosands(bias = mean(estimate - estimand, na.rm = na.rm), 
-#>     alpha = alpha, subset = subset)
-select_diagnosands("prop_pos_sig", "mean_se", alpha = .001)
-#> declare_diagnosands(prop_pos_sig = mean(estimate > 0 & p.value <= 
-#>     alpha, na.rm = na.rm), mean_se = mean(std.error, na.rm = na.rm), 
-#>     alpha = alpha, subset = subset)
-select_diagnosands("bias")(data.frame(estimate = 2, estimand = 3))
-#>   diagnosand_label diagnosand
-#> 1             bias         -1
-select_diagnosands("bias")(data.frame(estimate = 1:2, estimand = c(NA, 2)))
-#>   diagnosand_label diagnosand
-#> 1             bias         NA
-select_diagnosands("bias", na.rm = TRUE)(data.frame(estimate = 1:2, estimand = c(NA, 2)))
-#>   diagnosand_label diagnosand
-#> 1             bias          0
+select_diagnosands("sd_estimate", "mean_se")
+#> <design_step: diagnosands [diagnosand]>
 
-# Example of use with diagnose_design
-design <- 
-  declare_model(N = 100, u = rnorm(N),
-                Y_Z_0 = 0, 
-                Y_Z_1 = ifelse(rbinom(N, 1, prob = 0.5), 0.1, -0.1) + u
-  ) +
-  declare_assignment(Z = complete_ra(N)) + 
-  declare_inquiry(ATE = mean(Y_Z_1 - Y_Z_0)) + 
-  declare_measurement(Y = reveal_outcomes(Y ~ Z)) +
-  declare_estimator(Y ~ Z, inquiry = "ATE")
-
-# Compare the average se and the sd of the sampling distribution of the estimate
-diagnose_design(design,
-                diagnosands = select_diagnosands("sd_estimate", "mean_se"),
-                sims = 100)
-#> The standard error is NA for (Intercept): every observation that identifies that coefficient is fitted exactly, so the variance is built from residuals that are all numerically zero. Reported as a number it would be zero or rounding error, and its t statistic would put p at 0.
-#> The standard error is NA for (Intercept): every observation that identifies that coefficient is fitted exactly, so the variance is built from residuals that are all numerically zero. Reported as a number it would be zero or rounding error, and its t statistic would put p at 0.
-#> The standard error is NA for (Intercept): every observation that identifies that coefficient is fitted exactly, so the variance is built from residuals that are all numerically zero. Reported as a number it would be zero or rounding error, and its t statistic would put p at 0.
-#> The standard error is NA for (Intercept): every observation that identifies that coefficient is fitted exactly, so the variance is built from residuals that are all numerically zero. Reported as a number it would be zero or rounding error, and its t statistic would put p at 0.
-#> The standard error is NA for (Intercept): every observation that identifies that coefficient is fitted exactly, so the variance is built from residuals that are all numerically zero. Reported as a number it would be zero or rounding error, and its t statistic would put p at 0.
-#> The standard error is NA for (Intercept): every observation that identifies that coefficient is fitted exactly, so the variance is built from residuals that are all numerically zero. Reported as a number it would be zero or rounding error, and its t statistic would put p at 0.
-#> The standard error is NA for (Intercept): every observation that identifies that coefficient is fitted exactly, so the variance is built from residuals that are all numerically zero. Reported as a number it would be zero or rounding error, and its t statistic would put p at 0.
-#> The standard error is NA for (Intercept): every observation that identifies that coefficient is fitted exactly, so the variance is built from residuals that are all numerically zero. Reported as a number it would be zero or rounding error, and its t statistic would put p at 0.
-#> The standard error is NA for (Intercept): every observation that identifies that coefficient is fitted exactly, so the variance is built from residuals that are all numerically zero. Reported as a number it would be zero or rounding error, and its t statistic would put p at 0.
-#> The standard error is NA for (Intercept): every observation that identifies that coefficient is fitted exactly, so the variance is built from residuals that are all numerically zero. Reported as a number it would be zero or rounding error, and its t statistic would put p at 0.
-#> The standard error is NA for (Intercept): every observation that identifies that coefficient is fitted exactly, so the variance is built from residuals that are all numerically zero. Reported as a number it would be zero or rounding error, and its t statistic would put p at 0.
-#> The standard error is NA for (Intercept): every observation that identifies that coefficient is fitted exactly, so the variance is built from residuals that are all numerically zero. Reported as a number it would be zero or rounding error, and its t statistic would put p at 0.
-#> The standard error is NA for (Intercept): every observation that identifies that coefficient is fitted exactly, so the variance is built from residuals that are all numerically zero. Reported as a number it would be zero or rounding error, and its t statistic would put p at 0.
-#> The standard error is NA for (Intercept): every observation that identifies that coefficient is fitted exactly, so the variance is built from residuals that are all numerically zero. Reported as a number it would be zero or rounding error, and its t statistic would put p at 0.
-#> The standard error is NA for (Intercept): every observation that identifies that coefficient is fitted exactly, so the variance is built from residuals that are all numerically zero. Reported as a number it would be zero or rounding error, and its t statistic would put p at 0.
-#> The standard error is NA for (Intercept): every observation that identifies that coefficient is fitted exactly, so the variance is built from residuals that are all numerically zero. Reported as a number it would be zero or rounding error, and its t statistic would put p at 0.
-#> The standard error is NA for (Intercept): every observation that identifies that coefficient is fitted exactly, so the variance is built from residuals that are all numerically zero. Reported as a number it would be zero or rounding error, and its t statistic would put p at 0.
-#> The standard error is NA for (Intercept): every observation that identifies that coefficient is fitted exactly, so the variance is built from residuals that are all numerically zero. Reported as a number it would be zero or rounding error, and its t statistic would put p at 0.
-#> The standard error is NA for (Intercept): every observation that identifies that coefficient is fitted exactly, so the variance is built from residuals that are all numerically zero. Reported as a number it would be zero or rounding error, and its t statistic would put p at 0.
-#> The standard error is NA for (Intercept): every observation that identifies that coefficient is fitted exactly, so the variance is built from residuals that are all numerically zero. Reported as a number it would be zero or rounding error, and its t statistic would put p at 0.
-#> The standard error is NA for (Intercept): every observation that identifies that coefficient is fitted exactly, so the variance is built from residuals that are all numerically zero. Reported as a number it would be zero or rounding error, and its t statistic would put p at 0.
-#> The standard error is NA for (Intercept): every observation that identifies that coefficient is fitted exactly, so the variance is built from residuals that are all numerically zero. Reported as a number it would be zero or rounding error, and its t statistic would put p at 0.
-#> The standard error is NA for (Intercept): every observation that identifies that coefficient is fitted exactly, so the variance is built from residuals that are all numerically zero. Reported as a number it would be zero or rounding error, and its t statistic would put p at 0.
-#> The standard error is NA for (Intercept): every observation that identifies that coefficient is fitted exactly, so the variance is built from residuals that are all numerically zero. Reported as a number it would be zero or rounding error, and its t statistic would put p at 0.
-#> The standard error is NA for (Intercept): every observation that identifies that coefficient is fitted exactly, so the variance is built from residuals that are all numerically zero. Reported as a number it would be zero or rounding error, and its t statistic would put p at 0.
-#> The standard error is NA for (Intercept): every observation that identifies that coefficient is fitted exactly, so the variance is built from residuals that are all numerically zero. Reported as a number it would be zero or rounding error, and its t statistic would put p at 0.
-#> The standard error is NA for (Intercept): every observation that identifies that coefficient is fitted exactly, so the variance is built from residuals that are all numerically zero. Reported as a number it would be zero or rounding error, and its t statistic would put p at 0.
-#> The standard error is NA for (Intercept): every observation that identifies that coefficient is fitted exactly, so the variance is built from residuals that are all numerically zero. Reported as a number it would be zero or rounding error, and its t statistic would put p at 0.
-#> The standard error is NA for (Intercept): every observation that identifies that coefficient is fitted exactly, so the variance is built from residuals that are all numerically zero. Reported as a number it would be zero or rounding error, and its t statistic would put p at 0.
-#> The standard error is NA for (Intercept): every observation that identifies that coefficient is fitted exactly, so the variance is built from residuals that are all numerically zero. Reported as a number it would be zero or rounding error, and its t statistic would put p at 0.
-#> The standard error is NA for (Intercept): every observation that identifies that coefficient is fitted exactly, so the variance is built from residuals that are all numerically zero. Reported as a number it would be zero or rounding error, and its t statistic would put p at 0.
-#> The standard error is NA for (Intercept): every observation that identifies that coefficient is fitted exactly, so the variance is built from residuals that are all numerically zero. Reported as a number it would be zero or rounding error, and its t statistic would put p at 0.
-#> The standard error is NA for (Intercept): every observation that identifies that coefficient is fitted exactly, so the variance is built from residuals that are all numerically zero. Reported as a number it would be zero or rounding error, and its t statistic would put p at 0.
-#> The standard error is NA for (Intercept): every observation that identifies that coefficient is fitted exactly, so the variance is built from residuals that are all numerically zero. Reported as a number it would be zero or rounding error, and its t statistic would put p at 0.
-#> The standard error is NA for (Intercept): every observation that identifies that coefficient is fitted exactly, so the variance is built from residuals that are all numerically zero. Reported as a number it would be zero or rounding error, and its t statistic would put p at 0.
-#> The standard error is NA for (Intercept): every observation that identifies that coefficient is fitted exactly, so the variance is built from residuals that are all numerically zero. Reported as a number it would be zero or rounding error, and its t statistic would put p at 0.
-#> The standard error is NA for (Intercept): every observation that identifies that coefficient is fitted exactly, so the variance is built from residuals that are all numerically zero. Reported as a number it would be zero or rounding error, and its t statistic would put p at 0.
-#> The standard error is NA for (Intercept): every observation that identifies that coefficient is fitted exactly, so the variance is built from residuals that are all numerically zero. Reported as a number it would be zero or rounding error, and its t statistic would put p at 0.
-#> The standard error is NA for (Intercept): every observation that identifies that coefficient is fitted exactly, so the variance is built from residuals that are all numerically zero. Reported as a number it would be zero or rounding error, and its t statistic would put p at 0.
-#> The standard error is NA for (Intercept): every observation that identifies that coefficient is fitted exactly, so the variance is built from residuals that are all numerically zero. Reported as a number it would be zero or rounding error, and its t statistic would put p at 0.
-#> The standard error is NA for (Intercept): every observation that identifies that coefficient is fitted exactly, so the variance is built from residuals that are all numerically zero. Reported as a number it would be zero or rounding error, and its t statistic would put p at 0.
-#> The standard error is NA for (Intercept): every observation that identifies that coefficient is fitted exactly, so the variance is built from residuals that are all numerically zero. Reported as a number it would be zero or rounding error, and its t statistic would put p at 0.
-#> The standard error is NA for (Intercept): every observation that identifies that coefficient is fitted exactly, so the variance is built from residuals that are all numerically zero. Reported as a number it would be zero or rounding error, and its t statistic would put p at 0.
-#> The standard error is NA for (Intercept): every observation that identifies that coefficient is fitted exactly, so the variance is built from residuals that are all numerically zero. Reported as a number it would be zero or rounding error, and its t statistic would put p at 0.
-#> The standard error is NA for (Intercept): every observation that identifies that coefficient is fitted exactly, so the variance is built from residuals that are all numerically zero. Reported as a number it would be zero or rounding error, and its t statistic would put p at 0.
-#> The standard error is NA for (Intercept): every observation that identifies that coefficient is fitted exactly, so the variance is built from residuals that are all numerically zero. Reported as a number it would be zero or rounding error, and its t statistic would put p at 0.
-#> The standard error is NA for (Intercept): every observation that identifies that coefficient is fitted exactly, so the variance is built from residuals that are all numerically zero. Reported as a number it would be zero or rounding error, and its t statistic would put p at 0.
-#> The standard error is NA for (Intercept): every observation that identifies that coefficient is fitted exactly, so the variance is built from residuals that are all numerically zero. Reported as a number it would be zero or rounding error, and its t statistic would put p at 0.
-#> The standard error is NA for (Intercept): every observation that identifies that coefficient is fitted exactly, so the variance is built from residuals that are all numerically zero. Reported as a number it would be zero or rounding error, and its t statistic would put p at 0.
-#> The standard error is NA for (Intercept): every observation that identifies that coefficient is fitted exactly, so the variance is built from residuals that are all numerically zero. Reported as a number it would be zero or rounding error, and its t statistic would put p at 0.
-#> The standard error is NA for (Intercept): every observation that identifies that coefficient is fitted exactly, so the variance is built from residuals that are all numerically zero. Reported as a number it would be zero or rounding error, and its t statistic would put p at 0.
-#> The standard error is NA for (Intercept): every observation that identifies that coefficient is fitted exactly, so the variance is built from residuals that are all numerically zero. Reported as a number it would be zero or rounding error, and its t statistic would put p at 0.
-#> The standard error is NA for (Intercept): every observation that identifies that coefficient is fitted exactly, so the variance is built from residuals that are all numerically zero. Reported as a number it would be zero or rounding error, and its t statistic would put p at 0.
-#> The standard error is NA for (Intercept): every observation that identifies that coefficient is fitted exactly, so the variance is built from residuals that are all numerically zero. Reported as a number it would be zero or rounding error, and its t statistic would put p at 0.
-#> The standard error is NA for (Intercept): every observation that identifies that coefficient is fitted exactly, so the variance is built from residuals that are all numerically zero. Reported as a number it would be zero or rounding error, and its t statistic would put p at 0.
-#> The standard error is NA for (Intercept): every observation that identifies that coefficient is fitted exactly, so the variance is built from residuals that are all numerically zero. Reported as a number it would be zero or rounding error, and its t statistic would put p at 0.
-#> The standard error is NA for (Intercept): every observation that identifies that coefficient is fitted exactly, so the variance is built from residuals that are all numerically zero. Reported as a number it would be zero or rounding error, and its t statistic would put p at 0.
-#> The standard error is NA for (Intercept): every observation that identifies that coefficient is fitted exactly, so the variance is built from residuals that are all numerically zero. Reported as a number it would be zero or rounding error, and its t statistic would put p at 0.
-#> The standard error is NA for (Intercept): every observation that identifies that coefficient is fitted exactly, so the variance is built from residuals that are all numerically zero. Reported as a number it would be zero or rounding error, and its t statistic would put p at 0.
-#> The standard error is NA for (Intercept): every observation that identifies that coefficient is fitted exactly, so the variance is built from residuals that are all numerically zero. Reported as a number it would be zero or rounding error, and its t statistic would put p at 0.
-#> The standard error is NA for (Intercept): every observation that identifies that coefficient is fitted exactly, so the variance is built from residuals that are all numerically zero. Reported as a number it would be zero or rounding error, and its t statistic would put p at 0.
-#> 
-#> Research design diagnosis based on 100 simulations. Diagnosis completed in 1 secs. Diagnosand estimates with bootstrapped standard errors in parentheses (100 replicates).
-#> 
-#>  Design Inquiry Estimator Outcome Term N Sims SD Estimate Mean Se
-#>  design     ATE estimator       Y    Z    100        0.12    0.14
-#>                                                    (0.01)  (0.00)
+# subset a custom set instead of the library
+select_diagnosands(default_diagnosands(), "bias", "rmse")
+#> <design_step: diagnosands [diagnosand]>
 ```

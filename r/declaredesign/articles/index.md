@@ -2,7 +2,7 @@
 
 ### All vignettes
 
-- [Custom functions and
-  DeclareDesign](https://declaredesign.org/r/declaredesign/articles/custom_functions.md):
-- [Design Diagnosis in other
-  languages](https://declaredesign.org/r/declaredesign/articles/design_declaration_in_other_languages.md):
+- [DeclareDesign 2.0: what changes, what does not, and
+  why](https://declaredesign.org/r/declaredesign/articles/declaredesign2.0.md):
+- [Getting
+  started](https://declaredesign.org/r/declaredesign/articles/getting-started.md):

@@ -1,282 +1,286 @@
-# DeclareDesign: Declare and Diagnose Research Designs
+# DeclareDesign
 
-[![CRAN
-status](https://www.r-pkg.org/badges/version/DeclareDesign)](https://cran.r-project.org/package=DeclareDesign)
-[![CRAN RStudio mirror
-downloads](https://cranlogs.r-pkg.org/badges/grand-total/DeclareDesign?color=green)](https://r-pkg.org/pkg/DeclareDesign)
-[![Build
-status](https://github.com/DeclareDesign/DeclareDesign/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/DeclareDesign/DeclareDesign/actions/workflows/R-CMD-check.yaml)
-[![Codecov test
-coverage](https://codecov.io/gh/DeclareDesign/DeclareDesign/graph/badge.svg)](https://app.codecov.io/gh/DeclareDesign/DeclareDesign)
-[![Replications](https://softwarecite.com/badge/DeclareDesign)](https://softwarecite.com/package/DeclareDesign)
-
-DeclareDesign is a system for describing research designs in code and
-simulating them in order to understand their properties. Because
-DeclareDesign employs a consistent grammar of designs, you can focus on
-the intellectually challenging part – designing good research studies –
-without having to code up simulations from scratch. For more, see
-[declaredesign.org](https://declaredesign.org).
-
-## Installation
-
-To install the latest stable release of **DeclareDesign**, please ensure
-that you are running version 3.5 or later of R and run the following
-code:
-
-``` r
-
-install.packages("DeclareDesign")
-```
-
-## Usage
-
-Designs are declared by adding together design elements. Here’s a
-minimal example that describes a 100 unit randomized controlled trial
-with a binary outcome. Half the units are assigned to treatment and the
-remainder to control. The true value of the average treatment effect is
-0.05 and it will be estimated with the difference-in-means estimator.
-The diagnosis shows that the study is unbiased but underpowered.
+DeclareDesign declares, diagnoses, and redesigns research designs. A
+design is written as four parts, a model of the world, an inquiry about
+it, a data strategy, and an answer strategy, joined with `+`;
+[`diagnose_design()`](https://declaredesign.org/r/declaredesign/reference/diagnose_design.md)
+then simulates it and reports bias, power, coverage, and whatever else
+you ask for, before any data are collected.
 
 ``` r
 
 library(DeclareDesign)
 
 design <-
-  declare_model(
-    N = 100, 
-    potential_outcomes(Y ~ rbinom(N, size = 1, prob = 0.5 + 0.05 * Z))
-  ) +
-  declare_inquiry(ATE = 0.05) +
-  declare_assignment(Z = complete_ra(N, m = 50)) +
-  declare_measurement(Y = reveal_outcomes(Y ~ Z)) + 
-  declare_estimator(Y ~ Z, .method = lm_robust, inquiry = "ATE")
+  declare_model(N = 100, U = rnorm(N), potential_outcomes(Y ~ 0.2 * Z + U)) +
+  declare_inquiry(ATE = mean(Y_Z_1 - Y_Z_0)) +
+  declare_assignment(Z = complete_ra(N)) +
+  declare_measurement(Y = reveal_outcomes(Y ~ Z)) +
+  declare_estimator(Y ~ Z, .method = difference_in_means, inquiry = "ATE")
 
-diagnosands <-
-  declare_diagnosands(bias = mean(estimate - estimand),
-                      power = mean(p.value <= 0.05))
-
-diagnosis <- diagnose_design(design, diagnosands = diagnosands)
+diagnose_design(design)
+#> Research design diagnosis
+#>   500 simulations
+#>   bootstrap standard errors in parentheses (100 replicates)
+#>
+#>  Design Inquiry Estimator Outcome Term N Sims Mean Estimand Mean Estimate
+#>  design     ATE estimator       Y    Z    500          0.20          0.20
+#>                                                      (0.00)        (0.01)
+#>    Bias SD Estimate   RMSE  Power Coverage
+#>    0.00        0.20   0.20   0.17     0.96
+#>  (0.01)      (0.01) (0.01) (0.02)   (0.01)
 ```
+
+[`library(DeclareDesign)`](https://declaredesign.org/r/declaredesign/)
+also attaches the three companion packages that supply the pieces:
+[fabricatr](https://declaredesign.org/r/fabricatr/) makes data,
+[randomizr](https://declaredesign.org/r/randomizr/) randomizes, and
+[estimatr](https://declaredesign.org/r/estimatr/) estimates. The book
+*Research Design in the Social Sciences* (Blair, Coppock, and Humphreys)
+works through all of it at <https://book.declaredesign.org>.
+
+## Installing
+
+Install from CRAN, which brings fabricatr, randomizr, and estimatr 2.0
+with it:
 
 ``` r
 
-diagnosis
+install.packages("DeclareDesign")
 ```
 
-| Inquiry | Estimator | Outcome |   Bias | SE(Bias) | Power | SE(Power) | n sims |
-|:--------|:----------|:--------|-------:|---------:|------:|----------:|-------:|
-| ATE     | estimator | Y       | -0.002 |    0.004 | 0.062 |     0.013 |    500 |
+The development version is on
+[GitHub](https://github.com/DeclareDesign/DeclareDesign):
 
-## Companion software
+``` r
 
-The core DeclareDesign package relies on four companion packages, each
-of which is useful in its own right.
+remotes::install_github("DeclareDesign/DeclareDesign")
+```
 
-1.  [randomizr](https://declaredesign.org/r/randomizr/): Easy to use
-    tools for common forms of random assignment and sampling.
-2.  [fabricatr](https://declaredesign.org/r/fabricatr/): Imagine your
-    data before you collect it.
-3.  [estimatr](https://declaredesign.org/r/estimatr/): Fast estimators
-    for social scientists.
-4.  [DesignLibrary](https://declaredesign.org/r/designlibrary/):
-    Templates to quickly adopt and adapt common research designs.
+## What changed in 2.0
 
-## Learning DeclareDesign
+2.0 is a ground-up rewrite on tidyverse foundations. The declaration
+syntax is unchanged, and the book’s designs run as written. What
+changed:
 
-1.  To get started, have a look at this vignette on [the idea behind
-    DeclareDesign](https://declaredesign.org/getting-started/), which
-    covers the main functionality of the software.
+- [`redesign()`](https://declaredesign.org/r/declaredesign/reference/redesign.md)
+  reaches a name the design reads (a value named above the design, a
+  designer’s argument, or
+  [`declare_parameters()`](https://declaredesign.org/r/declaredesign/reference/declare_parameters.md)),
+  and errors, with the fix, on a number written inside a step.
+- [`declare_parameters()`](https://declaredesign.org/r/declaredesign/reference/declare_parameters.md)
+  and
+  [`declare_notes()`](https://declaredesign.org/r/declaredesign/reference/declare_notes.md)
+  name what a design can be set to and what it works out.
+- A design is a value: it carries the objects it reads, so it survives
+  [`saveRDS()`](https://rdrr.io/r/base/readRDS.html) and travels to
+  parallel workers. A seeded run gives the same numbers sequentially and
+  under `future::plan(multisession)`.
+- Step-level `draws` hold a population fixed while the assignment is
+  redrawn, and the diagnosis decomposes variance by step.
+- An estimator that fails on one draw is recorded rather than fatal.
+- `inquiry =` takes the inquiry’s label; `make_groups` is `group_by()`;
+  [`print_code()`](https://declaredesign.org/r/declaredesign/reference/compare_designs.md)
+  and
+  [`compare_designs()`](https://declaredesign.org/r/declaredesign/reference/compare_designs.md)
+  are gone.
 
-2.  For an explanation of the philosophy behind DeclareDesign, examples
-    in code and words of declaring and diagnosing common research
-    designs in the social sciences, as well as examples of how to
-    incorporate DeclareDesign into your own research, see the book
-    [Research Design in the Social
-    Sciences](https://book.declaredesign.org) (Blair, Coppock,
-    Humphreys, 2023).
-
-## Package structure
-
-Each of these `declare_*()` functions returns a *function*.
-
-1.  [`declare_model()`](https://declaredesign.org/r/declaredesign/reference/declare_model.md)
-    (describes dimensions and distributions over the variables,
-    including potential outcomes)
-2.  [`declare_inquiry()`](https://declaredesign.org/r/declaredesign/reference/declare_inquiry.md)
-    (takes variables in the model and calculates estimand value)
-3.  [`declare_sampling()`](https://declaredesign.org/r/declaredesign/reference/declare_sampling.md)
-    (takes a population and selects a sample)
-4.  [`declare_assignment()`](https://declaredesign.org/r/declaredesign/reference/declare_assignment.md)
-    (takes a population or sample and adds treatment assignments)
-5.  [`declare_measurement()`](https://declaredesign.org/r/declaredesign/reference/declare_measurement.md)
-    (takes data and adds measured values)
-6.  [`declare_estimator()`](https://declaredesign.org/r/declaredesign/reference/declare_estimator.md)
-    (takes data produced by sampling, assignment, and measurement and
-    returns estimates linked to inquiries)
-7.  [`declare_test()`](https://declaredesign.org/r/declaredesign/reference/declare_test.md)
-    (takes data produced by sampling, assignment, and measurement and
-    returns the result of a test)
-
-To *declare a design*, connect the components of your design with the +
-operator.
-
-Once you have declared your design, there are four core
-post-design-declaration commands used to modify or diagnose your design:
-
-1.  [`diagnose_design()`](https://declaredesign.org/r/declaredesign/reference/diagnose_design.md)
-    (takes a design and returns simulations and diagnosis)
-2.  [`draw_data()`](https://declaredesign.org/r/declaredesign/reference/draw_functions.md)
-    (takes a design and returns a single draw of the data)
-3.  [`draw_estimates()`](https://declaredesign.org/r/declaredesign/reference/draw_functions.md)
-    (takes a design and returns a single simulation of estimates)
-4.  [`draw_estimands()`](https://declaredesign.org/r/declaredesign/reference/draw_functions.md)
-    (takes a design and returns a single simulation of estimands)
-
-A few other features:
-
-1.  A designer is a function that takes parameters (e.g., `N`) and
-    returns a design.
-    [`expand_design()`](https://declaredesign.org/r/declaredesign/reference/expand_design.md)
-    is a function of a designer and parameters that return a design.
-2.  You can change the diagnosands with
-    [`declare_diagnosands()`](https://declaredesign.org/r/declaredesign/reference/declare_diagnosands.md).
-
-------------------------------------------------------------------------
-
-This project was generously supported by a grant from the [Laura and
-John Arnold Foundation](http://www.arnoldfoundation.org) and seed
-funding from [EGAP](http://egap.org).
+The [changelog](https://declaredesign.org/r/declaredesign/news/) has the
+full list, and
+[`vignette("declaredesign2.0")`](https://declaredesign.org/r/declaredesign/articles/declaredesign2.0.md)
+the reasoning, the speed measurements, and a grep table for porting a
+script.
+[`vignette("getting-started")`](https://declaredesign.org/r/declaredesign/articles/getting-started.md)
+is the short introduction.
 
 # Package index
 
 ## Declare
 
-These functions declare research design steps
+The steps of a design, joined with `+`.
 
 - [`declare_model()`](https://declaredesign.org/r/declaredesign/reference/declare_model.md)
-  : Declare the size and features of the population.
+  : Declare the data-generating model
 - [`declare_inquiry()`](https://declaredesign.org/r/declaredesign/reference/declare_inquiry.md)
   [`declare_inquiries()`](https://declaredesign.org/r/declaredesign/reference/declare_inquiry.md)
   [`declare_estimand()`](https://declaredesign.org/r/declaredesign/reference/declare_inquiry.md)
   [`declare_estimands()`](https://declaredesign.org/r/declaredesign/reference/declare_inquiry.md)
-  [`inquiry_handler()`](https://declaredesign.org/r/declaredesign/reference/declare_inquiry.md)
-  : Declare inquiry
+  : Declare an inquiry
 - [`declare_sampling()`](https://declaredesign.org/r/declaredesign/reference/declare_sampling.md)
-  [`sampling_handler()`](https://declaredesign.org/r/declaredesign/reference/declare_sampling.md)
-  : Declare sampling procedure
+  : Declare a sampling procedure
 - [`declare_assignment()`](https://declaredesign.org/r/declaredesign/reference/declare_assignment.md)
-  [`assignment_handler()`](https://declaredesign.org/r/declaredesign/reference/declare_assignment.md)
-  : Declare Data Strategy: Assignment
+  : Declare an assignment procedure
 - [`declare_measurement()`](https://declaredesign.org/r/declaredesign/reference/declare_measurement.md)
-  [`measurement_handler()`](https://declaredesign.org/r/declaredesign/reference/declare_measurement.md)
-  [`potential_outcomes_handler()`](https://declaredesign.org/r/declaredesign/reference/declare_measurement.md)
-  : Declare measurement procedure
+  : Declare measurement
 - [`declare_estimator()`](https://declaredesign.org/r/declaredesign/reference/declare_estimator.md)
-  [`declare_estimators()`](https://declaredesign.org/r/declaredesign/reference/declare_estimator.md)
-  [`label_estimator()`](https://declaredesign.org/r/declaredesign/reference/declare_estimator.md)
-  [`method_handler()`](https://declaredesign.org/r/declaredesign/reference/declare_estimator.md)
-  : Declare estimator
+  : Declare an estimator
 - [`declare_test()`](https://declaredesign.org/r/declaredesign/reference/declare_test.md)
-  [`label_test()`](https://declaredesign.org/r/declaredesign/reference/declare_test.md)
-  : Declare test
+  : Declare a hypothesis test
 - [`declare_step()`](https://declaredesign.org/r/declaredesign/reference/declare_step.md)
-  : Declare a custom step
-- [`set_citation()`](https://declaredesign.org/r/declaredesign/reference/set_citation.md)
-  : Set the citation of a design
+  : Declare a custom data-handling step
+- [`declare_parameters()`](https://declaredesign.org/r/declaredesign/reference/declare_parameters.md)
+  : Declare the parameters of a design
+- [`declare_notes()`](https://declaredesign.org/r/declaredesign/reference/declare_notes.md)
+  : Declare quantities computed while a design runs
+- [`` `+`( ``*`<dd>`*`)`](https://declaredesign.org/r/declaredesign/reference/plus-.dd.md)
+  : Combine design steps into a design
+
+## Helpers
+
+Functions used inside a declaration rather than as a step of it.
+
+- [`label_estimator()`](https://declaredesign.org/r/declaredesign/reference/label_estimator.md)
+  [`label_test()`](https://declaredesign.org/r/declaredesign/reference/label_estimator.md)
+  : Wrap a custom function as a labeled estimator
 - [`tidy_try()`](https://declaredesign.org/r/declaredesign/reference/tidy_try.md)
-  : Tidy Model Results and Filter to Relevant Coefficients
-- [`` `+`( ``*`<dd>`*`)`](https://declaredesign.org/r/declaredesign/reference/declare_design.md)
-  : Declare a design
+  : Tidy a model fit, with a fallback
+- [`vars()`](https://declaredesign.org/r/declaredesign/reference/vars.md)
+  : Capture variables as quosures
 
-## Post-declaration functions
+## Draw and run
 
-These functions operate on declared designs
+Run a declared design once.
 
-- [`cite_design()`](https://declaredesign.org/r/declaredesign/reference/cite_design.md)
-  : Obtain the preferred citation for a design
-- [`draw_data()`](https://declaredesign.org/r/declaredesign/reference/draw_functions.md)
-  [`draw_estimand()`](https://declaredesign.org/r/declaredesign/reference/draw_functions.md)
-  [`draw_estimands()`](https://declaredesign.org/r/declaredesign/reference/draw_functions.md)
-  [`draw_estimates()`](https://declaredesign.org/r/declaredesign/reference/draw_functions.md)
-  : Draw data, estimates, and inquiries from a design
+- [`draw_data()`](https://declaredesign.org/r/declaredesign/reference/draw_data.md)
+  : Draw the realized data from a design
+- [`draw_estimands()`](https://declaredesign.org/r/declaredesign/reference/draw_estimands.md)
+  [`draw_estimand()`](https://declaredesign.org/r/declaredesign/reference/draw_estimands.md)
+  : Draw the realized estimands
+- [`draw_estimates()`](https://declaredesign.org/r/declaredesign/reference/draw_estimates.md)
+  : Draw the realized estimates
+- [`get_estimates()`](https://declaredesign.org/r/declaredesign/reference/get_estimates.md)
+  : Get estimates for a fixed dataset
 - [`run_design()`](https://declaredesign.org/r/declaredesign/reference/run_design.md)
-  : Run a design one time
-- [`get_estimates()`](https://declaredesign.org/r/declaredesign/reference/get_functions.md)
-  : Get estimates, inquiries, assignment vectors, or samples from a
-  design given data
-- [`print_code()`](https://declaredesign.org/r/declaredesign/reference/post_design.md)
-  [`print(`*`<design>`*`)`](https://declaredesign.org/r/declaredesign/reference/post_design.md)
-  [`summary(`*`<design>`*`)`](https://declaredesign.org/r/declaredesign/reference/post_design.md)
-  : Explore your design
+  : Execute a design end-to-end
 
 ## Diagnose
 
-These functions assist with research design diagnosis
+Run a design many times and summarize how it performs.
 
-- [`diagnosand_handler()`](https://declaredesign.org/r/declaredesign/reference/declare_diagnosands.md)
-  [`declare_diagnosands()`](https://declaredesign.org/r/declaredesign/reference/declare_diagnosands.md)
-  : Declare diagnosands
 - [`diagnose_design()`](https://declaredesign.org/r/declaredesign/reference/diagnose_design.md)
   [`diagnose_designs()`](https://declaredesign.org/r/declaredesign/reference/diagnose_design.md)
-  [`vars()`](https://declaredesign.org/r/declaredesign/reference/diagnose_design.md)
-  : Diagnose the design
-- [`get_diagnosands()`](https://declaredesign.org/r/declaredesign/reference/diagnosis_helpers.md)
-  [`get_simulations()`](https://declaredesign.org/r/declaredesign/reference/diagnosis_helpers.md)
-  : Explore your design diagnosis
+  : Diagnose a design
 - [`simulate_design()`](https://declaredesign.org/r/declaredesign/reference/simulate_design.md)
   [`simulate_designs()`](https://declaredesign.org/r/declaredesign/reference/simulate_design.md)
-  : Simulate a design
-- [`set_diagnosands()`](https://declaredesign.org/r/declaredesign/reference/set_diagnosands.md)
-  : Set the diagnosands for a design
+  : Simulate one or more designs
+- [`diagnose_simulations()`](https://declaredesign.org/r/declaredesign/reference/diagnose_simulations.md)
+  : Diagnose a precomputed simulations table
+- [`declare_diagnosands()`](https://declaredesign.org/r/declaredesign/reference/declare_diagnosands.md)
+  : Declare diagnosands
 - [`select_diagnosands()`](https://declaredesign.org/r/declaredesign/reference/select_diagnosands.md)
-  : Select diagnosands
-- [`reshape_diagnosis()`](https://declaredesign.org/r/declaredesign/reference/reshape_diagnosis.md)
-  : Clean up a diagnosis object for printing
+  : Build a diagnosands step from a set of named diagnosands
+- [`default_diagnosands()`](https://declaredesign.org/r/declaredesign/reference/default_diagnosands.md)
+  : Default diagnosands
+- [`get_diagnosands()`](https://declaredesign.org/r/declaredesign/reference/get_diagnosands.md)
+  : Get the diagnosands table from a diagnosis
+- [`get_simulations()`](https://declaredesign.org/r/declaredesign/reference/get_simulations.md)
+  : Get the simulations table from a diagnosis
+- [`compare_diagnoses()`](https://declaredesign.org/r/declaredesign/reference/compare_diagnoses.md)
+  : Compare the diagnosands of two designs
 - [`tidy(`*`<diagnosis>`*`)`](https://declaredesign.org/r/declaredesign/reference/tidy.diagnosis.md)
-  : Tidy diagnosis
+  : Tidy a diagnosis
 - [`pop.var()`](https://declaredesign.org/r/declaredesign/reference/pop.var.md)
-  : Population variance function
+  : Population variance
 
 ## Redesign
 
-These functions modify declared designs
+Change the parameters of a declared design.
 
-- [`insert_step()`](https://declaredesign.org/r/declaredesign/reference/modify_design.md)
-  [`delete_step()`](https://declaredesign.org/r/declaredesign/reference/modify_design.md)
-  [`replace_step()`](https://declaredesign.org/r/declaredesign/reference/modify_design.md)
-  : Modify a design after the fact
-- [`expand_design()`](https://declaredesign.org/r/declaredesign/reference/expand_design.md)
-  : Declare a design via a designer
 - [`redesign()`](https://declaredesign.org/r/declaredesign/reference/redesign.md)
   : Redesign
+- [`design_parameters()`](https://declaredesign.org/r/declaredesign/reference/design_parameters.md)
+  : Report the parameters a design can be redesigned on
+- [`design_notes()`](https://declaredesign.org/r/declaredesign/reference/design_notes.md)
+  : Report the notes a design takes
 
-## Comparison
+## Inspect
 
-These functions compare declared designs
+Print and summarize designs and diagnoses.
 
-- [`compare_diagnoses()`](https://declaredesign.org/r/declaredesign/reference/compare_diagnoses.md)
-  : Compare Diagnoses
-- [`compare_designs()`](https://declaredesign.org/r/declaredesign/reference/compare_functions.md)
-  [`compare_design_code()`](https://declaredesign.org/r/declaredesign/reference/compare_functions.md)
-  [`compare_design_summaries()`](https://declaredesign.org/r/declaredesign/reference/compare_functions.md)
-  [`compare_design_data()`](https://declaredesign.org/r/declaredesign/reference/compare_functions.md)
-  [`compare_design_estimates()`](https://declaredesign.org/r/declaredesign/reference/compare_functions.md)
-  [`compare_design_inquiries()`](https://declaredesign.org/r/declaredesign/reference/compare_functions.md)
-  : Compare two designs
+- [`print(`*`<design>`*`)`](https://declaredesign.org/r/declaredesign/reference/print.design.md)
+  : Print a design
+- [`summary(`*`<design>`*`)`](https://declaredesign.org/r/declaredesign/reference/summary.design.md)
+  : Summarize a design
+- [`print(`*`<design_step>`*`)`](https://declaredesign.org/r/declaredesign/reference/print.design_step.md)
+  : Print a design step
+- [`print(`*`<diagnosis>`*`)`](https://declaredesign.org/r/declaredesign/reference/print.diagnosis.md)
+  : Print a diagnosis
+- [`summary(`*`<diagnosis>`*`)`](https://declaredesign.org/r/declaredesign/reference/summary.diagnosis.md)
+  : Summarize a diagnosis
+- [`format(`*`<diagnosis>`*`)`](https://declaredesign.org/r/declaredesign/reference/format.diagnosis.md)
+  [`reshape_diagnosis()`](https://declaredesign.org/r/declaredesign/reference/format.diagnosis.md)
+  : Format a diagnosis for display
+- [`print(`*`<compared_diagnoses>`*`)`](https://declaredesign.org/r/declaredesign/reference/print.compared_diagnoses.md)
+  : Print a diagnosand comparison
+- [`print(`*`<objects>`*`)`](https://declaredesign.org/r/declaredesign/reference/print.objects.md)
+  : Print the objects table, one row per name
+
+## Cite
+
+Attach a citation to a design and retrieve it.
+
+- [`set_citation()`](https://declaredesign.org/r/declaredesign/reference/set_citation.md)
+  : Attach a citation to a design
+- [`cite_design()`](https://declaredesign.org/r/declaredesign/reference/cite_design.md)
+  : Retrieve a design's citation
+
+## Deprecated and defunct
+
+1.x functions kept for porting, each pointing at its replacement.
+
+- [`insert_step()`](https://declaredesign.org/r/declaredesign/reference/insert_step.md)
+  : Insert a step into a design (deprecated)
+
+- [`delete_step()`](https://declaredesign.org/r/declaredesign/reference/delete_step.md)
+  : Delete a step from a design (deprecated)
+
+- [`replace_step()`](https://declaredesign.org/r/declaredesign/reference/replace_step.md)
+  : Replace a step in a design (deprecated)
+
+- [`expand_design()`](https://declaredesign.org/r/declaredesign/reference/expand_design.md)
+  : Build a family of designs from a designer function (deprecated)
+
+- [`set_diagnosands()`](https://declaredesign.org/r/declaredesign/reference/set_diagnosands.md)
+  : Attach diagnosands to a design (deprecated)
+
+- [`declare_population()`](https://declaredesign.org/r/declaredesign/reference/declare_population.md)
+  :
+
+  Deprecated alias for
+  [`declare_model()`](https://declaredesign.org/r/declaredesign/reference/declare_model.md)
+
+- [`model_handler()`](https://declaredesign.org/r/declaredesign/reference/model_handler.md)
+  [`tidy_estimator()`](https://declaredesign.org/r/declaredesign/reference/model_handler.md)
+  :
+
+  Deprecated alias for
+  [`label_estimator()`](https://declaredesign.org/r/declaredesign/reference/label_estimator.md)
+
+- [`declare_potential_outcomes()`](https://declaredesign.org/r/declaredesign/reference/declare-defunct.md)
+  [`declare_reveal()`](https://declaredesign.org/r/declaredesign/reference/declare-defunct.md)
+  : Defunct step declarations from DeclareDesign 1.x
+
+- [`compare_designs()`](https://declaredesign.org/r/declaredesign/reference/compare_designs.md)
+  [`compare_design_code()`](https://declaredesign.org/r/declaredesign/reference/compare_designs.md)
+  [`compare_design_data()`](https://declaredesign.org/r/declaredesign/reference/compare_designs.md)
+  [`compare_design_estimates()`](https://declaredesign.org/r/declaredesign/reference/compare_designs.md)
+  [`compare_design_inquiries()`](https://declaredesign.org/r/declaredesign/reference/compare_designs.md)
+  [`compare_design_summaries()`](https://declaredesign.org/r/declaredesign/reference/compare_designs.md)
+  [`print_code()`](https://declaredesign.org/r/declaredesign/reference/compare_designs.md)
+  : Defunct comparison helpers
 
 ## Package
 
-Package description
-
-- [`DeclareDesign-package`](https://declaredesign.org/r/declaredesign/reference/DeclareDesign.md)
-  [`DeclareDesign`](https://declaredesign.org/r/declaredesign/reference/DeclareDesign.md)
-  : DeclareDesign package
+- [`DeclareDesign`](https://declaredesign.org/r/declaredesign/reference/DeclareDesign-package.md)
+  [`DeclareDesign-package`](https://declaredesign.org/r/declaredesign/reference/DeclareDesign-package.md)
+  : DeclareDesign: A Tidyverse-First Research Design Declaration and
+  Diagnosis Tool
 
 # Articles
 
 ### All vignettes
 
-- [Custom functions and
-  DeclareDesign](https://declaredesign.org/r/declaredesign/articles/custom_functions.md):
-- [Design Diagnosis in other
-  languages](https://declaredesign.org/r/declaredesign/articles/design_declaration_in_other_languages.md):
+- [DeclareDesign 2.0: what changes, what does not, and
+  why](https://declaredesign.org/r/declaredesign/articles/declaredesign2.0.md):
+- [Getting
+  started](https://declaredesign.org/r/declaredesign/articles/getting-started.md):

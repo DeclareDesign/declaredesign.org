@@ -1,28 +1,25 @@
-# Declare the size and features of the population
+# Deprecated alias for `declare_model()`
 
-Deprecated. Please use declare_model instead.
+`declare_population()` is retained for compatibility with older scripts
+but will be removed in a future version. Use
+[`declare_model()`](https://declaredesign.org/r/declaredesign/reference/declare_model.md)
+instead.
 
 ## Usage
 
 ``` r
-declare_population(..., handler = fabricate, label = NULL)
+declare_population(...)
 ```
 
 ## Arguments
 
 - ...:
 
-  arguments to be captured, and later passed to the handler
-
-- handler:
-
-  a tidy-in, tidy-out function
-
-- label:
-
-  a string describing the step
+  (optional) Forwarded to
+  [`declare_model()`](https://declaredesign.org/r/declaredesign/reference/declare_model.md).
 
 ## Value
 
-A potential outcomes declaration, which is a function that returns a
-data.frame.
+A `design_step`, as
+[`declare_model()`](https://declaredesign.org/r/declaredesign/reference/declare_model.md)
+returns.
