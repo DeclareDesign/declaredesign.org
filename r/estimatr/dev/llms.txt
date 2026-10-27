@@ -1,0 +1,371 @@
+# estimatr: Fast Estimators for Design-Based Inference
+
+[![CRAN
+status](https://www.r-pkg.org/badges/version/estimatr)](https://cran.r-project.org/package=estimatr)
+[![CRAN RStudio mirror
+downloads](https://cranlogs.r-pkg.org/badges/grand-total/estimatr?color=green)](https://r-pkg.org/pkg/estimatr)
+[![Build
+status](https://github.com/DeclareDesign/estimatr/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/DeclareDesign/estimatr/actions/workflows/R-CMD-check.yaml)
+**estimatr** is an `R` package providing a range of commonly used linear
+estimators, designed for speed and for ease of use. Users can easily
+recover robust, cluster-robust, and other design-appropriate estimates.
+We include two functions that implement means estimators,
+[`difference_in_means()`](https://declaredesign.org/r/estimatr/dev/reference/difference_in_means.md)
+and
+[`horvitz_thompson()`](https://declaredesign.org/r/estimatr/dev/reference/horvitz_thompson.md),
+and four linear regression estimators,
+[`lm_robust()`](https://declaredesign.org/r/estimatr/dev/reference/lm_robust.md),
+[`lm_lin()`](https://declaredesign.org/r/estimatr/dev/reference/lm_lin.md),
+[`iv_robust()`](https://declaredesign.org/r/estimatr/dev/reference/iv_robust.md),
+and
+[`lh_robust()`](https://declaredesign.org/r/estimatr/dev/reference/lh_robust.md).
+In each case, users can choose an estimator to reflect
+cluster-randomized, block-randomized, and block-and-cluster-randomized
+designs. The [Getting Started
+Guide](https://declaredesign.org/r/estimatr/articles/getting-started.html)
+describes each estimator provided by **estimatr** and how it can be used
+in your analysis.
+
+You can also see the ways you can [get regression tables out of
+estimatr](https://declaredesign.org/r/estimatr/articles/regression-tables.html)
+using `texreg` and `modelsummary`. Fast estimators also enable fast
+simulation of research designs to learn about their properties (see
+[DeclareDesign](https://declaredesign.org)).
+
+## Installing estimatr
+
+To install the latest stable release of **estimatr**, please ensure that
+you are running version 3.6 or later of R and run the following code:
+
+``` r
+
+install.packages("estimatr")
+```
+
+The development version, 2.0.1.9000, installs from GitHub:
+
+``` r
+
+# install.packages("remotes")
+remotes::install_github("DeclareDesign/estimatr")
+```
+
+## In the development version
+
+Three changes since 2.0.1 on CRAN. `NEWS.md` has the detail.
+
+- **`se_type = "stata_nested"`** reproduces Stata’s `xtreg, fe` and
+  `reghdfe` when a fixed effect is nested in the cluster variable, as
+  unit effects clustered by unit are. Stata counts K in its clustered
+  small-sample factor two ways: `regress` with dummies and `areg` count
+  every absorbed level, and `se_type = "stata"` still does, while
+  `xtreg` and `reghdfe` leave out the nested levels. On the data in
+  \#337, `"stata"` gives 0.0136232 and `"stata_nested"` gives Stata’s
+  0.0133478.
+- **`!!` and `{{ }}` in a formula** now work in
+  [`lm_lin()`](https://declaredesign.org/r/estimatr/dev/reference/lm_lin.md),
+  [`difference_in_means()`](https://declaredesign.org/r/estimatr/dev/reference/difference_in_means.md),
+  and
+  [`lh_robust()`](https://declaredesign.org/r/estimatr/dev/reference/lh_robust.md),
+  as they already did in
+  [`lm_robust()`](https://declaredesign.org/r/estimatr/dev/reference/lm_robust.md)
+  and
+  [`iv_robust()`](https://declaredesign.org/r/estimatr/dev/reference/iv_robust.md),
+  so `lm_lin(!!sym(outcome) ~ z, covariates = ~ x, data = d)` works
+  inside
+  [`purrr::map()`](https://purrr.tidyverse.org/reference/map.html)
+  (#413).
+- **The
+  [`iv_robust()`](https://declaredesign.org/r/estimatr/dev/reference/iv_robust.md)
+  first-stage F** is no longer `NA` when the first stage drops an
+  excluded instrument (#305).
+
+## Easy to use
+
+Once the package is installed, getting appropriate estimates and
+standard errors is both fast and easy.
+
+``` r
+
+library(estimatr)
+
+# sample data from a cluster-randomized experiment
+set.seed(343)
+clusters <- sample(letters[1:10], size = 100, replace = TRUE)
+treated_clusters <- sample(letters[1:10], 5)
+dat <- data.frame(
+  y = rnorm(100),
+  clusterID = clusters,
+  z = as.numeric(clusters %in% treated_clusters)
+)
+
+# robust standard errors
+res_rob <- lm_robust(y ~ z, data = dat)
+# tidy data frames on command
+tidy(res_rob)
+#> # A tibble: 2 × 9
+#>   term        estimate std.error statistic  p.value conf.low conf.high    df outcome
+#>   <chr>          <dbl>     <dbl>     <dbl>    <dbl>    <dbl>     <dbl> <dbl> <chr>  
+#> 1 (Intercept)   -0.440     0.153     -2.88 0.00490    -0.743    -0.137    98 y      
+#> 2 z              0.760     0.194      3.92 0.000166    0.375     1.15     98 y
+
+# cluster-robust standard errors
+res_cl <- lm_robust(y ~ z, data = dat, clusters = clusterID)
+# the standard summary view is also available
+summary(res_cl)
+#> 
+#> Call:
+#> lm_robust(formula = y ~ z, data = dat, clusters = clusterID)
+#> 
+#> Standard error type:  CR2 
+#> 
+#> Coefficients:
+#>             Estimate Std. Error t value Pr(>|t|) CI Lower CI Upper    DF
+#> (Intercept)  -0.4396     0.1256  -3.499 0.025593  -0.7908  -0.0885 3.935
+#> z             0.7603     0.2129   3.571 0.007739   0.2661   1.2545 7.707
+#> 
+#> Multiple R-squared:  0.1388 ,    Adjusted R-squared:   0.13 
+#> F-statistic: 12.75 on 1 and 9 DF,  p-value: 0.006011
+
+# matched-pair design learned from the blocks argument
+res_dim <- difference_in_means(extra ~ group, data = sleep, blocks = ID)
+res_dim
+#> Design:  Matched-pair 
+#>        Estimate Std. Error  t value   Pr(>|t|)  CI Lower CI Upper DF
+#> group2     1.58  0.3889587 4.062128 0.00283289 0.7001142 2.459886  9
+```
+
+The [Getting Started
+Guide](https://declaredesign.org/r/estimatr/articles/getting-started.html)
+has more examples and uses, as do the reference pages. The [Mathematical
+Notes](https://declaredesign.org/r/estimatr/articles/mathematical-notes.html)
+provide more information about what each estimator is doing under the
+hood.
+
+## Fast to use
+
+Getting estimates and robust standard errors is also faster than it used
+to be. Compare our package to using
+[`lm()`](https://rdrr.io/r/stats/lm.html) and the `sandwich` package to
+get HC2 standard errors. More speed comparisons, including absorbed
+fixed effects and a head-to-head against estimatr 1.0.6, are in the
+[Performance](https://declaredesign.org/r/estimatr/articles/performance.html)
+article.
+
+``` r
+
+dat <- data.frame(X = matrix(rnorm(2000*50), 2000), y = rnorm(2000))
+
+library(microbenchmark)
+library(lmtest)
+library(sandwich)
+mb <- microbenchmark(
+  `estimatr` = lm_robust(y ~ ., data = dat),
+  `lm + sandwich` = {
+    lo <- lm(y ~ ., data = dat)
+    coeftest(lo, vcov = vcovHC(lo, type = 'HC2'))
+  }
+)
+```
+
+| estimatr      | median run-time (ms) |
+|:--------------|---------------------:|
+| estimatr      |                    3 |
+| lm + sandwich |                   13 |
+
+Measured on an Apple M4 under R 4.6.0 with estimatr 2.0.0, 200
+replications. The chunk above is not run when this README is knit, so
+the table is typed in rather than generated.
+
+## estimatr 2.0: a ground-up rewrite
+
+estimatr 2.0 rewrites the package from the ground up for the
+DeclareDesign workflow: fit the same model thousands of times, as fast
+as possible, and get the same number every time. If you are coming from
+1.x, read
+[`vignette("estimatr2.0")`](https://declaredesign.org/r/estimatr/dev/articles/estimatr2.0.md)
+first. It covers what does not change, what changes and why, and how to
+port a 1.x script.
+
+Three vignettes ship with the package, and three more (performance, the
+tidyverse, and regression tables) live on the
+[website](https://declaredesign.org/r/estimatr/) alone, because their
+numbers and their examples drift faster than a release cycle:
+
+| vignette | what it is for |
+|----|----|
+| `estimatr2.0` | porting from 1.x: what changed, why, and the benchmarks |
+| `getting-started` | the six estimators, on one worked example |
+| `mathematical-notes` | every estimator defined, cited, and then validated against its own definition |
+
+### What stays the same
+
+The six estimators are `lm_robust`, `lm_lin`, `iv_robust`, `lh_robust`,
+`difference_in_means`, and `horvitz_thompson`, now with a Pashley and
+Miratrix (2021) blocked-variance estimator that 1.x does not have.
+
+The six estimators keep their 1.0.6 signatures, except
+[`horvitz_thompson()`](https://declaredesign.org/r/estimatr/dev/reference/horvitz_thompson.md),
+whose five probability arguments consolidate into `condition_prs`; the
+removals are below. Run side by side on one machine, 2.0 and 1.0.6
+return the same estimates, standard errors, and degrees of freedom to
+1e-12, across every supported standard error type, weighted and
+unweighted, clustered and unclustered, single and multivariate outcomes.
+The test suite holds that claim at 695 assertions against answers
+recorded from an installed 1.0.6, with
+`data-raw/make_estimatr_reference.R` producing the recording. Those run
+at 1e-9 rather than 1e-12, because a fixture recorded on one platform
+meets a different BLAS on another, and the floor there is the linear
+algebra rather than this package.
+
+### What breaks
+
+Two removals and one default, all deliberate, all covered in the
+vignette’s porting section.
+
+[`horvitz_thompson()`](https://declaredesign.org/r/estimatr/dev/reference/horvitz_thompson.md)
+takes one probability argument, `condition_prs`, in place of five.
+`blocks`, `clusters`, `simple`, `ra_declaration`, `condition_pr_mat`,
+`subset`, and `return_condition_pr_mat` are gone, along with
+`se_type = "constant"` and the three exported matrix builders that
+served them (`declaration_to_condition_pr_mat`, `gen_pr_matrix_cluster`,
+and `permutations_to_condition_pr_mat`). No design is lost: blocked,
+clustered, and custom designs reach the estimator through an
+`ra_declaration` passed as `condition_prs`, and that path uses exact
+design-aware joint probabilities rather than the conservative bound.
+
+[`commarobust()`](https://declaredesign.org/r/estimatr/dev/reference/estimatr-defunct.md)
+and
+[`starprep()`](https://declaredesign.org/r/estimatr/dev/reference/estimatr-defunct.md)
+are removed. Both still exist as names that error and name their
+replacement, rather than failing with “could not find function”.
+
+**Fixed effects without clusters support HC2 and HC3 exactly, at any
+number of factors, and default to HC2, which is what 1.x returns for the
+same call**, so that code ports with no change in the numbers at all.
+The projection decomposes exactly, so no dummy matrix is built to get
+there. CR2 is the exception: it is built from cluster-level blocks of
+the hat matrix rather than from the leverage diagonal, so it still
+expands the dummies, and clustered `fixed_effects` therefore defaults to
+CR0 where 1.x defaulted to CR2. That is the only default in the release
+that moves, and it warns once per session rather than moving silently.
+Writing `se_type = "CR2"` gets the 1.x number back exactly.
+
+A clustered block holding a single treated or single control cluster is
+refused rather than given a variance. That refusal is a correctness fix:
+1.x returns a number there that is too small by roughly the block’s
+cluster count.
+
+[`tidy()`](https://generics.r-lib.org/reference/tidy.html),
+[`glance()`](https://generics.r-lib.org/reference/glance.html), and
+[`augment()`](https://generics.r-lib.org/reference/augment.html) return
+tibbles, as broom’s methods do, where 1.x returned plain data frames.
+The values are unchanged, and `$`, `[[`, and row indexing work as
+before. `tidy(fit)[, "estimate"]` now returns a one-column tibble rather
+than a vector, so write `tidy(fit)$estimate`; code that sets row names
+on the result should coerce with
+[`as.data.frame()`](https://rdrr.io/r/base/as.data.frame.html) first.
+
+### Status
+
+`R CMD check --as-cran`: 0 errors, 0 warnings, 0 notes. Test suite 7,238
+assertions under `R CMD check`, 0 failures, one skip worth 18
+assertions: the check that `blkvar`’s recorded values are still what
+`blkvar` produces, that package being available only from GitHub. The 12
+assertions comparing estimatr against the recording read the fixture and
+run everywhere.
+
+Every open estimatr issue was read against this implementation: 26 are
+fixed here, 23 are feature requests, 7 are out of scope, 6 are not
+reproducible, 5 are superseded by the rewrite, and 4 remain open.
+[`vignette("estimatr2.0")`](https://declaredesign.org/r/estimatr/dev/articles/estimatr2.0.md)
+names the four.
+
+### How this was written
+
+estimatr 2.0.0 was written with AI.
+[`vignette("mathematical-notes")`](https://declaredesign.org/r/estimatr/dev/articles/mathematical-notes.md)
+says so in full and, in the same document, states each estimator’s
+definition in mathematics and then, immediately underneath, measures
+estimatr against that definition to machine precision, computed when the
+vignette is built. Sixteen such checks, and the vignette refuses to
+build if any of them fails. That is the evidence that should decide
+whether you install it.
+
+------------------------------------------------------------------------
+
+This project is generously supported by a grant from the [Laura and John
+Arnold Foundation](https://www.arnoldventures.org) and seed funding from
+[Evidence in Governance and Politics (EGAP)](https://egap.org/).
+
+# Package index
+
+## All functions
+
+- [`augment(`*`<lm_robust>`*`)`](https://declaredesign.org/r/estimatr/dev/reference/augment.lm_robust.md)
+  [`augment(`*`<iv_robust>`*`)`](https://declaredesign.org/r/estimatr/dev/reference/augment.lm_robust.md)
+  : Augment a Model Object with Fitted Values and Residuals
+
+- [`difference_in_means()`](https://declaredesign.org/r/estimatr/dev/reference/difference_in_means.md)
+  : Design-Based Difference-in-Means Estimator
+
+- [`commarobust()`](https://declaredesign.org/r/estimatr/dev/reference/estimatr-defunct.md)
+  [`starprep()`](https://declaredesign.org/r/estimatr/dev/reference/estimatr-defunct.md)
+  : Functions removed in 2.0
+
+- [`estimatr`](https://declaredesign.org/r/estimatr/dev/reference/estimatr-package.md)
+  [`estimatr-package`](https://declaredesign.org/r/estimatr/dev/reference/estimatr-package.md)
+  : estimatr: Fast Estimators for Design-Based Inference
+
+- [`tidy(`*`<lm_robust>`*`)`](https://declaredesign.org/r/estimatr/dev/reference/estimatr_tidiers.md)
+  [`tidy(`*`<iv_robust>`*`)`](https://declaredesign.org/r/estimatr/dev/reference/estimatr_tidiers.md)
+  [`tidy(`*`<difference_in_means>`*`)`](https://declaredesign.org/r/estimatr/dev/reference/estimatr_tidiers.md)
+  [`tidy(`*`<horvitz_thompson>`*`)`](https://declaredesign.org/r/estimatr/dev/reference/estimatr_tidiers.md)
+  [`tidy(`*`<lh_robust>`*`)`](https://declaredesign.org/r/estimatr/dev/reference/estimatr_tidiers.md)
+  [`tidy(`*`<lh>`*`)`](https://declaredesign.org/r/estimatr/dev/reference/estimatr_tidiers.md)
+  : Tidy an estimatr object
+
+- [`extract.lm_robust()`](https://declaredesign.org/r/estimatr/dev/reference/extract.lm_robust.md)
+  [`extract.iv_robust()`](https://declaredesign.org/r/estimatr/dev/reference/extract.lm_robust.md)
+  :
+
+  Extract model data for the texreg package
+
+- [`horvitz_thompson()`](https://declaredesign.org/r/estimatr/dev/reference/horvitz_thompson.md)
+  : Horvitz-Thompson Estimator with Inverse Probability Weighting
+
+- [`iv_robust()`](https://declaredesign.org/r/estimatr/dev/reference/iv_robust.md)
+  : Two-Stage Least Squares Instrumental Variables Regression
+
+- [`lh_robust()`](https://declaredesign.org/r/estimatr/dev/reference/lh_robust.md)
+  : Linear Hypothesis Test for OLS with Robust Standard Errors
+
+- [`lm_lin()`](https://declaredesign.org/r/estimatr/dev/reference/lm_lin.md)
+  : Linear Regression with Lin (2013) Covariate Adjustment
+
+- [`lm_robust()`](https://declaredesign.org/r/estimatr/dev/reference/lm_robust.md)
+  : Ordinary Least Squares with Robust Standard Errors
+
+- [`lm_robust_fit()`](https://declaredesign.org/r/estimatr/dev/reference/lm_robust_fit.md)
+  : Internal method that creates linear fits
+
+- [`predict(`*`<lm_robust>`*`)`](https://declaredesign.org/r/estimatr/dev/reference/predict.lm_robust.md)
+  :
+
+  Predict method for `lm_robust` object
+
+# Articles
+
+### All vignettes
+
+- [Getting started with
+  estimatr](https://declaredesign.org/r/estimatr/dev/articles/getting-started.md):
+- [Mathematical notes and guarantees for
+  estimatr](https://declaredesign.org/r/estimatr/dev/articles/mathematical-notes.md):
+- [estimatr 2.0: what changes, what does not, and
+  why](https://declaredesign.org/r/estimatr/dev/articles/estimatr2.0.md):
+- [Performance](https://declaredesign.org/r/estimatr/dev/articles/performance.md):
+- [estimatr in the
+  tidyverse](https://declaredesign.org/r/estimatr/dev/articles/estimatr-in-the-tidyverse.md):
+- [Regression tables with
+  estimatr](https://declaredesign.org/r/estimatr/dev/articles/regression-tables.md):
