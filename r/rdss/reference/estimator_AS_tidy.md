@@ -95,7 +95,6 @@ https://book.declaredesign.org/experimental-causal.html#experiments-over-network
 ## Examples
 
 ``` r
-if (FALSE) { # requireNamespace("interference", quietly = TRUE)
 
 set.seed(343)
 # A ring of 20 units, each adjacent to the units on either side of it
@@ -110,5 +109,13 @@ permutations <- t(replicate(100, randomizr::complete_ra(N)))
 
 dat <- data.frame(Z = Z, Y = Z + rnorm(N))
 estimator_AS_tidy(dat, permutatation_matrix = permutations, adj_matrix = adjacency)
-}
+#> # A tibble: 6 × 8
+#>   term     inquiry      estimator  estimate std.error p.value conf.low conf.high
+#>   <chr>    <chr>        <chr>         <dbl>     <dbl>   <dbl>    <dbl>     <dbl>
+#> 1 dir_ind1 total_ATE    Horvitz-T…     2.08     1.55  0.178     -0.951      5.11
+#> 2 isol_dir direct_ATE   Horvitz-T…     1.42     2.00  0.479     -2.51       5.35
+#> 3 ind1     indirect_ATE Horvitz-T…     1.53     1.38  0.267     -1.17       4.23
+#> 4 dir_ind1 total_ATE    Hajek          2.11     0.810 0.00911    0.525      3.70
+#> 5 isol_dir direct_ATE   Hajek          1.33     1.25  0.288     -1.12       3.77
+#> 6 ind1     indirect_ATE Hajek          1.46     0.579 0.0119     0.322      2.59
 ```

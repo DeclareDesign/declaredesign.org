@@ -7,14 +7,16 @@ CRAN release: 2026-10-26
 - In the GitHub version,
   [`estimator_AS_tidy()`](https://declaredesign.org/r/rdss/reference/estimator_AS_tidy.md)
   returns standard errors, p-values, and 95 percent confidence
-  intervals. `interference::estimates()` computes effect variances only
-  when told which condition is control, and rdss had never passed
-  `control_condition`, so the variances were always empty. The
-  Horvitz-Thompson rows use Aronow and Samii’s conservative variance,
-  the larger of the Horvitz-Thompson and constant-effects variances,
-  since the plain Horvitz-Thompson variance of a difference can be
-  negative. Intervals for an effect whose exposure condition is rare can
-  undercover; the documentation gives the simulated rates.
+  intervals.
+  [`interference::estimates()`](https://rdrr.io/pkg/interference/man/estimates.html)
+  computes effect variances only when told which condition is control,
+  and rdss had never passed `control_condition`, so the variances were
+  always empty. The Horvitz-Thompson rows use Aronow and Samii’s
+  conservative variance, the larger of the Horvitz-Thompson and
+  constant-effects variances, since the plain Horvitz-Thompson variance
+  of a difference can be negative. Intervals for an effect whose
+  exposure condition is rare can undercover; the documentation gives the
+  simulated rates.
 
 - On CRAN,
   [`estimator_AS_tidy()`](https://declaredesign.org/r/rdss/reference/estimator_AS_tidy.md)
@@ -28,9 +30,9 @@ CRAN release: 2026-10-26
   passes `re.form = NA` to
   [`marginaleffects::predictions()`](https://rdrr.io/pkg/marginaleffects/man/predictions.html)
   only when the fit is a mixed model. With an
-  [`lm_robust()`](https://declaredesign.org/r/estimatr/reference/lm_robust.html)
-  or other single-level fit, marginaleffects warned that `re.form` is
-  not a known argument on every call.
+  [`lm_robust()`](https://rdrr.io/pkg/estimatr/man/lm_robust.html) or
+  other single-level fit, marginaleffects warned that `re.form` is not a
+  known argument on every call.
 
 - [`did_multiplegt_tidy()`](https://declaredesign.org/r/rdss/reference/did_multiplegt_tidy.md)
   tidies `did_multiplegt(mode = "dyn")`, returning each effect with its
