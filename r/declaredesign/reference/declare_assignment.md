@@ -3,7 +3,7 @@
 Assigns units to treatment conditions, adding the assignment variable
 (`Z` by convention) to the data. The randomization itself is usually a
 randomizr function such as
-[`randomizr::complete_ra()`](https://declaredesign.org/r/randomizr/reference/complete_ra.html).
+[`randomizr::complete_ra()`](https://rdrr.io/pkg/randomizr/man/complete_ra.html).
 
 ## Usage
 
