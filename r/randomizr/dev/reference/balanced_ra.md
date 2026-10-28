@@ -257,7 +257,7 @@ the gain. Adjusting linearly for \\x\\ when the outcome was quadratic in
 it, for instance, returned coverage to 1.000 with the standard error
 again more than twice too large.
 
-[`estimatr::horvitz_thompson()`](https://declaredesign.org/r/estimatr/reference/horvitz_thompson.html)
+[`estimatr::horvitz_thompson()`](https://rdrr.io/pkg/estimatr/man/horvitz_thompson.html)
 is conservative here for a related reason, and an exact variance is not
 a missing feature so much as an open problem: the joint inclusion
 probabilities of a cube design have no closed form. That is what Deville
