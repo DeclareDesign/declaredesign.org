@@ -2,18 +2,36 @@
 
 Produces predicted values, obtained by evaluating the regression
 function in the frame `newdata` for fits from
-[`lm_robust()`](https://declaredesign.org/r/estimatr/dev/reference/lm_robust.md)
+[`lm_robust()`](https://declaredesign.org/r/estimatr/dev/reference/lm_robust.md),
+[`lm_lin()`](https://declaredesign.org/r/estimatr/dev/reference/lm_lin.md),
 and
-[`lm_lin()`](https://declaredesign.org/r/estimatr/dev/reference/lm_lin.md).
-If `se.fit` is `TRUE`, standard errors of the predictions are
-calculated. Setting `interval` adds confidence or prediction (tolerance)
-intervals at the level set by `alpha`, sometimes called narrow and wide
-intervals respectively.
+[`iv_robust()`](https://declaredesign.org/r/estimatr/dev/reference/iv_robust.md).
+For an
+[`iv_robust()`](https://declaredesign.org/r/estimatr/dev/reference/iv_robust.md)
+fit the regression function is the second stage on the regressors
+themselves, as [`predict()`](https://rdrr.io/r/stats/predict.html) on an
+`ivreg()` fit computes it. If `se.fit` is `TRUE`, standard errors of the
+predictions are calculated. Setting `interval` adds confidence or
+prediction (tolerance) intervals at the level set by `alpha`, sometimes
+called narrow and wide intervals respectively.
 
 ## Usage
 
 ``` r
 # S3 method for class 'lm_robust'
+predict(
+  object,
+  newdata,
+  se.fit = FALSE,
+  interval = c("none", "confidence", "prediction"),
+  alpha = 0.05,
+  na.action = na.pass,
+  pred.var = NULL,
+  weights,
+  ...
+)
+
+# S3 method for class 'iv_robust'
 predict(
   object,
   newdata,
@@ -31,7 +49,7 @@ predict(
 
 - object:
 
-  An object of class `"lm_robust"`.
+  An object of class `"lm_robust"` or `"iv_robust"`.
 
 - newdata:
 
@@ -101,7 +119,8 @@ prediction variance, with a warning.
 ## See also
 
 [`lm_robust()`](https://declaredesign.org/r/estimatr/dev/reference/lm_robust.md),
-[`lm_lin()`](https://declaredesign.org/r/estimatr/dev/reference/lm_lin.md)
+[`lm_lin()`](https://declaredesign.org/r/estimatr/dev/reference/lm_lin.md),
+[`iv_robust()`](https://declaredesign.org/r/estimatr/dev/reference/iv_robust.md)
 
 ## Examples
 

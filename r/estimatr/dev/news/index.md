@@ -2,6 +2,19 @@
 
 ## estimatr (development version)
 
+### `vignette("post-estimation-contract")` sets out what each generic does on each fit
+
+A new vignette renders `inst/contract/contract.csv`, the file
+`tests/testthat/test_contract.R` checks, as a table of 70 probes of
+stats and sandwich generics on ten fits, saying for each cell whether
+the call agrees with [`lm()`](https://rdrr.io/r/stats/lm.html) or
+[`ivreg::ivreg()`](https://zeileis.github.io/ivreg/reference/ivreg.html),
+refuses with estimatr’s own message, errors, or returns a value with no
+reference to hold it to. It also lists each refusal’s message and each
+cell whose promise was a decision rather than a consequence. Because the
+page is built from the same file the tests read, it cannot drift from
+what is checked.
+
 ### `terms()` describes the design the fit used, so `lmtest::bptest()` agrees with `lm()`
 
 [`terms()`](https://rdrr.io/r/stats/terms.html) on an
@@ -26,15 +39,41 @@ On a fit with `fixed_effects`,
 [`terms()`](https://rdrr.io/r/stats/terms.html) now includes the
 absorbed factors, so `model.matrix(terms(fit))` has more columns than
 `coef(fit)` and cannot be paired with it by mistake.
+[`terms()`](https://rdrr.io/r/stats/terms.html) carries the variable
+classes, as an [`lm()`](https://rdrr.io/r/stats/lm.html) fit’s terms do,
+which margins reads.
 [`model.frame()`](https://rdrr.io/r/stats/model.frame.html) follows
-[`terms()`](https://rdrr.io/r/stats/terms.html) in both cases, and
+[`terms()`](https://rdrr.io/r/stats/terms.html) in both cases; on an
+[`lm_lin()`](https://declaredesign.org/r/estimatr/dev/reference/lm_lin.md)
+fit it also carries the call’s variables, first, so
+`model.matrix(formula(fit), model.frame(fit))` still builds, as car’s
+`Anova()` requires, and ggeffects holds a covariate at its own mean
+rather than at the mean of its centred column.
 [`formula()`](https://rdrr.io/r/stats/formula.html) is unchanged, so
 [`update()`](https://rdrr.io/r/stats/update.html) and printing behave as
 before. [`bptest()`](https://rdrr.io/pkg/lmtest/man/bptest.html) now
 equals the same test on [`lm()`](https://rdrr.io/r/stats/lm.html) for
 both kinds of fit. [`labels()`](https://rdrr.io/r/base/labels.html)
 returns the term labels of
-[`terms()`](https://rdrr.io/r/stats/terms.html).
+[`terms()`](https://rdrr.io/r/stats/terms.html). On an
+[`iv_robust()`](https://declaredesign.org/r/estimatr/dev/reference/iv_robust.md)
+fit [`terms()`](https://rdrr.io/r/stats/terms.html) returned the
+two-part formula with the instruments among the term labels, so
+`model.matrix(terms(fit), model.frame(fit))` held a column for each
+instrument; it now describes the regressors, as
+[`terms()`](https://rdrr.io/r/stats/terms.html) on an `ivreg()` fit
+does, with the absorbed factors and variable classes as above, and
+[`labels()`](https://rdrr.io/r/base/labels.html) on one returns the
+regressors’ term labels where it had returned the names of the fit’s
+list elements. [`predict()`](https://rdrr.io/r/stats/predict.html) on an
+[`iv_robust()`](https://declaredesign.org/r/estimatr/dev/reference/iv_robust.md)
+fit errored without `newdata` and ignored `se.fit` and `interval`,
+returning bare fitted values to a caller who had asked for standard
+errors; it is now the
+[`lm_robust()`](https://declaredesign.org/r/estimatr/dev/reference/lm_robust.md)
+method, so it returns the fitted values without `newdata`, and its
+standard errors and intervals come from the fit’s own variance, matching
+[`predict()`](https://rdrr.io/r/stats/predict.html) on an `ivreg()` fit.
 [`logLik()`](https://rdrr.io/r/stats/logLik.html),
 [`extractAIC()`](https://rdrr.io/r/stats/extractAIC.html), and through
 them [`AIC()`](https://rdrr.io/r/stats/AIC.html) and
@@ -99,7 +138,30 @@ fitted.
 [`estfun()`](https://zeileis.codeberg.page/sandwich/reference/estfun.html)
 and [`hatvalues()`](https://rdrr.io/r/stats/influence.measures.html)
 refuse fits with `fixed_effects`, whose absorbed design is not stored,
-and these methods refuse fits with several outcomes.
+and these methods refuse fits with several outcomes. On a
+[`difference_in_means()`](https://declaredesign.org/r/estimatr/dev/reference/difference_in_means.md)
+fit [`df.residual()`](https://rdrr.io/r/stats/df.residual.html) returned
+`NULL` and [`case.names()`](https://rdrr.io/r/stats/case.names.html) an
+empty vector; both now refuse, since the estimator has no residuals and
+stores no rows, and the degrees of freedom its tests use are in
+`fit$df`. [`residuals()`](https://rdrr.io/r/stats/residuals.html),
+[`fitted()`](https://rdrr.io/r/stats/fitted.values.html),
+[`deviance()`](https://rdrr.io/r/stats/deviance.html), and
+[`variable.names()`](https://rdrr.io/r/stats/case.names.html) on one
+returned `NULL`, [`sigma()`](https://rdrr.io/r/stats/sigma.html) an
+empty vector, and [`labels()`](https://rdrr.io/r/base/labels.html) the
+names of the fit’s list elements; all six now refuse.
+[`summary()`](https://rdrr.io/r/base/summary.html) on
+[`lm_robust()`](https://declaredesign.org/r/estimatr/dev/reference/lm_robust.md),
+[`lm_lin()`](https://declaredesign.org/r/estimatr/dev/reference/lm_lin.md),
+and
+[`iv_robust()`](https://declaredesign.org/r/estimatr/dev/reference/iv_robust.md)
+fits now carries `sigma`, as
+[`summary()`](https://rdrr.io/r/base/summary.html) on an
+[`lm()`](https://rdrr.io/r/stats/lm.html) fit does, where
+`summary(fit)$sigma` was `NULL`. `fit$model` stays `NULL`, as on
+`lm(model = FALSE)`, since the fit does not store its data;
+[`model.frame()`](https://rdrr.io/r/stats/model.frame.html) returns it.
 
 ### `lm_lin()` fits are classed `lm_lin`, and `model.frame()`, `model.matrix()`, and `sandwich::bread()` work on them
 
@@ -140,8 +202,16 @@ outcomes.
 fits had the same fault and now get ivreg’s `bread.ivreg`, the inverse
 Gram matrix of the regressors projected on the instruments, matching it
 just- and over-identified, weighted, and with collinear regressors
-dropped. [`model.frame()`](https://rdrr.io/r/stats/model.frame.html) on
-an
+dropped.
+[`difference_in_means()`](https://declaredesign.org/r/estimatr/dev/reference/difference_in_means.md)
+and
+[`horvitz_thompson()`](https://declaredesign.org/r/estimatr/dev/reference/horvitz_thompson.md)
+fits had the same fault, and since neither estimator is built from a
+design matrix there is no bread to return:
+[`bread()`](https://zeileis.codeberg.page/sandwich/reference/bread.html)
+on them now refuses, pointing to
+[`lm_robust()`](https://declaredesign.org/r/estimatr/dev/reference/lm_robust.md).
+[`model.frame()`](https://rdrr.io/r/stats/model.frame.html) on an
 [`iv_robust()`](https://declaredesign.org/r/estimatr/dev/reference/iv_robust.md)
 fit re-evaluated the call without its clusters, so a row dropped for a
 missing cluster came back; it now has the fit’s rows. clubSandwich 0.7.0
