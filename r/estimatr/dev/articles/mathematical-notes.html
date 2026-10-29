@@ -729,6 +729,168 @@ diagonal element of
 distribution. Under CR2 the degrees of freedom vary by coefficient, so
 the multiplier does too.</p>
 </div>
+<div class="section level3">
+<h3 id="multiple-outcomes">Multiple outcomes<a class="anchor" aria-label="anchor" href="#multiple-outcomes"></a>
+</h3>
+<p><code>lm_robust(cbind(y1, y2) ~ ...)</code> fits
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>M</mi><annotation encoding="application/x-tex">M</annotation></semantics></math>
+outcomes on one design. The coefficients are those of
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>M</mi><annotation encoding="application/x-tex">M</annotation></semantics></math>
+separate regressions, stacked outcome by outcome and named
+<code>outcome:term</code>, so the vector is
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mrow><mi mathvariant="normal">v</mi><mi mathvariant="normal">e</mi><mi mathvariant="normal">c</mi></mrow><mo stretchy="false" form="prefix">(</mo><mover><mi>𝐁</mi><mo accent="true">̂</mo></mover><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">\mathrm{vec}(\widehat{\mathbf{B}})</annotation></semantics></math>
+for the
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>K</mi><mo>×</mo><mi>M</mi></mrow><annotation encoding="application/x-tex">K \times M</annotation></semantics></math>
+coefficient matrix
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mover><mi>𝐁</mi><mo accent="true">̂</mo></mover><annotation encoding="application/x-tex">\widehat{\mathbf{B}}</annotation></semantics></math>.
+Write
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>𝐄</mi><annotation encoding="application/x-tex">\mathbf{E}</annotation></semantics></math>
+for the
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>N</mi><mo>×</mo><mi>M</mi></mrow><annotation encoding="application/x-tex">N \times M</annotation></semantics></math>
+matrix of residuals,
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>𝐞</mi><mi>i</mi></msub><annotation encoding="application/x-tex">\mathbf{e}_i</annotation></semantics></math>
+for its
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>i</mi><annotation encoding="application/x-tex">i</annotation></semantics></math>th
+row as a column vector, and
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>𝐄</mi><mi>s</mi></msub><annotation encoding="application/x-tex">\mathbf{E}_s</annotation></semantics></math>
+for the rows of cluster
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>s</mi><annotation encoding="application/x-tex">s</annotation></semantics></math>.
+The variance is
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>M</mi><mi>K</mi><mo>×</mo><mi>M</mi><mi>K</mi></mrow><annotation encoding="application/x-tex">MK \times MK</annotation></semantics></math>:
+its diagonal blocks are the single-outcome variances, and its
+off-diagonal blocks are the covariances between one outcome’s
+coefficients and another’s.</p>
+<table class="table">
+<colgroup>
+<col width="50%">
+<col width="50%">
+</colgroup>
+<thead><tr class="header">
+<th><code>se_type</code></th>
+<th><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mover><mi>𝕍</mi><mo accent="true">̂</mo></mover><mo stretchy="false" form="prefix">[</mo><mrow><mi mathvariant="normal">v</mi><mi mathvariant="normal">e</mi><mi mathvariant="normal">c</mi></mrow><mo stretchy="false" form="prefix">(</mo><mover><mi>𝐁</mi><mo accent="true">̂</mo></mover><mo stretchy="false" form="postfix">)</mo><mo stretchy="false" form="postfix">]</mo></mrow><annotation encoding="application/x-tex">\widehat{\mathbb{V}}[\mathrm{vec}(\widehat{\mathbf{B}})]</annotation></semantics></math></th>
+</tr></thead>
+<tbody>
+<tr class="odd">
+<td><code>"classical"</code></td>
+<td><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mfrac><mrow><msup><mi>𝐄</mi><mi>⊤</mi></msup><mi>𝐄</mi></mrow><mrow><mi>N</mi><mo>−</mo><mi>K</mi></mrow></mfrac><mo>⊗</mo><mo stretchy="false" form="prefix">(</mo><msup><mi>𝐗</mi><mi>⊤</mi></msup><mi>𝐗</mi><msup><mo stretchy="false" form="postfix">)</mo><mrow><mi>−</mi><mn>1</mn></mrow></msup></mrow><annotation encoding="application/x-tex">\frac{\mathbf{E}^\top\mathbf{E}}{N-K} \otimes (\mathbf{X}^{\top}\mathbf{X})^{-1}</annotation></semantics></math></td>
+</tr>
+<tr class="even">
+<td>
+<code>"HC0"</code> to <code>"HC3"</code>
+</td>
+<td><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mrow><mo stretchy="true" form="prefix">(</mo><msub><mi>𝐈</mi><mi>M</mi></msub><mo>⊗</mo><mo stretchy="false" form="prefix">(</mo><msup><mi>𝐗</mi><mi>⊤</mi></msup><mi>𝐗</mi><msup><mo stretchy="false" form="postfix">)</mo><mrow><mi>−</mi><mn>1</mn></mrow></msup><mo stretchy="true" form="postfix">)</mo></mrow><msubsup><mo>∑</mo><mrow><mi>i</mi><mo>=</mo><mn>1</mn></mrow><mi>N</mi></msubsup><msub><mi>ω</mi><mi>i</mi></msub><mrow><mo stretchy="true" form="prefix">(</mo><msub><mi>𝐞</mi><mi>i</mi></msub><msubsup><mi>𝐞</mi><mi>i</mi><mi>⊤</mi></msubsup><mo>⊗</mo><msubsup><mi>𝐱</mi><mi>i</mi><mi>⊤</mi></msubsup><msub><mi>𝐱</mi><mi>i</mi></msub><mo stretchy="true" form="postfix">)</mo></mrow><mrow><mo stretchy="true" form="prefix">(</mo><msub><mi>𝐈</mi><mi>M</mi></msub><mo>⊗</mo><mo stretchy="false" form="prefix">(</mo><msup><mi>𝐗</mi><mi>⊤</mi></msup><mi>𝐗</mi><msup><mo stretchy="false" form="postfix">)</mo><mrow><mi>−</mi><mn>1</mn></mrow></msup><mo stretchy="true" form="postfix">)</mo></mrow></mrow><annotation encoding="application/x-tex">\left(\mathbf{I}_M \otimes (\mathbf{X}^{\top}\mathbf{X})^{-1}\right)\sum_{i=1}^{N}\omega_i\left(\mathbf{e}_i\mathbf{e}_i^\top \otimes \mathbf{x}_i^\top\mathbf{x}_i\right)\left(\mathbf{I}_M \otimes (\mathbf{X}^{\top}\mathbf{X})^{-1}\right)</annotation></semantics></math></td>
+</tr>
+<tr class="odd">
+<td>
+<code>"CR0"</code>, <code>"CR2"</code>, <code>"CR3"</code>
+</td>
+<td>
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mrow><mo stretchy="true" form="prefix">(</mo><msub><mi>𝐈</mi><mi>M</mi></msub><mo>⊗</mo><mo stretchy="false" form="prefix">(</mo><msup><mi>𝐗</mi><mi>⊤</mi></msup><mi>𝐗</mi><msup><mo stretchy="false" form="postfix">)</mo><mrow><mi>−</mi><mn>1</mn></mrow></msup><mo stretchy="true" form="postfix">)</mo></mrow><msubsup><mo>∑</mo><mrow><mi>s</mi><mo>=</mo><mn>1</mn></mrow><mi>S</mi></msubsup><msub><mi>𝐮</mi><mi>s</mi></msub><msubsup><mi>𝐮</mi><mi>s</mi><mi>⊤</mi></msubsup><mrow><mo stretchy="true" form="prefix">(</mo><msub><mi>𝐈</mi><mi>M</mi></msub><mo>⊗</mo><mo stretchy="false" form="prefix">(</mo><msup><mi>𝐗</mi><mi>⊤</mi></msup><mi>𝐗</mi><msup><mo stretchy="false" form="postfix">)</mo><mrow><mi>−</mi><mn>1</mn></mrow></msup><mo stretchy="true" form="postfix">)</mo></mrow></mrow><annotation encoding="application/x-tex">\left(\mathbf{I}_M \otimes (\mathbf{X}^{\top}\mathbf{X})^{-1}\right)\sum_{s=1}^{S}\mathbf{u}_s\mathbf{u}_s^\top\left(\mathbf{I}_M \otimes (\mathbf{X}^{\top}\mathbf{X})^{-1}\right)</annotation></semantics></math>,
+with
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>𝐮</mi><mi>s</mi></msub><mo>=</mo><mrow><mi mathvariant="normal">v</mi><mi mathvariant="normal">e</mi><mi mathvariant="normal">c</mi></mrow><mo stretchy="false" form="prefix">(</mo><msubsup><mi>𝐗</mi><mi>s</mi><mi>⊤</mi></msubsup><msub><mi>𝐀</mi><mi>s</mi></msub><msub><mi>𝐄</mi><mi>s</mi></msub><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">\mathbf{u}_s = \mathrm{vec}(\mathbf{X}_s^\top\mathbf{A}_s\mathbf{E}_s)</annotation></semantics></math>
+</td>
+</tr>
+<tr class="even">
+<td><code>"stata"</code></td>
+<td>
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mfrac><mrow><mi>N</mi><mo>−</mo><mn>1</mn></mrow><mrow><mi>N</mi><mo>−</mo><mi>K</mi></mrow></mfrac><mfrac><mi>S</mi><mrow><mi>S</mi><mo>−</mo><mn>1</mn></mrow></mfrac><mo>×</mo></mrow><annotation encoding="application/x-tex">\frac{N-1}{N-K}\frac{S}{S-1}\times</annotation></semantics></math>
+the CR0 expression</td>
+</tr>
+</tbody>
+</table>
+<p>Here
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>ω</mi><mi>i</mi></msub><annotation encoding="application/x-tex">\omega_i</annotation></semantics></math>
+is the factor that distinguishes the HC types in the single-outcome
+table:
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mn>1</mn><annotation encoding="application/x-tex">1</annotation></semantics></math>,
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mfrac><mi>N</mi><mrow><mi>N</mi><mo>−</mo><mi>K</mi></mrow></mfrac><annotation encoding="application/x-tex">\frac{N}{N-K}</annotation></semantics></math>,
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mfrac><mn>1</mn><mrow><mn>1</mn><mo>−</mo><msub><mi>h</mi><mrow><mi>i</mi><mi>i</mi></mrow></msub></mrow></mfrac><annotation encoding="application/x-tex">\frac{1}{1-h_{ii}}</annotation></semantics></math>,
+or
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mfrac><mn>1</mn><mrow><mo stretchy="false" form="prefix">(</mo><mn>1</mn><mo>−</mo><msub><mi>h</mi><mrow><mi>i</mi><mi>i</mi></mrow></msub><msup><mo stretchy="false" form="postfix">)</mo><mn>2</mn></msup></mrow></mfrac><annotation encoding="application/x-tex">\frac{1}{(1-h_{ii})^2}</annotation></semantics></math>.
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>𝐀</mi><mi>s</mi></msub><annotation encoding="application/x-tex">\mathbf{A}_s</annotation></semantics></math>
+is the identity for CR0 and the cluster’s adjustment matrix for CR2 and
+CR3. Every outcome shares the leverage values and the adjustment
+matrices, because they depend on
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>𝐗</mi><annotation encoding="application/x-tex">\mathbf{X}</annotation></semantics></math>
+alone. For the same reason the CR2 degrees of freedom are those of the
+single-outcome fit, repeated for each outcome. In other words, the
+multi-outcome fit adds nothing to the diagonal blocks; what it adds is
+the off-diagonal blocks, which a set of separate fits cannot supply.</p>
+<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">d</span><span class="op">$</span><span class="va">y2</span> <span class="op">&lt;-</span> <span class="va">d</span><span class="op">$</span><span class="va">x</span> <span class="op">-</span> <span class="va">d</span><span class="op">$</span><span class="va">z</span> <span class="op">+</span> <span class="va">d</span><span class="op">$</span><span class="va">inst</span> <span class="op">*</span> <span class="va">d</span><span class="op">$</span><span class="va">en</span></span>
+<span></span>
+<span><span class="va">mv_vcov</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">fit</span>, <span class="va">type</span>, <span class="va">cluster</span> <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span> <span class="op">{</span></span>
+<span>  <span class="va">X</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/model.matrix.html" class="external-link">model.matrix</a></span><span class="op">(</span><span class="va">fit</span><span class="op">)</span></span>
+<span>  <span class="va">E</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/residuals.html" class="external-link">residuals</a></span><span class="op">(</span><span class="va">fit</span><span class="op">)</span></span>
+<span>  <span class="va">n</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/nrow.html" class="external-link">nrow</a></span><span class="op">(</span><span class="va">X</span><span class="op">)</span></span>
+<span>  <span class="va">k</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/nrow.html" class="external-link">ncol</a></span><span class="op">(</span><span class="va">X</span><span class="op">)</span></span>
+<span>  <span class="va">bread</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/solve.html" class="external-link">solve</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/crossprod.html" class="external-link">crossprod</a></span><span class="op">(</span><span class="va">X</span><span class="op">)</span><span class="op">)</span></span>
+<span>  <span class="va">outer_bread</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/kronecker.html" class="external-link">kronecker</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/diag.html" class="external-link">diag</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/nrow.html" class="external-link">ncol</a></span><span class="op">(</span><span class="va">E</span><span class="op">)</span><span class="op">)</span>, <span class="va">bread</span><span class="op">)</span></span>
+<span>  <span class="kw">if</span> <span class="op">(</span><span class="va">type</span> <span class="op">==</span> <span class="st">"classical"</span><span class="op">)</span> <span class="kw"><a href="https://rdrr.io/r/base/function.html" class="external-link">return</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/kronecker.html" class="external-link">kronecker</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/crossprod.html" class="external-link">crossprod</a></span><span class="op">(</span><span class="va">E</span><span class="op">)</span> <span class="op">/</span> <span class="op">(</span><span class="va">n</span> <span class="op">-</span> <span class="va">k</span><span class="op">)</span>, <span class="va">bread</span><span class="op">)</span><span class="op">)</span></span>
+<span>  <span class="va">H</span> <span class="op">&lt;-</span> <span class="va">X</span> <span class="op"><a href="https://rdrr.io/r/base/matmult.html" class="external-link">%*%</a></span> <span class="va">bread</span> <span class="op"><a href="https://rdrr.io/r/base/matmult.html" class="external-link">%*%</a></span> <span class="fu"><a href="https://rdrr.io/r/base/t.html" class="external-link">t</a></span><span class="op">(</span><span class="va">X</span><span class="op">)</span></span>
+<span>  <span class="va">h</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/diag.html" class="external-link">diag</a></span><span class="op">(</span><span class="va">H</span><span class="op">)</span></span>
+<span>  <span class="va">omega</span> <span class="op">&lt;-</span> <span class="kw"><a href="https://rdrr.io/r/base/switch.html" class="external-link">switch</a></span><span class="op">(</span><span class="va">type</span>,</span>
+<span>    HC0 <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep</a></span><span class="op">(</span><span class="fl">1</span>, <span class="va">n</span><span class="op">)</span>,</span>
+<span>    HC1 <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep</a></span><span class="op">(</span><span class="va">n</span> <span class="op">/</span> <span class="op">(</span><span class="va">n</span> <span class="op">-</span> <span class="va">k</span><span class="op">)</span>, <span class="va">n</span><span class="op">)</span>,</span>
+<span>    HC2 <span class="op">=</span> <span class="fl">1</span> <span class="op">/</span> <span class="op">(</span><span class="fl">1</span> <span class="op">-</span> <span class="va">h</span><span class="op">)</span>,</span>
+<span>    HC3 <span class="op">=</span> <span class="fl">1</span> <span class="op">/</span> <span class="op">(</span><span class="fl">1</span> <span class="op">-</span> <span class="va">h</span><span class="op">)</span><span class="op">^</span><span class="fl">2</span></span>
+<span>  <span class="op">)</span></span>
+<span>  <span class="va">groups</span> <span class="op">&lt;-</span> <span class="kw">if</span> <span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/NULL.html" class="external-link">is.null</a></span><span class="op">(</span><span class="va">cluster</span><span class="op">)</span><span class="op">)</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">as.list</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq_len</a></span><span class="op">(</span><span class="va">n</span><span class="op">)</span><span class="op">)</span> <span class="kw">else</span> <span class="fu"><a href="https://rdrr.io/r/base/split.html" class="external-link">split</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq_len</a></span><span class="op">(</span><span class="va">n</span><span class="op">)</span>, <span class="va">cluster</span><span class="op">)</span></span>
+<span>  <span class="va">meat</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/funprog.html" class="external-link">Reduce</a></span><span class="op">(</span><span class="va">`+`</span>, <span class="fu"><a href="https://rdrr.io/r/base/lapply.html" class="external-link">lapply</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq_along</a></span><span class="op">(</span><span class="va">groups</span><span class="op">)</span>, <span class="kw">function</span><span class="op">(</span><span class="va">j</span><span class="op">)</span> <span class="op">{</span></span>
+<span>    <span class="va">i</span> <span class="op">&lt;-</span> <span class="va">groups</span><span class="op">[[</span><span class="va">j</span><span class="op">]</span><span class="op">]</span></span>
+<span>    <span class="va">E_s</span> <span class="op">&lt;-</span> <span class="va">E</span><span class="op">[</span><span class="va">i</span>, , drop <span class="op">=</span> <span class="cn">FALSE</span><span class="op">]</span></span>
+<span>    <span class="va">A_E</span> <span class="op">&lt;-</span> <span class="kw"><a href="https://rdrr.io/r/base/switch.html" class="external-link">switch</a></span><span class="op">(</span><span class="va">type</span>,</span>
+<span>      CR2 <span class="op">=</span> <span class="op">{</span></span>
+<span>        <span class="va">ev</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/eigen.html" class="external-link">eigen</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/diag.html" class="external-link">diag</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/length.html" class="external-link">length</a></span><span class="op">(</span><span class="va">i</span><span class="op">)</span><span class="op">)</span> <span class="op">-</span> <span class="va">H</span><span class="op">[</span><span class="va">i</span>, <span class="va">i</span><span class="op">]</span>, symmetric <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
+<span>        <span class="va">ev</span><span class="op">$</span><span class="va">vectors</span> <span class="op"><a href="https://rdrr.io/r/base/matmult.html" class="external-link">%*%</a></span> <span class="fu"><a href="https://rdrr.io/r/base/diag.html" class="external-link">diag</a></span><span class="op">(</span><span class="fl">1</span> <span class="op">/</span> <span class="fu"><a href="https://rdrr.io/r/base/MathFun.html" class="external-link">sqrt</a></span><span class="op">(</span><span class="va">ev</span><span class="op">$</span><span class="va">values</span><span class="op">)</span>, <span class="fu"><a href="https://rdrr.io/r/base/length.html" class="external-link">length</a></span><span class="op">(</span><span class="va">i</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="https://rdrr.io/r/base/matmult.html" class="external-link">%*%</a></span> <span class="fu"><a href="https://rdrr.io/r/base/t.html" class="external-link">t</a></span><span class="op">(</span><span class="va">ev</span><span class="op">$</span><span class="va">vectors</span><span class="op">)</span> <span class="op"><a href="https://rdrr.io/r/base/matmult.html" class="external-link">%*%</a></span> <span class="va">E_s</span></span>
+<span>      <span class="op">}</span>,</span>
+<span>      CR3 <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/solve.html" class="external-link">solve</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/diag.html" class="external-link">diag</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/length.html" class="external-link">length</a></span><span class="op">(</span><span class="va">i</span><span class="op">)</span><span class="op">)</span> <span class="op">-</span> <span class="va">H</span><span class="op">[</span><span class="va">i</span>, <span class="va">i</span><span class="op">]</span>, <span class="va">E_s</span><span class="op">)</span>,</span>
+<span>      <span class="kw">if</span> <span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/NULL.html" class="external-link">is.null</a></span><span class="op">(</span><span class="va">cluster</span><span class="op">)</span><span class="op">)</span> <span class="va">E_s</span> <span class="op">*</span> <span class="fu"><a href="https://rdrr.io/r/base/MathFun.html" class="external-link">sqrt</a></span><span class="op">(</span><span class="va">omega</span><span class="op">[</span><span class="va">i</span><span class="op">]</span><span class="op">)</span> <span class="kw">else</span> <span class="va">E_s</span></span>
+<span>    <span class="op">)</span></span>
+<span>    <span class="fu"><a href="https://rdrr.io/r/base/crossprod.html" class="external-link">tcrossprod</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/vector.html" class="external-link">as.vector</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/crossprod.html" class="external-link">crossprod</a></span><span class="op">(</span><span class="va">X</span><span class="op">[</span><span class="va">i</span>, , drop <span class="op">=</span> <span class="cn">FALSE</span><span class="op">]</span>, <span class="va">A_E</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span>
+<span>  <span class="op">}</span><span class="op">)</span><span class="op">)</span></span>
+<span>  <span class="va">outer_bread</span> <span class="op"><a href="https://rdrr.io/r/base/matmult.html" class="external-link">%*%</a></span> <span class="va">meat</span> <span class="op"><a href="https://rdrr.io/r/base/matmult.html" class="external-link">%*%</a></span> <span class="va">outer_bread</span></span>
+<span><span class="op">}</span></span></code></pre></div>
+<p><strong>The promise: the multi-outcome variance is the Kronecker form
+above for every <code>se_type</code>, and each outcome’s diagonal block
+is its single-outcome variance.</strong></p>
+<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">fit_mv</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/lm.html" class="external-link">lm</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/cbind.html" class="external-link">cbind</a></span><span class="op">(</span><span class="va">y</span>, <span class="va">y2</span><span class="op">)</span> <span class="op">~</span> <span class="va">z</span> <span class="op">+</span> <span class="va">x</span>, data <span class="op">=</span> <span class="va">d</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/cbind.html" class="external-link">rbind</a></span><span class="op">(</span></span>
+<span>  <span class="fu"><a href="https://rdrr.io/r/base/do.call.html" class="external-link">do.call</a></span><span class="op">(</span><span class="va">rbind</span>, <span class="fu"><a href="https://rdrr.io/r/base/lapply.html" class="external-link">lapply</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"classical"</span>, <span class="st">"HC0"</span>, <span class="st">"HC1"</span>, <span class="st">"HC2"</span>, <span class="st">"HC3"</span><span class="op">)</span>, <span class="kw">function</span><span class="op">(</span><span class="va">ty</span><span class="op">)</span> <span class="op">{</span></span>
+<span>    <span class="fu"><a href="https://rdrr.io/r/base/cbind.html" class="external-link">cbind</a></span><span class="op">(</span>se_type <span class="op">=</span> <span class="va">ty</span>,</span>
+<span>          <span class="fu">check</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="st">"lm_robust(cbind(y, y2), se_type = '"</span>, <span class="va">ty</span>, <span class="st">"')"</span><span class="op">)</span>,</span>
+<span>                <span class="fu"><a href="../reference/lm_robust.html">lm_robust</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/cbind.html" class="external-link">cbind</a></span><span class="op">(</span><span class="va">y</span>, <span class="va">y2</span><span class="op">)</span> <span class="op">~</span> <span class="va">z</span> <span class="op">+</span> <span class="va">x</span>, data <span class="op">=</span> <span class="va">d</span>, se_type <span class="op">=</span> <span class="va">ty</span><span class="op">)</span><span class="op">$</span><span class="va">vcov</span>,</span>
+<span>                <span class="fu">mv_vcov</span><span class="op">(</span><span class="va">fit_mv</span>, <span class="va">ty</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span>
+<span>  <span class="op">}</span><span class="op">)</span><span class="op">)</span>,</span>
+<span>  <span class="fu"><a href="https://rdrr.io/r/base/do.call.html" class="external-link">do.call</a></span><span class="op">(</span><span class="va">rbind</span>, <span class="fu"><a href="https://rdrr.io/r/base/lapply.html" class="external-link">lapply</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"CR0"</span>, <span class="st">"CR2"</span>, <span class="st">"CR3"</span><span class="op">)</span>, <span class="kw">function</span><span class="op">(</span><span class="va">ty</span><span class="op">)</span> <span class="op">{</span></span>
+<span>    <span class="fu"><a href="https://rdrr.io/r/base/cbind.html" class="external-link">cbind</a></span><span class="op">(</span>se_type <span class="op">=</span> <span class="va">ty</span>,</span>
+<span>          <span class="fu">check</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="st">"lm_robust(cbind(y, y2), clusters = cl, se_type = '"</span>, <span class="va">ty</span>, <span class="st">"')"</span><span class="op">)</span>,</span>
+<span>                <span class="fu"><a href="../reference/lm_robust.html">lm_robust</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/cbind.html" class="external-link">cbind</a></span><span class="op">(</span><span class="va">y</span>, <span class="va">y2</span><span class="op">)</span> <span class="op">~</span> <span class="va">z</span> <span class="op">+</span> <span class="va">x</span>, data <span class="op">=</span> <span class="va">d</span>, clusters <span class="op">=</span> <span class="va">cl</span>, se_type <span class="op">=</span> <span class="va">ty</span><span class="op">)</span><span class="op">$</span><span class="va">vcov</span>,</span>
+<span>                <span class="fu">mv_vcov</span><span class="op">(</span><span class="va">fit_mv</span>, <span class="va">ty</span>, <span class="va">d</span><span class="op">$</span><span class="va">cl</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span>
+<span>  <span class="op">}</span><span class="op">)</span><span class="op">)</span>,</span>
+<span>  <span class="fu"><a href="https://rdrr.io/r/base/cbind.html" class="external-link">cbind</a></span><span class="op">(</span>se_type <span class="op">=</span> <span class="st">"stata"</span>,</span>
+<span>        <span class="fu">check</span><span class="op">(</span><span class="st">"lm_robust(cbind(y, y2), clusters = cl, se_type = 'stata')"</span>,</span>
+<span>              <span class="fu"><a href="../reference/lm_robust.html">lm_robust</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/cbind.html" class="external-link">cbind</a></span><span class="op">(</span><span class="va">y</span>, <span class="va">y2</span><span class="op">)</span> <span class="op">~</span> <span class="va">z</span> <span class="op">+</span> <span class="va">x</span>, data <span class="op">=</span> <span class="va">d</span>, clusters <span class="op">=</span> <span class="va">cl</span>, se_type <span class="op">=</span> <span class="st">"stata"</span><span class="op">)</span><span class="op">$</span><span class="va">vcov</span>,</span>
+<span>              <span class="fu">mv_vcov</span><span class="op">(</span><span class="va">fit_mv</span>, <span class="st">"CR0"</span>, <span class="va">d</span><span class="op">$</span><span class="va">cl</span><span class="op">)</span> <span class="op">*</span> <span class="op">(</span><span class="fl">20</span> <span class="op">/</span> <span class="fl">19</span><span class="op">)</span> <span class="op">*</span> <span class="op">(</span><span class="fl">99</span> <span class="op">/</span> <span class="fl">97</span><span class="op">)</span><span class="op">)</span><span class="op">)</span>,</span>
+<span>  <span class="fu"><a href="https://rdrr.io/r/base/cbind.html" class="external-link">cbind</a></span><span class="op">(</span>se_type <span class="op">=</span> <span class="st">"HC2, y2 block"</span>,</span>
+<span>        <span class="fu">check</span><span class="op">(</span><span class="st">"lm_robust(cbind(y, y2)) y2 block equals lm_robust(y2)"</span>,</span>
+<span>              <span class="fu"><a href="../reference/lm_robust.html">lm_robust</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/cbind.html" class="external-link">cbind</a></span><span class="op">(</span><span class="va">y</span>, <span class="va">y2</span><span class="op">)</span> <span class="op">~</span> <span class="va">z</span> <span class="op">+</span> <span class="va">x</span>, data <span class="op">=</span> <span class="va">d</span><span class="op">)</span><span class="op">$</span><span class="va">vcov</span><span class="op">[</span><span class="fl">4</span><span class="op">:</span><span class="fl">6</span>, <span class="fl">4</span><span class="op">:</span><span class="fl">6</span><span class="op">]</span>,</span>
+<span>              <span class="fu"><a href="../reference/lm_robust.html">lm_robust</a></span><span class="op">(</span><span class="va">y2</span> <span class="op">~</span> <span class="va">z</span> <span class="op">+</span> <span class="va">x</span>, data <span class="op">=</span> <span class="va">d</span><span class="op">)</span><span class="op">$</span><span class="va">vcov</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="op">)</span></span>
+<span><span class="co">#&gt;          se_type     gap holds</span></span>
+<span><span class="co">#&gt; 1      classical 1.2e-16  TRUE</span></span>
+<span><span class="co">#&gt; 2            HC0 2.1e-16  TRUE</span></span>
+<span><span class="co">#&gt; 3            HC1 2.5e-16  TRUE</span></span>
+<span><span class="co">#&gt; 4            HC2 2.2e-16  TRUE</span></span>
+<span><span class="co">#&gt; 5            HC3 2.5e-16  TRUE</span></span>
+<span><span class="co">#&gt; 6            CR0 2.4e-16  TRUE</span></span>
+<span><span class="co">#&gt; 7            CR2 1.7e-16  TRUE</span></span>
+<span><span class="co">#&gt; 8            CR3 1.7e-16  TRUE</span></span>
+<span><span class="co">#&gt; 9          stata 2.5e-16  TRUE</span></span>
+<span><span class="co">#&gt; 10 HC2, y2 block 4.2e-17  TRUE</span></span></code></pre></div>
+</div>
 </div>
 <div class="section level2">
 <h2 id="lm_lin">
@@ -763,7 +925,7 @@ weights, clusters, <code>se_type</code>, is
 <p><strong>The promise: it is the Lin specification a user could write
 by hand.</strong> The reference is that specification, written by
 hand.</p>
-<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">dd</span> <span class="op">&lt;-</span> <span class="va">d</span></span>
 <span><span class="va">dd</span><span class="op">$</span><span class="va">x_c</span> <span class="op">&lt;-</span> <span class="va">dd</span><span class="op">$</span><span class="va">x</span> <span class="op">-</span> <span class="fu"><a href="https://rdrr.io/r/base/mean.html" class="external-link">mean</a></span><span class="op">(</span><span class="va">dd</span><span class="op">$</span><span class="va">x</span><span class="op">)</span></span>
 <span><span class="va">lin</span>  <span class="op">&lt;-</span> <span class="fu"><a href="../reference/lm_lin.html">lm_lin</a></span><span class="op">(</span><span class="va">y</span> <span class="op">~</span> <span class="va">z</span>, covariates <span class="op">=</span> <span class="op">~</span> <span class="va">x</span>, data <span class="op">=</span> <span class="va">d</span><span class="op">)</span></span>
@@ -806,7 +968,7 @@ estimation.</p>
 <p><strong>The promise: the point estimates are two-stage least
 squares.</strong> The reference is the two stages, run as two
 stages.</p>
-<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">tsls_coef</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">y</span>, <span class="va">X</span>, <span class="va">Z</span><span class="op">)</span> <span class="op">{</span></span>
 <span>  <span class="va">xhat</span> <span class="op">&lt;-</span> <span class="va">Z</span> <span class="op"><a href="https://rdrr.io/r/base/matmult.html" class="external-link">%*%</a></span> <span class="fu"><a href="https://rdrr.io/r/base/solve.html" class="external-link">solve</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/crossprod.html" class="external-link">crossprod</a></span><span class="op">(</span><span class="va">Z</span><span class="op">)</span>, <span class="fu"><a href="https://rdrr.io/r/base/crossprod.html" class="external-link">crossprod</a></span><span class="op">(</span><span class="va">Z</span>, <span class="va">X</span><span class="op">)</span><span class="op">)</span></span>
 <span>  <span class="fu"><a href="https://rdrr.io/r/base/vector.html" class="external-link">as.vector</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/solve.html" class="external-link">solve</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/crossprod.html" class="external-link">crossprod</a></span><span class="op">(</span><span class="va">xhat</span><span class="op">)</span>, <span class="fu"><a href="https://rdrr.io/r/base/crossprod.html" class="external-link">crossprod</a></span><span class="op">(</span><span class="va">xhat</span>, <span class="va">y</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span>
@@ -957,7 +1119,7 @@ and the fit’s residual degrees of freedom, returned in the
 it.</p>
 <p><strong>The promise: a linear hypothesis is the delta method on the
 fit.</strong></p>
-<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">fit</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/lm_robust.html">lm_robust</a></span><span class="op">(</span><span class="va">y</span> <span class="op">~</span> <span class="va">z</span> <span class="op">+</span> <span class="va">x</span>, data <span class="op">=</span> <span class="va">d</span><span class="op">)</span></span>
 <span><span class="va">lh</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/lh_robust.html">lh_robust</a></span><span class="op">(</span><span class="va">y</span> <span class="op">~</span> <span class="va">z</span> <span class="op">+</span> <span class="va">x</span>, data <span class="op">=</span> <span class="va">d</span>, linear_hypothesis <span class="op">=</span> <span class="st">"z + x = 0"</span><span class="op">)</span></span>
 <span><span class="va">a</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">1</span>, <span class="fl">1</span><span class="op">)</span></span>
@@ -1043,7 +1205,7 @@ outcome on the treatment indicator, which is <span class="citation">Samii and Ar
 reason HC2 is the package default.</p>
 <p><strong>The promise: for a two-arm design it is
 <code><a href="../reference/lm_robust.html">lm_robust()</a></code> at HC2.</strong></p>
-<div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">dim_fit</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/difference_in_means.html">difference_in_means</a></span><span class="op">(</span><span class="va">y</span> <span class="op">~</span> <span class="va">z</span>, data <span class="op">=</span> <span class="va">d</span><span class="op">)</span></span>
 <span><span class="va">ols</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/lm_robust.html">lm_robust</a></span><span class="op">(</span><span class="va">y</span> <span class="op">~</span> <span class="va">z</span>, data <span class="op">=</span> <span class="va">d</span>, se_type <span class="op">=</span> <span class="st">"HC2"</span><span class="op">)</span></span>
 <span></span>
@@ -1117,7 +1279,7 @@ when every block is estimable and to
 when every block has a singleton arm, matching what each literature uses
 on its own.</p>
 <p><code>design</code> reports which case applied.</p>
-<div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">blocked</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span>bl <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">10</span>, each <span class="op">=</span> <span class="fl">10</span><span class="op">)</span>,</span>
 <span>                      z <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep</a></span><span class="op">(</span><span class="fl">0</span><span class="op">:</span><span class="fl">1</span>, each <span class="op">=</span> <span class="fl">5</span><span class="op">)</span>, times <span class="op">=</span> <span class="fl">10</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="va">blocked</span><span class="op">$</span><span class="va">y</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/Normal.html" class="external-link">rnorm</a></span><span class="op">(</span><span class="fl">100</span><span class="op">)</span> <span class="op">+</span> <span class="fl">0.3</span> <span class="op">*</span> <span class="va">blocked</span><span class="op">$</span><span class="va">z</span></span>
@@ -1212,7 +1374,7 @@ the arms outside the contrast. A declaration whose size does not match
 misalignment.</p>
 <p><strong>The promise: the estimate is the Horvitz-Thompson
 estimator.</strong> Two lines is the whole definition.</p>
-<div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb18"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">ht_estimate</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">y</span>, <span class="va">z</span>, <span class="va">pr</span><span class="op">)</span> <span class="op">{</span></span>
 <span>  <span class="fu"><a href="https://rdrr.io/r/base/mean.html" class="external-link">mean</a></span><span class="op">(</span><span class="va">y</span> <span class="op">*</span> <span class="va">z</span> <span class="op">/</span> <span class="va">pr</span><span class="op">)</span> <span class="op">-</span> <span class="fu"><a href="https://rdrr.io/r/base/mean.html" class="external-link">mean</a></span><span class="op">(</span><span class="va">y</span> <span class="op">*</span> <span class="op">(</span><span class="fl">1</span> <span class="op">-</span> <span class="va">z</span><span class="op">)</span> <span class="op">/</span> <span class="op">(</span><span class="fl">1</span> <span class="op">-</span> <span class="va">pr</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="op">}</span></span>
@@ -1258,7 +1420,7 @@ is zero, and the bound collapses to</p>
 <p>Which is short enough to check directly, and it is the variance the
 estimate above was reported with, since a bare probability vector says
 nothing about dependence between units.</p>
-<div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb19"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">Y1</span> <span class="op">&lt;-</span> <span class="va">d</span><span class="op">$</span><span class="va">y</span><span class="op">[</span><span class="va">d</span><span class="op">$</span><span class="va">z</span> <span class="op">==</span> <span class="fl">1</span><span class="op">]</span> <span class="op">/</span> <span class="fl">0.5</span></span>
 <span><span class="va">Y0</span> <span class="op">&lt;-</span> <span class="va">d</span><span class="op">$</span><span class="va">y</span><span class="op">[</span><span class="va">d</span><span class="op">$</span><span class="va">z</span> <span class="op">==</span> <span class="fl">0</span><span class="op">]</span> <span class="op">/</span> <span class="fl">0.5</span></span>
 <span></span>
@@ -1368,7 +1530,7 @@ and exact only for Bernoulli assignment. For a complete or blocked
 design it overstates the uncertainty.</p>
 <p>In 1.x the same distinction existed but was buried in which
 combination of five arguments happened to be supplied.</p>
-<div class="sourceCode" id="cb18"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb20"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://declaredesign.org/r/randomizr/" class="external-link">randomizr</a></span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/Random.html" class="external-link">set.seed</a></span><span class="op">(</span><span class="fl">2</span><span class="op">)</span></span>
 <span><span class="va">decl</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/randomizr/man/declare_ra.html" class="external-link">declare_ra</a></span><span class="op">(</span>blocks <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"a"</span>, <span class="st">"b"</span>, <span class="st">"c"</span>, <span class="st">"d"</span><span class="op">)</span>, each <span class="op">=</span> <span class="fl">50</span><span class="op">)</span>, prob <span class="op">=</span> <span class="fl">0.4</span><span class="op">)</span></span>
@@ -1403,8 +1565,8 @@ approximation:</p>
 </h2>
 <table class="table">
 <colgroup>
-<col width="64%">
-<col width="27%">
+<col width="68%">
+<col width="24%">
 <col width="7%">
 </colgroup>
 <thead><tr class="header">
@@ -1464,6 +1626,61 @@ approximation:</p>
 <td align="left">TRUE</td>
 </tr>
 <tr class="odd">
+<td align="left">lm_robust(cbind(y, y2), se_type = ‘classical’)</td>
+<td align="left">1.2e-16</td>
+<td align="left">TRUE</td>
+</tr>
+<tr class="even">
+<td align="left">lm_robust(cbind(y, y2), se_type = ‘HC0’)</td>
+<td align="left">2.1e-16</td>
+<td align="left">TRUE</td>
+</tr>
+<tr class="odd">
+<td align="left">lm_robust(cbind(y, y2), se_type = ‘HC1’)</td>
+<td align="left">2.5e-16</td>
+<td align="left">TRUE</td>
+</tr>
+<tr class="even">
+<td align="left">lm_robust(cbind(y, y2), se_type = ‘HC2’)</td>
+<td align="left">2.2e-16</td>
+<td align="left">TRUE</td>
+</tr>
+<tr class="odd">
+<td align="left">lm_robust(cbind(y, y2), se_type = ‘HC3’)</td>
+<td align="left">2.5e-16</td>
+<td align="left">TRUE</td>
+</tr>
+<tr class="even">
+<td align="left">lm_robust(cbind(y, y2), clusters = cl, se_type =
+‘CR0’)</td>
+<td align="left">2.4e-16</td>
+<td align="left">TRUE</td>
+</tr>
+<tr class="odd">
+<td align="left">lm_robust(cbind(y, y2), clusters = cl, se_type =
+‘CR2’)</td>
+<td align="left">1.7e-16</td>
+<td align="left">TRUE</td>
+</tr>
+<tr class="even">
+<td align="left">lm_robust(cbind(y, y2), clusters = cl, se_type =
+‘CR3’)</td>
+<td align="left">1.7e-16</td>
+<td align="left">TRUE</td>
+</tr>
+<tr class="odd">
+<td align="left">lm_robust(cbind(y, y2), clusters = cl, se_type =
+‘stata’)</td>
+<td align="left">2.5e-16</td>
+<td align="left">TRUE</td>
+</tr>
+<tr class="even">
+<td align="left">lm_robust(cbind(y, y2)) y2 block equals
+lm_robust(y2)</td>
+<td align="left">4.2e-17</td>
+<td align="left">TRUE</td>
+</tr>
+<tr class="odd">
 <td align="left">lm_lin()</td>
 <td align="left">1.1e-16</td>
 <td align="left">TRUE</td>
@@ -1495,7 +1712,7 @@ approximation:</p>
 </tr>
 </tbody>
 </table>
-<div class="sourceCode" id="cb19"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb21"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/stopifnot.html" class="external-link">stopifnot</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/all.html" class="external-link">all</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/unlist.html" class="external-link">unlist</a></span><span class="op">(</span><span class="va">CHECKS</span><span class="op">)</span> <span class="op">&lt;</span> <span class="fl">1e-10</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <p>Every promise above is met. The numbers are computed when the
 vignette is built, so they are what your installed copy produces rather

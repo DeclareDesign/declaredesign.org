@@ -64,7 +64,8 @@ permutation matrix.</p>
 <span>  condition2 <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  se_type <span class="op">=</span> <span class="st">"youngs"</span>,</span>
 <span>  ci <span class="op">=</span> <span class="cn">TRUE</span>,</span>
-<span>  alpha <span class="op">=</span> <span class="fl">0.05</span></span>
+<span>  alpha <span class="op">=</span> <span class="fl">0.05</span>,</span>
+<span>  alternative <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"two.sided"</span>, <span class="st">"less"</span>, <span class="st">"greater"</span><span class="op">)</span></span>
 <span><span class="op">)</span></span></code></pre></div>
     </div>
 
@@ -124,12 +125,20 @@ condition by default).</p></dd>
 <dt id="arg-alpha">alpha<a class="anchor" aria-label="anchor" href="#arg-alpha"></a></dt>
 <dd><p>(optional) Significance level, 0.05 by default.</p></dd>
 
+
+<dt id="arg-alternative">alternative<a class="anchor" aria-label="anchor" href="#arg-alternative"></a></dt>
+<dd><p>(optional) The alternative hypothesis: <code>"two.sided"</code>
+(default), <code>"greater"</code> (the difference, <code>condition2</code> minus <code>condition1</code>, exceeds zero), or <code>"less"</code>. A one-sided
+test puts all of <code>alpha</code> in one tail, so its p-value is from that tail and
+its confidence interval is unbounded on the other side, as in
+<code><a href="https://rdrr.io/r/stats/t.test.html" class="external-link">stats::t.test()</a></code>. Decide the direction before seeing the data.</p></dd>
+
 </dl></div>
     <div class="section level2">
     <h2 id="value">Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
     <p>An object of class <code>"horvitz_thompson"</code> with fields
 <code>coefficients</code>, <code>std.error</code>, <code>statistic</code>,
-<code>p.value</code>, <code>conf.low</code>, <code>conf.high</code>, <code>df</code>,
+<code>p.value</code>, <code>conf.low</code>, <code>conf.high</code>, <code>df</code>, <code>alpha</code>, <code>alternative</code>,
 <code>nobs</code> (the number of units in the design, including any arms
 outside the contrast), <code>vcov</code>, <code>se_type</code>, <code>condition1</code>,
 <code>condition2</code>, <code>outcome</code>, and <code>term</code>.</p>

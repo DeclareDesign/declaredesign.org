@@ -76,7 +76,7 @@ estimatr did not write: <code><a href="https://rdrr.io/r/stats/coef.html" class=
 estimatr methods, some fall through to a method written for
 <code>lm</code>, and some have no business running on a fit that does
 not store residuals or a QR decomposition. The post-estimation contract
-records, for every one of 70 probes on each of 10 fits, what estimatr
+records, for every one of 71 probes on each of 10 fits, what estimatr
 promises the call will do. The table below is rendered from
 <code>inst/contract/contract.csv</code>, the same file the test suite
 reads, so the page cannot drift from what is checked.</p>
@@ -127,7 +127,7 @@ entered here</td>
 </tr>
 </tbody>
 </table>
-<p>Across the 700 cells: 320 agree, 130 refuse, 218 error, 32 return, 0
+<p>Across the 710 cells: 328 agree, 130 refuse, 220 error, 32 return, 0
 are known wrong, and 0 make no promise.</p>
 <p>The test (<code>tests/testthat/test_contract.R</code>) runs each
 probe in a fresh R process holding estimatr and only the packages that
@@ -553,6 +553,19 @@ centers it. <code>dim</code> and <code>ht</code> equal a regression on
 <td align="center">E</td>
 </tr>
 <tr class="even">
+<td align="left"><code>model.matrix(fit, data = transform(d, x = x + 1, x_c = x_c + 1))</code></td>
+<td align="center">=</td>
+<td align="center">=</td>
+<td align="center">=</td>
+<td align="center">=</td>
+<td align="center">=</td>
+<td align="center">=</td>
+<td align="center">=</td>
+<td align="center">=</td>
+<td align="center">E</td>
+<td align="center">E</td>
+</tr>
+<tr class="odd">
 <td align="left"><code>family(fit)$family</code></td>
 <td align="center">E</td>
 <td align="center">E</td>
@@ -565,7 +578,7 @@ centers it. <code>dim</code> and <code>ht</code> equal a regression on
 <td align="center">E</td>
 <td align="center">E</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td align="left"><code>weights(fit)</code></td>
 <td align="center">=</td>
 <td align="center">=</td>
@@ -578,7 +591,7 @@ centers it. <code>dim</code> and <code>ht</code> equal a regression on
 <td align="center">=</td>
 <td align="center">~</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td align="left"><code>case.names(fit)</code></td>
 <td align="center">=</td>
 <td align="center">=</td>
@@ -591,7 +604,7 @@ centers it. <code>dim</code> and <code>ht</code> equal a regression on
 <td align="center">R</td>
 <td align="center">~</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td align="left"><code>variable.names(fit)</code></td>
 <td align="center">=</td>
 <td align="center">=</td>
@@ -604,7 +617,7 @@ centers it. <code>dim</code> and <code>ht</code> equal a regression on
 <td align="center">R</td>
 <td align="center">~</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td align="left"><code>labels(fit)</code></td>
 <td align="center">=</td>
 <td align="center">=</td>
@@ -617,7 +630,7 @@ centers it. <code>dim</code> and <code>ht</code> equal a regression on
 <td align="center">R</td>
 <td align="center">~</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td align="left"><code>unlist(dummy.coef(fit))</code></td>
 <td align="center">E</td>
 <td align="center">E</td>
@@ -630,7 +643,7 @@ centers it. <code>dim</code> and <code>ht</code> equal a regression on
 <td align="center">E</td>
 <td align="center">E</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td align="left"><code>effects(fit)</code></td>
 <td align="center">E</td>
 <td align="center">E</td>
@@ -643,7 +656,7 @@ centers it. <code>dim</code> and <code>ht</code> equal a regression on
 <td align="center">E</td>
 <td align="center">E</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td align="left"><code>alias(fit)$Complete</code></td>
 <td align="center">E</td>
 <td align="center">E</td>
@@ -656,7 +669,7 @@ centers it. <code>dim</code> and <code>ht</code> equal a regression on
 <td align="center">E</td>
 <td align="center">E</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td align="left"><code>qr(fit)$rank</code></td>
 <td align="center">E</td>
 <td align="center">E</td>
@@ -669,7 +682,7 @@ centers it. <code>dim</code> and <code>ht</code> equal a regression on
 <td align="center">E</td>
 <td align="center">E</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td align="left"><code>kappa(fit)</code></td>
 <td align="center">E</td>
 <td align="center">E</td>
@@ -682,7 +695,7 @@ centers it. <code>dim</code> and <code>ht</code> equal a regression on
 <td align="center">E</td>
 <td align="center">E</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td align="left"><code>proj(fit)</code></td>
 <td align="center">E</td>
 <td align="center">E</td>
@@ -695,7 +708,7 @@ centers it. <code>dim</code> and <code>ht</code> equal a regression on
 <td align="center">E</td>
 <td align="center">E</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td align="left"><code>hatvalues(fit)</code></td>
 <td align="center">=</td>
 <td align="center">=</td>
@@ -708,7 +721,7 @@ centers it. <code>dim</code> and <code>ht</code> equal a regression on
 <td align="center">E</td>
 <td align="center">E</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td align="left"><code>cooks.distance(fit)</code></td>
 <td align="center">R</td>
 <td align="center">R</td>
@@ -721,7 +734,7 @@ centers it. <code>dim</code> and <code>ht</code> equal a regression on
 <td align="center">E</td>
 <td align="center">E</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td align="left"><code>influence(fit)$hat</code></td>
 <td align="center">R</td>
 <td align="center">R</td>
@@ -734,7 +747,7 @@ centers it. <code>dim</code> and <code>ht</code> equal a regression on
 <td align="center">E</td>
 <td align="center">E</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td align="left"><code>lm.influence(fit)$hat</code></td>
 <td align="center">E</td>
 <td align="center">E</td>
@@ -747,7 +760,7 @@ centers it. <code>dim</code> and <code>ht</code> equal a regression on
 <td align="center">E</td>
 <td align="center">E</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td align="left"><code>influence.measures(fit)$infmat</code></td>
 <td align="center">E</td>
 <td align="center">E</td>
@@ -760,7 +773,7 @@ centers it. <code>dim</code> and <code>ht</code> equal a regression on
 <td align="center">E</td>
 <td align="center">E</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td align="left"><code>dfbeta(fit)</code></td>
 <td align="center">R</td>
 <td align="center">R</td>
@@ -773,7 +786,7 @@ centers it. <code>dim</code> and <code>ht</code> equal a regression on
 <td align="center">E</td>
 <td align="center">E</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td align="left"><code>dfbetas(fit)</code></td>
 <td align="center">R</td>
 <td align="center">R</td>
@@ -786,7 +799,7 @@ centers it. <code>dim</code> and <code>ht</code> equal a regression on
 <td align="center">E</td>
 <td align="center">E</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td align="left"><code>rstandard(fit)</code></td>
 <td align="center">R</td>
 <td align="center">R</td>
@@ -799,7 +812,7 @@ centers it. <code>dim</code> and <code>ht</code> equal a regression on
 <td align="center">E</td>
 <td align="center">E</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td align="left"><code>rstudent(fit)</code></td>
 <td align="center">R</td>
 <td align="center">R</td>
@@ -812,7 +825,7 @@ centers it. <code>dim</code> and <code>ht</code> equal a regression on
 <td align="center">E</td>
 <td align="center">E</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td align="left"><code>add1(fit, ~. + x2, data = d)</code></td>
 <td align="center">R</td>
 <td align="center">R</td>
@@ -825,7 +838,7 @@ centers it. <code>dim</code> and <code>ht</code> equal a regression on
 <td align="center">E</td>
 <td align="center">E</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td align="left"><code>drop1(fit)</code></td>
 <td align="center">R</td>
 <td align="center">R</td>
@@ -838,7 +851,7 @@ centers it. <code>dim</code> and <code>ht</code> equal a regression on
 <td align="center">E</td>
 <td align="center">E</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td align="left"><code>formula(step(fit, trace = 0))</code></td>
 <td align="center">R</td>
 <td align="center">R</td>
@@ -851,7 +864,7 @@ centers it. <code>dim</code> and <code>ht</code> equal a regression on
 <td align="center">E</td>
 <td align="center">E</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td align="left"><code>anova(fit)</code></td>
 <td align="center">E</td>
 <td align="center">E</td>
@@ -864,7 +877,7 @@ centers it. <code>dim</code> and <code>ht</code> equal a regression on
 <td align="center">E</td>
 <td align="center">E</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td align="left"><code>anova(fit, update(fit, . ~ . - x))</code></td>
 <td align="center">E</td>
 <td align="center">E</td>
@@ -877,7 +890,7 @@ centers it. <code>dim</code> and <code>ht</code> equal a regression on
 <td align="center">E</td>
 <td align="center">E</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td align="left"><code>coef(update(fit, . ~ . - x))</code></td>
 <td align="center">=</td>
 <td align="center">=</td>
@@ -890,7 +903,7 @@ centers it. <code>dim</code> and <code>ht</code> equal a regression on
 <td align="center">=</td>
 <td align="center">~</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td align="left"><code>simulate(fit, 1)</code></td>
 <td align="center">E</td>
 <td align="center">E</td>
@@ -903,7 +916,7 @@ centers it. <code>dim</code> and <code>ht</code> equal a regression on
 <td align="center">E</td>
 <td align="center">E</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td align="left"><code>plot(fit, which = 1)</code></td>
 <td align="center">E</td>
 <td align="center">E</td>
@@ -916,7 +929,7 @@ centers it. <code>dim</code> and <code>ht</code> equal a regression on
 <td align="center">E</td>
 <td align="center">E</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td align="left"><code>coef(summary(fit))</code></td>
 <td align="center">=</td>
 <td align="center">=</td>
@@ -929,7 +942,7 @@ centers it. <code>dim</code> and <code>ht</code> equal a regression on
 <td align="center">=</td>
 <td align="center">~</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td align="left"><code>summary(fit)$sigma</code></td>
 <td align="center">=</td>
 <td align="center">=</td>
@@ -942,7 +955,7 @@ centers it. <code>dim</code> and <code>ht</code> equal a regression on
 <td align="center">=</td>
 <td align="center">~</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td align="left"><code>summary(fit)$r.squared</code></td>
 <td align="center">=</td>
 <td align="center">=</td>
@@ -955,7 +968,7 @@ centers it. <code>dim</code> and <code>ht</code> equal a regression on
 <td align="center">=</td>
 <td align="center">~</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td align="left"><code>summary(fit)$fstatistic</code></td>
 <td align="center">=</td>
 <td align="center">=</td>
@@ -968,7 +981,7 @@ centers it. <code>dim</code> and <code>ht</code> equal a regression on
 <td align="center">~</td>
 <td align="center">~</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td align="left"><code>fit$model</code></td>
 <td align="center">=</td>
 <td align="center">=</td>
@@ -981,7 +994,7 @@ centers it. <code>dim</code> and <code>ht</code> equal a regression on
 <td align="center">=</td>
 <td align="center">~</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td align="left"><code>fit$na.action</code></td>
 <td align="center">=</td>
 <td align="center">=</td>
@@ -994,7 +1007,7 @@ centers it. <code>dim</code> and <code>ht</code> equal a regression on
 <td align="center">=</td>
 <td align="center">~</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td align="left"><code>sandwich::bread(fit)</code></td>
 <td align="center">=</td>
 <td align="center">=</td>
@@ -1007,7 +1020,7 @@ centers it. <code>dim</code> and <code>ht</code> equal a regression on
 <td align="center">R</td>
 <td align="center">R</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td align="left"><code>sandwich::estfun(fit)</code></td>
 <td align="center">=</td>
 <td align="center">=</td>
@@ -1020,7 +1033,7 @@ centers it. <code>dim</code> and <code>ht</code> equal a regression on
 <td align="center">E</td>
 <td align="center">E</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td align="left"><code>sandwich::meat(fit)</code></td>
 <td align="center">=</td>
 <td align="center">=</td>
@@ -1033,7 +1046,7 @@ centers it. <code>dim</code> and <code>ht</code> equal a regression on
 <td align="center">E</td>
 <td align="center">E</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td align="left"><code>sandwich::sandwich(fit)</code></td>
 <td align="center">=</td>
 <td align="center">=</td>
@@ -1046,7 +1059,7 @@ centers it. <code>dim</code> and <code>ht</code> equal a regression on
 <td align="center">E</td>
 <td align="center">E</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td align="left"><code>sandwich::vcovHC(fit, type = "HC2")</code></td>
 <td align="center">=</td>
 <td align="center">=</td>
@@ -1059,7 +1072,7 @@ centers it. <code>dim</code> and <code>ht</code> equal a regression on
 <td align="center">E</td>
 <td align="center">E</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td align="left"><code>sandwich::vcovHC(fit, type = "HC3")</code></td>
 <td align="center">=</td>
 <td align="center">=</td>
@@ -1072,7 +1085,7 @@ centers it. <code>dim</code> and <code>ht</code> equal a regression on
 <td align="center">E</td>
 <td align="center">E</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td align="left"><code>sandwich::vcovHC(fit, type = "HC0")</code></td>
 <td align="center">=</td>
 <td align="center">=</td>
@@ -1085,7 +1098,7 @@ centers it. <code>dim</code> and <code>ht</code> equal a regression on
 <td align="center">E</td>
 <td align="center">E</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td align="left"><code>sandwich::vcovCL(fit, cluster = d$g)</code></td>
 <td align="center">=</td>
 <td align="center">=</td>
@@ -1098,7 +1111,7 @@ centers it. <code>dim</code> and <code>ht</code> equal a regression on
 <td align="center">E</td>
 <td align="center">E</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td align="left"><code>sandwich::vcovCL(fit, cluster = d$g, type = "HC2")</code></td>
 <td align="center">=</td>
 <td align="center">=</td>
@@ -1111,7 +1124,7 @@ centers it. <code>dim</code> and <code>ht</code> equal a regression on
 <td align="center">E</td>
 <td align="center">E</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td align="left"><code>sandwich::vcovHAC(fit)</code></td>
 <td align="center">=</td>
 <td align="center">=</td>
@@ -1124,7 +1137,7 @@ centers it. <code>dim</code> and <code>ht</code> equal a regression on
 <td align="center">E</td>
 <td align="center">E</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td align="left"><code>sandwich::vcovBS(fit, R = 20)</code></td>
 <td align="center">E</td>
 <td align="center">E</td>
@@ -1137,7 +1150,7 @@ centers it. <code>dim</code> and <code>ht</code> equal a regression on
 <td align="center">E</td>
 <td align="center">E</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td align="left"><code>sandwich::vcovOPG(fit)</code></td>
 <td align="center">=</td>
 <td align="center">=</td>
@@ -1150,7 +1163,7 @@ centers it. <code>dim</code> and <code>ht</code> equal a regression on
 <td align="center">E</td>
 <td align="center">E</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td align="left"><code>bread(fit) %*% meat(fit) %*% bread(fit) / nobs(fit)</code></td>
 <td align="center">=</td>
 <td align="center">=</td>

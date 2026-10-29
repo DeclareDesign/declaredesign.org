@@ -73,7 +73,8 @@ applied.</p>
 <span>  condition1 <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  condition2 <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  ci <span class="op">=</span> <span class="cn">TRUE</span>,</span>
-<span>  alpha <span class="op">=</span> <span class="fl">0.05</span></span>
+<span>  alpha <span class="op">=</span> <span class="fl">0.05</span>,</span>
+<span>  alternative <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"two.sided"</span>, <span class="st">"less"</span>, <span class="st">"greater"</span><span class="op">)</span></span>
 <span><span class="op">)</span></span></code></pre></div>
     </div>
 
@@ -94,7 +95,10 @@ applied.</p>
 
 
 <dt id="arg-clusters">clusters<a class="anchor" aria-label="anchor" href="#arg-clusters"></a></dt>
-<dd><p>(optional) A bare (unquoted) name of the cluster variable</p></dd>
+<dd><p>(optional) A bare (unquoted) name of the cluster variable:
+the units to which treatment was assigned, so every unit in a cluster must
+share a treatment condition. To cluster standard errors above the level of
+assignment, use <code><a href="lm_robust.html">lm_robust()</a></code> with <code>clusters</code> and <code>se_type = "CR2"</code>.</p></dd>
 
 
 <dt id="arg-weights">weights<a class="anchor" aria-label="anchor" href="#arg-weights"></a></dt>
@@ -124,13 +128,21 @@ applied.</p>
 <dt id="arg-alpha">alpha<a class="anchor" aria-label="anchor" href="#arg-alpha"></a></dt>
 <dd><p>(optional) The significance level, 0.05 by default.</p></dd>
 
+
+<dt id="arg-alternative">alternative<a class="anchor" aria-label="anchor" href="#arg-alternative"></a></dt>
+<dd><p>(optional) The alternative hypothesis: <code>"two.sided"</code>
+(default), <code>"greater"</code> (the difference, <code>condition2</code> minus <code>condition1</code>, exceeds zero), or <code>"less"</code>. A one-sided
+test puts all of <code>alpha</code> in one tail, so its p-value is from that tail and
+its confidence interval is unbounded on the other side, as in
+<code><a href="https://rdrr.io/r/stats/t.test.html" class="external-link">stats::t.test()</a></code>. Decide the direction before seeing the data.</p></dd>
+
 </dl></div>
     <div class="section level2">
     <h2 id="value">Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
     <p>An object of class <code>"difference_in_means"</code>, a list holding
 <code>coefficients</code>, <code>std.error</code>, <code>df</code>, <code>statistic</code>, <code>p.value</code>, <code>conf.low</code>,
 <code>conf.high</code>, <code>term</code>, <code>outcome</code>, <code>condition1</code>, <code>condition2</code>, <code>vcov</code>,
-<code>nobs</code>, <code>alpha</code>, <code>call</code>, and <code>design</code>, a string naming the case that applied:
+<code>nobs</code>, <code>alpha</code>, <code>alternative</code>, <code>call</code>, and <code>design</code>, a string naming the case that applied:
 <code>"Standard"</code>, <code>"Blocked"</code>, <code>"Small blocks"</code>, <code>"Hybrid blocked"</code>,
 <code>"Matched-pair"</code>, <code>"Clustered"</code>, <code>"Block-clustered"</code>, or
 <code>"Matched-pair clustered"</code>.</p>
@@ -156,8 +168,16 @@ estimated: exactly one block with a singleton arm, and a set of
 different-sized such blocks in which one holds half or more of their
 units. Both messages suggest merging blocks or using <code><a href="lm_robust.html">lm_robust()</a></code> with
 block fixed effects.</p>
-<p>If weights are specified, estimation is handed to <code><a href="lm_robust.html">lm_robust()</a></code> with HC2
-standard errors.</p>
+<p>Without blocks or clusters, weighted or not, the fit is
+<code>lm_robust(y ~ z, se_type = "HC2", df_type = "welch")</code> on the two
+conditions, in every returned number. The variance is
+\(\sum_g \sum_{i \in g} w_i^2 e_i^2 / (1 - w_i / W_g) / W_g^2\), where
+\(W_g\) is the total weight in condition \(g\) and \(e_i\) the
+deviation from that condition's weighted mean, and the degrees of freedom
+are Welch-Satterthwaite's on its two terms; with constant weights these
+are the unweighted Neyman variance and Welch's degrees of freedom. With
+clusters and no blocks, the fit is <code>lm_robust(se_type = "CR2")</code>.
+Weights are not supported with matched pairs.</p>
 <p><strong>Blocks of clusters.</strong> Pashley and Miratrix treat treatment assigned
 within blocks, not blocks of clusters, so blocked designs with <code>clusters</code>
 use the earlier estimators. Every block must have at least two treated and

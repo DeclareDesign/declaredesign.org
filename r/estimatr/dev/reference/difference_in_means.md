@@ -21,7 +21,8 @@ difference_in_means(
   condition1 = NULL,
   condition2 = NULL,
   ci = TRUE,
-  alpha = 0.05
+  alpha = 0.05,
+  alternative = c("two.sided", "less", "greater")
 )
 ```
 
@@ -41,7 +42,12 @@ difference_in_means(
 
 - clusters:
 
-  (optional) A bare (unquoted) name of the cluster variable
+  (optional) A bare (unquoted) name of the cluster variable: the units
+  to which treatment was assigned, so every unit in a cluster must share
+  a treatment condition. To cluster standard errors above the level of
+  assignment, use
+  [`lm_robust()`](https://declaredesign.org/r/estimatr/dev/reference/lm_robust.md)
+  with `clusters` and `se_type = "CR2"`.
 
 - weights:
 
@@ -72,13 +78,23 @@ difference_in_means(
 
   (optional) The significance level, 0.05 by default.
 
+- alternative:
+
+  (optional) The alternative hypothesis: `"two.sided"` (default),
+  `"greater"` (the difference, `condition2` minus `condition1`, exceeds
+  zero), or `"less"`. A one-sided test puts all of `alpha` in one tail,
+  so its p-value is from that tail and its confidence interval is
+  unbounded on the other side, as in
+  [`stats::t.test()`](https://rdrr.io/r/stats/t.test.html). Decide the
+  direction before seeing the data.
+
 ## Value
 
 An object of class `"difference_in_means"`, a list holding
 `coefficients`, `std.error`, `df`, `statistic`, `p.value`, `conf.low`,
 `conf.high`, `term`, `outcome`, `condition1`, `condition2`, `vcov`,
-`nobs`, `alpha`, `call`, and `design`, a string naming the case that
-applied: `"Standard"`, `"Blocked"`, `"Small blocks"`,
+`nobs`, `alpha`, `alternative`, `call`, and `design`, a string naming
+the case that applied: `"Standard"`, `"Blocked"`, `"Small blocks"`,
 `"Hybrid blocked"`, `"Matched-pair"`, `"Clustered"`,
 `"Block-clustered"`, or `"Matched-pair clustered"`.
 
@@ -107,9 +123,16 @@ units. Both messages suggest merging blocks or using
 [`lm_robust()`](https://declaredesign.org/r/estimatr/dev/reference/lm_robust.md)
 with block fixed effects.
 
-If weights are specified, estimation is handed to
-[`lm_robust()`](https://declaredesign.org/r/estimatr/dev/reference/lm_robust.md)
-with HC2 standard errors.
+Without blocks or clusters, weighted or not, the fit is
+`lm_robust(y ~ z, se_type = "HC2", df_type = "welch")` on the two
+conditions, in every returned number. The variance is \\\sum_g \sum\_{i
+\in g} w_i^2 e_i^2 / (1 - w_i / W_g) / W_g^2\\, where \\W_g\\ is the
+total weight in condition \\g\\ and \\e_i\\ the deviation from that
+condition's weighted mean, and the degrees of freedom are
+Welch-Satterthwaite's on its two terms; with constant weights these are
+the unweighted Neyman variance and Welch's degrees of freedom. With
+clusters and no blocks, the fit is `lm_robust(se_type = "CR2")`. Weights
+are not supported with matched pairs.
 
 **Blocks of clusters.** Pashley and Miratrix treat treatment assigned
 within blocks, not blocks of clusters, so blocked designs with

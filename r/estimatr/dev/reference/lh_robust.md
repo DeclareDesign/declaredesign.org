@@ -10,7 +10,12 @@ freedom rather than on the residual ones.
 ## Usage
 
 ``` r
-lh_robust(..., data, linear_hypothesis)
+lh_robust(
+  ...,
+  data,
+  linear_hypothesis,
+  alternative = c("two.sided", "less", "greater")
+)
 ```
 
 ## Arguments
@@ -30,15 +35,27 @@ lh_robust(..., data, linear_hypothesis)
   passed to
   [`car::linearHypothesis`](https://rdrr.io/pkg/car/man/linearHypothesis.html)
 
+- alternative:
+
+  (optional) The alternative hypothesis: `"two.sided"` (default),
+  `"greater"` (the linear combination, left-hand side minus right,
+  exceeds zero), or `"less"`. A one-sided test puts all of `alpha` in
+  one tail, so its p-value is from that tail and its confidence interval
+  is unbounded on the other side, as in
+  [`stats::t.test()`](https://rdrr.io/r/stats/t.test.html). Decide the
+  direction before seeing the data. It applies to the rows of `lh` only:
+  the coefficients of the underlying fit and the joint F test stay as
+  they are.
+
 ## Value
 
 An object of class `"lh_robust"` with three components: `lm_robust`, the
 underlying fit; `lh`, one row per hypothesis holding `coefficients`,
-`std.error`, `statistic`, `p.value`, `alpha`, `conf.low`, `conf.high`,
-`df`, `term`, and `outcome`; and `joint_hypothesis`, the Wald F test of
-all of them at once, as `value`, `numdf`, `dendf`, and `p.value`. Under
-`se_type = "CR2"` or `"CR3"` each hypothesis's `df` is its own
-Satterthwaite approximation, as
+`std.error`, `statistic`, `p.value`, `alpha`, `alternative`, `conf.low`,
+`conf.high`, `df`, `term`, and `outcome`; and `joint_hypothesis`, the
+Wald F test of all of them at once, as `value`, `numdf`, `dendf`, and
+`p.value`. Under `se_type = "CR2"` or `"CR3"` each hypothesis's `df` is
+its own Satterthwaite approximation, as
 [`clubSandwich::linear_contrast()`](http://jepusto.github.io/clubSandwich/reference/linear_contrast.md)
 computes it, and `dendf` is the smallest of them.
 
@@ -52,7 +69,6 @@ dat$y <- dat$x + 0.5 * dat$z + rnorm(100)
 
 # One linear combination of coefficients
 fit <- lh_robust(y ~ x + z, data = dat, linear_hypothesis = "z + 2*x = 0")
-#> Loading required namespace: car
 fit
 #> $lm_robust
 #>              Estimate Std. Error    t value     Pr(>|t|)    CI Lower  CI Upper

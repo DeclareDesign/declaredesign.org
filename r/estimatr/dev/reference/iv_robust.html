@@ -75,8 +75,14 @@ optional weak-instrument, Wu-Hausman, and overidentification diagnostics.</p>
 
 
 <dl><dt id="arg-formula">formula<a class="anchor" aria-label="anchor" href="#arg-formula"></a></dt>
-<dd><p>(required) An object of class formula with regressors and instruments,
-e.g. <code>y ~ x1 + x2 | z1 + z2</code>.</p></dd>
+<dd><p>(required) An object of class formula with regressors and
+instruments, in either of two forms. The two-part <code>y ~ x1 + d | x1 + z1 + z2</code> lists the regressors left of the bar and every instrument right of it,
+so an exogenous regressor appears on both sides. The three-part <code>y ~ x1 | d | z1 + z2</code>, the syntax of <code><a href="https://zeileis.github.io/ivreg/reference/ivreg.html" class="external-link">ivreg::ivreg()</a></code>, lists the exogenous
+regressors, the endogenous regressors, and the excluded instruments once
+each, and fits the same model; as in <code><a href="https://zeileis.github.io/ivreg/reference/ivreg.html" class="external-link">ivreg::ivreg()</a></code>,
+<code>formula(fit)</code> returns its two-part form with the endogenous regressors
+first, <code>y ~ d + x1 | z1 + z2 + x1</code>, and the coefficients follow that
+order.</p></dd>
 
 
 <dt id="arg-data">data<a class="anchor" aria-label="anchor" href="#arg-data"></a></dt>
@@ -98,7 +104,8 @@ e.g. <code>y ~ x1 + x2 | z1 + z2</code>.</p></dd>
 <dt id="arg-fixed-effects">fixed_effects<a class="anchor" aria-label="anchor" href="#arg-fixed-effects"></a></dt>
 <dd><p>(optional) A one-sided formula of fixed effects to absorb,
 such as <code>~ blockID</code>. Uses FWL demeaning (see <code><a href="lm_robust.html">lm_robust()</a></code> for details and
-SE type restrictions). Diagnostics are not available with <code>fixed_effects</code>.</p></dd>
+SE type restrictions). The diagnostics are those of the same model with
+the fixed effects as dummies among both the regressors and the instruments.</p></dd>
 
 
 <dt id="arg-se-type">se_type<a class="anchor" aria-label="anchor" href="#arg-se-type"></a></dt>
@@ -193,9 +200,43 @@ and <code>res_var</code>; the summary statistics <code>r.squared</code>, <code>a
 <code>alpha</code>, <code>terms</code>, <code>xlevels</code>, and <code>call</code>.</p>
 <p><code>residuals</code> are the structural residuals, <code>y - X beta</code>, rather than the
 second-stage ones. <code>ei.iv</code>, <code>terms_regressors</code>, and <code>formula</code> record the
-two-stage structure. With <code>diagnostics = TRUE</code> the object also holds
+two-stage structure. <code>first_stage</code> is a list of <code><a href="lm_robust.html">lm_robust()</a></code> fits, one
+per endogenous regressor and named by it, each the regression of that
+regressor on every instrument with the fit's <code>se_type</code>, clusters, weights,
+fixed effects, and <code>df_type</code>, so <code><a href="https://generics.r-lib.org/reference/tidy.html" class="external-link">tidy()</a></code>, <code><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary()</a></code>, and table packages
+take them as they are (see the examples). Each equals the <code><a href="lm_robust.html">lm_robust()</a></code>
+call recorded in its <code>call</code>, which is <code>NULL</code> for the dummy column of an
+endogenous factor. With <code>diagnostics = TRUE</code> the object also holds
 <code>diagnostic_first_stage_fstatistic</code>, <code>diagnostic_endogeneity_test</code>, and
 <code>diagnostic_overid_test</code>.</p>
+    </div>
+    <div class="section level2">
+    <h2 id="weak-instruments">Weak instruments<a class="anchor" aria-label="anchor" href="#weak-instruments"></a></h2>
+
+
+<p>The confidence intervals in <code>conf.low</code> and <code>conf.high</code> are Wald intervals,
+and they rely on a strong first stage. When the instruments barely move the
+endogenous regressor, they can cover the true coefficient far less often
+than <code>1 - alpha</code>; a small first-stage F from <code>diagnostics = TRUE</code> is the
+usual warning sign.</p>
+<p>The Anderson-Rubin (1949) test keeps its size however weak the instruments
+are, and <code><a href="lm_robust.html">lm_robust()</a></code> computes it directly. To test that the coefficient
+on the endogenous regressor <code>x</code> equals <code>b</code>, regress <code>y - b * x</code> on the
+excluded instruments and the exogenous regressors, with the <code>se_type</code>,
+<code>clusters</code>, <code>weights</code>, and <code>fixed_effects</code> of the IV fit, and test that the
+coefficients on the excluded instruments are zero. With one instrument that
+test is the instrument's own row of the fit; with several it is the
+<code>joint_hypothesis</code> of
+<code>lh_robust(..., linear_hypothesis = c("z1 = 0", "z2 = 0"))</code>. At
+<code>b = 0</code> the regression is the reduced form, which in an experiment that
+randomizes the instrument is the intent-to-treat regression.</p>
+<p>The Anderson-Rubin confidence set is every <code>b</code> that the test does not
+reject, found over a grid (see the examples). Under a weak first stage it
+need not be an interval: it can be the union of two rays or the whole real
+line, which says that the data rule out no value of the coefficient. A set
+that reaches either end of the grid should be checked on a wider one. With
+several endogenous regressors, the same regression with <code>y</code> minus each
+regressor times its hypothesized value tests all of them jointly.</p>
     </div>
 
     <div class="section level2">
@@ -208,6 +249,7 @@ two-stage structure. With <code>diagnostics = TRUE</code> the object also holds
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Endogenous regressor on the left of the bar, instrument on the right</span></span></span>
 <span class="r-in"><span><span class="va">fit</span> <span class="op">&lt;-</span> <span class="fu">iv_robust</span><span class="op">(</span><span class="va">y</span> <span class="op">~</span> <span class="va">x</span> <span class="op">|</span> <span class="va">z</span>, data <span class="op">=</span> <span class="va">dat</span><span class="op">)</span></span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> The standard error is NA for (Intercept): every observation that identifies that coefficient is fitted exactly, so the variance is built from residuals that are all numerically zero. Reported as a number it would be zero or rounding error, and its t statistic would put p at 0.</span>
 <span class="r-in"><span><span class="fu"><a href="https://generics.r-lib.org/reference/tidy.html" class="external-link">tidy</a></span><span class="op">(</span><span class="va">fit</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 2 × 9</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   term     estimate std.error statistic p.value conf.low conf.high    df outcome</span>
@@ -215,12 +257,25 @@ two-stage structure. With <code>diagnostics = TRUE</code> the object also holds
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span> (Interc…    0.137    0.095<span style="text-decoration: underline;">7</span>      1.43 0.153    -<span style="color: #BB0000;">0.051</span><span style="color: #BB0000; text-decoration: underline;">4</span>     0.326   198 y      </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">2</span> x           0.625    0.210       2.97 0.003<span style="text-decoration: underline;">34</span>   0.210      1.04    198 y      </span>
 <span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># Exogenous regressors, endogenous regressors, and instruments, each once</span></span></span>
+<span class="r-in"><span><span class="va">dat</span><span class="op">$</span><span class="va">w</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/Normal.html" class="external-link">rnorm</a></span><span class="op">(</span><span class="va">n</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu">iv_robust</span><span class="op">(</span><span class="va">y</span> <span class="op">~</span> <span class="va">w</span> <span class="op">|</span> <span class="va">x</span> <span class="op">|</span> <span class="va">z</span>, data <span class="op">=</span> <span class="va">dat</span><span class="op">)</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>               Estimate Std. Error    t value    Pr(&gt;|t|)    CI Lower  CI Upper</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> (Intercept)  0.1400588 0.09772890  1.4331362 0.153403995 -0.05267029 0.3327880</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> x            0.6173731 0.21775597  2.8351604 0.005058038  0.18794112 1.0468051</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> w           -0.0138943 0.06951721 -0.1998684 0.841789638 -0.15098773 0.1231991</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>              DF</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> (Intercept) 197</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> x           197</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> w           197</span>
+<span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># The same variance menu as lm_robust()</span></span></span>
 <span class="r-in"><span><span class="fu">iv_robust</span><span class="op">(</span><span class="va">y</span> <span class="op">~</span> <span class="va">x</span> <span class="op">|</span> <span class="va">z</span>, data <span class="op">=</span> <span class="va">dat</span>, se_type <span class="op">=</span> <span class="st">"classical"</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>              Estimate Std. Error  t value    Pr(&gt;|t|)    CI Lower  CI Upper  DF</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> (Intercept) 0.1373582 0.09435025 1.455833 0.147022480 -0.04870211 0.3234186 198</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> x           0.6251925 0.21094522 2.963767 0.003411742  0.20920489 1.0411802 198</span>
 <span class="r-in"><span><span class="fu">iv_robust</span><span class="op">(</span><span class="va">y</span> <span class="op">~</span> <span class="va">x</span> <span class="op">|</span> <span class="va">z</span>, data <span class="op">=</span> <span class="va">dat</span>, clusters <span class="op">=</span> <span class="va">cl</span><span class="op">)</span></span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> The standard error is NA for (Intercept): every observation that identifies that coefficient is fitted exactly, so the variance is built from residuals that are all numerically zero. Reported as a number it would be zero or rounding error, and its t statistic would put p at 0.</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>              Estimate Std. Error  t value   Pr(&gt;|t|)     CI Lower  CI Upper</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> (Intercept) 0.1373582 0.06811342 2.016610 0.05907724 -0.005856096 0.2805725</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> x           0.6251925 0.17196811 3.635514 0.00176444  0.265215125 0.9851700</span>
@@ -228,8 +283,17 @@ two-stage structure. With <code>diagnostics = TRUE</code> the object also holds
 <span class="r-out co"><span class="r-pr">#&gt;</span> (Intercept) 17.80343</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> x           18.96572</span>
 <span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># The first stage, one lm_robust fit per endogenous regressor</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://generics.r-lib.org/reference/tidy.html" class="external-link">tidy</a></span><span class="op">(</span><span class="va">fit</span><span class="op">$</span><span class="va">first_stage</span><span class="op">$</span><span class="va">x</span><span class="op">)</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 2 × 9</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   term   estimate std.error statistic   p.value conf.low conf.high    df outcome</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>  </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span> (Int… -<span style="color: #BB0000;">3.97</span><span style="color: #949494;">e</span><span style="color: #BB0000;">-17</span>   <span style="color: #BB0000;">NA</span>           <span style="color: #BB0000;">NA</span>   <span style="color: #BB0000;">NA</span>   <span style="color: #949494;"> </span>      <span style="color: #BB0000;">NA</span>        <span style="color: #BB0000;">NA</span>       198 x      </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">2</span> z      6.56<span style="color: #949494;">e</span><span style="color: #BB0000;">- 1</span>    0.049<span style="text-decoration: underline;">5</span>      13.2  4.39<span style="color: #949494;">e</span><span style="color: #BB0000;">-29</span>    0.558     0.754   198 x      </span>
+<span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Weak-instrument, endogeneity, and overidentification tests</span></span></span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary</a></span><span class="op">(</span><span class="fu">iv_robust</span><span class="op">(</span><span class="va">y</span> <span class="op">~</span> <span class="va">x</span> <span class="op">|</span> <span class="va">z</span>, data <span class="op">=</span> <span class="va">dat</span>, diagnostics <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> The standard error is NA for (Intercept): every observation that identifies that coefficient is fitted exactly, so the variance is built from residuals that are all numerically zero. Reported as a number it would be zero or rounding error, and its t statistic would put p at 0.</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Call:</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> iv_robust(formula = y ~ x | z, data = dat, diagnostics = TRUE)</span>
@@ -251,6 +315,19 @@ two-stage structure. With <code>diagnostics = TRUE</code> the object also holds
 <span class="r-out co"><span class="r-pr">#&gt;</span> Score (robust)        NA   0.000  NA      NA    </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> ---</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1</span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># Anderson-Rubin confidence set: the values of b at which the regression of</span></span></span>
+<span class="r-in"><span><span class="co"># y - b * x on the instrument finds no effect of z. range() reports the set</span></span></span>
+<span class="r-in"><span><span class="co"># as one interval, so check ar_p for a set with more than one piece.</span></span></span>
+<span class="r-in"><span><span class="va">b_grid</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq</a></span><span class="op">(</span><span class="op">-</span><span class="fl">2</span>, <span class="fl">4</span>, by <span class="op">=</span> <span class="fl">0.01</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">ar_p</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/lapply.html" class="external-link">sapply</a></span><span class="op">(</span><span class="va">b_grid</span>, <span class="kw">function</span><span class="op">(</span><span class="va">b</span><span class="op">)</span> <span class="op">{</span></span></span>
+<span class="r-in"><span>  <span class="fu"><a href="lm_robust.html">lm_robust</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/AsIs.html" class="external-link">I</a></span><span class="op">(</span><span class="va">y</span> <span class="op">-</span> <span class="va">b</span> <span class="op">*</span> <span class="va">x</span><span class="op">)</span> <span class="op">~</span> <span class="va">z</span>, data <span class="op">=</span> <span class="va">dat</span><span class="op">)</span><span class="op">$</span><span class="va">p.value</span><span class="op">[[</span><span class="st">"z"</span><span class="op">]</span><span class="op">]</span></span></span>
+<span class="r-in"><span><span class="op">}</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/range.html" class="external-link">range</a></span><span class="op">(</span><span class="va">b_grid</span><span class="op">[</span><span class="va">ar_p</span> <span class="op">&gt;</span> <span class="fl">0.05</span><span class="op">]</span><span class="op">)</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.20 1.03</span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/stats/confint.html" class="external-link">confint</a></span><span class="op">(</span><span class="va">fit</span><span class="op">)</span><span class="op">[</span><span class="st">"x"</span>, <span class="op">]</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>     2.5 %    97.5 % </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 0.2101339 1.0402512 </span>
 <span class="r-in"><span></span></span>
 </code></pre></div>
     </div>

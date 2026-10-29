@@ -15,7 +15,8 @@ horvitz_thompson(
   condition2 = NULL,
   se_type = "youngs",
   ci = TRUE,
-  alpha = 0.05
+  alpha = 0.05,
+  alternative = c("two.sided", "less", "greater")
 )
 ```
 
@@ -79,13 +80,23 @@ horvitz_thompson(
 
   (optional) Significance level, 0.05 by default.
 
+- alternative:
+
+  (optional) The alternative hypothesis: `"two.sided"` (default),
+  `"greater"` (the difference, `condition2` minus `condition1`, exceeds
+  zero), or `"less"`. A one-sided test puts all of `alpha` in one tail,
+  so its p-value is from that tail and its confidence interval is
+  unbounded on the other side, as in
+  [`stats::t.test()`](https://rdrr.io/r/stats/t.test.html). Decide the
+  direction before seeing the data.
+
 ## Value
 
 An object of class `"horvitz_thompson"` with fields `coefficients`,
 `std.error`, `statistic`, `p.value`, `conf.low`, `conf.high`, `df`,
-`nobs` (the number of units in the design, including any arms outside
-the contrast), `vcov`, `se_type`, `condition1`, `condition2`, `outcome`,
-and `term`.
+`alpha`, `alternative`, `nobs` (the number of units in the design,
+including any arms outside the contrast), `vcov`, `se_type`,
+`condition1`, `condition2`, `outcome`, and `term`.
 
 ## Details
 

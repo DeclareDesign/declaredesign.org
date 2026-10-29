@@ -10,7 +10,7 @@ write: [`coef()`](https://rdrr.io/r/stats/coef.html),
 and dozens more. Some of these have estimatr methods, some fall through
 to a method written for `lm`, and some have no business running on a fit
 that does not store residuals or a QR decomposition. The post-estimation
-contract records, for every one of 70 probes on each of 10 fits, what
+contract records, for every one of 71 probes on each of 10 fits, what
 estimatr promises the call will do. The table below is rendered from
 `inst/contract/contract.csv`, the same file the test suite reads, so the
 page cannot drift from what is checked.
@@ -27,7 +27,7 @@ Each cell carries exactly one promise:
 | `~` | returns | returns a value, with no reference answer to hold it to |
 | `!` | known_wrong | a recorded gap; the test fails if it starts agreeing, so a fix is entered here |
 
-Across the 700 cells: 320 agree, 130 refuse, 218 error, 32 return, 0 are
+Across the 710 cells: 328 agree, 130 refuse, 220 error, 32 return, 0 are
 known wrong, and 0 make no promise.
 
 The test (`tests/testthat/test_contract.R`) runs each probe in a fresh R
@@ -100,6 +100,7 @@ says so.
 | `attr(terms(fit), "term.labels")` | = | = | = | = | = | ~ | = | = | E | E |
 | `mf <- model.frame(fit); as.matrix(mf[vapply(mf, is.numeric, TRUE)])` | = | = | = | = | = | = | = | = | E | E |
 | `model.matrix(fit)` | = | = | = | = | = | = | = | = | E | E |
+| `model.matrix(fit, data = transform(d, x = x + 1, x_c = x_c + 1))` | = | = | = | = | = | = | = | = | E | E |
 | `family(fit)$family` | E | E | E | E | E | E | E | E | E | E |
 | `weights(fit)` | = | = | = | = | = | = | = | = | = | ~ |
 | `case.names(fit)` | = | = | = | = | = | = | = | = | R | ~ |

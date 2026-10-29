@@ -59,7 +59,12 @@ residual ones.</p>
 
     <div class="section level2">
     <h2 id="ref-usage">Usage<a class="anchor" aria-label="anchor" href="#ref-usage"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">lh_robust</span><span class="op">(</span><span class="va">...</span>, <span class="va">data</span>, <span class="va">linear_hypothesis</span><span class="op">)</span></span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">lh_robust</span><span class="op">(</span></span>
+<span>  <span class="va">...</span>,</span>
+<span>  <span class="va">data</span>,</span>
+<span>  <span class="va">linear_hypothesis</span>,</span>
+<span>  alternative <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"two.sided"</span>, <span class="st">"less"</span>, <span class="st">"greater"</span><span class="op">)</span></span>
+<span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div class="section level2">
@@ -78,13 +83,23 @@ residual ones.</p>
 <dd><p>(required) A character string or matrix specifying the
 hypothesis, passed to <code><a href="https://rdrr.io/pkg/car/man/linearHypothesis.html" class="external-link">car::linearHypothesis</a></code></p></dd>
 
+
+<dt id="arg-alternative">alternative<a class="anchor" aria-label="anchor" href="#arg-alternative"></a></dt>
+<dd><p>(optional) The alternative hypothesis: <code>"two.sided"</code>
+(default), <code>"greater"</code> (the linear combination, left-hand side minus right, exceeds zero), or <code>"less"</code>. A one-sided
+test puts all of <code>alpha</code> in one tail, so its p-value is from that tail and
+its confidence interval is unbounded on the other side, as in
+<code><a href="https://rdrr.io/r/stats/t.test.html" class="external-link">stats::t.test()</a></code>. Decide the direction before seeing the data.
+It applies to the rows of <code>lh</code> only: the coefficients of the underlying
+fit and the joint F test stay as they are.</p></dd>
+
 </dl></div>
     <div class="section level2">
     <h2 id="value">Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
     <p>An object of class <code>"lh_robust"</code> with three components:
 <code>lm_robust</code>, the underlying fit; <code>lh</code>, one row per hypothesis holding
-<code>coefficients</code>, <code>std.error</code>, <code>statistic</code>, <code>p.value</code>, <code>alpha</code>, <code>conf.low</code>,
-<code>conf.high</code>, <code>df</code>, <code>term</code>, and <code>outcome</code>; and <code>joint_hypothesis</code>, the Wald
+<code>coefficients</code>, <code>std.error</code>, <code>statistic</code>, <code>p.value</code>, <code>alpha</code>, <code>alternative</code>,
+<code>conf.low</code>, <code>conf.high</code>, <code>df</code>, <code>term</code>, and <code>outcome</code>; and <code>joint_hypothesis</code>, the Wald
 F test of all of them at once, as <code>value</code>, <code>numdf</code>, <code>dendf</code>, and
 <code>p.value</code>. Under <code>se_type = "CR2"</code> or <code>"CR3"</code> each hypothesis's <code>df</code> is its own
 Satterthwaite approximation, as <code><a href="http://jepusto.github.io/clubSandwich/reference/linear_contrast.html" class="external-link">clubSandwich::linear_contrast()</a></code> computes
@@ -100,7 +115,6 @@ it, and <code>dendf</code> is the smallest of them.</p>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># One linear combination of coefficients</span></span></span>
 <span class="r-in"><span><span class="va">fit</span> <span class="op">&lt;-</span> <span class="fu">lh_robust</span><span class="op">(</span><span class="va">y</span> <span class="op">~</span> <span class="va">x</span> <span class="op">+</span> <span class="va">z</span>, data <span class="op">=</span> <span class="va">dat</span>, linear_hypothesis <span class="op">=</span> <span class="st">"z + 2*x = 0"</span><span class="op">)</span></span></span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Loading required namespace: car</span>
 <span class="r-in"><span><span class="va">fit</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $lm_robust</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>              Estimate Std. Error    t value     Pr(&gt;|t|)    CI Lower  CI Upper</span>

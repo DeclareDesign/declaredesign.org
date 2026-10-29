@@ -2,6 +2,143 @@
 
 ## estimatr (development version)
 
+### A coefficient fitted exactly is NA under every clustered `se_type`
+
+A coefficient whose identifying rows are all fitted exactly, such as the
+first-stage intercept in a one-sided encouragement design where no one
+in control takes the treatment, has a variance of zero, and
+[`lm_robust()`](https://declaredesign.org/r/estimatr/dev/reference/lm_robust.md)
+reports its standard error as `NA` with a message saying why. The
+clustered sandwiches round that zero more coarsely than the rule’s
+tolerance, so on the same fit CR0, `"stata"`, and weighted CR2 returned
+a standard error of about 1e-9 with p near 0, and unweighted CR2 and CR3
+returned `NaN` with a warning blaming a near-singular design. The rule
+now also accepts a variance below `sqrt(.Machine$double.eps)` of its
+reference when the coefficient’s row scores are all zero, which no
+robust variance can then distinguish from zero. Every robust `se_type`
+now gives `NA` and the exact-fit message, which a clustered fit had
+worded as cancelling cluster scores with residuals that “are not zero”.
+The classical variance is unchanged. The
+[`?iv_robust`](https://declaredesign.org/r/estimatr/dev/reference/iv_robust.md)
+example with `clusters = cl` no longer warns.
+
+### `?iv_robust` explains weak-instrument robust inference
+
+A new “Weak instruments” section shows how to compute the Anderson-Rubin
+test and confidence set with
+[`lm_robust()`](https://declaredesign.org/r/estimatr/dev/reference/lm_robust.md),
+under any `se_type`, with clusters, weights, and fixed effects, and an
+example inverts the test over a grid. No new function: the test of a
+coefficient `b` is the regression of `y - b * x` on the instruments. See
+[\#375](https://github.com/DeclareDesign/estimatr/issues/375).
+
+### `iv_robust()` takes a three-part formula
+
+`iv_robust(y ~ x | d | z, data = dat)` lists the exogenous regressors,
+the endogenous regressors, and the excluded instruments once each, in
+the syntax of
+[`ivreg::ivreg()`](https://zeileis.github.io/ivreg/reference/ivreg.html),
+and fits the same model as `y ~ d + x | z + x`, with every option. As in
+`ivreg()`, the endogenous regressors come first: `formula(fit)` and the
+first-stage calls hold that two-part form, which is the one
+[`formula()`](https://rdrr.io/r/stats/formula.html) on an `ivreg()` fit
+returns, and the coefficients follow it, so the table matches
+`ivreg()`’s row for row, and the order is also that of
+[`fixest::feols()`](https://lrberge.github.io/fixest/reference/feols.html)
+and Stata’s `ivregress`. fixest’s own IV syntax, `y ~ x | d ~ z`, is not
+accepted. `fit$call` keeps the formula as written. Two-part formulas are
+unchanged, and a formula with more than three parts is refused. See
+[\#376](https://github.com/DeclareDesign/estimatr/issues/376).
+
+### `difference_in_means()` is `lm_robust(df_type = "welch")`, weighted or not
+
+[`lm_robust()`](https://declaredesign.org/r/estimatr/dev/reference/lm_robust.md)
+takes `df_type = "welch"` with `se_type = "HC2"` on a two-group design
+(an intercept and one regressor taking two values, as in `y ~ z`): the
+Welch-Satterthwaite degrees of freedom, for each coefficient and each
+[`lh_robust()`](https://declaredesign.org/r/estimatr/dev/reference/lh_robust.md)
+hypothesis, on the two groups’ terms of the HC2 variance. Unweighted,
+the slope’s are [`t.test()`](https://rdrr.io/r/stats/t.test.html)’s.
+Other designs are refused with a pointer to `df_type = "satterthwaite"`.
+
+Without blocks or clusters,
+[`difference_in_means()`](https://declaredesign.org/r/estimatr/dev/reference/difference_in_means.md)
+is now `lm_robust(y ~ z, se_type = "HC2", df_type = "welch")` in every
+number, weighted or not. It already was unweighted. A weighted fit took
+[`lm_robust()`](https://declaredesign.org/r/estimatr/dev/reference/lm_robust.md)’s
+n - 2 degrees of freedom instead, so constant weights changed the df and
+nothing else (with a message saying so); its estimate and standard error
+are unchanged, its df, p-value, and interval move, and the message is
+gone. The documentation gives the variance formula, which is not the one
+`weights::wtd.t.test()` computes: that one is built on an effective
+sample size rather than the design. Weights with matched pairs are still
+refused. See
+[\#95](https://github.com/DeclareDesign/estimatr/issues/95).
+
+### `difference_in_means()` says where to go when treatment varies within a cluster
+
+[`difference_in_means()`](https://declaredesign.org/r/estimatr/dev/reference/difference_in_means.md)
+still refuses a cluster whose units do not share a treatment condition,
+because its `clusters` are the units of assignment and its design-based
+estimators (blocked, matched-pair clustered) depend on that. The message
+used to stop there; it now says so and names the fit to use for
+clustering above the level of assignment,
+`lm_robust(y ~ z, clusters = cl, se_type = "CR2")`, which is the fit
+[`difference_in_means()`](https://declaredesign.org/r/estimatr/dev/reference/difference_in_means.md)
+makes on an unblocked clustered design. The `clusters` argument is
+documented the same way. See
+[\#278](https://github.com/DeclareDesign/estimatr/issues/278).
+
+### `iv_robust()` returns its first stage
+
+`fit$first_stage` is a list of
+[`lm_robust()`](https://declaredesign.org/r/estimatr/dev/reference/lm_robust.md)
+fits, one for each endogenous regressor and named by it, each regressing
+that regressor on every instrument with the fit’s `se_type`, clusters,
+weights, fixed effects, and `df_type`. Each equals
+[`lm_robust()`](https://declaredesign.org/r/estimatr/dev/reference/lm_robust.md)
+called on that regressor with the same arguments, which its `call`
+records, so `tidy(fit$first_stage$x)` and
+[`summary()`](https://rdrr.io/r/base/summary.html) work as on any fit,
+and `modelsummary::modelsummary(c(fit$first_stage, list(IV = fit)))`
+sets the first and second stages side by side. The dummy columns of an
+endogenous factor each get a fit, with no `call`, since no formula names
+them. See [\#335](https://github.com/DeclareDesign/estimatr/issues/335).
+
+### `iv_robust()` diagnostics work with `fixed_effects`
+
+`diagnostics = TRUE` with `fixed_effects` had warned “Diagnostics are
+not available” and returned none. The first-stage F, Wu-Hausman, and
+overidentification tests are now computed on the demeaned data with the
+absorbed rank, leverage, and dummies the fit itself uses, so each equals
+the test on the same model with the fixed effects as dummies in both the
+regressors and the instruments, degrees of freedom included, under every
+`se_type`, weighted or not, with one or several factors. See
+[\#409](https://github.com/DeclareDesign/estimatr/issues/409).
+
+### One-sided tests in `difference_in_means()`, `horvitz_thompson()`, and `lh_robust()`
+
+Each takes `alternative = c("two.sided", "less", "greater")`, as
+[`stats::t.test()`](https://rdrr.io/r/stats/t.test.html) does. A
+one-sided test takes its p-value from one tail and puts all of `alpha`
+in that tail, so its confidence interval is unbounded on the other side;
+`confint(level =)`, `tidy(conf.level =)`, and
+[`summary()`](https://rdrr.io/r/base/summary.html) follow the fit’s
+alternative, and [`summary()`](https://rdrr.io/r/base/summary.html)
+labels the column `Pr(>t)` or `Pr(<t)`. For
+[`difference_in_means()`](https://declaredesign.org/r/estimatr/dev/reference/difference_in_means.md)
+and
+[`horvitz_thompson()`](https://declaredesign.org/r/estimatr/dev/reference/horvitz_thompson.md)
+the direction is that of `condition2` minus `condition1`. A one-sided
+test on a regression coefficient goes through
+[`lh_robust()`](https://declaredesign.org/r/estimatr/dev/reference/lh_robust.md),
+as in
+`lh_robust(y ~ z + x, data = dat, linear_hypothesis = "z = 0", alternative = "greater")`,
+where it applies to the hypothesis rows and leaves the fit’s own
+coefficients and the joint F test two-sided. Two-sided output is
+unchanged. See
+[\#414](https://github.com/DeclareDesign/estimatr/issues/414).
+
 ### `vignette("post-estimation-contract")` sets out what each generic does on each fit
 
 A new vignette renders `inst/contract/contract.csv`, the file
