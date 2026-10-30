@@ -33,7 +33,7 @@ declare_test(
 - .method:
 
   (optional) The model-fitting function. Defaults to
-  [`estimatr::lm_robust()`](https://rdrr.io/pkg/estimatr/man/lm_robust.html),
+  [`estimatr::lm_robust()`](https://declaredesign.org/r/estimatr/reference/lm_robust.html),
   as in
   [`declare_estimator()`](https://declaredesign.org/r/declaredesign/reference/declare_estimator.md).
 

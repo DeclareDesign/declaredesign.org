@@ -787,13 +787,13 @@ itself, sequential against four workers.
 
 Parallelism is the larger lever. The sequential gain is concentrated in
 the plumbing, because model fitting is the same
-[`lm_robust()`](https://rdrr.io/pkg/estimatr/man/lm_robust.html) call in
-both packages and takes more than half of each simulation; on this
-design the estimator step is about 1 ms of a 1.7 ms draw. The bootstrap
-stacks all `B` resampled tables with a `.boot_id` column and runs one
-grouped `summarize()` instead of `B` separate calls, which is where the
-diagnosis row’s extra gain comes from. Speeding up the estimator itself
-is what estimatr 2.0 is for.
+[`lm_robust()`](https://declaredesign.org/r/estimatr/reference/lm_robust.html)
+call in both packages and takes more than half of each simulation; on
+this design the estimator step is about 1 ms of a 1.7 ms draw. The
+bootstrap stacks all `B` resampled tables with a `.boot_id` column and
+runs one grouped `summarize()` instead of `B` separate calls, which is
+where the diagnosis row’s extra gain comes from. Speeding up the
+estimator itself is what estimatr 2.0 is for.
 
 On a clustered design (30 villages of 20 citizens, an ICC of 0.2, a true
 effect of 0.3, and cluster-robust standard errors) the two packages
