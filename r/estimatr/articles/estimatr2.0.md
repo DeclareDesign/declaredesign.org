@@ -6,9 +6,9 @@ estimatr 2.0 is a ground-up rewrite, with the main goals of speed and
 improved code robustness. Almost everything from 1.x runs unchanged and
 returns identical estimates, identical standard errors, identical
 confidence intervals, and identical objects. That claim is underpinned
-by 8,485 test assertions, 691 of which compare against answers recorded
+by 7,238 test assertions, 695 of which compare against answers recorded
 from an installed estimatr 1.0.6, coefficient by coefficient and
-standard error by standard error, and a further 844 of which compare
+standard error by standard error, and a further 820 of which compare
 against implementations that share no lineage with estimatr at all. See
 [How this was checked](#how-this-was-checked). No call is slower, with
 gains concentrated where the algorithms changed. See [Speed](#speed).
@@ -114,7 +114,7 @@ and whether the randomization was simple or complete. Passing `blocks`
 and `clusters` separately restates information the declaration already
 holds, and gives the estimator two sources of truth that can disagree.
 Any parametric design you can describe in words is a
-[`declare_ra()`](https://rdrr.io/pkg/randomizr/man/declare_ra.html)
+[`declare_ra()`](https://declaredesign.org/r/randomizr/reference/declare_ra.html)
 call:
 
 ``` r
@@ -538,7 +538,7 @@ page.
 
 ### How this was checked
 
-**The first layer asks whether the rewrite changed an answer.** 691
+**The first layer asks whether the rewrite changed an answer.** 695
 assertions compare 2.0 against answers recorded from an installed
 estimatr 1.0.6, coefficient by coefficient and standard error by
 standard error, across every supported standard error type, weighted and
@@ -553,7 +553,7 @@ site changed either.
 
 **The second layer asks whether the answer is right, which the first
 cannot.** Anything estimatr inherited from 1.0.6, error included, passes
-a comparison against 1.0.6 in silence. So 844 further assertions compare
+a comparison against 1.0.6 in silence. So 820 further assertions compare
 against implementations built independently of this one:
 
 | checked against | what it covers | how |
@@ -696,7 +696,7 @@ than within them.
 
 ### Current status
 
-The test suite is 8,485 assertions under `R CMD check` with none
+The test suite is 7,238 assertions under `R CMD check` with none
 failing, `R CMD check --as-cran` gives 0 errors, 0 warnings and 0 notes,
 and the numerical comparisons against 1.0.6 run across 50 seeds per
 design type for every Horvitz-Thompson design family.

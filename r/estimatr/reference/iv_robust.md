@@ -19,10 +19,8 @@ iv_robust(
   ci = TRUE,
   alpha = 0.05,
   diagnostics = FALSE,
-  first_stage = FALSE,
   return_vcov = TRUE,
-  try_cholesky = FALSE,
-  df_type = NULL
+  try_cholesky = FALSE
 )
 ```
 
@@ -31,17 +29,7 @@ iv_robust(
 - formula:
 
   (required) An object of class formula with regressors and instruments,
-  in either of two forms. The two-part `y ~ x1 + d | x1 + z1 + z2` lists
-  the regressors left of the bar and every instrument right of it, so an
-  exogenous regressor appears on both sides. The three-part
-  `y ~ x1 | d | z1 + z2`, the syntax of
-  [`ivreg::ivreg()`](https://zeileis.github.io/ivreg/reference/ivreg.html),
-  lists the exogenous regressors, the endogenous regressors, and the
-  excluded instruments once each, and fits the same model; as in
-  [`ivreg::ivreg()`](https://zeileis.github.io/ivreg/reference/ivreg.html),
-  `formula(fit)` returns its two-part form with the endogenous
-  regressors first, `y ~ d + x1 | z1 + z2 + x1`, and the coefficients
-  follow that order.
+  e.g. `y ~ x1 + x2 | z1 + z2`.
 
 - data:
 
@@ -64,9 +52,8 @@ iv_robust(
   (optional) A one-sided formula of fixed effects to absorb, such as
   `~ blockID`. Uses FWL demeaning (see
   [`lm_robust()`](https://declaredesign.org/r/estimatr/reference/lm_robust.md)
-  for details and SE type restrictions). The diagnostics are those of
-  the same model with the fixed effects as dummies among both the
-  regressors and the instruments.
+  for details and SE type restrictions). Diagnostics are not available
+  with `fixed_effects`.
 
 - se_type:
 
@@ -75,12 +62,9 @@ iv_robust(
   fitted regressors, but those are demeaned by the same fixed effects,
   so the leverage decomposition
   [`lm_robust()`](https://declaredesign.org/r/estimatr/reference/lm_robust.md)
-  describes applies unchanged. `"CR2"` and `"CR3"` with `fixed_effects`
-  expand the dummies, as CR2 did in estimatr 1.0.6. Defaults: `"HC2"`
-  (no clusters, with or without FE), `"CR2"` (clusters, no FE), `"CR0"`
-  (clusters, with FE). `"stata"` and `"stata_nested"` count K as
-  [`lm_robust()`](https://declaredesign.org/r/estimatr/reference/lm_robust.md)
-  describes.
+  describes applies unchanged. `"CR2"` with `fixed_effects` expands the
+  dummies, as in estimatr 1.0.6. Defaults: `"HC2"` (no clusters, with or
+  without FE), `"CR2"` (clusters, no FE), `"CR0"` (clusters, with FE).
 
 - ci:
 
@@ -115,16 +99,6 @@ iv_robust(
   suite's Stata fixture that Stata answers, except the robust score test
   after aweights under `forceweights`, where Stata computes the
   frequency-weight statistic instead.
-
-- first_stage:
-
-  (optional) Logical. Whether to return the first-stage regressions in
-  `first_stage`, one
-  [`lm_robust()`](https://declaredesign.org/r/estimatr/reference/lm_robust.md)
-  fit per endogenous regressor (see Value). `FALSE` by default, as
-  `diagnostics` is: the fits are not needed for the estimates, and on
-  100,000 rows they add about two thirds to the running time and double
-  the size of the object.
 
 - return_vcov:
 
@@ -166,11 +140,6 @@ iv_robust(
   of a design in mixed units is large for a reason that does not affect
   the fit: `kappa(sweep(X, 2, sqrt(colSums(X^2)), "/"), exact = TRUE)`.
 
-- df_type:
-
-  (optional) The degrees of freedom (see
-  [`lm_robust()`](https://declaredesign.org/r/estimatr/reference/lm_robust.md))
-
 ## Value
 
 An object of class `"iv_robust"`, a list holding the estimate table in
@@ -183,51 +152,9 @@ the summary statistics `r.squared`, `adj.r.squared`, `tss`, and
 
 `residuals` are the structural residuals, `y - X beta`, rather than the
 second-stage ones. `ei.iv`, `terms_regressors`, and `formula` record the
-two-stage structure. With `first_stage = TRUE`, `first_stage` is a list
-of
-[`lm_robust()`](https://declaredesign.org/r/estimatr/reference/lm_robust.md)
-fits, one per endogenous regressor and named by it, each the regression
-of that regressor on every instrument with the fit's `se_type`,
-clusters, weights, fixed effects, and `df_type`, so
-[`tidy()`](https://generics.r-lib.org/reference/tidy.html),
-[`summary()`](https://rdrr.io/r/base/summary.html), and table packages
-take them as they are (see the examples). Each equals the
-[`lm_robust()`](https://declaredesign.org/r/estimatr/reference/lm_robust.md)
-call recorded in its `call`, which is `NULL` for the dummy column of an
-endogenous factor. With `diagnostics = TRUE` the object also holds
+two-stage structure. With `diagnostics = TRUE` the object also holds
 `diagnostic_first_stage_fstatistic`, `diagnostic_endogeneity_test`, and
 `diagnostic_overid_test`.
-
-## Weak instruments
-
-The confidence intervals in `conf.low` and `conf.high` are Wald
-intervals, and they rely on a strong first stage. When the instruments
-barely move the endogenous regressor, they can cover the true
-coefficient far less often than `1 - alpha`; a small first-stage F from
-`diagnostics = TRUE` is the usual warning sign.
-
-The Anderson-Rubin (1949) test keeps its size however weak the
-instruments are, and
-[`lm_robust()`](https://declaredesign.org/r/estimatr/reference/lm_robust.md)
-computes it directly. To test that the coefficient on the endogenous
-regressor `x` equals `b`, regress `y - b * x` on the excluded
-instruments and the exogenous regressors, with the `se_type`,
-`clusters`, `weights`, and `fixed_effects` of the IV fit, and test that
-the coefficients on the excluded instruments are zero. With one
-instrument that test is the instrument's own row of the fit; with
-several it is the `joint_hypothesis` of
-`lh_robust(..., linear_hypothesis = c("z1 = 0", "z2 = 0"))`. At `b = 0`
-the regression is the reduced form, which in an experiment that
-randomizes the instrument is the intent-to-treat regression.
-
-The Anderson-Rubin confidence set is every `b` that the test does not
-reject, found over a grid (see the examples). Under a weak first stage
-it need not be an interval: it can be the union of two rays or the whole
-real line, which says that the data rule out no value of the
-coefficient. A set that reaches either end of the grid should be checked
-on a wider one. With several endogenous regressors, the same regression
-with `y` minus each regressor times its hypothesized value tests all of
-them jointly.
 
 ## Examples
 
@@ -247,18 +174,6 @@ tidy(fit)
 #> 1 (Interc…    0.137    0.0957      1.43 0.153    -0.0514     0.326   198 y      
 #> 2 x           0.625    0.210       2.97 0.00334   0.210      1.04    198 y      
 
-# Exogenous regressors, endogenous regressors, and instruments, each once
-dat$w <- rnorm(n)
-iv_robust(y ~ w | x | z, data = dat)
-#>               Estimate Std. Error    t value    Pr(>|t|)    CI Lower  CI Upper
-#> (Intercept)  0.1400588 0.09772890  1.4331362 0.153403995 -0.05267029 0.3327880
-#> x            0.6173731 0.21775597  2.8351604 0.005058038  0.18794112 1.0468051
-#> w           -0.0138943 0.06951721 -0.1998684 0.841789638 -0.15098773 0.1231991
-#>              DF
-#> (Intercept) 197
-#> x           197
-#> w           197
-
 # The same variance menu as lm_robust()
 iv_robust(y ~ x | z, data = dat, se_type = "classical")
 #>              Estimate Std. Error  t value    Pr(>|t|)    CI Lower  CI Upper  DF
@@ -271,16 +186,6 @@ iv_robust(y ~ x | z, data = dat, clusters = cl)
 #>                   DF
 #> (Intercept) 17.80343
 #> x           18.96572
-
-# The first stage, one lm_robust fit per endogenous regressor
-fit_fs <- iv_robust(y ~ x | z, data = dat, first_stage = TRUE)
-#> The standard error is NA for (Intercept): every observation that identifies that coefficient is fitted exactly, so the variance is built from residuals that are all numerically zero. Reported as a number it would be zero or rounding error, and its t statistic would put p at 0.
-tidy(fit_fs$first_stage$x)
-#> # A tibble: 2 × 9
-#>   term   estimate std.error statistic   p.value conf.low conf.high    df outcome
-#>   <chr>     <dbl>     <dbl>     <dbl>     <dbl>    <dbl>     <dbl> <dbl> <chr>  
-#> 1 (Int… -3.97e-17   NA           NA   NA          NA        NA       198 x      
-#> 2 z      6.56e- 1    0.0495      13.2  4.39e-29    0.558     0.754   198 x      
 
 # Weak-instrument, endogeneity, and overidentification tests
 summary(iv_robust(y ~ x | z, data = dat, diagnostics = TRUE))
@@ -305,17 +210,4 @@ summary(iv_robust(y ~ x | z, data = dat, diagnostics = TRUE))
 #> Score (robust)        NA   0.000  NA      NA    
 #> ---
 #> Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
-
-# Anderson-Rubin confidence set: the values of b at which the regression of
-# y - b * x on the instrument finds no effect of z. range() reports the set
-# as one interval, so check ar_p for a set with more than one piece.
-b_grid <- seq(-2, 4, by = 0.01)
-ar_p <- sapply(b_grid, function(b) {
-  lm_robust(I(y - b * x) ~ z, data = dat)$p.value[["z"]]
-})
-range(b_grid[ar_p > 0.05])
-#> [1] 0.20 1.03
-confint(fit)["x", ]
-#>     2.5 %    97.5 % 
-#> 0.2101339 1.0402512 
 ```

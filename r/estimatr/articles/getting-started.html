@@ -20,7 +20,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">estimatr</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">2.1.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">2.0.1</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -40,7 +40,6 @@
     <li><a class="dropdown-item" href="../articles/performance.html">Performance</a></li>
     <li><a class="dropdown-item" href="../articles/estimatr-in-the-tidyverse.html">estimatr in the tidyverse</a></li>
     <li><a class="dropdown-item" href="../articles/regression-tables.html">Regression tables with estimatr</a></li>
-    <li><a class="dropdown-item" href="../articles/post-estimation-contract.html">The post-estimation contract</a></li>
   </ul>
 </li>
       </ul>
@@ -171,7 +170,7 @@ corresponds to each unit’s assignment.</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">dat</span> <span class="op">&lt;-</span> <span class="va">dat</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span></span>
-<span>    Z <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/pkg/randomizr/man/complete_ra.html" class="external-link">complete_ra</a></span><span class="op">(</span><span class="va">N</span>, m <span class="op">=</span> <span class="va">N</span> <span class="op">/</span> <span class="fl">2</span><span class="op">)</span>,</span>
+<span>    Z <span class="op">=</span> <span class="fu"><a href="https://declaredesign.org/r/randomizr/reference/complete_ra.html" class="external-link">complete_ra</a></span><span class="op">(</span><span class="va">N</span>, m <span class="op">=</span> <span class="va">N</span> <span class="op">/</span> <span class="fl">2</span><span class="op">)</span>,</span>
 <span>    Y <span class="op">=</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/if_else.html" class="external-link">if_else</a></span><span class="op">(</span><span class="va">Z</span> <span class="op">==</span> <span class="fl">1</span>, <span class="va">Y_Z_1</span>, <span class="va">Y_Z_0</span><span class="op">)</span></span>
 <span>  <span class="op">)</span></span>
 <span></span>
@@ -200,7 +199,7 @@ with every unit in a cluster sharing its cluster’s assignment.</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">dat</span> <span class="op">&lt;-</span> <span class="va">dat</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span></span>
-<span>    Z_cl <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/pkg/randomizr/man/cluster_ra.html" class="external-link">cluster_ra</a></span><span class="op">(</span>clusters <span class="op">=</span> <span class="va">cluster</span>, m <span class="op">=</span> <span class="fl">10</span><span class="op">)</span>,</span>
+<span>    Z_cl <span class="op">=</span> <span class="fu"><a href="https://declaredesign.org/r/randomizr/reference/cluster_ra.html" class="external-link">cluster_ra</a></span><span class="op">(</span>clusters <span class="op">=</span> <span class="va">cluster</span>, m <span class="op">=</span> <span class="fl">10</span><span class="op">)</span>,</span>
 <span>    Y_cl <span class="op">=</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/if_else.html" class="external-link">if_else</a></span><span class="op">(</span><span class="va">Z_cl</span> <span class="op">==</span> <span class="fl">1</span>, <span class="va">Y_Z_1</span>, <span class="va">Y_Z_0</span><span class="op">)</span></span>
 <span>  <span class="op">)</span></span></code></pre></div>
 <p>Pass the name of the cluster variable. The default becomes CR2, the
@@ -266,7 +265,7 @@ with a block-randomized experiment:</p>
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">dat</span> <span class="op">&lt;-</span> <span class="va">dat</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span></span>
-<span>    Z_bl <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/pkg/randomizr/man/block_ra.html" class="external-link">block_ra</a></span><span class="op">(</span>blocks <span class="op">=</span> <span class="va">block</span>, prob <span class="op">=</span> <span class="fl">0.5</span><span class="op">)</span>,</span>
+<span>    Z_bl <span class="op">=</span> <span class="fu"><a href="https://declaredesign.org/r/randomizr/reference/block_ra.html" class="external-link">block_ra</a></span><span class="op">(</span>blocks <span class="op">=</span> <span class="va">block</span>, prob <span class="op">=</span> <span class="fl">0.5</span><span class="op">)</span>,</span>
 <span>    Y_bl <span class="op">=</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/if_else.html" class="external-link">if_else</a></span><span class="op">(</span><span class="va">Z_bl</span> <span class="op">==</span> <span class="fl">1</span>, <span class="va">Y_Z_1</span>, <span class="va">Y_Z_0</span><span class="op">)</span></span>
 <span>  <span class="op">)</span></span></code></pre></div>
 <p><code>fixed_effects</code> takes a right-sided formula and absorbs
@@ -300,50 +299,13 @@ CR2 is the one estimator that still has to expand the dummies, and it
 warns once per session to say so. Asking for
 <code>se_type = "CR2"</code> by name gets it. The full menu by case is
 in <code><a href="../reference/lm_robust.html">?lm_robust</a></code>.</p>
-<p>Block fixed effects are not the blocked difference-in-means. They
-weight each block by
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>n</mi><mi>b</mi></msub><msub><mi>p</mi><mi>b</mi></msub><mo stretchy="false" form="prefix">(</mo><mn>1</mn><mo>−</mo><msub><mi>p</mi><mi>b</mi></msub><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">n_b p_b (1 - p_b)</annotation></semantics></math>
-rather than by its size, so when the probability of treatment differs
-across blocks they target a precision-weighted average rather than the
-average treatment effect, and the model leaves out the
-block-by-treatment interactions that the blocked variance keeps. Here
-every block has probability 0.5, so the estimate coincides with
-<code>difference_in_means(Y_bl ~ Z_bl, data = dat, blocks = block)</code>
-and the standard error does not. The regression that reproduces the
-blocked difference-in-means in every number is <code><a href="../reference/lm_lin.html">lm_lin()</a></code>
-with the block indicators as covariates:</p>
-<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="../reference/lm_lin.html">lm_lin</a></span><span class="op">(</span><span class="va">Y_bl</span> <span class="op">~</span> <span class="va">Z_bl</span>, covariates <span class="op">=</span> <span class="op">~</span> <span class="fu"><a href="https://rdrr.io/r/base/factor.html" class="external-link">factor</a></span><span class="op">(</span><span class="va">block</span><span class="op">)</span>, data <span class="op">=</span> <span class="va">dat</span><span class="op">)</span></span>
-<span><span class="co">#&gt;                          Estimate Std. Error  t value Pr(&gt;|t|) CI Lower CI Upper DF</span></span>
-<span><span class="co">#&gt; (Intercept)               0.49792     0.1604  3.10326 0.002645  0.17861   0.8172 80</span></span>
-<span><span class="co">#&gt; Z_bl                      0.58693     0.2027  2.89516 0.004884  0.18349   0.9904 80</span></span>
-<span><span class="co">#&gt; (factor(block)2)_c       -0.02219     0.5951 -0.03729 0.970345 -1.20651   1.1621 80</span></span>
-<span><span class="co">#&gt; (factor(block)3)_c        0.83218     0.9285  0.89631 0.372777 -1.01550   2.6799 80</span></span>
-<span><span class="co">#&gt; (factor(block)4)_c       -0.39303     0.6485 -0.60606 0.546193 -1.68360   0.8975 80</span></span>
-<span><span class="co">#&gt; (factor(block)5)_c        0.20199     0.9569  0.21110 0.833347 -1.70224   2.1062 80</span></span>
-<span><span class="co">#&gt; (factor(block)6)_c        0.96486     0.6952  1.38795 0.169007 -0.41857   2.3483 80</span></span>
-<span><span class="co">#&gt; (factor(block)7)_c        0.81923     0.7249  1.13018 0.261776 -0.62329   2.2617 80</span></span>
-<span><span class="co">#&gt; (factor(block)8)_c        0.83269     0.6598  1.26196 0.210629 -0.48043   2.1458 80</span></span>
-<span><span class="co">#&gt; (factor(block)9)_c        0.99236     0.7345  1.35098 0.180510 -0.46944   2.4541 80</span></span>
-<span><span class="co">#&gt; (factor(block)10)_c       1.40396     0.6621  2.12062 0.037052  0.08643   2.7215 80</span></span>
-<span><span class="co">#&gt; Z_bl:(factor(block)2)_c   0.68893     0.6973  0.98794 0.326158 -0.69881   2.0767 80</span></span>
-<span><span class="co">#&gt; Z_bl:(factor(block)3)_c  -0.87180     0.9938 -0.87723 0.382988 -2.84955   1.1059 80</span></span>
-<span><span class="co">#&gt; Z_bl:(factor(block)4)_c   0.79292     0.9236  0.85853 0.393165 -1.04505   2.6309 80</span></span>
-<span><span class="co">#&gt; Z_bl:(factor(block)5)_c   0.52409     1.0107  0.51853 0.605522 -1.48732   2.5355 80</span></span>
-<span><span class="co">#&gt; Z_bl:(factor(block)6)_c  -0.91739     0.8170 -1.12289 0.264845 -2.54327   0.7085 80</span></span>
-<span><span class="co">#&gt; Z_bl:(factor(block)7)_c  -0.53003     0.8833 -0.60005 0.550167 -2.28785   1.2278 80</span></span>
-<span><span class="co">#&gt; Z_bl:(factor(block)8)_c  -0.78626     0.7130 -1.10278 0.273428 -2.20512   0.6326 80</span></span>
-<span><span class="co">#&gt; Z_bl:(factor(block)9)_c  -0.41463     0.8809 -0.47067 0.639159 -2.16778   1.3385 80</span></span>
-<span><span class="co">#&gt; Z_bl:(factor(block)10)_c -1.11561     0.8329 -1.33943 0.184223 -2.77313   0.5419 80</span></span></code></pre></div>
-<p><code><a href="../reference/difference_in_means.html">?difference_in_means</a></code> says how far that equivalence goes
-with clusters, weights, and matched pairs.</p>
 </div>
 <div class="section level4">
 <h4 id="weights">Weights<a class="anchor" aria-label="anchor" href="#weights"></a>
 </h4>
 <p><code>weights</code> takes a column of the data, and the fit is
 weighted least squares with the matching robust variance.</p>
-<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">weighted_fit</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/lm_robust.html">lm_robust</a></span><span class="op">(</span><span class="va">Y</span> <span class="op">~</span> <span class="va">Z</span> <span class="op">+</span> <span class="va">X</span>, data <span class="op">=</span> <span class="va">dat</span>, weights <span class="op">=</span> <span class="va">W</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://generics.r-lib.org/reference/tidy.html" class="external-link">tidy</a></span><span class="op">(</span><span class="va">weighted_fit</span><span class="op">)</span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 3 × 9</span></span></span>
@@ -373,7 +335,7 @@ interactions.</p>
 treatment in <code>formula</code> and the covariates in a right-sided
 <code>covariates</code> formula; everything else is
 <code><a href="../reference/lm_robust.html">lm_robust()</a></code>’s.</p>
-<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">lin_fit</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/lm_lin.html">lm_lin</a></span><span class="op">(</span><span class="va">Y</span> <span class="op">~</span> <span class="va">Z</span>, covariates <span class="op">=</span> <span class="op">~</span> <span class="va">X</span>, data <span class="op">=</span> <span class="va">dat</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://generics.r-lib.org/reference/tidy.html" class="external-link">tidy</a></span><span class="op">(</span><span class="va">lin_fit</span><span class="op">)</span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 4 × 9</span></span></span>
@@ -388,7 +350,7 @@ effect, since when the covariates are at their centered means of zero,
 the interaction terms drop out. The centers used are returned in
 <code>scaled_center</code>, and centering happens after any function in
 the formula is evaluated, so <code>~ log(X)</code> centers the log.</p>
-<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">lin_fit</span><span class="op">$</span><span class="va">scaled_center</span></span>
 <span><span class="co">#&gt;      X </span></span>
 <span><span class="co">#&gt; 0.4943</span></span></code></pre></div>
@@ -404,7 +366,7 @@ actually took it. Here 60 percent of units are compliers, who take the
 treatment if and only if assigned; the rest never take it, whatever
 their assignment (one-sided noncompliance). Outcomes follow treatment
 receipt, not assignment.</p>
-<div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">dat</span> <span class="op">&lt;-</span> <span class="va">dat</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span></span>
 <span>    Y_D_0 <span class="op">=</span> <span class="va">Y_Z_0</span>, <span class="co"># potential outcome if treatment is not received</span></span>
@@ -420,7 +382,7 @@ average causal effect <span class="citation">(<a href="#ref-gerbergreen2012">Ger
 the same <code>se_type</code> menu as <code><a href="../reference/lm_robust.html">lm_robust()</a></code>. The
 instruments go after a vertical bar, and a covariate goes on both sides
 of it.</p>
-<div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">iv_fit</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/iv_robust.html">iv_robust</a></span><span class="op">(</span><span class="va">Y_nc</span> <span class="op">~</span> <span class="va">D</span> <span class="op">+</span> <span class="va">X</span> <span class="op">|</span> <span class="va">Z</span> <span class="op">+</span> <span class="va">X</span>, data <span class="op">=</span> <span class="va">dat</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary</a></span><span class="op">(</span><span class="va">iv_fit</span><span class="op">)</span></span>
 <span><span class="co">#&gt; </span></span>
@@ -453,7 +415,7 @@ clustered, at which point the point estimate has to average over blocks
 and the variance has to reflect how units were actually assigned.
 <code><a href="../reference/difference_in_means.html">difference_in_means()</a></code> picks the estimator that matches the
 design and tells you which one it picked.</p>
-<div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">dim_fit</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/difference_in_means.html">difference_in_means</a></span><span class="op">(</span><span class="va">Y</span> <span class="op">~</span> <span class="va">Z</span>, data <span class="op">=</span> <span class="va">dat</span><span class="op">)</span></span>
 <span><span class="va">dim_fit</span></span>
 <span><span class="co">#&gt; Design:  Standard </span></span>
@@ -464,7 +426,7 @@ design and tells you which one it picked.</p>
 <p>With no blocks or clusters, the variance and degrees of freedom are
 what <code><a href="https://rdrr.io/r/stats/t.test.html" class="external-link">t.test()</a></code> computes. Pass <code>clusters</code> and the
 design changes, and so does the estimator:</p>
-<div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">dim_cl</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/difference_in_means.html">difference_in_means</a></span><span class="op">(</span><span class="va">Y_cl</span> <span class="op">~</span> <span class="va">Z_cl</span>, data <span class="op">=</span> <span class="va">dat</span>, clusters <span class="op">=</span> <span class="va">cluster</span><span class="op">)</span></span>
 <span><span class="va">dim_cl</span><span class="op">$</span><span class="va">design</span></span>
 <span><span class="co">#&gt; [1] "Clustered"</span></span>
@@ -481,7 +443,7 @@ Miratrix (<a href="#ref-pashleymiratrix2021">2021</a>)</span>. Check
 <code>design</code> rather than assuming, and see
 <code><a href="../reference/difference_in_means.html">?difference_in_means</a></code> for the full classification and the
 two designs it refuses.</p>
-<div class="sourceCode" id="cb18"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># The blocked version of the experiment</span></span>
 <span><span class="va">dim_bl</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/difference_in_means.html">difference_in_means</a></span><span class="op">(</span><span class="va">Y_bl</span> <span class="op">~</span> <span class="va">Z_bl</span>, data <span class="op">=</span> <span class="va">dat</span>, blocks <span class="op">=</span> <span class="va">block</span><span class="op">)</span></span>
 <span><span class="va">dim_bl</span><span class="op">$</span><span class="va">design</span></span>
@@ -512,7 +474,7 @@ units.</p>
 design, and what you pass decides which variance you get. A named vector
 of condition probabilities gives the conservative bound, valid for any
 design and tight only for Bernoulli assignment:</p>
-<div class="sourceCode" id="cb19"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb18"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/horvitz_thompson.html">horvitz_thompson</a></span><span class="op">(</span><span class="va">Y</span> <span class="op">~</span> <span class="va">Z</span>, data <span class="op">=</span> <span class="va">dat</span>, condition_prs <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"0"</span> <span class="op">=</span> <span class="fl">0.5</span>, <span class="st">"1"</span> <span class="op">=</span> <span class="fl">0.5</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="co">#&gt; Horvitz-Thompson estimator</span></span>
 <span><span class="co">#&gt;   Estimate Std. Error t value Pr(&gt;|t|) CI Lower CI Upper DF</span></span>
@@ -522,9 +484,9 @@ design-aware variance, because a declaration already carries the block
 structure, the cluster structure, the per-unit probabilities and whether
 assignment was simple or complete. Clustered and blocked designs need no
 further arguments: describe the design once, in the declaration.</p>
-<div class="sourceCode" id="cb20"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb19"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># declare_ra is from the randomizr package</span></span>
-<span><span class="va">decl</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/randomizr/man/declare_ra.html" class="external-link">declare_ra</a></span><span class="op">(</span>N <span class="op">=</span> <span class="va">N</span>, prob <span class="op">=</span> <span class="fl">0.5</span>, simple <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
+<span><span class="va">decl</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://declaredesign.org/r/randomizr/reference/declare_ra.html" class="external-link">declare_ra</a></span><span class="op">(</span>N <span class="op">=</span> <span class="va">N</span>, prob <span class="op">=</span> <span class="fl">0.5</span>, simple <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
 <span><span class="fu"><a href="../reference/horvitz_thompson.html">horvitz_thompson</a></span><span class="op">(</span><span class="va">Y</span> <span class="op">~</span> <span class="va">Z</span>, data <span class="op">=</span> <span class="va">dat</span>, condition_prs <span class="op">=</span> <span class="va">decl</span><span class="op">)</span></span>
 <span><span class="co">#&gt; Horvitz-Thompson estimator</span></span>
 <span><span class="co">#&gt;   Estimate Std. Error t value Pr(&gt;|t|) CI Lower CI Upper DF</span></span>
@@ -541,7 +503,7 @@ arms of a multi-arm design.</p>
 <code><a href="../reference/lh_robust.html">lh_robust()</a></code> fits the model and applies
 <code><a href="https://rdrr.io/pkg/car/man/linearHypothesis.html" class="external-link">car::linearHypothesis()</a></code> to it, keeping the robust variance
 and the degrees of freedom of the fit.</p>
-<div class="sourceCode" id="cb21"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb20"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">lh_fit</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/lh_robust.html">lh_robust</a></span><span class="op">(</span><span class="va">Y</span> <span class="op">~</span> <span class="va">Z</span> <span class="op">+</span> <span class="va">X</span>, data <span class="op">=</span> <span class="va">dat</span>, linear_hypothesis <span class="op">=</span> <span class="st">"Z + 2*X = 0"</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://generics.r-lib.org/reference/tidy.html" class="external-link">tidy</a></span><span class="op">(</span><span class="va">lh_fit</span><span class="op">)</span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 4 × 9</span></span></span>
@@ -552,7 +514,7 @@ and the degrees of freedom of the fit.</p>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span> X              0.709     0.373      1.90  0.060<span style="text-decoration: underline;">5</span>  -<span style="color: #BB0000;">0.031</span><span style="color: #BB0000; text-decoration: underline;">9</span>     1.45     97 Y      </span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">4</span> Z + 2*X = 0    1.71      0.869      1.97  0.052<span style="text-decoration: underline;">1</span>  -<span style="color: #BB0000;">0.015</span><span style="color: #BB0000; text-decoration: underline;">9</span>     3.43     97 Y</span></span></code></pre></div>
 <p>Several restrictions give a joint Wald test as well.</p>
-<div class="sourceCode" id="cb22"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb21"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">joint</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/lh_robust.html">lh_robust</a></span><span class="op">(</span><span class="va">Y</span> <span class="op">~</span> <span class="va">Z</span> <span class="op">+</span> <span class="va">X</span>, data <span class="op">=</span> <span class="va">dat</span>, linear_hypothesis <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Z = 0"</span>, <span class="st">"X = 0"</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="va">joint</span><span class="op">$</span><span class="va">joint_hypothesis</span></span>
 <span><span class="co">#&gt;   value   numdf   dendf p.value </span></span>
@@ -567,7 +529,7 @@ expect: <code><a href="https://rdrr.io/r/base/summary.html" class="external-link
 <code><a href="https://rdrr.io/r/stats/confint.html" class="external-link">confint()</a></code>, <code><a href="https://rdrr.io/r/stats/vcov.html" class="external-link">vcov()</a></code>, <code><a href="https://rdrr.io/r/stats/nobs.html" class="external-link">nobs()</a></code>, and,
 for the regression estimators, <code><a href="https://rdrr.io/r/stats/predict.html" class="external-link">predict()</a></code>,
 <code><a href="https://rdrr.io/r/stats/residuals.html" class="external-link">residuals()</a></code> and <code><a href="https://rdrr.io/r/stats/update.html" class="external-link">update()</a></code>.</p>
-<div class="sourceCode" id="cb23"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb22"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://generics.r-lib.org/reference/glance.html" class="external-link">glance</a></span><span class="op">(</span><span class="va">fit</span><span class="op">)</span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 1 × 7</span></span></span>
 <span><span class="co">#&gt;   r.squared adj.r.squared statistic p.value df.residual  nobs se_type</span></span>
@@ -581,13 +543,8 @@ for the regression estimators, <code><a href="https://rdrr.io/r/stats/predict.ht
 <p>Regression tables work through the usual packages.
 <code>texreg</code> and <code>modelsummary</code> both take
 <code>lm_robust</code> objects directly.</p>
-<div class="sourceCode" id="cb24"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu">texreg</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/texreg/man/htmlreg.html" class="external-link">htmlreg</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="va">fit</span>, <span class="va">lin_fit</span><span class="op">)</span>, include.ci <span class="op">=</span> <span class="cn">FALSE</span>, caption <span class="op">=</span> <span class="st">""</span><span class="op">)</span></span>
-<span><span class="co">#&gt; Warning in data.frame(gof.names = colnames(out), gof = as.numeric(out), : NAs introduced</span></span>
-<span><span class="co">#&gt; by coercion</span></span>
-<span><span class="co">#&gt; Warning in doTryCatch(return(expr), name, parentenv, handler): texreg used the broom</span></span>
-<span><span class="co">#&gt; package to extract the following GOF measures, but could not cast them to numeric type:</span></span>
-<span><span class="co">#&gt; se_type</span></span></code></pre></div>
+<div class="sourceCode" id="cb23"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu">texreg</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/texreg/man/htmlreg.html" class="external-link">htmlreg</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="va">fit</span>, <span class="va">lin_fit</span><span class="op">)</span>, include.ci <span class="op">=</span> <span class="cn">FALSE</span>, caption <span class="op">=</span> <span class="st">""</span><span class="op">)</span></span></code></pre></div>
 <table class="table texreg" style="margin: 10px auto;border-collapse: collapse;border-spacing: 0px;caption-side: bottom;color: #000000;border-top: 2px solid #000000;">
 <thead><tr>
 <th style="padding-left: 5px;padding-right: 5px;">
@@ -741,10 +698,10 @@ Num. obs.
 100
 </td>
 <td style="padding-left: 5px;padding-right: 5px;">
- 
+100
 </td>
 </tr>
-<tr>
+<tr style="border-bottom: 2px solid #000000;">
 <td style="padding-left: 5px;padding-right: 5px;">
 RMSE
 </td>
@@ -752,51 +709,7 @@ RMSE
 1.00
 </td>
 <td style="padding-left: 5px;padding-right: 5px;">
- 
-</td>
-</tr>
-<tr>
-<td style="padding-left: 5px;padding-right: 5px;">
-Statistic
-</td>
-<td style="padding-left: 5px;padding-right: 5px;">
- 
-</td>
-<td style="padding-left: 5px;padding-right: 5px;">
-1.27
-</td>
-</tr>
-<tr>
-<td style="padding-left: 5px;padding-right: 5px;">
-P Value
-</td>
-<td style="padding-left: 5px;padding-right: 5px;">
- 
-</td>
-<td style="padding-left: 5px;padding-right: 5px;">
-0.29
-</td>
-</tr>
-<tr>
-<td style="padding-left: 5px;padding-right: 5px;">
-DF Resid.
-</td>
-<td style="padding-left: 5px;padding-right: 5px;">
- 
-</td>
-<td style="padding-left: 5px;padding-right: 5px;">
-96
-</td>
-</tr>
-<tr style="border-bottom: 2px solid #000000;">
-<td style="padding-left: 5px;padding-right: 5px;">
-nobs
-</td>
-<td style="padding-left: 5px;padding-right: 5px;">
- 
-</td>
-<td style="padding-left: 5px;padding-right: 5px;">
-100
+1.01
 </td>
 </tr>
 </tbody>
@@ -811,7 +724,7 @@ nobs
 <p><code>emmeans</code> also has methods for <code>lm_robust</code>
 fits, for estimated marginal means and contrasts, computed with the
 fit’s robust variance.</p>
-<div class="sourceCode" id="cb25"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb24"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu">emmeans</span><span class="fu">::</span><span class="fu"><a href="https://rvlenth.github.io/emmeans/reference/emmeans.html" class="external-link">emmeans</a></span><span class="op">(</span><span class="va">fit</span>, <span class="st">"Z"</span>, at <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>Z <span class="op">=</span> <span class="fl">0</span><span class="op">:</span><span class="fl">1</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="co">#&gt;  Z emmean    SE df lower.CL upper.CL</span></span>
 <span><span class="co">#&gt;  0  0.646 0.163 97    0.322     0.97</span></span>
@@ -827,7 +740,7 @@ is what estimatr is built to do quickly. <a href="https://declaredesign.org" cla
 repetition: declare the model, the inquiry, the assignment, and the
 estimator once, and <code><a href="https://declaredesign.org/r/declaredesign/reference/diagnose_design.html" class="external-link">diagnose_design()</a></code> re-runs the whole
 experiment and reports how the estimator does against the truth.</p>
-<div class="sourceCode" id="cb26"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb25"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://declaredesign.org/r/declaredesign/" class="external-link">DeclareDesign</a></span><span class="op">)</span></span>
 <span></span>
 <span><span class="va">declaration_lin</span> <span class="op">&lt;-</span></span>
@@ -836,7 +749,7 @@ experiment and reports how the estimator does against the truth.</p>
 <span>                U <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/Normal.html" class="external-link">rnorm</a></span><span class="op">(</span><span class="va">N</span>, mean <span class="op">=</span> <span class="va">X</span><span class="op">)</span>, </span>
 <span>                <span class="fu"><a href="https://declaredesign.org/r/fabricatr/reference/potential_outcomes.html" class="external-link">potential_outcomes</a></span><span class="op">(</span><span class="va">Y</span> <span class="op">~</span> <span class="fl">0.35</span> <span class="op">*</span> <span class="va">Z</span> <span class="op">+</span> <span class="va">U</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://declaredesign.org/r/declaredesign/reference/declare_inquiry.html" class="external-link">declare_inquiry</a></span><span class="op">(</span>ATE <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/mean.html" class="external-link">mean</a></span><span class="op">(</span><span class="va">Y_Z_1</span> <span class="op">-</span> <span class="va">Y_Z_0</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
-<span>  <span class="fu"><a href="https://declaredesign.org/r/declaredesign/reference/declare_assignment.html" class="external-link">declare_assignment</a></span><span class="op">(</span>Z <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/pkg/randomizr/man/complete_ra.html" class="external-link">complete_ra</a></span><span class="op">(</span><span class="va">N</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://declaredesign.org/r/declaredesign/reference/declare_assignment.html" class="external-link">declare_assignment</a></span><span class="op">(</span>Z <span class="op">=</span> <span class="fu"><a href="https://declaredesign.org/r/randomizr/reference/complete_ra.html" class="external-link">complete_ra</a></span><span class="op">(</span><span class="va">N</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://declaredesign.org/r/declaredesign/reference/declare_measurement.html" class="external-link">declare_measurement</a></span><span class="op">(</span>Y <span class="op">=</span> <span class="fu"><a href="https://declaredesign.org/r/fabricatr/reference/reveal_outcomes.html" class="external-link">reveal_outcomes</a></span><span class="op">(</span><span class="va">Y</span> <span class="op">~</span> <span class="va">Z</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://declaredesign.org/r/declaredesign/reference/declare_estimator.html" class="external-link">declare_estimator</a></span><span class="op">(</span><span class="va">Y</span> <span class="op">~</span> <span class="va">Z</span>, covariates <span class="op">=</span> <span class="op">~</span> <span class="va">X</span>, </span>
 <span>                    .method <span class="op">=</span> <span class="va">lm_lin</span>, inquiry <span class="op">=</span> <span class="st">"ATE"</span><span class="op">)</span></span>

@@ -21,9 +21,7 @@ lm_robust_fit(
   fe_rank = 0L,
   fe_leverage = NULL,
   femat = NULL,
-  linear_hypothesis = NULL,
-  fe_rank_k = fe_rank,
-  df_type = NULL
+  linear_hypothesis = NULL
 )
 ```
 
@@ -109,20 +107,6 @@ lm_robust_fit(
   `hypothesis_df`. Ignored for every other `se_type`, where a
   combination of coefficients has the same degrees of freedom as each of
   them.
-
-- fe_rank_k:
-
-  integer, the absorbed rank counted in K by the clustered
-  `se_type = "stata_nested"` factor: `fe_rank` less the fixed effects
-  nested in the cluster variable. Read under that `se_type` alone;
-  `fe_rank` still sets the residual degrees of freedom.
-
-- df_type:
-
-  character or `NULL`, the degrees of freedom; see
-  [`lm_robust()`](https://declaredesign.org/r/estimatr/reference/lm_robust.md).
-  `"satterthwaite"` with `se_type = "HC2"` needs `femat` under absorbed
-  fixed effects.
 
 ## Examples
 

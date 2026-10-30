@@ -234,49 +234,6 @@ expand the dummies, and it warns once per session to say so. Asking for
 `se_type = "CR2"` by name gets it. The full menu by case is in
 [`?lm_robust`](https://declaredesign.org/r/estimatr/reference/lm_robust.md).
 
-Block fixed effects are not the blocked difference-in-means. They weight
-each block by $`n_b p_b (1 - p_b)`$ rather than by its size, so when the
-probability of treatment differs across blocks they target a
-precision-weighted average rather than the average treatment effect, and
-the model leaves out the block-by-treatment interactions that the
-blocked variance keeps. Here every block has probability 0.5, so the
-estimate coincides with
-`difference_in_means(Y_bl ~ Z_bl, data = dat, blocks = block)` and the
-standard error does not. The regression that reproduces the blocked
-difference-in-means in every number is
-[`lm_lin()`](https://declaredesign.org/r/estimatr/reference/lm_lin.md)
-with the block indicators as covariates:
-
-``` r
-
-lm_lin(Y_bl ~ Z_bl, covariates = ~ factor(block), data = dat)
-#>                          Estimate Std. Error  t value Pr(>|t|) CI Lower CI Upper DF
-#> (Intercept)               0.49792     0.1604  3.10326 0.002645  0.17861   0.8172 80
-#> Z_bl                      0.58693     0.2027  2.89516 0.004884  0.18349   0.9904 80
-#> (factor(block)2)_c       -0.02219     0.5951 -0.03729 0.970345 -1.20651   1.1621 80
-#> (factor(block)3)_c        0.83218     0.9285  0.89631 0.372777 -1.01550   2.6799 80
-#> (factor(block)4)_c       -0.39303     0.6485 -0.60606 0.546193 -1.68360   0.8975 80
-#> (factor(block)5)_c        0.20199     0.9569  0.21110 0.833347 -1.70224   2.1062 80
-#> (factor(block)6)_c        0.96486     0.6952  1.38795 0.169007 -0.41857   2.3483 80
-#> (factor(block)7)_c        0.81923     0.7249  1.13018 0.261776 -0.62329   2.2617 80
-#> (factor(block)8)_c        0.83269     0.6598  1.26196 0.210629 -0.48043   2.1458 80
-#> (factor(block)9)_c        0.99236     0.7345  1.35098 0.180510 -0.46944   2.4541 80
-#> (factor(block)10)_c       1.40396     0.6621  2.12062 0.037052  0.08643   2.7215 80
-#> Z_bl:(factor(block)2)_c   0.68893     0.6973  0.98794 0.326158 -0.69881   2.0767 80
-#> Z_bl:(factor(block)3)_c  -0.87180     0.9938 -0.87723 0.382988 -2.84955   1.1059 80
-#> Z_bl:(factor(block)4)_c   0.79292     0.9236  0.85853 0.393165 -1.04505   2.6309 80
-#> Z_bl:(factor(block)5)_c   0.52409     1.0107  0.51853 0.605522 -1.48732   2.5355 80
-#> Z_bl:(factor(block)6)_c  -0.91739     0.8170 -1.12289 0.264845 -2.54327   0.7085 80
-#> Z_bl:(factor(block)7)_c  -0.53003     0.8833 -0.60005 0.550167 -2.28785   1.2278 80
-#> Z_bl:(factor(block)8)_c  -0.78626     0.7130 -1.10278 0.273428 -2.20512   0.6326 80
-#> Z_bl:(factor(block)9)_c  -0.41463     0.8809 -0.47067 0.639159 -2.16778   1.3385 80
-#> Z_bl:(factor(block)10)_c -1.11561     0.8329 -1.33943 0.184223 -2.77313   0.5419 80
-```
-
-[`?difference_in_means`](https://declaredesign.org/r/estimatr/reference/difference_in_means.md)
-says how far that equivalence goes with clusters, weights, and matched
-pairs.
-
 #### Weights
 
 `weights` takes a column of the data, and the fit is weighted least
@@ -570,11 +527,6 @@ Regression tables work through the usual packages. `texreg` and
 ``` r
 
 texreg::htmlreg(list(fit, lin_fit), include.ci = FALSE, caption = "")
-#> Warning in data.frame(gof.names = colnames(out), gof = as.numeric(out), : NAs introduced
-#> by coercion
-#> Warning in doTryCatch(return(expr), name, parentenv, handler): texreg used the broom
-#> package to extract the following GOF measures, but could not cast them to numeric type:
-#> se_type
 ```
 
 |   | Model 1 | Model 2 |
@@ -591,12 +543,8 @@ texreg::htmlreg(list(fit, lin_fit), include.ci = FALSE, caption = "")
 |   |   | (0.76) |
 | R² | 0.04 | 0.04 |
 | Adj. R² | 0.02 | 0.01 |
-| Num. obs. | 100 |   |
-| RMSE | 1.00 |   |
-| Statistic |   | 1.27 |
-| P Value |   | 0.29 |
-| DF Resid. |   | 96 |
-| nobs |   | 100 |
+| Num. obs. | 100 | 100 |
+| RMSE | 1.00 | 1.01 |
 | ^(\*\*\*)p \< 0.001; ^(\*\*)p \< 0.01; ^(\*)p \< 0.05 |  |  |
 
 `emmeans` also has methods for `lm_robust` fits, for estimated marginal

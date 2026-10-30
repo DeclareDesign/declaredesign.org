@@ -22,7 +22,7 @@
 
     <a class="navbar-brand me-2" href="index.html">estimatr</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">2.1.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">2.0.1</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -42,7 +42,6 @@
     <li><a class="dropdown-item" href="articles/performance.html">Performance</a></li>
     <li><a class="dropdown-item" href="articles/estimatr-in-the-tidyverse.html">estimatr in the tidyverse</a></li>
     <li><a class="dropdown-item" href="articles/regression-tables.html">Regression tables with estimatr</a></li>
-    <li><a class="dropdown-item" href="articles/post-estimation-contract.html">The post-estimation contract</a></li>
   </ul>
 </li>
       </ul>
@@ -189,7 +188,7 @@
 <h3 id="what-stays-the-same">What stays the same<a class="anchor" aria-label="anchor" href="#what-stays-the-same"></a>
 </h3>
 <p>The six estimators are <code>lm_robust</code>, <code>lm_lin</code>, <code>iv_robust</code>, <code>lh_robust</code>, <code>difference_in_means</code>, and <code>horvitz_thompson</code>, now with a Pashley and Miratrix (2021) blocked-variance estimator that 1.x does not have.</p>
-<p>The six estimators keep their 1.0.6 signatures, except <code><a href="reference/horvitz_thompson.html">horvitz_thompson()</a></code>, whose five probability arguments consolidate into <code>condition_prs</code>; the removals are below. Run side by side on one machine, 2.0 and 1.0.6 return the same estimates, standard errors, and degrees of freedom to 1e-12, across every supported standard error type, weighted and unweighted, clustered and unclustered, single and multivariate outcomes. The test suite holds that claim at 691 assertions against answers recorded from an installed 1.0.6, with <code>data-raw/make_estimatr_reference.R</code> producing the recording. Those run at 1e-9 rather than 1e-12, because a fixture recorded on one platform meets a different BLAS on another, and the floor there is the linear algebra rather than this package.</p>
+<p>The six estimators keep their 1.0.6 signatures, except <code><a href="reference/horvitz_thompson.html">horvitz_thompson()</a></code>, whose five probability arguments consolidate into <code>condition_prs</code>; the removals are below. Run side by side on one machine, 2.0 and 1.0.6 return the same estimates, standard errors, and degrees of freedom to 1e-12, across every supported standard error type, weighted and unweighted, clustered and unclustered, single and multivariate outcomes. The test suite holds that claim at 695 assertions against answers recorded from an installed 1.0.6, with <code>data-raw/make_estimatr_reference.R</code> producing the recording. Those run at 1e-9 rather than 1e-12, because a fixture recorded on one platform meets a different BLAS on another, and the floor there is the linear algebra rather than this package.</p>
 </div>
 <div class="section level3">
 <h3 id="what-breaks">What breaks<a class="anchor" aria-label="anchor" href="#what-breaks"></a>
@@ -204,7 +203,7 @@
 <div class="section level3">
 <h3 id="status">Status<a class="anchor" aria-label="anchor" href="#status"></a>
 </h3>
-<p><code>R CMD check --as-cran</code>: 0 errors, 0 warnings, 0 notes. Test suite 8,639 assertions under <code>R CMD check</code> with <code>NOT_CRAN=true</code>, as GitHub Actions runs it (the 792 of <code><a href="articles/post-estimation-contract.html">vignette("post-estimation-contract")</a></code> skip on CRAN), 0 failures, one skip worth 18 assertions: the check that <code>blkvar</code>’s recorded values are still what <code>blkvar</code> produces, that package being available only from GitHub. The 12 assertions comparing estimatr against the recording read the fixture and run everywhere.</p>
+<p><code>R CMD check --as-cran</code>: 0 errors, 0 warnings, 0 notes. Test suite 7,238 assertions under <code>R CMD check</code>, 0 failures, one skip worth 18 assertions: the check that <code>blkvar</code>’s recorded values are still what <code>blkvar</code> produces, that package being available only from GitHub. The 12 assertions comparing estimatr against the recording read the fixture and run everywhere.</p>
 <p>Every open estimatr issue was read against this implementation: 26 are fixed here, 23 are feature requests, 7 are out of scope, 6 are not reproducible, 5 are superseded by the rewrite, and 4 remain open. <code><a href="articles/estimatr2.0.html">vignette("estimatr2.0")</a></code> names the four.</p>
 </div>
 <div class="section level3">

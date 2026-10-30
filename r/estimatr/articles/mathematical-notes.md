@@ -20,16 +20,13 @@ lines of base R.
 
 Two further layers are checked outside this document. Every estimator
 reproduces estimatr 1.0.6’s numbers wherever both versions answer,
-checked in `tests/testthat/test_vs_estimatr.R` against 691 values
-recorded from an installed 1.0.6. A further 844 assertions compare
+checked in `tests/testthat/test_vs_estimatr.R` against 695 values
+recorded from an installed 1.0.6. A further 820 assertions compare
 against implementations that share no lineage with this one: `sandwich`,
-`clubSandwich`, `ivreg`, Stata, `fixest`, `plm`, `blkvar`, and
-[`lm()`](https://rdrr.io/r/stats/lm.html) on the Lin specification
-written by hand, in the four `tests/testthat/test_vs_*.R` files other
-than `test_vs_estimatr.R`, `test_blocked_variance.R`, and
-`test_lm_lin_equivalence.R`.
+`clubSandwich`, `ivreg`, Stata, `fixest`, `plm` and `blkvar`, in the
+five `tests/testthat/test_vs_*.R` files.
 [`vignette("estimatr2.0")`](https://declaredesign.org/r/estimatr/articles/estimatr2.0.md)
-sets out both layers under “How this was checked”; the suite holds 8,485
+sets out both layers under “How this was checked”; the suite holds 7,238
 assertions in total under `R CMD check`.
 
 ### How the checking works
@@ -296,18 +293,6 @@ the alternatives in small samples.
 | `"CR0"` | $`(\mathbf{X}^{\top}\mathbf{X})^{-1}\sum_{s=1}^{S}\left[\mathbf{X}_s^\top\mathbf{e}_s\mathbf{e}_s^\top\mathbf{X}_s\right](\mathbf{X}^{\top}\mathbf{X})^{-1}`$ | $`S-1`$ |
 | `"stata"` | $`\frac{N-1}{N-K}\frac{S}{S-1}\times`$ the CR0 expression | $`S-1`$ |
 | `"CR2"` (default) | $`(\mathbf{X}^{\top}\mathbf{X})^{-1}\sum_{s=1}^{S}\left[\mathbf{X}_s^\top\mathbf{A}_s\mathbf{e}_s\mathbf{e}_s^\top\mathbf{A}_s^\top\mathbf{X}_s\right](\mathbf{X}^{\top}\mathbf{X})^{-1}`$ | Satterthwaite, below |
-| `"CR3"` | the CR2 expression with $`\mathbf{A}_s = (\mathbf{I}_N - \mathbf{H})_{ss}^{+}`$ | Satterthwaite, below |
-
-CR3 is the jackknife-type estimator of Bell and McCaffrey
-([2002](#ref-bellmccaffrey2002)): for OLS and WLS,
-$`\widehat{\beta} - \widehat{\beta}_{(s)} = (\mathbf{X}^{\top}\mathbf{X})^{-1}\mathbf{X}_s^\top(\mathbf{I} - \mathbf{H}_{ss})^{-1}\mathbf{e}_s`$,
-so CR3 is the sum of squared leave-one-cluster-out changes in the
-coefficients, without the $`(S-1)/S`$ factor of the textbook jackknife.
-It is computed on a $`K \times K`$ matrix whatever the cluster size,
-through the identity of Niccodemi et al.
-([2020](#ref-niccodemietal2020)), and through the generalized inverse
-when dropping a cluster leaves a coefficient unidentified, where the
-leave-one-cluster-out sum still agrees with it.
 
 Transcribed, CR0 is the same bread with the meat summed over clusters
 instead of over observations, and `"stata"` is CR0 times two
@@ -367,15 +352,7 @@ $`10^{-12}`$, which is what lets a rank-deficient cluster (fixed effects
 that coincide with the clusters, for instance) return an answer where
 the Bell and McCaffrey ([2002](#ref-bellmccaffrey2002)) form could not
 be computed at all. The two forms agree whenever $`\mathbf{B}_s`$ has
-full rank. The eigendecomposition is not taken of the $`N_s \times N_s`$
-matrix itself, which would cost $`O(N_s^3)`$ time and $`O(N_s^2)`$
-memory: $`\mathbf{B}_s`$ differs from the identity only on the span of
-the cluster’s design columns, so with $`\mathbf{Q}_s`$ an orthonormal
-basis of that span,
-$`\mathbf{B}_s^{+1/2}\mathbf{X}_s = \mathbf{X}_s + \mathbf{Q}_s\left((\mathbf{Q}_s^\top \mathbf{B}_s \mathbf{Q}_s)^{+1/2} - \mathbf{I}\right)\mathbf{Q}_s^\top \mathbf{X}_s`$,
-and only a matrix of order at most twice the number of coefficients is
-decomposed. Niccodemi et al. ([2020](#ref-niccodemietal2020)) give the
-same reduction for unweighted OLS with full-rank clusters.
+full rank.
 
 The degrees of freedom are computed per coefficient:
 
@@ -551,118 +528,6 @@ $`\widehat{\mathbb{V}}`$,
 
 and two-sided p-values come from the same $`t`$ distribution. Under CR2
 the degrees of freedom vary by coefficient, so the multiplier does too.
-
-### Multiple outcomes
-
-`lm_robust(cbind(y1, y2) ~ ...)` fits $`M`$ outcomes on one design. The
-coefficients are those of $`M`$ separate regressions, stacked outcome by
-outcome and named `outcome:term`, so the vector is
-$`\mathrm{vec}(\widehat{\mathbf{B}})`$ for the $`K \times M`$
-coefficient matrix $`\widehat{\mathbf{B}}`$. Write $`\mathbf{E}`$ for
-the $`N \times M`$ matrix of residuals, $`\mathbf{e}_i`$ for its $`i`$th
-row as a column vector, and $`\mathbf{E}_s`$ for the rows of cluster
-$`s`$. The variance is $`MK \times MK`$: its diagonal blocks are the
-single-outcome variances, and its off-diagonal blocks are the
-covariances between one outcome’s coefficients and another’s.
-
-| `se_type` | $`\widehat{\mathbb{V}}[\mathrm{vec}(\widehat{\mathbf{B}})]`$ |
-|----|----|
-| `"classical"` | $`\frac{\mathbf{E}^\top\mathbf{E}}{N-K} \otimes (\mathbf{X}^{\top}\mathbf{X})^{-1}`$ |
-| `"HC0"` to `"HC3"` | $`\left(\mathbf{I}_M \otimes (\mathbf{X}^{\top}\mathbf{X})^{-1}\right)\sum_{i=1}^{N}\omega_i\left(\mathbf{e}_i\mathbf{e}_i^\top \otimes \mathbf{x}_i^\top\mathbf{x}_i\right)\left(\mathbf{I}_M \otimes (\mathbf{X}^{\top}\mathbf{X})^{-1}\right)`$ |
-| `"CR0"`, `"CR2"`, `"CR3"` | $`\left(\mathbf{I}_M \otimes (\mathbf{X}^{\top}\mathbf{X})^{-1}\right)\sum_{s=1}^{S}\mathbf{u}_s\mathbf{u}_s^\top\left(\mathbf{I}_M \otimes (\mathbf{X}^{\top}\mathbf{X})^{-1}\right)`$, with $`\mathbf{u}_s = \mathrm{vec}(\mathbf{X}_s^\top\mathbf{A}_s\mathbf{E}_s)`$ |
-| `"stata"` | $`\frac{N-1}{N-K}\frac{S}{S-1}\times`$ the CR0 expression |
-
-Here $`\omega_i`$ is the factor that distinguishes the HC types in the
-single-outcome table: $`1`$, $`\frac{N}{N-K}`$, $`\frac{1}{1-h_{ii}}`$,
-or $`\frac{1}{(1-h_{ii})^2}`$. $`\mathbf{A}_s`$ is the identity for CR0
-and the cluster’s adjustment matrix for CR2 and CR3. Every outcome
-shares the leverage values and the adjustment matrices, because they
-depend on $`\mathbf{X}`$ alone. For the same reason the CR2 degrees of
-freedom are those of the single-outcome fit, repeated for each outcome.
-In other words, the multi-outcome fit adds nothing to the diagonal
-blocks; what it adds is the off-diagonal blocks, which a set of separate
-fits cannot supply.
-
-``` r
-
-d$y2 <- d$x - d$z + d$inst * d$en
-
-mv_vcov <- function(fit, type, cluster = NULL) {
-  X <- model.matrix(fit)
-  E <- residuals(fit)
-  n <- nrow(X)
-  k <- ncol(X)
-  bread <- solve(crossprod(X))
-  outer_bread <- kronecker(diag(ncol(E)), bread)
-  if (type == "classical") return(kronecker(crossprod(E) / (n - k), bread))
-  H <- X %*% bread %*% t(X)
-  h <- diag(H)
-  omega <- switch(type,
-    HC0 = rep(1, n),
-    HC1 = rep(n / (n - k), n),
-    HC2 = 1 / (1 - h),
-    HC3 = 1 / (1 - h)^2
-  )
-  groups <- if (is.null(cluster)) as.list(seq_len(n)) else split(seq_len(n), cluster)
-  meat <- Reduce(`+`, lapply(seq_along(groups), function(j) {
-    i <- groups[[j]]
-    E_s <- E[i, , drop = FALSE]
-    A_E <- switch(type,
-      CR2 = {
-        ev <- eigen(diag(length(i)) - H[i, i], symmetric = TRUE)
-        ev$vectors %*% diag(1 / sqrt(ev$values), length(i)) %*% t(ev$vectors) %*% E_s
-      },
-      CR3 = solve(diag(length(i)) - H[i, i], E_s),
-      if (is.null(cluster)) E_s * sqrt(omega[i]) else E_s
-    )
-    tcrossprod(as.vector(crossprod(X[i, , drop = FALSE], A_E)))
-  }))
-  outer_bread %*% meat %*% outer_bread
-}
-```
-
-**The promise: the multi-outcome variance is the Kronecker form above
-for every `se_type`, and each outcome’s diagonal block is its
-single-outcome variance.**
-
-``` r
-
-fit_mv <- lm(cbind(y, y2) ~ z + x, data = d)
-
-rbind(
-  do.call(rbind, lapply(c("classical", "HC0", "HC1", "HC2", "HC3"), function(ty) {
-    cbind(se_type = ty,
-          check(paste0("lm_robust(cbind(y, y2), se_type = '", ty, "')"),
-                lm_robust(cbind(y, y2) ~ z + x, data = d, se_type = ty)$vcov,
-                mv_vcov(fit_mv, ty)))
-  })),
-  do.call(rbind, lapply(c("CR0", "CR2", "CR3"), function(ty) {
-    cbind(se_type = ty,
-          check(paste0("lm_robust(cbind(y, y2), clusters = cl, se_type = '", ty, "')"),
-                lm_robust(cbind(y, y2) ~ z + x, data = d, clusters = cl, se_type = ty)$vcov,
-                mv_vcov(fit_mv, ty, d$cl)))
-  })),
-  cbind(se_type = "stata",
-        check("lm_robust(cbind(y, y2), clusters = cl, se_type = 'stata')",
-              lm_robust(cbind(y, y2) ~ z + x, data = d, clusters = cl, se_type = "stata")$vcov,
-              mv_vcov(fit_mv, "CR0", d$cl) * (20 / 19) * (99 / 97))),
-  cbind(se_type = "HC2, y2 block",
-        check("lm_robust(cbind(y, y2)) y2 block equals lm_robust(y2)",
-              lm_robust(cbind(y, y2) ~ z + x, data = d)$vcov[4:6, 4:6],
-              lm_robust(y2 ~ z + x, data = d)$vcov))
-)
-#>          se_type     gap holds
-#> 1      classical 1.2e-16  TRUE
-#> 2            HC0 2.1e-16  TRUE
-#> 3            HC1 2.5e-16  TRUE
-#> 4            HC2 2.2e-16  TRUE
-#> 5            HC3 2.5e-16  TRUE
-#> 6            CR0 2.4e-16  TRUE
-#> 7            CR2 1.7e-16  TRUE
-#> 8            CR3 1.7e-16  TRUE
-#> 9          stata 2.5e-16  TRUE
-#> 10 HC2, y2 block 4.2e-17  TRUE
-```
 
 ## `lm_lin`
 
@@ -1256,16 +1121,6 @@ with two-sided p-values from the same distribution.
 | lm_robust(clusters = ) | 2.5e-16 | TRUE |
 | lm_robust(se_type = ‘stata’) | 2.8e-16 | TRUE |
 | lm_robust(fixed_effects = ) | 6.9e-16 | TRUE |
-| lm_robust(cbind(y, y2), se_type = ‘classical’) | 1.2e-16 | TRUE |
-| lm_robust(cbind(y, y2), se_type = ‘HC0’) | 2.1e-16 | TRUE |
-| lm_robust(cbind(y, y2), se_type = ‘HC1’) | 2.5e-16 | TRUE |
-| lm_robust(cbind(y, y2), se_type = ‘HC2’) | 2.2e-16 | TRUE |
-| lm_robust(cbind(y, y2), se_type = ‘HC3’) | 2.5e-16 | TRUE |
-| lm_robust(cbind(y, y2), clusters = cl, se_type = ‘CR0’) | 2.4e-16 | TRUE |
-| lm_robust(cbind(y, y2), clusters = cl, se_type = ‘CR2’) | 1.7e-16 | TRUE |
-| lm_robust(cbind(y, y2), clusters = cl, se_type = ‘CR3’) | 1.7e-16 | TRUE |
-| lm_robust(cbind(y, y2), clusters = cl, se_type = ‘stata’) | 2.5e-16 | TRUE |
-| lm_robust(cbind(y, y2)) y2 block equals lm_robust(y2) | 4.2e-17 | TRUE |
 | lm_lin() | 1.1e-16 | TRUE |
 | iv_robust() | 1.3e-15 | TRUE |
 | lh_robust() | 0.0e+00 | TRUE |
@@ -1401,11 +1256,6 @@ Middleton, Joel A., and Peter M. Aronow. 2015. “Unbiased Estimation of
 the Average Treatment Effect in Cluster-Randomized Experiments.”
 *Statistics, Politics and Policy* 6 (1-2): 39–75.
 <https://doi.org/10.1515/spp-2013-0002>.
-
-Niccodemi, Gianmaria, Rob Alessie, Viola Angelini, Jochen Mierau, and
-Tom Wansbeek. 2020. *Refining Clustered Standard Errors with Few
-Clusters*. SOM Research Reports 2020002-EEF. University of Groningen,
-SOM Research School.
 
 Pashley, Nicole E., and Luke W. Miratrix. 2021. “Insights on Variance
 Estimation for Blocked and Matched Pairs Designs.” *Journal of

@@ -13,5 +13,3 @@
   tidyverse](https://declaredesign.org/r/estimatr/articles/estimatr-in-the-tidyverse.md):
 - [Regression tables with
   estimatr](https://declaredesign.org/r/estimatr/articles/regression-tables.md):
-- [The post-estimation
-  contract](https://declaredesign.org/r/estimatr/articles/post-estimation-contract.md):

@@ -173,7 +173,7 @@ removals are below. Run side by side on one machine, 2.0 and 1.0.6
 return the same estimates, standard errors, and degrees of freedom to
 1e-12, across every supported standard error type, weighted and
 unweighted, clustered and unclustered, single and multivariate outcomes.
-The test suite holds that claim at 691 assertions against answers
+The test suite holds that claim at 695 assertions against answers
 recorded from an installed 1.0.6, with
 `data-raw/make_estimatr_reference.R` producing the recording. Those run
 at 1e-9 rather than 1e-12, because a fixture recorded on one platform
@@ -230,14 +230,12 @@ on the result should coerce with
 
 ### Status
 
-`R CMD check --as-cran`: 0 errors, 0 warnings, 0 notes. Test suite 8,639
-assertions under `R CMD check` with `NOT_CRAN=true`, as GitHub Actions
-runs it (the 792 of
-[`vignette("post-estimation-contract")`](https://declaredesign.org/r/estimatr/articles/post-estimation-contract.md)
-skip on CRAN), 0 failures, one skip worth 18 assertions: the check that
-`blkvar`’s recorded values are still what `blkvar` produces, that
-package being available only from GitHub. The 12 assertions comparing
-estimatr against the recording read the fixture and run everywhere.
+`R CMD check --as-cran`: 0 errors, 0 warnings, 0 notes. Test suite 7,238
+assertions under `R CMD check`, 0 failures, one skip worth 18
+assertions: the check that `blkvar`’s recorded values are still what
+`blkvar` produces, that package being available only from GitHub. The 12
+assertions comparing estimatr against the recording read the fixture and
+run everywhere.
 
 Every open estimatr issue was read against this implementation: 26 are
 fixed here, 23 are feature requests, 7 are out of scope, 6 are not

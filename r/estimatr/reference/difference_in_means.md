@@ -21,8 +21,7 @@ difference_in_means(
   condition1 = NULL,
   condition2 = NULL,
   ci = TRUE,
-  alpha = 0.05,
-  alternative = c("two.sided", "less", "greater")
+  alpha = 0.05
 )
 ```
 
@@ -42,12 +41,7 @@ difference_in_means(
 
 - clusters:
 
-  (optional) A bare (unquoted) name of the cluster variable: the units
-  to which treatment was assigned, so every unit in a cluster must share
-  a treatment condition. To cluster standard errors above the level of
-  assignment, use
-  [`lm_robust()`](https://declaredesign.org/r/estimatr/reference/lm_robust.md)
-  with `clusters` and `se_type = "CR2"`.
+  (optional) A bare (unquoted) name of the cluster variable
 
 - weights:
 
@@ -78,23 +72,13 @@ difference_in_means(
 
   (optional) The significance level, 0.05 by default.
 
-- alternative:
-
-  (optional) The alternative hypothesis: `"two.sided"` (default),
-  `"greater"` (the difference, `condition2` minus `condition1`, exceeds
-  zero), or `"less"`. A one-sided test puts all of `alpha` in one tail,
-  so its p-value is from that tail and its confidence interval is
-  unbounded on the other side, as in
-  [`stats::t.test()`](https://rdrr.io/r/stats/t.test.html). Decide the
-  direction before seeing the data.
-
 ## Value
 
 An object of class `"difference_in_means"`, a list holding
 `coefficients`, `std.error`, `df`, `statistic`, `p.value`, `conf.low`,
 `conf.high`, `term`, `outcome`, `condition1`, `condition2`, `vcov`,
-`nobs`, `alpha`, `alternative`, `call`, and `design`, a string naming
-the case that applied: `"Standard"`, `"Blocked"`, `"Small blocks"`,
+`nobs`, `alpha`, `call`, and `design`, a string naming the case that
+applied: `"Standard"`, `"Blocked"`, `"Small blocks"`,
 `"Hybrid blocked"`, `"Matched-pair"`, `"Clustered"`,
 `"Block-clustered"`, or `"Matched-pair clustered"`.
 
@@ -123,36 +107,9 @@ units. Both messages suggest merging blocks or using
 [`lm_robust()`](https://declaredesign.org/r/estimatr/reference/lm_robust.md)
 with block fixed effects.
 
-Without blocks or clusters, weighted or not, the fit is
-`lm_robust(y ~ z, se_type = "HC2", df_type = "welch")` on the two
-conditions, in every returned number. The variance is \\\sum_g \sum\_{i
-\in g} w_i^2 e_i^2 / (1 - w_i / W_g) / W_g^2\\, where \\W_g\\ is the
-total weight in condition \\g\\ and \\e_i\\ the deviation from that
-condition's weighted mean, and the degrees of freedom are
-Welch-Satterthwaite's on its two terms; with constant weights these are
-the unweighted Neyman variance and Welch's degrees of freedom. With
-clusters and no blocks, the fit is `lm_robust(se_type = "CR2")`. Weights
-are not supported with matched pairs.
-
-With blocks in which every arm has at least two units, unweighted, the
-fit is `lm_lin(y ~ z, covariates = ~ factor(blocks))`: treatment
-interacted with centered block indicators averages the within-block
-differences by block size, and its HC2 variance is the sum of the
-within-block Neyman variances, so estimate, standard error, degrees of
-freedom (N - 2B), and p-value all agree. With `clusters` as well,
-`lm_lin(..., clusters = clusters)` gives the same estimate and standard
-error, with Bell-McCaffrey degrees of freedom in place of the number of
-clusters minus 2B. With weights the two differ: `difference_in_means()`
-averages the weighted within-block differences by each block's number of
-units,
-[`lm_lin()`](https://declaredesign.org/r/estimatr/reference/lm_lin.md)
-by each block's total weight. A block with a singleton arm has leverage
-1 in the Lin regression, so its HC2 standard error is `NA`. Block fixed
-effects, `lm_robust(y ~ z, fixed_effects = ~ blocks)`, are a different
-estimator: they weight each block by \\n_b p_b (1 - p_b)\\, so with
-treatment probabilities that vary across blocks they do not estimate the
-average treatment effect, and even with a common probability, where the
-estimate coincides, the standard error does not.
+If weights are specified, estimation is handed to
+[`lm_robust()`](https://declaredesign.org/r/estimatr/reference/lm_robust.md)
+with HC2 standard errors.
 
 **Blocks of clusters.** Pashley and Miratrix treat treatment assigned
 within blocks, not blocks of clusters, so blocked designs with

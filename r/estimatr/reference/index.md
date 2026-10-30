@@ -50,7 +50,6 @@
   : Internal method that creates linear fits
 
 - [`predict(`*`<lm_robust>`*`)`](https://declaredesign.org/r/estimatr/reference/predict.lm_robust.md)
-  [`predict(`*`<iv_robust>`*`)`](https://declaredesign.org/r/estimatr/reference/predict.lm_robust.md)
   :
 
   Predict method for `lm_robust` object

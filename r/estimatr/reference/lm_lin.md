@@ -21,8 +21,7 @@ lm_lin(
   ci = TRUE,
   alpha = 0.05,
   return_vcov = TRUE,
-  try_cholesky = FALSE,
-  df_type = NULL
+  try_cholesky = FALSE
 )
 ```
 
@@ -126,46 +125,14 @@ lm_lin(
   of a design in mixed units is large for a reason that does not affect
   the fit: `kappa(sweep(X, 2, sqrt(colSums(X^2)), "/"), exact = TRUE)`.
 
-- df_type:
-
-  (optional) The degrees of freedom (see
-  [`lm_robust()`](https://declaredesign.org/r/estimatr/reference/lm_robust.md))
-
 ## Value
 
-An object of class `c("lm_lin", "lm_robust")`, as returned by
+An object of class `"lm_robust"`, as returned by
 [`lm_robust()`](https://declaredesign.org/r/estimatr/reference/lm_robust.md),
 with two additions: `scaled_center`, the covariate means used for
 centering (taken after any function in the formula is evaluated), and
 `treatment_levels`. The treatment row of `coefficients` is the estimate
 of the average treatment effect.
-
-## Details
-
-**Factorial designs.** `formula` takes one treatment variable. For a
-two-by-two factorial with covariates, Lin's regression interacts every
-centered covariate with all four cells, and
-[`lm_robust()`](https://declaredesign.org/r/estimatr/reference/lm_robust.md)
-writes it directly once every term is centered:
-`lm_robust(y ~ z1_c * z2_c * (x1_c + x2_c))`, where `_c` marks a
-variable minus its sample mean. The coefficient on `z1_c` is the effect
-of `z1` averaged over the two conditions of `z2` in proportion to the
-units each received, that on `z2_c` likewise, and `z1_c:z2_c` is the
-difference-in-differences of the covariate-adjusted cell means: each
-cell's own regression on the covariates, evaluated at their overall
-means. `lm_lin(y ~ cell, covariates = ~ x1 + x2)`, with `cell` the
-four-level factor, fits the same model, and the contrast
-`cell11 - cell10 - cell01` has the same estimate and standard error as
-`z1_c:z2_c`. Without covariates, `lm_robust(y ~ z1_c * z2_c)` is all it
-takes.
-
-Two shortcuts give something else. Entering the covariates additively,
-`lm_robust(y ~ z1_c * z2_c + x1_c + x2_c)`, holds all four cells to one
-set of slopes, which is the adjustment Freedman (2008) criticized.
-`lm_lin(y ~ z1, covariates = ~ z2 * (x1 + x2))` fits the right model,
-but `lm_lin()` centers the product `z2:x1` at its own mean, so `z1:z2_c`
-is the difference-in-differences at `x1 = x2 = 0`. It is the adjusted
-one only when the covariates are centered before they are passed in.
 
 ## References
 
@@ -276,20 +243,4 @@ lm_lin(y ~ z3 - 1, covariates = ~ x, data = dat)
 #> z31:x_c 0.8553097  0.2091691  4.089082 2.506626e-04 0.4302268 1.280392 34
 #> z32:x_c 1.3348970  0.1784812  7.479203 1.114629e-08 0.9721796 1.697614 34
 #> z33:x_c 1.0551674  0.1838363  5.739712 1.876206e-06 0.6815671 1.428768 34
-
-# A two-by-two factorial: center every term and interact all of them.
-# The interaction is the difference-in-differences of adjusted cell means.
-dat$z2 <- rep(c(0, 0, 1, 1), 10)
-dat_c <- transform(dat, z1_c = z - mean(z), z2_c = z2 - mean(z2),
-                   x_c = x - mean(x))
-fit_fac <- lm_robust(y ~ z1_c * z2_c * x_c, data = dat_c)
-coef(fit_fac)[c("z1_c", "z2_c", "z1_c:z2_c")]
-#>       z1_c       z2_c  z1_c:z2_c 
-#>  0.1897885 -0.1088223 -0.3450722 
-
-# The same interaction from lm_lin() on the four cells
-dat$cell <- factor(paste0(dat$z, dat$z2))
-fit_cell <- lm_lin(y ~ cell, covariates = ~ x, data = dat)
-sum(coef(fit_cell)[c("cell11", "cell10", "cell01")] * c(1, -1, -1))
-#> [1] -0.3450722
 ```

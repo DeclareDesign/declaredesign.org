@@ -13,7 +13,7 @@ permutation matrix."></head><body>
 
     <a class="navbar-brand me-2" href="../index.html">estimatr</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">2.1.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">2.0.1</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -31,7 +31,6 @@ permutation matrix."></head><body>
     <li><a class="dropdown-item" href="../articles/performance.html">Performance</a></li>
     <li><a class="dropdown-item" href="../articles/estimatr-in-the-tidyverse.html">estimatr in the tidyverse</a></li>
     <li><a class="dropdown-item" href="../articles/regression-tables.html">Regression tables with estimatr</a></li>
-    <li><a class="dropdown-item" href="../articles/post-estimation-contract.html">The post-estimation contract</a></li>
   </ul></li>
       </ul><ul class="navbar-nav"><li class="nav-item"><a class="external-link nav-link" href="https://declaredesign.org">declaredesign.org</a></li>
       </ul></div>
@@ -64,8 +63,7 @@ permutation matrix.</p>
 <span>  condition2 <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  se_type <span class="op">=</span> <span class="st">"youngs"</span>,</span>
 <span>  ci <span class="op">=</span> <span class="cn">TRUE</span>,</span>
-<span>  alpha <span class="op">=</span> <span class="fl">0.05</span>,</span>
-<span>  alternative <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"two.sided"</span>, <span class="st">"less"</span>, <span class="st">"greater"</span><span class="op">)</span></span>
+<span>  alpha <span class="op">=</span> <span class="fl">0.05</span></span>
 <span><span class="op">)</span></span></code></pre></div>
     </div>
 
@@ -74,9 +72,7 @@ permutation matrix.</p>
 
 
 <dl><dt id="arg-formula">formula<a class="anchor" aria-label="anchor" href="#arg-formula"></a></dt>
-<dd><p>(required) A formula <code>Y ~ Z</code>, with one outcome and one
-right-hand-side variable, the treatment. Covariates are refused: the
-estimator does not adjust for them.</p></dd>
+<dd><p>(required) A formula <code>Y ~ Z</code>, with one outcome.</p></dd>
 
 
 <dt id="arg-data">data<a class="anchor" aria-label="anchor" href="#arg-data"></a></dt>
@@ -127,20 +123,12 @@ condition by default).</p></dd>
 <dt id="arg-alpha">alpha<a class="anchor" aria-label="anchor" href="#arg-alpha"></a></dt>
 <dd><p>(optional) Significance level, 0.05 by default.</p></dd>
 
-
-<dt id="arg-alternative">alternative<a class="anchor" aria-label="anchor" href="#arg-alternative"></a></dt>
-<dd><p>(optional) The alternative hypothesis: <code>"two.sided"</code>
-(default), <code>"greater"</code> (the difference, <code>condition2</code> minus <code>condition1</code>, exceeds zero), or <code>"less"</code>. A one-sided
-test puts all of <code>alpha</code> in one tail, so its p-value is from that tail and
-its confidence interval is unbounded on the other side, as in
-<code><a href="https://rdrr.io/r/stats/t.test.html" class="external-link">stats::t.test()</a></code>. Decide the direction before seeing the data.</p></dd>
-
 </dl></div>
     <div class="section level2">
     <h2 id="value">Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
     <p>An object of class <code>"horvitz_thompson"</code> with fields
 <code>coefficients</code>, <code>std.error</code>, <code>statistic</code>,
-<code>p.value</code>, <code>conf.low</code>, <code>conf.high</code>, <code>df</code>, <code>alpha</code>, <code>alternative</code>,
+<code>p.value</code>, <code>conf.low</code>, <code>conf.high</code>, <code>df</code>,
 <code>nobs</code> (the number of units in the design, including any arms
 outside the contrast), <code>vcov</code>, <code>se_type</code>, <code>condition1</code>,
 <code>condition2</code>, <code>outcome</code>, and <code>term</code>.</p>
@@ -171,21 +159,21 @@ design's order, including units assigned to arms outside the contrast.</p>
 <span class="r-in"><span><span class="co"># Passing the randomization declaration instead is what buys the</span></span></span>
 <span class="r-in"><span><span class="co"># design-aware variance, and it is the recommended form</span></span></span>
 <span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/ns-load.html" class="external-link">requireNamespace</a></span><span class="op">(</span><span class="st">"randomizr"</span>, quietly <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span><span class="op">)</span> <span class="op">{</span></span></span>
-<span class="r-in"><span>  <span class="va">decl</span> <span class="op">&lt;-</span> <span class="fu">randomizr</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/randomizr/man/declare_ra.html" class="external-link">declare_ra</a></span><span class="op">(</span>N <span class="op">=</span> <span class="fl">100</span>, m <span class="op">=</span> <span class="fl">50</span><span class="op">)</span></span></span>
-<span class="r-in"><span>  <span class="va">dat</span><span class="op">$</span><span class="va">z2</span> <span class="op">&lt;-</span> <span class="fu">randomizr</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/randomizr/man/conduct_ra.html" class="external-link">conduct_ra</a></span><span class="op">(</span><span class="va">decl</span><span class="op">)</span></span></span>
+<span class="r-in"><span>  <span class="va">decl</span> <span class="op">&lt;-</span> <span class="fu">randomizr</span><span class="fu">::</span><span class="fu"><a href="https://declaredesign.org/r/randomizr/reference/declare_ra.html" class="external-link">declare_ra</a></span><span class="op">(</span>N <span class="op">=</span> <span class="fl">100</span>, m <span class="op">=</span> <span class="fl">50</span><span class="op">)</span></span></span>
+<span class="r-in"><span>  <span class="va">dat</span><span class="op">$</span><span class="va">z2</span> <span class="op">&lt;-</span> <span class="fu">randomizr</span><span class="fu">::</span><span class="fu"><a href="https://declaredesign.org/r/randomizr/reference/conduct_ra.html" class="external-link">conduct_ra</a></span><span class="op">(</span><span class="va">decl</span><span class="op">)</span></span></span>
 <span class="r-in"><span>  <span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="fu">horvitz_thompson</span><span class="op">(</span><span class="va">y</span> <span class="op">~</span> <span class="va">z2</span>, data <span class="op">=</span> <span class="va">dat</span>, condition_prs <span class="op">=</span> <span class="va">decl</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span>  <span class="co"># Blocked and clustered designs need no extra arguments: the declaration</span></span></span>
 <span class="r-in"><span>  <span class="co"># already carries the structure</span></span></span>
 <span class="r-in"><span>  <span class="va">bl</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">4</span>, each <span class="op">=</span> <span class="fl">25</span><span class="op">)</span></span></span>
-<span class="r-in"><span>  <span class="va">decl_bl</span> <span class="op">&lt;-</span> <span class="fu">randomizr</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/randomizr/man/declare_ra.html" class="external-link">declare_ra</a></span><span class="op">(</span>blocks <span class="op">=</span> <span class="va">bl</span>, prob <span class="op">=</span> <span class="fl">0.4</span><span class="op">)</span></span></span>
-<span class="r-in"><span>  <span class="va">dat</span><span class="op">$</span><span class="va">z3</span> <span class="op">&lt;-</span> <span class="fu">randomizr</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/randomizr/man/conduct_ra.html" class="external-link">conduct_ra</a></span><span class="op">(</span><span class="va">decl_bl</span><span class="op">)</span></span></span>
+<span class="r-in"><span>  <span class="va">decl_bl</span> <span class="op">&lt;-</span> <span class="fu">randomizr</span><span class="fu">::</span><span class="fu"><a href="https://declaredesign.org/r/randomizr/reference/declare_ra.html" class="external-link">declare_ra</a></span><span class="op">(</span>blocks <span class="op">=</span> <span class="va">bl</span>, prob <span class="op">=</span> <span class="fl">0.4</span><span class="op">)</span></span></span>
+<span class="r-in"><span>  <span class="va">dat</span><span class="op">$</span><span class="va">z3</span> <span class="op">&lt;-</span> <span class="fu">randomizr</span><span class="fu">::</span><span class="fu"><a href="https://declaredesign.org/r/randomizr/reference/conduct_ra.html" class="external-link">conduct_ra</a></span><span class="op">(</span><span class="va">decl_bl</span><span class="op">)</span></span></span>
 <span class="r-in"><span>  <span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="fu">horvitz_thompson</span><span class="op">(</span><span class="va">y</span> <span class="op">~</span> <span class="va">z3</span>, data <span class="op">=</span> <span class="va">dat</span>, condition_prs <span class="op">=</span> <span class="va">decl_bl</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span>  <span class="co"># Any two arms of a multi-arm design can be contrasted, with the estimand</span></span></span>
 <span class="r-in"><span>  <span class="co"># still defined over all N units</span></span></span>
-<span class="r-in"><span>  <span class="va">decl3</span> <span class="op">&lt;-</span> <span class="fu">randomizr</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/randomizr/man/declare_ra.html" class="external-link">declare_ra</a></span><span class="op">(</span>N <span class="op">=</span> <span class="fl">100</span>, conditions <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"a"</span>, <span class="st">"b"</span>, <span class="st">"c"</span><span class="op">)</span><span class="op">)</span></span></span>
-<span class="r-in"><span>  <span class="va">dat</span><span class="op">$</span><span class="va">z4</span> <span class="op">&lt;-</span> <span class="fu">randomizr</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/randomizr/man/conduct_ra.html" class="external-link">conduct_ra</a></span><span class="op">(</span><span class="va">decl3</span><span class="op">)</span></span></span>
+<span class="r-in"><span>  <span class="va">decl3</span> <span class="op">&lt;-</span> <span class="fu">randomizr</span><span class="fu">::</span><span class="fu"><a href="https://declaredesign.org/r/randomizr/reference/declare_ra.html" class="external-link">declare_ra</a></span><span class="op">(</span>N <span class="op">=</span> <span class="fl">100</span>, conditions <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"a"</span>, <span class="st">"b"</span>, <span class="st">"c"</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-in"><span>  <span class="va">dat</span><span class="op">$</span><span class="va">z4</span> <span class="op">&lt;-</span> <span class="fu">randomizr</span><span class="fu">::</span><span class="fu"><a href="https://declaredesign.org/r/randomizr/reference/conduct_ra.html" class="external-link">conduct_ra</a></span><span class="op">(</span><span class="va">decl3</span><span class="op">)</span></span></span>
 <span class="r-in"><span>  <span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="fu">horvitz_thompson</span><span class="op">(</span><span class="va">y</span> <span class="op">~</span> <span class="va">z4</span>, data <span class="op">=</span> <span class="va">dat</span>, condition_prs <span class="op">=</span> <span class="va">decl3</span>,</span></span>
 <span class="r-in"><span>                         condition1 <span class="op">=</span> <span class="st">"a"</span>, condition2 <span class="op">=</span> <span class="st">"c"</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="op">}</span></span></span>

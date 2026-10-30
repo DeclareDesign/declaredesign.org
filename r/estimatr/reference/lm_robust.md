@@ -20,8 +20,7 @@ lm_robust(
   ci = TRUE,
   alpha = 0.05,
   return_vcov = TRUE,
-  try_cholesky = FALSE,
-  df_type = NULL
+  try_cholesky = FALSE
 )
 ```
 
@@ -61,14 +60,13 @@ lm_robust(
   the full design splits into the demeaned-X leverage plus a term that
   is cheap to compute, so no dummy hat matrix is built.
 
-  `"CR2"` and `"CR3"` are the exception: their adjustments are built
-  from cluster-level blocks of the hat matrix rather than from the
-  diagonal, and blocks do not split that way, so they expand the dummies
-  and pay for the expansion. That is why `fixed_effects` with `clusters`
-  defaults to `"CR0"`. Asking for `se_type = "CR2"` still works and
-  still gives the 1.0.6 number. Refused is the three together: `"CR2"`
-  or `"CR3"` with both `weights` and `fixed_effects`, as in estimatr
-  1.0.6.
+  `"CR2"` is the exception: its adjustment is built from cluster-level
+  blocks of the hat matrix rather than from the diagonal, and blocks do
+  not split that way, so it expands the dummies and pays for the
+  expansion. That is why `fixed_effects` with `clusters` defaults to
+  `"CR0"`. Asking for `se_type = "CR2"` still works and still gives the
+  1.0.6 number. Refused is the three together: `"CR2"` with both
+  `weights` and `fixed_effects`, as in estimatr 1.0.6.
 
   The projection identity, the several-factor case, the exact-rank
   calculation, and the weighted CR2 and HC2 conventions are derived in
@@ -82,24 +80,15 @@ lm_robust(
   - No clusters, no FE: `"HC2"` (default), `"HC0"`, `"HC1"`, `"HC3"`,
     `"classical"`, `"stata"`, `"none"`.
 
-  - Clusters, no FE: `"CR2"` (default), `"CR0"`, `"CR3"`, `"stata"`,
-    `"stata_nested"`, `"none"`.
+  - Clusters, no FE: `"CR2"` (default), `"CR0"`, `"stata"`, `"none"`.
 
   - No clusters, with FE (any number of factors): `"HC2"` (default),
     `"HC0"`, `"HC1"`, `"HC3"`, `"classical"`, `"stata"`, `"none"`. The
     same menu as with no FE at all.
 
-  - Clusters, with FE: `"CR0"` (default), `"CR2"`, `"CR3"`, `"stata"`,
-    `"stata_nested"`, `"none"`. `"CR2"` and `"CR3"` expand the fixed
-    effects into dummies, so neither is the default here; both are
-    refused with `weights`.
-
-  `"CR3"` is the Bell and McCaffrey (2002) jackknife-type estimator: the
-  adjustment is the inverse of each cluster's block of I - H rather than
-  its inverse square root, and for OLS and WLS it equals the sum of
-  squared leave-one-cluster-out changes in the coefficients, with no
-  (S-1)/S factor. Its degrees of freedom are Satterthwaite, as for
-  `"CR2"`, and it matches `clubSandwich::vcovCR(type = "CR3")`.
+  - Clusters, with FE: `"CR0"` (default), `"CR2"`, `"stata"`, `"none"`.
+    `"CR2"` expands the fixed effects into dummies, so it is not the
+    default here; it is refused with `weights`.
 
   `"stata"` means two different things. With no clusters it is exactly
   `"HC1"`, and the fitted object reports `se_type = "HC1"`. With
@@ -107,16 +96,6 @@ lm_robust(
   Stata's finite-sample factor, `(J / (J - 1)) * ((N - 1) / (N - K))` on
   the variance, and the object reports `se_type = "stata"` to keep the
   distinction visible.
-
-  Stata itself counts K two ways when a fixed effect is nested in the
-  cluster variable, as unit effects clustered by unit are. `"stata"`
-  counts every absorbed level, as `regress` with dummies and `areg` do.
-  `"stata_nested"` leaves out each factor in `fixed_effects` whose every
-  level sits inside one cluster, as `xtreg, fe`, `reghdfe`, and fixest's
-  default `fixef.K = "nested"` do, and so gives the smaller standard
-  error. The two agree when no factor is nested, and without clusters
-  both are `"HC1"`. Dummies written into the formula are counted in full
-  by either.
 
 - ci:
 
@@ -178,41 +157,6 @@ lm_robust(
   directly, scale the columns first, since the unscaled condition number
   of a design in mixed units is large for a reason that does not affect
   the fit: `kappa(sweep(X, 2, sqrt(colSums(X^2)), "/"), exact = TRUE)`.
-
-- df_type:
-
-  (optional) The degrees of freedom for the t tests and confidence
-  intervals. `NULL`, the default, gives each `se_type` its own: N - K
-  for `"HC0"` through `"HC3"` and `"classical"`, Satterthwaite for
-  `"CR2"` and `"CR3"`, and J - 1 for `"CR0"`, `"stata"`, and
-  `"stata_nested"`. `"satterthwaite"` with `se_type = "HC2"` gives each
-  coefficient, and each hypothesis in
-  [`lh_robust()`](https://declaredesign.org/r/estimatr/reference/lh_robust.md),
-  the Bell and McCaffrey (2002) degrees of freedom that Imbens and
-  Kolesar (2016) recommend with HC2, computed under a working model of
-  independent errors with variance proportional to 1 / `weights`. They
-  are clubSandwich's CR2 Satterthwaite degrees of freedom with every
-  observation its own cluster and `inverse_var = TRUE`. They depend on
-  which observations carry a coefficient's variance, so a contrast in an
-  interacted model and the same contrast fit on the subset get the same
-  degrees of freedom. The estimates and standard errors are unchanged.
-  Not available with both `weights` and `fixed_effects`. `"welch"` with
-  `se_type = "HC2"` gives the Welch-Satterthwaite degrees of freedom on
-  a two-group design, an intercept and one regressor taking two values,
-  as in `y ~ z` with a binary `z`; weighted or not,
-  `lm_robust(y ~ z, se_type = "HC2", df_type = "welch")` is then
-  [`difference_in_means()`](https://declaredesign.org/r/estimatr/reference/difference_in_means.md)
-  in every number. `"satterthwaite"` and `"welch"` are one approximation
-  under two working models, and on `y ~ z` they differ:
-  `"satterthwaite"` takes the errors to share one variance and gives
-  (1/n1 + 1/n0)^2 divided by (1/n1)^2/(n1 - 1) + (1/n0)^2/(n0 - 1),
-  which depends only on the group sizes, while `"welch"` takes each
-  group's own variance, as
-  [`t.test()`](https://rdrr.io/r/stats/t.test.html) does. On 20 against
-  40 observations with standard deviations 1 and 3 the residual degrees
-  of freedom are 58, `"satterthwaite"` gives 38.1, and `"welch"` gives
-  50.3. Neither moves the estimate or the standard error. `"residual"`
-  is accepted where it is the default.
 
 ## Value
 

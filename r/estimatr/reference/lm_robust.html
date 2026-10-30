@@ -15,7 +15,7 @@ available standard error types."></head><body>
 
     <a class="navbar-brand me-2" href="../index.html">estimatr</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">2.1.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">2.0.1</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -33,7 +33,6 @@ available standard error types."></head><body>
     <li><a class="dropdown-item" href="../articles/performance.html">Performance</a></li>
     <li><a class="dropdown-item" href="../articles/estimatr-in-the-tidyverse.html">estimatr in the tidyverse</a></li>
     <li><a class="dropdown-item" href="../articles/regression-tables.html">Regression tables with estimatr</a></li>
-    <li><a class="dropdown-item" href="../articles/post-estimation-contract.html">The post-estimation contract</a></li>
   </ul></li>
       </ul><ul class="navbar-nav"><li class="nav-item"><a class="external-link nav-link" href="https://declaredesign.org">declaredesign.org</a></li>
       </ul></div>
@@ -70,8 +69,7 @@ available standard error types.</p>
 <span>  ci <span class="op">=</span> <span class="cn">TRUE</span>,</span>
 <span>  alpha <span class="op">=</span> <span class="fl">0.05</span>,</span>
 <span>  return_vcov <span class="op">=</span> <span class="cn">TRUE</span>,</span>
-<span>  try_cholesky <span class="op">=</span> <span class="cn">FALSE</span>,</span>
-<span>  df_type <span class="op">=</span> <span class="cn">NULL</span></span>
+<span>  try_cholesky <span class="op">=</span> <span class="cn">FALSE</span></span>
 <span><span class="op">)</span></span></code></pre></div>
     </div>
 
@@ -109,12 +107,12 @@ residuals are the dummy regression's exactly.</p>
 <code>"HC3"</code> are exact at any number of factors, because the leverage of the
 full design splits into the demeaned-X leverage plus a term that is cheap
 to compute, so no dummy hat matrix is built.</p>
-<p><code>"CR2"</code> and <code>"CR3"</code> are the exception: their adjustments are built from cluster-level
+<p><code>"CR2"</code> is the exception: its adjustment is built from cluster-level
 blocks of the hat matrix rather than from the diagonal, and blocks do not
-split that way, so they expand the dummies and pay for the expansion.
+split that way, so it expands the dummies and pays for the expansion.
 That is why <code>fixed_effects</code> with <code>clusters</code> defaults to <code>"CR0"</code>. Asking
 for <code>se_type = "CR2"</code> still works and still gives the 1.0.6 number.
-Refused is the three together: <code>"CR2"</code> or <code>"CR3"</code> with both <code>weights</code> and
+Refused is the three together: <code>"CR2"</code> with both <code>weights</code> and
 <code>fixed_effects</code>, as in estimatr 1.0.6.</p>
 <p>The projection identity, the several-factor case, the exact-rank
 calculation, and the weighted CR2 and HC2 conventions are derived in
@@ -125,34 +123,18 @@ calculation, and the weighted CR2 and HC2 conventions are derived in
 <dd><p>(optional) The standard error type. Defaults depend on whether clusters
 and/or fixed effects are present:</p><ul><li><p>No clusters, no FE: <code>"HC2"</code> (default), <code>"HC0"</code>, <code>"HC1"</code>,
 <code>"HC3"</code>, <code>"classical"</code>, <code>"stata"</code>, <code>"none"</code>.</p></li>
-<li><p>Clusters, no FE: <code>"CR2"</code> (default), <code>"CR0"</code>, <code>"CR3"</code>, <code>"stata"</code>,
-<code>"stata_nested"</code>, <code>"none"</code>.</p></li>
+<li><p>Clusters, no FE: <code>"CR2"</code> (default), <code>"CR0"</code>, <code>"stata"</code>, <code>"none"</code>.</p></li>
 <li><p>No clusters, with FE (any number of factors): <code>"HC2"</code> (default),
 <code>"HC0"</code>, <code>"HC1"</code>, <code>"HC3"</code>, <code>"classical"</code>, <code>"stata"</code>, <code>"none"</code>. The
 same menu as with no FE at all.</p></li>
-<li><p>Clusters, with FE: <code>"CR0"</code> (default), <code>"CR2"</code>, <code>"CR3"</code>, <code>"stata"</code>,
-<code>"stata_nested"</code>, <code>"none"</code>. <code>"CR2"</code> and <code>"CR3"</code> expand the fixed
-effects into dummies, so neither is the default here; both are refused
-with <code>weights</code>.</p></li>
-</ul><p><code>"CR3"</code> is the Bell and McCaffrey (2002) jackknife-type estimator: the
-adjustment is the inverse of each cluster's block of I - H rather than its
-inverse square root, and for OLS and WLS it equals the sum of squared
-leave-one-cluster-out changes in the coefficients, with no (S-1)/S
-factor. Its degrees of freedom are Satterthwaite, as for <code>"CR2"</code>, and it
-matches <code>clubSandwich::vcovCR(type = "CR3")</code>.</p>
-<p><code>"stata"</code> means two different things. With no clusters it is exactly
+<li><p>Clusters, with FE: <code>"CR0"</code> (default), <code>"CR2"</code>, <code>"stata"</code>,
+<code>"none"</code>. <code>"CR2"</code> expands the fixed effects into dummies, so it is not
+the default here; it is refused with <code>weights</code>.</p></li>
+</ul><p><code>"stata"</code> means two different things. With no clusters it is exactly
 <code>"HC1"</code>, and the fitted object reports <code>se_type = "HC1"</code>. With clusters it
 is <strong>not</strong> an alias for <code>"CR0"</code>: it is CR0 scaled by Stata's finite-sample
 factor, <code>(J / (J - 1)) * ((N - 1) / (N - K))</code> on the variance, and the
-object reports <code>se_type = "stata"</code> to keep the distinction visible.</p>
-<p>Stata itself counts K two ways when a fixed effect is nested in the
-cluster variable, as unit effects clustered by unit are. <code>"stata"</code> counts
-every absorbed level, as <code>regress</code> with dummies and <code>areg</code> do.
-<code>"stata_nested"</code> leaves out each factor in <code>fixed_effects</code> whose every
-level sits inside one cluster, as <code>xtreg, fe</code>, <code>reghdfe</code>, and fixest's
-default <code>fixef.K = "nested"</code> do, and so gives the smaller standard error.
-The two agree when no factor is nested, and without clusters both are
-<code>"HC1"</code>. Dummies written into the formula are counted in full by either.</p></dd>
+object reports <code>se_type = "stata"</code> to keep the distinction visible.</p></dd>
 
 
 <dt id="arg-ci">ci<a class="anchor" aria-label="anchor" href="#arg-ci"></a></dt>
@@ -203,36 +185,6 @@ regressor whose true effect is zero. To check a design directly, scale the
 columns first, since the unscaled condition number of a design in mixed
 units is large for a reason that does not affect the fit:
 <code>kappa(sweep(X, 2, sqrt(colSums(X^2)), "/"), exact = TRUE)</code>.</p></dd>
-
-
-<dt id="arg-df-type">df_type<a class="anchor" aria-label="anchor" href="#arg-df-type"></a></dt>
-<dd><p>(optional) The degrees of freedom for the t tests and
-confidence intervals. <code>NULL</code>, the default, gives each <code>se_type</code> its own:
-N - K for <code>"HC0"</code> through <code>"HC3"</code> and <code>"classical"</code>, Satterthwaite for
-<code>"CR2"</code> and <code>"CR3"</code>, and J - 1 for <code>"CR0"</code>, <code>"stata"</code>, and
-<code>"stata_nested"</code>. <code>"satterthwaite"</code> with <code>se_type = "HC2"</code> gives each
-coefficient, and each hypothesis in <code><a href="lh_robust.html">lh_robust()</a></code>, the Bell and McCaffrey
-(2002) degrees of freedom that Imbens and Kolesar (2016) recommend with
-HC2, computed under a working model of independent errors with variance
-proportional to 1 / <code>weights</code>. They are clubSandwich's CR2 Satterthwaite
-degrees of freedom with every observation its own cluster and
-<code>inverse_var = TRUE</code>. They depend on which observations carry a
-coefficient's variance, so a contrast in an interacted model and the same
-contrast fit on the subset get the same degrees of freedom. The estimates
-and standard errors are unchanged. Not available with both <code>weights</code> and
-<code>fixed_effects</code>. <code>"welch"</code> with <code>se_type = "HC2"</code> gives the
-Welch-Satterthwaite degrees of freedom on a two-group design, an
-intercept and one regressor taking two values, as in <code>y ~ z</code> with a
-binary <code>z</code>; weighted or not, <code>lm_robust(y ~ z, se_type = "HC2", df_type = "welch")</code> is then <code><a href="difference_in_means.html">difference_in_means()</a></code> in every number.
-<code>"satterthwaite"</code> and <code>"welch"</code> are one approximation under two working
-models, and on <code>y ~ z</code> they differ: <code>"satterthwaite"</code> takes the errors
-to share one variance and gives (1/n1 + 1/n0)^2 divided by
-(1/n1)^2/(n1 - 1) + (1/n0)^2/(n0 - 1), which depends only on the group
-sizes, while <code>"welch"</code> takes each group's own variance, as <code><a href="https://rdrr.io/r/stats/t.test.html" class="external-link">t.test()</a></code>
-does. On 20 against 40 observations with standard deviations 1 and 3 the
-residual degrees of freedom are 58, <code>"satterthwaite"</code> gives 38.1, and
-<code>"welch"</code> gives 50.3. Neither moves the estimate or the standard error.
-<code>"residual"</code> is accepted where it is the default.</p></dd>
 
 </dl></div>
     <div class="section level2">
