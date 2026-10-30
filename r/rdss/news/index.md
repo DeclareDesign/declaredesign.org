@@ -30,9 +30,9 @@ CRAN release: 2026-10-26
   passes `re.form = NA` to
   [`marginaleffects::predictions()`](https://rdrr.io/pkg/marginaleffects/man/predictions.html)
   only when the fit is a mixed model. With an
-  [`lm_robust()`](https://rdrr.io/pkg/estimatr/man/lm_robust.html) or
-  other single-level fit, marginaleffects warned that `re.form` is not a
-  known argument on every call.
+  [`lm_robust()`](https://declaredesign.org/r/estimatr/reference/lm_robust.html)
+  or other single-level fit, marginaleffects warned that `re.form` is
+  not a known argument on every call.
 
 - [`did_multiplegt_tidy()`](https://declaredesign.org/r/rdss/reference/did_multiplegt_tidy.md)
   tidies `did_multiplegt(mode = "dyn")`, returning each effect with its
