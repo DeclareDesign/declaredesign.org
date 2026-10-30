@@ -230,9 +230,9 @@ on the result should coerce with
 
 ### Status
 
-`R CMD check --as-cran`: 0 errors, 0 warnings, 0 notes. Test suite 8,485
+`R CMD check --as-cran`: 0 errors, 0 warnings, 0 notes. Test suite 8,639
 assertions under `R CMD check` with `NOT_CRAN=true`, as GitHub Actions
-runs it (the 710 of
+runs it (the 792 of
 [`vignette("post-estimation-contract")`](https://declaredesign.org/r/estimatr/articles/post-estimation-contract.md)
 skip on CRAN), 0 failures, one skip worth 18 assertions: the check that
 `blkvar`’s recorded values are still what `blkvar` produces, that

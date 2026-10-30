@@ -318,6 +318,58 @@ fits now carries `sigma`, as
 `lm(model = FALSE)`, since the fit does not store its data;
 [`model.frame()`](https://rdrr.io/r/stats/model.frame.html) returns it.
 
+#### The generics that read residuals or a design refuse `difference_in_means()` and `horvitz_thompson()` fits
+
+These fits are not built from a design matrix and do not store the rows
+they used. [`model.frame()`](https://rdrr.io/r/stats/model.frame.html)
+had no method for them and fell through to
+[`model.frame.default()`](https://rdrr.io/r/stats/model.frame.html),
+which evaluated the formula in the caller’s environment: in a workspace
+holding a `y` and a `z`, `model.frame(fit)` returned a frame built from
+those objects rather than from the fit.
+[`model.frame()`](https://rdrr.io/r/stats/model.frame.html),
+[`terms()`](https://rdrr.io/r/stats/terms.html), and
+[`model.matrix()`](https://rdrr.io/r/stats/model.matrix.html) now refuse
+with a sentence saying so. On a
+[`horvitz_thompson()`](https://declaredesign.org/r/estimatr/reference/horvitz_thompson.md)
+fit [`residuals()`](https://rdrr.io/r/stats/residuals.html),
+[`fitted()`](https://rdrr.io/r/stats/fitted.values.html),
+[`deviance()`](https://rdrr.io/r/stats/deviance.html),
+[`df.residual()`](https://rdrr.io/r/stats/df.residual.html),
+[`case.names()`](https://rdrr.io/r/stats/case.names.html), and
+[`variable.names()`](https://rdrr.io/r/stats/case.names.html) returned
+`NULL`, [`sigma()`](https://rdrr.io/r/stats/sigma.html) an empty vector,
+and [`labels()`](https://rdrr.io/r/base/labels.html) the names of the
+fit’s list elements; all eight now refuse, as they already did on a
+[`difference_in_means()`](https://declaredesign.org/r/estimatr/reference/difference_in_means.md)
+fit. On both, [`predict()`](https://rdrr.io/r/stats/predict.html),
+[`hatvalues()`](https://rdrr.io/r/stats/influence.measures.html),
+[`sandwich::estfun()`](https://zeileis.codeberg.page/sandwich/reference/estfun.html),
+and the case-deletion diagnostics
+([`influence()`](https://rdrr.io/r/stats/lm.influence.html),
+[`cooks.distance()`](https://rdrr.io/r/stats/influence.measures.html),
+[`rstandard()`](https://rdrr.io/r/stats/influence.measures.html),
+[`rstudent()`](https://rdrr.io/r/stats/influence.measures.html),
+[`dfbeta()`](https://rdrr.io/r/stats/influence.measures.html),
+[`dfbetas()`](https://rdrr.io/r/stats/influence.measures.html)) had
+failed with “no applicable method” or “no terms component” and now
+refuse, so
+[`sandwich::meat()`](https://zeileis.codeberg.page/sandwich/reference/meat.html),
+[`vcovHC()`](https://zeileis.codeberg.page/sandwich/reference/vcovHC.html),
+[`vcovCL()`](https://zeileis.codeberg.page/sandwich/reference/vcovCL.html),
+and
+[`vcovHAC()`](https://zeileis.codeberg.page/sandwich/reference/vcovHAC.html)
+stop with estimatr’s message rather than sandwich’s.
+
+#### `horvitz_thompson()` refuses covariates on the right-hand side
+
+`horvitz_thompson(y ~ z + x, ...)` read the first right-hand-side
+variable and fit on it, so the result was the fit on `z` with `x`
+dropped without a word. It now stops, as
+[`difference_in_means()`](https://declaredesign.org/r/estimatr/reference/difference_in_means.md)
+already did, with “‘formula’ must have only one variable on the
+right-hand side: the treatment variable.”
+
 ### New
 
 #### `df_type = "satterthwaite"` gives HC2 the Bell and McCaffrey degrees of freedom
@@ -496,8 +548,8 @@ documented the same way. See
 #### `vignette("post-estimation-contract")` sets out what each generic does on each fit
 
 A new vignette renders `inst/contract/contract.csv`, the file
-`tests/testthat/test_contract.R` checks, as a table of 70 probes of
-stats and sandwich generics on ten fits, saying for each cell whether
+`tests/testthat/test_contract.R` checks, as a table of 72 probes of
+stats and sandwich generics on eleven fits, saying for each cell whether
 the call agrees with [`lm()`](https://rdrr.io/r/stats/lm.html) or
 [`ivreg::ivreg()`](https://zeileis.github.io/ivreg/reference/ivreg.html),
 refuses with estimatr’s own message, errors, or returns a value with no
@@ -506,7 +558,78 @@ cell whose promise was a decision rather than a consequence. Because the
 page is built from the same file the tests read, it cannot drift from
 what is checked.
 
+#### `lh_robust()` fits answer the fit-level generics
+
+[`coef()`](https://rdrr.io/r/stats/coef.html),
+[`vcov()`](https://rdrr.io/r/stats/vcov.html),
+[`df.residual()`](https://rdrr.io/r/stats/df.residual.html),
+[`residuals()`](https://rdrr.io/r/stats/residuals.html),
+[`fitted()`](https://rdrr.io/r/stats/fitted.values.html),
+[`predict()`](https://rdrr.io/r/stats/predict.html),
+[`model.frame()`](https://rdrr.io/r/stats/model.frame.html),
+[`model.matrix()`](https://rdrr.io/r/stats/model.matrix.html),
+[`terms()`](https://rdrr.io/r/stats/terms.html),
+[`formula()`](https://rdrr.io/r/stats/formula.html),
+[`weights()`](https://rdrr.io/r/stats/weights.html),
+[`sigma()`](https://rdrr.io/r/stats/sigma.html),
+[`deviance()`](https://rdrr.io/r/stats/deviance.html),
+[`hatvalues()`](https://rdrr.io/r/stats/influence.measures.html),
+[`case.names()`](https://rdrr.io/r/stats/case.names.html),
+[`variable.names()`](https://rdrr.io/r/stats/case.names.html),
+[`labels()`](https://rdrr.io/r/base/labels.html),
+[`augment()`](https://generics.r-lib.org/reference/augment.html),
+[`update()`](https://rdrr.io/r/stats/update.html), and sandwich’s
+[`bread()`](https://zeileis.codeberg.page/sandwich/reference/bread.html),
+[`estfun()`](https://zeileis.codeberg.page/sandwich/reference/estfun.html),
+and
+[`vcovHC()`](https://zeileis.codeberg.page/sandwich/reference/vcovHC.html)
+on an
+[`lh_robust()`](https://declaredesign.org/r/estimatr/reference/lh_robust.md)
+fit are the
+[`lm_robust()`](https://declaredesign.org/r/estimatr/reference/lm_robust.md)
+part’s, so that [`coef()`](https://rdrr.io/r/stats/coef.html) and
+[`vcov()`](https://rdrr.io/r/stats/vcov.html) name the same parameters
+and consumers that pair them work. Before,
+[`coef()`](https://rdrr.io/r/stats/coef.html) and
+[`df.residual()`](https://rdrr.io/r/stats/df.residual.html) returned
+`NULL`, [`vcov()`](https://rdrr.io/r/stats/vcov.html) and
+[`predict()`](https://rdrr.io/r/stats/predict.html) had no method, and
+[`model.frame()`](https://rdrr.io/r/stats/model.frame.html),
+[`terms()`](https://rdrr.io/r/stats/terms.html), and
+[`update()`](https://rdrr.io/r/stats/update.html) failed on the
+container’s fields. The hypothesis rows stay in
+[`tidy()`](https://generics.r-lib.org/reference/tidy.html),
+[`confint()`](https://rdrr.io/r/stats/confint.html),
+[`summary()`](https://rdrr.io/r/base/summary.html), and
+[`print()`](https://rdrr.io/r/base/print.html), which report them beside
+the coefficients, and `coef(summary(fit))` appends them to the fit’s
+table; [`coef()`](https://rdrr.io/r/stats/coef.html) and
+[`vcov()`](https://rdrr.io/r/stats/vcov.html) of `fit$lh` give the
+hypotheses’ estimates and their variance on their own. The
+post-estimation contract gains an
+[`lh_robust()`](https://declaredesign.org/r/estimatr/reference/lh_robust.md)
+fit as its eleventh column.
+
 ### Fixes
+
+#### `update()` works on `lm_lin()` fits
+
+[`formula()`](https://rdrr.io/r/stats/formula.html) on an
+[`lm_lin()`](https://declaredesign.org/r/estimatr/reference/lm_lin.md)
+fit is `y ~ z + x`, the treatment and the covariates together, so
+`update(fit, . ~ . + w)` handed the whole right-hand side to `formula`,
+which
+[`lm_lin()`](https://declaredesign.org/r/estimatr/reference/lm_lin.md)
+refused with a message about the user’s formula.
+[`update()`](https://rdrr.io/r/stats/update.html) now splits the updated
+formula as
+[`lm_lin()`](https://declaredesign.org/r/estimatr/reference/lm_lin.md)
+reads it: the treatment stays in `formula` and every other term becomes
+`covariates`, so `update(fit, . ~ . + w)` equals
+`lm_lin(y ~ z, ~ x + w)`. Removing the treatment, or every covariate,
+stops with a message; the latter names the
+[`lm_robust()`](https://declaredesign.org/r/estimatr/reference/lm_robust.md)
+call that is the model with nothing to centre.
 
 #### CR2 no longer runs out of memory on large clusters
 

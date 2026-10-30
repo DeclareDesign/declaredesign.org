@@ -75,7 +75,7 @@ estimatr did not write: <code><a href="https://rdrr.io/r/stats/coef.html" class=
 estimatr methods, some fall through to a method written for
 <code>lm</code>, and some have no business running on a fit that does
 not store residuals or a QR decomposition. The post-estimation contract
-records, for every one of 71 probes on each of 10 fits, what estimatr
+records, for every one of 72 probes on each of 11 fits, what estimatr
 promises the call will do. The table below is rendered from
 <code>inst/contract/contract.csv</code>, the same file the test suite
 reads, so the page cannot drift from what is checked.</p>
@@ -126,7 +126,7 @@ entered here</td>
 </tr>
 </tbody>
 </table>
-<p>Across the 710 cells: 326 agree, 90 refuse, 262 error, 32 return, 0
+<p>Across the 792 cells: 378 agree, 169 refuse, 223 error, 22 return, 0
 are known wrong, and 0 make no promise.</p>
 <p>The test (<code>tests/testthat/test_contract.R</code>) runs each
 probe in a fresh R process holding estimatr and only the packages that
@@ -166,14 +166,19 @@ which package loaded last. The rest are generics that read internals an
 estimatr fit does not have, such as <code><a href="https://rdrr.io/r/base/qr.html" class="external-link">qr()</a></code>,
 <code><a href="https://rdrr.io/r/stats/effects.html" class="external-link">effects()</a></code>, <code><a href="https://rdrr.io/r/stats/alias.html" class="external-link">alias()</a></code>, and
 <code><a href="https://rdrr.io/r/stats/anova.html" class="external-link">anova()</a></code>.</li>
-<li>A cell <strong>returns</strong> only on
-<code><a href="../reference/horvitz_thompson.html">horvitz_thompson()</a></code>, which has no reference fit.</li>
+<li>A cell <strong>returns</strong> where there is no reference to hold
+the value to: the fit-level generics on <code><a href="../reference/horvitz_thompson.html">horvitz_thompson()</a></code>,
+which has no reference fit; <code>summary(fit)$fstatistic</code> where
+the fit’s F statistic is a robust Wald statistic rather than
+<code><a href="https://rdrr.io/r/stats/lm.html" class="external-link">lm()</a></code>’s; and <code><a href="https://rdrr.io/r/stats/terms.html" class="external-link">terms()</a></code> and <code><a href="https://rdrr.io/r/base/labels.html" class="external-link">labels()</a></code>
+on <code><a href="../reference/lm_lin.html">lm_lin()</a></code>, whose translated formula has no
+counterpart.</li>
 </ul>
 </div>
 <div class="section level2">
 <h2 id="the-fits">The fits<a class="anchor" aria-label="anchor" href="#the-fits"></a>
 </h2>
-<p>All ten are fit to one simulated dataset of 60 rows with a binary
+<p>All eleven are fit to one simulated dataset of 60 rows with a binary
 treatment <code>z</code>, a covariate <code>x</code>, a binary
 instrument <code>iv</code>, ten clusters <code>g</code>, a four-level
 factor <code>f</code>, weights <code>w</code> (three of them zero), and
@@ -240,6 +245,11 @@ a second outcome <code>y2</code>.</p>
 <td><code>horvitz_thompson(y ~ z, d, condition_prs = ...)</code></td>
 <td>none</td>
 </tr>
+<tr class="odd">
+<td><code>lh</code></td>
+<td><code>lh_robust(y ~ x + z, data = d, linear_hypothesis = "z = 0")</code></td>
+<td><code>lm(y ~ x + z, d)</code></td>
+</tr>
 </tbody>
 </table>
 <p>The reference fits report classical variances, so a cell that
@@ -259,7 +269,7 @@ centers it. <code>dim</code> and <code>ht</code> equal a regression on
 </h2>
 <table class="table">
 <colgroup>
-<col width="48%">
+<col width="47%">
 <col width="6%">
 <col width="5%">
 <col width="4%">
@@ -269,6 +279,7 @@ centers it. <code>dim</code> and <code>ht</code> equal a regression on
 <col width="6%">
 <col width="4%">
 <col width="3%">
+<col width="2%">
 <col width="2%">
 </colgroup>
 <thead><tr class="header">
@@ -283,6 +294,7 @@ centers it. <code>dim</code> and <code>ht</code> equal a regression on
 <th align="center">iv_cl</th>
 <th align="center">dim</th>
 <th align="center">ht</th>
+<th align="center">lh</th>
 </tr></thead>
 <tbody>
 <tr class="odd">
@@ -297,6 +309,7 @@ centers it. <code>dim</code> and <code>ht</code> equal a regression on
 <td align="center">=</td>
 <td align="center">=</td>
 <td align="center">~</td>
+<td align="center">=</td>
 </tr>
 <tr class="even">
 <td align="left"><code>coefficients(fit)</code></td>
@@ -310,6 +323,7 @@ centers it. <code>dim</code> and <code>ht</code> equal a regression on
 <td align="center">=</td>
 <td align="center">=</td>
 <td align="center">~</td>
+<td align="center">=</td>
 </tr>
 <tr class="odd">
 <td align="left"><code>residuals(fit)</code></td>
@@ -322,7 +336,8 @@ centers it. <code>dim</code> and <code>ht</code> equal a regression on
 <td align="center">=</td>
 <td align="center">=</td>
 <td align="center">R</td>
-<td align="center">~</td>
+<td align="center">R</td>
+<td align="center">=</td>
 </tr>
 <tr class="even">
 <td align="left"><code>resid(fit)</code></td>
@@ -335,7 +350,8 @@ centers it. <code>dim</code> and <code>ht</code> equal a regression on
 <td align="center">=</td>
 <td align="center">=</td>
 <td align="center">R</td>
-<td align="center">~</td>
+<td align="center">R</td>
+<td align="center">=</td>
 </tr>
 <tr class="odd">
 <td align="left"><code>fitted(fit)</code></td>
@@ -348,7 +364,8 @@ centers it. <code>dim</code> and <code>ht</code> equal a regression on
 <td align="center">=</td>
 <td align="center">=</td>
 <td align="center">R</td>
-<td align="center">~</td>
+<td align="center">R</td>
+<td align="center">=</td>
 </tr>
 <tr class="even">
 <td align="left"><code>fitted.values(fit)</code></td>
@@ -361,7 +378,8 @@ centers it. <code>dim</code> and <code>ht</code> equal a regression on
 <td align="center">=</td>
 <td align="center">=</td>
 <td align="center">R</td>
-<td align="center">~</td>
+<td align="center">R</td>
+<td align="center">=</td>
 </tr>
 <tr class="odd">
 <td align="left"><code>predict(fit, newdata = d)</code></td>
@@ -373,8 +391,9 @@ centers it. <code>dim</code> and <code>ht</code> equal a regression on
 <td align="center">=</td>
 <td align="center">=</td>
 <td align="center">=</td>
-<td align="center">E</td>
-<td align="center">E</td>
+<td align="center">R</td>
+<td align="center">R</td>
+<td align="center">=</td>
 </tr>
 <tr class="even">
 <td align="left"><code>predict(fit, newdata = d, se.fit = TRUE)$se.fit</code></td>
@@ -386,8 +405,9 @@ centers it. <code>dim</code> and <code>ht</code> equal a regression on
 <td align="center">=</td>
 <td align="center">=</td>
 <td align="center">=</td>
-<td align="center">E</td>
-<td align="center">E</td>
+<td align="center">R</td>
+<td align="center">R</td>
+<td align="center">=</td>
 </tr>
 <tr class="odd">
 <td align="left"><code>predict(fit)</code></td>
@@ -399,8 +419,9 @@ centers it. <code>dim</code> and <code>ht</code> equal a regression on
 <td align="center">=</td>
 <td align="center">=</td>
 <td align="center">=</td>
-<td align="center">E</td>
-<td align="center">E</td>
+<td align="center">R</td>
+<td align="center">R</td>
+<td align="center">=</td>
 </tr>
 <tr class="even">
 <td align="left"><code>confint(fit)</code></td>
@@ -414,6 +435,7 @@ centers it. <code>dim</code> and <code>ht</code> equal a regression on
 <td align="center">=</td>
 <td align="center">=</td>
 <td align="center">~</td>
+<td align="center">=</td>
 </tr>
 <tr class="odd">
 <td align="left"><code>vcov(fit)</code></td>
@@ -427,6 +449,7 @@ centers it. <code>dim</code> and <code>ht</code> equal a regression on
 <td align="center">=</td>
 <td align="center">=</td>
 <td align="center">~</td>
+<td align="center">=</td>
 </tr>
 <tr class="even">
 <td align="left"><code>nobs(fit)</code></td>
@@ -440,6 +463,7 @@ centers it. <code>dim</code> and <code>ht</code> equal a regression on
 <td align="center">=</td>
 <td align="center">=</td>
 <td align="center">~</td>
+<td align="center">=</td>
 </tr>
 <tr class="odd">
 <td align="left"><code>df.residual(fit)</code></td>
@@ -452,7 +476,8 @@ centers it. <code>dim</code> and <code>ht</code> equal a regression on
 <td align="center">=</td>
 <td align="center">=</td>
 <td align="center">R</td>
-<td align="center">~</td>
+<td align="center">R</td>
+<td align="center">=</td>
 </tr>
 <tr class="even">
 <td align="left"><code>deviance(fit)</code></td>
@@ -465,10 +490,12 @@ centers it. <code>dim</code> and <code>ht</code> equal a regression on
 <td align="center">=</td>
 <td align="center">=</td>
 <td align="center">R</td>
-<td align="center">~</td>
+<td align="center">R</td>
+<td align="center">=</td>
 </tr>
 <tr class="odd">
 <td align="left"><code>as.numeric(logLik(fit))</code></td>
+<td align="center">E</td>
 <td align="center">E</td>
 <td align="center">E</td>
 <td align="center">E</td>
@@ -492,9 +519,11 @@ centers it. <code>dim</code> and <code>ht</code> equal a regression on
 <td align="center">E</td>
 <td align="center">E</td>
 <td align="center">E</td>
+<td align="center">E</td>
 </tr>
 <tr class="odd">
 <td align="left"><code>BIC(fit)</code></td>
+<td align="center">E</td>
 <td align="center">E</td>
 <td align="center">E</td>
 <td align="center">E</td>
@@ -518,6 +547,7 @@ centers it. <code>dim</code> and <code>ht</code> equal a regression on
 <td align="center">E</td>
 <td align="center">E</td>
 <td align="center">E</td>
+<td align="center">E</td>
 </tr>
 <tr class="odd">
 <td align="left"><code>sigma(fit)</code></td>
@@ -530,7 +560,8 @@ centers it. <code>dim</code> and <code>ht</code> equal a regression on
 <td align="center">=</td>
 <td align="center">=</td>
 <td align="center">R</td>
-<td align="center">~</td>
+<td align="center">R</td>
+<td align="center">=</td>
 </tr>
 <tr class="even">
 <td align="left"><code>format(formula(fit))</code></td>
@@ -544,6 +575,7 @@ centers it. <code>dim</code> and <code>ht</code> equal a regression on
 <td align="center">=</td>
 <td align="center">=</td>
 <td align="center">~</td>
+<td align="center">=</td>
 </tr>
 <tr class="odd">
 <td align="left"><code>attr(terms(fit), "term.labels")</code></td>
@@ -555,8 +587,9 @@ centers it. <code>dim</code> and <code>ht</code> equal a regression on
 <td align="center">~</td>
 <td align="center">=</td>
 <td align="center">=</td>
-<td align="center">E</td>
-<td align="center">E</td>
+<td align="center">R</td>
+<td align="center">R</td>
+<td align="center">=</td>
 </tr>
 <tr class="even">
 <td align="left"><code>mf &lt;- model.frame(fit); as.matrix(mf[vapply(mf, is.numeric, TRUE)])</code></td>
@@ -568,8 +601,9 @@ centers it. <code>dim</code> and <code>ht</code> equal a regression on
 <td align="center">=</td>
 <td align="center">=</td>
 <td align="center">=</td>
-<td align="center">E</td>
-<td align="center">E</td>
+<td align="center">R</td>
+<td align="center">R</td>
+<td align="center">=</td>
 </tr>
 <tr class="odd">
 <td align="left"><code>model.matrix(fit)</code></td>
@@ -581,8 +615,9 @@ centers it. <code>dim</code> and <code>ht</code> equal a regression on
 <td align="center">=</td>
 <td align="center">=</td>
 <td align="center">=</td>
-<td align="center">E</td>
-<td align="center">E</td>
+<td align="center">R</td>
+<td align="center">R</td>
+<td align="center">=</td>
 </tr>
 <tr class="even">
 <td align="left"><code>model.matrix(fit, data = transform(d, x = x + 1, x_c = x_c + 1))</code></td>
@@ -594,11 +629,13 @@ centers it. <code>dim</code> and <code>ht</code> equal a regression on
 <td align="center">=</td>
 <td align="center">=</td>
 <td align="center">=</td>
-<td align="center">E</td>
-<td align="center">E</td>
+<td align="center">R</td>
+<td align="center">R</td>
+<td align="center">=</td>
 </tr>
 <tr class="odd">
 <td align="left"><code>family(fit)$family</code></td>
+<td align="center">E</td>
 <td align="center">E</td>
 <td align="center">E</td>
 <td align="center">E</td>
@@ -622,6 +659,7 @@ centers it. <code>dim</code> and <code>ht</code> equal a regression on
 <td align="center">=</td>
 <td align="center">=</td>
 <td align="center">~</td>
+<td align="center">=</td>
 </tr>
 <tr class="odd">
 <td align="left"><code>case.names(fit)</code></td>
@@ -634,7 +672,8 @@ centers it. <code>dim</code> and <code>ht</code> equal a regression on
 <td align="center">=</td>
 <td align="center">=</td>
 <td align="center">R</td>
-<td align="center">~</td>
+<td align="center">R</td>
+<td align="center">=</td>
 </tr>
 <tr class="even">
 <td align="left"><code>variable.names(fit)</code></td>
@@ -647,7 +686,8 @@ centers it. <code>dim</code> and <code>ht</code> equal a regression on
 <td align="center">=</td>
 <td align="center">=</td>
 <td align="center">R</td>
-<td align="center">~</td>
+<td align="center">R</td>
+<td align="center">=</td>
 </tr>
 <tr class="odd">
 <td align="left"><code>labels(fit)</code></td>
@@ -660,10 +700,12 @@ centers it. <code>dim</code> and <code>ht</code> equal a regression on
 <td align="center">=</td>
 <td align="center">=</td>
 <td align="center">R</td>
-<td align="center">~</td>
+<td align="center">R</td>
+<td align="center">=</td>
 </tr>
 <tr class="even">
 <td align="left"><code>unlist(dummy.coef(fit))</code></td>
+<td align="center">E</td>
 <td align="center">E</td>
 <td align="center">E</td>
 <td align="center">E</td>
@@ -687,9 +729,11 @@ centers it. <code>dim</code> and <code>ht</code> equal a regression on
 <td align="center">E</td>
 <td align="center">E</td>
 <td align="center">E</td>
+<td align="center">E</td>
 </tr>
 <tr class="even">
 <td align="left"><code>alias(fit)$Complete</code></td>
+<td align="center">E</td>
 <td align="center">E</td>
 <td align="center">E</td>
 <td align="center">E</td>
@@ -713,9 +757,11 @@ centers it. <code>dim</code> and <code>ht</code> equal a regression on
 <td align="center">E</td>
 <td align="center">E</td>
 <td align="center">E</td>
+<td align="center">E</td>
 </tr>
 <tr class="even">
 <td align="left"><code>kappa(fit)</code></td>
+<td align="center">E</td>
 <td align="center">E</td>
 <td align="center">E</td>
 <td align="center">E</td>
@@ -739,6 +785,7 @@ centers it. <code>dim</code> and <code>ht</code> equal a regression on
 <td align="center">E</td>
 <td align="center">E</td>
 <td align="center">E</td>
+<td align="center">E</td>
 </tr>
 <tr class="even">
 <td align="left"><code>hatvalues(fit)</code></td>
@@ -750,8 +797,9 @@ centers it. <code>dim</code> and <code>ht</code> equal a regression on
 <td align="center">=</td>
 <td align="center">=</td>
 <td align="center">=</td>
-<td align="center">E</td>
-<td align="center">E</td>
+<td align="center">R</td>
+<td align="center">R</td>
+<td align="center">=</td>
 </tr>
 <tr class="odd">
 <td align="left"><code>cooks.distance(fit)</code></td>
@@ -763,8 +811,9 @@ centers it. <code>dim</code> and <code>ht</code> equal a regression on
 <td align="center">R</td>
 <td align="center">R</td>
 <td align="center">R</td>
-<td align="center">E</td>
-<td align="center">E</td>
+<td align="center">R</td>
+<td align="center">R</td>
+<td align="center">R</td>
 </tr>
 <tr class="even">
 <td align="left"><code>influence(fit)$hat</code></td>
@@ -776,8 +825,9 @@ centers it. <code>dim</code> and <code>ht</code> equal a regression on
 <td align="center">R</td>
 <td align="center">R</td>
 <td align="center">R</td>
-<td align="center">E</td>
-<td align="center">E</td>
+<td align="center">R</td>
+<td align="center">R</td>
+<td align="center">R</td>
 </tr>
 <tr class="odd">
 <td align="left"><code>lm.influence(fit)$hat</code></td>
@@ -789,7 +839,8 @@ centers it. <code>dim</code> and <code>ht</code> equal a regression on
 <td align="center">E</td>
 <td align="center">E</td>
 <td align="center">E</td>
-<td align="center">E</td>
+<td align="center">R</td>
+<td align="center">R</td>
 <td align="center">E</td>
 </tr>
 <tr class="even">
@@ -802,7 +853,8 @@ centers it. <code>dim</code> and <code>ht</code> equal a regression on
 <td align="center">E</td>
 <td align="center">E</td>
 <td align="center">E</td>
-<td align="center">E</td>
+<td align="center">R</td>
+<td align="center">R</td>
 <td align="center">E</td>
 </tr>
 <tr class="odd">
@@ -815,8 +867,9 @@ centers it. <code>dim</code> and <code>ht</code> equal a regression on
 <td align="center">R</td>
 <td align="center">R</td>
 <td align="center">R</td>
-<td align="center">E</td>
-<td align="center">E</td>
+<td align="center">R</td>
+<td align="center">R</td>
+<td align="center">R</td>
 </tr>
 <tr class="even">
 <td align="left"><code>dfbetas(fit)</code></td>
@@ -828,8 +881,9 @@ centers it. <code>dim</code> and <code>ht</code> equal a regression on
 <td align="center">R</td>
 <td align="center">R</td>
 <td align="center">R</td>
-<td align="center">E</td>
-<td align="center">E</td>
+<td align="center">R</td>
+<td align="center">R</td>
+<td align="center">R</td>
 </tr>
 <tr class="odd">
 <td align="left"><code>rstandard(fit)</code></td>
@@ -841,8 +895,9 @@ centers it. <code>dim</code> and <code>ht</code> equal a regression on
 <td align="center">R</td>
 <td align="center">R</td>
 <td align="center">R</td>
-<td align="center">E</td>
-<td align="center">E</td>
+<td align="center">R</td>
+<td align="center">R</td>
+<td align="center">R</td>
 </tr>
 <tr class="even">
 <td align="left"><code>rstudent(fit)</code></td>
@@ -854,8 +909,9 @@ centers it. <code>dim</code> and <code>ht</code> equal a regression on
 <td align="center">R</td>
 <td align="center">R</td>
 <td align="center">R</td>
-<td align="center">E</td>
-<td align="center">E</td>
+<td align="center">R</td>
+<td align="center">R</td>
+<td align="center">R</td>
 </tr>
 <tr class="odd">
 <td align="left"><code>add1(fit, ~. + x2, data = d)</code></td>
@@ -867,7 +923,8 @@ centers it. <code>dim</code> and <code>ht</code> equal a regression on
 <td align="center">E</td>
 <td align="center">E</td>
 <td align="center">E</td>
-<td align="center">E</td>
+<td align="center">R</td>
+<td align="center">R</td>
 <td align="center">E</td>
 </tr>
 <tr class="even">
@@ -880,7 +937,8 @@ centers it. <code>dim</code> and <code>ht</code> equal a regression on
 <td align="center">E</td>
 <td align="center">E</td>
 <td align="center">E</td>
-<td align="center">E</td>
+<td align="center">R</td>
+<td align="center">R</td>
 <td align="center">E</td>
 </tr>
 <tr class="odd">
@@ -893,11 +951,13 @@ centers it. <code>dim</code> and <code>ht</code> equal a regression on
 <td align="center">E</td>
 <td align="center">E</td>
 <td align="center">E</td>
-<td align="center">E</td>
+<td align="center">R</td>
+<td align="center">R</td>
 <td align="center">E</td>
 </tr>
 <tr class="even">
 <td align="left"><code>anova(fit)</code></td>
+<td align="center">E</td>
 <td align="center">E</td>
 <td align="center">E</td>
 <td align="center">E</td>
@@ -921,6 +981,7 @@ centers it. <code>dim</code> and <code>ht</code> equal a regression on
 <td align="center">E</td>
 <td align="center">E</td>
 <td align="center">E</td>
+<td align="center">E</td>
 </tr>
 <tr class="even">
 <td align="left"><code>coef(update(fit, . ~ . - x))</code></td>
@@ -929,13 +990,28 @@ centers it. <code>dim</code> and <code>ht</code> equal a regression on
 <td align="center">=</td>
 <td align="center">=</td>
 <td align="center">=</td>
-<td align="center">=</td>
+<td align="center">R</td>
 <td align="center">=</td>
 <td align="center">=</td>
 <td align="center">=</td>
 <td align="center">~</td>
+<td align="center">=</td>
 </tr>
 <tr class="odd">
+<td align="left"><code>coef(update(fit, . ~ . + x2))</code></td>
+<td align="center">=</td>
+<td align="center">=</td>
+<td align="center">=</td>
+<td align="center">=</td>
+<td align="center">=</td>
+<td align="center">=</td>
+<td align="center">=</td>
+<td align="center">=</td>
+<td align="center">R</td>
+<td align="center">R</td>
+<td align="center">=</td>
+</tr>
+<tr class="even">
 <td align="left"><code>simulate(fit, 1)</code></td>
 <td align="center">E</td>
 <td align="center">E</td>
@@ -947,8 +1023,9 @@ centers it. <code>dim</code> and <code>ht</code> equal a regression on
 <td align="center">E</td>
 <td align="center">E</td>
 <td align="center">E</td>
+<td align="center">E</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td align="left"><code>plot(fit, which = 1)</code></td>
 <td align="center">E</td>
 <td align="center">E</td>
@@ -960,8 +1037,9 @@ centers it. <code>dim</code> and <code>ht</code> equal a regression on
 <td align="center">E</td>
 <td align="center">E</td>
 <td align="center">E</td>
+<td align="center">E</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td align="left"><code>coef(summary(fit))</code></td>
 <td align="center">=</td>
 <td align="center">=</td>
@@ -973,8 +1051,9 @@ centers it. <code>dim</code> and <code>ht</code> equal a regression on
 <td align="center">=</td>
 <td align="center">=</td>
 <td align="center">~</td>
+<td align="center">=</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td align="left"><code>summary(fit)$sigma</code></td>
 <td align="center">=</td>
 <td align="center">=</td>
@@ -986,8 +1065,9 @@ centers it. <code>dim</code> and <code>ht</code> equal a regression on
 <td align="center">=</td>
 <td align="center">=</td>
 <td align="center">~</td>
+<td align="center">=</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td align="left"><code>summary(fit)$r.squared</code></td>
 <td align="center">=</td>
 <td align="center">=</td>
@@ -999,8 +1079,9 @@ centers it. <code>dim</code> and <code>ht</code> equal a regression on
 <td align="center">=</td>
 <td align="center">=</td>
 <td align="center">~</td>
+<td align="center">=</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td align="left"><code>summary(fit)$fstatistic</code></td>
 <td align="center">=</td>
 <td align="center">=</td>
@@ -1012,8 +1093,9 @@ centers it. <code>dim</code> and <code>ht</code> equal a regression on
 <td align="center">~</td>
 <td align="center">~</td>
 <td align="center">~</td>
+<td align="center">=</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td align="left"><code>fit$model</code></td>
 <td align="center">=</td>
 <td align="center">=</td>
@@ -1025,8 +1107,9 @@ centers it. <code>dim</code> and <code>ht</code> equal a regression on
 <td align="center">=</td>
 <td align="center">=</td>
 <td align="center">~</td>
+<td align="center">=</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td align="left"><code>fit$na.action</code></td>
 <td align="center">=</td>
 <td align="center">=</td>
@@ -1038,8 +1121,9 @@ centers it. <code>dim</code> and <code>ht</code> equal a regression on
 <td align="center">=</td>
 <td align="center">=</td>
 <td align="center">~</td>
+<td align="center">=</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td align="left"><code>sandwich::bread(fit)</code></td>
 <td align="center">=</td>
 <td align="center">=</td>
@@ -1051,8 +1135,9 @@ centers it. <code>dim</code> and <code>ht</code> equal a regression on
 <td align="center">=</td>
 <td align="center">R</td>
 <td align="center">R</td>
+<td align="center">=</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td align="left"><code>sandwich::estfun(fit)</code></td>
 <td align="center">=</td>
 <td align="center">=</td>
@@ -1062,10 +1147,11 @@ centers it. <code>dim</code> and <code>ht</code> equal a regression on
 <td align="center">=</td>
 <td align="center">=</td>
 <td align="center">=</td>
-<td align="center">E</td>
-<td align="center">E</td>
+<td align="center">R</td>
+<td align="center">R</td>
+<td align="center">=</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td align="left"><code>sandwich::meat(fit)</code></td>
 <td align="center">=</td>
 <td align="center">=</td>
@@ -1075,10 +1161,11 @@ centers it. <code>dim</code> and <code>ht</code> equal a regression on
 <td align="center">=</td>
 <td align="center">=</td>
 <td align="center">=</td>
-<td align="center">E</td>
-<td align="center">E</td>
+<td align="center">R</td>
+<td align="center">R</td>
+<td align="center">=</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td align="left"><code>sandwich::sandwich(fit)</code></td>
 <td align="center">=</td>
 <td align="center">=</td>
@@ -1088,10 +1175,11 @@ centers it. <code>dim</code> and <code>ht</code> equal a regression on
 <td align="center">=</td>
 <td align="center">=</td>
 <td align="center">=</td>
-<td align="center">E</td>
-<td align="center">E</td>
+<td align="center">R</td>
+<td align="center">R</td>
+<td align="center">=</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td align="left"><code>sandwich::vcovHC(fit, type = "HC2")</code></td>
 <td align="center">=</td>
 <td align="center">=</td>
@@ -1101,10 +1189,11 @@ centers it. <code>dim</code> and <code>ht</code> equal a regression on
 <td align="center">=</td>
 <td align="center">=</td>
 <td align="center">=</td>
-<td align="center">E</td>
-<td align="center">E</td>
+<td align="center">R</td>
+<td align="center">R</td>
+<td align="center">=</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td align="left"><code>sandwich::vcovHC(fit, type = "HC3")</code></td>
 <td align="center">=</td>
 <td align="center">=</td>
@@ -1114,10 +1203,11 @@ centers it. <code>dim</code> and <code>ht</code> equal a regression on
 <td align="center">=</td>
 <td align="center">=</td>
 <td align="center">=</td>
-<td align="center">E</td>
-<td align="center">E</td>
+<td align="center">R</td>
+<td align="center">R</td>
+<td align="center">=</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td align="left"><code>sandwich::vcovHC(fit, type = "HC0")</code></td>
 <td align="center">=</td>
 <td align="center">=</td>
@@ -1127,10 +1217,11 @@ centers it. <code>dim</code> and <code>ht</code> equal a regression on
 <td align="center">=</td>
 <td align="center">=</td>
 <td align="center">=</td>
-<td align="center">E</td>
-<td align="center">E</td>
+<td align="center">R</td>
+<td align="center">R</td>
+<td align="center">=</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td align="left"><code>sandwich::vcovCL(fit, cluster = d$g)</code></td>
 <td align="center">=</td>
 <td align="center">E</td>
@@ -1140,10 +1231,11 @@ centers it. <code>dim</code> and <code>ht</code> equal a regression on
 <td align="center">=</td>
 <td align="center">=</td>
 <td align="center">=</td>
-<td align="center">E</td>
-<td align="center">E</td>
+<td align="center">R</td>
+<td align="center">R</td>
+<td align="center">=</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td align="left"><code>sandwich::vcovCL(fit, cluster = d$g, type = "HC2")</code></td>
 <td align="center">=</td>
 <td align="center">E</td>
@@ -1153,10 +1245,11 @@ centers it. <code>dim</code> and <code>ht</code> equal a regression on
 <td align="center">=</td>
 <td align="center">=</td>
 <td align="center">=</td>
-<td align="center">E</td>
-<td align="center">E</td>
+<td align="center">R</td>
+<td align="center">R</td>
+<td align="center">=</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td align="left"><code>sandwich::vcovHAC(fit)</code></td>
 <td align="center">=</td>
 <td align="center">=</td>
@@ -1166,10 +1259,11 @@ centers it. <code>dim</code> and <code>ht</code> equal a regression on
 <td align="center">=</td>
 <td align="center">=</td>
 <td align="center">=</td>
-<td align="center">E</td>
-<td align="center">E</td>
+<td align="center">R</td>
+<td align="center">R</td>
+<td align="center">=</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td align="left"><code>sandwich::vcovBS(fit, R = 20)</code></td>
 <td align="center">E</td>
 <td align="center">E</td>
@@ -1181,8 +1275,9 @@ centers it. <code>dim</code> and <code>ht</code> equal a regression on
 <td align="center">E</td>
 <td align="center">E</td>
 <td align="center">E</td>
+<td align="center">E</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td align="left"><code>sandwich::vcovOPG(fit)</code></td>
 <td align="center">=</td>
 <td align="center">=</td>
@@ -1192,10 +1287,11 @@ centers it. <code>dim</code> and <code>ht</code> equal a regression on
 <td align="center">=</td>
 <td align="center">=</td>
 <td align="center">=</td>
-<td align="center">E</td>
-<td align="center">E</td>
+<td align="center">R</td>
+<td align="center">R</td>
+<td align="center">=</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td align="left"><code>bread(fit) %*% meat(fit) %*% bread(fit) / nobs(fit)</code></td>
 <td align="center">=</td>
 <td align="center">=</td>
@@ -1205,8 +1301,9 @@ centers it. <code>dim</code> and <code>ht</code> equal a regression on
 <td align="center">=</td>
 <td align="center">=</td>
 <td align="center">=</td>
-<td align="center">E</td>
-<td align="center">E</td>
+<td align="center">R</td>
+<td align="center">R</td>
+<td align="center">=</td>
 </tr>
 </tbody>
 </table>
@@ -1218,9 +1315,9 @@ centers it. <code>dim</code> and <code>ht</code> equal a regression on
 cells that carry them:</p>
 <table class="table">
 <colgroup>
-<col width="31%">
-<col width="32%">
-<col width="36%">
+<col width="35%">
+<col width="40%">
+<col width="23%">
 </colgroup>
 <thead><tr class="header">
 <th align="left">message</th>
@@ -1232,14 +1329,14 @@ cells that carry them:</p>
 <td align="left">
 <code><a href="https://zeileis.codeberg.page/sandwich/reference/bread.html" class="external-link">bread()</a></code> is not available</td>
 <td align="left">bread, sandwich</td>
-<td align="left">lm_fe, lm_mv</td>
+<td align="left">lm_fe, lm_mv, dim, ht</td>
 </tr>
 <tr class="even">
 <td align="left">
 <code><a href="https://rdrr.io/r/stats/influence.measures.html" class="external-link">cooks.distance()</a></code> is not available</td>
 <td align="left">cooks.distance</td>
 <td align="left">lm_plain, lm_wt0, lm_cl, lm_fe, lm_mv, lm_lin,
-iv_plain, iv_cl</td>
+iv_plain, iv_cl, lh</td>
 </tr>
 <tr class="odd">
 <td align="left">
@@ -1252,47 +1349,71 @@ iv_plain, iv_cl</td>
 <code><a href="https://rdrr.io/r/stats/influence.measures.html" class="external-link">dfbeta()</a></code> is not available</td>
 <td align="left">dfbeta</td>
 <td align="left">lm_plain, lm_wt0, lm_cl, lm_fe, lm_mv, lm_lin,
-iv_plain, iv_cl</td>
+iv_plain, iv_cl, lh</td>
 </tr>
 <tr class="odd">
 <td align="left">
 <code><a href="https://rdrr.io/r/stats/influence.measures.html" class="external-link">dfbetas()</a></code> is not available</td>
 <td align="left">dfbetas</td>
 <td align="left">lm_plain, lm_wt0, lm_cl, lm_fe, lm_mv, lm_lin,
-iv_plain, iv_cl</td>
+iv_plain, iv_cl, lh</td>
 </tr>
 <tr class="even">
 <td align="left">
 <code><a href="https://zeileis.codeberg.page/sandwich/reference/estfun.html" class="external-link">estfun()</a></code> is not available</td>
 <td align="left">estfun, meat, vcovHC, vcovCL, vcovHAC, vcovOPG</td>
-<td align="left">lm_fe, lm_mv</td>
+<td align="left">lm_fe, lm_mv, dim, ht</td>
 </tr>
 <tr class="odd">
+<td align="left">
+<code><a href="https://rdrr.io/r/stats/fitted.values.html" class="external-link">fitted()</a></code> is not available</td>
+<td align="left">fitted.values</td>
+<td align="left">ht</td>
+</tr>
+<tr class="even">
 <td align="left">
 <code><a href="https://rdrr.io/r/stats/influence.measures.html" class="external-link">hatvalues()</a></code> is not available</td>
 <td align="left">hatvalues</td>
 <td align="left">lm_fe, lm_mv</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td align="left">
 <code><a href="https://rdrr.io/r/stats/lm.influence.html" class="external-link">influence()</a></code> is not available</td>
 <td align="left">influence</td>
 <td align="left">lm_plain, lm_wt0, lm_cl, lm_fe, lm_mv, lm_lin,
-iv_plain, iv_cl</td>
+iv_plain, iv_cl, lh</td>
+</tr>
+<tr class="even">
+<td align="left">
+<code><a href="https://rdrr.io/r/stats/model.matrix.html" class="external-link">model.matrix()</a></code> is not available</td>
+<td align="left">vcovHC</td>
+<td align="left">dim, ht</td>
 </tr>
 <tr class="odd">
+<td align="left">
+<code><a href="https://rdrr.io/r/stats/residuals.html" class="external-link">residuals()</a></code> is not available</td>
+<td align="left">resid, lm.influence, influence.measures</td>
+<td align="left">dim, ht</td>
+</tr>
+<tr class="even">
 <td align="left">
 <code><a href="https://rdrr.io/r/stats/influence.measures.html" class="external-link">rstandard()</a></code> is not available</td>
 <td align="left">rstandard</td>
 <td align="left">lm_plain, lm_wt0, lm_cl, lm_fe, lm_mv, lm_lin,
-iv_plain, iv_cl</td>
+iv_plain, iv_cl, lh</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td align="left">
 <code><a href="https://rdrr.io/r/stats/influence.measures.html" class="external-link">rstudent()</a></code> is not available</td>
 <td align="left">rstudent</td>
 <td align="left">lm_plain, lm_wt0, lm_cl, lm_fe, lm_mv, lm_lin,
-iv_plain, iv_cl</td>
+iv_plain, iv_cl, lh</td>
+</tr>
+<tr class="even">
+<td align="left">
+<code><a href="https://rdrr.io/r/stats/terms.html" class="external-link">terms()</a></code> is not available</td>
+<td align="left">add1, drop1, step</td>
+<td align="left">dim, ht</td>
 </tr>
 <tr class="odd">
 <td align="left">Can’t set <code>se.fit</code> == TRUE with multivariate
@@ -1308,30 +1429,49 @@ with <code>fixed_effects</code>
 <td align="left">lm_fe</td>
 </tr>
 <tr class="odd">
+<td align="left">cannot remove every covariate</td>
+<td align="left">update</td>
+<td align="left">lm_lin</td>
+</tr>
+<tr class="even">
 <td align="left">not built from a design matrix</td>
-<td align="left">bread</td>
+<td align="left">terms, model.matrix, bread</td>
+<td align="left">dim, ht</td>
+</tr>
+<tr class="odd">
+<td align="left">only one variable on the right-hand side</td>
+<td align="left">update</td>
 <td align="left">dim, ht</td>
 </tr>
 <tr class="even">
 <td align="left">the estimator has no residuals</td>
 <td align="left">df.residual</td>
-<td align="left">dim</td>
+<td align="left">dim, ht</td>
 </tr>
 <tr class="odd">
 <td align="left">the estimator has no residuals or fitted values</td>
 <td align="left">residuals, resid, fitted, fitted.values, deviance,
 sigma</td>
-<td align="left">dim</td>
+<td align="left">dim, ht</td>
 </tr>
 <tr class="even">
 <td align="left">the estimator is not built from a design matrix</td>
-<td align="left">variable.names, labels</td>
-<td align="left">dim</td>
+<td align="left">predict, variable.names, labels, hatvalues,
+cooks.distance, influence, dfbeta, dfbetas, rstandard, rstudent,
+estfun</td>
+<td align="left">dim, ht</td>
 </tr>
 <tr class="odd">
+<td align="left">the estimator is not built from a design matrix, so
+there is no bread to pair with <code><a href="https://zeileis.codeberg.page/sandwich/reference/meat.html" class="external-link">sandwich::meat()</a></code>
+</td>
+<td align="left">bread</td>
+<td align="left">dim, ht</td>
+</tr>
+<tr class="even">
 <td align="left">the rows used are not stored on the fit</td>
-<td align="left">case.names</td>
-<td align="left">dim</td>
+<td align="left">model.frame, case.names</td>
+<td align="left">dim, ht</td>
 </tr>
 </tbody>
 </table>
@@ -1346,10 +1486,10 @@ at all. Where a cell’s promise was a choice rather than a consequence,
 the maintainer’s decision is recorded beside it:</p>
 <table class="table">
 <colgroup>
-<col width="44%">
-<col width="2%">
-<col width="31%">
-<col width="21%">
+<col width="33%">
+<col width="1%">
+<col width="47%">
+<col width="17%">
 </colgroup>
 <thead><tr class="header">
 <th align="left">decision</th>
@@ -1364,6 +1504,24 @@ the maintainer’s decision is recorded beside it:</p>
 <td align="left">residuals, resid, fitted, fitted.values, deviance,
 sigma, case.names, variable.names, labels</td>
 <td align="left">dim</td>
+</tr>
+<tr class="even">
+<td align="left">refuse what reads residuals or a design on dim and
+ht</td>
+<td align="left">refuses</td>
+<td align="left">residuals, resid, fitted, fitted.values, df.residual,
+deviance, sigma, case.names, variable.names, labels</td>
+<td align="left">ht</td>
+</tr>
+<tr class="odd">
+<td align="left">refuse what reads residuals or a design on dim and
+ht</td>
+<td align="left">refuses</td>
+<td align="left">predict, hatvalues, cooks.distance, influence,
+lm.influence, influence.measures, dfbeta, dfbetas, rstandard, rstudent,
+add1, drop1, step, estfun, meat, sandwich, vcovHC, vcovCL, vcovHAC,
+vcovOPG, bread</td>
+<td align="left">dim, ht</td>
 </tr>
 <tr class="even">
 <td align="left">multi-outcome refused</td>
@@ -1383,7 +1541,7 @@ meat, sandwich, vcovHC, vcovCL, vcovHAC, vcovOPG</td>
 <td align="left">agrees</td>
 <td align="left">df.residual</td>
 <td align="left">lm_plain, lm_wt0, lm_cl, lm_fe, lm_mv, lm_lin,
-iv_plain, iv_cl</td>
+iv_plain, iv_cl, lh</td>
 </tr>
 <tr class="odd">
 <td align="left">refused; the tests use fit$df</td>
@@ -1392,135 +1550,130 @@ iv_plain, iv_cl</td>
 <td align="left">dim</td>
 </tr>
 <tr class="even">
-<td align="left">N - K; consumers get upstream fixes</td>
-<td align="left">returns</td>
-<td align="left">df.residual</td>
-<td align="left">ht</td>
-</tr>
-<tr class="odd">
 <td align="left">implement with lm’s meaning</td>
 <td align="left">agrees</td>
 <td align="left">deviance, sigma</td>
 <td align="left">lm_plain, lm_wt0, lm_cl, lm_fe, lm_lin, iv_plain,
-iv_cl</td>
+iv_cl, lh</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td align="left">no logLik() method on any class; performance registers
 one for iv_robust, so a refusal on lm_robust alone made AIC(fit) depend
 on load order</td>
 <td align="left">errors</td>
 <td align="left">logLik, AIC, BIC, extractAIC</td>
 <td align="left">lm_plain, lm_wt0, lm_cl, lm_fe, lm_mv, lm_lin,
-iv_plain, iv_cl</td>
+iv_plain, iv_cl, lh</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td align="left">terms() full (lm_lin translated), formula() the
 call’s</td>
 <td align="left">agrees</td>
 <td align="left">formula</td>
 <td align="left">lm_fe, lm_lin</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td align="left">terms() full (lm_lin translated), formula() the
 call’s</td>
 <td align="left">agrees</td>
 <td align="left">terms, labels</td>
 <td align="left">lm_fe</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td align="left">terms() full (lm_lin translated), formula() the
 call’s</td>
 <td align="left">returns</td>
 <td align="left">terms, labels</td>
 <td align="left">lm_lin</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td align="left">the regressors, as ivreg’s terms() default to</td>
 <td align="left">agrees</td>
 <td align="left">terms</td>
 <td align="left">iv_plain, iv_cl</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td align="left">implement with lm’s meaning</td>
 <td align="left">agrees</td>
 <td align="left">case.names</td>
-<td align="left">lm_plain, lm_wt0, lm_cl, lm_fe, lm_lin</td>
+<td align="left">lm_plain, lm_wt0, lm_cl, lm_fe, lm_lin, lh</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td align="left">implement with lm’s meaning; the reference has no
 case.names() of its own</td>
 <td align="left">agrees</td>
 <td align="left">case.names</td>
 <td align="left">lm_mv, iv_plain, iv_cl</td>
 </tr>
-<tr class="odd">
-<td align="left">implement with lm’s meaning</td>
-<td align="left">agrees</td>
-<td align="left">labels</td>
-<td align="left">lm_plain, lm_wt0, lm_cl, iv_plain, iv_cl</td>
-</tr>
 <tr class="even">
 <td align="left">implement with lm’s meaning</td>
 <td align="left">agrees</td>
-<td align="left">hatvalues</td>
-<td align="left">lm_plain, lm_wt0, lm_cl, lm_lin, iv_plain, iv_cl</td>
+<td align="left">labels</td>
+<td align="left">lm_plain, lm_wt0, lm_cl, iv_plain, iv_cl, lh</td>
 </tr>
 <tr class="odd">
+<td align="left">implement with lm’s meaning</td>
+<td align="left">agrees</td>
+<td align="left">hatvalues</td>
+<td align="left">lm_plain, lm_wt0, lm_cl, lm_lin, iv_plain, iv_cl,
+lh</td>
+</tr>
+<tr class="even">
 <td align="left">implement with lm’s meaning</td>
 <td align="left">refuses</td>
 <td align="left">hatvalues</td>
 <td align="left">lm_fe</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td align="left">refuse case-deletion diagnostics</td>
 <td align="left">refuses</td>
 <td align="left">cooks.distance, influence, dfbeta, dfbetas, rstandard,
 rstudent</td>
 <td align="left">lm_plain, lm_wt0, lm_cl, lm_fe, lm_mv, lm_lin,
-iv_plain, iv_cl</td>
-</tr>
-<tr class="odd">
-<td align="left">refuse case-deletion diagnostics</td>
-<td align="left">errors</td>
-<td align="left">cooks.distance, influence, dfbeta, dfbetas, rstandard,
-rstudent</td>
-<td align="left">dim, ht</td>
+iv_plain, iv_cl, lh</td>
 </tr>
 <tr class="even">
 <td align="left">reaches extractAIC(), which has no method on any
 class</td>
 <td align="left">errors</td>
 <td align="left">add1</td>
-<td align="left">lm_plain, lm_wt0, lm_cl, lm_mv</td>
+<td align="left">lm_plain, lm_wt0, lm_cl, lm_mv, lh</td>
 </tr>
 <tr class="odd">
 <td align="left">reaches extractAIC(), which has no method on any
 class</td>
 <td align="left">errors</td>
 <td align="left">drop1, step</td>
-<td align="left">lm_plain, lm_wt0, lm_cl, lm_fe, lm_mv, lm_lin</td>
+<td align="left">lm_plain, lm_wt0, lm_cl, lm_fe, lm_mv, lm_lin, lh</td>
 </tr>
 <tr class="even">
+<td align="left">covariates on the right-hand side are refused, as
+difference_in_means() refuses them</td>
+<td align="left">refuses</td>
+<td align="left">update</td>
+<td align="left">ht</td>
+</tr>
+<tr class="odd">
 <td align="left">summary() carries sigma, as summary.lm() does</td>
 <td align="left">agrees</td>
 <td align="left">summary</td>
 <td align="left">lm_plain, lm_wt0, lm_cl, lm_fe, lm_lin, iv_plain,
 iv_cl</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td align="left">dim has no residual quantities; <code>$</code> cannot
 refuse, so NULL is the promise</td>
 <td align="left">agrees</td>
 <td align="left">summary</td>
 <td align="left">dim</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td align="left">not stored, as lm(model = FALSE); consumers fall back
 to model.frame()</td>
 <td align="left">agrees</td>
 <td align="left">$model</td>
 <td align="left">lm_plain, lm_wt0, lm_cl, lm_fe, lm_mv, lm_lin,
-iv_plain, iv_cl, dim</td>
+iv_plain, iv_cl, dim, lh</td>
 </tr>
 </tbody>
 </table>

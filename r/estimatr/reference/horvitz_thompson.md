@@ -24,7 +24,9 @@ horvitz_thompson(
 
 - formula:
 
-  (required) A formula `Y ~ Z`, with one outcome.
+  (required) A formula `Y ~ Z`, with one outcome and one right-hand-side
+  variable, the treatment. Covariates are refused: the estimator does
+  not adjust for them.
 
 - data:
 
