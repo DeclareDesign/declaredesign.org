@@ -1491,9 +1491,9 @@ probabilities. Second, by calculating standard errors robustly.
 The estimator throughout this section is inverse-probability-weighted
 least squares with an HC2 standard error ([MacKinnon and White
 1985](https://doi.org/10.1016/0304-4076(85)90158-7)), fitted with
-[`estimatr::lm_robust()`](https://rdrr.io/pkg/estimatr/man/lm_robust.html).
+[`estimatr::lm_robust()`](https://declaredesign.org/r/estimatr/reference/lm_robust.html).
 Where a covariate is adjusted for, the fit is
-[`estimatr::lm_lin()`](https://rdrr.io/pkg/estimatr/man/lm_lin.html),
+[`estimatr::lm_lin()`](https://declaredesign.org/r/estimatr/reference/lm_lin.html),
 which centres the covariate and interacts it with treatment in the
 manner of Lin (2013).
 
@@ -1657,9 +1657,9 @@ a number several times too large, and coverage goes to 1.000.
 The interval is therefore valid, but it is wasteful: it throws away
 precisely the precision the design was chosen to buy. Adjusting for the
 same covariate with
-[`lm_lin()`](https://rdrr.io/pkg/estimatr/man/lm_lin.html) recovers most
-of it, because regressing on $`x`$ takes out of the residual the same
-variation the design took out of the assignment.
+[`lm_lin()`](https://declaredesign.org/r/estimatr/reference/lm_lin.html)
+recovers most of it, because regressing on $`x`$ takes out of the
+residual the same variation the design took out of the assignment.
 
 ``` r
 
