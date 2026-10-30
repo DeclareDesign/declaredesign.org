@@ -25,12 +25,18 @@ jobs:
     strategy:
       max-parallel: 1
       fail-fast: false
+      # `branch:` is a release tag, not `main`, for every package whose `main`
+      # can carry a development version. Each package sets pkgdown
+      # `development: mode: auto`, so a `.9000` version builds only `docs/dev/`,
+      # and the `clean: true` deploy below then deletes the release site at
+      # r/<pkg>/. randomizr lost its site this way on 2026-10-27, after `main`
+      # went to 2.0.1.9000. Move a tag here when that package releases.
       matrix:
         config:
-          - {os: macOS-latest, r: 'release', package: 'declaredesign', branch: 'main'}
-          - {os: macOS-latest, r: 'release', package: 'fabricatr', branch: 'main'}
-          - {os: macOS-latest, r: 'release', package: 'randomizr', branch: 'main'}
-          - {os: macOS-latest, r: 'release', package: 'estimatr', branch: 'main'}
+          - {os: macOS-latest, r: 'release', package: 'declaredesign', branch: '2.0.0'}
+          - {os: macOS-latest, r: 'release', package: 'fabricatr', branch: '2.0.0'}
+          - {os: macOS-latest, r: 'release', package: 'randomizr', branch: '2.0.1'}
+          - {os: macOS-latest, r: 'release', package: 'estimatr', branch: 'v2.0.1'}
           - {os: macOS-latest, r: 'release', package: 'rdss', branch: 'main'}
           - {os: macOS-latest, r: 'release', package: 'designlibrary', branch: 'master'}
           
