@@ -1,11 +1,9 @@
-# Create a design for mediation analysis
+# Create a mediation analysis design
 
-A mediation analysis design that examines the effect of treatment (Z) on
-mediator (M) and the effect of mediator (M) on outcome (Y) (given Z=0)
-as well as direct effect of treatment (Z) on outcome (Y) (given M=0).
-Analysis is implemented using an interacted regression model. Note this
-model is not guaranteed to be unbiased despite randomization of Z
-because of possible violations of sequential ignorability.
+Routes to
+[`make_design()`](https://declaredesign.org/r/designlibrary/reference/make_design.md)
+with id `"mediation_analysis"`:
+`make_design("mediation_analysis", N = N, a = a, ...)`.
 
 ## Usage
 
@@ -25,77 +23,62 @@ mediation_analysis_designer(
 
 - N:
 
-  An integer. Size of sample.
+  Sample size.
 
 - a:
 
-  A number. Parameter governing effect of treatment (Z) on mediator (M).
+  Effect of treatment on the latent index for the mediator.
 
 - b:
 
-  A number. Effect of mediator (M) on outcome (Y) when Z = 0.
+  Effect of the mediator on the outcome when Z = 0.
 
 - c:
 
-  A number. Interaction between mediator (M) and (Z) for outcome (Y).
+  Interaction of the mediator and treatment in the outcome.
 
 - d:
 
-  A number. Direct effect of treatment (Z) on outcome (Y), when M = 0.
+  Direct effect of treatment on the outcome when M = 0.
 
 - rho:
 
-  A number in \[-1,1\]. Correlation between mediator (M) and outcome (Y)
-  error terms. Non zero correlation implies a violation of sequential
-  ignorability.
+  Correlation between mediator and outcome shocks (-1 to 1).
 
 - args_to_fix:
 
-  A character vector. Names of arguments to be args_to_fix in design.
+  Ignored. Present for compatibility with DesignLibrary 0.1.
 
 ## Value
 
-A mediation analysis design.
+A design object.
 
-## Details
+## See also
 
-See [vignette
-online](https://declaredesign.org/r/designlibrary/articles/mediation_analysis.html).
-
-## Author
-
-[DeclareDesign Team](https://declaredesign.org/)
+[`make_design()`](https://declaredesign.org/r/designlibrary/reference/make_design.md)
 
 ## Examples
 
 ``` r
-# Generate a mediation analysis design using default arguments:
-mediation_1 <- mediation_analysis_designer()
-draw_estimands(mediation_1)
-#>               inquiry estimand
-#> 1          FirstStage    0.365
-#> 2          Indirect_0    0.400
-#> 3          Indirect_1    0.400
-#> 4 Controlled_Direct_0    0.500
-#> 5 Controlled_Direct_1    0.500
-#> 6    Natural_Direct_0    0.500
-#> 7    Natural_Direct_1    0.500
-if (FALSE) { # \dontrun{
-diagnose_design(mediation_1, sims = 1000)
-} # }
-
-# A design with a violation of sequential ignorability and heterogeneous effects:
-mediation_2 <- mediation_analysis_designer(a = 1, rho = .5, c = 1, d = .75)
-draw_estimands(mediation_2)
-#>               inquiry estimand
-#> 1          FirstStage    0.335
-#> 2          Indirect_0    0.400
-#> 3          Indirect_1    1.400
-#> 4 Controlled_Direct_0    0.750
-#> 5 Controlled_Direct_1    1.750
-#> 6    Natural_Direct_0    1.275
-#> 7    Natural_Direct_1    1.610
-if (FALSE) { # \dontrun{
-diagnose_design(mediation_2, sims = 1000)
-} # }
+mediation_analysis_designer(N = 40, a = 0.5, d = 0.2)
+#> Research design with 9 steps
+#> 
+#> Step 1 (parameters): declare_parameters(N = 200, a = 1, b = 0.4, c = 0, d = 0.5, rho = 0)
+#> Step 2 (model): declare_model(N = N, e1 = rnorm(N), e2 = rnorm(n = N, mean = rho * e1, sd = sqrt(1 - rho^2)), potential_outcomes(M ~ 1 * (a * Z + e1 > 0)), potential_outcomes(Y ~ d * Z + b * M + c * M * Z + e2, conditions = list(M = 0:1, Z = 0:1)), Y_nat0_Z_0 = b * M_Z_0 + e2, Y_nat0_Z_1 = d + b * M_Z_0 + c * M_Z_0 + e2, Y_nat1_Z_0 = b * M_Z_1 + e2, Y_nat1_Z_1 = d + b * M_Z_1 + c * M_Z_1 + e2)
+#> Step 3 (inquiry): declare_inquiry(FirstStage = mean(M_Z_1 - M_Z_0), Mediator_Effect_0 = mean(Y_M_1_Z_0 - Y_M_0_Z_0), Mediator_Effect_1 = mean(Y_M_1_Z_1 - Y_M_0_Z_1), Controlled_Direct_0 = mean(Y_M_0_Z_1 - Y_M_0_Z_0), Controlled_Direct_1 = mean(Y_M_1_Z_1 - Y_M_1_Z_0), Natural_Direct_0 = mean(Y_nat0_Z_1 - Y_nat0_Z_0), Natural_Direct_1 = mean(Y_nat1_Z_1 - Y_nat1_Z_0))
+#> Step 4 (assignment): declare_assignment(Z = complete_ra(N, prob = 0.5))
+#> Step 5 (measurement): declare_measurement(M = reveal_outcomes(M ~ Z), Y = reveal_outcomes(Y ~ M + Z), Y_nat0 = reveal_outcomes(Y_nat0 ~ Z), Y_nat1 = reveal_outcomes(Y_nat1 ~ Z), Not_M = 1 - M)
+#> Step 6 (estimator): declare_estimator(M ~ Z, .method = lm_robust, inquiry = "FirstStage", label = "Stage 1")
+#> Step 7 (estimator): declare_estimator(Y ~ Z * M, .method = lm_robust, term = "M", inquiry = "Mediator_Effect_0", label = "Stage 2")
+#> Step 8 (estimator): declare_estimator(Y ~ Z * M, .method = lm_robust, term = "Z", inquiry = c("Controlled_Direct_0", "Natural_Direct_0"), label = "Direct_0")
+#> Step 9 (estimator): declare_estimator(Y ~ Z * Not_M, .method = lm_robust, term = "Z", inquiry = c("Controlled_Direct_1", "Natural_Direct_1"), label = "Direct_1")
+#> 
+#> Parameters and objects the design refers to:
+#>  name value   kind declared      steps
+#>     a   0.5 scalar     TRUE       1, 2
+#>     b   0.4 scalar     TRUE       1, 2
+#>     c     0 scalar     TRUE 1, 2, 8, 9
+#>     d   0.2 scalar     TRUE       1, 2
+#>     N    40 scalar     TRUE       1, 2
+#>   rho     0 scalar     TRUE       1, 2
 ```

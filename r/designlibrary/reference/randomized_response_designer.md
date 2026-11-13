@@ -1,10 +1,9 @@
 # Create a randomized response design
 
-Produces a (forced) randomized response design that measures the share
-of individuals with a given trait `prevalence_trait` in a population of
-size `N`. Probability of forced response ("Yes") is given by
-`prob_forced_yes`, and rate at which individuals with trait lie is given
-by `withholding_rate`.
+Routes to
+[`make_design()`](https://declaredesign.org/r/designlibrary/reference/make_design.md)
+with id `"randomized_response"`:
+`make_design("randomized_response", N = N, ...)`.
 
 ## Usage
 
@@ -22,48 +21,50 @@ randomized_response_designer(
 
 - N:
 
-  An integer. Size of sample.
+  Sample size.
 
 - prob_forced_yes:
 
-  A number in \[0,1\]. Probability of a forced yes.
+  Probability a respondent is forced to answer yes.
 
 - prevalence_rate:
 
-  A number in \[0,1\]. Probability that individual has the sensitive
-  trait.
+  Share of units holding the sensitive trait.
 
 - withholding_rate:
 
-  A number in \[0,1\]. Probability that an individual with the sensitive
-  trait hides it.
+  Share of trait holders who deny it under direct questioning.
 
 - args_to_fix:
 
-  A character vector. Names of arguments to be args_to_fix in design.
+  Ignored. Present for compatibility with DesignLibrary 0.1.
 
 ## Value
 
-A randomized response design.
+A design object.
 
-## Details
+## See also
 
-`randomized_response_designer` employs a specific variation of
-randomized response designs in which respondents are required to report
-a args_to_fix answer to the sensitive question with a given probability
-(see Blair, Imai, and Zhou (2015) for alternative applications and
-estimation strategies).
-
-See [vignette
-online](https://declaredesign.org/r/designlibrary/articles/randomized_response.html).
-
-## Author
-
-[DeclareDesign Team](https://declaredesign.org/)
+[`make_design()`](https://declaredesign.org/r/designlibrary/reference/make_design.md)
 
 ## Examples
 
 ``` r
-# Generate a randomized response design using default arguments:
-randomized_response_design <- randomized_response_designer()
+randomized_response_designer(N = 40, prevalence_rate = 0.2)
+#> Research design with 7 steps
+#> 
+#> Step 1 (parameters): declare_parameters(N = 1000, prob_forced_yes = 0.6, prevalence_rate = 0.1, withholding_rate = 0.5)
+#> Step 2 (model): declare_model(N = N, sensitive_trait = draw_binary(prob = prevalence_rate, N = N), withholder = draw_binary(prob = sensitive_trait * withholding_rate, N = N), direct_answer = sensitive_trait - withholder, Y_Z_Yes = 1, Y_Z_Truth = sensitive_trait)
+#> Step 3 (inquiry): declare_inquiry(true_rate = mean(sensitive_trait))
+#> Step 4 (assignment): declare_assignment(Z = complete_ra(N, prob = prob_forced_yes, conditions = c("Truth", "Yes")))
+#> Step 5 (measurement): declare_measurement(Y = reveal_outcomes(Y ~ Z))
+#> Step 6 (estimator): declare_estimator(handler = label_estimator(function(data, prob_forced_yes) { data.frame(estimate = (mean(data$Y) - prob_forced_yes)/(1 - prob_forced_yes)) }), prob_forced_yes = prob_forced_yes, inquiry = "true_rate", label = "Forced Randomized Response")
+#> Step 7 (estimator): declare_estimator(handler = label_estimator(function(data) { data.frame(estimate = mean(data$direct_answer)) }), inquiry = "true_rate", label = "Direct Question")
+#> 
+#> Parameters and objects the design refers to:
+#>              name value   kind declared   steps
+#>                 N    40 scalar     TRUE    1, 2
+#>   prevalence_rate   0.2 scalar     TRUE    1, 2
+#>   prob_forced_yes   0.6 scalar     TRUE 1, 4, 6
+#>  withholding_rate   0.5 scalar     TRUE    1, 2
 ```

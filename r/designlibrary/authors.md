@@ -2,13 +2,13 @@
 
 ## Authors
 
+- **Macartan Humphreys**. Author.
+
 - **Graeme Blair**. Author.
 
-- **Jasper Cooper**. Author, maintainer.
+- **Jasper Cooper**. Author.
 
-- **Alexander Coppock**. Author.
-
-- **Macartan Humphreys**. Author.
+- **Alexander Coppock**. Author, maintainer.
 
 - **Clara Bicalho**. Author.
 
@@ -21,14 +21,14 @@
 Source:
 [`DESCRIPTION`](https://github.com/DeclareDesign/DesignLibrary/blob/main/DESCRIPTION)
 
-Blair G, Cooper J, Coppock A, Humphreys M, Bicalho C, Fultz N, Medina L
-(2026). *DesignLibrary: Library of Research Designs*. R package version
-0.1.10, <https://declaredesign.org/r/designlibrary/>.
+Humphreys M, Blair G, Cooper J, Coppock A, Bicalho C, Fultz N, Medina L
+(2026). *DesignLibrary: A Library of Declared Designs*. R package
+version 2.0.0, <https://github.com/DeclareDesign/DesignLibrary>.
 
     @Manual{,
-      title = {DesignLibrary: Library of Research Designs},
-      author = {Graeme Blair and Jasper Cooper and Alexander Coppock and Macartan Humphreys and Clara Bicalho and Neal Fultz and Lily Medina},
+      title = {DesignLibrary: A Library of Declared Designs},
+      author = {Macartan Humphreys and Graeme Blair and Jasper Cooper and Alexander Coppock and Clara Bicalho and Neal Fultz and Lily Medina},
       year = {2026},
-      note = {R package version 0.1.10},
-      url = {https://declaredesign.org/r/designlibrary/},
+      note = {R package version 2.0.0},
+      url = {https://github.com/DeclareDesign/DesignLibrary},
     }

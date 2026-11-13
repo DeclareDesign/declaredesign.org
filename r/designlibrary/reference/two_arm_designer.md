@@ -1,8 +1,9 @@
 # Create a one-level two-arm design
 
-Builds a design with one treatment and one control arm. Treatment
-effects can be specified either by providing `control_mean` and
-`treatment_mean` or by specifying a `control_mean` and `ate`.
+Routes to
+[`make_design()`](https://declaredesign.org/r/designlibrary/reference/make_design.md)
+with id `"two_arm_flexible"`:
+`make_design("two_arm_flexible", N = N, assignment_prob = assignment_prob, ...)`.
 
 ## Usage
 
@@ -13,8 +14,8 @@ two_arm_designer(
   control_mean = 0,
   control_sd = 1,
   ate = 1,
-  treatment_mean = control_mean + ate,
-  treatment_sd = control_sd,
+  treatment_mean = NULL,
+  treatment_sd = NULL,
   rho = 1,
   args_to_fix = NULL
 )
@@ -24,61 +25,95 @@ two_arm_designer(
 
 - N:
 
-  An integer. Sample size.
+  Sample size.
 
 - assignment_prob:
 
-  A number in \[0,1\]. Probability of assignment to treatment.
+  Probability of assignment to treatment.
 
 - control_mean:
 
-  A number. Average outcome in control.
+  Average outcome in control.
 
 - control_sd:
 
-  A positive number. Standard deviation in control.
+  Standard deviation in control.
 
 - ate:
 
-  A number. Average treatment effect.
+  Average treatment effect.
 
 - treatment_mean:
 
-  A number. Average outcome in treatment. Overrides `ate` if both
-  specified.
+  Average outcome in treatment. If supplied, overrides `ate` (`ate`
+  becomes `treatment_mean - control_mean`).
 
 - treatment_sd:
 
-  A nonnegative number. Standard deviation in treatment. By default
-  equals `control_sd`.
+  Standard deviation in treatment. Defaults to `control_sd`.
 
 - rho:
 
-  A number in \[-1,1\]. Correlation between treatment and control
-  outcomes.
+  Correlation between treatment and control potential outcomes.
 
 - args_to_fix:
 
-  A character vector. Names of arguments to be args_to_fix in design.
+  Ignored. Present for compatibility with DesignLibrary 0.1.
 
 ## Value
 
-A simple two-arm design.
+A design object.
 
 ## Details
 
-Units are assigned to treatment using complete random assignment.
-Potential outcomes are normally distributed according to the mean and sd
-arguments.
+Builds a design with one treatment and one control arm. Treatment
+effects can be specified by `ate` or by `treatment_mean` (which
+overrides `ate`). Argument names match DesignLibrary 0.1's
+`two_arm_designer`.
 
-## Author
+## See also
 
-[DeclareDesign Team](https://declaredesign.org/)
+[`make_design()`](https://declaredesign.org/r/designlibrary/reference/make_design.md)
 
 ## Examples
 
 ``` r
-# Generate a simple two-arm design using default arguments
-two_arm_design <- two_arm_designer()
-two_arm_design <- two_arm_designer(args_to_fix = c("N", "assignment_prob"))
+make_design("two_arm_flexible", N = 40, ate = 0.2)
+#> Research design with 6 steps
+#> 
+#> Step 1 (parameters): declare_parameters(N = 100, assignment_prob = 0.5, control_mean = 0, control_sd = 1, ate = 1, treatment_sd = 1, rho = 1)
+#> Step 2 (model): declare_model(N = N, u_0 = rnorm(N), u_1 = rnorm(n = N, mean = rho * u_0, sd = sqrt(pmax(0, 1 - rho^2))), potential_outcomes(Y ~ control_mean + (1 - Z) * (u_0 * control_sd) + Z * (u_1 * treatment_sd + ate)))
+#> Step 3 (inquiry): declare_inquiry(ATE = mean(Y_Z_1 - Y_Z_0))
+#> Step 4 (assignment): declare_assignment(Z = complete_ra(N, prob = assignment_prob))
+#> Step 5 (measurement): declare_measurement(Y = reveal_outcomes(Y ~ Z))
+#> Step 6 (estimator): declare_estimator(Y ~ Z, inquiry = "ATE")
+#> 
+#> Parameters and objects the design refers to:
+#>             name value   kind declared steps
+#>  assignment_prob   0.5 scalar     TRUE  1, 4
+#>              ate   0.2 scalar     TRUE  1, 2
+#>     control_mean     0 scalar     TRUE  1, 2
+#>       control_sd     1 scalar     TRUE  1, 2
+#>                N    40 scalar     TRUE  1, 2
+#>              rho     1 scalar     TRUE  1, 2
+#>     treatment_sd     1 scalar     TRUE  1, 2
+two_arm_designer(N = 40, ate = 0.2)
+#> Research design with 6 steps
+#> 
+#> Step 1 (parameters): declare_parameters(N = 100, assignment_prob = 0.5, control_mean = 0, control_sd = 1, ate = 1, treatment_sd = 1, rho = 1)
+#> Step 2 (model): declare_model(N = N, u_0 = rnorm(N), u_1 = rnorm(n = N, mean = rho * u_0, sd = sqrt(pmax(0, 1 - rho^2))), potential_outcomes(Y ~ control_mean + (1 - Z) * (u_0 * control_sd) + Z * (u_1 * treatment_sd + ate)))
+#> Step 3 (inquiry): declare_inquiry(ATE = mean(Y_Z_1 - Y_Z_0))
+#> Step 4 (assignment): declare_assignment(Z = complete_ra(N, prob = assignment_prob))
+#> Step 5 (measurement): declare_measurement(Y = reveal_outcomes(Y ~ Z))
+#> Step 6 (estimator): declare_estimator(Y ~ Z, inquiry = "ATE")
+#> 
+#> Parameters and objects the design refers to:
+#>             name value   kind declared steps
+#>  assignment_prob   0.5 scalar     TRUE  1, 4
+#>              ate   0.2 scalar     TRUE  1, 2
+#>     control_mean     0 scalar     TRUE  1, 2
+#>       control_sd     1 scalar     TRUE  1, 2
+#>                N    40 scalar     TRUE  1, 2
+#>              rho     1 scalar     TRUE  1, 2
+#>     treatment_sd     1 scalar     TRUE  1, 2
 ```
