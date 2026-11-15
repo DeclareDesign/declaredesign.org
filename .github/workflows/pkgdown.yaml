@@ -38,11 +38,11 @@ jobs:
           - {os: macOS-latest, r: 'release', package: 'randomizr', branch: '2.0.1'}
           - {os: macOS-latest, r: 'release', package: 'estimatr', branch: 'v2.0.1'}
           - {os: macOS-latest, r: 'release', package: 'rdss', branch: 'main'}
-          # designlibrary builds from `RDrewrite` (Version 2.0.0, so release mode)
-          # while 2.0.0 waits at CRAN: `master` is 0.1.10, which calls
-          # declare_potential_outcomes() and fails against DeclareDesign 2.0.
-          # Move to the `v2.0.0` tag once CRAN accepts and RDrewrite is merged.
-          - {os: macOS-latest, r: 'release', package: 'designlibrary', branch: 'RDrewrite'}
+          # designlibrary builds from `main` (Version 2.0.0, so release mode)
+          # while 2.0.0 waits at CRAN. `main` is the former `RDrewrite`, renamed
+          # and made the default branch 2026-11-15; `master` is 0.1.10, which
+          # fails against DeclareDesign 2.0. Move to the `v2.0.0` tag on acceptance.
+          - {os: macOS-latest, r: 'release', package: 'designlibrary', branch: 'main'}
           
     env:
       R_REMOTES_NO_ERRORS_FROM_WARNINGS: true
