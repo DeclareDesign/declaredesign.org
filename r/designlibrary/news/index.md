@@ -2,6 +2,8 @@
 
 ## DesignLibrary 2.0.0
 
+CRAN release: 2026-11-16
+
 **DesignLibrary 2.0 supersedes DesignLibrary 0.1.** Designs are now
 self-contained declaration files read through
 [`make_design()`](https://declaredesign.org/r/designlibrary/reference/make_design.md),
