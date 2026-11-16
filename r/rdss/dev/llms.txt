@@ -1,0 +1,212 @@
+# rdss: Companion Datasets and Functions for Research Design in the Social Sciences
+
+[![CRAN
+status](https://www.r-pkg.org/badges/version/rdss)](https://cran.r-project.org/package=rdss)
+[![CRAN RStudio mirror
+downloads](https://cranlogs.r-pkg.org/badges/grand-total/rdss?color=green)](https://r-pkg.org/pkg/rdss)
+[![Build
+status](https://github.com/DeclareDesign/rdss/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/DeclareDesign/rdss/actions/workflows/R-CMD-check.yaml)
+[![Codecov test
+coverage](https://codecov.io/gh/DeclareDesign/rdss/graph/badge.svg)](https://app.codecov.io/gh/DeclareDesign/rdss)
+
+Datasets and helper functions for the book [*Research Design in the
+Social Sciences: Declaration, Diagnosis, and
+Redesign*](https://book.declaredesign.org/) by Graeme Blair, Alexander
+Coppock, and Macartan Humphreys (Princeton University Press, 2023). The
+[package website](https://declaredesign.org/r/rdss/) has a [Get
+started](https://declaredesign.org/r/rdss/articles/rdss.html) article
+that lists which helpers each section of the book uses.
+
+## Installation
+
+Install the released version from CRAN:
+
+``` r
+
+install.packages("rdss")
+```
+
+or the development version from GitHub:
+
+``` r
+
+remotes::install_github("DeclareDesign/rdss")
+```
+
+[`estimator_AS_tidy()`](https://declaredesign.org/r/rdss/dev/reference/estimator_AS_tidy.md),
+used in the book’s section on experiments over networks, needs the
+‘interference’ package, which is not on CRAN. It works only in the
+GitHub version of rdss, so install both from GitHub:
+
+``` r
+
+remotes::install_github("szonszein/interference")
+remotes::install_github("DeclareDesign/rdss")
+```
+
+[`did_multiplegt_tidy()`](https://declaredesign.org/r/rdss/dev/reference/did_multiplegt_tidy.md),
+used in the book’s section on difference-in-differences, needs the
+‘polars’ package, which is also not on CRAN:
+
+``` r
+
+install.packages("polars", repos = "https://rpolars.r-universe.dev")
+```
+
+## Example
+
+Each helper fills one step of a declaration in the book, and its help
+page links to the section that uses it.
+[`lag_by_group()`](https://declaredesign.org/r/rdss/dev/reference/lag_by_group.md),
+for instance, builds the lagged treatment indicator in the
+difference-in-differences design:
+
+``` r
+
+library(rdss)
+library(dplyr)
+
+panel <-
+  tibble(
+    unit = rep(c("a", "b"), each = 3),
+    period = rep(1:3, times = 2),
+    D = c(0, 1, 1, 0, 0, 1)
+  ) |>
+  mutate(D_lag = lag_by_group(D, groups = unit, n = 1, order_by = period))
+
+panel
+```
+
+``` R
+## # A tibble: 6 × 4
+##   unit  period     D D_lag
+##   <chr>  <int> <dbl> <dbl>
+## 1 a          1     0    NA
+## 2 a          2     1     0
+## 3 a          3     1     1
+## 4 b          1     0    NA
+## 5 b          2     0     0
+## 6 b          3     1     0
+```
+
+# Package index
+
+## Package
+
+- [`rdss-package`](https://declaredesign.org/r/rdss/dev/reference/rdss.md)
+  [`rdss`](https://declaredesign.org/r/rdss/dev/reference/rdss.md) :
+  rdss package
+
+## Replication tools
+
+- [`get_rdss_file()`](https://declaredesign.org/r/rdss/dev/reference/get_rdss_file.md)
+  : Download a replication file from the dataverse archive for Research
+  Design in the Social Sciences: Declaration, Diagnosis, and Redesign
+
+## Tidy helpers
+
+Wrap estimators from other packages for use in design steps such as
+`declare_estimator()`
+
+- [`causal_forest_handler()`](https://declaredesign.org/r/rdss/dev/reference/causal_forest_handler.md)
+  : Tidy helper function for causal_forest function
+
+- [`rma_helper()`](https://declaredesign.org/r/rdss/dev/reference/rma_helper.md)
+  : Helper function for rma function in metafor package
+
+- [`rdrobust_helper()`](https://declaredesign.org/r/rdss/dev/reference/rdrobust_helper.md)
+  :
+
+  Helper function for using rdrobust as a model in `declare_estimator`
+
+- [`post_stratification_helper()`](https://declaredesign.org/r/rdss/dev/reference/post_stratification_helper.md)
+  : Post stratification estimator helper
+
+- [`did_multiplegt_tidy()`](https://declaredesign.org/r/rdss/dev/reference/did_multiplegt_tidy.md)
+  : Tidy helper function for did_multiplegt
+
+- [`estimator_AS_tidy()`](https://declaredesign.org/r/rdss/dev/reference/estimator_AS_tidy.md)
+  : Tidy helper function for estimator_AS function
+
+- [`process_tracing_estimator()`](https://declaredesign.org/r/rdss/dev/reference/process_tracing_estimator.md)
+  : Process tracing estimator
+
+- [`rma_mu_tau()`](https://declaredesign.org/r/rdss/dev/reference/rma_mu_tau.md)
+  : Extract mu and tau-squared from a random-effects meta-analysis
+
+## Helpers
+
+- [`best_predictor()`](https://declaredesign.org/r/rdss/dev/reference/best_predictor.md)
+  : Find the covariate that best predicts treatment effect heterogeneity
+- [`conjoint_assignment()`](https://declaredesign.org/r/rdss/dev/reference/conjoint_assignment.md)
+  : Conjoint experiment assignment handler: conducts complete random
+  assignment of all attribute levels
+- [`conjoint_inquiries()`](https://declaredesign.org/r/rdss/dev/reference/conjoint_inquiries.md)
+  : Conjoint experiment inquiries handler
+- [`conjoint_measurement()`](https://declaredesign.org/r/rdss/dev/reference/conjoint_measurement.md)
+  : Conjoint experiment measurement handler: records which profile in
+  each task is chosen
+- [`get_exposure_AS()`](https://declaredesign.org/r/rdss/dev/reference/get_exposure_AS.md)
+  : Helper function to obtain the observed exposure for the Aronow and
+  Samii estimator
+- [`lag_by_group()`](https://declaredesign.org/r/rdss/dev/reference/lag_by_group.md)
+  : Generate lags in grouped data
+
+## Tidiers
+
+Return model fits from other packages as tidy data frames
+
+- [`tidy(`*`<amce>`*`)`](https://declaredesign.org/r/rdss/dev/reference/tidy.amce.md)
+  : Tidy estimates from the amce estimator
+- [`tidy(`*`<rdrobust>`*`)`](https://declaredesign.org/r/rdss/dev/reference/tidy.rdrobust.md)
+  : Tidy helper function for rdrobust function
+- [`tidy_stan()`](https://declaredesign.org/r/rdss/dev/reference/tidy_stan.md)
+  : Tidy results from a stanreg regression (deprecated)
+
+## Data
+
+Datasets used in the book’s examples and exercises
+
+- [`bonilla_tillery`](https://declaredesign.org/r/rdss/dev/reference/bonilla_tillery.md)
+  : Replication data for Bonilla and Tillery (2020), American Political
+  Science Review (obtained from Dataverse 10.7910/DVN/IUZDQI)
+- [`clingingsmith_etal`](https://declaredesign.org/r/rdss/dev/reference/clingingsmith_etal.md)
+  : Replication data for Clingingsmith, Khwaja, and Kremer (2009),
+  Quarterly Journal of Economics
+- [`fairfax`](https://declaredesign.org/r/rdss/dev/reference/fairfax.md)
+  : Shapefile of Fairfax County, Virginia, voting precincts
+- [`foos_etal`](https://declaredesign.org/r/rdss/dev/reference/foos_etal.md)
+  : Replication data for Foos, John, Muller, and Cunningham (2021),
+  Journal of Politics (derived from Dataverse 10.7910/DVN/NDPXND)
+- [`la_voter_file`](https://declaredesign.org/r/rdss/dev/reference/la_voter_file.md)
+  : Voter file sample for Los Angeles County
+- [`lapop_brazil`](https://declaredesign.org/r/rdss/dev/reference/lapop_brazil.md)
+  : Teaching data based on the 2018/19 LAPOP AmericasBarometer survey of
+  Brazil
+
+## Utilities
+
+Format numbers for tables, and the book’s ggplot theme and palette
+
+- [`add_parens()`](https://declaredesign.org/r/rdss/dev/reference/add_parens.md)
+  : Add parentheses around standard error estimates
+- [`format_num()`](https://declaredesign.org/r/rdss/dev/reference/format_num.md)
+  : Round and pad a number to a specific decimal place
+- [`make_interval_entry()`](https://declaredesign.org/r/rdss/dev/reference/make_interval_entry.md)
+  : Format confidence intervals for nice printing
+- [`make_se_entry()`](https://declaredesign.org/r/rdss/dev/reference/make_se_entry.md)
+  : Format estimates and standard errors for nice printing
+- [`theme_dd()`](https://declaredesign.org/r/rdss/dev/reference/theme_dd.md)
+  : ggplot theme used in the book Research Design in the Social Sciences
+- [`dd_palette()`](https://declaredesign.org/r/rdss/dev/reference/dd_palette.md)
+  : Color palettes used in the book Research Design in the Social
+  Sciences
+- [`hex_add_alpha()`](https://declaredesign.org/r/rdss/dev/reference/hex_add_alpha.md)
+  : Add alpha transparency to a color defined in hexadecimal
+
+# Articles
+
+### All vignettes
+
+- [Getting started with
+  rdss](https://declaredesign.org/r/rdss/dev/articles/rdss.md):
