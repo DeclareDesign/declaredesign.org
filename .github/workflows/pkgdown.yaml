@@ -100,10 +100,10 @@ jobs:
       # its own cloned branch: install_local() there passes upgrade = "never"
       # and leaves this copy alone only when it is not the package being
       # documented. Drop this step once CRAN serves 2.0.1.
-      - name: Install estimatr from dev
+      - name: Install estimatr from main
         run: |
           if (!requireNamespace("remotes", quietly = TRUE)) install.packages("remotes", repos = "https://cran.r-project.org")
-          remotes::install_github("DeclareDesign/estimatr@dev", dependencies = TRUE, force = TRUE, upgrade = "never")
+          remotes::install_github("DeclareDesign/estimatr@main", dependencies = TRUE, force = TRUE, upgrade = "never")
         shell: Rscript {0}
 
       # The site documents the cloned branch, so install that branch rather than
