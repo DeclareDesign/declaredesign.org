@@ -25,6 +25,12 @@ jobs:
     strategy:
       max-parallel: 1
       fail-fast: false
+      # `site_config: 'main'` builds the release tag's code with `main`'s
+      # _pkgdown.yml, so a navbar change (the 2026-11-15 shared Software menu,
+      # which dropped the dead DesignWizard link) reaches the site without
+      # waiting for a release. Set it only where the tag and `main` configs
+      # differ in site chrome alone: estimatr's `main` config indexes 2.1.0
+      # functions the v2.0.1 tag lacks, so it keeps the tag's own config.
       # `branch:` is a release tag, not `main`, for every package whose `main`
       # can carry a development version. Each package sets pkgdown
       # `development: mode: auto`, so a `.9000` version builds only `docs/dev/`,
@@ -33,9 +39,9 @@ jobs:
       # went to 2.0.1.9000. Move a tag here when that package releases.
       matrix:
         config:
-          - {os: macOS-latest, r: 'release', package: 'declaredesign', branch: '2.0.0'}
-          - {os: macOS-latest, r: 'release', package: 'fabricatr', branch: '2.0.0'}
-          - {os: macOS-latest, r: 'release', package: 'randomizr', branch: '2.0.1'}
+          - {os: macOS-latest, r: 'release', package: 'declaredesign', branch: '2.0.0', site_config: 'main'}
+          - {os: macOS-latest, r: 'release', package: 'fabricatr', branch: '2.0.0', site_config: 'main'}
+          - {os: macOS-latest, r: 'release', package: 'randomizr', branch: '2.0.1', site_config: 'main'}
           - {os: macOS-latest, r: 'release', package: 'estimatr', branch: 'v2.0.1'}
           - {os: macOS-latest, r: 'release', package: 'rdss', branch: 'main'}
           # designlibrary builds from `main` (Version 2.0.0, so release mode)
@@ -83,6 +89,10 @@ jobs:
       - name: Clone all DD packages
         run: | 
           git clone -b ${{ matrix.config.branch }} https://github.com/DeclareDesign/${{ matrix.config.package }} pkg
+
+      - name: Take the site config from main
+        if: matrix.config.site_config == 'main'
+        run: git -C pkg checkout origin/main -- _pkgdown.yml
 
       - name: Search for dependences in docs
         run: Rscript -e 'library(checkpoint); found_packages <- scan_project_files(".", scan_rnw_with_knitr = TRUE)$pkgs; if(length(found_packages[!found_packages%in% installed.packages()[, 1]]) > 0) install.packages(found_packages[!found_packages%in% installed.packages()[,1]], repos = "https://cran.r-project.org")'
